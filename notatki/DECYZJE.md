@@ -123,3 +123,23 @@ Decyzje podjęte w trakcie pracy (metoda, podziały, narzędzie, hosting) — co
 - Kuba wie, że publiczna historia commitów pokaże jego imię i nazwisko oraz adres e-mail z ustawień gita. Historii nie przepisujemy.
 - Sprawdzenie przed publikacją (pierwsza sesja projektu, 2026-10-19): 60 plików, historia 1,3 MB, surowe dane, paczka i baza DuckDB nie są śledzone, a pliki CSV w `analiza/wyniki/` to zestawienia dzienne bez wierszy pojedynczych pacjentów. **Przed przełączeniem na publiczne sprawdzenie powtarzamy na aktualnym stanie** (punkt D).
 - Warunki techniczne strony z wpisu „szkielet narzędzia (punkt B) przed końcem A5” zostają: `noindex`, `robots.txt`, biblioteki w repozytorium w przypiętej wersji, każdy plik danych poniżej 25 MB.
+
+## 2026-10-19 — wynik kroku 3 retencji A5 (struktura a zachowanie)
+
+**Decyzja Kuby:** wynik przyjęty z poprawkami po recenzji Codeksa (Sol), z trzema dopiskami (tekst z notatki sesji retencji):
+
+1. **Zapis na teraz:** większość spadku powrotów wiąże się z pacjentami dwóch nowych kampanii na L4, ale w kampaniach działających w obu latach też jest spadek, którego sprawdzone cechy nie tłumaczą. Podział zależy od reguły źródła, więc w notatkach i w narzędziu podajemy obie wersje (pierwsze wejście z kodem kampanii: 4,6 i 2,0 punktu; sesja płatności: 3,0 i 3,5 punktu).
+2. **„Przebieg pierwszej wizyty” w kroku 3 to był tylko status, bez punktualności.** W kroku 4 najpierw: czy spadek w starych kampaniach siedzi w pierwszych wizytach, które zaczęły się z opóźnieniem, według godziny i specjalizacji, zwłaszcza u internisty rano. Czy opóźnienia rosną od startu kampanii na L4 (3.11.2025) i przy kolejnych skokach jej ruchu (17.11, 8.12.2025, 2.01, 19.01.2026 — notatka sesji pozyskania) oraz od startu TikToka (9.02.2026). **Hipoteza Kuby do sprawdzenia, nie do założenia:** nowe kampanie przeciążyły internistów w godzinach, w których przychodzą też pozostali pacjenci. Jeśli tak, koszt tych kampanii obejmuje też gorszą retencję pozostałych pacjentów.
+3. **Spadek w starych kampaniach jest w listopadzie–styczniu i w marcu–maju, nie w październiku i lutym.** Przy zdarzeniach w kroku 5 zestawiamy te miesiące z datami startu i skoków kampanii na L4 oraz z opóźnieniami wizyt.
+
+## 2026-10-19 — wyniki kroków 4 i 5 retencji A5 (przebieg wizyty, zdarzenia)
+
+**Decyzja Kuby:** wyniki przyjęte po poprawkach z recenzji Codeksa (Sol), z czterema dopiskami (tekst z notatki sesji retencji):
+
+1. **Kontrolę Codeksa Kuba czyta inaczej:** to, że przy tej samej liczbie wizyt w godzinie obecność pacjentów nowych kampanii nie zmienia opóźnień, jest oczekiwanym wynikiem przy przeciążeniu, bo lekarza nie obchodzi, skąd przyszedł pacjent. Hipotezę rozstrzyga co innego: (a) odsetek spóźnionych porannych wizyt u internisty przy tym samym porannym ruchu w dniu, okres 1 wobec okresu 2; (b) czy w obrębie miesiąca dni z większym ruchem mają więcej opóźnień. Jeśli przy tym samym ruchu opóźnień jest teraz dużo więcej, to spadła poranna przepustowość (obsada, organizacja zapisów albo lekarze zajęci pacjentami spoza B2C), a nie tylko przybyło pacjentów; zapisać jako odczytanie, bez przesądzania przyczyny. **Policzone:** (a) +26,4 punktu procentowego przy tym samym ruchu; (b) brak wyraźnej zależności od ruchu w obrębie miesiąca (krok 4a).
+2. **Do listy niewiadomych:** grafiki lekarzy i ich obciążenie spoza B2C. Telemedi ma też pacjentów firmowych, których w tych danych nie ma, a lekarze mogą być wspólni.
+3. **Do znalezisk (ważne dla listy priorytetów):** zwroty po wizytach L4 w nowych kampaniach i niska zgoda marketingowa ich pacjentów.
+4. **Niespójność lutego zostaje jako trop eksploracyjny**, tak jak opisany w kroku 5.
+
+**Scalenie:** sesja prowadząca scaliła część retencji we wspólnych notatkach: założenia 33–38, znaleziska (sekcja A5, retencja), plan (B i C), przekazanie, spis skryptów. Moduł `analiza/definicje.py` przejmuje sesja prowadząca.
+
