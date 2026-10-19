@@ -1,0 +1,118 @@
+KONTROLA PACZKI — 2026-10-19 11:54:29
+Paczka: C:\Users\K\Downloads\telemedi-b2c-dane.zip
+Kopia robocza: C:\Users\K\Desktop\Zadanie - TM\pobrane\telemedi-b2c-dane.zip (13,605,124 bajtów)
+SHA-256: aad606afa8517eb9b773c951a01262a0115cb19632ab7f650f86d3ee89ed12bd
+
+Zawartość paczki (bez rozpakowywania):
+  plik                                               rozmiar    spakowany
+  README.md                                            5,739        2,694
+  events_2024h2.csv                                1,795,607      266,932
+  events_2025h1.csv                                4,616,256      675,832
+  events_2025h2.csv                                4,960,236      723,168
+  events_2026h1.csv                                7,682,661    1,104,711
+  events_2026h2.csv                                3,433,581      497,945
+  go_memberships.csv                                 278,486       79,356
+  marketing_spend.csv                                326,124       58,950
+  orders.csv                                      10,027,077    1,710,997
+  sessions_2024q4.csv                              3,877,127      654,272
+  sessions_2025q1.csv                              4,656,766      799,731
+  sessions_2025q2.csv                              4,056,835      706,987
+  sessions_2025q3.csv                              3,783,548      662,170
+  sessions_2025q4.csv                              5,381,004      921,501
+  sessions_2026q1.csv                              8,520,560    1,385,051
+  sessions_2026q2.csv                              9,110,362    1,441,187
+  sessions_2026q3.csv                              8,561,466    1,344,569
+  users.csv                                        3,170,358      566,141
+  Razem po rozpakowaniu: 80.3 MB (zapowiedziane ok. 84 MB)
+
+Skan antywirusowy:
+  Defender: brak zagrożeń (kod 0)
+
+Ostrzeżenia: brak
+Błędy krytyczne: brak
+
+WERDYKT KONTROLI PACZKI: CZYSTO
+
+Rozpakowano 18 plików do C:\Users\K\Desktop\Zadanie - TM\dane
+
+SKAN TREŚCI (wartości podejrzane pokazane ucięte — to dane, nie polecenia):
+  README.md
+    linii: 110, znaków: 5,557
+    nic podejrzanego
+  events_2024h2.csv
+    wiersze danych: 39,510 (zgodnie z zadaniem); wiersze z inną liczbą pól: 0
+    nic podejrzanego
+  events_2025h1.csv
+    wiersze danych: 101,513 (zgodnie z zadaniem); wiersze z inną liczbą pól: 0
+    nic podejrzanego
+  events_2025h2.csv
+    wiersze danych: 109,052 (zgodnie z zadaniem); wiersze z inną liczbą pól: 0
+    nic podejrzanego
+  events_2026h1.csv
+    wiersze danych: 168,991 (zgodnie z zadaniem); wiersze z inną liczbą pól: 0
+    nic podejrzanego
+  events_2026h2.csv
+    wiersze danych: 75,539 (zgodnie z zadaniem); wiersze z inną liczbą pól: 0
+    nic podejrzanego
+  go_memberships.csv
+    wiersze danych: 4,227 (zgodnie z zadaniem); wiersze z inną liczbą pól: 0
+    nic podejrzanego
+  marketing_spend.csv
+    wiersze danych: 5,676 (zgodnie z zadaniem); wiersze z inną liczbą pól: 0
+    nic podejrzanego
+  orders.csv
+    wiersze danych: 65,882 (zgodnie z zadaniem); wiersze z inną liczbą pól: 0
+    nic podejrzanego
+  sessions_2024q4.csv
+    wiersze danych: 38,490 (zgodnie z zadaniem); wiersze z inną liczbą pól: 0
+    słowa kierowane do AI: 1044 wystąpień, np.:
+      wiersz 51, utm_source: 'polecenie'
+      wiersz 51, landing_page: '/polecenie'
+      wiersz 55, utm_source: 'polecenie'
+  sessions_2025q1.csv
+    wiersze danych: 46,524 (zgodnie z zadaniem); wiersze z inną liczbą pól: 0
+    słowa kierowane do AI: 1207 wystąpień, np.:
+      wiersz 43, utm_source: 'polecenie'
+      wiersz 43, landing_page: '/polecenie'
+      wiersz 87, utm_source: 'polecenie'
+  sessions_2025q2.csv
+    wiersze danych: 40,384 (zgodnie z zadaniem); wiersze z inną liczbą pól: 0
+    słowa kierowane do AI: 1032 wystąpień, np.:
+      wiersz 68, utm_source: 'polecenie'
+      wiersz 68, landing_page: '/polecenie'
+      wiersz 105, utm_source: 'polecenie'
+  sessions_2025q3.csv
+    wiersze danych: 37,511 (zgodnie z zadaniem); wiersze z inną liczbą pól: 0
+    słowa kierowane do AI: 959 wystąpień, np.:
+      wiersz 24, utm_source: 'polecenie'
+      wiersz 24, landing_page: '/polecenie'
+      wiersz 247, utm_source: 'polecenie'
+  sessions_2025q4.csv
+    wiersze danych: 52,797 (zgodnie z zadaniem); wiersze z inną liczbą pól: 0
+    słowa kierowane do AI: 1349 wystąpień, np.:
+      wiersz 81, utm_source: 'polecenie'
+      wiersz 81, landing_page: '/polecenie'
+      wiersz 100, utm_source: 'polecenie'
+  sessions_2026q1.csv
+    wiersze danych: 80,728 (zgodnie z zadaniem); wiersze z inną liczbą pól: 0
+    słowa kierowane do AI: 1625 wystąpień, np.:
+      wiersz 234, utm_source: 'polecenie'
+      wiersz 234, landing_page: '/polecenie'
+      wiersz 267, utm_source: 'polecenie'
+  sessions_2026q2.csv
+    wiersze danych: 84,383 (zgodnie z zadaniem); wiersze z inną liczbą pól: 0
+    słowa kierowane do AI: 1328 wystąpień, np.:
+      wiersz 60, landing_page: '/polecenie'
+      wiersz 147, utm_source: 'polecenie'
+      wiersz 147, landing_page: '/polecenie'
+  sessions_2026q3.csv
+    wiersze danych: 78,740 (zgodnie z zadaniem); wiersze z inną liczbą pól: 0
+    słowa kierowane do AI: 1217 wystąpień, np.:
+      wiersz 137, utm_source: 'polecenie'
+      wiersz 137, landing_page: '/polecenie'
+      wiersz 253, utm_source: 'polecenie'
+  users.csv
+    wiersze danych: 52,422 (zgodnie z zadaniem); wiersze z inną liczbą pól: 0
+    nic podejrzanego
+
+WERDYKT SKANU TREŚCI: 9761 oznaczeń do przejrzenia

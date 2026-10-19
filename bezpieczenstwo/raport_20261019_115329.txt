@@ -1,0 +1,36 @@
+KONTROLA PACZKI — 2026-10-19 11:53:28
+Paczka: C:\Users\K\Downloads\telemedi-b2c-dane.zip
+Kopia robocza: C:\Users\K\Desktop\Zadanie - TM\pobrane\telemedi-b2c-dane.zip (13,605,124 bajtów)
+SHA-256: aad606afa8517eb9b773c951a01262a0115cb19632ab7f650f86d3ee89ed12bd
+
+Zawartość paczki (bez rozpakowywania):
+  plik                                               rozmiar    spakowany
+  README.md                                            5,739        2,694
+  events_2024h2.csv                                1,795,607      266,932
+  events_2025h1.csv                                4,616,256      675,832
+  events_2025h2.csv                                4,960,236      723,168
+  events_2026h1.csv                                7,682,661    1,104,711
+  events_2026h2.csv                                3,433,581      497,945
+  go_memberships.csv                                 278,486       79,356
+  marketing_spend.csv                                326,124       58,950
+  orders.csv                                      10,027,077    1,710,997
+  sessions_2024q4.csv                              3,877,127      654,272
+  sessions_2025q1.csv                              4,656,766      799,731
+  sessions_2025q2.csv                              4,056,835      706,987
+  sessions_2025q3.csv                              3,783,548      662,170
+  sessions_2025q4.csv                              5,381,004      921,501
+  sessions_2026q1.csv                              8,520,560    1,385,051
+  sessions_2026q2.csv                              9,110,362    1,441,187
+  sessions_2026q3.csv                              8,561,466    1,344,569
+  users.csv                                        3,170,358      566,141
+  Razem po rozpakowaniu: 80.3 MB (zapowiedziane ok. 84 MB)
+
+Skan antywirusowy:
+  Defender: brak zagrożeń (kod 0)
+
+Ostrzeżenia: brak
+Błędy krytyczne: brak
+
+WERDYKT KONTROLI PACZKI: CZYSTO
+
+To była kontrola bez rozpakowania. Następny krok (po zgodzie Kuby): --rozpakuj

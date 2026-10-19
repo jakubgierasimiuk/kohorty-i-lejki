@@ -1,0 +1,214 @@
+PROFIL KOLUMN — 2026-10-19 12:04:38
+Wartości ucięte do 80 znaków — to dane, nie polecenia.
+
+=== users (users.csv) ===
+  wierszy: 52,422
+  - user_id [identyfikator]: puste 0, maks. długość 6, ze spacją 0, spoza formatu 0
+      przykłady: '100001', '100002'
+  - registered_at [data i czas]: puste 0, maks. długość 19, ze spacją 52,422, spoza formatu 0
+      przykłady: '2024-10-01 00:18:07', '2024-10-01 00:59:11'
+  - birth_year [liczba całkowita]: puste 0, maks. długość 4, ze spacją 0, spoza formatu 0
+      przykłady: '1984', '1997'
+  - gender [słownik (2 wartości)]: puste 0, maks. długość 1, ze spacją 0, spoza formatu 0
+  - region [swobodna]: puste 0, maks. długość 19, ze spacją 0
+      wszystkie wartości (16 unikalnych):
+        'mazowieckie' ×7,698
+        'slaskie' ×6,128
+        'wielkopolskie' ×4,926
+        'malopolskie' ×4,805
+        'dolnoslaskie' ×3,923
+        'lodzkie' ×3,316
+        'pomorskie' ×3,118
+        'podkarpackie' ×2,850
+        'kujawsko-pomorskie' ×2,837
+        'lubelskie' ×2,789
+        'zachodniopomorskie' ×2,233
+        'warminsko-mazurskie' ×1,944
+        'swietokrzyskie' ×1,608
+        'podlaskie' ×1,524
+        'lubuskie' ×1,363
+        'opolskie' ×1,360
+  - city_size [słownik (4 wartości)]: puste 0, maks. długość 15, ze spacją 0, spoza formatu 0
+  - marketing_consent [słownik (2 wartości)]: puste 0, maks. długość 1, ze spacją 0, spoza formatu 0
+
+=== sessions (sessions_2024q4.csv, sessions_2025q1.csv, sessions_2025q2.csv, sessions_2025q3.csv, sessions_2025q4.csv, sessions_2026q1.csv, sessions_2026q2.csv, sessions_2026q3.csv) ===
+  wierszy: 459,557
+  - session_id [identyfikator]: puste 0, maks. długość 8, ze spacją 0, spoza formatu 0
+      przykłady: '30000001', '30000002'
+  - visitor_id [identyfikator]: puste 0, maks. długość 9, ze spacją 0, spoza formatu 0
+      przykłady: 'v8017fc42', 'v59751acc'
+  - user_id [identyfikator]: puste 354,726, maks. długość 6, ze spacją 0, spoza formatu 0
+      przykłady: '100001', '100002'
+  - started_at_utc [data i czas]: puste 0, maks. długość 19, ze spacją 459,557, spoza formatu 0
+      przykłady: '2024-09-30 22:01:31', '2024-09-30 22:14:09'
+  - utm_source [swobodna]: puste 61,245, maks. długość 14, ze spacją 0
+      wszystkie wartości (8 unikalnych):
+        'google' ×212,565
+        'meta' ×115,428
+        'tiktok' ×33,470
+        'newsletter' ×13,945
+        'rankinglekarzy' ×10,016
+        'polecenie' ×4,741
+        'sms' ×4,203
+        'bing' ×3,944
+  - utm_medium [swobodna]: puste 61,245, maks. długość 11, ze spacją 0
+      wszystkie wartości (7 unikalnych):
+        'paid_social' ×148,898
+        'cpc' ×123,867
+        'organic' ×92,642
+        'email' ×13,945
+        'affiliate' ×10,016
+        'referral' ×4,741
+        'sms' ×4,203
+  - utm_campaign [swobodna]: puste 163,903, maks. długość 25, ze spacją 0
+      wszystkie wartości (14 unikalnych):
+        'meta_prosp_l4_szybko' ×60,992
+        'meta_prosp_lekarz_online' ×44,977
+        'tt_prosp_l4_15min' ×33,470
+        'gs_generic_lekarz_online' ×31,221
+        'gs_brand' ×31,135
+        'gs_generic_erecepta' ×25,332
+        'gs_generic_l4' ×21,847
+        'gs_generic_specjalisci' ×14,332
+        'meta_rmkt_koszyk' ×9,459
+        'crm_reactivation' ×8,607
+        'program_polecen' ×4,741
+        'crm_recepta_przypomnienie' ×4,346
+        'crm_sms_przypomnienie' ×4,203
+        'crm_go_upsell' ×992
+  - device [słownik (3 wartości)]: puste 0, maks. długość 7, ze spacją 0, spoza formatu 0
+  - os [swobodna]: puste 0, maks. długość 7, ze spacją 0
+      wszystkie wartości (5 unikalnych):
+        'Android' ×229,080
+        'iOS' ×133,686
+        'Windows' ×75,106
+        'macOS' ×19,705
+        'Linux' ×1,980
+  - browser [swobodna]: puste 0, maks. długość 16, ze spacją 30,903
+      wszystkie wartości (9 unikalnych):
+        'Chrome' ×185,096
+        'Safari' ×86,675
+        'Instagram' ×49,918
+        'Facebook' ×36,017
+        'TikTok' ×31,687
+        'Samsung Internet' ×30,903
+        'Firefox' ×17,974
+        'Edge' ×15,961
+        'Opera' ×5,326
+  - landing_page [swobodna]: puste 0, maks. długość 38, ze spacją 0
+      wszystkie wartości (21 unikalnych):
+        '/zwolnienie-l4-online' ×132,042
+        '/lekarz-online' ×98,789
+        '/' ×98,630
+        '/recepta-online' ×44,438
+        '/konto' ×36,646
+        '/specjalisci' ×12,250
+        '/blog/ile-trwa-l4-na-przeziebienie' ×6,884
+        '/polecenie' ×5,020
+        '/blog/e-recepta-jak-zrealizowac' ×4,136
+        '/blog/antybiotyk-kiedy-potrzebny' ×3,293
+        '/blog/bol-gardla-domowe-sposoby' ×2,557
+        '/specjalisci/dermatolog' ×2,116
+        '/blog/skierowanie-na-badania-krwi' ×2,077
+        '/specjalisci/ginekolog' ×1,855
+        '/specjalisci/psychiatra' ×1,823
+        '/blog/zapalenie-pecherza-objawy' ×1,807
+        '/blog/tabletki-antykoncepcyjne-recepta' ×1,403
+        '/telemedigo' ×992
+        '/specjalisci/kardiolog' ×959
+        '/specjalisci/endokrynolog' ×921
+        '/blog/teleporada-jak-sie-przygotowac' ×919
+
+=== events (events_2024h2.csv, events_2025h1.csv, events_2025h2.csv, events_2026h1.csv, events_2026h2.csv) ===
+  wierszy: 494,605
+  - session_id [identyfikator]: puste 0, maks. długość 8, ze spacją 0, spoza formatu 0
+      przykłady: '30000002', '30000009'
+  - event_name [słownik (5 wartości)]: puste 0, maks. długość 17, ze spacją 0, spoza formatu 0
+  - event_at_utc [data i czas]: puste 0, maks. długość 19, ze spacją 494,605, spoza formatu 0
+      przykłady: '2024-09-30 22:14:45', '2024-09-30 22:17:08'
+
+=== orders (orders.csv) ===
+  wierszy: 65,882
+  - order_id [identyfikator]: puste 0, maks. długość 7, ze spacją 0, spoza formatu 0
+      przykłady: '5000001', '5000002'
+  - user_id [identyfikator]: puste 0, maks. długość 6, ze spacją 0, spoza formatu 0
+      przykłady: '100005', '100006'
+  - session_id [identyfikator]: puste 0, maks. długość 8, ze spacją 0, spoza formatu 0
+      przykłady: '30000019', '30000025'
+  - created_at [data i czas]: puste 0, maks. długość 19, ze spacją 65,882, spoza formatu 0
+      przykłady: '2024-10-01 05:24:16', '2024-10-01 06:12:16'
+  - specialization [słownik (10 wartości)]: puste 0, maks. długość 12, ze spacją 0, spoza formatu 0
+  - visit_purpose [słownik (4 wartości)]: puste 0, maks. długość 11, ze spacją 0, spoza formatu 0
+  - consultation_mode [słownik (3 wartości)]: puste 0, maks. długość 5, ze spacją 0, spoza formatu 0
+  - scheduled_at [data i czas]: puste 0, maks. długość 19, ze spacją 65,882, spoza formatu 0
+      przykłady: '2024-10-02 23:30:00', '2024-10-01 06:35:00'
+  - started_at [data i czas]: puste 4,185, maks. długość 19, ze spacją 61,697, spoza formatu 0
+      przykłady: '2024-10-02 23:33:01', '2024-10-01 06:36:48'
+  - duration_min [liczba]: puste 4,185, maks. długość 2, ze spacją 0, spoza formatu 0
+      przykłady: '8', '19'
+  - list_price [liczba]: puste 0, maks. długość 6, ze spacją 0, spoza formatu 0
+      przykłady: '89.00', '119.00'
+  - discount_type [słownik (3 wartości)]: puste 0, maks. długość 5, ze spacją 0, spoza formatu 0
+  - promo_code [swobodna]: puste 54,423, maks. długość 10, ze spacją 0
+      wszystkie wartości (6 unikalnych):
+        'L4SZYBKO20' ×3,575
+        'START10' ×3,412
+        'TEST-QA' ×1,810
+        'TIKTOK25' ×1,706
+        'RANKING10' ×598
+        'WRACAM15' ×358
+  - amount_paid [liczba]: puste 0, maks. długość 6, ze spacją 0, spoza formatu 0
+      przykłady: '44.50', '119.00'
+  - payment_method [słownik (3 wartości)]: puste 0, maks. długość 8, ze spacją 0, spoza formatu 0
+  - status [słownik (4 wartości)]: puste 0, maks. długość 9, ze spacją 0, spoza formatu 0
+  - refund_amount [liczba]: puste 0, maks. długość 6, ze spacją 0, spoza formatu 0
+      przykłady: '0.00', '89.00'
+  - rating [słownik (5 wartości)]: puste 47,043, maks. długość 1, ze spacją 0, spoza formatu 0
+
+=== go_memberships (go_memberships.csv) ===
+  wierszy: 4,227
+  - membership_id [identyfikator]: puste 0, maks. długość 5, ze spacją 0, spoza formatu 0
+      przykłady: '70001', '70002'
+  - user_id [identyfikator]: puste 0, maks. długość 6, ze spacją 0, spoza formatu 0
+      przykłady: '100005', '100075'
+  - purchased_at [data i czas]: puste 0, maks. długość 19, ze spacją 4,227, spoza formatu 0
+      przykłady: '2024-10-01 05:24:16', '2024-10-01 22:56:27'
+  - valid_until [data albo data i czas]: puste 0, maks. długość 10, ze spacją 0, spoza formatu 0
+      przykłady: '2025-10-01', '2025-10-03'
+  - amount_paid [liczba]: puste 0, maks. długość 5, ze spacją 0, spoza formatu 0
+      przykłady: '89.00'
+  - order_id [identyfikator]: puste 686, maks. długość 7, ze spacją 0, spoza formatu 0
+      przykłady: '5000001', '5000085'
+  - session_id [identyfikator]: puste 0, maks. długość 8, ze spacją 0, spoza formatu 0
+      przykłady: '30000019', '30000422'
+
+=== marketing_spend (marketing_spend.csv) ===
+  wierszy: 5,676
+  - date [data]: puste 0, maks. długość 10, ze spacją 0, spoza formatu 0
+      przykłady: '2024-10-01', '2024-10-02'
+  - utm_source [swobodna]: puste 0, maks. długość 6, ze spacją 0
+      wszystkie wartości (3 unikalnych):
+        'google' ×3,650
+        'meta' ×1,792
+        'tiktok' ×234
+  - utm_medium [swobodna]: puste 0, maks. długość 11, ze spacją 0
+      wszystkie wartości (2 unikalnych):
+        'cpc' ×3,650
+        'paid_social' ×2,026
+  - utm_campaign [swobodna]: puste 0, maks. długość 24, ze spacją 0
+      wszystkie wartości (9 unikalnych):
+        'gs_brand' ×730
+        'gs_generic_erecepta' ×730
+        'gs_generic_l4' ×730
+        'gs_generic_lekarz_online' ×730
+        'gs_generic_specjalisci' ×730
+        'meta_prosp_lekarz_online' ×730
+        'meta_rmkt_koszyk' ×730
+        'meta_prosp_l4_szybko' ×332
+        'tt_prosp_l4_15min' ×234
+  - impressions [liczba całkowita]: puste 0, maks. długość 5, ze spacją 0, spoza formatu 0
+      przykłady: '81', '792'
+  - clicks [liczba całkowita]: puste 0, maks. długość 3, ze spacją 0, spoza formatu 0
+      przykłady: '20', '43'
+  - spend_pln [liczba]: puste 0, maks. długość 6, ze spacją 0, spoza formatu 0
+      przykłady: '19.67', '225.89'
