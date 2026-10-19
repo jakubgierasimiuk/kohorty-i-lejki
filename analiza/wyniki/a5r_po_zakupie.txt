@@ -1,0 +1,293 @@
+A5 RETENCJA — PO ZAKUPIE I KOMUNIKACJA PO ZAKUPIE (2026-10-19 20:49)
+Definicje z analiza/definicje.py. Nowe kampanie = meta_prosp_l4_szybko i tt_prosp_l4_15min (Z1K).
+Czekanie = umówiony termin − moment zapłaty (minuty). Opóźnienie = start − termin (a5r_punktualnosc.py).
+
+========================================================================================================================
+1. CZEKANIE NA WIZYTĘ I DŁUGOŚĆ WIZYTY
+========================================================================================================================
+1a. Czekanie od zapłaty do terminu, wszystkie zamówienia u internisty, według okresu i pory terminu (minuty)
+      okres             pora     n  mediana    p90  ponad_2_godz
+          1      a_rano_6_11  5605     37.0 1393.0          24.9
+          2      a_rano_6_11  9807     38.0 1400.0          25.6
+          1 b_poludnie_12_15  3184     38.0 1368.0          22.5
+          2 b_poludnie_12_15  5061     39.0 1469.0          23.7
+          1  c_wieczor_16_23  7515     41.0 1713.0          25.8
+          2  c_wieczor_16_23 11900     41.0 1756.0          26.3
+          1        d_noc_0_5  1424     35.0  445.0          12.2
+          2        d_noc_0_5  2156     34.0  607.0          12.6
+
+1b. Miesięcznie: mediana czekania i odsetek czekających ponad 2 godziny (internista, pacjenci spoza nowych kampanii)
+     miesiac    n  mediana_min  ponad_2_godz  ponad_2_godz_rano
+     2024-10  962         38.0          24.6               26.3
+     2024-11 1161         38.0          23.9               24.8
+     2024-12 1369         37.0          22.9               23.8
+     2025-01 1569         39.0          23.9               27.8
+     2025-02 1582         38.0          24.1               23.2
+     2025-03 1744         38.0          22.6               25.7
+     2025-04 1697         39.0          23.3               22.3
+     2025-05 1606         41.0          25.6               25.1
+     2025-06 1522         38.0          24.8               28.0
+     2025-07 1461         39.0          25.3               24.7
+     2025-08 1492         38.0          22.9               24.5
+     2025-09 1563         39.0          22.8               23.5
+     2025-10 1748         38.0          25.1               27.1
+     2025-11 1817         38.0          24.8               26.7
+     2025-12 1918         39.0          24.7               25.0
+     2026-01 2229         39.0          24.0               26.4
+     2026-02 1992         39.0          24.4               24.8
+     2026-03 2260         40.0          26.1               28.6
+     2026-04 1907         39.0          24.0               25.2
+     2026-05 1777         38.0          25.2               25.1
+     2026-06 1691         40.0          25.0               30.1
+     2026-07 1546         39.0          24.6               23.2
+     2026-08 1521         40.0          25.0               26.4
+     2026-09 1585         39.0          24.2               24.3
+
+1c. Długość odbytej wizyty u internisty (minuty) według celu wizyty i grupy pacjenta, okres 2
+     visit_purpose         grupa    n  sr_dlugosc  sr_opozn
+         e_recepta nowe_kampanie  355         8.3      10.7
+         e_recepta     pozostali 8673         8.5       8.1
+       konsultacja nowe_kampanie  376         8.6       9.4
+       konsultacja     pozostali 4213         8.5       8.3
+                l4 nowe_kampanie 5719         8.5      11.2
+                l4     pozostali 4901         8.5       9.6
+       skierowanie nowe_kampanie   34         8.9      11.4
+       skierowanie     pozostali 2754         8.6       7.8
+     Ten sam cel wizyty w okresie 1 (bez nowych kampanii):
+     visit_purpose    n  sr_dlugosc  sr_opozn
+         e_recepta 6519         8.5       3.6
+       konsultacja 3499         8.5       3.7
+                l4 4350         8.5       3.9
+       skierowanie 2184         8.5       3.7
+
+1d. Pora terminu wizyt u internisty: udział rano (6–11) według grupy pacjenta i celu, okres 2
+             grupa visit_purpose    n  proc_rano
+     nowe_kampanie     e_recepta  360       35.8
+     nowe_kampanie   konsultacja  383       34.2
+     nowe_kampanie            l4 5872       41.4
+     nowe_kampanie   skierowanie   36       30.6
+         pozostali     e_recepta 8923       29.8
+         pozostali   konsultacja 4328       29.9
+         pozostali            l4 5052       38.1
+         pozostali   skierowanie 2819       30.0
+
+========================================================================================================================
+2. ANULOWANE, NIEODEBRANE I ZWRÓCONE PO WIZYCIE
+========================================================================================================================
+2a. Miesięcznie, wszystkie zamówienia: odsetek według statusu, osobno pacjenci nowych kampanii i pozostali
+     miesiac  n_pozostali  anul_pozost  nieodeb_pozost  zwrot_po_pozost  n_nowe  anul_nowe  zwrot_po_nowe
+     2024-10         1351          4.1             2.7              2.0       0        NaN            NaN
+     2024-11         1636          3.3             2.3              2.5       0        NaN            NaN
+     2024-12         1932          4.1             1.8              2.3       0        NaN            NaN
+     2025-01         2218          4.2             2.5              2.0       0        NaN            NaN
+     2025-02         2173          4.0             2.3              2.0       0        NaN            NaN
+     2025-03         2435          4.3             2.7              1.7       0        NaN            NaN
+     2025-04         2341          4.2             2.4              2.5       0        NaN            NaN
+     2025-05         2262          4.5             2.4              1.8       0        NaN            NaN
+     2025-06         2052          4.0             2.4              2.1       0        NaN            NaN
+     2025-07         2104          4.1             2.2              1.8       0        NaN            NaN
+     2025-08         2041          5.1             2.7              1.3       0        NaN            NaN
+     2025-09         2171          3.8             2.3              2.1       0        NaN            NaN
+     2025-10         2432          4.4             2.8              2.3       0        NaN            NaN
+     2025-11         2592          4.0             2.4              1.8     121        5.0           19.0
+     2025-12         2673          4.2             3.0              2.1     287        3.8           12.5
+     2026-01         3108          3.9             2.8              1.8     458        2.8           13.1
+     2026-02         2818          3.6             2.6              1.9     631        4.1           11.9
+     2026-03         3096          3.5             2.1              1.6     868        3.7           14.4
+     2026-04         2705          3.7             2.3              1.6     865        5.1           14.3
+     2026-05         2520          4.5             2.5              1.4     955        3.1           14.2
+     2026-06         2329          3.3             2.9              2.3     852        3.5           15.0
+     2026-07         2229          3.7             2.9              1.9     841        4.9           12.1
+     2026-08         2171          4.2             2.8              1.8     840        4.5           12.7
+     2026-09         2192          4.8             2.6              2.3     908        4.7           14.1
+
+2b. Zwrot po odbytej wizycie: odsetek wizyt odbytych (completed + refunded), według celu, grupy i okresu
+     visit_purpose  okres         grupa  wizyty_odbyte  proc_zwrot_po_wizycie
+         e_recepta      1     pozostali           8091                    1.2
+         e_recepta      2 nowe_kampanie            420                    2.4
+         e_recepta      2     pozostali          10875                    1.3
+       konsultacja      1     pozostali           8245                    1.3
+       konsultacja      2 nowe_kampanie            783                    1.3
+       konsultacja      2     pozostali           9981                    1.3
+                l4      1     pozostali           4474                    6.0
+                l4      2 nowe_kampanie           5895                   17.4
+                l4      2     pozostali           5080                    5.3
+       skierowanie      1     pozostali           2285                    0.8
+       skierowanie      2 nowe_kampanie             35                    0.0
+       skierowanie      2     pozostali           2891                    1.3
+
+2c. Zwrot po wizycie a opóźnienie (wizyty odbyte u internisty, pacjenci spoza nowych kampanii)
+             koszyk  okres     n  proc_zwrot_po_wizycie  sr_dlugosc
+         a_do_5_min      1 11773                    2.4         8.5
+         a_do_5_min      2 12289                    2.3         8.5
+         b_6_15_min      1  4222                    2.6         8.6
+         b_6_15_min      2  5103                    2.1         8.6
+        c_16_30_min      1   433                    2.5         8.5
+        c_16_30_min      2  1668                    2.1         8.5
+     d_ponad_30_min      1   124                    1.6         8.1
+     d_ponad_30_min      2  1481                    1.6         8.5
+
+2d. Pierwsze zamówienie pacjentów nowych kampanii: zwrot po wizycie według celu i kodu rabatowego
+                 kampania visit_purpose        kod    n  proc_zwrot_po_wizycie  proc_anulowane
+     meta_prosp_l4_szybko            l4 L4SZYBKO20 2997                   16.5             4.5
+     meta_prosp_l4_szybko            l4       brak 1185                   16.5             3.5
+     meta_prosp_l4_szybko   konsultacja L4SZYBKO20  340                    1.8             3.5
+     meta_prosp_l4_szybko     e_recepta L4SZYBKO20  174                    2.3             3.4
+     meta_prosp_l4_szybko            l4    START10  140                   20.0             5.0
+     meta_prosp_l4_szybko   konsultacja       brak  125                    1.6             3.2
+     meta_prosp_l4_szybko     e_recepta       brak   69                    0.0             1.4
+        tt_prosp_l4_15min            l4   TIKTOK25 1419                   15.6             4.1
+        tt_prosp_l4_15min            l4       brak  414                   15.7             3.6
+        tt_prosp_l4_15min   konsultacja   TIKTOK25  167                    0.6             3.0
+        tt_prosp_l4_15min     e_recepta   TIKTOK25   79                    2.5             2.5
+        tt_prosp_l4_15min            l4    START10   48                   10.4             6.3
+        tt_prosp_l4_15min   konsultacja       brak   44                    0.0             4.5
+
+========================================================================================================================
+3. OCENY WIZYT (1–5; większość pacjentów nie ocenia)
+========================================================================================================================
+3a. Wizyty odbyte: odsetek ocenionych i średnia ocena według okresu, grupy i opóźnienia (internista)
+      okres         grupa         koszyk     n  proc_ocenionych  sr_ocena  proc_ocen_1_2
+          1     pozostali     a_do_5_min 11773             32.2      4.47            1.3
+          1     pozostali     b_6_15_min  4222             33.0      4.34            1.7
+          1     pozostali    c_16_30_min   433             29.6      3.76            7.0
+          1     pozostali d_ponad_30_min   124             33.9      2.93           33.3
+          2 nowe_kampanie     a_do_5_min  3487             29.8      4.31            6.1
+          2 nowe_kampanie     b_6_15_min  1619             30.3      4.13            8.0
+          2 nowe_kampanie    c_16_30_min   674             31.0      3.65           11.0
+          2 nowe_kampanie d_ponad_30_min   704             29.5      2.76           40.9
+          2     pozostali     a_do_5_min 12289             31.1      4.45            1.0
+          2     pozostali     b_6_15_min  5103             31.3      4.36            1.6
+          2     pozostali    c_16_30_min  1668             32.0      3.62           10.1
+          2     pozostali d_ponad_30_min  1481             30.0      2.89           32.4
+
+3b. Wizyty odbyte według statusu: oceny
+        status  okres     n  proc_ocenionych  sr_ocena
+     completed      1 22603             32.4      4.44
+     completed      2 34334             31.7      4.32
+      refunded      1   492             23.8      2.42
+      refunded      2  1626             21.0      2.36
+
+========================================================================================================================
+4. CZY PRZEBIEG PIERWSZEJ WIZYTY TŁUMACZY SPADEK POWROTU W KAMPANIACH OBECNYCH W OBU OKRESACH (90 dni)
+========================================================================================================================
+
+4.czek
+                czek  n_o1  n_o2  udzial_o1  udzial_o2   o1   o2  zmiana
+        b_31_120_min  5259  5857       40.9       41.7 23.9 22.0    -1.9
+         a_do_30_min  4435  4710       34.5       33.6 24.7 23.1    -1.6
+     d_ponad_12_godz  2307  2515       17.9       17.9 22.9 20.5    -2.4
+         c_2_12_godz   866   949        6.7        6.8 22.4 20.2    -2.2
+
+4.ocena
+         ocena  n_o1  n_o2  udzial_o1  udzial_o2   o1   o2  zmiana
+     bez_oceny  8996  9907       69.9       70.6 23.8 22.1    -1.7
+     ocena_4_5  3441  3531       26.7       25.2 24.4 23.2    -1.2
+       ocena_3   368   467        2.9        3.3 22.8 15.4    -7.4
+     ocena_1_2    62   126        0.5        0.9 14.5  7.9    -6.6
+
+4.zgoda
+      zgoda  n_o1  n_o2  udzial_o1  udzial_o2   o1   o2  zmiana
+          1  8210  9032       63.8       64.4 24.4 22.6    -1.8
+          0  4657  4999       36.2       35.6 23.1 20.9    -2.2
+
+4b. Rozkład zmiany (punkty procentowe), kampanie obecne w obu okresach, Z1K
+                                         podzial  komorki_wspolne  n_o1  n_o2  pokrycie_o1_proc  pokrycie_o2_proc    o1    o2  zmiana  nowe_segmenty  znikniete  struktura  zachowanie  o2_przy_strukturze_o1
+                               kampania x usluga               77 12867 14031             100.0             100.0 23.91 21.99   -1.91          -0.00       0.00       0.13       -2.04                  21.88
+                      kampania x usluga x koszyk              308 12867 14031              99.8              99.0 23.91 21.99   -1.91          -0.11       0.02      -0.58       -1.24                  22.70
+                        kampania x usluga x czek              296 12867 14031              99.9              99.9 23.91 21.99   -1.91           0.00      -0.02       0.14       -2.04                  21.83
+                       kampania x usluga x ocena              224 12867 14031              99.8              99.6 23.91 21.99   -1.91          -0.03       0.00       0.08       -1.96                  21.98
+                       kampania x usluga x zgoda              153 12867 14031             100.0             100.0 23.91 21.99   -1.91          -0.00       0.00       0.19       -2.10                  21.85
+            kampania x usluga x koszyk x status1              399 12867 14031              99.3              98.3 23.91 21.99   -1.91          -0.22       0.10      -0.54       -1.25                  22.75
+     kampania x usluga x koszyk x czek x status1              949 12867 14031              97.5              94.9 23.91 21.99   -1.91          -0.48       0.26      -0.45       -1.24                  22.85
+     Ocena jest wystawiana po wizycie, często po decyzji o powrocie; traktujemy ją jako opis, nie przyczynę.
+
+========================================================================================================================
+5. NEWSLETTER I SMS A POWROTY NA POZIOMIE PACJENTA
+========================================================================================================================
+   Wejście z CRM = sesja z utm_medium email albo sms przypisana do pacjenta (konto albo jego przeglądarka),
+   po pierwszym zakupie. Powrót „po CRM” = pierwsze nieanulowane zamówienie po pierwszym zakupie, przypisane do
+   ostatniego wejścia z CRM w 24 godzinach przed płatnością (ZALOZENIA.md 26). Widać kliknięcia, nie wysyłki.
+
+5a. Kohorty z pełnym oknem 90 dni (te same dni): kontakt z CRM w dniach 1–90 i źródło powrotu (%)
+            grupa2  okres     n  zgoda  kontakt_crm  wejscia_na_pac  powrot90  powrot_po_crm  powrot_bez_crm
+     nowe_kampanie      2  4893   37.8          8.2           0.094       4.1            0.3             3.9
+         pozostale      1 12867   63.8         17.5           0.210      23.9            3.5            20.4
+         pozostale      2 14031   64.4         17.9           0.221      22.0            3.2            18.8
+     zgoda = odsetek z zgodą marketingową; kontakt_crm = co najmniej jedno wejście z CRM w dniach 1–90.
+
+5b. Powrót w 90 dniach według zgody marketingowej i kontaktu z CRM, kampanie obecne w obu okresach
+      zgoda  kontakt  okres    n  powrot90
+          0      0.0      1 4657      23.1
+          0      0.0      2 4999      20.9
+          1      0.0      1 5960      17.8
+          1      0.0      2 6521      15.4
+          1      1.0      1 2250      41.9
+          1      1.0      2 2511      41.5
+     Pacjent z kontaktem z CRM to pacjent, który kliknął; to samo w sobie zależy od zamiaru zakupu (nie przyczyna).
+
+5c. Rozkład spadku powrotu (kampanie obecne w obu okresach) na powroty po CRM i pozostałe, punkty procentowe
+     po CRM: 3.48% wobec 3.16% (-0.32 punktu)
+     bez CRM: 20.42% wobec 18.84% (-1.59 punktu)
+
+5d. Kampania CRM, do której trafił pierwszy powrót (kampanie obecne w obu okresach), % pacjentów kohorty
+          kampania_crm_powrotu    1    2
+              crm_reactivation 2.04 1.97
+     crm_recepta_przypomnienie 1.07 0.95
+         crm_sms_przypomnienie 0.91 0.83
+
+5e. Wejścia z CRM w czasie: liczba wejść pacjentów po pierwszym zakupie na miesiąc i na 1000 pacjentów,
+    którzy do początku miesiąca kupili co najmniej raz
+     miesiac  pacjenci  reaktywacja  recepta   sms  go_upsell  wejscia_na_1000_pacjentow
+     2024-10         0         22.0     13.0   5.0        NaN                        NaN
+     2024-11      1285         67.0     38.0  34.0        NaN                      108.2
+     2024-12      2685        114.0     47.0  57.0        NaN                       81.2
+     2025-01      4186        171.0     90.0  76.0        NaN                       80.5
+     2025-02      5814        203.0    113.0  96.0        NaN                       70.9
+     2025-03      7374        301.0    157.0 140.0        NaN                       81.1
+     2025-04      8975        311.0    162.0 153.0        NaN                       69.7
+     2025-05     10405        386.0    203.0 171.0        NaN                       73.0
+     2025-06     11671        368.0    190.0 195.0        NaN                       64.5
+     2025-07     12794        389.0    166.0 175.0        NaN                       57.1
+     2025-08     13910        405.0    164.0 208.0        NaN                       55.9
+     2025-09     14984        363.0    167.0 158.0      317.0                       67.1
+     2025-10     16231        403.0    206.0 189.0       43.0                       51.8
+     2025-11     17614        353.0    186.0 163.0       47.0                       42.5
+     2025-12     19306        394.0    179.0 200.0       68.0                       43.6
+     2026-01     21195        374.0    199.0 221.0       50.0                       39.8
+     2026-02     23618        456.0    238.0 206.0       51.0                       40.3
+     2026-03     25921        459.0    242.0 236.0       63.0                       38.6
+     2026-04     28603        509.0    263.0 261.0       57.0                       38.1
+     2026-05     30859        534.0    274.0 294.0       58.0                       37.6
+     2026-06     33058        513.0    272.0 245.0       78.0                       33.5
+     2026-07     35032        538.0    276.0 278.0       55.0                       32.7
+     2026-08     36990        488.0    249.0 244.0       58.0                       28.1
+     2026-09     38877        470.0    243.0 188.0       43.0                       24.3
+
+5f. Zamówienia nieanulowane do 24 godzin od wejścia z CRM na 1000 wejść (przypisanie do ostatniego wejścia),
+    miesięcznie, bez crm_go_upsell
+     miesiac  wejscia  zam  zam_na_1000
+     2024-10       40   11        275.0
+     2024-11      139   25        179.9
+     2024-12      218   58        266.1
+     2025-01      337   82        243.3
+     2025-02      412   91        220.9
+     2025-03      598  115        192.3
+     2025-04      626  126        201.3
+     2025-05      760  148        194.7
+     2025-06      753  125        166.0
+     2025-07      730  139        190.4
+     2025-08      777  125        160.9
+     2025-09      688  109        158.4
+     2025-10      798  155        194.2
+     2025-11      702  135        192.3
+     2025-12      773  128        165.6
+     2026-01      794  150        188.9
+     2026-02      900  179        198.9
+     2026-03      937  164        175.0
+     2026-04     1033  171        165.5
+     2026-05     1102  193        175.1
+     2026-06     1030  176        170.9
+     2026-07     1092  165        151.1
+     2026-08      981  142        144.8
+     2026-09      901  142        157.6
