@@ -1,5 +1,5 @@
 A5 EKONOMIA KAMPANII, CZĘŚĆ 2 — KOSZTY NOWYCH KAMPANII NA L4, SCENARIUSZE, DODATKOWOŚĆ, NAPRAWIĆ ALBO WYŁĄCZYĆ
-(2026-10-19 21:53), schemat `czyste`. Nowe kampanie na L4 = meta_prosp_l4_szybko (od 3.11.2025) i
+(2026-10-19 22:02), schemat `czyste`. Nowe kampanie na L4 = meta_prosp_l4_szybko (od 3.11.2025) i
 tt_prosp_l4_15min (od 9.02.2026). Reguły źródła: Z1K (przyjęta) i Z2 (sesja płatności). Definicje jak w
 analiza/a5e_ekonomia.py. Kwoty w zł. Scenariusze opisują, ile byłoby warte coś, czego dane nie dowodzą.
 
@@ -30,20 +30,21 @@ B. KOSZTY WIDOCZNE TYLKO W NOWYCH KAMPANIACH NA L4 (okres 2, wszystkie zamówien
 ==============================================================================================================
 B1. Zwroty po odbytej wizycie (status refunded): lekarz dostaje wynagrodzenie, pacjent dostaje zwrot.
     Wizyty L4 = cel wizyty L4 u każdego lekarza, odbyte (completed albo refunded), jak w części retencji.
-     regula             pacjenci  pacjentow_okres2  wizyty_zwrocone  zwrocone_zl  lekarz_za_zwrocone_zl  zwrot_na_pac  lekarz_na_pac  wizyty_L4_odbyte  L4_zwrocone  L4_zwrot_proc  sredni_zwrot_L4_zl
-        Z1K meta_prosp_l4_szybko              5059              741        61566                  24775          12.2            4.9              4102          728           17.7                82.9
-        Z1K    tt_prosp_l4_15min              2209              303        22545                   9200          10.2            4.2              1793          296           16.5                74.2
-        Z1K        nowe kampanie              7268             1044        84112                  33975          11.6            4.7              5895         1024           17.4                80.4
-        Z1K            pozostali             17419              582        54420                  26575           3.1            1.5              5080          270            5.3                86.9
-         Z2 meta_prosp_l4_szybko              3594              541        44881                  18125          12.5            5.0              2923          532           18.2                82.7
-         Z2    tt_prosp_l4_15min              1593              215        15528                   6150           9.7            3.9              1294          211           16.3                72.1
-         Z2        nowe kampanie              5187              756        60409                  24275          11.6            4.7              4217          743           17.6                79.7
-         Z2            pozostali             19500              870        78123                  36275           4.0            1.9              6758          551            8.2                84.5
+     regula             pacjenci  pacjentow_okres2  wizyty_zwrocone  zwrocone_zl  lekarz_za_zwrocone_zl  zwrot_na_pac  lekarz_na_pac  wizyty_L4_odbyte  L4_zwrocone  L4_zwrot_proc  sredni_zwrot_L4_zl  zwrocone_L4_zl  sredni_lekarz_L4_zwrot_zl
+        Z1K meta_prosp_l4_szybko              5059              741        61566                  24775          12.2            4.9              4102          728           17.7                82.9         60329.5                      32.93
+        Z1K    tt_prosp_l4_15min              2209              303        22545                   9200          10.2            4.2              1793          296           16.5                74.2         21961.5                      29.73
+        Z1K        nowe kampanie              7268             1044        84112                  33975          11.6            4.7              5895         1024           17.4                80.4         82291.0                      32.01
+        Z1K            pozostali             17419              582        54420                  26575           3.1            1.5              5080          270            5.3                86.9         23451.9                      28.89
+         Z2 meta_prosp_l4_szybko              3594              541        44881                  18125          12.5            5.0              2923          532           18.2                82.7         43970.0                      32.89
+         Z2    tt_prosp_l4_15min              1593              215        15528                   6150           9.7            3.9              1294          211           16.3                72.1         15211.5                      28.32
+         Z2        nowe kampanie              5187              756        60409                  24275          11.6            4.7              4217          743           17.6                79.7         59181.5                      31.59
+         Z2            pozostali             19500              870        78123                  36275           4.0            1.9              6758          551            8.2                84.5         46561.4                      31.03
    Dla porównania okres 1: odbyte wizyty L4 4474, zwrócone po wizycie 267 (6.0%).
 
 B2. Zgoda marketingowa i powrót w 90 dniach według zgody (kohorty okresu 2 do 2.07.2026).
     powrot_crm = powrót w dniach 1–90 zamówieniem przypisanym do wejścia z newslettera albo SMS-a w ciągu 24 godzin
-    (ZALOZENIA.md 26, rozłącznie: ostatnie wejście przed płatnością). To dolna granica wpływu kontaktu.
+    (ZALOZENIA.md 26, rozłącznie: ostatnie wejście przed płatnością). To przypisanie, a nie wpływ: pacjent mógłby
+    kupić także bez wiadomości (recenzja Codeksa).
      regula      pacjenci  zgoda    n  udzial_proc  powrot90_proc  powrot_crm90_proc  marza90
         Z1K nowe kampanie      1 1848         37.8            4.2               1.03     36.2
         Z1K nowe kampanie      0 3045         62.2            4.1               0.00     36.3
@@ -60,15 +61,19 @@ C. WARTOŚĆ POWROTU (ZALOZENIA.md 38) I SCENARIUSZ HIPOTEZY KUBY: PORANNE GODZI
    Kontrola wartości powrotu: okres 1, marża dni 1–180: wrócił w 90 dniach 98.9 zł (3830 pacjentów), nie wrócił 3.3 zł (12401); różnica 95.6 zł (założenie 38: 95,6 zł).
    Pacjenci okresu 2: stare kampanie 17419 (Z1K) i 19500 (Z2); nowe kampanie 7268 i 5187.
    Spadek powrotu w 90 dniach w starych kampaniach (punkty procentowe) z analiza/wyniki/a5r_zdarzenia.txt:
-                                           scenariusz regula  spadek_pkt  pacjenci_starych  powrotow_mniej  marza_180_zl  na_pacjenta_nowych_kampanii_zl
-     cały spadek w starych kampaniach (górna granica)    Z1K        1.91             17419             333         31806                             4.4
-     cały spadek w starych kampaniach (górna granica)     Z2        3.50             19500             683         65247                            12.6
-      tylko zmiana rozkładu opóźnień pierwszej wizyty    Z1K        0.76             17419             132         12656                             1.7
-      tylko zmiana rozkładu opóźnień pierwszej wizyty     Z2        0.64             19500             125         11931                             2.3
-   To scenariusz, nie wynik: zakłada, że spadek przypisany opóźnieniom (albo cały spadek) to skutek nowych kampanii
-   i że każdy utracony powrót jest wart 95,6 zł marży w 180 dniach. Część retencji pokazała, że przy tym samym
-   ruchu porannym opóźnień jest dużo więcej niż rok wcześniej (spadła przepustowość), więc kampanie mogą nie być
-   przyczyną. Kwotę dzielimy na pacjentów obu nowych kampanii tylko po to, żeby pokazać rząd wielkości obok wyniku.
+                                                   scenariusz regula  spadek_pkt  pacjenci_starych  powrotow_mniej  marza_180_zl  na_pacjenta_nowych_kampanii_zl
+                    szeroki: cały spadek w starych kampaniach    Z1K        1.91             17419             333         31806                             4.4
+                    szeroki: cały spadek w starych kampaniach     Z2        3.50             19500             683         65247                            12.6
+       wąski: tylko zmiana rozkładu opóźnień pierwszej wizyty    Z1K        0.76             17419             132         12656                             1.7
+       wąski: tylko zmiana rozkładu opóźnień pierwszej wizyty     Z2        0.64             19500             125         11931                             2.3
+     brak efektu: kampanie nie zmieniają powrotów pozostałych    Z1K        0.00             17419               0             0                             0.0
+     brak efektu: kampanie nie zmieniają powrotów pozostałych     Z2        0.00             19500               0             0                             0.0
+   To scenariusze, nie wynik ani przedział możliwego efektu: zakładają, że spadek przypisany opóźnieniom (wąski) albo
+   cały spadek w starych kampaniach (szeroki) to skutek nowych kampanii i że każdy utracony powrót jest wart 95,6 zł
+   marży w 180 dniach. Efekt może wynosić zero (wiersz „brak efektu”), a szeroki wariant nie jest formalną górną
+   granicą (recenzja Codeksa). Część retencji pokazała, że przy tym samym ruchu porannym opóźnień jest dużo więcej niż
+   rok wcześniej (spadła przepustowość), więc kampanie mogą nie być przyczyną. Kwotę dzielimy na pacjentów obu nowych
+   kampanii tylko po to, żeby pokazać rząd wielkości obok wyniku.
 
 ==============================================================================================================
 D. CZY PACJENCI NOWYCH KAMPANII SĄ DODATKOWI: POZYSKANIE W POZOSTAŁYCH KANAŁACH, ROK DO ROKU (reguła Z1K)
@@ -94,27 +99,38 @@ D. CZY PACJENCI NOWYCH KAMPANII SĄ DODATKOWI: POZYSKANIE W POZOSTAŁYCH KANAŁA
 
 D2. 28 dni przed startem i 28 dni od startu, wobec tych samych dni rok wcześniej (różnica różnic, iloraz).
     iloraz = (po/przed w roku startu) / (po/przed rok wcześniej); 1,00 = bez zmiany; przedział 95% z rozkładu Poissona.
-          start              grupa  przed_rok_wczesniej  po_rok_wczesniej  przed   po  iloraz   od   do
-     2025-11-03          bezplatne                  523               583    592  707    1.07 0.91 1.26
-     2025-11-03  platne bez nowych                  611               705    632  754    1.03 0.89 1.20
-     2025-11-03 wszyscy bez nowych                 1169              1343   1259 1509    1.04 0.94 1.16
-     2025-11-03      L4 bez nowych                  228               304    290  315    0.81 0.64 1.03
-     2025-11-03      gs_generic_l4                   90               117    114   99    0.67 0.45 0.98
-     2025-11-03 bez nowych, nie L4                  941              1039    969 1194    1.12 0.99 1.26
-     2026-02-09          bezplatne                  695               674    875  749    0.88 0.76 1.02
-     2026-02-09  platne bez nowych                  766               820    878  872    0.93 0.81 1.06
-     2026-02-09 wszyscy bez nowych                 1528              1546   1826 1686    0.91 0.83 1.01
-     2026-02-09      L4 bez nowych                  342               378    391  364    0.84 0.69 1.03
-     2026-02-09      gs_generic_l4                  138               144    127  124    0.94 0.67 1.31
-     2026-02-09 bez nowych, nie L4                 1186              1168   1435 1322    0.94 0.84 1.04
+          start                        grupa  przed_rok_wczesniej  po_rok_wczesniej  przed   po  iloraz   od   do
+     2025-11-03                    bezplatne                  523               583    592  707    1.07 0.91 1.26
+     2025-11-03            platne bez nowych                  611               705    632  754    1.03 0.89 1.20
+     2025-11-03           wszyscy bez nowych                 1169              1343   1259 1509    1.04 0.94 1.16
+     2025-11-03                L4 bez nowych                  228               304    290  315    0.81 0.64 1.03
+     2025-11-03                gs_generic_l4                   90               117    114   99    0.67 0.45 0.98
+     2025-11-03           bez nowych, nie L4                  941              1039    969 1194    1.12 0.99 1.26
+     2025-11-03 L4 wobec nie L4 (bez nowych)                 <NA>              <NA>   <NA> <NA>    0.73 0.56 0.95
+     2026-02-09                    bezplatne                  695               674    875  749    0.88 0.76 1.02
+     2026-02-09            platne bez nowych                  766               820    878  872    0.93 0.81 1.06
+     2026-02-09           wszyscy bez nowych                 1528              1546   1826 1686    0.91 0.83 1.01
+     2026-02-09                L4 bez nowych                  342               378    391  364    0.84 0.69 1.03
+     2026-02-09                gs_generic_l4                  138               144    127  124    0.94 0.67 1.31
+     2026-02-09           bez nowych, nie L4                 1186              1168   1435 1322    0.94 0.84 1.04
+     2026-02-09 L4 wobec nie L4 (bez nowych)                 <NA>              <NA>   <NA> <NA>    0.90 0.71 1.14
+    „L4 wobec nie L4” = iloraz grupy L4 podzielony przez iloraz grupy z inną pierwszą usługą (obie bez nowych kampanii),
+    czyli zmiana udziału L4 skorygowana o tę samą zmianę rok wcześniej. Przedziały zakładają niezależne zliczenia
+    i wspólny trend, więc są orientacyjne.
     Start 3.11.2025: 28 dni przed = 6.10–2.11, po = 3.11–30.11 (rok wcześniej te same daty 2024).
     Start 9.02.2026: przed = 12.01–8.02, po = 9.02–8.03 (rok wcześniej te same daty 2025). Rok wcześniej
     w lutym–marcu 2025 nie było nowych kampanii; 28 dni przed 9.02.2026 kampania Meta na L4 już działała.
 
+D2b. Fikcyjne daty startu (kontrola szumu): ten sam iloraz L4 wobec nie L4 w pozostałych kanałach, 28 dni po
+    i 28 dni przed datą, bez korekty o rok wcześniej, dla każdego poniedziałku okresu 1 (bez nowych kampanii).
+    Pokazuje, jak często taki iloraz wychodzi tak niski bez żadnej kampanii (sezon i przypadek razem).
+    2025-11-03: iloraz 0.88; w okresie 1 niższy albo równy wyszedł w 4 z 44 poniedziałków (rozpiętość 0.81–1.19).
+    2026-02-09: iloraz 1.01; w okresie 1 niższy albo równy wyszedł w 22 z 44 poniedziałków (rozpiętość 0.81–1.19).
+
 D3. Pacjenci nowych kampanii, którzy przed pierwszym wejściem z kampanii mieli wejście z innego kanału
                  kampania  pacjenci  pierwsze_wejscie_inne  platnosc_w_innej_sesji  sesje_do_zakupu
-        tt_prosp_l4_15min      2209                     50                     616             1.29
      meta_prosp_l4_szybko      5059                    113                    1465             1.30
+        tt_prosp_l4_15min      2209                     50                     616             1.29
     pierwsze_wejscie_inne = kod kampanii przypisał pacjenta do kampanii, choć pierwsze widoczne wejście było z innego
     kanału; platnosc_w_innej_sesji = zapłacił w sesji z innego źródła (stąd mniej pacjentów według sesji płatności).
 
@@ -124,83 +140,91 @@ D4. Ilu pacjentów L4 mogło przejść z pozostałych kanałów do nowych kampan
     kanałach, miesiące XI 2025 – IX 2026. Październik 2025 (przed startem) pokazuje, jak bardzo to założenie się myli
     bez żadnej kampanii.
      miesiac  L4_faktyczni  L4_oczekiwani  brakujacy  nowe_kampanie
-     2025-10           321            263        -58              0
-     2025-11           327            366         39            121
-     2025-12           381            356        -25            279
-     2026-01           423            426          3            445
-     2026-02           350            418         68            610
-     2026-03           424            455         31            826
-     2026-04           299            364         65            825
-     2026-05           269            255        -14            910
-     2026-06           261            270          9            818
-     2026-07           242            259         17            799
-     2026-08           226            249         23            785
-     2026-09           255            266         11            850
-    Razem XI 2025 – IX 2026: brakujących 227 pacjentów L4 wobec 7268 pacjentów nowych kampanii (3.1%). W październiku 2025 (bez kampanii) wynik to -58 (ujemny = więcej L4, niż zakłada wzór).
+     2025-10           321          262.9      -58.1              0
+     2025-11           327          365.6       38.6            121
+     2025-12           381          355.8      -25.2            279
+     2026-01           423          425.9        2.9            445
+     2026-02           350          417.6       67.6            610
+     2026-03           424          454.9       30.9            826
+     2026-04           299          364.1       65.1            825
+     2026-05           269          254.7      -14.3            910
+     2026-06           261          269.6        8.6            818
+     2026-07           242          259.3       17.3            799
+     2026-08           226          249.4       23.4            785
+     2026-09           255          266.1       11.1            850
+    Razem XI 2025 – IX 2026: brakujących 226 pacjentów L4 wobec 7268 pacjentów nowych kampanii (3.1%). W październiku 2025 (bez kampanii) wynik to -58 (ujemny = więcej L4, niż zakłada wzór). To nie jest oszacowanie udziału
+    pacjentów niedodatkowych: obejmuje tylko pacjentów L4 przejętych z pozostałych kanałów, a nie tych, którzy bez
+    kampanii przyszliby sami w inny sposób (recenzja Codeksa).
 
 ==============================================================================================================
 E. NAPRAWIĆ ALBO WYŁĄCZYĆ — RACHUNEK W MARŻY NA ROK (okres 2: X 2025 – IX 2026)
 ==============================================================================================================
-   Podstawa roczna: wydatki i nowi pacjenci z całego okresu 2, marża na pacjenta w 90 dniach z kohort z pełnym
-   oknem (1.10.2025–2.07.2026), obok marża w 180 dniach (kohorty do 3.04.2026; TikTok ma w niej tylko 299 pacjentów).
+   Prognoza marży rocznika pozyskanych pacjentów: nowi pacjenci i wydatki z całego okresu 2 × marża na pacjenta
+   w 90 dniach z kohort z pełnym oknem (1.10.2025–2.07.2026); obok marża w 180 dniach (kohorty do 3.04.2026; TikTok
+   ma w niej tylko 299 pacjentów, więc inne kohorty niż w 90 dniach). Obejmuje też marżę po 30.09.2026 pacjentów
+   pozyskanych pod koniec okresu. Wiersz „obie” = suma kampanii liczonych osobno (recenzja Codeksa).
 
-E0. Podstawa
-                 kampania regula  nowi_rok  wydatki_rok  koszt_pozysk  marza90  marza180  wynik90_na_pac  wynik90_rok  wynik180_rok
-     meta_prosp_l4_szybko    Z1K      5059       163322          32.3     37.8      38.2             5.5        27845         29882
-     meta_prosp_l4_szybko     Z2      3594       163322          45.4     37.4      37.8            -8.0       -28735        -27474
-        tt_prosp_l4_15min    Z1K      2209        82464          37.3     31.9      31.2            -5.4       -11928        -13468
-        tt_prosp_l4_15min     Z2      1593        82464          51.8     32.4      31.5           -19.3       -30801        -32341
-                     obie    Z1K      7268       245787          33.8     36.3      37.3             2.5        17849         25353
-                     obie     Z2      5187       245787          47.4     36.1      36.9           -11.3       -58372        -54150
+E0. Podstawa (kwoty w zł; marza90 i marza180 na pacjenta)
+                 kampania regula  nowi_rok  wydatki_rok  koszt_pozysk  marza90  marza180  wynik90_rok  wynik180_rok
+     meta_prosp_l4_szybko    Z1K      5059     163322.0          32.3     37.8      38.2      27845.0       29882.0
+     meta_prosp_l4_szybko     Z2      3594     163322.0          45.4     37.4      37.8     -28735.0      -27474.0
+        tt_prosp_l4_15min    Z1K      2209      82464.0          37.3     31.9      31.2     -11928.0      -13468.0
+        tt_prosp_l4_15min     Z2      1593      82464.0          51.8     32.4      31.5     -30801.0      -32341.0
+                     obie    Z1K      7268     245787.0          33.8     36.0      36.1      15917.0       16414.0
+                     obie     Z2      5187     245787.0          47.4     35.9      35.9     -59536.0      -59815.0
 
-E1. WYŁĄCZYĆ (ograniczenie budżetu do zera). Zysk = oszczędzone wydatki − utracona marża pacjentów, którzy bez
+E1. WYŁĄCZYĆ (ograniczenie budżetu do zera). Zmiana marży = oszczędzone wydatki − marża pacjentów, którzy bez
     kampanii by nie przyszli. Dodatkowość nieznana (sekcja D), więc trzy warianty: 100%, 50% i 0% pacjentów dodatkowych.
-    Scenariusz poranka (sekcja C) to możliwy dodatkowy zysk z wyłączenia, tylko jeśli hipoteza Kuby jest prawdziwa.
+    Założenia (recenzja Codeksa): pacjenci dodatkowi mają średnią marżę wszystkich pacjentów przypisanych kampanii;
+    pacjenci, którzy przyszliby bez kampanii, zachowują się tak samo jak dziś; koszty pozostałych kanałów się nie
+    zmieniają. TelemediGO i koszt lekarza są już w marży. Marży po 90 (180) dniach rachunek nie obejmuje.
                  kampania regula  dodatkowi_proc  oszczednosc_wydatkow  utracona_marza90  zmiana_marzy90  zmiana_marzy180
-     meta_prosp_l4_szybko    Z1K             100                163322            191230          -27908           -29932
-     meta_prosp_l4_szybko    Z1K              50                163322             95615           67707            66695
+     meta_prosp_l4_szybko    Z1K             100                163322            191168          -27845           -29882
+     meta_prosp_l4_szybko    Z1K              50                163322             95584           67739            66720
      meta_prosp_l4_szybko    Z1K               0                163322                 0          163322           163322
-     meta_prosp_l4_szybko     Z2             100                163322            134416           28906            27469
-     meta_prosp_l4_szybko     Z2              50                163322             67208           96114            95395
+     meta_prosp_l4_szybko     Z2             100                163322            134588           28735            27474
+     meta_prosp_l4_szybko     Z2              50                163322             67294           96029            95398
      meta_prosp_l4_szybko     Z2               0                163322                 0          163322           163322
-        tt_prosp_l4_15min    Z1K             100                 82464             70467           11997            13543
-        tt_prosp_l4_15min    Z1K              50                 82464             35234           47230            48004
+        tt_prosp_l4_15min    Z1K             100                 82464             70536           11928            13468
+        tt_prosp_l4_15min    Z1K              50                 82464             35268           47196            47966
         tt_prosp_l4_15min    Z1K               0                 82464                 0           82464            82464
-        tt_prosp_l4_15min     Z2             100                 82464             51613           30851            32284
-        tt_prosp_l4_15min     Z2              50                 82464             25807           56657            57374
+        tt_prosp_l4_15min     Z2             100                 82464             51664           30801            32341
+        tt_prosp_l4_15min     Z2              50                 82464             25832           56633            57402
         tt_prosp_l4_15min     Z2               0                 82464                 0           82464            82464
-                     obie    Z1K             100                245787            263828          -18041           -25309
-                     obie    Z1K              50                245787            131914          113873           110239
+                     obie    Z1K             100                245787            261704          -15917           -16414
+                     obie    Z1K              50                245787            130852          114935           114687
                      obie    Z1K               0                245787                 0          245787           245787
-                     obie     Z2             100                245787            187251           58536            54387
-                     obie     Z2              50                245787             93625          152162           150087
+                     obie     Z2             100                245787            186251           59536            59815
+                     obie     Z2              50                245787             93126          152661           152801
                      obie     Z2               0                245787                 0          245787           245787
-    Scenariusz poranka przy wyłączeniu obu kampanii: od 11 931 do 65 247 zł marży w 180 dniach rocznie
-    (tylko zmiana rozkładu opóźnień albo cały spadek w starych kampaniach, obie reguły; sekcja C).
-    Uwaga: część retencji pokazała, że wyłączenie kampanii nie musi podnieść powrotu, bo nie wiemy, gdzie ci pacjenci
-    kupiliby bez kampanii (recenzja Codeksa w kroku 3).
+    Scenariusz poranka przy wyłączeniu obu kampanii: od 0 do 65 247 zł marży w 180 dniach rocznie (sekcja C:
+    brak efektu, wąski wariant 11 931–12 656 zł, szeroki do 65 247 zł). Część retencji pokazała, że wyłączenie kampanii nie musi podnieść powrotu,
+    bo nie wiemy, gdzie ci pacjenci kupiliby bez kampanii (recenzja Codeksa w kroku 3).
 
-E2. NAPRAWIĆ. Każda droga osobno, kwoty roczne dla obu nowych kampanii (okres 2), przyjęta reguła i sesja płatności.
+E2. NAPRAWIĆ. Każda droga osobno, kwoty roczne (okres 2), przyjęta reguła i sesja płatności.
 
   E2a. Obietnica reklamy i strona wejścia: odsetek zwrotów po wizytach L4 spada do poziomu L4 pozostałych pacjentów.
-       Wariant A: wizyty, które dziś kończą się zwrotem, zostają opłacone (pacjent dostaje to, co obiecano), zysk = zwrot.
-       Wariant B: uczciwa obietnica odstrasza pacjentów, którzy nie dostaliby L4, i nie kupują; zysk = 25 zł kosztu
-       lekarza za wizytę, a przy tych samych wydatkach jest tyle samo mniej zamówień (koszt pozyskania rośnie).
-                   kampania regula  wizyty_L4  L4_zwrot_proc  pozostali_proc  zwrotow_mniej  wariant_A_zl  wariant_B_zl
-       meta_prosp_l4_szybko    Z1K       4102           17.7             5.3            509         42167         12716
-          tt_prosp_l4_15min    Z1K       1793           16.5             5.3            201         14901          5020
-              nowe kampanie    Z1K       5895           17.4             5.3            713         57349         17832
-       meta_prosp_l4_szybko     Z2       2923           18.2             8.2            292         24173          7308
-          tt_prosp_l4_15min     Z2       1294           16.3             8.2            105          7557          2620
-              nowe kampanie     Z2       4217           17.6             8.2            396         31593          9910
-       Dopisek do wariantu A (Z1K, scenariusz): pacjenci nowych kampanii z pierwszym L4 wracają w 90 dniach w 4.3% po wizycie bez zwrotu i w 1.9% po zwrocie; różnica × 713 × 95.6 zł = 1 656 zł rocznie.
-       Dopisek do wariantu A (Z2, scenariusz): pacjenci nowych kampanii z pierwszym L4 wracają w 90 dniach w 4.5% po wizycie bez zwrotu i w 1.8% po zwrocie; różnica × 396 × 95.6 zł = 1 045 zł rocznie.
+       Wariant A: wizyty, które dziś kończą się zwrotem, zostają opłacone (pacjent dostaje to, co obiecano); liczba
+       wizyt bez zmian, zwrotów mniej o x_A = zwroty − wizyty × docelowy odsetek; zysk = x_A × średni zwrot L4.
+       Wariant B: uczciwa obietnica odstrasza pacjentów, którzy nie dostaliby L4, i nie kupują; znika x_B wizyt, które
+       dziś kończą się zwrotem, tak że (zwroty − x_B) / (wizyty − x_B) = docelowy odsetek. Zysk = x_B × średni koszt
+       lekarza zwróconej wizyty L4 − x_B × dalsza marża tych pacjentów (TelemediGO przy kasie i dni 1–90 u pacjentów
+       nowych kampanii z pierwszym L4 zwróconym po wizycie). Przy tych samych wydatkach jest x_B zamówień mniej.
+                   kampania regula  wizyty_L4  zwroty_L4  docelowy_proc   x_A  wariant_A_zl   x_B  lekarz_na_wizyte  dalsza_marza  wariant_B_zl
+       meta_prosp_l4_szybko    Z1K       4102        728           5.31 510.0         42262 538.6             32.93          2.32         16486
+          tt_prosp_l4_15min    Z1K       1793        296           5.31 200.7         14891 212.0             29.73          2.32          5810
+              nowe kampanie    Z1K       5895       1024           5.31 710.7         57112 750.6             32.01          2.32         22283
+       meta_prosp_l4_szybko     Z2       2923        532           8.15 293.7         24273 319.7             32.89          2.41          9745
+          tt_prosp_l4_15min     Z2       1294        211           8.15 105.5          7605 114.9             28.32          2.41          2976
+              nowe kampanie     Z2       4217        743           8.15 399.2         31795 434.6             31.59          2.41         12680
+       Dopisek do wariantu A (Z1K, scenariusz, horyzont 180 dni): pacjenci nowych kampanii z pierwszym L4 wracają w 90 dniach w 4.3% po wizycie bez zwrotu i w 1.9% po zwrocie; różnica × 711 × 95.6 zł = 1 651 zł rocznie.
+       Dopisek do wariantu A (Z2, scenariusz, horyzont 180 dni): pacjenci nowych kampanii z pierwszym L4 wracają w 90 dniach w 4.5% po wizycie bez zwrotu i w 1.8% po zwrocie; różnica × 399 × 95.6 zł = 1 054 zł rocznie.
 
   E2b. Zgoda marketingowa: udział zgód pacjentów nowych kampanii rośnie do poziomu pozostałych pacjentów.
-       Dwa odczytania wartości jednej dodatkowej zgody: (1) powrót przypisany do newslettera i SMS-a u pacjentów ze
-       zgodą (pacjenci bez zgody nie mają takich powrotów wcale); (2) cała różnica powrotu w 90 dniach między pacjentami
-       ze zgodą i bez niej. Jeśli (2) jest mniejsze od (1), pacjenci ze zgodą wracają przez newsletter i SMS, ale bez
-       zgody wracają prawie tak samo często inną drogą.
+       Dwa odczytania wartości dodatkowych zgód, oba w horyzoncie 180 dni (wartość powrotu 95,6 zł), pokazywane osobno:
+       (1) powrót przypisany do newslettera i SMS-a u pacjentów ze zgodą (wariant optymistyczny: zakłada, że bez
+       wiadomości ci pacjenci by nie wrócili); (2) cała różnica powrotu w 90 dniach między pacjentami ze zgodą i bez
+       niej. Jeśli (2) jest dużo mniejsze od (1), pacjenci bez zgody wracają prawie tak samo często inną drogą.
                    kampania regula  nowi_rok  zgoda_proc  pozostali_proc  dodatkowe_zgody  roznica_powrotu_crm_pkt  roznica_powrotu_cala_pkt  wartosc_1_zl  wartosc_2_zl
        meta_prosp_l4_szybko    Z1K      5059        39.8            64.4             1243                     1.32                      0.36          1564           427
           tt_prosp_l4_15min    Z1K      2209        31.9            64.4              716                     0.00                     -1.37             0          -940
@@ -216,27 +240,30 @@ E2. NAPRAWIĆ. Każda droga osobno, kwoty roczne dla obu nowych kampanii (okres 
        meta_prosp_l4_szybko    zwykla  14901                  832            5.58                5033                         5.98
           tt_prosp_l4_15min wbudowana  28160                 1351            4.80                1882                         5.69
           tt_prosp_l4_15min    zwykla   5310                  242            4.56                 365                         3.84
-       meta_prosp_l4_szybko: przeglądarki wbudowane konwertują nie gorzej niż zwykłe w tej samej kampanii (5.99% wobec 5.58%), więc ta droga nie poprawia
-         wyniku tej kampanii w tym rachunku. Niska konwersja to cecha ruchu z kampanii, nie samej przeglądarki.
-       tt_prosp_l4_15min: przeglądarki wbudowane konwertują nie gorzej niż zwykłe w tej samej kampanii (4.8% wobec 4.56%), więc ta droga nie poprawia
-         wyniku tej kampanii w tym rachunku. Niska konwersja to cecha ruchu z kampanii, nie samej przeglądarki.
+       meta_prosp_l4_szybko: surowa konwersja w tej samej sesji nie jest niższa w przeglądarkach wbudowanych (5.99% wobec 5.58%), więc w tym rachunku ta droga
+         nie ma wartości. To porównanie nie rozdziela wpływu urządzenia, daty, samego pacjenta ani zakupu w innej
+         sesji (recenzja Codeksa), więc nie przesądza, że przeglądarka nie ma znaczenia.
+       tt_prosp_l4_15min: surowa konwersja w tej samej sesji nie jest niższa w przeglądarkach wbudowanych (4.8% wobec 4.56%), więc w tym rachunku ta droga
+         nie ma wartości. To porównanie nie rozdziela wpływu urządzenia, daty, samego pacjenta ani zakupu w innej
+         sesji (recenzja Codeksa), więc nie przesądza, że przeglądarka nie ma znaczenia.
 
-  E2d. Przepustowość poranka (obsada internistów 6:00–11:59): wartość jak w sekcji C, od 11 931 do 65 247 zł rocznie, tylko jeśli opóźnienia obniżają powroty. Kosztu dodatkowej obsady
-       nie ma w danych (koszt lekarza w zadaniu to stawka za wizytę, nie za dyżur), więc tej drogi nie da się
+  E2d. Przepustowość poranka (obsada internistów 6:00–11:59): wartość jak w sekcji C, od 0 do 65 247 zł rocznie w horyzoncie 180 dni, tylko jeśli opóźnienia obniżają powroty. Kosztu dodatkowej
+       obsady nie ma w danych (koszt lekarza w zadaniu to stawka za wizytę, nie za dyżur), więc tej drogi nie da się
        wycenić netto.
 
 ==============================================================================================================
-E3. ZESTAWIENIE NA ROK: OBECNY WYNIK, NAPRAWIĆ, WYŁĄCZYĆ (zmiana marży w 90 dniach od pozyskania, zł)
+E3. ZESTAWIENIE NA ROK: OBECNY WYNIK, NAPRAWIĆ, WYŁĄCZYĆ (zł)
 ==============================================================================================================
-   obecny_wynik = nowi × marża w 90 dniach − wydatki. Naprawić: A albo B ze zwrotów L4 (E2a), plus większa z dwóch
-   wartości zgody (E2b), plus przeglądarki (E2c). Wyłączyć: zmiana marży = wydatki − dodatkowi × marża (E1); przy 100%
-   dodatkowych to dokładnie −obecny_wynik. Scenariusz poranka osobno (sekcja C), bo zależy od niepotwierdzonej hipotezy.
-                 kampania regula  obecny_wynik  napraw_zwroty_A  napraw_zwroty_B  napraw_zgoda  napraw_przegladarki  po_naprawie_A  po_naprawie_B  wylacz_100proc_dodatkowi  wylacz_50proc  wylacz_0proc
-     meta_prosp_l4_szybko    Z1K         27845            42167            12716          1564                    0          71576          42125                    -27908          67707        163322
-     meta_prosp_l4_szybko     Z2        -28735            24173             7308          1160                    0          -3402         -20267                     28906          96114        163322
-        tt_prosp_l4_15min    Z1K        -11928            14901             5020             0                    0           2973          -6908                     11997          47230         82464
-        tt_prosp_l4_15min     Z2        -30801             7557             2620             0                    0         -23244         -28181                     30851          56657         82464
-            nowe kampanie    Z1K         17849            57349            17832          1900                    0          77098          37581                    -18041         113873        245787
-            nowe kampanie     Z2        -58372            31593             9910          1429                    0         -25350         -47033                     58536         152162        245787
-   Kolumny napraw_* i wylacz_* to zmiana marży wobec dziś. po_naprawie = wynik kampanii po naprawie. Przy wyłączeniu
-   tracimy też ewentualne przyszłe naprawy. Oba warianty zakładają, że reszta biznesu się nie zmienia.
+   Kolumny w horyzoncie 90 dni od pozyskania: obecny_wynik (= marża rocznika w 90 dniach − wydatki), napraw_zwroty_A
+   i _B (E2a), po_naprawie_A i _B, wylacz_* (zmiana marży przy 100%, 50% i 0% pacjentów dodatkowych; przy 100% to
+   −obecny_wynik). Osobno, w horyzoncie 180 dni i nie dodawane do sum: zgoda_1 i zgoda_2 (E2b, dwa odczytania).
+   Scenariusz poranka w sekcji C. Przeglądarki wbudowane: 0 zł w tym rachunku (E2c).
+                 kampania regula  obecny_wynik  napraw_zwroty_A  napraw_zwroty_B  po_naprawie_A  po_naprawie_B  wylacz_100proc  wylacz_50proc  wylacz_0proc  zgoda_1_180dni  zgoda_2_180dni
+     meta_prosp_l4_szybko    Z1K         27845            42262            16486          70107          44331          -27845          67739        163322            1564             427
+     meta_prosp_l4_szybko     Z2        -28735            24273             9745          -4462         -18990           28735          96029        163322            1160             283
+        tt_prosp_l4_15min    Z1K        -11928            14891             5810           2963          -6118           11928          47196         82464               0            -940
+        tt_prosp_l4_15min     Z2        -30801             7605             2976         -23196         -27825           30801          56633         82464               0            -611
+            nowe kampanie    Z1K         15917            57112            22283          73029          38200          -15917         114935        245787            1900              53
+            nowe kampanie     Z2        -59536            31795            12680         -27741         -46856           59536         152661        245787            1429             106
+   napraw_* i wylacz_* to zmiana marży wobec dziś; po_naprawie = wynik kampanii po naprawie. Obie drogi zakładają, że
+   reszta biznesu się nie zmienia. Wariant B zmniejsza liczbę zamówień przy tych samych wydatkach.

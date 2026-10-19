@@ -1,16 +1,18 @@
-A5 EKONOMIA KAMPANII — KOSZT POZYSKANIA I WYNIK NA PACJENTA (2026-10-19 21:48), schemat `czyste`
+A5 EKONOMIA KAMPANII — KOSZT POZYSKANIA I WYNIK NA PACJENTA (2026-10-19 22:02), schemat `czyste`
 Okres 1 = kohorty X 2024 – IX 2025, okres 2 = X 2025 – IX 2026. Źródło: Z1K = pierwsze wejście z anonimowymi
 sesjami przeglądarek pacjenta, kod kampanii rozstrzyga (ZALOZENIA.md 22); Z2 = sesja płatności (punkt 23).
 Marża na pacjenta = przychód z konsultacji po zwrotach + TelemediGO − koszt lekarza, dni 0..N, przed kosztem
 pozyskania (punkt 34). Koszt pozyskania = (wydatki + prowizja 25 zł za pacjenta rankingu) / nowi pacjenci z tych
 samych dni. Wynik na pacjenta = marża − koszt pozyskania. Okno 90 dni: kohorty 1.10–2.07 w obu okresach,
-okno 180 dni: 1.10–3.04 (te same dni kalendarzowe, punkt 27). Przedział 95% wyniku tylko z rozrzutu marży.
+okno 180 dni: 1.10–3.04 (te same dni kalendarzowe, punkt 27). Przedział 95% wyniku (wynik_od, wynik_do) jest
+warunkowy: tylko z rozrzutu marży, przy stałym koszcie pozyskania i wybranej regule źródła.
 
 ==============================================================================================================
 0. KONTROLA: liczby odniesienia z części retencji (a5r_kohorty.txt, sekcja 1)
 ==============================================================================================================
    okno 90: pacjenci 12867 / 18924, marża na pacjenta 66.6 / 58.3 zł   (oczekiwane: 12867 / 18924, 66.6 / 58.3 zł)
    okno 180: pacjenci 9125 / 12591, marża na pacjenta 75.5 / 67.7 zł   (oczekiwane: 9125 / 12591, 75.5 / 67.7 zł)
+   brzeg okna (recenzja Codeksa): nowe kampanie na L4, Z1K, okno 1.10.2025–2.07.2026 według dnia płatności 4893 pacjentów (koszt pozyskania 32.68 zł), według dnia pierwszego wejścia 4912 (32.55 zł).
    wydatki razem: 1 017 307 zł (okres 1: 367 632 zł, okres 2: 649 675 zł)
 
 ==============================================================================================================
@@ -167,10 +169,11 @@ okno 180 dni: 1.10–3.04 (te same dni kalendarzowe, punkt 27). Przedział 95% w
      rankinglekarzy_affiliate         0.0         0.0                        25.0                        25.0                       25.0                       25.0        616.0        617.0       437.0       405.0
 
 ==============================================================================================================
-3. NIEPEWNE: KAMPANIE, KTÓRYCH WYNIK NA PACJENTA ZMIENIA ZNAK ZALEŻNIE OD REGUŁY ŹRÓDŁA
+3. NIEPEWNE: KAMPANIE, KTÓRYCH WYNIK NA PACJENTA ZALEŻY OD REGUŁY ATRYBUCJI (ZMIENIA ZNAK)
 ==============================================================================================================
    Tylko kampanie płatne i afiliacja (kanały bezpłatne mają koszt 0 zł, więc ich wynik = marża). Dodatkowo:
-   czy przedział 95% wyniku obejmuje zero w którejkolwiek regule.
+   czy przedział 95% wyniku obejmuje zero w którejkolwiek regule. Wynik dodatni w obu regułach też nie dowodzi, że
+   dodatkowy budżet się opłaci: to średnia wszystkich przypisanych pacjentów, a nie pacjentów z ostatniej złotówki.
                      kampania  okno_dni  okres  nowi_Z1K  wynik_na_pac_Z1K  wynik_od_Z1K  wynik_do_Z1K  nowi_Z2  wynik_na_pac_Z2  wynik_od_Z2  wynik_do_Z2  znak_zalezy_od_reguly  przedzial_obejmuje_zero
                      gs_brand        90      1      1522              59.9          57.2          62.5     1927             60.8         58.3         63.2                  False                    False
                      gs_brand        90      2      1715              56.7          54.3          59.1     2407             54.9         52.8         57.0                  False                    False

@@ -163,7 +163,9 @@ def main():
                             "zwrot_na_pac": round(ref.zwrot.sum() / npac, 1), "lekarz_na_pac": round(ref.lekarz.sum() / npac, 1),
                             "wizyty_L4_odbyte": len(l4), "L4_zwrocone": int((l4.status == "refunded").sum()),
                             "L4_zwrot_proc": round(100 * (l4.status == "refunded").mean(), 1),
-                            "sredni_zwrot_L4_zl": round(l4[l4.status == "refunded"].zwrot.mean(), 1)})
+                            "sredni_zwrot_L4_zl": round(l4[l4.status == "refunded"].zwrot.mean(), 1),
+                            "zwrocone_L4_zl": round(l4[l4.status == "refunded"].zwrot.sum(), 2),
+                            "sredni_lekarz_L4_zwrot_zl": round(l4[l4.status == "refunded"].lekarz.mean(), 2)})
     B1 = pd.DataFrame(wiersze)
     pokaz(B1)
     l4_1 = con.sql("""SELECT count(*) n, count(*) FILTER (WHERE status = 'refunded') z FROM zam
@@ -174,7 +176,8 @@ def main():
 
     r("\nB2. Zgoda marketingowa i powrót w 90 dniach według zgody (kohorty okresu 2 do 2.07.2026).")
     r("    powrot_crm = powrót w dniach 1–90 zamówieniem przypisanym do wejścia z newslettera albo SMS-a w ciągu 24 godzin")
-    r("    (ZALOZENIA.md 26, rozłącznie: ostatnie wejście przed płatnością). To dolna granica wpływu kontaktu.")
+    r("    (ZALOZENIA.md 26, rozłącznie: ostatnie wejście przed płatnością). To przypisanie, a nie wpływ: pacjent mógłby")
+    r("    kupić także bez wiadomości (recenzja Codeksa).")
     crm = con.sql("""
       SELECT z.user_id, min(date_diff('day', k.d0, z.created_at::DATE)) dni_crm
       FROM crm_rozl c JOIN zam z USING (order_id) JOIN koh k ON k.user_id = z.user_id
@@ -215,16 +218,21 @@ def main():
         if n != n_old[reg]:
             raise SystemExit(f"Liczba pacjentów w raporcie retencji ({n}) różni się od policzonej ({n_old[reg]}) dla {k}")
         powr = pp / 100 * n
-        wiersze.append({"scenariusz": {"caly": "cały spadek w starych kampaniach (górna granica)",
-                                       "opoznienia": "tylko zmiana rozkładu opóźnień pierwszej wizyty"}[k.split("_")[0]],
+        wiersze.append({"scenariusz": {"caly": "szeroki: cały spadek w starych kampaniach",
+                                       "opoznienia": "wąski: tylko zmiana rozkładu opóźnień pierwszej wizyty"}[k.split("_")[0]],
                         "regula": reg, "spadek_pkt": pp, "pacjenci_starych": n, "powrotow_mniej": round(powr),
                         "marza_180_zl": round(powr * WARTOSC), "na_pacjenta_nowych_kampanii_zl": round(powr * WARTOSC / n_new[reg], 1)})
+    for reg in ("Z1K", "Z2"):
+        wiersze.append({"scenariusz": "brak efektu: kampanie nie zmieniają powrotów pozostałych", "regula": reg, "spadek_pkt": 0.0,
+                        "pacjenci_starych": n_old[reg], "powrotow_mniej": 0, "marza_180_zl": 0, "na_pacjenta_nowych_kampanii_zl": 0.0})
     C = pd.DataFrame(wiersze)
     pokaz(C)
-    r("   To scenariusz, nie wynik: zakłada, że spadek przypisany opóźnieniom (albo cały spadek) to skutek nowych kampanii")
-    r("   i że każdy utracony powrót jest wart 95,6 zł marży w 180 dniach. Część retencji pokazała, że przy tym samym")
-    r("   ruchu porannym opóźnień jest dużo więcej niż rok wcześniej (spadła przepustowość), więc kampanie mogą nie być")
-    r("   przyczyną. Kwotę dzielimy na pacjentów obu nowych kampanii tylko po to, żeby pokazać rząd wielkości obok wyniku.")
+    r("   To scenariusze, nie wynik ani przedział możliwego efektu: zakładają, że spadek przypisany opóźnieniom (wąski) albo")
+    r("   cały spadek w starych kampaniach (szeroki) to skutek nowych kampanii i że każdy utracony powrót jest wart 95,6 zł")
+    r("   marży w 180 dniach. Efekt może wynosić zero (wiersz „brak efektu”), a szeroki wariant nie jest formalną górną")
+    r("   granicą (recenzja Codeksa). Część retencji pokazała, że przy tym samym ruchu porannym opóźnień jest dużo więcej niż")
+    r("   rok wcześniej (spadła przepustowość), więc kampanie mogą nie być przyczyną. Kwotę dzielimy na pacjentów obu nowych")
+    r("   kampanii tylko po to, żeby pokazać rząd wielkości obok wyniku.")
 
     # ---------- D. dodatkowość ----------
     naglowek("D. CZY PACJENCI NOWYCH KAMPANII SĄ DODATKOWI: POZYSKANIE W POZOSTAŁYCH KANAŁACH, ROK DO ROKU (reguła Z1K)")
@@ -271,10 +279,41 @@ def main():
             wiersze.append({"start": start.date(), "grupa": k, "przed_rok_wczesniej": b1, "po_rok_wczesniej": a1,
                             "przed": b2, "po": a2, "iloraz": round(il, 2), "od": round(il * math.exp(-1.96 * se), 2),
                             "do": round(il * math.exp(1.96 * se), 2)})
-    pokaz(pd.DataFrame(wiersze))
+        # L4 wobec innych usług w pozostałych kanałach, skorygowane o tę samą zmianę rok wcześniej (recenzja Codeksa)
+        x = {r_["grupa"]: r_ for r_ in wiersze if r_["start"] == start.date()}
+        a, b = x["L4 bez nowych"], x["bez nowych, nie L4"]
+        il = ((a["po"] / a["przed"]) / (a["po_rok_wczesniej"] / a["przed_rok_wczesniej"])) / \
+            ((b["po"] / b["przed"]) / (b["po_rok_wczesniej"] / b["przed_rok_wczesniej"]))
+        se = math.sqrt(sum(1 / v for v in (a["po"], a["przed"], a["po_rok_wczesniej"], a["przed_rok_wczesniej"],
+                                            b["po"], b["przed"], b["po_rok_wczesniej"], b["przed_rok_wczesniej"])))
+        wiersze.append({"start": start.date(), "grupa": "L4 wobec nie L4 (bez nowych)", "iloraz": round(il, 2),
+                        "od": round(il * math.exp(-1.96 * se), 2), "do": round(il * math.exp(1.96 * se), 2)})
+    d2 = pd.DataFrame(wiersze)
+    for k in ("przed_rok_wczesniej", "po_rok_wczesniej", "przed", "po"):
+        d2[k] = d2[k].astype("Int64")
+    pokaz(d2)
+    r("    „L4 wobec nie L4” = iloraz grupy L4 podzielony przez iloraz grupy z inną pierwszą usługą (obie bez nowych kampanii),")
+    r("    czyli zmiana udziału L4 skorygowana o tę samą zmianę rok wcześniej. Przedziały zakładają niezależne zliczenia")
+    r("    i wspólny trend, więc są orientacyjne.")
     r("    Start 3.11.2025: 28 dni przed = 6.10–2.11, po = 3.11–30.11 (rok wcześniej te same daty 2024).")
     r("    Start 9.02.2026: przed = 12.01–8.02, po = 9.02–8.03 (rok wcześniej te same daty 2025). Rok wcześniej")
     r("    w lutym–marcu 2025 nie było nowych kampanii; 28 dni przed 9.02.2026 kampania Meta na L4 już działała.")
+
+    r("\nD2b. Fikcyjne daty startu (kontrola szumu): ten sam iloraz L4 wobec nie L4 w pozostałych kanałach, 28 dni po")
+    r("    i 28 dni przed datą, bez korekty o rok wcześniej, dla każdego poniedziałku okresu 1 (bez nowych kampanii).")
+    r("    Pokazuje, jak często taki iloraz wychodzi tak niski bez żadnej kampanii (sezon i przypadek razem).")
+
+    def iloraz_bez_roku(start):
+        def licz(maska, od, do):
+            return int((maska & (pe.d >= od) & (pe.d < do)).sum())
+        mL4, mN = (~pe.nowa_Z1K) & pe.L4, (~pe.nowa_Z1K) & (~pe.L4)
+        p0, p1 = start - pd.Timedelta(days=28), start + pd.Timedelta(days=28)
+        return (licz(mL4, start, p1) / licz(mL4, p0, start)) / (licz(mN, start, p1) / licz(mN, p0, start))
+    fikcyjne = [iloraz_bez_roku(d) for d in pd.date_range("2024-11-04", "2025-09-01", freq="W-MON")]
+    for start in (pd.Timestamp("2025-11-03"), pd.Timestamp("2026-02-09")):
+        v = iloraz_bez_roku(start)
+        r(f"    {start.date()}: iloraz {v:.2f}; w okresie 1 niższy albo równy wyszedł w {sum(f <= v for f in fikcyjne)} z "
+          f"{len(fikcyjne)} poniedziałków (rozpiętość {min(fikcyjne):.2f}–{max(fikcyjne):.2f}).")
 
     r("\nD3. Pacjenci nowych kampanii, którzy przed pierwszym wejściem z kampanii mieli wejście z innego kanału")
     d3 = con.sql("""
@@ -297,85 +336,106 @@ def main():
     for m in mies.index[mies.index >= pd.Period("2025-10", "M")]:
         p = m - 12
         ocz = mies.at[m, "bez nowych, nie L4"] * mies.at[p, "L4 bez nowych"] / mies.at[p, "bez nowych, nie L4"]
-        wiersze.append({"miesiac": str(m), "L4_faktyczni": mies.at[m, "L4 bez nowych"], "L4_oczekiwani": round(ocz),
-                        "brakujacy": round(ocz - mies.at[m, "L4 bez nowych"]), "nowe_kampanie": mies.at[m, "nowe kampanie L4"]})
+        wiersze.append({"miesiac": str(m), "L4_faktyczni": mies.at[m, "L4 bez nowych"], "L4_oczekiwani": round(ocz, 1),
+                        "brakujacy": round(ocz - mies.at[m, "L4 bez nowych"], 1), "nowe_kampanie": mies.at[m, "nowe kampanie L4"]})
     d4 = pd.DataFrame(wiersze)
     pokaz(d4)
     po = d4[d4.miesiac >= "2025-11"]
-    r(f"    Razem XI 2025 – IX 2026: brakujących {po.brakujacy.sum()} pacjentów L4 wobec {po.nowe_kampanie.sum()} pacjentów "
+    r(f"    Razem XI 2025 – IX 2026: brakujących {po.brakujacy.sum():.0f} pacjentów L4 wobec {po.nowe_kampanie.sum()} pacjentów "
       f"nowych kampanii ({100 * po.brakujacy.sum() / po.nowe_kampanie.sum():.1f}%). W październiku 2025 (bez kampanii) "
-      f"wynik to {d4.brakujacy.iloc[0]} (ujemny = więcej L4, niż zakłada wzór).")
+      f"wynik to {d4.brakujacy.iloc[0]:.0f} (ujemny = więcej L4, niż zakłada wzór). To nie jest oszacowanie udziału")
+    r("    pacjentów niedodatkowych: obejmuje tylko pacjentów L4 przejętych z pozostałych kanałów, a nie tych, którzy bez")
+    r("    kampanii przyszliby sami w inny sposób (recenzja Codeksa).")
 
     # ---------- E. naprawić albo wyłączyć ----------
     naglowek("E. NAPRAWIĆ ALBO WYŁĄCZYĆ — RACHUNEK W MARŻY NA ROK (okres 2: X 2025 – IX 2026)")
-    r("   Podstawa roczna: wydatki i nowi pacjenci z całego okresu 2, marża na pacjenta w 90 dniach z kohort z pełnym")
-    r("   oknem (1.10.2025–2.07.2026), obok marża w 180 dniach (kohorty do 3.04.2026; TikTok ma w niej tylko 299 pacjentów).")
+    r("   Prognoza marży rocznika pozyskanych pacjentów: nowi pacjenci i wydatki z całego okresu 2 × marża na pacjenta")
+    r("   w 90 dniach z kohort z pełnym oknem (1.10.2025–2.07.2026); obok marża w 180 dniach (kohorty do 3.04.2026; TikTok")
+    r("   ma w niej tylko 299 pacjentów, więc inne kohorty niż w 90 dniach). Obejmuje też marżę po 30.09.2026 pacjentów")
+    r("   pozyskanych pod koniec okresu. Wiersz „obie” = suma kampanii liczonych osobno (recenzja Codeksa).")
     rok = pe[pe.okres == 2]
     w180 = pe[(pe.okres == 2) & (pe.d0 >= E.granice(180)[2][0]) & (pe.d0 <= E.granice(180)[2][1])]
     wyd_rok = wyd[wyd.d >= pd.Timestamp("2025-10-01")].groupby("kampania").wydatki.sum()
-    kampanie = {"meta_prosp_l4_szybko": ["meta_prosp_l4_szybko"], "tt_prosp_l4_15min": ["tt_prosp_l4_15min"], "obie": list(NOWE)}
     podst = []
-    for nazwa, lista in kampanie.items():
+    for kamp in NOWE:
         for reg, kol in (("Z1K", "kampania"), ("Z2", "kampania_z2")):
-            n = int(rok[kol].isin(lista).sum())
-            m90 = w90[w90[kol].isin(lista)].marza_90.mean()
-            m180 = w180[w180[kol].isin(lista)].marza_180.mean()
-            wy = float(wyd_rok.reindex(lista).sum())
-            podst.append({"kampania": nazwa, "regula": reg, "nowi_rok": n, "wydatki_rok": round(wy), "koszt_pozysk": round(wy / n, 1),
-                          "marza90": round(m90, 1), "marza180": round(m180, 1), "wynik90_na_pac": round(m90 - wy / n, 1),
-                          "wynik90_rok": round(n * m90 - wy), "wynik180_rok": round(n * m180 - wy)})
+            n = int((rok[kol] == kamp).sum())
+            m90 = w90[w90[kol] == kamp].marza_90.mean()
+            m180 = w180[w180[kol] == kamp].marza_180.mean()
+            wy = float(wyd_rok.get(kamp, 0.0))
+            podst.append({"kampania": kamp, "regula": reg, "nowi_rok": n, "wydatki_rok": wy, "marza90": m90, "marza180": m180,
+                          "marza90_rok": n * m90, "marza180_rok": n * m180})
     P = pd.DataFrame(podst)
-    r("\nE0. Podstawa")
-    pokaz(P)
+    suma = P.groupby("regula")[["nowi_rok", "wydatki_rok", "marza90_rok", "marza180_rok"]].sum().reset_index().assign(kampania="obie")
+    suma["marza90"], suma["marza180"] = suma.marza90_rok / suma.nowi_rok, suma.marza180_rok / suma.nowi_rok
+    P = pd.concat([P, suma], ignore_index=True)
+    P["koszt_pozysk"] = P.wydatki_rok / P.nowi_rok
+    P["wynik90_rok"] = P.marza90_rok - P.wydatki_rok
+    P["wynik180_rok"] = P.marza180_rok - P.wydatki_rok
+    r("\nE0. Podstawa (kwoty w zł; marza90 i marza180 na pacjenta)")
+    pokaz(P[["kampania", "regula", "nowi_rok", "wydatki_rok", "koszt_pozysk", "marza90", "marza180", "wynik90_rok",
+             "wynik180_rok"]].round({"wydatki_rok": 0, "koszt_pozysk": 1, "marza90": 1, "marza180": 1, "wynik90_rok": 0,
+                                     "wynik180_rok": 0}))
 
-    r("\nE1. WYŁĄCZYĆ (ograniczenie budżetu do zera). Zysk = oszczędzone wydatki − utracona marża pacjentów, którzy bez")
+    r("\nE1. WYŁĄCZYĆ (ograniczenie budżetu do zera). Zmiana marży = oszczędzone wydatki − marża pacjentów, którzy bez")
     r("    kampanii by nie przyszli. Dodatkowość nieznana (sekcja D), więc trzy warianty: 100%, 50% i 0% pacjentów dodatkowych.")
-    r("    Scenariusz poranka (sekcja C) to możliwy dodatkowy zysk z wyłączenia, tylko jeśli hipoteza Kuby jest prawdziwa.")
+    r("    Założenia (recenzja Codeksa): pacjenci dodatkowi mają średnią marżę wszystkich pacjentów przypisanych kampanii;")
+    r("    pacjenci, którzy przyszliby bez kampanii, zachowują się tak samo jak dziś; koszty pozostałych kanałów się nie")
+    r("    zmieniają. TelemediGO i koszt lekarza są już w marży. Marży po 90 (180) dniach rachunek nie obejmuje.")
     wiersze = []
     for _, p in P.iterrows():
         for f in (1.0, 0.5, 0.0):
             wiersze.append({"kampania": p.kampania, "regula": p.regula, "dodatkowi_proc": int(100 * f),
-                            "oszczednosc_wydatkow": p.wydatki_rok, "utracona_marza90": round(f * p.nowi_rok * p.marza90),
-                            "zmiana_marzy90": round(p.wydatki_rok - f * p.nowi_rok * p.marza90),
-                            "zmiana_marzy180": round(p.wydatki_rok - f * p.nowi_rok * p.marza180)})
+                            "oszczednosc_wydatkow": round(p.wydatki_rok), "utracona_marza90": round(f * p.marza90_rok),
+                            "zmiana_marzy90": round(p.wydatki_rok - f * p.marza90_rok),
+                            "zmiana_marzy180": round(p.wydatki_rok - f * p.marza180_rok)})
     pokaz(pd.DataFrame(wiersze))
     sc = C.set_index(["scenariusz", "regula"]).marza_180_zl
-    r(f"    Scenariusz poranka przy wyłączeniu obu kampanii: od {zl(sc.min())} do {zl(sc.max())} zł marży w 180 dniach rocznie")
-    r("    (tylko zmiana rozkładu opóźnień albo cały spadek w starych kampaniach, obie reguły; sekcja C).")
-    r("    Uwaga: część retencji pokazała, że wyłączenie kampanii nie musi podnieść powrotu, bo nie wiemy, gdzie ci pacjenci")
-    r("    kupiliby bez kampanii (recenzja Codeksa w kroku 3).")
+    r(f"    Scenariusz poranka przy wyłączeniu obu kampanii: od 0 do {zl(sc.max())} zł marży w 180 dniach rocznie (sekcja C:")
+    r(f"    brak efektu, wąski wariant {zl(sc[sc > 0].min())}–{zl(C[C.scenariusz.str.startswith('wąski')].marza_180_zl.max())} zł,"
+      f" szeroki do {zl(sc.max())} zł). Część retencji pokazała, że wyłączenie kampanii nie musi podnieść powrotu,")
+    r("    bo nie wiemy, gdzie ci pacjenci kupiliby bez kampanii (recenzja Codeksa w kroku 3).")
 
-    r("\nE2. NAPRAWIĆ. Każda droga osobno, kwoty roczne dla obu nowych kampanii (okres 2), przyjęta reguła i sesja płatności.")
+    r("\nE2. NAPRAWIĆ. Każda droga osobno, kwoty roczne (okres 2), przyjęta reguła i sesja płatności.")
     # E2a: zwroty L4
     r("\n  E2a. Obietnica reklamy i strona wejścia: odsetek zwrotów po wizytach L4 spada do poziomu L4 pozostałych pacjentów.")
-    r("       Wariant A: wizyty, które dziś kończą się zwrotem, zostają opłacone (pacjent dostaje to, co obiecano), zysk = zwrot.")
-    r("       Wariant B: uczciwa obietnica odstrasza pacjentów, którzy nie dostaliby L4, i nie kupują; zysk = 25 zł kosztu")
-    r("       lekarza za wizytę, a przy tych samych wydatkach jest tyle samo mniej zamówień (koszt pozyskania rośnie).")
+    r("       Wariant A: wizyty, które dziś kończą się zwrotem, zostają opłacone (pacjent dostaje to, co obiecano); liczba")
+    r("       wizyt bez zmian, zwrotów mniej o x_A = zwroty − wizyty × docelowy odsetek; zysk = x_A × średni zwrot L4.")
+    r("       Wariant B: uczciwa obietnica odstrasza pacjentów, którzy nie dostaliby L4, i nie kupują; znika x_B wizyt, które")
+    r("       dziś kończą się zwrotem, tak że (zwroty − x_B) / (wizyty − x_B) = docelowy odsetek. Zysk = x_B × średni koszt")
+    r("       lekarza zwróconej wizyty L4 − x_B × dalsza marża tych pacjentów (TelemediGO przy kasie i dni 1–90 u pacjentów")
+    r("       nowych kampanii z pierwszym L4 zwróconym po wizycie). Przy tych samych wydatkach jest x_B zamówień mniej.")
     wiersze = []
     for reg in ("Z1K", "Z2"):
         b_old = B1[(B1.regula == reg) & (B1.pacjenci == "pozostali")].iloc[0]
+        cel = b_old.L4_zwrocone / b_old.wizyty_L4_odbyte
+        g = w90[w90[f"nowa_{reg}"] & (w90.cel1 == "l4") & (w90.status1 == "refunded")]
+        dalsza = (g.marza_90 - (g.zaplata1 - g.zwrot1 - g.lek1)).mean()
         for kamp in ("meta_prosp_l4_szybko", "tt_prosp_l4_15min", "nowe kampanie"):
             b = B1[(B1.regula == reg) & (B1.pacjenci == kamp)].iloc[0]
-            unik = b.wizyty_L4_odbyte * max(b.L4_zwrot_proc - b_old.L4_zwrot_proc, 0) / 100
-            wiersze.append({"kampania": kamp, "regula": reg, "wizyty_L4": b.wizyty_L4_odbyte, "L4_zwrot_proc": b.L4_zwrot_proc,
-                            "pozostali_proc": b_old.L4_zwrot_proc, "zwrotow_mniej": round(unik),
-                            "wariant_A_zl": round(unik * b.sredni_zwrot_L4_zl), "wariant_B_zl": round(unik * 25)})
+            x_a = max(b.L4_zwrocone - b.wizyty_L4_odbyte * cel, 0)
+            x_b = max((b.L4_zwrocone - cel * b.wizyty_L4_odbyte) / (1 - cel), 0)
+            sredni_zwrot = b.zwrocone_L4_zl / b.L4_zwrocone
+            wiersze.append({"kampania": kamp, "regula": reg, "wizyty_L4": b.wizyty_L4_odbyte, "zwroty_L4": b.L4_zwrocone,
+                            "docelowy_proc": round(100 * cel, 2), "x_A": round(x_a, 1), "wariant_A_zl": round(x_a * sredni_zwrot),
+                            "x_B": round(x_b, 1), "lekarz_na_wizyte": b.sredni_lekarz_L4_zwrot_zl, "dalsza_marza": round(dalsza, 2),
+                            "wariant_B_zl": round(x_b * (b.sredni_lekarz_L4_zwrot_zl - dalsza))})
     E2a = pd.DataFrame(wiersze)
     pokaz(E2a, "       ")
     for reg in ("Z1K", "Z2"):
         g = w90[w90[f"nowa_{reg}"] & (w90.cel1 == "l4")]
         pr_ok, pr_ref = g[g.status1 == "completed"].powrot90.mean(), g[g.status1 == "refunded"].powrot90.mean()
-        unik = E2a[(E2a.regula == reg) & (E2a.kampania == "nowe kampanie")].zwrotow_mniej.iloc[0]
-        r(f"       Dopisek do wariantu A ({reg}, scenariusz): pacjenci nowych kampanii z pierwszym L4 wracają w 90 dniach w "
-          f"{100 * pr_ok:.1f}% po wizycie bez zwrotu i w {100 * pr_ref:.1f}% po zwrocie; różnica × {unik} × {WARTOSC} zł = "
-          f"{zl(unik * (pr_ok - pr_ref) * WARTOSC)} zł rocznie.")
+        x_a = E2a[(E2a.regula == reg) & (E2a.kampania == "nowe kampanie")].x_A.iloc[0]
+        r(f"       Dopisek do wariantu A ({reg}, scenariusz, horyzont 180 dni): pacjenci nowych kampanii z pierwszym L4 wracają"
+          f" w 90 dniach w {100 * pr_ok:.1f}% po wizycie bez zwrotu i w {100 * pr_ref:.1f}% po zwrocie; różnica × {x_a:.0f}"
+          f" × {WARTOSC} zł = {zl(x_a * (pr_ok - pr_ref) * WARTOSC)} zł rocznie.")
 
     # E2b: zgoda marketingowa
     r("\n  E2b. Zgoda marketingowa: udział zgód pacjentów nowych kampanii rośnie do poziomu pozostałych pacjentów.")
-    r("       Dwa odczytania wartości jednej dodatkowej zgody: (1) powrót przypisany do newslettera i SMS-a u pacjentów ze")
-    r("       zgodą (pacjenci bez zgody nie mają takich powrotów wcale); (2) cała różnica powrotu w 90 dniach między pacjentami")
-    r("       ze zgodą i bez niej. Jeśli (2) jest mniejsze od (1), pacjenci ze zgodą wracają przez newsletter i SMS, ale bez")
-    r("       zgody wracają prawie tak samo często inną drogą.")
+    r("       Dwa odczytania wartości dodatkowych zgód, oba w horyzoncie 180 dni (wartość powrotu 95,6 zł), pokazywane osobno:")
+    r("       (1) powrót przypisany do newslettera i SMS-a u pacjentów ze zgodą (wariant optymistyczny: zakłada, że bez")
+    r("       wiadomości ci pacjenci by nie wrócili); (2) cała różnica powrotu w 90 dniach między pacjentami ze zgodą i bez")
+    r("       niej. Jeśli (2) jest dużo mniejsze od (1), pacjenci bez zgody wracają prawie tak samo często inną drogą.")
     wiersze = []
     for reg in ("Z1K", "Z2"):
         kol = "kampania" if reg == "Z1K" else "kampania_z2"
@@ -411,33 +471,31 @@ def main():
                konwersja_przed_awaria_proc
       FROM s LEFT JOIN zam z ON z.session_id = s.session_id AND z.nr = 1 GROUP BY 1, 2 ORDER BY 1, 2""").df()
     pokaz(konw, "       ")
-    E2c = {}
     for kamp in NOWE:
         k = konw[konw.kampania == kamp].set_index("typ")
         luka = (k.at["zwykla", "konwersja_proc"] - k.at["wbudowana", "konwersja_proc"]) / 100
-        E2c[kamp] = 0.0
         if luka > 0:
             dod = k.at["wbudowana", "sesje"] * luka * 0.5
             m90 = P[(P.kampania == kamp) & (P.regula == "Z1K")].marza90.iloc[0]
-            E2c[kamp] = dod * m90
             r(f"       {kamp}: połowa luki domknięta → {dod:.0f} pierwszych zamówień więcej, {zl(dod * m90)} zł marży w 90 dniach.")
         else:
-            r(f"       {kamp}: przeglądarki wbudowane konwertują nie gorzej niż zwykłe w tej samej kampanii "
-              f"({k.at['wbudowana', 'konwersja_proc']}% wobec {k.at['zwykla', 'konwersja_proc']}%), więc ta droga nie poprawia")
-            r("         wyniku tej kampanii w tym rachunku. Niska konwersja to cecha ruchu z kampanii, nie samej przeglądarki.")
-    E2c["nowe kampanie"] = sum(E2c.values())
+            r(f"       {kamp}: surowa konwersja w tej samej sesji nie jest niższa w przeglądarkach wbudowanych "
+              f"({k.at['wbudowana', 'konwersja_proc']}% wobec {k.at['zwykla', 'konwersja_proc']}%), więc w tym rachunku ta droga")
+            r("         nie ma wartości. To porównanie nie rozdziela wpływu urządzenia, daty, samego pacjenta ani zakupu w innej")
+            r("         sesji (recenzja Codeksa), więc nie przesądza, że przeglądarka nie ma znaczenia.")
 
     # E2d: poranek
-    r("\n  E2d. Przepustowość poranka (obsada internistów 6:00–11:59): wartość jak w sekcji C, od "
-      f"{zl(sc.min())} do {zl(sc.max())} zł rocznie, tylko jeśli opóźnienia obniżają powroty. Kosztu dodatkowej obsady")
-    r("       nie ma w danych (koszt lekarza w zadaniu to stawka za wizytę, nie za dyżur), więc tej drogi nie da się")
+    r("\n  E2d. Przepustowość poranka (obsada internistów 6:00–11:59): wartość jak w sekcji C, od 0 do "
+      f"{zl(sc.max())} zł rocznie w horyzoncie 180 dni, tylko jeśli opóźnienia obniżają powroty. Kosztu dodatkowej")
+    r("       obsady nie ma w danych (koszt lekarza w zadaniu to stawka za wizytę, nie za dyżur), więc tej drogi nie da się")
     r("       wycenić netto.")
 
     # E3: zestawienie
-    naglowek("E3. ZESTAWIENIE NA ROK: OBECNY WYNIK, NAPRAWIĆ, WYŁĄCZYĆ (zmiana marży w 90 dniach od pozyskania, zł)")
-    r("   obecny_wynik = nowi × marża w 90 dniach − wydatki. Naprawić: A albo B ze zwrotów L4 (E2a), plus większa z dwóch")
-    r("   wartości zgody (E2b), plus przeglądarki (E2c). Wyłączyć: zmiana marży = wydatki − dodatkowi × marża (E1); przy 100%")
-    r("   dodatkowych to dokładnie −obecny_wynik. Scenariusz poranka osobno (sekcja C), bo zależy od niepotwierdzonej hipotezy.")
+    naglowek("E3. ZESTAWIENIE NA ROK: OBECNY WYNIK, NAPRAWIĆ, WYŁĄCZYĆ (zł)")
+    r("   Kolumny w horyzoncie 90 dni od pozyskania: obecny_wynik (= marża rocznika w 90 dniach − wydatki), napraw_zwroty_A")
+    r("   i _B (E2a), po_naprawie_A i _B, wylacz_* (zmiana marży przy 100%, 50% i 0% pacjentów dodatkowych; przy 100% to")
+    r("   −obecny_wynik). Osobno, w horyzoncie 180 dni i nie dodawane do sum: zgoda_1 i zgoda_2 (E2b, dwa odczytania).")
+    r("   Scenariusz poranka w sekcji C. Przeglądarki wbudowane: 0 zł w tym rachunku (E2c).")
     wiersze = []
     for kamp in ("meta_prosp_l4_szybko", "tt_prosp_l4_15min", "nowe kampanie"):
         kp = "obie" if kamp == "nowe kampanie" else kamp
@@ -445,19 +503,17 @@ def main():
             p = P[(P.kampania == kp) & (P.regula == reg)].iloc[0]
             a = E2a[(E2a.kampania == kamp) & (E2a.regula == reg)].iloc[0]
             b = E2b[(E2b.kampania == kamp) & (E2b.regula == reg)].iloc[0]
-            zg = max(b.wartosc_1_zl, b.wartosc_2_zl, 0)
-            pr = round(E2c[kamp]) if reg == "Z1K" else 0
-            wiersze.append({"kampania": kamp, "regula": reg, "obecny_wynik": p.wynik90_rok,
-                            "napraw_zwroty_A": a.wariant_A_zl, "napraw_zwroty_B": a.wariant_B_zl, "napraw_zgoda": zg,
-                            "napraw_przegladarki": pr,
-                            "po_naprawie_A": p.wynik90_rok + a.wariant_A_zl + zg + pr,
-                            "po_naprawie_B": p.wynik90_rok + a.wariant_B_zl + zg + pr,
-                            "wylacz_100proc_dodatkowi": round(p.wydatki_rok - p.nowi_rok * p.marza90),
-                            "wylacz_50proc": round(p.wydatki_rok - 0.5 * p.nowi_rok * p.marza90),
-                            "wylacz_0proc": p.wydatki_rok})
+            wiersze.append({"kampania": kamp, "regula": reg, "obecny_wynik": round(p.wynik90_rok),
+                            "napraw_zwroty_A": a.wariant_A_zl, "napraw_zwroty_B": a.wariant_B_zl,
+                            "po_naprawie_A": round(p.wynik90_rok + a.wariant_A_zl),
+                            "po_naprawie_B": round(p.wynik90_rok + a.wariant_B_zl),
+                            "wylacz_100proc": round(p.wydatki_rok - p.marza90_rok),
+                            "wylacz_50proc": round(p.wydatki_rok - 0.5 * p.marza90_rok),
+                            "wylacz_0proc": round(p.wydatki_rok),
+                            "zgoda_1_180dni": b.wartosc_1_zl, "zgoda_2_180dni": b.wartosc_2_zl})
     pokaz(pd.DataFrame(wiersze))
-    r("   Kolumny napraw_* i wylacz_* to zmiana marży wobec dziś. po_naprawie = wynik kampanii po naprawie. Przy wyłączeniu")
-    r("   tracimy też ewentualne przyszłe naprawy. Oba warianty zakładają, że reszta biznesu się nie zmienia.")
+    r("   napraw_* i wylacz_* to zmiana marży wobec dziś; po_naprawie = wynik kampanii po naprawie. Obie drogi zakładają, że")
+    r("   reszta biznesu się nie zmienia. Wariant B zmniejsza liczbę zamówień przy tych samych wydatkach.")
 
     with open(WYNIK, "w", encoding="utf-8") as f:
         f.write("\n".join(linie) + "\n")

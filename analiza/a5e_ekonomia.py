@@ -19,8 +19,9 @@ Założenia tej sesji (propozycje do ZALOZENIA.md, notatki/a5_ekonomia.md):
     pierwsze wejście (75,1%) albo w ciągu 7 dni (24,6%), więc przesunięcie na brzegach okna jest małe;
   - koszt pozyskania = (wydatki + prowizja) / nowi pacjenci kampanii; kanały bez wydatków mają koszt 0 zł
     (program poleceń nie ma kosztu w danych — README);
-  - wynik na pacjenta = marża na pacjenta w N dniach − koszt pozyskania; przedział 95% tylko z rozrzutu marży
-    (błąd standardowy średniej), koszt pozyskania traktujemy jako stały.
+  - wynik na pacjenta = marża na pacjenta w N dniach − koszt pozyskania; przedział 95% jest warunkowy: tylko z rozrzutu
+    marży (błąd standardowy średniej), przy stałym koszcie pozyskania i wybranej regule źródła. Nie obejmuje
+    niepewności liczby pacjentów, atrybucji ani dodatkowości (recenzja Codeksa).
 
 Tylko czyta schemat `czyste`. Uruchomienie z głównego folderu projektu:
     python -I analiza/a5e_ekonomia.py
@@ -157,7 +158,8 @@ def main():
     r("Marża na pacjenta = przychód z konsultacji po zwrotach + TelemediGO − koszt lekarza, dni 0..N, przed kosztem")
     r("pozyskania (punkt 34). Koszt pozyskania = (wydatki + prowizja 25 zł za pacjenta rankingu) / nowi pacjenci z tych")
     r("samych dni. Wynik na pacjenta = marża − koszt pozyskania. Okno 90 dni: kohorty 1.10–2.07 w obu okresach,")
-    r("okno 180 dni: 1.10–3.04 (te same dni kalendarzowe, punkt 27). Przedział 95% wyniku tylko z rozrzutu marży.")
+    r("okno 180 dni: 1.10–3.04 (te same dni kalendarzowe, punkt 27). Przedział 95% wyniku (wynik_od, wynik_do) jest")
+    r("warunkowy: tylko z rozrzutu marży, przy stałym koszcie pozyskania i wybranej regule źródła.")
 
     # ---------- 0. kontrola ----------
     r("\n" + "=" * 110)
@@ -168,6 +170,15 @@ def main():
         t = [pe[(pe.okres == o) & (pe.d0 >= gr[o][0]) & (pe.d0 <= gr[o][1])] for o in (1, 2)]
         r(f"   okno {okno}: pacjenci {len(t[0])} / {len(t[1])}, marża na pacjenta {t[0][f'marza_{okno}'].mean():.1f} / "
           f"{t[1][f'marza_{okno}'].mean():.1f} zł   (oczekiwane: {oczek})")
+    pierwsze = con.sql("""SELECT user_id, min(started_at_pl)::DATE d1 FROM sp GROUP BY 1""").df()
+    pierwsze["d1"] = pd.to_datetime(pierwsze["d1"])
+    x = pe.merge(pierwsze, on="user_id")
+    od, do = granice(90)[2]
+    w_ok = wyd[(wyd.d >= od) & (wyd.d <= do) & wyd.kampania.isin(NOWE)].wydatki.sum()
+    n_pl = int((x.kampania.isin(NOWE) & (x.d0 >= od) & (x.d0 <= do)).sum())
+    n_we = int((x.kampania.isin(NOWE) & (x.d1 >= od) & (x.d1 <= do)).sum())
+    r(f"   brzeg okna (recenzja Codeksa): nowe kampanie na L4, Z1K, okno 1.10.2025–2.07.2026 według dnia płatności {n_pl} "
+      f"pacjentów (koszt pozyskania {w_ok / n_pl:.2f} zł), według dnia pierwszego wejścia {n_we} ({w_ok / n_we:.2f} zł).")
     r(f"   wydatki razem: {zl(wyd.wydatki.sum())} zł (okres 1: {zl(wyd[wyd.d < '2025-10-01'].wydatki.sum())} zł, "
       f"okres 2: {zl(wyd[wyd.d >= '2025-10-01'].wydatki.sum())} zł)")
 
@@ -236,10 +247,11 @@ def main():
 
     # ---------- 3. zmiana znaku ----------
     r("\n" + "=" * 110)
-    r("3. NIEPEWNE: KAMPANIE, KTÓRYCH WYNIK NA PACJENTA ZMIENIA ZNAK ZALEŻNIE OD REGUŁY ŹRÓDŁA")
+    r("3. NIEPEWNE: KAMPANIE, KTÓRYCH WYNIK NA PACJENTA ZALEŻY OD REGUŁY ATRYBUCJI (ZMIENIA ZNAK)")
     r("=" * 110)
     r("   Tylko kampanie płatne i afiliacja (kanały bezpłatne mają koszt 0 zł, więc ich wynik = marża). Dodatkowo:")
-    r("   czy przedział 95% wyniku obejmuje zero w którejkolwiek regule.")
+    r("   czy przedział 95% wyniku obejmuje zero w którejkolwiek regule. Wynik dodatni w obu regułach też nie dowodzi, że")
+    r("   dodatkowy budżet się opłaci: to średnia wszystkich przypisanych pacjentów, a nie pacjentów z ostatniej złotówki.")
     pl = k[(k.okno_dni.isin(OKNA_W)) & (k.wydatki_zl.fillna(0) + k.prowizja_zl.fillna(0) > 0)]
     s = pl.pivot_table(index=["kampania", "okno_dni", "okres"], columns="regula",
                        values=["nowi", "wynik_na_pac", "wynik_od", "wynik_do"], aggfunc="first")
