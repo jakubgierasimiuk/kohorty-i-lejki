@@ -44,8 +44,10 @@ pd.set_option("display.max_columns", 60)
 pd.set_option("display.max_rows", 300)
 
 
-def podzialy(dni, y, prog=None):
-    """Podział binarny serii jednostkowej (dzień, wartość). Zwraca listę (dzień_podziału, z)."""
+def podzialy(dni, y, prog=None, tylko_pierwszy=False):
+    """Podział binarny serii jednostkowej (dzień, wartość). Zwraca listę (dzień_podziału, z) i serię dzienną.
+    Najwyżej MAX_PODZ przyjętych podziałów łącznie (wspólny licznik). tylko_pierwszy = jedno przeszukanie całej serii,
+    bez rekurencji (najsilniejszy kandydat). z porównuje lewą część z całą prawą częścią przeszukiwanego odcinka."""
     prog = PROG_Z if prog is None else prog
     d = pd.DataFrame({"d": dni, "y": y}).dropna()
     g = d.groupby("d").y.agg(["count", "sum"]).join(d.assign(y2=d.y ** 2).groupby("d").y2.sum())
@@ -53,7 +55,7 @@ def podzialy(dni, y, prog=None):
     wyniki = []
 
     def szukaj(lo, hi, glebia):
-        if glebia >= MAX_PODZ or hi - lo < 2 * MIN_DNI:
+        if len(wyniki) >= MAX_PODZ or hi - lo < 2 * MIN_DNI:
             return
         c = g.iloc[lo:hi]
         n, s, s2 = c["count"].cumsum().values, c["sum"].cumsum().values, c["y2"].cumsum().values
@@ -72,6 +74,8 @@ def podzialy(dni, y, prog=None):
         if najl is None or abs(kz) < prog:
             return
         wyniki.append((c.index[najl + 1], kz))
+        if tylko_pierwszy:
+            return
         szukaj(lo, lo + najl + 1, glebia + 1)
         szukaj(lo + najl + 1, hi, glebia + 1)
 
@@ -90,16 +94,16 @@ def opis(nazwa, dni, y, skala=100):
                         "n": int(c["count"].sum()), "poziom": round(skala * c["sum"].sum() / c["count"].sum(), 2)})
     t = pd.DataFrame(wiersze)
     t["zmiana"] = t.poziom.diff().round(2)
-    zs = {p.date(): round(z, 1) for p, z in pk}
-    t["z"] = t.od.map(zs)
+    zs = {p.date(): round(z, 3) for p, z in pk}
+    t["z_przy_wyszukaniu"] = t.od.map(zs)
     t["zbieg_z_data"] = t.od.map(lambda d: "; ".join(f"{v} ({k})" for k, v in DATY_ALL.items()
                                                     if abs((pd.Timestamp(d) - pd.Timestamp(k)).days) <= 7))
     if not pk:   # bez podziału: najlepszy kandydat poniżej progu, do informacji
-        kand, _ = podzialy(dni, y, prog=0.0)
+        kand, _ = podzialy(dni, y, prog=0.0, tylko_pierwszy=True)
         if kand:
-            dzien, z = max(kand, key=lambda k: abs(k[1]))
+            dzien, z = kand[0]
             l, p_ = g[g.index < dzien], g[g.index >= dzien]
-            t.attrs["kandydat"] = (f"brak podziału z |z| >= {PROG_Z}; najsilniejszy kandydat {dzien.date()} (z = {z:.1f}): "
+            t.attrs["kandydat"] = (f"brak podziału z |z| >= {PROG_Z}; najsilniejszy kandydat {dzien.date()} (z = {z:.3f}): "
                                    f"{skala * l['sum'].sum() / l['count'].sum():.2f} przed, {skala * p_['sum'].sum() / p_['count'].sum():.2f} po")
     return t
 
@@ -122,6 +126,9 @@ def main():
     r(f"A5 RETENCJA — ZDARZENIA W SERIACH ({dt.datetime.now():%Y-%m-%d %H:%M})")
     r(f"Podział binarny na danych jednostkowych: |z| >= {PROG_Z}, odcinki co najmniej {MIN_DNI} dni, najwyżej {MAX_PODZ} podziały.")
     r("Poziom w procentach (powroty, udziały) albo w zł (marża). zbieg_z_data = znana data w odległości do 7 dni.")
+    r("Daty to kandydaci zmian, nie potwierdzone zdarzenia: próg 4 jest umowny, metoda przeszukuje wiele dat i serii i nie")
+    r("uwzględnia sezonu ani zależności między wizytami (recenzja Codeksa). z_przy_wyszukaniu porównuje odcinek przed datą")
+    r("z całą dalszą częścią przeszukiwanego fragmentu, a kolumna zmiana — sąsiednie odcinki końcowe.")
     r("Znane daty: " + "; ".join(f"{k} {v}" for k, v in DATY_ALL.items()))
 
     atr = con.sql("""
@@ -186,7 +193,7 @@ def main():
                      "od": round(100 * (p2 - p1 - 1.96 * se), 1), "do": round(100 * (p2 - p1 + 1.96 * se), 1),
                      "pierwsza_ponad15_o2": round(100 * (x2.op > 15).mean(), 1),
                      "pierwsza_ponad15_o1": round(100 * (x1.op > 15).mean(), 1),
-                     "rano_int_ponad15_wszystkie": round(100 * (w.op > 15).mean(), 1),
+                     "rano_int_ponad15_spoza_nowych": round(100 * (w.op > 15).mean(), 1),
                      "nowi_meta_l4": int((nm.kampania == "meta_prosp_l4_szybko").sum()),
                      "nowi_tiktok": int((nm.kampania == "tt_prosp_l4_15min").sum()),
                      "daty": "; ".join(v for k, v in DATY_ALL.items() if pd.Timestamp(k).to_period("M") == m2)})
@@ -201,6 +208,17 @@ def main():
         se = np.sqrt(p1 * (1 - p1) / len(x1) + p2 * (1 - p2) / len(x2))
         r(f"     {etyk}: {100 * p1:.1f}% (n = {len(x1)}) wobec {100 * p2:.1f}% (n = {len(x2)}), zmiana "
           f"{100 * (p2 - p1):+.1f} punktu (od {100 * (p2 - p1 - 1.96 * se):+.1f} do {100 * (p2 - p1 + 1.96 * se):+.1f})")
+
+    zm = {}
+    for etyk, mies in (("luty", [2]), ("marzec–maj", [3, 4, 5])):
+        x1, x2 = st[(st.okres == 1) & st.mm.isin(mies)], st[(st.okres == 2) & st.mm.isin(mies)]
+        p1, p2 = x1.y.mean(), x2.y.mean()
+        zm[etyk] = (p2 - p1, p1 * (1 - p1) / len(x1) + p2 * (1 - p2) / len(x2))
+    d = zm["luty"][0] - zm["marzec–maj"][0]
+    se = np.sqrt(zm["luty"][1] + zm["marzec–maj"][1])
+    r(f"     luty wobec marca–maja (różnica zmian rok do roku): {100 * d:+.2f} punktu, błąd {100 * se:.2f}, z = {d / se:.2f},")
+    r(f"     przedział od {100 * (d - 1.96 * se):+.2f} do {100 * (d + 1.96 * se):+.2f}. Porównanie nominalne: miesiące wybrano po obejrzeniu")
+    r("     wyników i wykonano wiele porównań, więc wynik jest eksploracyjny (recenzja Codeksa).")
 
     # ============ 3. SAFARI NA iOS ============
     r("\n" + "=" * 120)
@@ -234,17 +252,21 @@ def main():
     r("     marży po 180 dniach. Bezpośrednio obserwowana zmiana: marża dni 1–90 na pacjenta starych kampanii 16,6 zł wobec")
     r("     15,6 zł (a5r_struktura.txt, 6b), czyli około 1,0 zł mniej na każdego nowego pacjenta w pierwszych 90 dniach.")
     n_stare_o2 = int(((atr.okres == 2) & ~atr.nowa).sum())
+    n_stare_o2_z2 = int(((atr.okres == 2) & ~atr.kampania_z2.isin(NOWE)).sum())
     n_nowe_o2 = int(((atr.okres == 2) & atr.nowa).sum())
-    r(f"     Nowi pacjenci okresu 2: kampanie obecne w obu okresach {n_stare_o2}, nowe kampanie {n_nowe_o2}.")
+    r(f"     Nowi pacjenci okresu 2 w kampaniach obecnych w obu okresach: {n_stare_o2} według przyjętej reguły źródła,")
+    r(f"     {n_stare_o2_z2} według sesji płatności; pacjenci nowych kampanii według przyjętej reguły: {n_nowe_o2}.")
+    r("     SCENARIUSZ, nie oszacowanie skutku: różnicę powrotu przenosimy na cały rocznik, a każdy powrót wyceniamy na")
+    r(f"     {wart:.2f} zł (różnica obserwacyjna między grupami).")
     rows = []
-    for etyk, dp in (("spadek powrotu w starych kampaniach, cały (Z1K)", 1.91),
-                     ("spadek powrotu w starych kampaniach, cały (sesja płatności)", 3.50),
-                     ("część przypisana opóźnieniu pierwszej wizyty (Z1K, kampania x usługa x opóźnienie)", 0.58),
-                     ("część przypisana opóźnieniu pierwszej wizyty (sesja płatności)", 1.28)):
-        rows.append({"skladnik": etyk, "punkty_proc": dp, "pacjenci_o2": n_stare_o2,
-                     "powrotow_mniej": round(dp / 100 * n_stare_o2), "marza_zl_rocznie": round(-dp / 100 * n_stare_o2 * wart)})
+    for etyk, dp, n in (("spadek powrotu w starych kampaniach, cały (Z1K)", 1.91, n_stare_o2),
+                        ("spadek powrotu w starych kampaniach, cały (sesja płatności)", 3.50, n_stare_o2_z2),
+                        ("zmiana rozkładu opóźnień przy stałych kampaniach i usługach (Z1K, a5r_punktualnosc 1g)", 0.76, n_stare_o2),
+                        ("zmiana rozkładu opóźnień przy stałych kampaniach i usługach (sesja płatności, 1g)", 0.64, n_stare_o2_z2)):
+        rows.append({"skladnik": etyk, "punkty_proc": dp, "pacjenci_o2": n,
+                     "powrotow_mniej": round(dp / 100 * n), "marza_zl_scenariusz": round(-dp / 100 * n * wart)})
     pokaz(pd.DataFrame(rows))
-    r("     Liczba punktów z a5r_struktura.txt (5) i a5r_punktualnosc.txt (1e). Marża = powrotów mniej × wartość powrotu.")
+    r("     Punkty z a5r_struktura.txt (sekcja 5) i a5r_punktualnosc.txt (sekcja 1g).")
     m = con.sql(f"""
       SELECT r.kampania IN {NOWE} nowa, count(*) wizyty_zwrocone, round(sum(z.amount_paid)) zwrocone_zl,
              round(sum(CASE z.specialization WHEN 'internista' THEN 25 WHEN 'psychiatra' THEN 200 ELSE 100 END)) koszt_lekarza_zl

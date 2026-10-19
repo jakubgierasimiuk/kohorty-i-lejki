@@ -6,8 +6,9 @@ rosną od startu kampanii Meta na L4 (3.11.2025), przy skokach jej ruchu (17.11,
 i od startu TikToka (9.02.2026). Hipoteza Kuby do sprawdzenia: nowe kampanie przeciążyły internistów w godzinach,
 w których przychodzą też pozostali pacjenci.
 
-Opóźnienie = faktyczny start wizyty − umówiony termin, w minutach (tylko wizyty, które się odbyły: completed,
-refunded). Pora = godzina umówionego terminu (czas polski). Obciążenie = liczba nieanulowanych wizyt u internisty
+Opóźnienie = faktyczny start wizyty − umówiony termin, w minutach z ułamkiem (różnica znaczników czasu co do sekundy;
+poprawka po recenzji Codeksa — wcześniej liczba przekroczonych granic minut), tylko wizyty, które się odbyły
+(completed, refunded). Pora = godzina umówionego terminu (czas polski). Obciążenie = liczba nieanulowanych wizyt u internisty
 umówionych na tę samą godzinę zegarową tego samego dnia. „Nowe kampanie” = pacjenci przypisani do
 meta_prosp_l4_szybko albo tt_prosp_l4_15min (reguła Z1K; obok Z2 tam, gdzie to zmienia podział).
 
@@ -25,7 +26,7 @@ import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import definicje as D  # noqa: E402
-from a5r_struktura import proba, rozklad, tabela_segmentow, zbuduj_atr  # noqa: E402
+from a5r_struktura import PELNE, proba, rozklad, tabela_segmentow, zbuduj_atr  # noqa: E402
 
 WYNIK = os.path.join(D.KATALOG, "analiza", "wyniki", "a5r_punktualnosc.txt")
 WYNIK_TYG = os.path.join(D.KATALOG, "analiza", "wyniki", "a5r_punktualnosc_tygodnie.csv")
@@ -37,10 +38,45 @@ pd.set_option("display.max_columns", 60)
 pd.set_option("display.max_rows", 300)
 
 KOSZYK = """CASE WHEN started_at IS NULL THEN 'brak_wizyty'
-                 WHEN op <= 5 THEN 'a_do_5_min' WHEN op <= 15 THEN 'b_6_15_min'
-                 WHEN op <= 30 THEN 'c_16_30_min' ELSE 'd_ponad_30_min' END"""
+                 WHEN op <= 5 THEN 'a_do_5_min' WHEN op <= 15 THEN 'b_5_15_min'
+                 WHEN op <= 30 THEN 'c_15_30_min' ELSE 'd_ponad_30_min' END"""   # do 5, ponad 5 do 15, ponad 15 do 30
 PORA = """CASE WHEN h BETWEEN 6 AND 11 THEN 'a_rano_6_11' WHEN h BETWEEN 12 AND 15 THEN 'b_poludnie_12_15'
                WHEN h BETWEEN 16 AND 23 THEN 'c_wieczor_16_23' ELSE 'd_noc_0_5' END"""
+
+
+def rozklad_zagniezdzony(a, komorka, podzial="koszyk", miara="y"):
+    """Zmiana powrotu (punkty procentowe) w komórkach wspólnych obu okresów = komórki + punktualność + zachowanie.
+    komórki: zmiana udziałów komórek; punktualność: zmiana rozkładu `podzial` wewnątrz komórki; zachowanie: zmiana stopy
+    w tym samym koszyku. Koszyk obecny tylko w jednym okresie danej komórki: brakującą stopę zastępuje stopa z drugiego
+    okresu (zmiana zachowania w nim = 0)."""
+    g = a.groupby(komorka + [podzial, "okres"])[miara].agg(["count", "mean"]).unstack("okres").reindex(columns=PELNE)
+    n1, n2 = g[("count", 1)].fillna(0), g[("count", 2)].fillna(0)
+    r1, r2 = g[("mean", 1)], g[("mean", 2)]
+    r1, r2 = r1.fillna(r2), r2.fillna(r1)
+    kl = g.index.droplevel(podzial)
+    c1, c2 = n1.groupby(kl).sum(), n2.groupby(kl).sum()
+    wsp = set(c1[(c1 > 0) & (c2 > 0)].index)
+    m = kl.isin(list(wsp))
+    n1, n2, r1, r2 = n1[m], n2[m], r1[m], r2[m]
+    kl = kl[m]
+    C1, C2 = n1.groupby(kl).sum(), n2.groupby(kl).sum()
+    S1, S2 = C1 / C1.sum(), C2 / C2.sum()
+    q1 = n1.values / C1.reindex(kl).values
+    q2 = n2.values / C2.reindex(kl).values
+    r1v, r2v = r1.values, r2.values
+    R1c = pd.Series(q1 * r1v, index=kl).groupby(level=list(range(kl.nlevels))).sum()
+    R2c = pd.Series(q2 * r2v, index=kl).groupby(level=list(range(kl.nlevels))).sum()
+    sr_s = ((S1 + S2) / 2).reindex(kl).values
+    pun = sr_s * (q2 - q1) * (r1v + r2v) / 2
+    zach = sr_s * (q1 + q2) / 2 * (r2v - r1v)
+    kom = ((S2 - S1) * (R1c + R2c) / 2).sum()
+    bw = np.asarray(n1.index.get_level_values(podzial) == "brak_wizyty")
+    calosc = (S2 * R2c).sum() - (S1 * R1c).sum()
+    return {"komorka": " x ".join(komorka), "n_o1": int(C1.sum()), "n_o2": int(C2.sum()),
+            "zmiana_wspolne": round(100 * calosc, 2), "komorki": round(100 * kom, 2),
+            "punktualnosc_wizyty_odbyte": round(100 * pun[~bw].sum(), 2), "brak_wizyty": round(100 * pun[bw].sum(), 2),
+            "zachowanie": round(100 * zach.sum(), 2),
+            "kontrola_sumy": round(100 * (calosc - kom - pun.sum() - zach.sum()), 6)}
 
 
 def zbuduj_wizyty(con):
@@ -48,7 +84,7 @@ def zbuduj_wizyty(con):
     con.execute(f"""
       CREATE TEMP TABLE wiz0 AS
       SELECT z.order_id, z.user_id, z.nr, z.created_at, z.scheduled_at, z.started_at, z.status, z.specialization,
-             z.visit_purpose, z.duration_min, z.rating, date_diff('minute', z.scheduled_at, z.started_at) op,
+             z.visit_purpose, z.duration_min, z.rating, epoch(z.started_at - z.scheduled_at) / 60.0 op,
              date_diff('minute', z.created_at, z.scheduled_at) czekanie, hour(z.scheduled_at) h,
              date_trunc('hour', z.scheduled_at) slot,
              CASE WHEN z.created_at < TIMESTAMP '{D.OKRES2}' THEN 1 ELSE 2 END okres,
@@ -122,7 +158,8 @@ def main():
     pokaz(tabela_segmentow(x, "pora_koszyk").sort_values("pora_koszyk"))
 
     r("\n1e. Rozkład zmiany powrotu w kampaniach obecnych w obu okresach z opóźnieniem pierwszej wizyty jako podziałem")
-    r("    (struktura = część różnicy, którą tłumaczy zmiana udziału spóźnionych pierwszych wizyt)")
+    r("    Składnik „struktura” przy podziale kampania x usługa x opóźnienie obejmuje też zmianę udziałów kampanii i usług,")
+    r("    więc nie wyodrębnia samej punktualności (recenzja Codeksa); samą punktualność wyodrębnia rozkład 1g.")
     poz = [["koszyk"], ["kampania"], ["kampania", "usluga"], ["kampania", "usluga", "koszyk"],
            ["kampania", "usluga", "pora", "koszyk"], ["kampania", "usluga", "znizka", "status1", "koszyk"]]
     pokaz(pd.DataFrame([rozklad(stare, p) for p in poz]))
@@ -130,6 +167,15 @@ def main():
     s2 = stare_z2.assign(kampania=stare_z2.kampania_z2)
     pokaz(pd.DataFrame([rozklad(s2, p) for p in (["koszyk"], ["kampania", "usluga"], ["kampania", "usluga", "koszyk"],
                                                   ["kampania", "usluga", "pora", "koszyk"])]))
+
+    r("\n1g. Rozkład zagnieżdżony: udziały komórek (kampania x usługa) a rozkład opóźnienia wewnątrz komórek")
+    r("    komorki = zmiana udziałów kampanii i usług; punktualnosc = zmiana rozkładu koszyków opóźnienia wewnątrz komórki")
+    r("    (osobno koszyki odbytej wizyty i koszyk brak_wizyty); zachowanie = zmiana powrotu w tym samym koszyku.")
+    r("    Składniki symetryczne (średnie udziałów i stóp obu okresów), sumują się do zmiany w komórkach wspólnych.")
+    pokaz(pd.DataFrame([{"wariant": e, **rozklad_zagniezdzony(a_, ["kampania", "usluga"])}
+                        for e, a_ in (("przyjeta regula zrodla (Z1K)", stare), ("sesja platnosci (Z2)", s2))]))
+    pokaz(pd.DataFrame([{"wariant": e, **rozklad_zagniezdzony(a_, ["kampania", "usluga", "pora"])}
+                        for e, a_ in (("Z1K, komorka z pora terminu", stare), ("Z2, komorka z pora terminu", s2))]))
 
     # ============ 2. OPÓŹNIENIA W CZASIE ============
     r("\n" + "=" * 120)
@@ -154,11 +200,13 @@ def main():
     tyg.to_csv(WYNIK_TYG, index=False, encoding="utf-8")
     pokaz(tyg)
 
-    r("\n2b. Miesięcznie: wizyty u internisty rano, odsetek ponad 15 minut rano i poza rankiem, specjaliści dla porównania")
+    r("\n2b. Miesięcznie: wizyty u internisty rano, odsetek ponad 15 minut rano (wszyscy pacjenci i pacjenci spoza nowych")
+    r("    kampanii) i poza rankiem, specjaliści dla porównania")
     t = df("""
       SELECT strftime(scheduled_at, '%Y-%m') miesiac,
              count(*) FILTER (WHERE specialization = 'internista' AND status <> 'cancelled' AND pora = 'a_rano_6_11') int_rano,
-             round(100.0 * avg((op > 15)::INT) FILTER (WHERE specialization = 'internista' AND pora = 'a_rano_6_11'), 1) int_rano_ponad15,
+             round(100.0 * avg((op > 15)::INT) FILTER (WHERE specialization = 'internista' AND pora = 'a_rano_6_11'), 1) int_rano_ponad15_wszyscy,
+             round(100.0 * avg((op > 15)::INT) FILTER (WHERE specialization = 'internista' AND pora = 'a_rano_6_11' AND NOT nowa_z1k), 1) int_rano_ponad15_spoza_nowych,
              round(100.0 * avg((op > 15)::INT) FILTER (WHERE specialization = 'internista' AND pora <> 'a_rano_6_11'), 1) int_inne_ponad15,
              round(100.0 * avg((op > 15)::INT) FILTER (WHERE specialization <> 'internista'), 1) specjalisci_ponad15,
              round(100.0 * count(*) FILTER (WHERE specialization = 'internista' AND status <> 'cancelled' AND pora = 'a_rano_6_11' AND nowa_z1k)
@@ -184,8 +232,9 @@ def main():
              count(*) wizyty, round(avg(op), 1) sr_opozn, round(100.0 * avg((op > 15)::INT), 1) ponad15
       FROM wiz WHERE specialization = 'internista' AND op IS NOT NULL GROUP BY 1, 2 ORDER BY 1, 2""")
     pokaz(t)
-    r("\n3c. Wizyty pacjentów spoza nowych kampanii: opóźnienie według obciążenia godziny i liczby wizyt z nowych")
-    r("    kampanii w tej samej godzinie (okres 2, rano 6–11)")
+    r("\n3c. Wizyty pacjentów spoza nowych kampanii: opóźnienie w tych samych przedziałach liczby wizyt w godzinie, według")
+    r("    liczby wizyt z nowych kampanii w tej samej godzinie (okres 2, rano 6–11). Przedziały są szerokie, a godziny z")
+    r("    wizytami z nowych kampanii częściej przypadają na późniejsze miesiące (kontrola w 3e).")
     t = df("""
       SELECT CASE WHEN obciazenie <= 4 THEN 'a_do_4' WHEN obciazenie <= 9 THEN 'b_5_9' ELSE 'c_10_plus' END obciazenie_godziny,
              CASE WHEN obc_nowe = 0 THEN '0' WHEN obc_nowe <= 2 THEN '1_2' ELSE '3_plus' END wizyty_nowych_w_godzinie,
@@ -193,6 +242,22 @@ def main():
       FROM wiz WHERE specialization = 'internista' AND op IS NOT NULL AND NOT nowa_z1k AND okres = 2 AND pora = 'a_rano_6_11'
       GROUP BY 1, 2 ORDER BY 1, 2""")
     pokaz(t)
+    r("\n3e. Kontrola kalendarza (recenzja Codeksa): wizyty pacjentów spoza nowych kampanii, okres 2, rano. Porównanie godzin")
+    r("    z co najmniej jedną wizytą z nowych kampanii i bez nich w tym samym miesiącu i przy dokładnie tej samej liczbie")
+    r("    wizyt w godzinie; różnica średnio w grupach wspólnych (waga = liczba wizyt w grupie)")
+    k = df("""
+      SELECT strftime(scheduled_at, '%Y-%m') miesiac, obciazenie, obc_nowe > 0 z_nowymi, count(*) n, avg((op > 15)::INT) p15
+      FROM wiz WHERE specialization = 'internista' AND op IS NOT NULL AND NOT nowa_z1k AND okres = 2 AND pora = 'a_rano_6_11'
+      GROUP BY ALL""")
+    kk = k.pivot_table(index=["miesiac", "obciazenie"], columns="z_nowymi", values=["n", "p15"]).dropna()
+    kk.columns = [a + ("_z" if b else "_bez") for a, b in kk.columns]
+    w = kk.n_z + kk.n_bez
+    zn, bz = k[k.z_nowymi], k[~k.z_nowymi]
+    surowa = 100 * ((zn.n * zn.p15).sum() / zn.n.sum() - (bz.n * bz.p15).sum() / bz.n.sum())
+    r(f"     bez kontroli: {surowa:.2f} punktu procentowego różnicy w odsetku wizyt spóźnionych ponad 15 minut")
+    r(f"     w tym samym miesiącu i przy tej samej liczbie wizyt: {100 * ((kk.p15_z - kk.p15_bez) * w).sum() / w.sum():.2f} punktu "
+      f"({len(kk)} grup, {int(w.sum())} wizyt)")
+
     r("\n3d. Rozkład obciążenia godzin rano u internisty: średnio wizyt na godzinę z terminami, według okresu")
     t = df("""
       SELECT CASE WHEN slot < TIMESTAMP '2025-10-01' THEN 1 ELSE 2 END okres, count(*) godziny_z_wizytami,

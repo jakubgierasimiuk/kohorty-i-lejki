@@ -1,69 +1,72 @@
-A5 RETENCJA — ZDARZENIA W SERIACH (2026-10-19 20:53)
+A5 RETENCJA — ZDARZENIA W SERIACH (2026-10-19 21:04)
 Podział binarny na danych jednostkowych: |z| >= 4.0, odcinki co najmniej 28 dni, najwyżej 4 podziały.
 Poziom w procentach (powroty, udziały) albo w zł (marża). zbieg_z_data = znana data w odległości do 7 dni.
+Daty to kandydaci zmian, nie potwierdzone zdarzenia: próg 4 jest umowny, metoda przeszukuje wiele dat i serii i nie
+uwzględnia sezonu ani zależności między wizytami (recenzja Codeksa). z_przy_wyszukaniu porównuje odcinek przed datą
+z całą dalszą częścią przeszukiwanego fragmentu, a kolumna zmiana — sąsiednie odcinki końcowe.
 Znane daty: 2025-11-03 start Meta L4; 2025-11-17 skok Meta L4; 2025-12-08 skok Meta L4; 2026-01-02 skok Meta L4; 2026-01-19 skok Meta L4; 2026-02-09 start TikTok L4; 2026-03-17 Safari iOS: zakładanie konta (sesja pozyskania)
 
 ========================================================================================================================
 1. ODCINKI SERII DZIENNYCH (każdy wiersz = okres o stałym poziomie; zmiana = wobec poprzedniego odcinka)
 ========================================================================================================================
-                seria         od         do     n  poziom  zmiana     z                 zbieg_z_data
-     powrot30_wszyscy 2024-10-01 2025-06-04 11827   11.39     NaN   NaN                             
-     powrot30_wszyscy 2025-06-05 2026-02-09 12514    9.65   -1.74  -4.4                             
-     powrot30_wszyscy 2026-02-10 2026-08-31 14536    6.87   -2.78 -12.6 start TikTok L4 (2026-02-09)
+                seria         od         do     n  poziom  zmiana  z_przy_wyszukaniu                 zbieg_z_data
+     powrot30_wszyscy 2024-10-01 2025-06-04 11827   11.39     NaN                NaN                             
+     powrot30_wszyscy 2025-06-05 2026-02-09 12514    9.65   -1.74             -4.409                             
+     powrot30_wszyscy 2026-02-10 2026-08-31 14536    6.87   -2.78            -12.608 start TikTok L4 (2026-02-09)
 
-                       seria         od         do     n  poziom  zmiana   z zbieg_z_data
-     powrot30_stare_kampanie 2024-10-01 2026-08-31 32459   10.48     NaN NaN             
-     brak podziału z |z| >= 4.0; najsilniejszy kandydat 2025-06-05 (z = -4.0): 11.39 przed, 9.97 po
+                       seria         od         do     n  poziom  zmiana  z_przy_wyszukaniu zbieg_z_data
+     powrot30_stare_kampanie 2024-10-01 2026-08-31 32459   10.48     NaN                NaN             
+     brak podziału z |z| >= 4.0; najsilniejszy kandydat 2025-06-05 (z = -3.968): 11.39 przed, 9.97 po
 
-                      seria         od         do    n  poziom  zmiana   z               zbieg_z_data
-     powrot30_nowe_kampanie 2025-11-03 2026-08-31 6418    2.35     NaN NaN start Meta L4 (2025-11-03)
-     brak podziału z |z| >= 4.0; najsilniejszy kandydat 2026-03-27 (z = -1.4): 2.62 przed, 2.22 po
+                      seria         od         do    n  poziom  zmiana  z_przy_wyszukaniu               zbieg_z_data
+     powrot30_nowe_kampanie 2025-11-03 2026-08-31 6418    2.35     NaN                NaN start Meta L4 (2025-11-03)
+     brak podziału z |z| >= 4.0; najsilniejszy kandydat 2026-07-30 (z = 1.164): 2.26 przed, 2.98 po
 
-                       seria         od         do     n  poziom  zmiana   z zbieg_z_data
-     powrot90_stare_kampanie 2024-10-01 2026-07-02 30262   22.85     NaN NaN             
-     brak podziału z |z| >= 4.0; najsilniejszy kandydat 2026-03-02 (z = -3.9): 23.30 przed, 20.94 po
+                       seria         od         do     n  poziom  zmiana  z_przy_wyszukaniu zbieg_z_data
+     powrot90_stare_kampanie 2024-10-01 2026-07-02 30262   22.85     NaN                NaN             
+     brak podziału z |z| >= 4.0; najsilniejszy kandydat 2026-03-02 (z = -3.943): 23.30 przed, 20.94 po
 
-                      seria         od         do     n  poziom  zmiana     z                 zbieg_z_data
-     udzial_nowych_kampanii 2024-10-01 2025-11-02 17676    0.00     NaN   NaN                             
-     udzial_nowych_kampanii 2025-11-03 2025-12-05  1972    7.96    7.96 102.8   start Meta L4 (2025-11-03)
-     udzial_nowych_kampanii 2025-12-06 2026-02-02  4127   17.35    9.39  11.1    skok Meta L4 (2025-12-08)
-     udzial_nowych_kampanii 2026-02-03 2026-04-09  5503   29.40   12.05  39.6 start TikTok L4 (2026-02-09)
-     udzial_nowych_kampanii 2026-04-10 2026-09-30 11640   41.04   11.64  15.2                             
+                      seria         od         do     n  poziom  zmiana  z_przy_wyszukaniu                 zbieg_z_data
+     udzial_nowych_kampanii 2024-10-01 2025-11-02 17676    0.00     NaN                NaN                             
+     udzial_nowych_kampanii 2025-11-03 2025-12-05  1972    7.96    7.96            102.834   start Meta L4 (2025-11-03)
+     udzial_nowych_kampanii 2025-12-06 2026-02-02  4127   17.35    9.39             11.071    skok Meta L4 (2025-12-08)
+     udzial_nowych_kampanii 2026-02-03 2026-04-09  5503   29.40   12.05             39.572 start TikTok L4 (2026-02-09)
+     udzial_nowych_kampanii 2026-04-10 2026-09-30 11640   41.04   11.64             15.214                             
 
-                             seria         od         do    n  poziom  zmiana    z                 zbieg_z_data
-     rano_internista_ponad15_stare 2024-10-01 2025-11-16 6016    5.37     NaN  NaN                             
-     rano_internista_ponad15_stare 2025-11-17 2025-12-25  747   24.23   18.86 54.0    skok Meta L4 (2025-11-17)
-     rano_internista_ponad15_stare 2025-12-26 2026-02-01  730   40.00   15.77 13.3    skok Meta L4 (2026-01-02)
-     rano_internista_ponad15_stare 2026-02-02 2026-09-30 4248   48.28    8.28  4.2 start TikTok L4 (2026-02-09)
+                             seria         od         do    n  poziom  zmiana  z_przy_wyszukaniu                 zbieg_z_data
+     rano_internista_ponad15_stare 2024-10-01 2025-11-23 6148    6.33     NaN                NaN                             
+     rano_internista_ponad15_stare 2025-11-24 2025-12-25  615   27.80   21.47             54.845    skok Meta L4 (2025-11-17)
+     rano_internista_ponad15_stare 2025-12-26 2026-02-01  730   41.92   14.12             10.930    skok Meta L4 (2026-01-02)
+     rano_internista_ponad15_stare 2026-02-02 2026-09-30 4248   50.24    8.32              4.199 start TikTok L4 (2026-02-09)
 
-                         seria         od         do     n  poziom  zmiana    z              zbieg_z_data
-     pierwsze_zwrot_po_wizycie 2024-10-01 2025-11-12 18260    2.12     NaN  NaN                          
-     pierwsze_zwrot_po_wizycie 2025-11-13 2026-02-22  7142    3.93    1.81 20.1 skok Meta L4 (2025-11-17)
-     pierwsze_zwrot_po_wizycie 2026-02-23 2026-09-30 15516    6.87    2.94  9.6                          
+                         seria         od         do     n  poziom  zmiana  z_przy_wyszukaniu              zbieg_z_data
+     pierwsze_zwrot_po_wizycie 2024-10-01 2025-11-12 18260    2.12     NaN                NaN                          
+     pierwsze_zwrot_po_wizycie 2025-11-13 2026-02-22  7142    3.93    1.81             20.115 skok Meta L4 (2025-11-17)
+     pierwsze_zwrot_po_wizycie 2026-02-23 2026-09-30 15516    6.87    2.94              9.568                          
 
-                      seria         od         do     n  poziom  zmiana     z               zbieg_z_data
-     marza30_na_pacjenta_zl 2024-10-01 2025-10-29 17520   56.02     NaN   NaN                           
-     marza30_na_pacjenta_zl 2025-10-30 2026-01-25  5549   53.12   -2.90  -4.8 start Meta L4 (2025-11-03)
-     marza30_na_pacjenta_zl 2026-01-26 2026-04-07  6064   50.12   -3.00 -18.0  skok Meta L4 (2026-01-19)
-     marza30_na_pacjenta_zl 2026-04-08 2026-08-31  9744   46.84   -3.28  -5.1                           
+                      seria         od         do     n  poziom  zmiana  z_przy_wyszukaniu               zbieg_z_data
+     marza30_na_pacjenta_zl 2024-10-01 2025-10-29 17520   56.02     NaN                NaN                           
+     marza30_na_pacjenta_zl 2025-10-30 2026-01-25  5549   53.12   -2.90             -4.845 start Meta L4 (2025-11-03)
+     marza30_na_pacjenta_zl 2026-01-26 2026-04-07  6064   50.12   -3.00            -17.988  skok Meta L4 (2026-01-19)
+     marza30_na_pacjenta_zl 2026-04-08 2026-08-31  9744   46.84   -3.28             -5.140                           
 
-                         seria         od         do    n  poziom  zmiana   z zbieg_z_data
-     powrot30_safari_ios_stare 2024-10-01 2026-08-31 6529   11.15     NaN NaN             
-     brak podziału z |z| >= 4.0; najsilniejszy kandydat 2026-03-10 (z = -2.8): 11.42 przed, 9.98 po
+                         seria         od         do    n  poziom  zmiana  z_przy_wyszukaniu zbieg_z_data
+     powrot30_safari_ios_stare 2024-10-01 2026-08-31 6529   11.15     NaN                NaN             
+     brak podziału z |z| >= 4.0; najsilniejszy kandydat 2026-07-07 (z = 1.638): 10.99 przed, 14.33 po
 
 ========================================================================================================================
 2. MIESIĄCE KOHORT: KAMPANIE OBECNE W OBU OKRESACH ROK DO ROKU, Z DATAMI KAMPANII NA L4 I OPÓŹNIENIAMI
 ========================================================================================================================
-     miesiac_o2  n_o1  n_o2  powrot90_o1  powrot90_o2  zmiana_pkt   od   do  pierwsza_ponad15_o2  pierwsza_ponad15_o1  rano_int_ponad15_wszystkie  nowi_meta_l4  nowi_tiktok                                            daty
-        2025-10  1285  1383         22.2         23.5         1.3 -1.9  4.5                  3.1                  2.9                         5.0             0            0                                                
-        2025-11  1400  1571         23.9         21.1        -2.9 -5.9  0.2                  4.4                  3.3                        14.6           121            0                     start Meta L4; skok Meta L4
-        2025-12  1501  1610         25.6         21.4        -4.2 -7.2 -1.2                  8.1                  2.6                        27.5           279            0                                    skok Meta L4
-        2026-01  1628  1978         26.3         23.4        -2.9 -5.7 -0.0                 11.1                  3.1                        40.8           445            0                      skok Meta L4; skok Meta L4
-        2026-02  1560  1693         22.8         24.0         1.2 -1.7  4.1                 13.8                  3.2                        46.5           551           59                                 start TikTok L4
-        2026-03  1601  1856         24.1         21.0        -3.2 -5.9 -0.4                 13.4                  4.2                        46.2           619          207 Safari iOS: zakładanie konta (sesja pozyskania)
-        2026-04  1430  1431         22.5         20.2        -2.3 -5.3  0.7                 14.8                  2.6                        51.1           511          314                                                
-        2026-05  1266  1289         24.2         21.1        -3.1 -6.3  0.2                 13.3                  3.4                        46.9           565          345                                                
-        2026-06  1123  1156         22.7         22.0        -0.7 -4.2  2.7                 14.1                  2.4                        50.2           505          313                                                
+     miesiac_o2  n_o1  n_o2  powrot90_o1  powrot90_o2  zmiana_pkt   od   do  pierwsza_ponad15_o2  pierwsza_ponad15_o1  rano_int_ponad15_spoza_nowych  nowi_meta_l4  nowi_tiktok                                            daty
+        2025-10  1285  1383         22.2         23.5         1.3 -1.9  4.5                  3.3                  3.1                            5.2             0            0                                                
+        2025-11  1400  1571         23.9         21.1        -2.9 -5.9  0.2                  4.3                  3.3                           15.7           121            0                     start Meta L4; skok Meta L4
+        2025-12  1501  1610         25.6         21.4        -4.2 -7.2 -1.2                  8.3                  2.8                           29.7           279            0                                    skok Meta L4
+        2026-01  1628  1978         26.3         23.4        -2.9 -5.7 -0.0                 10.9                  3.3                           42.6           445            0                      skok Meta L4; skok Meta L4
+        2026-02  1560  1693         22.8         24.0         1.2 -1.7  4.1                 14.3                  3.3                           49.4           551           59                                 start TikTok L4
+        2026-03  1601  1856         24.1         21.0        -3.2 -5.9 -0.4                 13.1                  4.3                           47.8           619          207 Safari iOS: zakładanie konta (sesja pozyskania)
+        2026-04  1430  1431         22.5         20.2        -2.3 -5.3  0.7                 14.4                  2.9                           52.3           511          314                                                
+        2026-05  1266  1289         24.2         21.1        -3.1 -6.3  0.2                 13.0                  3.7                           48.6           565          345                                                
+        2026-06  1123  1156         22.7         22.0        -0.7 -4.2  2.7                 13.9                  2.5                           52.5           505          313                                                
      od/do = 95% przedział zmiany (przybliżenie normalne). Przy około 1 300–2 000 pacjentów na miesiąc przedział ma
      szerokość około ±3 punktów procentowych, więc pojedyncze miesiące (październik, luty) mieszczą się w szumie.
      listopad–styczeń: 25.3% (n = 4529) wobec 22.1% (n = 5159), zmiana -3.3 punktu (od -5.0 do -1.6)
@@ -71,6 +74,9 @@ Znane daty: 2025-11-03 start Meta L4; 2025-11-17 skok Meta L4; 2025-12-08 skok M
      październik i luty: 22.5% (n = 2845) wobec 23.8% (n = 3076), zmiana +1.3 punktu (od -0.9 do +3.4)
      październik: 22.2% (n = 1285) wobec 23.5% (n = 1383), zmiana +1.3 punktu (od -1.9 do +4.5)
      luty: 22.8% (n = 1560) wobec 24.0% (n = 1693), zmiana +1.2 punktu (od -1.7 do +4.1)
+     luty wobec marca–maja (różnica zmian rok do roku): +4.06 punktu, błąd 1.73, z = 2.35,
+     przedział od +0.67 do +7.44. Porównanie nominalne: miesiące wybrano po obejrzeniu
+     wyników i wykonano wiele porównań, więc wynik jest eksploracyjny (recenzja Codeksa).
 
 ========================================================================================================================
 3. SAFARI NA iOS (17.03.2026): POWROTY PACJENTÓW, KTÓRZY PIERWSZY RAZ ZAPŁACILI W SAFARI NA iOS
@@ -97,13 +103,16 @@ Znane daty: 2025-11-03 start Meta L4; 2025-11-17 skok Meta L4; 2025-12-08 skok M
      który nie wrócił, kohorty okresu 1 z pełnymi 180 dniami: 95.6 zł. To korelacja, nie skutek; nie obejmuje
      marży po 180 dniach. Bezpośrednio obserwowana zmiana: marża dni 1–90 na pacjenta starych kampanii 16,6 zł wobec
      15,6 zł (a5r_struktura.txt, 6b), czyli około 1,0 zł mniej na każdego nowego pacjenta w pierwszych 90 dniach.
-     Nowi pacjenci okresu 2: kampanie obecne w obu okresach 17419, nowe kampanie 7268.
-                                                                               skladnik  punkty_proc  pacjenci_o2  powrotow_mniej  marza_zl_rocznie
-                                        spadek powrotu w starych kampaniach, cały (Z1K)         1.91        17419             333            -31806
-                            spadek powrotu w starych kampaniach, cały (sesja płatności)         3.50        17419             610            -58284
-     część przypisana opóźnieniu pierwszej wizyty (Z1K, kampania x usługa x opóźnienie)         0.58        17419             101             -9658
-                         część przypisana opóźnieniu pierwszej wizyty (sesja płatności)         1.28        17419             223            -21315
-     Liczba punktów z a5r_struktura.txt (5) i a5r_punktualnosc.txt (1e). Marża = powrotów mniej × wartość powrotu.
+     Nowi pacjenci okresu 2 w kampaniach obecnych w obu okresach: 17419 według przyjętej reguły źródła,
+     19500 według sesji płatności; pacjenci nowych kampanii według przyjętej reguły: 7268.
+     SCENARIUSZ, nie oszacowanie skutku: różnicę powrotu przenosimy na cały rocznik, a każdy powrót wyceniamy na
+     95.60 zł (różnica obserwacyjna między grupami).
+                                                                                   skladnik  punkty_proc  pacjenci_o2  powrotow_mniej  marza_zl_scenariusz
+                                            spadek powrotu w starych kampaniach, cały (Z1K)         1.91        17419             333               -31806
+                                spadek powrotu w starych kampaniach, cały (sesja płatności)         3.50        19500             683               -65247
+     zmiana rozkładu opóźnień przy stałych kampaniach i usługach (Z1K, a5r_punktualnosc 1g)         0.76        17419             132               -12656
+          zmiana rozkładu opóźnień przy stałych kampaniach i usługach (sesja płatności, 1g)         0.64        19500             125               -11931
+     Punkty z a5r_struktura.txt (sekcja 5) i a5r_punktualnosc.txt (sekcja 1g).
 
      Zwroty po odbytej wizycie w okresie 2 (wszystkie zamówienia): zwrócone zapłaty i koszt lekarza za te wizyty
       nowa  wizyty_zwrocone  zwrocone_zl  koszt_lekarza_zl

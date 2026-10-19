@@ -1,24 +1,24 @@
-seria,od,do,n,poziom,zmiana,z,zbieg_z_data
+seria,od,do,n,poziom,zmiana,z_przy_wyszukaniu,zbieg_z_data
 powrot30_wszyscy,2024-10-01,2025-06-04,11827,11.39,,,
-powrot30_wszyscy,2025-06-05,2026-02-09,12514,9.65,-1.74,-4.4,
-powrot30_wszyscy,2026-02-10,2026-08-31,14536,6.87,-2.78,-12.6,start TikTok L4 (2026-02-09)
+powrot30_wszyscy,2025-06-05,2026-02-09,12514,9.65,-1.74,-4.409,
+powrot30_wszyscy,2026-02-10,2026-08-31,14536,6.87,-2.78,-12.608,start TikTok L4 (2026-02-09)
 powrot30_stare_kampanie,2024-10-01,2026-08-31,32459,10.48,,,
 powrot30_nowe_kampanie,2025-11-03,2026-08-31,6418,2.35,,,start Meta L4 (2025-11-03)
 powrot90_stare_kampanie,2024-10-01,2026-07-02,30262,22.85,,,
 udzial_nowych_kampanii,2024-10-01,2025-11-02,17676,0.0,,,
-udzial_nowych_kampanii,2025-11-03,2025-12-05,1972,7.96,7.96,102.8,start Meta L4 (2025-11-03)
-udzial_nowych_kampanii,2025-12-06,2026-02-02,4127,17.35,9.39,11.1,skok Meta L4 (2025-12-08)
-udzial_nowych_kampanii,2026-02-03,2026-04-09,5503,29.4,12.05,39.6,start TikTok L4 (2026-02-09)
-udzial_nowych_kampanii,2026-04-10,2026-09-30,11640,41.04,11.64,15.2,
-rano_internista_ponad15_stare,2024-10-01,2025-11-16,6016,5.37,,,
-rano_internista_ponad15_stare,2025-11-17,2025-12-25,747,24.23,18.86,54.0,skok Meta L4 (2025-11-17)
-rano_internista_ponad15_stare,2025-12-26,2026-02-01,730,40.0,15.77,13.3,skok Meta L4 (2026-01-02)
-rano_internista_ponad15_stare,2026-02-02,2026-09-30,4248,48.28,8.28,4.2,start TikTok L4 (2026-02-09)
+udzial_nowych_kampanii,2025-11-03,2025-12-05,1972,7.96,7.96,102.834,start Meta L4 (2025-11-03)
+udzial_nowych_kampanii,2025-12-06,2026-02-02,4127,17.35,9.39,11.071,skok Meta L4 (2025-12-08)
+udzial_nowych_kampanii,2026-02-03,2026-04-09,5503,29.4,12.05,39.572,start TikTok L4 (2026-02-09)
+udzial_nowych_kampanii,2026-04-10,2026-09-30,11640,41.04,11.64,15.214,
+rano_internista_ponad15_stare,2024-10-01,2025-11-23,6148,6.33,,,
+rano_internista_ponad15_stare,2025-11-24,2025-12-25,615,27.8,21.47,54.845,skok Meta L4 (2025-11-17)
+rano_internista_ponad15_stare,2025-12-26,2026-02-01,730,41.92,14.12,10.93,skok Meta L4 (2026-01-02)
+rano_internista_ponad15_stare,2026-02-02,2026-09-30,4248,50.24,8.32,4.199,start TikTok L4 (2026-02-09)
 pierwsze_zwrot_po_wizycie,2024-10-01,2025-11-12,18260,2.12,,,
-pierwsze_zwrot_po_wizycie,2025-11-13,2026-02-22,7142,3.93,1.81,20.1,skok Meta L4 (2025-11-17)
-pierwsze_zwrot_po_wizycie,2026-02-23,2026-09-30,15516,6.87,2.94,9.6,
+pierwsze_zwrot_po_wizycie,2025-11-13,2026-02-22,7142,3.93,1.81,20.115,skok Meta L4 (2025-11-17)
+pierwsze_zwrot_po_wizycie,2026-02-23,2026-09-30,15516,6.87,2.94,9.568,
 marza30_na_pacjenta_zl,2024-10-01,2025-10-29,17520,56.02,,,
-marza30_na_pacjenta_zl,2025-10-30,2026-01-25,5549,53.12,-2.9,-4.8,start Meta L4 (2025-11-03)
-marza30_na_pacjenta_zl,2026-01-26,2026-04-07,6064,50.12,-3.0,-18.0,skok Meta L4 (2026-01-19)
-marza30_na_pacjenta_zl,2026-04-08,2026-08-31,9744,46.84,-3.28,-5.1,
+marza30_na_pacjenta_zl,2025-10-30,2026-01-25,5549,53.12,-2.9,-4.845,start Meta L4 (2025-11-03)
+marza30_na_pacjenta_zl,2026-01-26,2026-04-07,6064,50.12,-3.0,-17.988,skok Meta L4 (2026-01-19)
+marza30_na_pacjenta_zl,2026-04-08,2026-08-31,9744,46.84,-3.28,-5.14,
 powrot30_safari_ios_stare,2024-10-01,2026-08-31,6529,11.15,,,
