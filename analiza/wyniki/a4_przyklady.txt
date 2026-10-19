@@ -1,0 +1,394 @@
+A4 — PRZYKŁADY PACJENTÓW DO RĘCZNEJ KONTROLI KODU (2026-10-19 17:07)
+Surowe wiersze ze schematu `czyste` i wartości wyliczone przez analiza/a4_definicje.py.
+Sesje: wszystkie sesje pacjenta (konto albo jego przeglądarka) do dnia ostatniego zamówienia + 1.
+
+====================================================================================================
+KRYTERIUM: pierwsze zamówienie anulowane, później nieanulowane (N1 i N3 różnią się dniem)
+PACJENT user_id = 100127
+
+  konto
+     user_id       registered_at  birth_year gender  region       city_size  marketing_consent
+      100127 2024-10-02 18:02:30        1968      K slaskie miasto_pow_200k                  1
+
+  zamówienia
+     nr  order_id          created_at    status promo_code  session_id  list_price  amount_paid  refund_amount specialization visit_purpose
+      1   5000147 2024-10-02 18:03:26 cancelled       None    30000759        89.0         89.0           89.0     internista     e_recepta
+      2   5001489 2024-10-14 05:44:07 completed       None    30005745        89.0         89.0            0.0     internista            l4
+
+  TelemediGO
+    (brak)
+
+  sesje
+     session_id       started_at_pl visitor_id  konto_w_sesji utm_source utm_medium utm_campaign landing_page                  kanal                                                                              kroki
+       30000469 2024-10-02 05:22:35  v2ddcf6f4           <NA>     google    organic         None            / wyszukiwarka_bezplatna                                                                               None
+       30000759 2024-10-02 17:57:40  v2ddcf6f4         100127       None       None         None       /konto           bezposrednie service_selected,slot_selected,account_completed,payment_started,payment_succeeded
+       30005745 2024-10-14 05:35:52  vcc1470a5         100127       None       None         None       /konto           bezposrednie service_selected,slot_selected,account_completed,payment_started,payment_succeeded
+
+  wyliczone: wejście do kohorty w wariantach N1-N4
+    war                  t0         d0  okres  session_id
+     N1 2024-10-02 18:03:26 2024-10-02      1    30000759
+     N2 2024-10-02 18:03:26 2024-10-02      1    30000759
+     N3 2024-10-14 05:44:07 2024-10-14      1    30005745
+     N4 2024-10-14 05:44:07 2024-10-14      1    30005745
+
+  wyliczone: dni do powrotu (N1) w wariantach R1-R4
+     dni_R1  dni_R2  dni_R3  dni_R4
+         12      12      12      12
+
+  wyliczone: źródło według reguł
+    regula                  kanal       kampania
+        Z1 wyszukiwarka_bezplatna google_organic
+       Z1b           bezposrednie   bezposrednie
+        Z2           bezposrednie   bezposrednie
+        Z3 wyszukiwarka_bezplatna google_organic
+      Z3_7 wyszukiwarka_bezplatna google_organic
+     Z3_90 wyszukiwarka_bezplatna google_organic
+       Z1K wyszukiwarka_bezplatna google_organic
+       Z2K           bezposrednie   bezposrednie
+       Z3K wyszukiwarka_bezplatna google_organic
+
+  wyliczone: wejścia z CRM i zamówienia do 24 godzin
+    (brak)
+
+====================================================================================================
+KRYTERIUM: pierwsze zamówienie zwrócone po wizycie
+PACJENT user_id = 100026
+
+  konto
+     user_id       registered_at  birth_year gender  region      city_size  marketing_consent
+      100026 2024-10-01 11:46:45        1982      K slaskie miasto_50_200k                  0
+
+  zamówienia
+     nr  order_id          created_at   status promo_code  session_id  list_price  amount_paid  refund_amount specialization visit_purpose
+      1   5000032 2024-10-01 11:48:37 refunded       None    30000161        89.0         89.0           89.0     internista     e_recepta
+
+  TelemediGO
+    (brak)
+
+  sesje
+     session_id       started_at_pl visitor_id  konto_w_sesji utm_source utm_medium utm_campaign    landing_page                  kanal                                                                              kroki
+       30000161 2024-10-01 11:41:59  vf519f76b         100026     google    organic         None /recepta-online wyszukiwarka_bezplatna service_selected,slot_selected,account_completed,payment_started,payment_succeeded
+
+  wyliczone: wejście do kohorty w wariantach N1-N4
+    war                  t0         d0  okres  session_id
+     N1 2024-10-01 11:48:37 2024-10-01      1    30000161
+     N2 2024-10-01 11:48:37 2024-10-01      1    30000161
+     N3 2024-10-01 11:48:37 2024-10-01      1    30000161
+     N4 2024-10-01 11:48:37 2024-10-01      1    30000161
+
+  wyliczone: dni do powrotu (N1) w wariantach R1-R4
+     dni_R1  dni_R2  dni_R3  dni_R4
+       <NA>    <NA>    <NA>    <NA>
+
+  wyliczone: źródło według reguł
+    regula                  kanal       kampania
+        Z1 wyszukiwarka_bezplatna google_organic
+       Z1b wyszukiwarka_bezplatna google_organic
+        Z2 wyszukiwarka_bezplatna google_organic
+        Z3 wyszukiwarka_bezplatna google_organic
+      Z3_7 wyszukiwarka_bezplatna google_organic
+     Z3_90 wyszukiwarka_bezplatna google_organic
+       Z1K wyszukiwarka_bezplatna google_organic
+       Z2K wyszukiwarka_bezplatna google_organic
+       Z3K wyszukiwarka_bezplatna google_organic
+
+  wyliczone: wejścia z CRM i zamówienia do 24 godzin
+    (brak)
+
+====================================================================================================
+KRYTERIUM: anonimowa sesja przed zakupem, pierwsze wejście inne niż sesja płatności
+PACJENT user_id = 100081
+
+  konto
+     user_id       registered_at  birth_year gender      region city_size  marketing_consent
+      100081 2024-10-02 03:39:28        1987      M malopolskie      wies                  0
+
+  zamówienia
+     nr  order_id          created_at    status promo_code  session_id  list_price  amount_paid  refund_amount specialization visit_purpose
+      1   5000102 2024-10-02 03:40:59 completed       None    30000458        89.0         89.0            0.0     internista            l4
+
+  TelemediGO
+    (brak)
+
+  sesje
+     session_id       started_at_pl visitor_id  konto_w_sesji utm_source utm_medium  utm_campaign          landing_page             kanal                                                                              kroki
+       30000163 2024-10-01 11:42:49  vdb242f8d           <NA>     google        cpc gs_generic_l4 /zwolnienie-l4-online google_ads_ogolne                                                     service_selected,slot_selected
+       30000458 2024-10-02 03:34:44  vdb242f8d         100081       None       None          None                /konto      bezposrednie service_selected,slot_selected,account_completed,payment_started,payment_succeeded
+
+  wyliczone: wejście do kohorty w wariantach N1-N4
+    war                  t0         d0  okres  session_id
+     N1 2024-10-02 03:40:59 2024-10-02      1    30000458
+     N2 2024-10-02 03:40:59 2024-10-02      1    30000458
+     N3 2024-10-02 03:40:59 2024-10-02      1    30000458
+     N4 2024-10-02 03:40:59 2024-10-02      1    30000458
+
+  wyliczone: dni do powrotu (N1) w wariantach R1-R4
+     dni_R1  dni_R2  dni_R3  dni_R4
+       <NA>    <NA>    <NA>    <NA>
+
+  wyliczone: źródło według reguł
+    regula             kanal      kampania
+        Z1 google_ads_ogolne gs_generic_l4
+       Z1b      bezposrednie  bezposrednie
+        Z2      bezposrednie  bezposrednie
+        Z3 google_ads_ogolne gs_generic_l4
+      Z3_7 google_ads_ogolne gs_generic_l4
+     Z3_90 google_ads_ogolne gs_generic_l4
+       Z1K google_ads_ogolne gs_generic_l4
+       Z2K      bezposrednie  bezposrednie
+       Z3K google_ads_ogolne gs_generic_l4
+
+  wyliczone: wejścia z CRM i zamówienia do 24 godzin
+    (brak)
+
+====================================================================================================
+KRYTERIUM: kod L4SZYBKO20, pierwsze wejście nie z kampanii kodu (kod rozstrzyga)
+PACJENT user_id = 138084
+
+  konto
+     user_id       registered_at  birth_year gender  region       city_size  marketing_consent
+      138084 2025-11-19 13:30:07        1994      K lodzkie miasto_pow_200k                  1
+
+  zamówienia
+     nr  order_id          created_at    status promo_code  session_id  list_price  amount_paid  refund_amount specialization visit_purpose
+      1   5082909 2025-11-19 13:32:43 completed L4SZYBKO20    30247133        89.0         69.0            0.0     internista            l4
+
+  TelemediGO
+    (brak)
+
+  sesje
+     session_id       started_at_pl visitor_id  konto_w_sesji utm_source utm_medium utm_campaign          landing_page        kanal                                                                              kroki
+       30247133 2025-11-19 13:23:32  v2516ef0e         138084       None       None         None /zwolnienie-l4-online bezposrednie service_selected,slot_selected,account_completed,payment_started,payment_succeeded
+
+  wyliczone: wejście do kohorty w wariantach N1-N4
+    war                  t0         d0  okres  session_id
+     N1 2025-11-19 13:32:43 2025-11-19      2    30247133
+     N2 2025-11-19 13:32:43 2025-11-19      2    30247133
+     N3 2025-11-19 13:32:43 2025-11-19      2    30247133
+     N4 2025-11-19 13:32:43 2025-11-19      2    30247133
+
+  wyliczone: dni do powrotu (N1) w wariantach R1-R4
+     dni_R1  dni_R2  dni_R3  dni_R4
+       <NA>    <NA>    <NA>    <NA>
+
+  wyliczone: źródło według reguł
+    regula           kanal             kampania
+        Z1    bezposrednie         bezposrednie
+       Z1b    bezposrednie         bezposrednie
+        Z2    bezposrednie         bezposrednie
+        Z3    bezposrednie         bezposrednie
+      Z3_7    bezposrednie         bezposrednie
+     Z3_90    bezposrednie         bezposrednie
+       Z1K meta_pozyskanie meta_prosp_l4_szybko
+       Z2K meta_pozyskanie meta_prosp_l4_szybko
+       Z3K meta_pozyskanie meta_prosp_l4_szybko
+
+  wyliczone: wejścia z CRM i zamówienia do 24 godzin
+    (brak)
+
+====================================================================================================
+KRYTERIUM: drugie zamówienie anulowane, powrót R2 później niż R1
+PACJENT user_id = 100308
+
+  konto
+     user_id       registered_at  birth_year gender  region      city_size  marketing_consent
+      100308 2024-10-05 06:22:55        1985      M lodzkie miasto_50_200k                  1
+
+  zamówienia
+     nr  order_id          created_at    status promo_code  session_id  list_price  amount_paid  refund_amount specialization visit_purpose
+      1   5000450 2024-10-05 06:24:15 completed       None    30001837        89.0         89.0            0.0     internista            l4
+      2   5007370 2024-11-23 14:38:12 cancelled       None    30027256        89.0         89.0           89.0     internista            l4
+      3   5014987 2025-01-05 08:10:46 completed       None    30052872        89.0         89.0            0.0     internista            l4
+
+  TelemediGO
+    (brak)
+
+  sesje
+     session_id       started_at_pl visitor_id  konto_w_sesji utm_source utm_medium     utm_campaign   landing_page                  kanal                                                                              kroki
+       30001837 2024-10-05 06:14:22  v4a47894f         100308       None       None             None /lekarz-online           bezposrednie service_selected,slot_selected,account_completed,payment_started,payment_succeeded
+       30023343 2024-11-16 13:06:20  v4a47894f         100308 newsletter      email crm_reactivation         /konto                    crm                                                                               None
+       30027256 2024-11-23 14:30:19  v4a47894f         100308     google        cpc         gs_brand /lekarz-online       google_ads_marka service_selected,slot_selected,account_completed,payment_started,payment_succeeded
+       30028736 2024-11-26 02:46:42  v4a47894f         100308     google    organic             None         /konto wyszukiwarka_bezplatna                                                                               None
+       30052872 2025-01-05 08:02:26  ve87f0300         100308       None       None             None         /konto           bezposrednie service_selected,slot_selected,account_completed,payment_started,payment_succeeded
+
+  wyliczone: wejście do kohorty w wariantach N1-N4
+    war                  t0         d0  okres  session_id
+     N1 2024-10-05 06:24:15 2024-10-05      1    30001837
+     N2 2024-10-05 06:24:15 2024-10-05      1    30001837
+     N3 2024-10-05 06:24:15 2024-10-05      1    30001837
+     N4 2024-10-05 06:24:15 2024-10-05      1    30001837
+
+  wyliczone: dni do powrotu (N1) w wariantach R1-R4
+     dni_R1  dni_R2  dni_R3  dni_R4
+         49      92      92      49
+
+  wyliczone: źródło według reguł
+    regula        kanal     kampania
+        Z1 bezposrednie bezposrednie
+       Z1b bezposrednie bezposrednie
+        Z2 bezposrednie bezposrednie
+        Z3 bezposrednie bezposrednie
+      Z3_7 bezposrednie bezposrednie
+     Z3_90 bezposrednie bezposrednie
+       Z1K bezposrednie bezposrednie
+       Z2K bezposrednie bezposrednie
+       Z3K bezposrednie bezposrednie
+
+  wyliczone: wejścia z CRM i zamówienia do 24 godzin
+     session_id                  ts         kampania  zalogowana  byl_pacjentem  zamowienia_24h  w_tej_sesji
+       30023343 2024-11-16 13:06:20 crm_reactivation        True           True               0            0
+
+====================================================================================================
+KRYTERIUM: wejście z CRM i zamówienie do 24 godzin w innej sesji
+PACJENT user_id = 101505
+
+  konto
+     user_id       registered_at  birth_year gender      region     city_size  marketing_consent
+      101505 2024-10-19 16:12:18        1994      K mazowieckie miasto_do_50k                  1
+
+  zamówienia
+     nr  order_id          created_at    status promo_code  session_id  list_price  amount_paid  refund_amount specialization visit_purpose
+      1   5002263 2024-10-19 16:13:43 completed       None    30008507        89.0         89.0            0.0     internista     e_recepta
+      2   5018623 2025-01-23 16:27:48 completed       None    30065479        89.0         89.0            0.0     internista     e_recepta
+      3   5026031 2025-02-26 10:42:13 completed       None    30089029        89.0         89.0            0.0     internista     e_recepta
+      4   5040952 2025-05-04 22:03:34 completed       None    30132840        89.0         89.0            0.0     internista     e_recepta
+      5   5042358 2025-05-11 13:08:40 completed       None    30136727        89.0         89.0            0.0     internista   skierowanie
+
+  TelemediGO
+    (brak)
+
+  sesje
+     session_id       started_at_pl visitor_id  konto_w_sesji utm_source utm_medium              utm_campaign    landing_page                  kanal                                                                              kroki
+       30008507 2024-10-19 16:06:37  vf46707ed         101505  polecenie   referral           program_polecen      /polecenie        program_polecen service_selected,slot_selected,account_completed,payment_started,payment_succeeded
+       30065479 2025-01-23 16:22:23  vf46707ed         101505 newsletter      email crm_recepta_przypomnienie               /                    crm service_selected,slot_selected,account_completed,payment_started,payment_succeeded
+       30088913 2025-02-26 07:57:02  vf46707ed         101505        sms        sms     crm_sms_przypomnienie /recepta-online                    crm                                                                               None
+       30089029 2025-02-26 10:36:34  vf46707ed         101505     google    organic                      None          /konto wyszukiwarka_bezplatna service_selected,slot_selected,account_completed,payment_started,payment_succeeded
+       30104883 2025-03-21 16:40:22  vf46707ed         101505 newsletter      email          crm_reactivation          /konto                    crm                                                                               None
+       30132840 2025-05-04 21:59:54  v929e819e         101505     google    organic                      None          /konto wyszukiwarka_bezplatna service_selected,slot_selected,account_completed,payment_started,payment_succeeded
+       30136727 2025-05-11 13:01:18  vf46707ed         101505     google    organic                      None  /lekarz-online wyszukiwarka_bezplatna service_selected,slot_selected,account_completed,payment_started,payment_succeeded
+
+  wyliczone: wejście do kohorty w wariantach N1-N4
+    war                  t0         d0  okres  session_id
+     N1 2024-10-19 16:13:43 2024-10-19      1    30008507
+     N2 2024-10-19 16:13:43 2024-10-19      1    30008507
+     N3 2024-10-19 16:13:43 2024-10-19      1    30008507
+     N4 2024-10-19 16:13:43 2024-10-19      1    30008507
+
+  wyliczone: dni do powrotu (N1) w wariantach R1-R4
+     dni_R1  dni_R2  dni_R3  dni_R4
+         96      96      96      96
+
+  wyliczone: źródło według reguł
+    regula           kanal        kampania
+        Z1 program_polecen program_polecen
+       Z1b program_polecen program_polecen
+        Z2 program_polecen program_polecen
+        Z3 program_polecen program_polecen
+      Z3_7 program_polecen program_polecen
+     Z3_90 program_polecen program_polecen
+       Z1K program_polecen program_polecen
+       Z2K program_polecen program_polecen
+       Z3K program_polecen program_polecen
+
+  wyliczone: wejścia z CRM i zamówienia do 24 godzin
+     session_id                  ts                  kampania  zalogowana  byl_pacjentem  zamowienia_24h  w_tej_sesji
+       30065479 2025-01-23 16:22:23 crm_recepta_przypomnienie       False           True               1            1
+       30088913 2025-02-26 07:57:02     crm_sms_przypomnienie        True           True               1            0
+       30104883 2025-03-21 16:40:22          crm_reactivation        True           True               0            0
+       30155653 2025-06-13 11:17:10          crm_reactivation        True           True               0            0
+
+====================================================================================================
+KRYTERIUM: kilka przeglądarek, pierwsze wejście z anonimowej sesji
+PACJENT user_id = 100127
+
+  konto
+     user_id       registered_at  birth_year gender  region       city_size  marketing_consent
+      100127 2024-10-02 18:02:30        1968      K slaskie miasto_pow_200k                  1
+
+  zamówienia
+     nr  order_id          created_at    status promo_code  session_id  list_price  amount_paid  refund_amount specialization visit_purpose
+      1   5000147 2024-10-02 18:03:26 cancelled       None    30000759        89.0         89.0           89.0     internista     e_recepta
+      2   5001489 2024-10-14 05:44:07 completed       None    30005745        89.0         89.0            0.0     internista            l4
+
+  TelemediGO
+    (brak)
+
+  sesje
+     session_id       started_at_pl visitor_id  konto_w_sesji utm_source utm_medium utm_campaign landing_page                  kanal                                                                              kroki
+       30000469 2024-10-02 05:22:35  v2ddcf6f4           <NA>     google    organic         None            / wyszukiwarka_bezplatna                                                                               None
+       30000759 2024-10-02 17:57:40  v2ddcf6f4         100127       None       None         None       /konto           bezposrednie service_selected,slot_selected,account_completed,payment_started,payment_succeeded
+       30005745 2024-10-14 05:35:52  vcc1470a5         100127       None       None         None       /konto           bezposrednie service_selected,slot_selected,account_completed,payment_started,payment_succeeded
+
+  wyliczone: wejście do kohorty w wariantach N1-N4
+    war                  t0         d0  okres  session_id
+     N1 2024-10-02 18:03:26 2024-10-02      1    30000759
+     N2 2024-10-02 18:03:26 2024-10-02      1    30000759
+     N3 2024-10-14 05:44:07 2024-10-14      1    30005745
+     N4 2024-10-14 05:44:07 2024-10-14      1    30005745
+
+  wyliczone: dni do powrotu (N1) w wariantach R1-R4
+     dni_R1  dni_R2  dni_R3  dni_R4
+         12      12      12      12
+
+  wyliczone: źródło według reguł
+    regula                  kanal       kampania
+        Z1 wyszukiwarka_bezplatna google_organic
+       Z1b           bezposrednie   bezposrednie
+        Z2           bezposrednie   bezposrednie
+        Z3 wyszukiwarka_bezplatna google_organic
+      Z3_7 wyszukiwarka_bezplatna google_organic
+     Z3_90 wyszukiwarka_bezplatna google_organic
+       Z1K wyszukiwarka_bezplatna google_organic
+       Z2K           bezposrednie   bezposrednie
+       Z3K wyszukiwarka_bezplatna google_organic
+
+  wyliczone: wejścia z CRM i zamówienia do 24 godzin
+    (brak)
+
+====================================================================================================
+KRYTERIUM: ranking lekarzy jako pierwsze wejście, płatność w innej sesji (prowizja wg Z1K)
+PACJENT user_id = 100197
+
+  konto
+     user_id       registered_at  birth_year gender  region     city_size  marketing_consent
+      100197 2024-10-03 13:57:27        1979      K slaskie miasto_do_50k                  1
+
+  zamówienia
+     nr  order_id          created_at    status promo_code  session_id  list_price  amount_paid  refund_amount specialization visit_purpose
+      1   5000254 2024-10-03 13:58:52 completed       None    30001152        89.0         89.0            0.0     internista   konsultacja
+      2   5002236 2024-10-19 12:56:05 completed       None    30008455        89.0         89.0            0.0     internista            l4
+
+  TelemediGO
+    (brak)
+
+  sesje
+     session_id       started_at_pl visitor_id  konto_w_sesji     utm_source  utm_medium     utm_campaign    landing_page             kanal                                                                              kroki
+       30000320 2024-10-01 18:36:24  v2ff1d1ed           <NA> rankinglekarzy   affiliate             None  /lekarz-online afiliacja_ranking                                                     service_selected,slot_selected
+       30001152 2024-10-03 13:52:52  v2ff1d1ed         100197           meta paid_social meta_rmkt_koszyk          /konto  meta_remarketing service_selected,slot_selected,account_completed,payment_started,payment_succeeded
+       30008455 2024-10-19 12:49:51  v2ff1d1ed         100197           None        None             None /recepta-online      bezposrednie service_selected,slot_selected,account_completed,payment_started,payment_succeeded
+
+  wyliczone: wejście do kohorty w wariantach N1-N4
+    war                  t0         d0  okres  session_id
+     N1 2024-10-03 13:58:52 2024-10-03      1    30001152
+     N2 2024-10-03 13:58:52 2024-10-03      1    30001152
+     N3 2024-10-03 13:58:52 2024-10-03      1    30001152
+     N4 2024-10-03 13:58:52 2024-10-03      1    30001152
+
+  wyliczone: dni do powrotu (N1) w wariantach R1-R4
+     dni_R1  dni_R2  dni_R3  dni_R4
+         16      16      16      16
+
+  wyliczone: źródło według reguł
+    regula             kanal                 kampania
+        Z1 afiliacja_ranking rankinglekarzy_affiliate
+       Z1b  meta_remarketing         meta_rmkt_koszyk
+        Z2  meta_remarketing         meta_rmkt_koszyk
+        Z3  meta_remarketing         meta_rmkt_koszyk
+      Z3_7  meta_remarketing         meta_rmkt_koszyk
+     Z3_90  meta_remarketing         meta_rmkt_koszyk
+       Z1K afiliacja_ranking rankinglekarzy_affiliate
+       Z2K  meta_remarketing         meta_rmkt_koszyk
+       Z3K  meta_remarketing         meta_rmkt_koszyk
+
+  wyliczone: wejścia z CRM i zamówienia do 24 godzin
+    (brak)

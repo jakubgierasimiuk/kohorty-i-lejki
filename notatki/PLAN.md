@@ -18,7 +18,7 @@ Kolejność: **wstępna analiza → narzędzie → uzupełnienie analizy → wer
 | A1 | Baza danych | zrobione (commit `025d6f0`, `analiza/a1_baza.py`, wynik w `analiza/wyniki/a1_baza.txt`) |
 | A2 | Jakość danych | zrobione: raport (commit `b7466aa`), czyszczenie przyjęte przez Kubę, warstwa `czyste` (`analiza/a2_czyste.py`). Zamówienia testowe do ponownego przeglądu w punkcie D |
 | A3 | Odtworzenie dashboardu | zrobione, przyjęte przez Kubę (commit `b91975a`, `analiza/a3_dashboard.py`, `analiza/wyniki/a3_dashboard.txt`) |
-| A4 | Definicje (razem) | do zrobienia |
+| A4 | Definicje (razem) | zrobione: definicje przyjęte przez Kubę (`ZALOZENIA.md` 16–27, `analiza/a4_definicje.py`, `analiza/wyniki/a4_definicje.txt`), recenzja Codeksa (Sol) uwzględniona (`notatki/recenzje/a4_codex.md`) |
 | A5 | Pierwsze kohorty, lejek, po zakupie, zdarzenia | do zrobienia |
 | B | Narzędzie | do zrobienia |
 | C | Uzupełnienie analizy, priorytety, niewiadome | do zrobienia |
@@ -56,6 +56,8 @@ Przy każdej: warianty i to, ile każdy zmienia w liczbie nowych pacjentów, w p
 - **Źródło pozyskania:** pierwsze wejście pacjenta / sesja, w której zapłacił / ostatnie wejście z oznaczonego źródła (nie bezpośrednie) w oknie przed zakupem. Łączenie anonimowych sesji z kontem przez identyfikator przeglądarki. *(dopisane 2026-10-19 po A2)* Kody kampanii na pierwszym zamówieniu (L4SZYBKO20 — Meta, TIKTOK25 — TikTok, RANKING10 — ranking lekarzy) służą jako kontrola każdej reguły; obok pokazujemy wariant, w którym kod wskazuje źródło. Prowizję afiliacyjną liczymy tą samą regułą, którą wybierzemy dla źródła; drugi wariant (po kodzie RANKING10) jedną liczbą obok. Jeśli różnica jest mała, nie poświęcamy temu więcej czasu.
 - **Anulacje i zwroty:** czy pacjent z anulowanym pierwszym zamówieniem jest nowym pacjentem, czy anulowany powrót jest powrotem, jak liczymy przychód netto.
 
+- *(dopisane 2026-10-19, decyzja Kuby)* Przed zamknięciem A4 recenzja definicji przez Codeksa (model Sol, profil `review`): czy definicje odpowiadają pytaniu zadania, czy czegoś nie brakuje w wariantach i pułapkach, czy kod liczy to, co mówią definicje, na kilku konkretnych pacjentach. Przeniesione z punktu D.
+
 **Stop — przyjmujemy definicje razem.** Zapis w `notatki/ZALOZENIA.md`.
 
 ### A5. Pierwsze kohorty dzienne, lejek, to, co dzieje się po zakupie, zdarzenia
@@ -64,13 +66,15 @@ Przy każdej: warianty i to, ile każdy zmienia w liczbie nowych pacjentów, w p
 - **Sesje zalogowane od wejścia** *(dopisane 2026-10-19 po A2, decyzja Kuby)*: w lejku osobny wiersz. Pogłębienie: na którym kroku odpadają; z jakich stron i kampanii przychodzą (np. przypomnienie o recepcie — pacjenci, którzy chcą ją przedłużyć); czy kupują potem rzadziej niż podobni pacjenci bez takich sesji; czas między wyborem terminu a krokiem logowania w zakupach powtórnych (kilkadziesiąt sekund = prawdziwe logowanie, 1–2 sekundy = raczej automatyczny zapis dla zalogowanych).
 - **Po zakupie, w czasie:** czy wizyta się odbyła, czy zaczęła się na czas (faktyczny start wobec umówionego terminu), ile pacjent czekał od zapłaty do terminu, zwroty, nieodebrane wizyty, oceny. Czy pacjent ze spóźnioną, nieodbytą albo zwróconą wizytą wraca rzadziej. Kampanie komunikacji po zakupie widoczne w sesjach (`crm_reactivation`, `crm_recepta_przypomnienie`, `crm_sms_przypomnienie`, `crm_go_upsell`): od kiedy działają i czy zmieniają powroty. Newsletter i SMS oceniamy na poziomie pacjenta (powrót w ciągu kilku dni od kontaktu), nie konwersją sesji — wejścia z nich są często zalogowane, a zakup dzieje się w innej sesji.
 - **Wykrywanie zdarzeń:** w każdej serii dziennej szukamy dni, od których zmienia się poziom. Każde zdarzenie: data, co się zmieniło, o ile, jaki wpływ na marżę.
+- *(dopisane 2026-10-19 po A4, decyzje Kuby)* **Definicje:** `ZALOZENIA.md` 16–26. **Ekonomia kampanii** (koszt pozyskania, wynik na pacjenta) według przyjętej reguły źródła, a obok według sesji płatności. Jeśli wynik kampanii zmienia znak zależnie od reguły, opisujemy go jako niepewny. **Wejścia z newslettera i SMS-ów zalogowane od wejścia** (dwie trzecie wejść z CRM, bez zakupu w sesji) dołączamy do sprawy sesji zalogowanych, bo CRM to główny kanał powrotów. **Tropy z A4** (`ZNALEZISKA.md`, A4): spadek powrotu w obrębie Meta (pozyskanie), zwroty po wizycie przy pierwszym zamówieniu z Meta i TikToka, zmiana struktury źródeł.
 
 **Jak obchodzimy pułapki:**
 - **Start od zera.** W pierwszym roku każdy pacjent jest nowy i nie ma bazy powracających, więc roczne sumy zamówień i przychodu z definicji faworyzują drugi rok. Rozbijamy zamówienia i przychód na nowych i powracających. Porównujemy kohorty w tym samym wieku, nie sumy roczne. ~~Okres rozruchu (pierwsze tygodnie, kod startowy `START10`) oznaczamy osobno i sprawdzamy, czy wnioski trzymają się bez niego.~~ *(zmienione 2026-10-19 po A2, decyzja Kuby)* START10 działa przez całe dwa lata, a nowi pacjenci od pierwszego tygodnia są na zbliżonym poziomie — od zera rośnie tylko baza powracających. Osobnego okresu rozruchu nie wyznaczamy. Sprawdzamy, czy wnioski o retencji trzymają się bez kohort z października 2024.
 - **Młode kohorty miały mniej czasu na powrót.** Każdą miarę powrotu liczymy tylko dla kohort, które miały pełne okno (powrót w 90 dni — tylko kohorty do 2 lipca 2026). Porównujemy krzywe „dzień od pierwszego zakupu”. W narzędziu niedojrzałe komórki są wyszarzone.
 - **Sezon a wydatki** *(dopisane 2026-10-19)*: liczba nowych pacjentów rośnie od października 2024 do stycznia 2025, ale w tym samym czasie rosną wydatki na kampanie. Rozdzielamy wpływ sezonu i wydatków (np. pozyskanie na złotówkę wydatków, źródła bezpłatne osobno). Do tego czasu przyczyna wzrostu jest otwarta.
 - **Sezonowość.** Jesień i zima = więcej infekcji, więcej L4 i e-recept. Porównujemy te same miesiące rok do roku i retencję w obrębie tej samej usługi (L4 z L4). W kohortach dziennych wygładzamy efekt dnia tygodnia (średnia z 7 dni albo porównanie z tym samym dniem tygodnia). Ograniczenie: dwa lata danych to jedna obserwacja każdego sezonu na rok — sezonowości nie oddzielimy w pełni od trendu; to trafia na listę „czego nie da się rozstrzygnąć”.
-- **Zmiana struktury pacjentów.** Retencję porównujemy w obrębie tego samego źródła i tej samej usługi, bo zmiana udziału źródeł potrafi obniżyć retencję całości, choć w każdym źródle się nie zmienia.
+- **Zmiana struktury pacjentów.** Retencję porównujemy w obrębie tego samego źródła i tej samej usługi, bo zmiana udziału źródeł potrafi obniżyć retencję całości, choć w każdym źródle się nie zmienia. *(dopisane 2026-10-19 po recenzji Codeksa w A4)* Pokazujemy dwa wyniki: powrót całej pozyskanej bazy i powrót przy stałej strukturze kanałów z okresu 1; potem to samo dla pierwszej usługi i zniżki. TikTok (brak w okresie 1) pokazujemy jako nowy, osobny segment. Wynik po wyrównaniu struktury nie jest dowodem przyczyny.
+- **Porównanie okresów** *(dopisane 2026-10-19, `ZALOZENIA.md` 27)*: na tych samych dniach kalendarzowych, z liczbą pacjentów przy każdym wyniku.
 
 **Stop — wstępne wnioski z Kubą.** Potem propozycja rundy konsylium na wstępnych wnioskach (brief bez naszej opinii, do 3 USD).
 
@@ -79,20 +83,21 @@ Przy każdej: warianty i to, ile każdy zmienia w liczbie nowych pacjentów, w p
 ## B. Narzędzie — dopiero po wspólnej wstępnej analizie
 - Strona statyczna, dane przeliczone wcześniej do plików JSON, wykresy i filtry w przeglądarce. Technologię wybieramy razem na starcie tej fazy.
 - Zawartość: odpowiedź „czy to wzrost”, kohorty dzienne z filtrami, lejek w podziałach i w czasie, sekcja „po zakupie”, oś czasu wykrytych zdarzeń, wynik biznesu (przychód i marża), jakość danych, priorytety, czego nie wiemy.
+- *(dopisane 2026-10-19 po A4)* Filtr kohort według statusu pierwszego zamówienia. Przy ekonomii kampanii wynik według sesji płatności obok wyniku według przyjętej reguły źródła. Przy CRM okno 24 godzin, a obok okno 7 dni.
 
 **Stop — Kuba przegląda narzędzie lokalnie, przed jakąkolwiek publikacją.**
 
 ## C. Uzupełnienie analizy
 - Pogłębienie przyczyn wykrytych zdarzeń. Każdy słaby wynik oglądamy oczami marketingu i obsługi pacjenta (zasada „najpierw napraw, potem wyłączaj”): obietnica reklamy, strona wejścia, przebieg wizyty, komunikacja po zakupie.
 - **Lista priorytetów, wartość w marży.** Marża = przychód z konsultacji po zwrotach + przychód z TelemediGO − koszt lekarza (także za wizyty zwrócone) − wydatki na kampanie − prowizja afiliacyjna. Przy każdej pozycji: założenia, po czym poznamy, że zadziałała, ile zajmie wdrożenie. Przy słabych wynikach dwie opcje — naprawić albo wyłączyć — każda z wartością w marży.
-- Lista „czego nie da się rozstrzygnąć” — przy każdej pozycji test albo dane, których brakuje. Pozycje już wpisane: (1) sesje zalogowane od wejścia bez zakupu — oba odczytania (zepsuta ścieżka zakupu dla powracających albo inny cel wizyty / sposób pomiaru), test rozstrzygający (zalogować się, wejść ponownie zalogowanym, spróbować kupić bez ponownego logowania, sprawdzić zapisane kroki) i wartość wariantu pesymistycznego w marży; (2) koszt lekarza za wizyty testowe (51 775 zł według zasady z zadania).
+- Lista „czego nie da się rozstrzygnąć” — przy każdej pozycji test albo dane, których brakuje. Pozycje już wpisane: (1) sesje zalogowane od wejścia bez zakupu — oba odczytania (zepsuta ścieżka zakupu dla powracających albo inny cel wizyty / sposób pomiaru), test rozstrzygający (zalogować się, wejść ponownie zalogowanym, spróbować kupić bez ponownego logowania, sprawdzić zapisane kroki) i wartość wariantu pesymistycznego w marży; (2) koszt lekarza za wizyty testowe (51 775 zł według zasady z zadania). *(dopisane 2026-10-19 po A4)* (3) wartość remarketingu porzuconego koszyka — reguła pierwszego wejścia z definicji przypisuje mu mało pacjentów; test: grupa kontrolna bez remarketingu; (4) czy newsletter i SMS wywołują zakup, czy pacjent kupiłby i tak — widać tylko kliknięcia, nie wysyłki; test: grupa kontrolna bez wysyłki; (5) warunki umowy z rankingiem lekarzy (która wizyta daje prowizję) — liczymy naszą regułą źródła, wariant po kodzie RANKING10 obok.
 - Uzupełnienie narzędzia.
 
 **Stop — przegląd z Kubą.**
 
 ## D. Weryfikacja
 - **Najpierw: dokładny przegląd zamówień testowych** (decyzja Kuby z 2026-10-19 przy zamknięciu A2). Do tego czasu 22 konta testowe są wyłączone ze wszystkich liczb. Na końcu sprawdzamy jeszcze raz, czy wyłączenie jest słuszne i kompletne, czy test nie przykrywa prawdziwych zamówień i jak liczyć koszt lekarza za testy (51 775 zł według zasady z zadania).
-- Codex (model Sol): przegląd kodu i definicji.
+- Codex (model Sol): przegląd kodu. *(zmienione 2026-10-19)* Definicje sprawdził już w A4.
 - Konsylium: główny wniosek i lista priorytetów.
 - Codex (model Astra): końcowa weryfikacja liczb.
 - Agent Opus: lektura całości jako obcy recenzent.

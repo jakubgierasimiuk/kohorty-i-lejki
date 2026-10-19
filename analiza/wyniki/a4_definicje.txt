@@ -1,0 +1,409 @@
+A4 — WARIANTY DEFINICJI (2026-10-19 17:07), schemat `czyste`
+Okres 1 = 1.10.2024 – 30.09.2025, okres 2 = 1.10.2025 – 30.09.2026 (data pierwszego zakupu, czas polski).
+Powrót w N dniach = zdarzenie powrotu najpóźniej N-tego dnia kalendarzowego po dniu wejścia do kohorty.
+Liczony tylko dla kohort z pełnym oknem (dzień kohorty <= 30.09.2026 minus N dni): 30 dni do 31.08.2026,
+60 dni do 1.08.2026, 90 dni do 2.07.2026. Okres 1 ma pełne okna w całości.
+
+====================================================================================================
+1. NOWY PACJENT
+====================================================================================================
+   N1: pierwsze opłacone zamówienie konsultacji (dowolny status) — jak dashboard
+   N2: pierwsza jakakolwiek płatność (zamówienie albo samo TelemediGO)
+   N3: pierwsze zamówienie nieanulowane (odbyte, zwrócone po wizycie albo nieodebrane)
+   N4: pierwsza wizyta, która się odbyła (odbyta albo zwrócona po wizycie)
+
+1a. Liczba nowych pacjentów i zmiana wobec N1
+     wariant  nowi_okres1  nowi_okres2  wzrost_proc  nowi_razem  wypada_wobec_N1  zmienia_dzien_kohorty  zmienia_okres
+          N1        16231        24687         52.1       40918                0                      0              0
+          N2        16231        24687         52.1       40918                0                      0              0
+          N3        15679        23807         51.8       39486             1432                    238             13
+          N4        15351        23272         51.6       38623             2295                    383             19
+      go_osobno_przed_pierwszym_zamowieniem  go_bez_zadnego_zamowienia
+                                          0                          0
+
+1b. Powrót (R1: kolejne opłacone zamówienie) w 30/60/90 dniach, % kohorty, okres 1 wobec okresu 2
+     wariant  p30_o1  p30_o2  p60_o1  p60_o2  p90_o1  p90_o2
+          N1    11.3     8.1    19.7    14.2    24.4    17.9
+          N2    11.3     8.1    19.7    14.2    24.4    17.9
+          N3    11.5     8.3    20.0    14.5    24.9    18.3
+          N4    11.6     8.4    20.3    14.7    25.2    18.5
+
+1c. Struktura źródeł nowych pacjentów (kanał sesji zdarzenia, które robi z pacjenta nowego), % pacjentów, dwa lata
+                      kanal   N1   N2   N3   N4  N2-N1_pkt  N3-N1_pkt  N4-N1_pkt
+               bezposrednie 22.8 22.8 23.0 23.1        0.0        0.2        0.3
+          google_ads_ogolne 19.2 19.2 19.2 19.2        0.0        0.0        0.0
+     wyszukiwarka_bezplatna 18.8 18.8 18.8 18.7        0.0        0.0       -0.1
+           google_ads_marka 13.2 13.2 13.2 13.2        0.0        0.0        0.0
+            meta_pozyskanie 12.6 12.6 12.5 12.5        0.0       -0.1       -0.1
+           meta_remarketing  5.2  5.2  5.2  5.2        0.0        0.0        0.0
+                     tiktok  3.9  3.9  3.9  3.9        0.0        0.0        0.0
+            program_polecen  2.2  2.2  2.2  2.2        0.0        0.0        0.0
+          afiliacja_ranking  2.1  2.1  2.0  2.0        0.0       -0.1       -0.1
+                        crm  0.0  0.0  0.1  0.1        0.0        0.1        0.1
+
+1d. Pierwsze zamówienie według statusu w każdym kanale (sesja płatności), % pierwszych zamówień
+                      kanal  pierwsze_zamowienia  proc_anulowane  proc_nieodebrane  proc_zwrot_po_wizycie
+               bezposrednie                 9344             3.9               2.4                    3.0
+          google_ads_ogolne                 7870             4.0               2.2                    2.2
+     wyszukiwarka_bezplatna                 7682             4.1               2.8                    2.7
+           google_ads_marka                 5410             4.3               2.6                    3.6
+            meta_pozyskanie                 5166             4.2               2.5                   11.0
+           meta_remarketing                 2127             4.2               2.7                    3.5
+                     tiktok                 1593             3.8               1.9                   13.3
+            program_polecen                  884             3.7               1.7                    1.7
+          afiliacja_ranking                  842             4.0               3.0                    2.1
+
+1e. Łączenie kont po przeglądarce
+      przegladarki_z_kontem  przegladarki_z_wiecej_niz_jednym_kontem
+                      57473                                        0
+      konta  konta_z_wiecej_niz_jedna_przegladarka
+      52400                                   3835
+     Żadna przeglądarka nie należy do dwóch kont, więc łączenie kont po przeglądarce nie zmienia liczby pacjentów.
+     Przeglądarka łączy tylko anonimowe sesje z kontem (to wykorzystuje reguła źródła w punkcie 4).
+
+====================================================================================================
+2. ANULACJE I ZWROTY
+====================================================================================================
+   Statusy: completed = wizyta odbyta; cancelled = anulowana przed wizytą, pełny zwrot; no_show = pacjent nie
+   odebrał, bez zwrotu; refunded = wizyta odbyta, zwrot po wizycie. Koszt lekarza: completed i refunded.
+
+2a. Pierwsze zamówienie pacjenta według statusu i powrót (R1) w 30/60/90 dniach
+        status  pacjenci  proc_pacjentow  okres1  okres2  powrot30_proc  powrot60_proc  powrot90_proc
+     completed     36505            89.2   14822   21683           10.0           17.6           22.1
+      refunded      1735             4.2     341    1394            2.3            3.3            3.9
+     cancelled      1670             4.1     678     992            6.3           10.3           14.1
+       no_show      1008             2.5     390     618            6.7           12.0           15.0
+     Pacjenci z anulowanym pierwszym zamówieniem: czy i kiedy składają nieanulowane zamówienie
+      pacjenci_anulowane_pierwsze  maja_pozniej_nieanulowane  w_ciagu_7_dni  w_ciagu_30_dni  nigdy
+                             1670                        238             13              99   1432
+
+2b. Kolejne zamówienia (od drugiego) według statusu — czy anulowany powrót jest powrotem
+        status  zamowienia_powtorne  proc
+     completed                20432  91.7
+     cancelled                  902   4.0
+       no_show                  572   2.6
+      refunded                  383   1.7
+      pacjenci_z_powrotem_R1_90d  z_tego_w_90d_tylko_anulowane
+                            7359                           240
+
+2c. Przychód z konsultacji: zapłaty przed zwrotami, zwroty i przychód po zwrotach, zł
+     Zwrot przypisujemy do dnia płatności zamówienia (w danych nie ma daty zwrotu).
+      okres    status  zamowienia  zaplaty_zl  zwroty_zl  po_zwrotach_zl
+          1 completed       22603   2174356.0        0.0       2174356.0
+          1 cancelled        1030     98577.0    98577.0             0.0
+          1   no_show         591     55911.0        0.0         55911.0
+          1  refunded         492     45884.0    45884.0             0.0
+          2 completed       34334   3138258.0        0.0       3138258.0
+          2  refunded        1626    138532.0   138532.0             0.0
+          2 cancelled        1542    141323.0   141323.0             0.0
+          2   no_show         989     90085.0        0.0         90085.0
+                                   wariant  okres1_zl  okres2_zl  wzrost_proc
+     A: zaplaty przed zwrotami (dashboard)  2374728.0  3508198.0         47.7
+                            B: po zwrotach  2230267.0  3228342.0         44.8
+               C: po zwrotach + TelemediGO  2386818.0  3447994.0         44.5
+
+====================================================================================================
+3. POWRÓT (nowy pacjent = N1)
+====================================================================================================
+   R1: kolejne opłacone zamówienie (dowolny status)
+   R2: kolejne zamówienie nieanulowane
+   R3: kolejna wizyta, która się odbyła
+   R4: R1 albo osobny zakup TelemediGO
+
+3a. Odsetek kohorty z powrotem w 30/60/90 dniach, okres 1 wobec okresu 2
+     wariant  p30_o1  p30_o2  p60_o1  p60_o2  p90_o1  p90_o2
+          R1    11.3     8.1    19.7    14.2    24.4    17.9
+          R2    11.0     7.8    19.0    13.7    23.6    17.4
+          R3    10.7     7.7    18.5    13.3    23.0    16.9
+          R4    11.3     8.1    19.7    14.2    24.4    17.9
+     Liczba kohort dziennych i pacjentów z pełnym oknem:
+      dni_30  pacjenci_30  dni_60  pacjenci_60  dni_90  pacjenci_90
+         700        38877     670        37054     640        35155
+
+3b. Ile dni mija od pierwszego do drugiego zamówienia (wszyscy pacjenci z drugim zamówieniem)
+     przedzial_dni  pacjenci  proc  min_dni
+               1-7       705   7.7        1
+              8-14      1203  13.1        8
+             15-30      1833  20.0       15
+             31-60      2663  29.1       31
+             61-90      1500  16.4       61
+            91-180      1049  11.4       91
+         ponad 180       213   2.3      181
+      najkrotsza_przerwa_min_miedzy_kolejnymi_zamowieniami  kolejne_zamowienia_tego_samego_dnia
+                                                      1474                                    0
+
+3c. Osobny zakup TelemediGO jako powrót: ile razy w 90 dniach to jedyny powrót
+      z_powrotem_R4  z_powrotem_R1  tylko_go
+               7359           7359         0
+     Kontrola: osobne zakupy TelemediGO według dni od pierwszego zamówienia i zamówienia w tym samym oknie
+            kiedy  zakupy_go_osobno  przed_drugim_zamowieniem
+        do 90 dni               192                         0
+     po 90 dniach               494                         0
+
+3d. Powrót w 90 dniach według kanału (sesja płatności pierwszego zamówienia), cztery warianty powrotu, %
+     (warianty powrotu nie zmieniają, kto jest nowym pacjentem ani z jakiego źródła przyszedł)
+                      kanal  kohorta_90d   R1   R2   R3   R4
+               bezposrednie         8229 23.1 22.5 21.9 23.1
+          google_ads_ogolne         7050 23.3 22.5 21.9 23.3
+     wyszukiwarka_bezplatna         6824 22.8 22.0 21.5 22.8
+           google_ads_marka         4784 23.0 22.3 21.8 23.0
+            meta_pozyskanie         3976  9.8  9.5  9.2  9.8
+           meta_remarketing         1837 22.2 21.5 20.8 22.2
+                     tiktok          921  2.8  2.6  2.5  2.8
+            program_polecen          778 26.7 25.4 24.8 26.7
+          afiliacja_ranking          756 16.8 16.1 16.0 16.8
+
+====================================================================================================
+4. ŹRÓDŁO POZYSKANIA (nowy pacjent = N1, czyli pierwsze opłacone zamówienie)
+====================================================================================================
+   Z1: pierwsze wejście pacjenta (sesje konta + anonimowe sesje jego przeglądarek, do momentu zakupu)
+   Z1b: pierwsze wejście bez łączenia przez przeglądarkę (tylko sesje z kontem)
+   Z2: sesja, w której zapłacił
+   Z3: ostatnie wejście z oznaczonego źródła (nie bezpośrednie) w 30 dniach przed zakupem; brak = bezpośrednie
+   Z3_7, Z3_90: to samo z oknem 7 i 90 dni (wrażliwość okna)
+   Z1K, Z2K, Z3K: kod kampanii na pierwszym zamówieniu wskazuje źródło, w pozostałych reguła bez zmian
+
+4a. Łączenie anonimowych sesji z kontem przez przeglądarkę
+      nowi_pacjenci  bez_sesji_przed_zakupem  z_anonimowa_sesja_przed_zakupem  srednio_sesji_do_zakupu  tylko_sesja_platnosci  bez_sesji_z_kontem
+              40918                        0                            10498                     1.31                  28207                   0
+     Dni od pierwszego wejścia (Z1) do pierwszego zamówienia:
+         przedzial_dni  pacjenci  proc
+     0 (ten sam dzien)     30726  75.1
+                   1-7     10067  24.6
+                  8-30       125   0.3
+
+4b. Struktura źródeł nowych pacjentów według reguły, % pacjentów, dwa lata
+                      kanal   Z1  Z1b   Z2   Z3  Z3_7  Z3_90  Z1K  Z2K  Z3K
+               bezposrednie 16.0 21.8 22.8 13.4  13.5   13.4 15.8 21.1 13.2
+          google_ads_ogolne 27.2 20.6 19.2 22.5  22.5   22.5 27.2 19.2 22.5
+     wyszukiwarka_bezplatna 18.0 18.5 18.8 20.8  20.8   20.8 17.9 17.8 19.9
+           google_ads_marka  9.7 12.7 13.2 14.2  14.2   14.2  9.6 12.3 13.3
+            meta_pozyskanie 17.2 13.3 12.6 14.5  14.5   14.5 17.5 15.2 16.1
+           meta_remarketing  0.7  4.4  5.2  5.2   5.2    5.2  0.6  4.6  4.6
+                     tiktok  5.3  4.1  3.9  4.4   4.4    4.4  5.4  5.1  5.2
+            program_polecen  3.0  2.3  2.2  2.5   2.5    2.5  3.0  2.2  2.5
+          afiliacja_ranking  3.0  2.2  2.1  2.4   2.4    2.4  3.0  2.5  2.7
+     Liczba pacjentów:
+                      kanal    Z1  Z1b   Z2   Z3  Z3_7  Z3_90   Z1K  Z2K  Z3K
+               bezposrednie  6541 8916 9344 5485  5529   5485  6468 8653 5412
+          google_ads_ogolne 11137 8428 7870 9203  9189   9203 11137 7870 9203
+     wyszukiwarka_bezplatna  7362 7569 7682 8530  8520   8530  7315 7292 8140
+           google_ads_marka  3985 5209 5410 5818  5814   5818  3948 5020 5428
+            meta_pozyskanie  7044 5453 5166 5946  5937   5946  7157 6209 6605
+           meta_remarketing   267 1805 2127 2127  2127   2127   241 1887 1887
+                     tiktok  2159 1671 1593 1818  1814   1818  2209 2067 2128
+            program_polecen  1210  954  884 1007  1005   1007  1210  884 1007
+          afiliacja_ranking  1213  913  842  984   983    984  1233 1036 1108
+
+4c. Ilu pacjentów zmienia kanał wobec Z2 (sesja płatności)
+     regula  zmienia_kanal  proc  zmienia_kampanie
+         Z1           9998  24.4             10016
+        Z1b           1734   4.2              1738
+         Z2              0   0.0                 0
+         Z3           3859   9.4              3859
+       Z3_7           3815   9.3              3815
+      Z3_90           3859   9.4              3859
+        Z1K          10181  24.9             10199
+        Z2K           1711   4.2              1711
+        Z3K           4952  12.1              4952
+     Wariant z kodem wobec tej samej reguły bez kodu:
+     regula  zmienia_kanal_wobec_reguly_bez_kodu
+        Z1K                                  183
+        Z2K                                 1711
+        Z3K                                 1093
+
+4d. Kontrola kodami kampanii: % pacjentów z kodem, których reguła przypisuje do kampanii kodu
+                             kod   Z1  Z1b   Z2   Z3  Z3_7  Z3_90   Z1K   Z2K   Z3K
+     L4SZYBKO20 (3511 pacjentów) 96.8 74.7 70.3 81.2  81.1   81.2 100.0 100.0 100.0
+       RANKING10 (595 pacjentów) 96.6 72.4 67.4 79.2  79.2   79.2 100.0 100.0 100.0
+       TIKTOK25 (1665 pacjentów) 97.0 75.3 71.5 81.4  81.2   81.4 100.0 100.0 100.0
+     Gdzie trafiają pacjenci z kodem, których reguła NIE przypisuje do kampanii kodu (wszystkie trzy kody razem):
+     regula                  kanal  pacjenci
+         Z1           bezposrednie        73
+         Z1 wyszukiwarka_bezplatna        47
+         Z1       google_ads_marka        37
+         Z1       meta_remarketing        26
+         Z2           bezposrednie       691
+         Z2       google_ads_marka       390
+         Z2 wyszukiwarka_bezplatna       390
+         Z2       meta_remarketing       240
+         Z3       google_ads_marka       390
+         Z3 wyszukiwarka_bezplatna       390
+         Z3       meta_remarketing       240
+         Z3           bezposrednie        73
+
+4e. Prowizja afiliacyjna (25 zł za pierwsze opłacone zamówienie pacjenta przypisanego do rankingu)
+     README: prowizja należy się także wtedy, gdy pierwsze zamówienie zostało potem anulowane albo zwrócone.
+     regula  pacjenci_okres1  pacjenci_okres2  pacjenci_razem  prowizja_zl
+         Z1              604              609            1213        30325
+        Z1b              470              443             913        22825
+         Z2              437              405             842        21050
+         Z3              497              487             984        24600
+       Z3_7              497              486             983        24575
+      Z3_90              497              487             984        24600
+        Z1K              616              617            1233        30825
+        Z2K              524              512            1036        25900
+        Z3K              556              552            1108        27700
+                                           wariant  pacjenci_okres1  pacjenci_okres2  pacjenci_razem  prowizja_zl
+                                     kod RANKING10              300              295             595        14875
+     kod RANKING10 albo sesja platnosci z rankingu              524              512            1036        25900
+     jakiekolwiek wejscie z rankingu przed zakupem              604              609            1213        30325
+      roznica_Z1K_minus_RANKING10_zl  roznica_Z1_minus_RANKING10_zl  roznica_Z2_minus_RANKING10_zl  roznica_Z1K_proc_przychodu_po_zwrotach_dwa_lata
+                               15950                          15450                           6175                                             0.29
+
+4f. Program poleceń: pacjenci z wejściem na /polecenie przed zakupem i ilu z nich reguła przypisuje do poleceń
+     regula  pacjenci_z_wejsciem_na_polecenie  przypisani_do_polecen
+         Z1                              1224                   1207
+         Z2                              1224                    881
+         Z3                              1224                   1004
+
+4g. Powrót (R1) w 90 dniach według kanału, zależnie od reguły źródła, % kohort z pełnym oknem
+                      kanal   Z1  Z1b   Z2   Z3  Z3_7  Z3_90  Z1K  Z2K  Z3K
+          afiliacja_ranking 16.7 16.9 16.8 17.0  16.9   17.0 16.7 16.3 16.5
+               bezposrednie 24.9 23.2 23.1 24.6  24.6   24.6 25.0 24.1 24.7
+           google_ads_marka 25.0 23.2 23.0 23.3  23.3   23.3 25.1 24.0 24.2
+          google_ads_ogolne 23.1 23.3 23.3 23.4  23.4   23.4 23.1 23.3 23.4
+            meta_pozyskanie  9.7  9.7  9.8 10.0  10.0   10.0  9.7  9.0  9.5
+           meta_remarketing 25.3 22.7 22.2 22.2  22.2   22.2 26.9 23.9 23.9
+            program_polecen 26.3 26.9 26.7 26.0  26.0   26.0 26.3 26.7 26.0
+                     tiktok  3.1  2.8  2.8  3.3   3.3    3.3  3.3  3.1  3.3
+     wyszukiwarka_bezplatna 24.0 23.0 22.8 22.8  22.8   22.8 24.1 23.6 23.6
+
+4h. Struktura źródeł w okresie 1 i okresie 2 dla trzech reguł podstawowych, % pacjentów okresu
+                      kanal  Z1_o1  Z1_o2  Z2_o1  Z2_o2  Z3_o1  Z3_o2
+               bezposrednie   18.9   14.1   24.9   21.5   15.8   11.8
+            meta_pozyskanie    6.3   24.4    4.7   17.9    5.3   20.6
+     wyszukiwarka_bezplatna   21.3   15.8   21.2   17.2   23.7   19.0
+          google_ads_ogolne   34.1   22.7   24.1   16.1   28.2   18.7
+           google_ads_marka   11.5    8.6   14.6   12.3   15.8   13.2
+                     tiktok    0.0    8.7    0.0    6.5    0.0    7.4
+           meta_remarketing    0.8    0.6    5.4    5.0    5.4    5.0
+            program_polecen    3.4    2.7    2.4    2.0    2.8    2.3
+          afiliacja_ranking    3.7    2.5    2.7    1.6    3.1    2.0
+
+====================================================================================================
+5. OKNO POWROTU PO WEJŚCIU Z NEWSLETTERA ALBO SMS-A
+====================================================================================================
+   Kontakt = sesja z kampanii CRM, przypisana do pacjenta (konto albo jego przeglądarka). Wysyłek bez
+   kliknięcia w danych nie widać. Zamówienia liczymy na pacjenta, w dowolnej sesji, od chwili wejścia;
+   tylko zamówienia nieanulowane, jak przy powrocie (ZALOZENIA.md punkt 19), chyba że opis mówi inaczej.
+   Dzień 0 = pierwsze 24 godziny od wejścia; odstępy liczone w UTC (zmiana czasu nie przesuwa doby).
+   Tylko wejścia z pełnymi 61 dniami obserwacji (wejście + 61 dni <= koniec danych, czyli do 31.07.2026).
+
+5a. Wejścia z CRM według kampanii
+                      kampania  wejscia  wejscia_pacjentow_po_zakupie  wejscia_przed_pierwszym_zakupem
+              crm_reactivation     7633                          7633                                0
+     crm_recepta_przypomnienie     3845                          3845                                0
+         crm_sms_przypomnienie     3761                          3761                                0
+                 crm_go_upsell      887                           887                                0
+
+5b. Zamówienia na 1000 wejść na dzień, według dnia od wejścia (pacjenci po pierwszym zakupie)
+     d4_7, d8_14, d15_30 i d31_60_tlo to średnia na jeden dzień w przedziale; d31_60 traktujemy jako tło.
+                                        grupa  wejscia  w_tej_sesji  d0_poza_sesja  d1   d2  d3  d4_7  d8_14  d15_30  d31_60_tlo
+                             crm_reactivation     7633        173.1            3.0 2.9  3.9 5.1   5.3    4.7     4.6         4.1
+                    crm_recepta_przypomnienie     3845        198.2            2.3 2.9  2.6 5.5   4.0    4.3     4.7         4.4
+                        crm_sms_przypomnienie     3761        172.6            3.7 3.5  2.7 4.0   4.7    4.3     3.9         4.2
+                                crm_go_upsell      887          0.0           12.4 9.0 12.4 5.6  14.7    9.3    11.5         9.6
+                                    CRM razem    16126        169.4            3.5 3.3  3.8 5.0   5.4    4.8     4.8         4.5
+     CRM bez go_upsell: zalogowana od wejscia    10330          0.0            3.5 4.1  3.3 4.7   3.9    3.5     3.1         3.0
+                 CRM bez go_upsell: pozostale     4909        556.5            2.0 0.8  3.3 5.3   6.9    6.7     7.2         6.9
+           porownanie: inne wejscia pacjentow    26371        628.3            1.9 2.8  6.1 8.0   8.3    8.9     9.9         9.6
+
+5c. Odsetek wejść z CRM (pacjenci po pierwszym zakupie), po których pacjent zamawia w ciągu N dni
+                      kampania  wejscia  do_1_dnia  do_3_dni  do_7_dni  do_14_dni  do_30_dni
+              crm_reactivation     7633       17.6      18.2      19.6       21.7       25.0
+     crm_recepta_przypomnienie     3845       20.1      20.6      21.7       23.3       27.0
+         crm_sms_przypomnienie     3761       17.6      18.1      19.4       21.1       24.3
+                 crm_go_upsell      887        1.2       3.4       8.3       13.9       29.1
+
+5e. Okno przypisania zamówienia do wejścia z CRM: zamówienia na 1000 wejść i nadwyżka nad tłem
+     (kampanie CRM bez crm_go_upsell, pacjenci po pierwszym zakupie; tło = średnia dzienna z dni 31-60
+     po wejściu razy liczba dni okna; w tej samej sesji tła nie odejmujemy)
+     Zalogowana od wejścia = konto w sesji i brak kroku logowania (ZALOZENIA.md, punkt 10).
+                     grupa                okno  zamowienia_na_1000  tlo_na_1000  nadwyzka_na_1000
+         CRM bez go_upsell tylko ta sama sesja               179.3          0.0             179.3
+         CRM bez go_upsell        do 24 godzin               182.3          4.2             178.1
+         CRM bez go_upsell            do 3 dni               188.6         12.6             175.9
+         CRM bez go_upsell            do 7 dni               207.4         29.5             177.9
+         CRM bez go_upsell           do 14 dni               240.8         59.0             181.8
+         CRM bez go_upsell           do 30 dni               310.7        126.5             184.3
+     zalogowana od wejscia tylko ta sama sesja                 0.0          0.0               0.0
+     zalogowana od wejscia        do 24 godzin                 3.5          3.0               0.5
+     zalogowana od wejscia            do 3 dni                10.8          8.9               2.0
+     zalogowana od wejscia            do 7 dni                26.8         20.7               6.1
+     zalogowana od wejscia           do 14 dni                52.2         41.5              10.7
+     zalogowana od wejscia           do 30 dni               102.1         88.9              13.3
+                 pozostale tylko ta sama sesja               556.5          0.0             556.5
+                 pozostale        do 24 godzin               558.6          6.9             551.7
+                 pozostale            do 3 dni               562.6         20.6             542.1
+                 pozostale            do 7 dni               587.3         48.0             539.3
+                 pozostale           do 14 dni               637.6         95.9             541.7
+                 pozostale           do 30 dni               749.6        205.5             544.1
+
+5d. crm_go_upsell: zakupy TelemediGO na 1000 wejść, według dnia od wejścia
+      wejscia  w_tej_sesji  d0_poza_sesja  d1_3  d4_7  d8_30  d31_60_tlo
+          887        695.6            1.1   0.4   0.8    0.4         0.3
+
+====================================================================================================
+6. PRZYJĘTE DEFINICJE (Kuba, 2026-10-19) — LICZBY ODNIESIENIA DLA A5
+====================================================================================================
+   Nowy pacjent = N1 (status pierwszego zamówienia jako podział). Powrót = R2 w oknach 30/60/90 dni.
+   TelemediGO mierzone osobno, nie jako powrót. Przychód z konsultacji po zwrotach, TelemediGO osobno.
+   Źródło = Z1K (pierwsze wejście z anonimowymi sesjami przeglądarek pacjenta; kod kampanii rozstrzyga).
+   Prowizja afiliacyjna = reguła Z1K. Okno CRM = 24 godziny od wejścia, na pacjenta, w dowolnej sesji,
+   tylko zamówienia nieanulowane; przy przypisaniu sprzedaży zamówienie idzie do ostatniego wejścia z CRM.
+   Okresy porównujemy na tych samych dniach kalendarzowych (punkt 27). Zmiany po recenzji Codeksa (Sol).
+
+6a. Nowi pacjenci według statusu pierwszego zamówienia i powrót R2 w 90 dniach (okres 2: kohorty do 2.07.2026)
+     status_pierwszego  nowi_o1  nowi_o2  powrot90_o1  powrot90_o2
+             completed    14822    21683         24.5         18.6
+             cancelled      678      992         17.6         10.4
+               no_show      390      618         16.2         13.1
+              refunded      341     1394          5.0          3.3
+
+6b. Powrót R2 w 30/60/90 dniach, wszyscy nowi pacjenci, % kohorty
+      p30_o1  p30_o2  p60_o1  p60_o2  p90_o1  p90_o2
+        11.0     7.8    19.0    13.7    23.6    17.4
+     Porównywalne dni kalendarzowe (recenzja Codeksa): w okresie 1 tylko kohorty do tego samego dnia roku,
+     co ostatnia dojrzała kohorta okresu 2 (30 dni: 31.08, 60 dni: 1.08, 90 dni: 2.07); n = liczba pacjentów
+      p30_o1  p30_o2  n30_o1  n30_o2  p60_o1  p60_o2  n60_o1  n60_o2  p90_o1  p90_o2  n90_o1  n90_o2
+        11.0     7.8   14984   22646    19.1    13.7   13941   20823    23.9    17.4   12867   18924
+
+6c. Nowi pacjenci według kanału (Z1K: reguła przyjęta) i powrót R2 w 90 dniach
+                      kanal  nowi_o1  nowi_o2  udzial_o1  udzial_o2  powrot90_o1  powrot90_o2
+            meta_pozyskanie     1022     6135        6.3       24.9         20.7          6.7
+          google_ads_ogolne     5540     5597       34.1       22.7         23.3         21.1
+     wyszukiwarka_bezplatna     3450     3865       21.3       15.7         24.1         22.7
+               bezposrednie     3069     3399       18.9       13.8         24.8         23.6
+                     tiktok        0     2209        0.0        8.9          NaN          3.2
+           google_ads_marka     1864     2084       11.5        8.4         25.1         23.6
+            program_polecen      550      660        3.4        2.7         24.2         26.1
+          afiliacja_ranking      616      617        3.8        2.5         15.7         16.8
+           meta_remarketing      120      121        0.7        0.5         30.8         21.4
+
+6c. Nowi pacjenci według kanału (Z2: sesja płatności, pokazywana obok przy ekonomii kampanii) i powrót R2 w 90 dniach
+                      kanal  nowi_o1  nowi_o2  udzial_o1  udzial_o2  powrot90_o1  powrot90_o2
+               bezposrednie     4047     5297       24.9       21.5         24.5         20.5
+            meta_pozyskanie      755     4411        4.7       17.9         20.3          7.0
+     wyszukiwarka_bezplatna     3434     4248       21.2       17.2         23.5         20.5
+          google_ads_ogolne     3904     3966       24.1       16.1         23.6         21.1
+           google_ads_marka     2377     3033       14.6       12.3         24.1         20.4
+                     tiktok        0     1593        0.0        6.5          NaN          2.6
+           meta_remarketing      881     1246        5.4        5.0         25.0         18.3
+            program_polecen      396      488        2.4        2.0         23.7         27.2
+          afiliacja_ranking      437      405        2.7        1.6         15.6         16.9
+
+6d. Prowizja afiliacyjna według reguły Z1K i według kodu RANKING10, zł
+           wariant  okres1_zl  okres2_zl  razem_zl
+               Z1K      15400      15425     30825
+     kod RANKING10       7500       7375     14875
+
+6e. Wejścia z CRM: zamówienia (i zakupy TelemediGO) pacjenta do 24 godzin od wejścia, na 1000 wejść
+     (wejścia z pełnymi 61 dniami obserwacji, pacjenci po pierwszym zakupie)
+     zamowienia_24h = nieanulowane, każde wejście osobno; z_anulowanymi = wszystkie płatności;
+     rozlacznie = każde nieanulowane zamówienie przypisane tylko do ostatniego wejścia z CRM przed płatnością
+                      kampania  wejscia  zamowienia_24h_na_1000  z_anulowanymi_na_1000  zamowienia_rozlacznie  rozlacznie_na_1000  go_24h_na_1000
+              crm_reactivation     7633                   176.1                  183.0                   1338               175.3            12.8
+     crm_recepta_przypomnienie     3845                   200.5                  206.0                    770               200.3            15.6
+         crm_sms_przypomnienie     3761                   176.3                  184.0                    662               176.0            12.2
+                 crm_go_upsell      887                    12.4                   12.4                      8                 9.0           696.7

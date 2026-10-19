@@ -59,3 +59,28 @@ Decyzje podjęte w trakcie pracy (metoda, podziały, narzędzie, hosting) — co
 **Decyzja Kuby:** jedna sesja nie przekracza 60% dostępnego kontekstu. Nowy punkt planu albo duże przeliczenia najchętniej robimy w nowej sesji. Sesje komunikują się przez `notatki/PRZEKAZANIE.md`. Zasada jest w `CLAUDE.md`, punkt 14. Sesja prowadząca decyduje na bieżąco, czy zostaje przy punkcie, czy uruchamia nową sesję.
 
 **Pierwsze zastosowanie:** punkt A4 robi nowa sesja. Ta sesja prowadziła A1–A3 z dużymi wydrukami, a A4 to nowy punkt, który wymaga uważnej, wspólnej pracy nad definicjami.
+
+## 2026-10-19 — definicje przed kohortami (punkt A4)
+
+**Decyzja Kuby:** przyjęte definicje z `ZALOZENIA.md`, punkty 16–26. Warianty i ich wpływ policzył `analiza/a4_definicje.py` (raport `analiza/wyniki/a4_definicje.txt`). Pracę prowadziła osobna sesja, zgodnie z zasadą higieny kontekstu.
+
+| Sprawa | Przyjęte | Odrzucone warianty | Dlaczego |
+|---|---|---|---|
+| Nowy pacjent | pierwsze opłacone zamówienie, dowolny status; status pierwszego zamówienia jako podział kohort | pierwsza jakakolwiek płatność (daje to samo), pierwsze nieanulowane, pierwsza odbyta wizyta | Najbliżej słów zadania: dashboard („pacjenci z pierwszym zakupem”), słownik zamówień i reguła prowizji. Warianty zmieniają wzrost najwyżej o 0,5 punktu procentowego. Status pierwszej wizyty różnicuje powroty, więc lepiej go pokazywać niż wycinać. |
+| Powrót | kolejne zamówienie nieanulowane, okna 30/60/90 dni | każde kolejne opłacone, kolejna odbyta wizyta | Anulacja to pełny zwrot przed wizytą, więc pacjent nic nie kupił. Nieodebrana wizyta to zapłata, która zostaje. |
+| TelemediGO jako powrót | nie, mierzone osobno | tak | W obecnych danych bez wpływu. Odrębna miara jest czytelniejsza. |
+| Przychód | po zwrotach, TelemediGO osobno, zwrot w dniu płatności | przed zwrotami (jak dashboard) | Standard z `CLAUDE.md`, punkt 9. Słownik oddziela TelemediGO od konsultacji. Daty zwrotu w danych nie ma. |
+| Źródło pozyskania | pierwsze wejście z anonimowymi sesjami przeglądarek pacjenta; kod kampanii rozstrzyga | pierwsze wejście bez kodu, ostatnie oznaczone wejście, sesja płatności | Najwyższa zgodność z kodami kampanii (97% wobec 67–81%). |
+| Prowizja afiliacyjna | ta sama reguła co źródło: 30 825 zł za dwa lata | sam kod RANKING10: 14 875 zł, pokazywany obok jedną liczbą | Zasada z A2. Różnica 15 950 zł to 0,29% przychodu, więc więcej czasu temu nie poświęcamy. |
+| Okno po newsletterze i SMS-ie | 24 godziny, na pacjenta, w dowolnej sesji, tylko zamówienia nieanulowane; przy przypisaniu sprzedaży ostatnie wejście przed płatnością; 7 dni obok jako wrażliwość | tylko ta sama sesja, 7 dni | Nadwyżka ponad zwykłe tempo jest prawie cała w tej samej sesji. 24 godziny łapią też zmianę urządzenia. |
+
+**Dopiski Kuby przy przyjęciu:**
+1. Przy ekonomii kampanii (koszt pozyskania, wynik na pacjenta) pokazujemy obok wynik według sesji płatności, także w narzędziu. Jeśli wynik kampanii zmienia znak zależnie od reguły, opisujemy go jako niepewny, a nie jako wniosek. Wartość remarketingu trafia na listę niewiadomych razem z testem.
+2. Większość wejść z newslettera i SMS-ów to sesje zalogowane bez żadnego zakupu. To dopisujemy do sprawy sesji zalogowanych w A5, bo CRM to nasz główny kanał powrotów.
+3. Podstawę przyjęcia definicji nowego pacjenta zapisujemy w założeniach, bo zadanie nie definiuje go wprost (`ZALOZENIA.md`, punkt 16).
+4. Recenzję definicji przez Codeksa (model Sol, profil `review`) robimy przed zamknięciem A4, a nie dopiero w punkcie D. Błąd w definicjach znaleziony w środę oznaczałby przeliczanie wszystkiego od nowa. Na tym etapie nie używamy modelu Astra, konsylium ani Fable.
+
+**Recenzja definicji przez Codeksa (model Sol, profil `review`, tylko odczyt), 2026-10-19.** Polecenie: `notatki/recenzje/a4_codex_prompt.md`. Odpowiedź: `notatki/recenzje/a4_codex_odpowiedz.md`. Podsumowanie i nasze decyzje: `notatki/recenzje/a4_codex.md`. Codex nie znalazł błędu, który zmieniałby odpowiedź. Ręcznie sprawdził siedmiu pacjentów. Przyjęliśmy wszystkie siedem uwag:
+- trzy poprawki techniczne w kodzie (czas w UTC, pełne 61 dni obserwacji tła, wyjątek dla samego TelemediGO w sesjach zalogowanych);
+- trzy doprecyzowania definicji, przyjęte przez Kubę: okno CRM tylko z zamówieniami nieanulowanymi, rozłączne przypisanie sprzedaży do ostatniego wejścia z CRM oraz porównanie okresów na tych samych dniach kalendarzowych (`ZALOZENIA.md` 26 i 27);
+- jedną metodę do A5: oddzielenie zmiany struktury pacjentów od zmiany ich zachowania.
