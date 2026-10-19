@@ -168,7 +168,7 @@ def zbuduj_crm(con, dni_obserwacji=61):
 
 # Koszt lekarza za wizytę, która się odbyła (completed i refunded, także zwróconą), zł — zasada z zadania.
 # Pediatra liczy się jak „inny specjalista” (100 zł), bo TelemediGO daje mu zniżkę 20% jak specjalistom,
-# a nie 50% jak interniście (propozycja założenia 28, notatki/a5_retencja.md).
+# a nie 50% jak interniście (propozycja założenia 33, notatki/a5_retencja.md).
 KOSZT_LEKARZA = """
   CASE WHEN status IN ('completed', 'refunded')
        THEN CASE specialization WHEN 'internista' THEN 25 WHEN 'psychiatra' THEN 200 ELSE 100 END

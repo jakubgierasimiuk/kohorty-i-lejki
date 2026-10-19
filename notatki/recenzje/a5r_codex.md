@@ -11,6 +11,6 @@
 | 3 | Wykluczenie sezonu zbyt stanowcze | ważna | Przyjęte. Dodana kontrola L4 na wspólnych datach pozyskania (kohorty 9.02–2.07.2026): kampania Meta na L4 4,1% (2 200), TikTok 2,8% (1 060), pozostałe kanały 14,4% (1 364). Dodany rozkład bez nowych kampanii według miesiąca kohorty: struktura miesięcy +0,04, spadek w miesiącach −1,96 punktu. Nowe sformułowanie: „różnica utrzymuje się dla tej samej usługi i wspólnych dat pozyskania; zmiana struktury miesięcy jej nie wyjaśnia”. |
 | 4 | „Zachowanie” to reszta po uwzględnionych cechach, nie rozpoznana przyczyna; 261 z 409 komórek ma mniej niż 10 pacjentów | ważna | Przyjęte. Sformułowanie: „uwzględnione cechy nie wyjaśniają pozostałej różnicy”. Główny wynik na poziomie kampanii (i kampanii × usługi), drobniejsze podziały jako kontrola. Liczba małych komórek w raporcie (sekcja 5a: 261 z 409, 7,6% pacjentów). |
 | 5 | Składniki zaokrąglane osobno nie zawsze sumują się do zmiany | drobna | Adnotacja w nagłówku raportu. |
-| — | Koszt pediatry: uzasadniać przede wszystkim treścią zasady kosztowej („100 zł każdy inny specjalista”), zniżka TelemediGO jako dodatkowa przesłanka | drobna | Przyjęte w propozycji założenia 28. |
+| — | Koszt pediatry: uzasadniać przede wszystkim treścią zasady kosztowej („100 zł każdy inny specjalista”), zniżka TelemediGO jako dodatkowa przesłanka | drobna | Przyjęte w propozycji założenia 33 (pierwotnie 28; przenumerowane, bo 28–32 zajmuje część pozyskania). |
 
 Liczby z dodatkowych kontroli powtórzone naszym kodem w `analiza/wyniki/a5r_struktura.txt` (sekcje 5, 5a, 5c, 5d).
