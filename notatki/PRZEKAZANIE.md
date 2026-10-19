@@ -22,7 +22,7 @@ Status wszystkich punktów: `notatki/PLAN.md`.
 **Własność plików w A5 (dwie sesje pracują naraz w tym samym folderze):**
 - sesja retencji: `analiza/definicje.py` (jedyna sesja, która go edytuje), `analiza/a5r_*.py`, `analiza/wyniki/a5r_*`, `notatki/a5_retencja.md`, `notatki/recenzje/a5r_*`;
 - sesja pozyskania: `analiza/a5p_*.py`, `analiza/wyniki/a5p_*`, `notatki/a5_pozyskanie.md`, `notatki/recenzje/a5p_*`;
-- sesja punktu B (narzędzie): `narzedzie/`, `analiza/b_eksport.py`, `analiza/wyniki/b_*`, `notatki/b_narzedzie.md`. Pliki sesji retencji i pozyskania czyta tylko do odczytu;
+- sesja punktu B (narzędzie): `narzedzie/`, `analiza/b_eksport.py`, `analiza/wyniki/b_*`, `notatki/b_narzedzie.md` oraz plik publikacji `.github/workflows/pages.yml` (hosting: GitHub Pages, `DECYZJE.md`). Pliki sesji retencji i pozyskania czyta tylko do odczytu;
 - wspólne notatki (`ZALOZENIA.md`, `ZNALEZISKA.md`, `DECYZJE.md`, `PLAN.md`, ten plik, `analiza/README.md`) oraz pliki A1–A4 edytuje tylko sesja prowadząca. Propozycje wpisów do nich sesje zapisują we własnych notatkach.
 
 **Warunki techniczne narzędzia do czasu wyboru hostingu:** `DECYZJE.md`, wpis „szkielet narzędzia (punkt B) przed końcem A5”. W skrócie: pliki statyczne, ścieżki względne, kotwice w adresie, dane obok strony (każdy plik poniżej 25 MB), biblioteki w repozytorium w przypiętej wersji, `noindex` i `robots.txt`, podgląd przez `python -m http.server` z folderu `narzedzie/`. Publikacja, zdalne repozytorium i push tylko za zgodą Kuby, za każdym razem.
