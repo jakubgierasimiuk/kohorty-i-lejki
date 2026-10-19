@@ -166,13 +166,43 @@ def zbuduj_crm(con, dni_obserwacji=61):
       FROM po_kontakcie WHERE kanal = 'crm' AND byl_pacjentem AND dzien = 0 GROUP BY 1""")
 
 
-def zbuduj(con, crm=True, dni_obserwacji=61):
+# Koszt lekarza za wizytę, która się odbyła (completed i refunded, także zwróconą), zł — zasada z zadania.
+# Pediatra liczy się jak „inny specjalista” (100 zł), bo TelemediGO daje mu zniżkę 20% jak specjalistom,
+# a nie 50% jak interniście (propozycja założenia 28, notatki/a5_retencja.md).
+KOSZT_LEKARZA = """
+  CASE WHEN status IN ('completed', 'refunded')
+       THEN CASE specialization WHEN 'internista' THEN 25 WHEN 'psychiatra' THEN 200 ELSE 100 END
+       ELSE 0 END"""
+
+
+def zbuduj_ekonomie(con):
+    """`ek`: zdarzenia pieniężne pacjenta (zamówienie konsultacji albo osobny zakup TelemediGO) z dniem od wejścia
+    do kohorty. Przychód z konsultacji po zwrotach (ZALOZENIA.md 21), TelemediGO osobno (89 zł, także kupione
+    przy kasie), koszt lekarza według KOSZT_LEKARZA. marza = przychod + go - koszt_lekarza, przed kosztem
+    pozyskania (kampanie, prowizja). `nieanul` = zamówienie nieanulowane, `pierwsze` = pierwsze zamówienie."""
+    con.execute(f"""
+      CREATE TEMP TABLE ek AS
+      WITH z AS (
+        SELECT user_id, created_at t, order_id, nr, status, specialization, visit_purpose,
+               (amount_paid - refund_amount)::DOUBLE przychod, 0.0 go, ({KOSZT_LEKARZA})::DOUBLE koszt_lekarza,
+               status <> 'cancelled' nieanul, nr = 1 pierwsze, TRUE zamowienie
+        FROM zam
+        UNION ALL
+        SELECT user_id, purchased_at, order_id, NULL, NULL, NULL, NULL, 0.0, amount_paid::DOUBLE, 0.0, FALSE, FALSE, FALSE
+        FROM czyste.go_memberships)
+      SELECT z.*, k.d0, k.okres, date_diff('day', k.d0, z.t::DATE) dni, z.przychod + z.go - z.koszt_lekarza marza
+      FROM z JOIN koh k USING (user_id)""")
+
+
+def zbuduj(con, crm=True, dni_obserwacji=61, ekonomia=True):
     """Wszystkie tabele przyjętych definicji naraz."""
     zbuduj_podstawy(con)
     zbuduj_kohorty(con)
     zbuduj_zrodla(con)
     if crm:
         zbuduj_crm(con, dni_obserwacji)
+    if ekonomia:
+        zbuduj_ekonomie(con)
 
 
 def granice_por(n):
