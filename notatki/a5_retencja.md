@@ -10,7 +10,7 @@ Notatka robocza sesji retencji. Sesja prowadząca scali stąd wpisy do wspólnyc
 | 2 | Kohorty dzienne, powroty 30/60/90, zamówienia i marża na pacjenta | zrobione (`e858e69`, uzupełnione przy kroku 3) |
 | 3 | Struktura pacjentów a ich zachowanie, Meta po kampaniach — STOP 1 | przyjęte przez Kubę z dopiskami (niżej); recenzja Codeksa (Sol) uwzględniona (`notatki/recenzje/a5r_codex.md`) |
 | 4 | Po zakupie (najpierw punktualność i obciążenie internistów), newsletter i SMS a powroty | zrobione |
-| 5 | Zdarzenia w seriach — STOP 2 | do zrobienia |
+| 5 | Zdarzenia w seriach — STOP 2 | policzone, czeka na przegląd Kuby; recenzja Codeksa (Sol) w toku |
 
 ## Krok 1 — wspólny moduł definicji
 
@@ -84,22 +84,56 @@ Kolejność według dopisku Kuby: najpierw punktualność pierwszej wizyty i obc
 - **Liczba wejść z CRM nie rośnie z bazą pacjentów:** na 1 000 pacjentów po pierwszym zakupie 56–108 wejść miesięcznie w okresie 1 i spadek do 24–52 w okresie 2. Widać tylko kliknięcia, nie wysyłki, więc nie wiemy, czy wysyłek jest mniej, czy mniej osób klika.
 - Pacjenci, którzy klikają CRM, wracają w 41–42% w obu okresach; to pacjenci z zamiarem zakupu, więc nie jest to miara skutku wiadomości (test z grupą kontrolną: lista niewiadomych).
 
+## Krok 5 — zdarzenia w seriach (`analiza/a5r_zdarzenia.py` → `wyniki/a5r_zdarzenia.txt`, `wyniki/a5r_zdarzenia.csv`)
+
+Metoda: podział binarny serii dziennej na danych jednostkowych (pacjent albo wizyta z dniem). Podział przyjmujemy przy |z| ≥ 4 i odcinkach co najmniej 28-dniowych, najwyżej 4 podziały na serię. Przy serii bez podziału podajemy najsilniejszego kandydata poniżej progu. To przybliżenie, nie dowód przyczyny. Wpływ na marżę liczony przed kosztem pozyskania (koszt kampanii i prowizję doliczy sesja prowadząca).
+
+**Wartość powrotu (założenie do wpływu na marżę):** pacjent okresu 1, który wrócił w 90 dniach, daje w dniach 1–180 średnio 98,9 zł marży (3 830 pacjentów), a pacjent bez powrotu 3,3 zł (12 401). Różnica wynosi około 96 zł. To korelacja, nie skutek, i nie obejmuje marży po 180 dniach.
+
+| Data | Seria | Co się zmieniło | Przybliżony wpływ na marżę |
+|---|---|---|---|
+| 3.11.2025 (start kampanii Meta na L4) | udział nowych kampanii w nowych pacjentach | 0% → 8,0% (3.11–5.12), 17,4% od 6.12 (skok 8.12), 29,4% od 3.02 (start TikToka 9.02), 41,0% od 10.04.2026; z = 103, 11, 40, 15 | Pacjenci nowych kampanii dają 36,3 zł marży na pacjenta w 90 dniach wobec 66,0 zł pozostałych. Przy 7 268 takich pacjentach w okresie 2 to około 264 tys. zł marży w 90 dniach przed kosztem pozyskania. Ich powrót w 30 dniach to 2,35% przez cały czas działania, bez zmiany poziomu. |
+| 17.11.2025 (skok Meta L4) | wizyty u internisty rano spóźnione ponad 15 minut, pacjenci spoza nowych kampanii | 5,4% → 24,2% (z = 54); 40,0% od 26.12 (tydzień przed skokiem 2.01; z = 13); 48,3% od 2.02.2026 (tydzień przed startem TikToka; z = 4,2) | Część spadku powrotu starych kampanii przypisana opóźnieniu pierwszej wizyty w rozkładzie opisowym: 0,58 punktu procentowego (przyjęta reguła źródła) do 1,28 punktu (sesja płatności), czyli około 100–220 powracających pacjentów mniej rocznie (17 419 nowych pacjentów starych kampanii w okresie 2) i około 10–21 tys. zł marży w 180 dniach. Do tego słabsze oceny: przy opóźnieniu ponad 30 minut średnio 2,9 wobec 4,5. |
+| 13.11.2025 i 23.02.2026 | pierwsze zamówienie zwrócone po wizycie | 2,1% → 3,9% (z = 20) → 6,9% (z = 9,6) | W okresie 2 pacjenci nowych kampanii mają 1 044 wizyty zwrócone po wizycie: 84 112 zł zwróconych zapłat i 33 975 zł kosztu lekarza za te wizyty. Pozostali: 582 wizyty, 54 420 zł i 26 575 zł. |
+| 30.10.2025, 26.01.2026, 8.04.2026 | marża na pacjenta w 30 dniach | 56,0 → 53,1 → 50,1 → 46,8 zł (z = −4,8, −18, −5,1) | Głównie skład pacjentów (nowe kampanie). Wyjaśnione w kroku 3. |
+| 5.06.2025 i 10.02.2026 | powrót w 30 dniach, wszyscy | 11,4% → 9,7% (z = −4,4; w okresie 1, lato) → 6,9% (z = −12,6; start TikToka i rosnący udział nowych kampanii) | Skład pacjentów (krok 3). Pierwszy podział wypada w okresie 1, więc może być sezonem: dwa lata danych to jedna obserwacja każdej pory roku. |
+| — (brak podziału) | powrót w 90 dniach, stare kampanie | brak podziału z |z| ≥ 4. Najsilniejszy kandydat 2.03.2026 (z = −3,9): 23,3% przed, 20,9% po | Spadek starych kampanii jest rozłożony i słabszy niż próg wykrycia. Cały spadek z kroku 3: −1,91 punktu (przyjęta reguła) do −3,50 (sesja płatności), czyli około 330–610 powracających pacjentów mniej rocznie i około 32–58 tys. zł marży w 180 dniach. |
+| — (brak podziału) | powrót w 30 dniach, stare kampanie | brak podziału; najsilniejszy kandydat 5.06.2025 (z = −4,0, tuż pod progiem): 11,4% → 10,0% | Kandydat w okresie 1, przed nowymi kampaniami. |
+| 17.03.2026 (Safari na iOS, zdarzenie z sesji pozyskania) | powroty pacjentów z pierwszą płatnością w Safari na iOS; udział Safari na iOS w zamówieniach | Powrót w 30 dniach: brak podziału, najsilniejszy kandydat 10.03.2026 (z = −2,8): 11,4% → 10,0%. Udział Safari na iOS w zamówieniach pierwszych 19,6% → 17,0% → 12,2% → 11,1%, w powtórnych 21,2% → 21,7% → 20,8% → 19,4% | Zdarzenie uderza w pierwsze zamówienia (strona pozyskania). W powrotach widać najwyżej mały ślad. |
+
+**Miesiące spadku w starych kampaniach (dopisek Kuby nr 3)**, powrót w 90 dniach rok do roku z 95% przedziałem:
+- listopad–styczeń: 25,3% (4 529 pacjentów) wobec 22,1% (5 159), czyli −3,3 punktu (od −5,0 do −1,6). W tych miesiącach rusza kampania Meta na L4 i są jej skoki ruchu. Odsetek porannych wizyt u internisty spóźnionych ponad 15 minut rośnie z 14,6% do 40,8%. Okres 1 miał wtedy najwyższy powrót w roku, więc część różnicy może być porą roku.
+- marzec–maj: 23,6% (4 297) wobec 20,8% (4 576), czyli −2,8 punktu (od −4,6 do −1,1). Opóźnienia na stałym, wysokim poziomie (46–51%), działa też TikTok.
+- październik i luty: 22,5% (2 845) wobec 23,8% (3 076), czyli +1,3 punktu (od −0,9 do +3,4). Październik jest przed kampanią na L4 i bez opóźnień (5,0%), więc pasuje do hipotezy przeciążenia. Luty nie pasuje: opóźnienia wynoszą już 46,5%, a powrót nie spada (+1,2 punktu, od −1,7 do +4,1). Różnica między lutym a marcem–majem to około 4 punkty przy błędzie około 1,7 punktu, więc może to być szum. Pojedynczy miesiąc ma przedział około ±3 punktów.
+- Udział pierwszych wizyt spóźnionych ponad 15 minut w kohortach starych kampanii: 3,1% w październiku 2025, 4,4% w listopadzie, 8,1% w grudniu, 11,1% w styczniu i 13,3–14,8% od lutego do czerwca 2026.
+
+### Otwarte po kroku 5 (kandydaci na listę „czego nie da się rozstrzygnąć”)
+- **Przeciążenie internistów rano:** w danych nie ma grafików lekarzy. Potrzebne: liczba lekarzy na zmianie według godziny, przed i po 3.11.2025. Test: zwiększyć poranną obsadę internistów albo ograniczyć poranne terminy z kampanii na L4 na część dni (losowo) i porównać opóźnienia oraz powroty pozostałych pacjentów.
+- **Powód zwrotów po wizycie L4 z nowych kampanii** (17,4% wobec 5,3%): w danych nie ma powodu zwrotu ani informacji, czy L4 wystawiono. Potrzebne: powód zwrotu, decyzja lekarza, treść reklamy.
+- **Czy pacjenci nowych kampanii są dodatkowi:** sprawa pozyskania (sesja prowadząca, ekonomia kampanii).
+- **Wysyłki CRM:** widać kliknięcia, nie wysyłki. Liczba wejść na 1 000 pacjentów spada z 56–108 do 24–52 miesięcznie; nie wiemy, czy z powodu mniejszej liczby wysyłek, czy mniejszej klikalności.
+- **Luty 2026:** brak spadku mimo opóźnień, na granicy szumu.
+
 ## Propozycje wpisów do wspólnych notatek (do scalenia przez sesję prowadzącą)
 
 ### `ZALOZENIA.md` (nowe punkty od 28)
 28. **Koszt lekarza u pediatry = 100 zł**, jak u „każdego innego specjalisty”. Podstawa: zasada z zadania wymienia osobno tylko internistę (25 zł) i psychiatrę (200 zł), a wszystkim pozostałym przypisuje 100 zł. Dodatkowa przesłanka: TelemediGO traktuje pediatrę jak specjalistów (zniżka 20%, nie 50%). Codex (Sol) uznał to za rozsądne. Wariant 25 zł: koszt niższy o 84 300 zł w okresie 1 i 110 700 zł w okresie 2; marża na pacjenta w 90 dniach wyższa o 4,8 i 3,7 zł. Kierunek wniosków bez zmian. Psycholog też liczy się jako inny specjalista (100 zł).
 29. **Marża na pacjenta (przed kosztem pozyskania)** = przychód z konsultacji po zwrotach + TelemediGO − koszt lekarza (za wizyty odbyte i zwrócone), narastająco od dnia wejścia do kohorty (dzień 0, z pierwszym zamówieniem i TelemediGO kupionym przy kasie) do dnia N, tylko kohorty z pełnym oknem N dni. „Miesiąc” od pierwszego zakupu = kolejne 30-dniowe bloki (miesiąc 1 = dni 0–30). Koszt pozyskania (kampanie, prowizja) odejmuje sesja prowadząca przy ekonomii kampanii.
+32. **Opóźnienie wizyty** = faktyczny start − umówiony termin w minutach, tylko wizyty odbyte (completed, refunded); koszyki: do 5, 6–15, 16–30, ponad 30 minut, brak wizyty (anulowana, nieodebrana). Pora = godzina umówionego terminu (rano 6–11, południe 12–15, wieczór 16–23, noc 0–5). Obciążenie = nieanulowane wizyty u internisty z terminem w tej samej godzinie zegarowej tego samego dnia. Czekanie = termin − moment zapłaty.
+33. **Wartość powrotu do przybliżonego wpływu na marżę** = różnica marży z dni 1–180 między pacjentem, który wrócił w 90 dniach, a tym, który nie wrócił (kohorty okresu 1 z pełnymi 180 dniami): około 96 zł. To korelacja, nie skutek, i nie obejmuje marży po 180 dniach.
 30. **Cechy pierwszego zakupu w podziałach kohort:** pierwsza usługa = internista według celu wizyty (L4, e-recepta, konsultacja, skierowanie), pediatra, psychiatra, inny specjalista; zniżka = brak, TelemediGO albo kod rabatowy; przeglądarka = wbudowana w aplikację (Instagram, Facebook, TikTok) albo zwykła, z sesji płatności; urządzenie z sesji płatności.
 31. **Struktura a zachowanie:** rozkład zmiany na nowe segmenty (komórki bez pacjentów w okresie 1), zniknięte segmenty, strukturę i zachowanie w komórkach wspólnych (rozkład symetryczny), na podziałach od kanału do kampania × usługa × zniżka × status pierwszego zamówienia × przeglądarka. Status pierwszej wizyty może sam zależeć od kampanii, więc pokazujemy rozkład z nim i bez niego. Wynik nie jest dowodem przyczyny.
 
 ### `ZNALEZISKA.md` (sekcja „A5 retencja”) — po przeglądzie Kuby
-- Treść z kroku 3 powyżej, po decyzji Kuby, które zdania są wnioskami.
+- Krok 3 w brzmieniu przyjętym przez Kubę (dopisek nr 1): większość spadku powrotów wiąże się z pacjentami dwóch nowych kampanii na L4, ale w kampaniach działających w obu latach też jest spadek, którego sprawdzone cechy nie tłumaczą. Obie wersje według reguły źródła: przyjęta reguła 4,6 i 2,0 punktu, sesja płatności 3,0 i 3,5 punktu (spadek z 23,9% do 17,4% w 90 dniach).
+- Krok 4 i 5 (po przeglądzie STOP 2): opóźnienia porannych wizyt u internisty od 17.11.2025; powrót rano spada po wizytach spóźnionych, nie po punktualnych; zwroty po wizycie L4 z nowych kampanii 17,4%; pacjenci nowych kampanii z zgodą marketingową 37,8% wobec 64%; brak wyraźnego zdarzenia w powrocie starych kampanii (najsilniejszy kandydat 2.03.2026).
 
 ### `analiza/README.md`
 - `python -I analiza/a5r_kontrola_definicji.py` — kontrola wspólnego modułu `analiza/definicje.py` wobec sekcji 6 raportu A4. Wynik: `wyniki/a5r_kontrola_definicji.txt`.
 - `python -I analiza/a5r_kohorty.py` — kohorty dzienne, powroty w 30/60/90 dniach, zamówienia i marża na pacjenta, kohorty miesięczne i tygodniowe, start od zera, wrażliwość na koszt pediatry. Wynik: `wyniki/a5r_kohorty.txt`, `wyniki/a5r_kohorty_dzienne.csv`.
 - `python -I analiza/a5r_punktualnosc.py` — opóźnienie wizyt, pora, obciążenie godzin u internisty, powrót według opóźnienia pierwszej wizyty, opóźnienia w czasie. Wynik: `wyniki/a5r_punktualnosc.txt`, `wyniki/a5r_punktualnosc_tygodnie.csv`.
 - `python -I analiza/a5r_po_zakupie.py` — czekanie, długość wizyty, statusy i zwroty, oceny, rozkład z przebiegiem pierwszej wizyty, newsletter i SMS a powroty. Wynik: `wyniki/a5r_po_zakupie.txt`.
+- `python -I analiza/a5r_zdarzenia.py` — zdarzenia w seriach retencji i po zakupie (podział binarny), miesiące spadku z datami kampanii na L4 i opóźnieniami, Safari na iOS, przybliżony wpływ na marżę. Wynik: `wyniki/a5r_zdarzenia.txt`, `wyniki/a5r_zdarzenia.csv`.
 - `python -I analiza/a5r_struktura.py` — rozdzielenie zmiany struktury pacjentów od zmiany zachowania (kanał, kampania, usługa, zniżka, przebieg pierwszej wizyty, przeglądarka), Meta po kampaniach, L4 z L4, TikTok osobno, kontrole wrażliwości, niepewność. Wynik: `wyniki/a5r_struktura.txt`.
 
 ## Dopiski Kuby
