@@ -1,0 +1,66 @@
+B — EKSPORT DANYCH NARZĘDZIA (2026-10-19 21:28, commit f8fda6d)
+
+1. Pliki w narzedzie/dane_strony/ (bajty)
+   calosc                             38,075
+   urzadzenie                         98,171
+   przegladarka                      259,298
+   system_przegladarka               594,459
+   urzadzenie_przegladarka           536,659
+   kanal                             177,555
+   kampania                          249,718
+   strona_wejscia                    265,403
+   podsumowanie                        8,133
+   zdarzenia                          31,068
+   jakosc                              8,894
+   razem                           2,267,433
+
+2. Kontrola: liczby z eksportu wobec notatek i wcześniejszych raportów
+   co                                                                    eksport  oczekiwane  wynik
+   zamówienia = płatność przyjęta (sesje zwykłe)                               0           0  zgodne
+   pierwsze zamówienia = płatności u osób, które jeszcze nie kupowały          0           0  zgodne
+   pierwsze zamówienia u osób, które kupowały wcześniej                        0           0  zgodne
+   konwersja sesji do płatności, okres 1 (%)                                16.0        16.0  zgodne
+   konwersja sesji do płatności, okres 2 (%)                                13.7        13.7  zgodne
+   rozkład według przeglądarki: struktura (pp)                              -3.0        -3.0  zgodne
+   rozkład według przeglądarki: w obrębie (pp)                              0.67        0.67  zgodne
+   udział przeglądarek w aplikacjach, okres 1 (%)                           10.7        10.7  zgodne
+   udział przeglądarek w aplikacjach, okres 2 (%)                           35.6        35.6  zgodne
+   przeglądarki w aplikacjach: płatność na sesję, min (%)                    4.8         4.8  zgodne
+   przeglądarki w aplikacjach: płatność na sesję, max (%)                    7.2         7.2  zgodne
+   Safari na iOS, krok konta 60 dni przed (%)                               66.2        66.2  zgodne
+   Safari na iOS, krok konta 60 dni po (%)                                  45.1        45.1  zgodne
+   Safari na iOS, krok konta do końca danych (%)                            45.6        45.6  zgodne
+   Safari na iOS: utracone pierwsze zamówienia do końca danych               695         695  zgodne
+   Safari na iOS: to samo po odjęciu tła                                     628         628  zgodne
+   mostek: różnice wobec siatki A3 (komórki)                                   0           0  zgodne
+   duplikaty: liczba kopii                                                   604         604  zgodne
+   testy: konta                                                             22.0          22  zgodne
+   testy: zamówienia                                                      2071.0        2071  zgodne
+   testy: bez kodu                                                         290.0         290  zgodne
+   godzina bez danych: sesje                                                   1           1  zgodne
+   psycholog + e-recepta                                                      24          24  zgodne
+   TelemediGO aktywne bez zniżki                                               1           1  zgodne
+   czas płatności zgodny: zamówienia                                           0           0  zgodne
+   czas płatności zgodny: TelemediGO                                           0           0  zgodne
+   kroki bez poprzedniego                                                      0           0  zgodne
+   nowi pacjenci, okres 1                                                  16231       16231  zgodne
+   nowi pacjenci, okres 2                                                  24687       24687  zgodne
+   powrót w 90 dniach, okres 1 (%)                                          23.9        23.9  zgodne
+   powrót w 90 dniach, okres 2 (%)                                          17.4        17.4  zgodne
+   pacjenci w porównaniu 90 dni, okres 1                                 12867.0       12867  zgodne
+   pacjenci w porównaniu 90 dni, okres 2                                 18924.0       18924  zgodne
+   sprzedaż TelemediGO: zakupy samego TelemediGO                             686         686  zgodne
+   remarketing: płatność na sesję IV kw. 2025 (%)                           28.2        28.2  zgodne
+   remarketing: udział w aplikacjach IV kw. 2025 (%)                        13.3        13.3  zgodne
+
+   Różnic: 0 z 36 kontroli.
+
+3. Zdarzenia na osi czasu
+   2025-05-17  jakosc   Godzina bez danych
+   2025-09-08  lejek    Start sprzedaży TelemediGO w newsletterze (crm_go_upsell)
+   2025-11-03  lejek    Start kampanii Meta na L4 (meta_prosp_l4_szybko)
+   2026-01-01  lejek    Remarketing Meta słabnie, bo zmienia się pula odbiorców
+   2026-02-09  lejek    Start kampanii TikTok na L4 (tt_prosp_l4_15min)
+   2026-03-17  lejek    Safari na iOS: przestaje działać zakładanie konta
+   2026-06-10  jakosc   Duplikaty zamówień w eksporcie
+   Zmiany wykryte automatycznie (tabela pod osią): 245

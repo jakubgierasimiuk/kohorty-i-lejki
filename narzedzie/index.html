@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>B2C: czy to wzrost? Kohorty i lejki</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="lib/uPlot.min.css">
+<link rel="stylesheet" href="styl.css">
+</head>
+<body>
+<header class="naglowek">
+  <div class="naglowek-tytul">
+    <h1>B2C: czy to wzrost?</h1>
+    <p class="podtytul">Narzędzie do zadania rekrutacyjnego na stanowisko Head of B2C. Kohorty, lejki, zdarzenia i jakość danych w jednym miejscu.</p>
+  </div>
+  <p class="syntetyczne" role="note">Dane są syntetyczne, wygenerowane na potrzeby zadania. Nie opisują prawdziwych pacjentów ani wyników firmy.</p>
+  <nav class="zakladki" aria-label="Sekcje">
+    <a href="#wzrost" data-widok="wzrost">Czy to wzrost</a>
+    <a href="#kohorty" data-widok="kohorty">Kohorty</a>
+    <a href="#lejek" data-widok="lejek">Lejek</a>
+    <a href="#po-zakupie" data-widok="po-zakupie">Po zakupie</a>
+    <a href="#zdarzenia" data-widok="zdarzenia">Zdarzenia</a>
+    <a href="#wynik" data-widok="wynik">Wynik biznesu</a>
+    <a href="#jakosc" data-widok="jakosc">Jakość danych</a>
+    <a href="#priorytety" data-widok="priorytety">Priorytety</a>
+    <a href="#niewiadome" data-widok="niewiadome">Czego nie wiemy</a>
+  </nav>
+</header>
+
+<main>
+  <!-- CZY TO WZROST -->
+  <section id="v-wzrost" class="widok" hidden>
+    <div class="tytul-sekcji">
+      <h2>Czy to, co widać na dashboardzie, jest wzrostem?</h2>
+      <span class="znacznik-wstepne" title="Liczby przyjęte w analizie, ale bez wniosków o przyczynach">Wstępne, do potwierdzenia po analizie kohort</span>
+    </div>
+    <p class="wstep">Wzrost to dwie rzeczy naraz: więcej pacjentów i lepsza retencja. Sprawdzamy oba warunki osobno, na danych oczyszczonych.</p>
+    <div class="karty-dwie">
+      <article class="karta">
+        <h3>Więcej pacjentów?</h3>
+        <p class="liczba-glowna" id="wz-pacjenci-liczba"></p>
+        <p id="wz-pacjenci-zdanie"></p>
+      </article>
+      <article class="karta">
+        <h3>Lepsza retencja?</h3>
+        <p class="liczba-glowna" id="wz-retencja-liczba"></p>
+        <p id="wz-retencja-zdanie"></p>
+        <div class="tabela-ramka"><table class="tabela" id="wz-retencja-tabela"></table></div>
+        <p class="przypis">Powrót to kolejne zamówienie, które nie zostało anulowane. Liczymy tylko kohorty z pełnym oknem obserwacji, a pierwszy rok obcinamy do tych samych dni kalendarzowych.</p>
+      </article>
+    </div>
+    <article class="karta">
+      <h3>Dashboard a dane oczyszczone</h3>
+      <p id="wz-dashboard-zdanie"></p>
+      <div class="tabela-ramka"><table class="tabela" id="wz-mostek"></table></div>
+    </article>
+    <article class="karta karta-cicha">
+      <h3>Czego ta sekcja jeszcze nie mówi</h3>
+      <p>Nie mówi, dlaczego powroty spadają. Część spadku może wynikać ze zmiany struktury pacjentów (nowe kampanie, inne usługi), a część ze zmiany ich zachowania. To rozdziela analiza kohort, która dojdzie w zakładce Kohorty. Do tego czasu nie wyciągamy wniosków o przyczynach.</p>
+      <p>Gdzie szukać dalej: <a href="#lejek">lejek</a> pokazuje, gdzie tracimy pacjentów przed pierwszym zakupem, <a href="#zdarzenia">zdarzenia</a> pokazują, co i kiedy się zmieniło, a <a href="#jakosc">jakość danych</a> wyjaśnia różnicę między dashboardem a danymi oczyszczonymi.</p>
+    </article>
+  </section>
+
+  <!-- KOHORTY -->
+  <section id="v-kohorty" class="widok" hidden>
+    <h2>Kohorty</h2>
+    <div class="w-przygotowaniu">
+      <p class="znacznik-przyg">W przygotowaniu</p>
+      <p>Tu będą kohorty dzienne nowych pacjentów: powroty w kolejnych oknach dni, liczba wizyt oraz przychód i marża na pacjenta w kolejnych miesiącach.</p>
+      <p>Filtry: źródło pozyskania, urządzenie i przeglądarka, pierwsza usługa, zniżka i TelemediGO oraz status pierwszego zamówienia. Wykryte zdarzenia będą zaznaczone na osi czasu kohort.</p>
+      <p>Sekcja dojdzie po przeglądzie części retencji, żeby budować ją na sprawdzonych liczbach.</p>
+    </div>
+  </section>
+
+  <!-- LEJEK -->
+  <section id="v-lejek" class="widok" hidden>
+    <h2>Lejek: od wejścia na stronę do płatności</h2>
+    <div class="karta karta-naglowek">
+      <div id="lj-zdania"></div>
+      <div class="naprawy" id="lj-naprawy"></div>
+      <details class="osobne">
+        <summary>Sesje poza lejkiem głównym</summary>
+        <div id="lj-osobne"></div>
+      </details>
+    </div>
+
+    <form class="filtry" id="lj-filtry" onsubmit="return false">
+      <label>Typ sesji
+        <select id="f-typ">
+          <option value="zwykla">Sesje zwykłe (lejek)</option>
+          <option value="zalogowana_od_wejscia">Zalogowane od wejścia</option>
+          <option value="samo_telemedigo">Zakup samego TelemediGO</option>
+        </select>
+      </label>
+      <label>Kto
+        <select id="f-pac">
+          <option value="wszyscy">Wszyscy</option>
+          <option value="nie_kupowal">Jeszcze nie kupowali</option>
+          <option value="kupowal_wczesniej">Kupowali wcześniej</option>
+        </select>
+      </label>
+      <label>Podział
+        <select id="f-podz"></select>
+      </label>
+      <label>Porównanie
+        <select id="f-preset"></select>
+      </label>
+      <fieldset class="okresy">
+        <legend>Okres A</legend>
+        <input type="date" id="f-a-od" aria-label="Okres A od"> <span>–</span> <input type="date" id="f-a-do" aria-label="Okres A do">
+      </fieldset>
+      <fieldset class="okresy">
+        <legend>Okres B</legend>
+        <input type="date" id="f-b-od" aria-label="Okres B od"> <span>–</span> <input type="date" id="f-b-do" aria-label="Okres B do">
+      </fieldset>
+    </form>
+
+    <div class="karta">
+      <div class="naglowek-karty">
+        <h3>Kroki lejka w podziale</h3>
+        <p class="przypis" id="lj-okresy-opis"></p>
+      </div>
+      <p class="przypis">W każdej komórce: odsetek w okresie B i liczba sesji, od której liczymy odsetek. Pod spodem ten sam odsetek w okresie A i zmiana w punktach procentowych. Zaznacz wiersze, które mają się pojawić na wykresie.</p>
+      <div class="tabela-ramka"><table class="tabela tabela-lejek" id="lj-tabela"></table></div>
+    </div>
+
+    <div class="karta">
+      <div class="naglowek-karty">
+        <h3 id="lj-wykres-tytul">Dzień po dniu</h3>
+        <div class="filtry-wykresu">
+          <label>Miara
+            <select id="f-krok"></select>
+          </label>
+          <label>Wygładzenie
+            <select id="f-wygl">
+              <option value="1">bez wygładzenia (dzień)</option>
+              <option value="7">suma z 7 dni</option>
+              <option value="28">suma z 28 dni</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <p class="przypis">Szare pola to okresy A i B. Pionowe linie to zdarzenia z zakładki Zdarzenia. Przeciągnij po wykresie, żeby przybliżyć, kliknij dwukrotnie, żeby wrócić. Wartość pod kursorem pokazuje legenda pod wykresem, z liczbą sesji, od której liczymy odsetek.</p>
+      <div id="lj-wykres" class="wykres"></div>
+      <ol class="lista-zdarzen-wykres" id="lj-zdarzenia-legenda"></ol>
+    </div>
+    <p class="przypis">Jak liczymy: lejek główny obejmuje sesje zwykłe, czyli bez konta na wejściu albo z kontem, które pojawia się dopiero na kroku logowania. Sesje zalogowane od wejścia i zakupy samego TelemediGO są osobnymi typami sesji. „Jeszcze nie kupowali” to osoby bez zakupu przed początkiem sesji, także na koncie, na które logowały się w tej samej przeglądarce. Dzień sesji liczymy w czasie polskim. Źródło danych: <code>analiza/a5p_lejek.py</code>, eksport <code>analiza/b_eksport.py</code>.</p>
+  </section>
+
+  <!-- PO ZAKUPIE -->
+  <section id="v-po-zakupie" class="widok" hidden>
+    <h2>Po zakupie</h2>
+    <div class="w-przygotowaniu">
+      <p class="znacznik-przyg">W przygotowaniu</p>
+      <p>Tu będzie to, co dzieje się z pacjentem po pierwszym zakupie: punktualność i przebieg wizyty, zwroty po wizycie, oceny, kontakt z newslettera i SMS-ów oraz ich związek z powrotami.</p>
+      <p>Sekcja dojdzie po przeglądzie części retencji.</p>
+    </div>
+  </section>
+
+  <!-- ZDARZENIA -->
+  <section id="v-zdarzenia" class="widok" hidden>
+    <h2>Oś zdarzeń: co się stało i kiedy</h2>
+    <p class="wstep">Zdarzenia znalezione w danych, bo listy zmian w produkcie i kalendarza kampanii nie mamy. Przy każdym: data, co się zmieniło, o ile i skąd to wiemy. Zdarzenia z analizy retencji i przebiegu wizyt dojdą po jej przeglądzie.</p>
+    <div class="filtry" id="zd-filtry"></div>
+    <div class="karta"><div id="zd-os" class="os-zdarzen"></div></div>
+    <div id="zd-lista" class="lista-zdarzen"></div>
+    <details class="karta wykryte">
+      <summary>Wszystkie zmiany wykryte automatycznie w lejku (surowy wynik metody)</summary>
+      <p class="przypis">Metoda dzieli każdą serię dzienną (podział, wartość, krok) na odcinki o różnym poziomie, w sesjach osób, które jeszcze nie kupowały. Nie każda wykryta zmiana jest zdarzeniem: część to zmiana struktury ruchu, część to sezon. Zdarzenia powyżej zostały sprawdzone na bazie.</p>
+      <label class="filtr-inline">Podział <select id="zd-wykryte-podz"></select></label>
+      <div class="tabela-ramka"><table class="tabela" id="zd-wykryte"></table></div>
+    </details>
+  </section>
+
+  <!-- WYNIK BIZNESU -->
+  <section id="v-wynik" class="widok" hidden>
+    <h2>Wynik biznesu</h2>
+    <div class="w-przygotowaniu">
+      <p class="znacznik-przyg">W przygotowaniu</p>
+      <p>Tu będzie przychód z konsultacji po zwrotach i przychód z TelemediGO, osobno, oraz marża po koszcie lekarza (także za wizyty zwrócone), po wydatkach na kampanie i po prowizji afiliacyjnej.</p>
+      <p>Przy ekonomii kampanii obok wyniku według przyjętej reguły źródła pozyskania pokażemy wynik według sesji płatności. Jeśli wynik kampanii zmienia znak zależnie od reguły, oznaczymy go jako niepewny.</p>
+    </div>
+  </section>
+
+  <!-- JAKOŚĆ DANYCH -->
+  <section id="v-jakosc" class="widok" hidden>
+    <h2>Jakość danych</h2>
+    <p class="wstep">Danych nikt wcześniej nie czyścił. Poniżej: jak dashboard ma się do danych oczyszczonych, co usunęliśmy i dlaczego, drobne niespójności oraz to, co sprawdziliśmy i jest czyste.</p>
+    <article class="karta">
+      <h3>Od dashboardu do danych oczyszczonych</h3>
+      <p class="przypis">Dashboard liczy dane na surowo: z duplikatami zamówień, z zamówieniami testowymi i z przychodem przed zwrotami. Każdy wiersz mostka zmienia jedną rzecz.</p>
+      <div class="tabela-ramka"><table class="tabela" id="jk-mostek"></table></div>
+    </article>
+    <article class="karta">
+      <h3>Duplikaty zamówień</h3>
+      <div id="jk-dup-zdania"></div>
+      <div id="jk-dup-wykres" class="wykres"></div>
+    </article>
+    <article class="karta">
+      <h3>Zamówienia testowe</h3>
+      <div id="jk-testy-zdania"></div>
+      <div id="jk-testy-kw" class="slupki-poziome"></div>
+    </article>
+    <article class="karta">
+      <h3>Godzina bez danych</h3>
+      <p id="jk-godzina"></p>
+    </article>
+    <article class="karta">
+      <h3>Drobne niespójności</h3>
+      <ul id="jk-drobne"></ul>
+    </article>
+    <article class="karta">
+      <h3>Sprawdzone i czyste</h3>
+      <ul id="jk-czyste"></ul>
+    </article>
+    <p class="przypis">Źródło: <code>analiza/a2_jakosc.py</code>, <code>analiza/a2_czyste.py</code>, <code>analiza/a3_dashboard.py</code>; liczby na tej stronie liczy <code>analiza/b_eksport.py</code>.</p>
+  </section>
+
+  <!-- PRIORYTETY -->
+  <section id="v-priorytety" class="widok" hidden>
+    <h2>Priorytety</h2>
+    <div class="w-przygotowaniu">
+      <p class="znacznik-przyg">W przygotowaniu</p>
+      <p>Tu będzie lista działań od najważniejszego. Przy każdym: ile jest warte w złotych marży (z założeniami), po czym poznamy, że zadziałało, i ile zajmie wdrożenie.</p>
+      <p>Przy każdym słabym wyniku pokażemy dwie opcje: naprawić albo wyłączyć, każdą z wartością w marży. Najpierw szukamy, co da się poprawić.</p>
+    </div>
+  </section>
+
+  <!-- CZEGO NIE WIEMY -->
+  <section id="v-niewiadome" class="widok" hidden>
+    <h2>Czego z tych danych nie wiemy</h2>
+    <div class="w-przygotowaniu">
+      <p class="znacznik-przyg">W przygotowaniu</p>
+      <p>Tu będzie lista spraw, których dane nie rozstrzygają, z testem albo informacją, która by je domknęła. Na przykład: przyczyna awarii zakładania konta w Safari na iOS, sesje zalogowane od wejścia bez zakupu, strata między kliknięciem reklamy a sesją w Meta i TikToku, sezon a wydatki na kampanie, wartość remarketingu oraz koszt lekarza za wizyty testowe.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="stopka">
+  <p id="stopka-meta"></p>
+</footer>
+
+<script src="lib/uPlot.iife.min.js"></script>
+<script src="dane_strony/podsumowanie.js"></script>
+<script src="dane_strony/zdarzenia.js"></script>
+<script src="dane_strony/jakosc.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
