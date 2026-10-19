@@ -1,0 +1,30 @@
+A2 — WARSTWA `czyste` (2026-10-19 14:30)
+Decyzje: notatki/ZALOZENIA.md, punkty 6–9 (przyjęte z Kubą 2026-10-19).
+
+1. Bilans wierszy: surowe wobec czyste
+   tabela              surowe    czyste   mniej
+   users               52,422    52,400      22
+   sessions           459,557   457,464   2,093
+   events             494,605   484,228  10,377
+   orders              65,882    63,207   2,675
+   go_memberships       4,227     4,227       0
+   marketing_spend      5,676     5,676       0
+
+2. Skąd różnica — każda pozycja policzona osobno
+   users:    22 kont testowych.
+   orders:   604 dodatkowych kopii (w tym 31 kopii zamówień testowych) + 2,071 zamówień testowych (każde liczone raz) = 2,675 wierszy.
+   sessions: 2,093 sesji kont i przeglądarek testowych, w tym 0 niezalogowanych.
+   events:   10,377 zdarzeń lejka z tych sesji.
+   go_memberships i marketing_spend: bez zmian (konta testowe nie kupowały TelemediGO).
+
+3. Kontrole
+   bilans orders: ubyło = kopie + zamówienia testowe            2675  zgodne
+   bilans sessions: ubyło = sesje kont i przeglądarek testowych   2093  zgodne
+   zamówienia unikalne w czyste.orders                             0  zgodne
+   zamówienia z kodem TEST-QA                                      0  zgodne
+   zamówienia trwające 1 minutę (drugi podpis testów)              0  zgodne
+   zamówienia bez sesji w czyste.sessions                          0  zgodne
+   zakupy TelemediGO bez sesji w czyste.sessions                   0  zgodne
+   zamówienia bez konta w czyste.users                             0  zgodne
+   sesje zalogowane na konto spoza czyste.users                    0  zgodne
+   kroki payment_succeeded bez zamówienia i bez TelemediGO         0  zgodne

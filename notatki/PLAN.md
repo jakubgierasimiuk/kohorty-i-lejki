@@ -16,7 +16,7 @@ Kolejność: **wstępna analiza → narzędzie → uzupełnienie analizy → wer
 |---|---|---|
 | 0 | Kontrola bezpieczeństwa paczki | zrobione (commit `e5897ac`, wynik w `ZNALEZISKA.md`) |
 | A1 | Baza danych | zrobione (commit `025d6f0`, `analiza/a1_baza.py`, wynik w `analiza/wyniki/a1_baza.txt`) |
-| A2 | Jakość danych | raport gotowy (`analiza/a2_jakosc.py`, `analiza/wyniki/a2_jakosc.txt`), czeka na przegląd z Kubą |
+| A2 | Jakość danych | zrobione: raport (commit `b7466aa`), czyszczenie przyjęte przez Kubę, warstwa `czyste` (`analiza/a2_czyste.py`). Zamówienia testowe do ponownego przeglądu w punkcie D |
 | A3 | Odtworzenie dashboardu | do zrobienia |
 | A4 | Definicje (razem) | do zrobienia |
 | A5 | Pierwsze kohorty, lejek, po zakupie, zdarzenia | do zrobienia |
@@ -89,6 +89,7 @@ Przy każdej: warianty i to, ile każdy zmienia w liczbie nowych pacjentów, w p
 **Stop — przegląd z Kubą.**
 
 ## D. Weryfikacja
+- **Najpierw: dokładny przegląd zamówień testowych** (decyzja Kuby z 2026-10-19 przy zamknięciu A2). Do tego czasu 22 konta testowe są wyłączone ze wszystkich liczb. Na końcu sprawdzamy jeszcze raz, czy wyłączenie jest słuszne i kompletne, czy test nie przykrywa prawdziwych zamówień i jak liczyć koszt lekarza za testy (51 775 zł według zasady z zadania).
 - Codex (model Sol): przegląd kodu i definicji.
 - Konsylium: główny wniosek i lista priorytetów.
 - Codex (model Astra): końcowa weryfikacja liczb.
