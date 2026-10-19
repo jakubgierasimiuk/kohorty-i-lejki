@@ -266,6 +266,65 @@ def main():
       FROM slot_int WHERE hour(slot) BETWEEN 6 AND 11 AND slot < TIMESTAMP '2026-10-01' GROUP BY 1 ORDER BY 1""")
     pokaz(t)
 
+    # ============ 3f–3g. RUCH PORANNY W DNIU (dopisek Kuby po STOP 2) ============
+    r("\n3f. Przepustowość poranka: odsetek porannych wizyt u internisty (6–11) spóźnionych ponad 15 minut przy tym samym")
+    r("    porannym ruchu w dniu (ruch = nieanulowane wizyty u internisty z terminem 6–11 tego dnia, wszyscy pacjenci),")
+    r("    okres 1 wobec okresu 2. Jeśli przy tym samym ruchu opóźnień jest teraz więcej, spadła poranna przepustowość.")
+    dz = df("""
+      SELECT scheduled_at::DATE dzien, okres_t okres, strftime(scheduled_at, '%Y-%m') miesiac, isodow(scheduled_at) dow,
+             count(*) FILTER (WHERE status <> 'cancelled') ruch,
+             count(op) odbyte, count(*) FILTER (WHERE op > 15) spoznione,
+             count(op) FILTER (WHERE NOT nowa_z1k) odbyte_stare, count(*) FILTER (WHERE op > 15 AND NOT nowa_z1k) spoznione_stare
+      FROM (SELECT *, CASE WHEN scheduled_at < TIMESTAMP '2025-10-01' THEN 1 ELSE 2 END okres_t FROM wiz)
+      WHERE specialization = 'internista' AND pora = 'a_rano_6_11' AND scheduled_at < TIMESTAMP '2026-10-01'
+      GROUP BY ALL""")
+    przedz = [0, 8, 12, 16, 20, 24, 28, 32, 40, 1000]
+    etyk = ["do_8", "9_12", "13_16", "17_20", "21_24", "25_28", "29_32", "33_40", "41_plus"]
+    dz["ruch_dnia"] = pd.cut(dz.ruch, przedz, labels=etyk)
+    t = dz.groupby(["ruch_dnia", "okres"], observed=True).agg(dni=("dzien", "size"), wizyty_odbyte=("odbyte", "sum"),
+                                                           spoznione=("spoznione", "sum"), odbyte_stare=("odbyte_stare", "sum"),
+                                                           spoznione_stare=("spoznione_stare", "sum")).reset_index()
+    t["proc_spoznionych"] = (100 * t.spoznione / t.wizyty_odbyte).round(1)
+    t["proc_spoznionych_spoza_nowych"] = (100 * t.spoznione_stare / t.odbyte_stare).round(1)
+    pokaz(t[["ruch_dnia", "okres", "dni", "wizyty_odbyte", "proc_spoznionych", "proc_spoznionych_spoza_nowych"]])
+    r("     Rozkład dni według ruchu porannego (mediana i 10./90. centyl wizyt rano u internisty na dzień):")
+    pokaz(dz.groupby("okres").ruch.describe(percentiles=[0.1, 0.5, 0.9])[["count", "10%", "50%", "90%"]].round(1).reset_index())
+    wsp = t.pivot(index="ruch_dnia", columns="okres", values=["wizyty_odbyte", "spoznione"]).dropna()
+    w = wsp[("wizyty_odbyte", 1)] + wsp[("wizyty_odbyte", 2)]
+    roz = (wsp[("spoznione", 2)] / wsp[("wizyty_odbyte", 2)] - wsp[("spoznione", 1)] / wsp[("wizyty_odbyte", 1)])
+    r(f"     Przy tym samym ruchu (przedziały obecne w obu okresach, średnia ważona liczbą wizyt): okres 2 ma o "
+      f"{100 * (roz * w).sum() / w.sum():.1f} punktu procentowego więcej porannych wizyt spóźnionych ponad 15 minut "
+      f"({len(wsp)} przedziałów, {int(w.sum())} wizyt).")
+    r("     Ten sam dzień tygodnia: poniedziałek–piątek i weekend osobno")
+    dz["typ_dnia"] = np.where(dz.dow >= 6, "weekend", "dzien_roboczy")
+    t2 = dz.groupby(["typ_dnia", "ruch_dnia", "okres"], observed=True).agg(dni=("dzien", "size"), odbyte=("odbyte", "sum"),
+                                                                       spoznione=("spoznione", "sum")).reset_index()
+    t2["proc_spoznionych"] = (100 * t2.spoznione / t2.odbyte).round(1)
+    pv = t2.pivot(index=["typ_dnia", "ruch_dnia"], columns="okres", values=["dni", "proc_spoznionych"]).reset_index()
+    pv.columns = ["typ_dnia", "ruch_dnia", "dni_o1", "dni_o2", "proc_o1", "proc_o2"]
+    pokaz(pv)
+
+    r("\n3g. W obrębie miesiąca: czy dni z większym porannym ruchem mają więcej opóźnień (tercyle dni według ruchu,")
+    r("    wyznaczane osobno w każdym miesiącu; odsetek porannych wizyt u internisty spóźnionych ponad 15 minut)")
+    dz["tercyl"] = dz.groupby("miesiac").ruch.transform(lambda x: pd.qcut(x.rank(method="first"), 3, labels=["a_niski", "b_sredni", "c_wysoki"]))
+    t3 = dz.groupby(["okres", "tercyl"], observed=True).agg(dni=("dzien", "size"), sr_ruch=("ruch", "mean"), odbyte=("odbyte", "sum"),
+                                                          spoznione=("spoznione", "sum")).reset_index()
+    t3["proc_spoznionych"] = (100 * t3.spoznione / t3.odbyte).round(1)
+    t3["sr_ruch"] = t3.sr_ruch.round(1)
+    pokaz(t3[["okres", "tercyl", "dni", "sr_ruch", "odbyte", "proc_spoznionych"]])
+    dz["p"] = dz.spoznione / dz.odbyte.replace(0, np.nan)
+    nach = []
+    for (o, m), x in dz.dropna(subset=["p"]).groupby(["okres", "miesiac"]):
+        if x.ruch.std() > 0:
+            nach.append({"okres": o, "miesiac": m, "dni": len(x), "sr_ruch": x.ruch.mean(),
+                         "nachylenie": np.polyfit(x.ruch, 100 * x.p, 1, w=np.sqrt(x.odbyte))[0]})
+    nach = pd.DataFrame(nach)
+    r("     Nachylenie w miesiącu (punkty procentowe opóźnionych wizyt na każdą dodatkową poranną wizytę w dniu,")
+    r("     regresja ważona w każdym miesiącu), średnio w okresie:")
+    pokaz(nach.groupby("okres").agg(miesiace=("miesiac", "size"), sr_ruch=("sr_ruch", "mean"),
+                                    sr_nachylenie=("nachylenie", "mean"), mediana_nachylenia=("nachylenie", "median")).round(2).reset_index())
+    pokaz(nach.round(2))
+
     # ============ 4. MIESIĄCE KOHORT ============
     r("\n" + "=" * 120)
     r("4. KOHORTY MIESIĘCZNE KAMPANII OBECNYCH W OBU OKRESACH: OPÓŹNIENIE PIERWSZEJ WIZYTY I POWRÓT")

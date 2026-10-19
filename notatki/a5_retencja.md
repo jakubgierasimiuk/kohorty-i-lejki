@@ -8,9 +8,9 @@ Notatka robocza sesji retencji. Sesja prowadząca scali stąd wpisy do wspólnyc
 |---|---|---|
 | 1 | Wspólny moduł definicji `analiza/definicje.py` | zrobione (`c5b17ea`), odtwarza sekcję 6 raportu A4 co do znaku |
 | 2 | Kohorty dzienne, powroty 30/60/90, zamówienia i marża na pacjenta | zrobione (`e858e69`, uzupełnione przy kroku 3) |
-| 3 | Struktura pacjentów a ich zachowanie, Meta po kampaniach — STOP 1 | przyjęte przez Kubę z dopiskami (niżej); recenzja Codeksa (Sol) uwzględniona (`notatki/recenzje/a5r_codex.md`) |
-| 4 | Po zakupie (najpierw punktualność i obciążenie internistów), newsletter i SMS a powroty | zrobione |
-| 5 | Zdarzenia w seriach — STOP 2 | policzone, recenzja Codeksa (Sol) uwzględniona (`notatki/recenzje/a5r_codex2.md`); czeka na przegląd Kuby |
+| 3 | Struktura pacjentów a ich zachowanie, Meta po kampaniach — STOP 1 | zrobione, przyjęte przez Kubę z dopiskami (niżej); recenzja Codeksa (Sol) uwzględniona (`notatki/recenzje/a5r_codex.md`) |
+| 4 | Po zakupie (najpierw punktualność i obciążenie internistów), newsletter i SMS a powroty | zrobione, przyjęte przez Kubę z dopiskami (przepustowość poranka policzona) |
+| 5 | Zdarzenia w seriach — STOP 2 | zrobione, przyjęte przez Kubę z dopiskami; recenzja Codeksa (Sol) uwzględniona (`notatki/recenzje/a5r_codex2.md`) |
 
 ## Krok 1 — wspólny moduł definicji
 
@@ -67,6 +67,10 @@ Liczby po recenzji Codeksa (`notatki/recenzje/a5r_codex2.md`): opóźnienie licz
 - **Obciążenie:** rano u internisty średnio 2,73 wizyty na godzinę z terminami w okresie 1 i 4,43 w okresie 2, z czego 1,27 to pacjenci nowych kampanii. Ich udział w porannych wizytach u internisty rośnie z 6,8% (XI 2025) do około 40% (od VI 2026). W okresie 1 opóźnienie prawie nie zależy od obciążenia godziny (średnio 3,9–5,4 minuty), w okresie 2 rośnie z nim (6,8 minuty przy 1–2 wizytach, 15,8 przy 10–14). To porównanie nie uwzględnia kalendarza.
 - **Godziny z pacjentami nowych kampanii i bez nich (poprawione po recenzji Codeksa):** w szerokich przedziałach liczby wizyt wizyty pacjentów spoza nowych kampanii są częściej spóźnione, gdy w tej godzinie są też wizyty z nowych kampanii (np. do 4 wizyt: 46,9% wobec 29,6%). Ale godziny z nowymi kampaniami częściej przypadają na późniejsze miesiące. **W tym samym miesiącu i przy dokładnie tej samej liczbie wizyt w godzinie różnica spada z 19,1 do 0,7 punktu procentowego** (70 grup, 4 575 wizyt). Opóźnienie rośnie więc z miesiąca na miesiąc dla całego poranka, a nie w tych godzinach, w których są pacjenci nowych kampanii. Wcześniejsze zdanie „przy tym samym obciążeniu” było za mocne.
 - **Czego to nie jest:** długość wizyty się nie zmienia (średnio 8,5 minuty u internisty w obu okresach, wizyty L4 z nowych kampanii też 8,5). Czas od zapłaty do terminu też nie (mediana 37–41 minut, ponad 2 godziny czeka 23–26% w każdym miesiącu). W danych nie ma grafików lekarzy, ich identyfikatorów, obciążenia na lekarza ani zasad przydzielania wizyt. Alternatywne wyjaśnienie, którego dane nie wykluczają: zmiana porannej obsady albo organizacji zapisów, która zbiegła się z kampanią. Opóźnienie może też odzwierciedlać cechy pacjenta (pilność, wybór najbliższego terminu), które same wpływają na powrót. **Dane pasują do hipotezy Kuby, ale jej nie dowodzą** (Codex uznał to zdanie za uprawnione). Rozstrzygnie dopiero test z inną poranną obsadą.
+- **Przepustowość poranka (dopisek Kuby po STOP 2; `wyniki/a5r_punktualnosc.txt`, sekcje 3f–3g).** Ruch poranny w dniu = nieanulowane wizyty u internisty z terminem 6:00–11:59 tego dnia, wszyscy pacjenci (mediana 15 wizyt na dzień w okresie 1 i 26 w okresie 2).
+  - **(a) Przy tym samym ruchu porannym opóźnień jest teraz dużo więcej niż rok wcześniej.** Wizyty spóźnione ponad 15 minut: przy 13–16 wizytach rano 6,8% (113 dni) wobec 22,4% (30 dni); przy 17–20 wizytach 6,0% (89 dni) wobec 30,6% (58 dni); przy 21–24 wizytach 4,8% (32 dni) wobec 39,6% (61 dni). Średnio w przedziałach obecnych w obu okresach: +26,4 punktu procentowego (5 przedziałów, 9 979 wizyt). Tak samo w dni robocze (17–20 wizyt: 6,8% wobec 31,3%) i w weekendy. W okresie 1 opóźnienia nie zależą od ruchu (4,7–8,3% we wszystkich przedziałach).
+  - **(b) W obrębie miesiąca dni z większym ruchem prawie nie mają więcej opóźnień.** Tercyle dni według ruchu, wyznaczane w każdym miesiącu: okres 1 — 5,8%, 5,9%, 6,1%; okres 2 — 42,2%, 43,6%, 43,5%. Nachylenie w miesiącu: średnio 0,04 punktu na każdą dodatkową poranną wizytę w okresie 1 i 0,13 w okresie 2 (mediana 0,21).
+  - **Odczytanie (reguła Kuby, bez przesądzania przyczyny):** przy tym samym ruchu opóźnień jest teraz dużo więcej, więc spadła poranna przepustowość, a nie tylko przybyło pacjentów. Możliwe przyczyny: mniejsza obsada rano, inna organizacja zapisów albo lekarze zajęci pacjentami spoza B2C (Telemedi ma też pacjentów firmowych, których nie ma w tych danych, a lekarze mogą być wspólni). Poziom opóźnień zmienia się z miesiąca na miesiąc, a nie z dnia na dzień razem z ruchem B2C. Kontrola Codeksa (godziny z pacjentami nowych kampanii i bez nich przy tej samej liczbie wizyt: 0,7 punktu różnicy) jest zgodna z tym odczytaniem: lekarza nie obchodzi, skąd przyszedł pacjent (dopisek Kuby).
 - **Pierwsza wizyta pacjentów starych kampanii u internisty rano:** ponad 15 minut opóźnienia 6,4% (2 656 wizyt) w okresie 1 wobec 37,7% (2 893) w okresie 2; ponad 30 minut 1,3% wobec 18,4%. Powrót w 90 dniach tych pacjentów: 23,6% (2 844) wobec 19,0% (3 117), czyli −4,6 punktu procentowego. Wieczorem 23,5% wobec 23,5%.
 - **Rano spada powrót po wizytach spóźnionych, nie po punktualnych:** zaczęte do 5 minut po terminie 24,9% (1 415) wobec 27,0% (826); ponad 5 do 15 minut 23,2% wobec 19,9%; ponad 15 do 30 minut 22,2% wobec 16,0%; ponad 30 minut 14,3% (35) wobec 10,1% (533).
 - **Powrót a opóźnienie pierwszej wizyty (stare kampanie, wszystkie pory i specjalizacje):** do 5 minut 25,1% i 24,0%; ponad 30 minut 7,9% i 10,1%. Udział pierwszych wizyt spóźnionych ponad 15 minut rośnie z 3,3% do 10,6%.
@@ -110,12 +114,24 @@ Metoda: podział binarny serii dziennej na danych jednostkowych (pacjent albo wi
 - Udział pierwszych wizyt spóźnionych ponad 15 minut w kohortach starych kampanii: 3,3% w październiku 2025, 4,3% w listopadzie, 8,3% w grudniu, 10,9% w styczniu i 13,0–14,4% od lutego do czerwca 2026.
 
 ### Otwarte po kroku 5 (kandydaci na listę „czego nie da się rozstrzygnąć”)
-- **Przeciążenie internistów rano:** w danych nie ma grafików lekarzy. Potrzebne: liczba lekarzy na zmianie według godziny, przed i po 3.11.2025. Test: zwiększyć poranną obsadę internistów albo ograniczyć poranne terminy z kampanii na L4 na część dni (losowo) i porównać opóźnienia oraz powroty pozostałych pacjentów.
+- **Grafiki lekarzy i ich obciążenie spoza B2C (dopisek Kuby):** w danych nie ma grafików lekarzy ani ich pracy dla pacjentów firmowych, których Telemedi też obsługuje, a lekarze mogą być wspólni. Potrzebne: liczba lekarzy na porannej zmianie według godziny, przed i po 3.11.2025, i ich obciążenie poza B2C. Test: zwiększyć poranną obsadę internistów B2C albo ograniczyć poranne terminy z kampanii na L4 na część dni (losowo) i porównać opóźnienia oraz powroty pozostałych pacjentów.
 - **Powód zwrotów po wizycie L4 z nowych kampanii** (17,4% wobec 5,3%): w danych nie ma powodu zwrotu ani informacji, czy L4 wystawiono. Potrzebne: powód zwrotu, decyzja lekarza, treść reklamy.
 - **Czy pacjenci nowych kampanii są dodatkowi:** sprawa pozyskania (sesja prowadząca, ekonomia kampanii).
 - **Wysyłki CRM:** widać kliknięcia, nie wysyłki. Liczba wejść na 1 000 pacjentów spada z 56–108 do 24–52 miesięcznie; nie wiemy, czy z powodu mniejszej liczby wysyłek, czy mniejszej klikalności.
 - **Luty 2026:** brak spadku mimo opóźnień; różni się od marca–maja w porównaniu nominalnym (z = 2,35), wynik eksploracyjny.
 - **Mechanizm opóźnień:** w tym samym miesiącu i przy tej samej liczbie wizyt w godzinie obecność pacjentów nowych kampanii prawie nie zmienia opóźnienia (0,7 punktu). Potrzebne dane o obsadzie, kolejce i zaległościach z wcześniejszych godzin.
+
+## Zamknięcie części retencji A5 (2026-10-19)
+
+**Część retencji A5 jest zamknięta.** Wszystkie kroki przyjęte przez Kubę (STOP 1 i STOP 2), dwie recenzje Codeksa (Sol) uwzględnione. Następny krok należy do sesji prowadzącej: scalenie propozycji wpisów z sekcji niżej do wspólnych notatek oraz ekonomia kampanii (koszt pozyskania i wynik na pacjenta według obu reguł źródła), do której potrzebne są marża na pacjenta (krok 2 i 3) i powroty (krok 3).
+
+**Pliki dla narzędzia (punkt B):**
+- `analiza/wyniki/a5r_kohorty_dzienne.csv` — kohorty dzienne: nowi, powroty w 30/60/90 dniach (puste = brak pełnego okna), kolejne zamówienia i marża w 30/60/90/180/365 dniach.
+- `analiza/wyniki/a5r_punktualnosc_tygodnie.csv` — tygodniowe opóźnienia wizyt u internisty, pora, udział nowych kampanii, znane daty.
+- `analiza/wyniki/a5r_zdarzenia.csv` — odcinki serii między kandydatami zmian (seria, od, do, liczba, poziom, zmiana, z, zbieżność ze znaną datą).
+- Pozostałe liczby w raportach `analiza/wyniki/a5r_*.txt`. Podział kohort według kampanii, usługi, zniżki, statusu, przeglądarki i opóźnienia pierwszej wizyty da się policzyć funkcją `zbuduj_atr` z `analiza/a5r_struktura.py` na module `analiza/definicje.py`.
+
+**W narzędziu podajemy obie wersje reguły źródła** (dopisek Kuby nr 1 po STOP 1): spadek powrotu w 90 dniach z 23,9% do 17,4% to 4,6 punktu nowych kampanii i 2,0 punktu starych według przyjętej reguły, a 3,0 i 3,5 punktu według sesji płatności.
 
 ## Propozycje wpisów do wspólnych notatek (do scalenia przez sesję prowadzącą)
 
@@ -129,13 +145,26 @@ Metoda: podział binarny serii dziennej na danych jednostkowych (pacjent albo wi
 
 ### `ZNALEZISKA.md` (sekcja „A5 retencja”) — po przeglądzie Kuby
 - Krok 3 w brzmieniu przyjętym przez Kubę (dopisek nr 1): większość spadku powrotów wiąże się z pacjentami dwóch nowych kampanii na L4, ale w kampaniach działających w obu latach też jest spadek, którego sprawdzone cechy nie tłumaczą. Obie wersje według reguły źródła: przyjęta reguła 4,6 i 2,0 punktu, sesja płatności 3,0 i 3,5 punktu (spadek z 23,9% do 17,4% w 90 dniach).
-- Krok 4 i 5 (po przeglądzie STOP 2): opóźnienia porannych wizyt u internisty od listopada 2025 (kandydat zmiany 24.11.2025); powrót rano spada po wizytach spóźnionych, nie po punktualnych; zwroty po wizycie L4 z nowych kampanii 17,4%; pacjenci nowych kampanii z zgodą marketingową 37,8% wobec 64%; brak wyraźnego zdarzenia w powrocie starych kampanii (najsilniejszy kandydat 2.03.2026).
+- Krok 4 i 5, przyjęte przez Kubę (STOP 2):
+  - **Opóźnienia porannych wizyt u internisty od listopada 2025** (kandydat zmiany 24.11.2025): wizyty z terminem 6:00–11:59 spóźnione ponad 15 minut, pacjenci spoza nowych kampanii, 4,7–6,9% miesięcznie do X 2025, 15,7% w XI 2025, 29,7% w XII, 42,6% w I 2026, 47–53% od II 2026. U internisty w innych porach i u specjalistów bez dużej zmiany. **Przy tym samym porannym ruchu w dniu opóźnień jest o 26,4 punktu procentowego więcej niż rok wcześniej**, a w obrębie miesiąca opóźnienia prawie nie zależą od ruchu. Odczytanie bez przesądzania przyczyny: spadła poranna przepustowość (obsada, organizacja zapisów albo lekarze zajęci pacjentami spoza B2C), a nie tylko przybyło pacjentów.
+  - **Rano spada powrót po wizytach spóźnionych, nie po punktualnych.** Pacjenci starych kampanii z pierwszą wizytą u internisty rano: powrót w 90 dniach 23,6% wobec 19,0%; wieczorem 23,5% i 23,5%. Sama zmiana rozkładu opóźnień przy stałych kampaniach i usługach odpowiada za −0,76 z −1,91 punktu spadku w starych kampaniach (przyjęta reguła źródła) i −0,64 z −3,50 (sesja płatności).
+  - **Zwroty po wizytach L4 w nowych kampaniach (ważne dla listy priorytetów):** 17,4% odbytych wizyt L4 pacjentów kampanii `meta_prosp_l4_szybko` i `tt_prosp_l4_15min` kończy się zwrotem po wizycie (1 024 z 5 895 w okresie 2), wobec 5,3% L4 pozostałych pacjentów (270 z 5 080) i 6,0% w okresie 1. Kod rabatowy i opóźnienie nie zmieniają odsetka. W okresie 2 wszystkie zwroty po wizycie pacjentów nowych kampanii to 1 044 wizyty, 84 112 zł zwróconych zapłat i 33 975 zł kosztu lekarza za te wizyty. Powodu zwrotu w danych nie ma (możliwe odczytanie: lekarz nie wystawia L4, którego pacjent oczekuje po obietnicy reklamy).
+  - **Niska zgoda marketingowa pacjentów nowych kampanii (ważne dla listy priorytetów):** 37,8% wobec 63,8–64,4% pacjentów starych kampanii; wejście z newslettera albo SMS-a w dniach 1–90 ma 8,2% z nich wobec 17,5–17,9%. Newsletter i SMS-y do tych pacjentów prawie nie docierają.
+  - **Brak wyraźnego zdarzenia w powrocie starych kampanii:** najsilniejszy kandydat 2.03.2026 (z = −3,943, poniżej progu 4): 23,3% przed, 20,9% po. Luty 2026 bez spadku mimo opóźnień — trop eksploracyjny.
+### `DECYZJE.md`
+- Dwa wpisy z sekcji „Dopiski Kuby” niżej: wynik kroku 3 przyjęty z trzema dopiskami (STOP 1) oraz wyniki kroków 4 i 5 przyjęte z czterema dopiskami (STOP 2). Recenzje Codeksa: `notatki/recenzje/a5r_codex.md` i `a5r_codex2.md`.
+
+### `PLAN.md` i `PRZEKAZANIE.md`
+- A5, sesja retencji: zrobione (commity od `c5b17ea` do commitu zamykającego), STOP 1 i STOP 2 przyjęte przez Kubę.
+- Do punktu C (lista „czego nie da się rozstrzygnąć”): sekcja „Otwarte po kroku 5” tej notatki — grafiki lekarzy i ich obciążenie spoza B2C, powód zwrotów po wizytach L4, czy pacjenci nowych kampanii są dodatkowi, wysyłki CRM, luty 2026.
+- Do listy priorytetów (C): poranna przepustowość internistów, zwroty po wizytach L4 w nowych kampaniach, zgoda marketingowa pacjentów nowych kampanii; przy każdej opcje „naprawić” i „wyłączyć” z wartością w marży (scenariusze w kroku 5).
+- Moduł `analiza/definicje.py` po zamknięciu tej sesji może przejąć sesja prowadząca (dotąd edytowała go tylko sesja retencji).
 
 ### `analiza/README.md`
 - `python -I analiza/a5r_kontrola_definicji.py` — kontrola wspólnego modułu `analiza/definicje.py` wobec sekcji 6 raportu A4. Wynik: `wyniki/a5r_kontrola_definicji.txt`.
 - `python -I analiza/a5r_kohorty.py` — kohorty dzienne, powroty w 30/60/90 dniach, zamówienia i marża na pacjenta, kohorty miesięczne i tygodniowe, start od zera, wrażliwość na koszt pediatry. Wynik: `wyniki/a5r_kohorty.txt`, `wyniki/a5r_kohorty_dzienne.csv`.
-- `python -I analiza/a5r_punktualnosc.py` — opóźnienie wizyt, pora, obciążenie godzin u internisty, powrót według opóźnienia pierwszej wizyty, opóźnienia w czasie. Wynik: `wyniki/a5r_punktualnosc.txt`, `wyniki/a5r_punktualnosc_tygodnie.csv`.
-- `python -I analiza/a5r_po_zakupie.py` — czekanie, długość wizyty, statusy i zwroty, oceny, rozkład z przebiegiem pierwszej wizyty, newsletter i SMS a powroty. Wynik: `wyniki/a5r_po_zakupie.txt`.
+- `python -I analiza/a5r_punktualnosc.py` — opóźnienie wizyt (co do sekundy), pora, obciążenie godzin i ruch poranny w dniu u internisty (przepustowość poranka), powrót według opóźnienia pierwszej wizyty, rozkład zagnieżdżony punktualności, opóźnienia w czasie. Importuje `a5r_struktura.py`. Wynik: `wyniki/a5r_punktualnosc.txt`, `wyniki/a5r_punktualnosc_tygodnie.csv`.
+- `python -I analiza/a5r_po_zakupie.py` — czekanie, długość wizyty, statusy i zwroty, oceny, rozkład z przebiegiem pierwszej wizyty, newsletter i SMS a powroty. Importuje `a5r_punktualnosc.py` i `a5r_struktura.py`. Wynik: `wyniki/a5r_po_zakupie.txt`.
 - `python -I analiza/a5r_zdarzenia.py` — zdarzenia w seriach retencji i po zakupie (podział binarny), miesiące spadku z datami kampanii na L4 i opóźnieniami, Safari na iOS, przybliżony wpływ na marżę. Wynik: `wyniki/a5r_zdarzenia.txt`, `wyniki/a5r_zdarzenia.csv`.
 - `python -I analiza/a5r_struktura.py` — rozdzielenie zmiany struktury pacjentów od zmiany zachowania (kanał, kampania, usługa, zniżka, przebieg pierwszej wizyty, przeglądarka), Meta po kampaniach, L4 z L4, TikTok osobno, kontrole wrażliwości, niepewność. Wynik: `wyniki/a5r_struktura.txt`.
 
@@ -147,3 +176,11 @@ Metoda: podział binarny serii dziennej na danych jednostkowych (pacjent albo wi
 3. **Spadek w starych kampaniach jest w listopadzie–styczniu i w marcu–maju, nie w październiku i lutym.** Przy zdarzeniach w kroku 5 zestawiamy te miesiące z datami startu i skoków kampanii na L4 oraz z opóźnieniami wizyt.
 
 Propozycja wpisu do `DECYZJE.md` (sesja prowadząca): „2026-10-19 — wynik kroku 3 retencji A5 przyjęty przez Kubę z poprawkami po recenzji Codeksa (Sol), z trzema dopiskami” + treść punktów 1–3.
+
+### 2026-10-19, przegląd STOP 2 (kroki 4 i 5 przyjęte po poprawkach Codeksa, z dopiskami)
+1. **Kontrolę Codeksa Kuba czyta inaczej:** to, że przy tej samej liczbie wizyt w godzinie obecność pacjentów nowych kampanii nie zmienia opóźnień, jest oczekiwanym wynikiem przy przeciążeniu, bo lekarza nie obchodzi, skąd przyszedł pacjent. Hipotezę rozstrzyga co innego: (a) odsetek spóźnionych porannych wizyt u internisty przy tym samym porannym ruchu w dniu, okres 1 wobec okresu 2; (b) czy w obrębie miesiąca dni z większym ruchem mają więcej opóźnień. Jeśli przy tym samym ruchu opóźnień jest teraz dużo więcej, to spadła poranna przepustowość (obsada, organizacja zapisów albo lekarze zajęci pacjentami spoza B2C), a nie tylko przybyło pacjentów; zapisać jako odczytanie, bez przesądzania przyczyny. **Policzone:** (a) +26,4 punktu procentowego przy tym samym ruchu; (b) brak wyraźnej zależności od ruchu w obrębie miesiąca (krok 4a).
+2. **Do listy niewiadomych:** grafiki lekarzy i ich obciążenie spoza B2C. Telemedi ma też pacjentów firmowych, których w tych danych nie ma, a lekarze mogą być wspólni.
+3. **Do znalezisk (ważne dla listy priorytetów):** zwroty po wizytach L4 w nowych kampaniach i niska zgoda marketingowa ich pacjentów.
+4. **Niespójność lutego zostaje jako trop eksploracyjny**, tak jak opisany w kroku 5.
+
+Propozycja wpisu do `DECYZJE.md` (sesja prowadząca): „2026-10-19 — wyniki kroków 4 i 5 retencji A5 przyjęte przez Kubę po poprawkach z recenzji Codeksa (Sol), z czterema dopiskami” + treść punktów 1–4 i wynik punktu 1.
