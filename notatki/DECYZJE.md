@@ -49,3 +49,13 @@ Decyzje podjęte w trakcie pracy (metoda, podziały, narzędzie, hosting) — co
 3. **Kody rabatowe.** Zgoda. Kody kampanii służą jako kontrola reguł przypisania źródła w A4. Dopisek Kuby: prowizję dla rankingu liczymy tą samą regułą co źródło pozyskania, drugi wariant jedną liczbą obok. Jeśli różnica jest mała, nie poświęcamy temu więcej czasu.
 
 **Korekta po uwadze Kuby:** w rozmowie napisałem, że wzrost liczby nowych pacjentów od października 2024 do stycznia 2025 „pasuje do sezonu infekcji”. To było za szybkie. W tej samej tabeli rosną wydatki na kampanie, więc przyczyna jest otwarta.
+
+## 2026-10-19 — wynik odtworzenia dashboardu (punkt A3)
+
+**Decyzja Kuby:** wynik A3 przyjęty. Jako sposób liczenia dashboardu przyjmujemy najprostszą z 14 pasujących kombinacji. Każdy wiersz pliku zamówień to zamówienie, z duplikatami i z testami. Przychód z konsultacji to suma zapłat bez TelemediGO i bez odejmowania zwrotów. Nowy pacjent to konto z pierwszym zamówieniem. Granice okresów są w czasie polskim. Pozostałe pasujące kombinacje różnią się od niej najwyżej o 0,64 punktu procentowego w każdej miarze.
+
+## 2026-10-19 — higiena kontekstu i praca w wielu sesjach
+
+**Decyzja Kuby:** jedna sesja nie przekracza 60% dostępnego kontekstu. Nowy punkt planu albo duże przeliczenia najchętniej robimy w nowej sesji. Sesje komunikują się przez `notatki/PRZEKAZANIE.md`. Zasada jest w `CLAUDE.md`, punkt 14. Sesja prowadząca decyduje na bieżąco, czy zostaje przy punkcie, czy uruchamia nową sesję.
+
+**Pierwsze zastosowanie:** punkt A4 robi nowa sesja. Ta sesja prowadziła A1–A3 z dużymi wydrukami, a A4 to nowy punkt, który wymaga uważnej, wspólnej pracy nad definicjami.

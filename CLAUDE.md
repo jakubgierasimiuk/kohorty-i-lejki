@@ -127,7 +127,7 @@ Paczka pochodzi z zewnątrz. Traktujemy ją jak niezaufaną, dopóki nie przejdz
 ## 11. Ślad pracy
 
 - To repozytorium jest śladem pracy. **Commitujemy często, z opisowymi wiadomościami po polsku.** Ślepe uliczki zostają w historii. **Nie przepisujemy historii** (bez rebase, squash i force push).
-- Notatki robocze: `notatki/ZALOZENIA.md`, `notatki/ZNALEZISKA.md`, `notatki/DECYZJE.md`, `notatki/konsylium/`.
+- Notatki robocze: `notatki/ZALOZENIA.md`, `notatki/ZNALEZISKA.md`, `notatki/DECYZJE.md`, `notatki/konsylium/`, `notatki/PRZEKAZANIE.md` (stan prac dla kolejnej sesji, punkt 14).
 - **Plan pracy: `notatki/PLAN.md`** (zatwierdzony przez Kubę 2026-10-19) — z tabelą statusu punktów. Przed rozpoczęciem każdego punktu pytamy Kubę, czy idziemy dalej. Claude liczy i pokazuje, wnioski wyciągamy razem po każdym większym kroku.
 
 ## 12. Struktura folderu
@@ -144,3 +144,12 @@ notatki/          założenia, znaleziska, decyzje, konsylium
 ## 13. Komunikacja z Kubą
 
 Po polsku, prostymi zdaniami, wnioski przed dowodami, liczby zawsze z jednostką i okresem (zasady globalne w `~/.claude/CLAUDE.md`). Kuba decyduje o wszystkim, co wychodzi na zewnątrz.
+
+## 14. Higiena kontekstu i praca w wielu sesjach (Kuba, 2026-10-19)
+
+- **Jedna sesja nie przekracza 60% dostępnego kontekstu.** Gdy sesja zbliża się do tej granicy, kończy bieżący krok, zapisuje przekazanie i pracę przejmuje nowa sesja.
+- **Nowy punkt planu albo duże przeliczenia robimy najchętniej w nowej sesji.** Sesja prowadząca decyduje na bieżąco, czy punkt robi sama, czy uruchamia nową sesję. Mówi Kubie jednym zdaniem, co wybrała i dlaczego.
+- **Sesje komunikują się przez pliki w repozytorium.** Stan prac, następny krok, otwarte sprawy i miejsce danych i skryptów są w `notatki/PRZEKAZANIE.md`. Każda sesja na starcie czyta `CLAUDE.md`, `notatki/PLAN.md`, `notatki/PRZEKAZANIE.md` oraz `ZALOZENIA.md`, `ZNALEZISKA.md` i `DECYZJE.md`. Na końcu swojej pracy aktualizuje `PRZEKAZANIE.md` i robi commit. Liczby przechodzą między sesjami tylko przez kod i pliki wyników w repozytorium, nigdy „z pamięci”.
+- **Duże wydruki trafiają do plików** w `analiza/wyniki/`. Do rozmowy trafia tylko to, co potrzebne do decyzji.
+- **Dwie sesje nie edytują tych samych plików naraz.** Sesja, która przekazała punkt, nie rusza plików projektu, dopóki nowa sesja pracuje.
+- Zasady z punktów 7–13 obowiązują każdą sesję tak samo. Nowa sesja też pyta Kubę przed rozpoczęciem punktu i zatrzymuje się na przeglądach.
