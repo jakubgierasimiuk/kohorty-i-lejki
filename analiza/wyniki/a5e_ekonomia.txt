@@ -1,0 +1,272 @@
+A5 EKONOMIA KAMPANII — KOSZT POZYSKANIA I WYNIK NA PACJENTA (2026-10-19 21:48), schemat `czyste`
+Okres 1 = kohorty X 2024 – IX 2025, okres 2 = X 2025 – IX 2026. Źródło: Z1K = pierwsze wejście z anonimowymi
+sesjami przeglądarek pacjenta, kod kampanii rozstrzyga (ZALOZENIA.md 22); Z2 = sesja płatności (punkt 23).
+Marża na pacjenta = przychód z konsultacji po zwrotach + TelemediGO − koszt lekarza, dni 0..N, przed kosztem
+pozyskania (punkt 34). Koszt pozyskania = (wydatki + prowizja 25 zł za pacjenta rankingu) / nowi pacjenci z tych
+samych dni. Wynik na pacjenta = marża − koszt pozyskania. Okno 90 dni: kohorty 1.10–2.07 w obu okresach,
+okno 180 dni: 1.10–3.04 (te same dni kalendarzowe, punkt 27). Przedział 95% wyniku tylko z rozrzutu marży.
+
+==============================================================================================================
+0. KONTROLA: liczby odniesienia z części retencji (a5r_kohorty.txt, sekcja 1)
+==============================================================================================================
+   okno 90: pacjenci 12867 / 18924, marża na pacjenta 66.6 / 58.3 zł   (oczekiwane: 12867 / 18924, 66.6 / 58.3 zł)
+   okno 180: pacjenci 9125 / 12591, marża na pacjenta 75.5 / 67.7 zł   (oczekiwane: 9125 / 12591, 75.5 / 67.7 zł)
+   wydatki razem: 1 017 307 zł (okres 1: 367 632 zł, okres 2: 649 675 zł)
+
+==============================================================================================================
+1. NAGŁÓWEK: NOWE KAMPANIE NA L4 (meta_prosp_l4_szybko + tt_prosp_l4_15min) WOBEC POZOSTAŁYCH, OBIE REGUŁY
+==============================================================================================================
+   Grupy: 1 = dwie nowe kampanie na L4; 2 = pozostałe kampanie płatne (Google Ads, Meta lekarz online,
+   remarketing Meta); 3 = ranking lekarzy (prowizja); 4 = kanały bezpłatne (bezpośrednie, wyszukiwarka,
+   program poleceń, newsletter i SMS). Kolumny: koszt_pozysk_na_pac i wynik_na_pac w zł na pacjenta.
+
+1a. Okno 90 dni
+                   grupa regula  okres  nowi  wydatki_zl  prowizja_zl  koszt_pozysk_na_pac  marza_na_pac  wynik_na_pac  wynik_od  wynik_do  wynik_razem_zl  powrot_proc
+      1_nowe_kampanie_L4    Z1K      2  4893      159897            0                 32.7          36.3           3.6       2.5       4.7           17589          4.1
+      1_nowe_kampanie_L4     Z2      2  3510      159897            0                 45.6          36.1          -9.4     -10.7      -8.1          -33075          4.1
+      2_pozostale_platne    Z1K      1  6705      282111            0                 42.1          65.0          22.9      21.7      24.1          153752         23.9
+      2_pozostale_platne    Z1K      2  7076      312427            0                 44.2          64.2          20.0      18.8      21.2          141510         21.1
+      2_pozostale_platne     Z2      1  6252      282111            0                 45.1          65.7          20.6      19.3      21.9          128866         24.2
+      2_pozostale_platne     Z2      2  7141      312427            0                 43.8          62.4          18.7      17.5      19.9          133408         20.1
+     3_afiliacja_ranking    Z1K      1   489           0        12225                 25.0          57.2          32.2      28.2      36.1           15723         15.5
+     3_afiliacja_ranking    Z1K      2   489           0        12225                 25.0          57.2          32.2      28.0      36.5           15755         16.8
+     3_afiliacja_ranking     Z2      1   348           0         8700                 25.0          57.1          32.1      27.4      36.9           11177         16.4
+     3_afiliacja_ranking     Z2      2   319           0         7975                 25.0          55.8          30.8      25.7      35.9            9826         16.9
+             4_bezplatne    Z1K      1  5673           0            0                  0.0          69.3          69.3      67.9      70.6          393069         24.6
+             4_bezplatne    Z1K      2  6466           0            0                  0.0          68.6          68.6      67.3      69.9          443777         23.4
+             4_bezplatne     Z2      1  6267           0            0                  0.0          68.0          68.0      66.7      69.3          426026         24.0
+             4_bezplatne     Z2      2  7954           0            0                  0.0          64.5          64.5      63.3      65.6          512723         20.8
+
+1b. Okno 180 dni
+                   grupa regula  okres  nowi  wydatki_zl  prowizja_zl  koszt_pozysk_na_pac  marza_na_pac  wynik_na_pac  wynik_od  wynik_do  wynik_razem_zl  powrot_proc
+      1_nowe_kampanie_L4    Z1K      2  2352       71325            0                 30.3          37.3           7.0       5.4       8.6           16418          4.4
+      1_nowe_kampanie_L4     Z2      2  1693       71325            0                 42.1          36.9          -5.2      -7.1      -3.2           -8776          4.2
+      2_pozostale_platne    Z1K      1  4717      193425            0                 41.0          72.8          31.8      29.9      33.6          149817         23.9
+      2_pozostale_platne    Z1K      2  5130      218658            0                 42.6          72.3          29.7      27.9      31.4          152147         21.2
+      2_pozostale_platne     Z2      1  4407      193425            0                 43.9          73.9          30.0      28.0      31.9          132171         24.2
+      2_pozostale_platne     Z2      2  5029      218658            0                 43.5          71.0          27.5      25.8      29.3          138414         20.8
+     3_afiliacja_ranking    Z1K      1   340           0         8500                 25.0          59.8          34.8      29.4      40.1           11816         14.7
+     3_afiliacja_ranking    Z1K      2   352           0         8800                 25.0          62.0          37.0      31.1      42.8           13010         17.0
+     3_afiliacja_ranking     Z2      1   246           0         6150                 25.0          60.2          35.2      28.7      41.7            8665         15.0
+     3_afiliacja_ranking     Z2      2   229           0         5725                 25.0          60.6          35.6      28.3      42.9            8156         16.6
+             4_bezplatne    Z1K      1  4068           0            0                  0.0          79.9          79.9      77.7      82.0          324962         25.2
+             4_bezplatne    Z1K      2  4757           0            0                  0.0          78.1          78.1      76.2      80.1          371748         24.1
+             4_bezplatne     Z2      1  4472           0            0                  0.0          77.8          77.8      75.8      79.8          348109         24.6
+             4_bezplatne     Z2      2  5640           0            0                  0.0          74.2          74.2      72.5      75.9          418604         22.1
+   powrot_proc = powrót w 90 dniach (w oknie 180 też 90 dni, dla porównania z częścią retencji).
+
+1c. Pełne okresy (12 miesięcy): nowi pacjenci, wydatki, prowizja i koszt pozyskania (bez marży, bo młode
+    kohorty nie mają pełnego okna)
+                   grupa regula  okres  nowi  wydatki_zl  prowizja_zl  koszt_pozysk_na_pac
+      1_nowe_kampanie_L4    Z1K      2  7268      245787            0                 33.8
+      1_nowe_kampanie_L4     Z2      2  5187      245787            0                 47.4
+      2_pozostale_platne    Z1K      1  8546      367632            0                 43.0
+      2_pozostale_platne    Z1K      2  8878      403888            0                 45.5
+      2_pozostale_platne     Z2      1  7917      367632            0                 46.4
+      2_pozostale_platne     Z2      2  9062      403888            0                 44.6
+     3_afiliacja_ranking    Z1K      1   616           0        15400                 25.0
+     3_afiliacja_ranking    Z1K      2   617           0        15425                 25.0
+     3_afiliacja_ranking     Z2      1   437           0        10925                 25.0
+     3_afiliacja_ranking     Z2      2   405           0        10125                 25.0
+             4_bezplatne    Z1K      1  7069           0            0                  0.0
+             4_bezplatne    Z1K      2  7924           0            0                  0.0
+             4_bezplatne     Z2      1  7877           0            0                  0.0
+             4_bezplatne     Z2      2 10033           0            0                  0.0
+
+==============================================================================================================
+2. KAMPANIE I KANAŁY BEZPŁATNE: OKRES 1 I OKRES 2, OBIE REGUŁY ŹRÓDŁA
+==============================================================================================================
+
+2a. Okno 90 dni (kampanie bez pacjentów w danej regule: nowi = 0)
+
+   reguła Z1K
+                     kampania  wydatki_o1  wydatki_o2  nowi_Z1K_o1  koszt_pozysk_na_pac_Z1K_o1  marza_na_pac_Z1K_o1  wynik_na_pac_Z1K_o1  nowi_Z1K_o2  koszt_pozysk_na_pac_Z1K_o2  marza_na_pac_Z1K_o2  wynik_na_pac_Z1K_o2
+         meta_prosp_l4_szybko         NaN    113677.0          NaN                         NaN                  NaN                  NaN       3628.0                        31.3                 37.8                  6.5
+          gs_generic_erecepta     58242.0     73741.0       1193.0                        48.8                 77.4                 28.6       1233.0                        59.8                 75.5                 15.7
+     gs_generic_lekarz_online     72141.0     68786.0       1429.0                        50.5                 65.3                 14.8       1399.0                        49.2                 65.8                 16.6
+                gs_generic_l4     54841.0     57180.0       1078.0                        50.9                 65.8                 14.9       1072.0                        53.3                 67.8                 14.4
+            tt_prosp_l4_15min         NaN     46220.0          NaN                         NaN                  NaN                  NaN       1265.0                        36.5                 31.9                 -4.6
+     meta_prosp_lekarz_online     45530.0     45855.0        786.0                        57.9                 64.7                  6.8        835.0                        54.9                 61.2                  6.3
+       gs_generic_specjalisci     36086.0     40319.0        602.0                        59.9                 32.8                -27.1        719.0                        56.1                 32.4                -23.7
+                     gs_brand     10792.0     17899.0       1522.0                         7.1                 66.9                 59.9       1715.0                        10.4                 67.1                 56.7
+             meta_rmkt_koszyk      4478.0      8647.0         95.0                        47.1                 71.4                 24.3        103.0                        84.0                 65.1                -18.8
+                 bezposrednie         0.0         0.0       2448.0                         0.0                 69.1                 69.1       2794.0                         0.0                 69.4                 69.4
+               google_organic         0.0         0.0       2644.0                         0.0                 69.4                 69.4       2975.0                         0.0                 67.3                 67.3
+                 bing_organic         0.0         0.0        145.0                         0.0                 64.5                 64.5        176.0                         0.0                 75.6                 75.6
+              program_polecen         0.0         0.0        436.0                         0.0                 71.3                 71.3        521.0                         0.0                 69.7                 69.7
+     rankinglekarzy_affiliate         0.0         0.0        489.0                        25.0                 57.2                 32.2        489.0                        25.0                 57.2                 32.2
+
+   reguła Z2
+                     kampania  wydatki_o1  wydatki_o2  nowi_Z2_o1  koszt_pozysk_na_pac_Z2_o1  marza_na_pac_Z2_o1  wynik_na_pac_Z2_o1  nowi_Z2_o2  koszt_pozysk_na_pac_Z2_o2  marza_na_pac_Z2_o2  wynik_na_pac_Z2_o2
+         meta_prosp_l4_szybko         NaN    113677.0         NaN                        NaN                 NaN                 NaN      2589.0                       43.9                37.4                -6.5
+          gs_generic_erecepta     58242.0     73741.0       859.0                       67.8                78.5                10.7       881.0                       83.7                75.8                -7.9
+     gs_generic_lekarz_online     72141.0     68786.0       985.0                       73.2                65.4                -7.9      1003.0                       68.6                65.8                -2.8
+                gs_generic_l4     54841.0     57180.0       758.0                       72.3                65.9                -6.4       743.0                       77.0                67.8                -9.1
+            tt_prosp_l4_15min         NaN     46220.0         NaN                        NaN                 NaN                 NaN       921.0                       50.2                32.4               -17.8
+     meta_prosp_lekarz_online     45530.0     45855.0       585.0                       77.8                66.1               -11.7       632.0                       72.6                60.8               -11.7
+       gs_generic_specjalisci     36086.0     40319.0       430.0                       83.9                34.0               -50.0       519.0                       77.7                32.9               -44.7
+                     gs_brand     10792.0     17899.0      1927.0                        5.6                66.4                60.8      2407.0                        7.4                62.3                54.9
+             meta_rmkt_koszyk      4478.0      8647.0       708.0                        6.3                67.8                61.5       956.0                        9.0                59.7                50.6
+                 bezposrednie         0.0         0.0      3201.0                        0.0                67.5                67.5      4182.0                        0.0                64.2                64.2
+               google_organic         0.0         0.0      2653.0                        0.0                68.5                68.5      3264.0                        0.0                63.7                63.7
+                 bing_organic         0.0         0.0       105.0                        0.0                68.4                68.4       126.0                        0.0                73.5                73.5
+              program_polecen         0.0         0.0       308.0                        0.0                68.4                68.4       382.0                        0.0                70.9                70.9
+     rankinglekarzy_affiliate         0.0         0.0       348.0                       25.0                57.1                32.1       319.0                       25.0                55.8                30.8
+
+2b. Okno 180 dni (kampanie bez pacjentów w danej regule: nowi = 0)
+
+   reguła Z1K
+                     kampania  wydatki_o1  wydatki_o2  nowi_Z1K_o1  koszt_pozysk_na_pac_Z1K_o1  marza_na_pac_Z1K_o1  wynik_na_pac_Z1K_o1  nowi_Z1K_o2  koszt_pozysk_na_pac_Z1K_o2  marza_na_pac_Z1K_o2  wynik_na_pac_Z1K_o2
+         meta_prosp_l4_szybko         NaN     61645.0          NaN                         NaN                  NaN                  NaN       2053.0                        30.0                 38.2                  8.2
+          gs_generic_erecepta     39393.0     51551.0        816.0                        48.3                 91.1                 42.8        847.0                        60.9                 88.8                 28.0
+     gs_generic_lekarz_online     48841.0     49368.0       1019.0                        47.9                 72.4                 24.5       1057.0                        46.7                 74.2                 27.5
+                gs_generic_l4     38433.0     43051.0        772.0                        49.8                 68.1                 18.3        779.0                        55.3                 73.2                 17.9
+     meta_prosp_lekarz_online     31045.0     31023.0        532.0                        58.4                 67.9                  9.5        575.0                        54.0                 67.5                 13.6
+       gs_generic_specjalisci     25353.0     26708.0        413.0                        61.4                 37.1                -24.3        525.0                        50.9                 36.6                -14.3
+                     gs_brand      7244.0     11545.0       1092.0                         6.6                 77.9                 71.2       1272.0                         9.1                 76.2                 67.1
+            tt_prosp_l4_15min         NaN      9680.0          NaN                         NaN                  NaN                  NaN        299.0                        32.4                 31.2                 -1.1
+             meta_rmkt_koszyk      3117.0      5412.0         73.0                        42.7                 83.9                 41.2         75.0                        72.2                 68.1                 -4.1
+                 bezposrednie         0.0         0.0       1766.0                         0.0                 79.5                 79.5       2040.0                         0.0                 79.4                 79.4
+               google_organic         0.0         0.0       1903.0                         0.0                 79.5                 79.5       2199.0                         0.0                 76.4                 76.4
+                 bing_organic         0.0         0.0         93.0                         0.0                 81.5                 81.5        137.0                         0.0                 85.3                 85.3
+              program_polecen         0.0         0.0        306.0                         0.0                 84.3                 84.3        381.0                         0.0                 79.0                 79.0
+     rankinglekarzy_affiliate         0.0         0.0        340.0                        25.0                 59.8                 34.8        352.0                        25.0                 62.0                 37.0
+
+   reguła Z2
+                     kampania  wydatki_o1  wydatki_o2  nowi_Z2_o1  koszt_pozysk_na_pac_Z2_o1  marza_na_pac_Z2_o1  wynik_na_pac_Z2_o1  nowi_Z2_o2  koszt_pozysk_na_pac_Z2_o2  marza_na_pac_Z2_o2  wynik_na_pac_Z2_o2
+         meta_prosp_l4_szybko         NaN     61645.0         NaN                        NaN                 NaN                 NaN      1465.0                       42.1                37.8                -4.3
+          gs_generic_erecepta     39393.0     51551.0       582.0                       67.7                92.5                24.8       606.0                       85.1                88.1                 3.0
+     gs_generic_lekarz_online     48841.0     49368.0       707.0                       69.1                71.9                 2.9       752.0                       65.6                75.7                10.1
+                gs_generic_l4     38433.0     43051.0       539.0                       71.3                69.2                -2.1       533.0                       80.8                73.2                -7.6
+     meta_prosp_lekarz_online     31045.0     31023.0       394.0                       78.8                69.5                -9.3       443.0                       70.0                68.1                -2.0
+       gs_generic_specjalisci     25353.0     26708.0       294.0                       86.2                39.5               -46.7       373.0                       71.6                35.0               -36.6
+                     gs_brand      7244.0     11545.0      1373.0                        5.3                76.4                71.2      1661.0                        7.0                71.9                65.0
+            tt_prosp_l4_15min         NaN      9680.0         NaN                        NaN                 NaN                 NaN       228.0                       42.5                31.5               -11.0
+             meta_rmkt_koszyk      3117.0      5412.0       518.0                        6.0                76.6                70.5       661.0                        8.2                68.1                59.9
+                 bezposrednie         0.0         0.0      2289.0                        0.0                76.9                76.9      2938.0                        0.0                73.7                73.7
+               google_organic         0.0         0.0      1894.0                        0.0                78.1                78.1      2322.0                        0.0                74.0                74.0
+                 bing_organic         0.0         0.0        69.0                        0.0                83.5                83.5        95.0                        0.0                83.5                83.5
+              program_polecen         0.0         0.0       220.0                        0.0                83.0                83.0       285.0                        0.0                78.7                78.7
+     rankinglekarzy_affiliate         0.0         0.0       246.0                       25.0                60.2                35.2       229.0                       25.0                60.6                35.6
+
+2c. Pełne okresy: koszt pozyskania (wydatki i prowizja z całych 12 miesięcy / nowi z całych 12 miesięcy)
+                     kampania  wydatki_o1  wydatki_o2  koszt_pozysk_na_pac_Z1K_o1  koszt_pozysk_na_pac_Z1K_o2  koszt_pozysk_na_pac_Z2_o1  koszt_pozysk_na_pac_Z2_o2  nowi_Z1K_o1  nowi_Z1K_o2  nowi_Z2_o1  nowi_Z2_o2
+         meta_prosp_l4_szybko         NaN    163322.0                         NaN                        32.3                        NaN                       45.4          NaN       5059.0         NaN      3594.0
+          gs_generic_erecepta     79154.0     97585.0                        50.7                        61.8                       70.9                       86.7       1560.0       1578.0      1116.0      1126.0
+     gs_generic_lekarz_online     92820.0     88616.0                        51.1                        50.0                       73.5                       69.7       1816.0       1773.0      1263.0      1272.0
+            tt_prosp_l4_15min         NaN     82464.0                         NaN                        37.3                        NaN                       51.8          NaN       2209.0         NaN      1593.0
+                gs_generic_l4     70486.0     69490.0                        52.2                        52.5                       74.4                       76.3       1351.0       1323.0       948.0       911.0
+     meta_prosp_lekarz_online     58233.0     59569.0                        57.0                        55.4                       77.1                       72.9       1022.0       1076.0       755.0       817.0
+       gs_generic_specjalisci     47158.0     53158.0                        58.0                        57.6                       81.7                       80.9        813.0        923.0       577.0       657.0
+                     gs_brand     14033.0     23612.0                         7.5                        11.3                        5.9                        7.8       1864.0       2084.0      2377.0      3033.0
+             meta_rmkt_koszyk      5749.0     11858.0                        47.9                        98.0                        6.5                        9.5        120.0        121.0       881.0      1246.0
+                 bezposrednie         0.0         0.0                         0.0                         0.0                        0.0                        0.0       3069.0       3399.0      4047.0      5297.0
+               google_organic         0.0         0.0                         0.0                         0.0                        0.0                        0.0       3271.0       3659.0      3303.0      4104.0
+                 bing_organic         0.0         0.0                         0.0                         0.0                        0.0                        0.0        179.0        206.0       131.0       144.0
+              program_polecen         0.0         0.0                         0.0                         0.0                        0.0                        0.0        550.0        660.0       396.0       488.0
+     rankinglekarzy_affiliate         0.0         0.0                        25.0                        25.0                       25.0                       25.0        616.0        617.0       437.0       405.0
+
+==============================================================================================================
+3. NIEPEWNE: KAMPANIE, KTÓRYCH WYNIK NA PACJENTA ZMIENIA ZNAK ZALEŻNIE OD REGUŁY ŹRÓDŁA
+==============================================================================================================
+   Tylko kampanie płatne i afiliacja (kanały bezpłatne mają koszt 0 zł, więc ich wynik = marża). Dodatkowo:
+   czy przedział 95% wyniku obejmuje zero w którejkolwiek regule.
+                     kampania  okno_dni  okres  nowi_Z1K  wynik_na_pac_Z1K  wynik_od_Z1K  wynik_do_Z1K  nowi_Z2  wynik_na_pac_Z2  wynik_od_Z2  wynik_do_Z2  znak_zalezy_od_reguly  przedzial_obejmuje_zero
+                     gs_brand        90      1      1522              59.9          57.2          62.5     1927             60.8         58.3         63.2                  False                    False
+                     gs_brand        90      2      1715              56.7          54.3          59.1     2407             54.9         52.8         57.0                  False                    False
+                     gs_brand       180      1      1092              71.2          67.0          75.4     1373             71.2         67.4         74.9                  False                    False
+                     gs_brand       180      2      1272              67.1          63.6          70.6     1661             65.0         61.9         68.0                  False                    False
+          gs_generic_erecepta        90      1      1193              28.6          25.6          31.6      859             10.7          7.3         14.1                  False                    False
+          gs_generic_erecepta        90      2      1233              15.7          12.8          18.5      881             -7.9        -11.3         -4.4                   True                    False
+          gs_generic_erecepta       180      1       816              42.8          37.8          47.8      582             24.8         19.0         30.6                  False                    False
+          gs_generic_erecepta       180      2       847              28.0          23.2          32.7      606              3.0         -2.6          8.6                  False                     True
+                gs_generic_l4        90      1      1078              14.9          12.3          17.5      758             -6.4         -9.7         -3.2                   True                    False
+                gs_generic_l4        90      2      1072              14.4          11.7          17.1      743             -9.1        -12.4         -5.8                   True                    False
+                gs_generic_l4       180      1       772              18.3          14.6          22.1      539             -2.1         -6.8          2.7                   True                     True
+                gs_generic_l4       180      2       779              17.9          14.1          21.7      533             -7.6        -12.3         -2.9                   True                    False
+     gs_generic_lekarz_online        90      1      1429              14.8          12.2          17.4      985             -7.9        -10.9         -4.8                   True                    False
+     gs_generic_lekarz_online        90      2      1399              16.6          14.0          19.2     1003             -2.8         -5.9          0.4                   True                     True
+     gs_generic_lekarz_online       180      1      1019              24.5          20.5          28.4      707              2.9         -1.8          7.5                  False                     True
+     gs_generic_lekarz_online       180      2      1057              27.5          23.7          31.3      752             10.1          5.4         14.8                  False                    False
+       gs_generic_specjalisci        90      1       602             -27.1         -30.8         -23.4      430            -50.0        -54.1        -45.8                  False                    False
+       gs_generic_specjalisci        90      2       719             -23.7         -27.0         -20.3      519            -44.7        -48.5        -41.0                  False                    False
+       gs_generic_specjalisci       180      1       413             -24.3         -29.9         -18.7      294            -46.7        -53.3        -40.2                  False                    False
+       gs_generic_specjalisci       180      2       525             -14.3         -18.9          -9.6      373            -36.6        -41.7        -31.5                  False                    False
+         meta_prosp_l4_szybko        90      2      3628               6.5           5.2           7.7     2589             -6.5         -8.0         -4.9                   True                    False
+         meta_prosp_l4_szybko       180      2      2053               8.2           6.4           9.9     1465             -4.3         -6.4         -2.2                   True                    False
+     meta_prosp_lekarz_online        90      1       786               6.8           3.6           9.9      585            -11.7        -15.4         -8.0                   True                    False
+     meta_prosp_lekarz_online        90      2       835               6.3           3.3           9.2      632            -11.7        -15.0         -8.5                   True                    False
+     meta_prosp_lekarz_online       180      1       532               9.5           5.2          13.8      394             -9.3        -14.5         -4.1                   True                    False
+     meta_prosp_lekarz_online       180      2       575              13.6           9.2          18.0      443             -2.0         -7.0          3.1                   True                     True
+             meta_rmkt_koszyk        90      1        95              24.3          13.7          34.9      708             61.5         57.8         65.1                  False                    False
+             meta_rmkt_koszyk        90      2       103             -18.8         -28.7          -9.0      956             50.6         47.4         53.9                   True                    False
+             meta_rmkt_koszyk       180      1        73              41.2          25.2          57.3      518             70.5         65.1         76.0                  False                    False
+             meta_rmkt_koszyk       180      2        75              -4.1         -17.0           8.8      661             59.9         55.4         64.5                   True                     True
+     rankinglekarzy_affiliate        90      1       489              32.2          28.2          36.1      348             32.1         27.4         36.9                  False                    False
+     rankinglekarzy_affiliate        90      2       489              32.2          28.0          36.5      319             30.8         25.7         35.9                  False                    False
+     rankinglekarzy_affiliate       180      1       340              34.8          29.4          40.1      246             35.2         28.7         41.7                  False                    False
+     rankinglekarzy_affiliate       180      2       352              37.0          31.1          42.8      229             35.6         28.3         42.9                  False                    False
+            tt_prosp_l4_15min        90      2      1265              -4.6          -6.6          -2.6      921            -17.8        -19.9        -15.6                  False                    False
+            tt_prosp_l4_15min       180      2       299              -1.1          -5.3           3.0      228            -11.0        -15.5         -6.5                  False                     True
+
+   Kampanie ze zmianą znaku w którymkolwiek oknie i okresie:
+     gs_generic_erecepta, gs_generic_l4, gs_generic_lekarz_online, meta_prosp_l4_szybko, meta_prosp_lekarz_online, meta_rmkt_koszyk
+
+==============================================================================================================
+4. PROWIZJA AFILIACYJNA (25 zł za pierwsze opłacone zamówienie, bez względu na status)
+==============================================================================================================
+   okres 1: według przyjętej reguły 616 pacjentów = 15 400 zł; według sesji płatności 437 = 10 925 zł; według kodu RANKING10 300 = 7 500 zł
+   okres 2: według przyjętej reguły 617 pacjentów = 15 425 zł; według sesji płatności 405 = 10 125 zł; według kodu RANKING10 295 = 7 375 zł
+   dwa lata: 30 825 zł (przyjęta reguła), 21 050 zł (sesja płatności), 14 875 zł (kod RANKING10)
+   Wariant RANKING10 przy ekonomii rankingu: ta sama marża pacjentów rankingu (przyjęta reguła), a prowizja tylko
+   za pacjentów z kodem, rozłożona na wszystkich pacjentów rankingu:
+   okno 90, okres 1: 489 pacjentów rankingu, marża 57.2 zł, prowizja 25,0 zł na pacjenta, wynik 32.2 zł; wariant RANKING10: 237 kodów, prowizja 5 925 zł, 12.1 zł na pacjenta, wynik 45.0 zł
+   okno 90, okres 2: 489 pacjentów rankingu, marża 57.2 zł, prowizja 25,0 zł na pacjenta, wynik 32.2 zł; wariant RANKING10: 237 kodów, prowizja 5 925 zł, 12.1 zł na pacjenta, wynik 45.1 zł
+   okno 180, okres 1: 340 pacjentów rankingu, marża 59.8 zł, prowizja 25,0 zł na pacjenta, wynik 34.8 zł; wariant RANKING10: 174 kodów, prowizja 4 350 zł, 12.8 zł na pacjenta, wynik 47.0 zł
+   okno 180, okres 2: 352 pacjentów rankingu, marża 62.0 zł, prowizja 25,0 zł na pacjenta, wynik 37.0 zł; wariant RANKING10: 178 kodów, prowizja 4 450 zł, 12.6 zł na pacjenta, wynik 49.3 zł
+   Kontrola zbieżności sum (w oknie 90 dni oba okresy mają tyle samo pacjentów rankingu): pacjenci rankingu
+   według przyjętej reguły w miesiącach kohorty, okres 1 i okres 2:
+      okres  1  2  3  4  5  6  7  8  9  10  11  12
+          1 78 52 60 56 42 52 41 44 46  41  57  47
+          2 67 58 82 58 46 36 36 45 48  38  49  54
+
+==============================================================================================================
+5. KANAŁY (grupy kampanii), okno 90 dni, obie reguły
+==============================================================================================================
+                      kanal regula  okres  nowi  wydatki_zl  prowizja_zl  koszt_pozysk_na_pac  marza_na_pac  wynik_na_pac  wynik_od  wynik_do  wynik_razem_zl  powrot_proc
+          afiliacja_ranking    Z1K      1   489           0        12225                 25.0          57.2          32.2      28.2      36.1           15723         15.5
+          afiliacja_ranking    Z1K      2   489           0        12225                 25.0          57.2          32.2      28.0      36.5           15755         16.8
+          afiliacja_ranking     Z2      1   348           0         8700                 25.0          57.1          32.1      27.4      36.9           11177         16.4
+          afiliacja_ranking     Z2      2   319           0         7975                 25.0          55.8          30.8      25.7      35.9            9826         16.9
+               bezposrednie    Z1K      1  2448           0            0                  0.0          69.1          69.1      67.2      71.1          169255         25.1
+               bezposrednie    Z1K      2  2794           0            0                  0.0          69.4          69.4      67.3      71.4          193813         23.6
+               bezposrednie     Z2      1  3201           0            0                  0.0          67.5          67.5      65.7      69.2          216034         24.3
+               bezposrednie     Z2      2  4182           0            0                  0.0          64.2          64.2      62.6      65.8          268483         20.5
+           google_ads_marka    Z1K      1  1522       10792            0                  7.1          66.9          59.9      57.2      62.5           91097         25.6
+           google_ads_marka    Z1K      2  1715       17899            0                 10.4          67.1          56.7      54.3      59.1           97252         23.6
+           google_ads_marka     Z2      1  1927       10792            0                  5.6          66.4          60.8      58.3      63.2          117096         24.8
+           google_ads_marka     Z2      2  2407       17899            0                  7.4          62.3          54.9      52.8      57.0          132115         20.4
+          google_ads_ogolne    Z1K      1  4302      221311            0                 51.4          64.2          12.8      11.3      14.3           55022         23.6
+          google_ads_ogolne    Z1K      2  4423      240025            0                 54.3          63.5           9.3       7.8      10.7           40978         21.1
+          google_ads_ogolne     Z2      1  3032      221311            0                 73.0          64.8          -8.2     -10.0      -6.4          -24926         24.1
+          google_ads_ogolne     Z2      2  3146      240025            0                 76.3          63.7         -12.6     -14.4     -10.8          -39710         21.1
+            meta_pozyskanie    Z1K      1   786       45530            0                 57.9          64.7           6.8       3.6       9.9            5323         21.2
+            meta_pozyskanie    Z1K      2  4463      159532            0                 35.7          42.2           6.4       5.2       7.6           28635          6.7
+            meta_pozyskanie     Z2      1   585       45530            0                 77.8          66.1         -11.7     -15.4      -8.0           -6835         21.4
+            meta_pozyskanie     Z2      2  3221      159532            0                 49.5          42.0          -7.5      -8.9      -6.0          -24130          7.0
+           meta_remarketing    Z1K      1    95        4478            0                 47.1          71.4          24.3      13.7      34.9            2309         30.5
+           meta_remarketing    Z1K      2   103        8647            0                 84.0          65.1         -18.8     -28.7      -9.0           -1940         21.4
+           meta_remarketing     Z2      1   708        4478            0                  6.3          67.8          61.5      57.8      65.1           43531         25.4
+           meta_remarketing     Z2      2   956        8647            0                  9.0          59.7          50.6      47.4      53.9           48409         18.3
+            program_polecen    Z1K      1   436           0            0                  0.0          71.3          71.3      66.5      76.1           31088         25.0
+            program_polecen    Z1K      2   521           0            0                  0.0          69.7          69.7      65.4      74.0           36308         26.1
+            program_polecen     Z2      1   308           0            0                  0.0          68.4          68.4      62.8      74.1           21080         24.4
+            program_polecen     Z2      2   382           0            0                  0.0          70.9          70.9      65.9      75.9           27080         27.2
+                     tiktok    Z1K      2  1265       46220            0                 36.5          31.9          -4.6      -6.6      -2.6           -5827          3.2
+                     tiktok     Z2      2   921       46220            0                 50.2          32.4         -17.8     -19.9     -15.6          -16350          2.6
+     wyszukiwarka_bezplatna    Z1K      1  2789           0            0                  0.0          69.1          69.1      67.1      71.1          192726         24.1
+     wyszukiwarka_bezplatna    Z1K      2  3151           0            0                  0.0          67.8          67.8      66.0      69.6          213656         22.7
+     wyszukiwarka_bezplatna     Z2      1  2758           0            0                  0.0          68.5          68.5      66.5      70.5          188912         23.7
+     wyszukiwarka_bezplatna     Z2      2  3390           0            0                  0.0          64.1          64.1      62.3      65.8          217161         20.5
+
+Zestawienie (grupy, kampanie, kanały, obie reguły, okna 90, 180 i pełny rok): analiza\wyniki\a5e_kampanie.csv
