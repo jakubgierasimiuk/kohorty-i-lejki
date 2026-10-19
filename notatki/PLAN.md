@@ -15,7 +15,7 @@ Kolejność: **wstępna analiza → narzędzie → uzupełnienie analizy → wer
 | Punkt | Co | Status |
 |---|---|---|
 | 0 | Kontrola bezpieczeństwa paczki | zrobione (commit `e5897ac`, wynik w `ZNALEZISKA.md`) |
-| A1 | Baza danych | do zrobienia |
+| A1 | Baza danych | zrobione (`analiza/a1_baza.py`, wynik w `analiza/wyniki/a1_baza.txt`) |
 | A2 | Jakość danych | do zrobienia |
 | A3 | Odtworzenie dashboardu | do zrobienia |
 | A4 | Definicje (razem) | do zrobienia |

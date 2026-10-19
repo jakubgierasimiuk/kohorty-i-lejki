@@ -2,6 +2,10 @@
 pobrane/
 dane/
 
+# Baza DuckDB z załadowanymi danymi (odtwarzana skryptem analiza/a1_baza.py)
+*.duckdb
+*.duckdb.wal
+
 # Python
 __pycache__/
 *.pyc

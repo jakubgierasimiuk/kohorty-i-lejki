@@ -1,0 +1,56 @@
+A1 — BAZA DANYCH (2026-10-19 13:10)
+Baza: analiza/telemedi.duckdb, schemat `surowe`. DuckDB 1.5.5.
+
+1. Liczby wierszy w bazie wobec treści zadania
+   users               52,422 wierszy z 1 pl.  zadanie:    52,422  zgodne
+   sessions           459,557 wierszy z 8 pl.  zadanie:   459,557  zgodne
+   events             494,605 wierszy z 5 pl.  zadanie:   494,605  zgodne
+   orders              65,882 wierszy z 1 pl.  zadanie:    65,882  zgodne
+   go_memberships       4,227 wierszy z 1 pl.  zadanie:     4,227  zgodne
+   marketing_spend      5,676 wierszy z 1 pl.  zadanie:     5,676  zgodne
+   RAZEM            1,082,369                zadanie: 1,082,369  zgodne
+   Wiersze w poszczególnych plikach:
+     users.csv                  52,422  (3.2 MB)
+     sessions_2024q4.csv        38,490  (3.9 MB)
+     sessions_2025q1.csv        46,524  (4.7 MB)
+     sessions_2025q2.csv        40,384  (4.1 MB)
+     sessions_2025q3.csv        37,511  (3.8 MB)
+     sessions_2025q4.csv        52,797  (5.4 MB)
+     sessions_2026q1.csv        80,728  (8.5 MB)
+     sessions_2026q2.csv        84,383  (9.1 MB)
+     sessions_2026q3.csv        78,740  (8.6 MB)
+     events_2024h2.csv          39,510  (1.8 MB)
+     events_2025h1.csv         101,513  (4.6 MB)
+     events_2025h2.csv         109,052  (5.0 MB)
+     events_2026h1.csv         168,991  (7.7 MB)
+     events_2026h2.csv          75,539  (3.4 MB)
+     orders.csv                 65,882  (10.0 MB)
+     go_memberships.csv          4,227  (0.3 MB)
+     marketing_spend.csv         5,676  (0.3 MB)
+
+2. Czas polski w sesjach i zdarzeniach (DuckDB) wobec niezależnego przeliczenia w Pythonie (zoneinfo, baza stref tzdata)
+   sessions    459,557 wierszy, niezgodnych: 0
+   events      494,605 wierszy, niezgodnych: 0
+
+3. Przesunięcie czasu polskiego wobec UTC
+   sessions  UTC+1:   193,405 wierszy
+   sessions  UTC+2:   266,152 wierszy
+   events    UTC+1:   212,045 wierszy
+   events    UTC+2:   282,560 wierszy
+   Dni (czas polski), w których przesunięcie się zmienia — powinny to być tylko dni zmiany czasu:
+     2024-10-27: koniec czasu letniego — ostatnia sesja UTC+2 o 00:41 UTC, pierwsza UTC+1 o 02:06 UTC
+     2025-03-30: początek czasu letniego — ostatnia sesja UTC+1 o 00:30 UTC, pierwsza UTC+2 o 01:04 UTC
+     2025-10-26: koniec czasu letniego — ostatnia sesja UTC+2 o 00:56 UTC, pierwsza UTC+1 o 02:22 UTC
+     2026-03-29: początek czasu letniego — ostatnia sesja UTC+1 o 00:49 UTC, pierwsza UTC+2 o 01:06 UTC
+
+4. Zakres dat i to, ile zmienia przeliczenie strefy
+   sessions  czas polski 2024-10-01 00:01:31 – 2026-09-30 23:26:12  (UTC 2024-09-30 22:01:31 – 2026-09-30 21:26:12)
+             w innym dniu niż według UTC: 9,497 wierszy, czyli 2.1%
+   events    czas polski 2024-10-01 00:14:45 – 2026-09-30 23:34:11  (UTC 2024-09-30 22:14:45 – 2026-09-30 21:34:11)
+             w innym dniu niż według UTC: 12,216 wierszy, czyli 2.5%
+   users            registered_at: 2024-10-01 00:18:07 – 2026-09-30 23:32:58  (czas polski z systemu transakcyjnego)
+   orders           created_at: 2024-10-01 05:24:16 – 2026-09-30 23:34:11  (czas polski z systemu transakcyjnego)
+   go_memberships   purchased_at: 2024-10-01 05:24:16 – 2026-09-30 20:48:08  (czas polski z systemu transakcyjnego)
+   marketing_spend  date: 2024-10-01 – 2026-09-30  (dzień według czasu polskiego)
+
+Baza zapisana: analiza/telemedi.duckdb (19 MB, poza repozytorium).
