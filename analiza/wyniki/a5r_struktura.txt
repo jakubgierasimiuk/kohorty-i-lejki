@@ -1,10 +1,13 @@
-A5 RETENCJA — STRUKTURA PACJENTÓW A ICH ZACHOWANIE (2026-10-19 17:45)
+A5 RETENCJA — STRUKTURA PACJENTÓW A ICH ZACHOWANIE (2026-10-19 18:22)
 Schemat `czyste`, definicje z analiza/definicje.py. Powrót R2 (kolejne zamówienie nieanulowane), źródło Z1K.
 Okno główne 90 dni, okresy na tych samych dniach kalendarzowych: okres 1 = kohorty 1.10.2024–2.07.2025,
 okres 2 = kohorty 1.10.2025–2.07.2026. Zmiany w punktach procentowych (powrót) albo w zł (marża na pacjenta).
 Rozkład: zmiana = nowe_segmenty + znikniete + struktura + zachowanie. nowe_segmenty = wpływ pacjentów z komórek,
 których nie było w okresie 1 (np. TikTok); struktura i zachowanie liczone w komórkach obecnych w obu okresach.
 o2_przy_strukturze_o1 = powrót okresu 2, gdyby komórki wspólne miały udziały z okresu 1.
+Składniki zaokrąglane osobno, więc ich suma może różnić się od zmiany o 0,01. Rozkład jest opisowy: „nowe
+segmenty” to różnica między okresem 2 z tymi pacjentami i bez nich, a „zachowanie” to reszta, której nie
+tłumaczą uwzględnione cechy (recenzja Codeksa, notatki/recenzje/a5r_codex.md).
 
 ========================================================================================================================
 0. POWTÓRZENIE LICZB CODEKSA Z RECENZJI A4 (okres 1 w całości, okres 2 do 2.07.2026, kanał Z1K, 90 dni)
@@ -313,7 +316,26 @@ o2_przy_strukturze_o1 = powrót okresu 2, gdyby komórki wspólne miały udział
                             90 dni, okres 1 w całości                                kanal 16231 18924 23.60 17.38   -6.22          -1.02       0.00      -1.71       -3.49                  21.29              93.3
                             90 dni, okres 1 w całości kampania x usluga x znizka x status1 16231 18924 23.60 17.38   -6.22          -4.73       0.12       0.16       -1.76                  21.95              73.3
            90 dni, źródło według sesji płatności (Z2)                                kanal 12867 18924 23.91 17.38   -6.53          -0.76       0.00      -1.06       -4.71                  19.96              95.1
+           90 dni, źródło według sesji płatności (Z2)                             kampania 12867 18924 23.91 17.38   -6.53          -3.03      -0.00       0.04       -3.54                  20.41              81.5
+           90 dni, źródło według sesji płatności (Z2)                    kampania x usluga 12867 18924 23.91 17.38   -6.53          -3.03      -0.00      -0.64       -2.85                  21.06              81.5
            90 dni, źródło według sesji płatności (Z2) kampania x usluga x znizka x status1 12867 18924 23.91 17.38   -6.53          -4.28       0.11      -0.14       -2.21                  21.76              75.2
+     Pacjenci dwóch nowych kampanii: 4893 według Z1K, 3510 według sesji płatności (Z2). Przy podziale z usługą, zniżką i statusem „nowe
+     segmenty” obejmują też nowe komórki w kampaniach obecnych w obu okresach, więc porównujemy reguły na poziomie kampanii.
+
+5a. Małe komórki w podziale kampania x usługa x zniżka x status (90 dni)
+     Komórek wspólnych: 409, z nich z mniej niż 10 pacjentami w którymś okresie: 261, obejmują 7.6% pacjentów komórek wspólnych.
+
+5c. Pierwsze L4 u internisty na wspólnych datach pozyskania (kohorty 9.02.2026–2.07.2026, wszystkie grupy naraz)
+                    grupa    n  powrot90
+         2_meta_l4_szybko 2200       4.1
+       4_pozostale_kanaly 1364      14.4
+                 3_tiktok 1060       2.8
+     1_meta_lekarz_online   96      13.5
+
+5d. Rozkład bez dwóch nowych kampanii według miesiąca kohorty (struktura miesięcy a spadek wewnątrz miesięcy)
+             podzial  komorki_wspolne  n_o1  n_o2  pokrycie_o1_proc  pokrycie_o2_proc    o1    o2  zmiana  nowe_segmenty  znikniete  struktura  zachowanie  o2_przy_strukturze_o1
+                mies               10 12867 14031             100.0             100.0 23.91 21.99   -1.91          -0.00        0.0       0.04       -1.96                  21.96
+     mies x kampania              118 12867 14031             100.0             100.0 23.91 21.99   -1.91           0.01       -0.0       0.14       -2.06                  21.89
 
 5b. Te same miesiące rok do roku, bez dwóch nowych kampanii: powrót w 90 dniach (%)
      mm   n_o1   n_o2  p90_o1  p90_o2  zmiana_pkt

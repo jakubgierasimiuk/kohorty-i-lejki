@@ -142,6 +142,9 @@ def main():
     r("Rozkład: zmiana = nowe_segmenty + znikniete + struktura + zachowanie. nowe_segmenty = wpływ pacjentów z komórek,")
     r("których nie było w okresie 1 (np. TikTok); struktura i zachowanie liczone w komórkach obecnych w obu okresach.")
     r("o2_przy_strukturze_o1 = powrót okresu 2, gdyby komórki wspólne miały udziały z okresu 1.")
+    r("Składniki zaokrąglane osobno, więc ich suma może różnić się od zmiany o 0,01. Rozkład jest opisowy: „nowe")
+    r("segmenty” to różnica między okresem 2 z tymi pacjentami i bez nich, a „zachowanie” to reszta, której nie")
+    r("tłumaczą uwzględnione cechy (recenzja Codeksa, notatki/recenzje/a5r_codex.md).")
 
     # ============ 0. LICZBY CODEKSA ============
     r("\n" + "=" * 120)
@@ -264,11 +267,29 @@ def main():
             kontrole.append(d)
     a90z2 = a90.copy()
     a90z2["kanal"], a90z2["kampania"] = a90z2.kanal_z2, a90z2.kampania_z2
-    for p in (["kanal"], ["kampania", "usluga", "znizka", "status1"]):
+    for p in (["kanal"], ["kampania"], ["kampania", "usluga"], ["kampania", "usluga", "znizka", "status1"]):
         kontrole.append({"wariant": "90 dni, źródło według sesji płatności (Z2)", **rozklad(a90z2, p)})
     k = pd.DataFrame(kontrole)
     pokaz(k[["wariant", "podzial", "n_o1", "n_o2", "o1", "o2", "zmiana", "nowe_segmenty", "znikniete", "struktura",
              "zachowanie", "o2_przy_strukturze_o1", "pokrycie_o2_proc"]])
+    nowe_z2 = a90z2.kampania.isin(["meta_prosp_l4_szybko", "tt_prosp_l4_15min"])
+    r(f"     Pacjenci dwóch nowych kampanii: {int((a90.kampania.isin(['meta_prosp_l4_szybko', 'tt_prosp_l4_15min'])).sum())}"
+      f" według Z1K, {int(nowe_z2.sum())} według sesji płatności (Z2). Przy podziale z usługą, zniżką i statusem „nowe")
+    r("     segmenty” obejmują też nowe komórki w kampaniach obecnych w obu okresach, więc porównujemy reguły na poziomie kampanii.")
+
+    r("\n5a. Małe komórki w podziale kampania x usługa x zniżka x status (90 dni)")
+    g = a90.groupby(["kampania", "usluga", "znizka", "status1", "okres"]).size().unstack("okres").fillna(0)
+    wsp = g[(g[1] > 0) & (g[2] > 0)]
+    male = wsp[(wsp[1] < 10) | (wsp[2] < 10)]
+    r(f"     Komórek wspólnych: {len(wsp)}, z nich z mniej niż 10 pacjentami w którymś okresie: {len(male)}, obejmują "
+      f"{100 * male.values.sum() / wsp.values.sum():.1f}% pacjentów komórek wspólnych.")
+
+    r("\n5c. Pierwsze L4 u internisty na wspólnych datach pozyskania (kohorty 9.02.2026–2.07.2026, wszystkie grupy naraz)")
+    a_l4w = a90[(a90.usluga == "internista_l4") & (a90.d0 >= pd.Timestamp("2026-02-09"))]
+    pokaz(tabela_segmentow(a_l4w.assign(okres=2), "grupa")[["grupa", "n_o2", "o2"]].rename(columns={"n_o2": "n", "o2": "powrot90"}))
+    r("\n5d. Rozkład bez dwóch nowych kampanii według miesiąca kohorty (struktura miesięcy a spadek wewnątrz miesięcy)")
+    a90b_m = a90b.assign(mies=a90b.d0.dt.month)
+    pokaz(pd.DataFrame([rozklad(a90b_m, ["mies"]), rozklad(a90b_m, ["mies", "kampania"])]))
 
     r("\n5b. Te same miesiące rok do roku, bez dwóch nowych kampanii: powrót w 90 dniach (%)")
     t = df(f"""

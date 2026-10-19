@@ -1,0 +1,16 @@
+# Recenzja kroku 3 retencji A5 — Codex (model Sol), 2026-10-19
+
+**Co sprawdzał:** poprawność rozkładu zmiany powrotu na nowe segmenty, strukturę i zachowanie (`analiza/a5r_struktura.py`, funkcje `rozklad()` i `proba()`), dobór próby na tych samych dniach kalendarzowych, ekonomię w `analiza/definicje.py` (`zbuduj_ekonomie`), kluczowe liczby (policzone niezależnie, własnym kodem, na bazie tylko do odczytu), interpretację i koszt pediatry. Polecenie: `a5r_codex_prompt.md`. Pełna odpowiedź: `a5r_codex_odpowiedz.md`. Uruchomienie: `codex exec -p review -s read-only --skip-git-repo-check`.
+
+**Wynik:** brak błędu krytycznego. Wszystkie osiem kluczowych liczb potwierdzone co do pacjenta (np. 3 076 z 12 867 i 3 289 z 18 924 powrotów, 3 628 i 1 265 pacjentów nowych kampanii, marża 66,5952 i 58,2953 zł). Rozkład, próba, obsługa braku powrotu i ekonomia poprawne. Koszt pediatry 100 zł rozsądny, wariant 25 zł nie zmienia kierunku.
+
+| Nr | Uwaga Codeksa | Waga | Co zrobiliśmy |
+|---|---|---|---|
+| 1 | Kontrola według sesji płatności (Z2) na drobnym podziale miesza nowe kampanie z nowymi komórkami w starych kampaniach | ważna | Dodana kontrola Z2 na poziomie kampanii (raport, sekcja 5): nowe kampanie −3,03, struktura +0,04, zachowanie −3,54 punktu procentowego, wobec −4,61 / +0,08 / −1,99 według Z1K. Według Z2 do nowych kampanii trafia 3 510 pacjentów zamiast 4 893. W notatce: kierunek odporny, podział spadku między nowe i stare kampanie zależy od reguły źródła. Możliwy powód (do oceny Kuby, nie wniosek): pacjenci z kodem nowych kampanii często płacą w sesji bezpośredniej, z wyszukiwania marki albo z remarketingu (`ZNALEZISKA.md`, A4, punkt 6), więc Z2 przenosi ich do starych kampanii. |
+| 2 | 4,6 punktu to rozkład opisowy, nie efekt przyczynowy kampanii | ważna | Przyjęte. Sformułowanie w notatce i w raporcie: „w rozkładzie opisowym obecność pacjentów przypisanych do dwóch nowych kampanii odpowiada za 4,61 z 6,53 punktu procentowego różnicy”. Nie wynika z tego, że wyłączenie kampanii podniosłoby retencję, ani nic o ich opłacalności. |
+| 3 | Wykluczenie sezonu zbyt stanowcze | ważna | Przyjęte. Dodana kontrola L4 na wspólnych datach pozyskania (kohorty 9.02–2.07.2026): kampania Meta na L4 4,1% (2 200), TikTok 2,8% (1 060), pozostałe kanały 14,4% (1 364). Dodany rozkład bez nowych kampanii według miesiąca kohorty: struktura miesięcy +0,04, spadek w miesiącach −1,96 punktu. Nowe sformułowanie: „różnica utrzymuje się dla tej samej usługi i wspólnych dat pozyskania; zmiana struktury miesięcy jej nie wyjaśnia”. |
+| 4 | „Zachowanie” to reszta po uwzględnionych cechach, nie rozpoznana przyczyna; 261 z 409 komórek ma mniej niż 10 pacjentów | ważna | Przyjęte. Sformułowanie: „uwzględnione cechy nie wyjaśniają pozostałej różnicy”. Główny wynik na poziomie kampanii (i kampanii × usługi), drobniejsze podziały jako kontrola. Liczba małych komórek w raporcie (sekcja 5a: 261 z 409, 7,6% pacjentów). |
+| 5 | Składniki zaokrąglane osobno nie zawsze sumują się do zmiany | drobna | Adnotacja w nagłówku raportu. |
+| — | Koszt pediatry: uzasadniać przede wszystkim treścią zasady kosztowej („100 zł każdy inny specjalista”), zniżka TelemediGO jako dodatkowa przesłanka | drobna | Przyjęte w propozycji założenia 28. |
+
+Liczby z dodatkowych kontroli powtórzone naszym kodem w `analiza/wyniki/a5r_struktura.txt` (sekcje 5, 5a, 5c, 5d).
