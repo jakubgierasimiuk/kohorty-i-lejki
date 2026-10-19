@@ -1,0 +1,220 @@
+A5 POZYSKANIE — SESJE ZALOGOWANE OD WEJŚCIA (2026-10-19 18:26), schemat `czyste`
+Kroki: k1 wybór usługi, k2 wybór terminu, k3 logowanie albo konto, k4 wejście na płatność, k5 płatność przyjęta.
+Zamówienie liczone jak powrót (ZALOZENIA.md 19): nieanulowane, chyba że opis mówi inaczej. Odstępy w UTC.
+
+====================================================================================================
+1. SKALA: SESJE Z KONTEM WEDŁUG TYPU, W KWARTAŁACH
+====================================================================================================
+     kwartal_od  zalogowane_od_wejscia  ich_pacjenci  z_krokiem_3_pacjenci_powracajacy  w_tym_z_platnoscia  zalogowane_bez_wczesniejszego_zamowienia
+        2024-10                    567           499                               779                 733                                         0
+        2025-01                   1770          1490                              2208                2037                                         0
+        2025-04                   2715          2181                              3135                2836                                         0
+        2025-07                   2974          2371                              3150                2879                                         0
+        2025-10                   2941          2332                              3460                3141                                         0
+        2026-01                   3405          2786                              3932                3571                                         0
+        2026-04                   4031          3220                              4266                3797                                         0
+        2026-07                   3665          3016                              3703                3295                                         0
+      sesje  pacjenci  pacjenci_z_co_najmniej_2_zamowieniami  sesji_na_pacjenta
+      22068     12461                                   9166               1.77
+   Sesje pacjentów, którzy już kupowali: albo zalogowana od wejścia (bez kroku 3), albo z krokiem 3.
+   Sesji pacjentów powracających bez konta w danych nie widać (przeglądarka znana z logowania zawsze ma konto).
+      anonimowe_sesje_w_znanej_przegladarce_po_pierwszym_zakupie  sesje_z_kontem_po_pierwszym_zakupie
+                                                               0                                47387
+
+====================================================================================================
+2. NA KTÓRYM KROKU ODPADAJĄ (sesje zalogowane od wejścia wobec sesji z krokiem 3 pacjentów powracających)
+====================================================================================================
+                                sesja  okres  sesje      k1      k2      k3      k5  proc_usluga  proc_termin_z_uslugi  proc_platnosc
+     z krokiem 3, pacjent powracajacy      1   9272  9272.0  9272.0  9272.0  8485.0        100.0                 100.0           91.5
+     z krokiem 3, pacjent powracajacy      2  15361 15361.0 15361.0 15361.0 13804.0        100.0                 100.0           89.9
+                zalogowana od wejscia      1   8026  1662.0    41.0     0.0     0.0         20.7                   2.5            0.0
+                zalogowana od wejscia      2  14042  2912.0    71.0     0.0     0.0         20.7                   2.4            0.0
+   Dla porównania: wszystkie sesje zwykłe osób, które jeszcze nie kupowały — termin wybiera około 70% tych,
+   które wybrały usługę (analiza/wyniki/a5p_lejek.txt, sekcja 2).
+
+2b. Czas od wejścia do wyboru usługi i od usługi do terminu (sekundy, mediana)
+                       typ  z_usluga  med_wejscie_usluga  med_usluga_termin
+               z_krokiem_3     79984                71.0              102.0
+     zalogowana_od_wejscia      4574                61.0              112.0
+
+====================================================================================================
+3. Z JAKICH STRON I KAMPANII PRZYCHODZĄ
+====================================================================================================
+3a. Strona wejścia: sesje zalogowane od wejścia wobec sesji z krokiem 3 pacjentów powracających (oba okresy)
+                             strona_wejscia  zalogowane  proc_zalogowanych  proc_z_usluga  z_krokiem_3_powracajacy  proc_z_krokiem_3
+                                     /konto       14774               66.9           20.5                    10922              44.3
+                            /recepta-online        3525               16.0           21.7                     3182              12.9
+                                          /        3463               15.7           22.5                     6836              27.8
+                                /telemedigo         306                1.4            0.0                        0               0.0
+                                 /polecenie           0                0.0            NaN                        0               0.0
+                               /specjalisci           0                0.0            NaN                        0               0.0
+            /blog/e-recepta-jak-zrealizowac           0                0.0            NaN                        0               0.0
+                     /specjalisci/kardiolog           0                0.0            NaN                        0               0.0
+                  /specjalisci/endokrynolog           0                0.0            NaN                        0               0.0
+                      /zwolnienie-l4-online           0                0.0            NaN                     1245               5.1
+            /blog/zapalenie-pecherza-objawy           0                0.0            NaN                        0               0.0
+                    /specjalisci/psychiatra           0                0.0            NaN                        0               0.0
+                    /specjalisci/dermatolog           0                0.0            NaN                        0               0.0
+                             /lekarz-online           0                0.0            NaN                     2448               9.9
+            /blog/bol-gardla-domowe-sposoby           0                0.0            NaN                        0               0.0
+          /blog/skierowanie-na-badania-krwi           0                0.0            NaN                        0               0.0
+     /blog/tabletki-antykoncepcyjne-recepta           0                0.0            NaN                        0               0.0
+                     /specjalisci/ginekolog           0                0.0            NaN                        0               0.0
+         /blog/ile-trwa-l4-na-przeziebienie           0                0.0            NaN                        0               0.0
+           /blog/antybiotyk-kiedy-potrzebny           0                0.0            NaN                        0               0.0
+       /blog/teleporada-jak-sie-przygotowac           0                0.0            NaN                        0               0.0
+
+3b. Kampania (UTM sesji)
+                      kampania  zalogowane  proc_zalogowanych  proc_z_usluga  z_krokiem_3_powracajacy  proc_z_krokiem_3
+              crm_reactivation        5882               26.7           21.5                     2725              11.1
+                  bezposrednie        5282               23.9           19.8                     9582              38.9
+     crm_recepta_przypomnienie        2920               13.2           21.0                     1426               5.8
+                google_organic        2916               13.2           21.0                     4441              18.0
+         crm_sms_przypomnienie        2875               13.0           22.7                     1328               5.4
+                      gs_brand        1887                8.6           20.5                     2910              11.8
+                 crm_go_upsell         306                1.4            0.0                        0               0.0
+                  bing_organic           0                0.0            NaN                        0               0.0
+             tt_prosp_l4_15min           0                0.0            NaN                        0               0.0
+      gs_generic_lekarz_online           0                0.0            NaN                     1565               6.4
+           gs_generic_erecepta           0                0.0            NaN                        0               0.0
+        gs_generic_specjalisci           0                0.0            NaN                        0               0.0
+                 gs_generic_l4           0                0.0            NaN                        0               0.0
+      meta_prosp_lekarz_online           0                0.0            NaN                        0               0.0
+               program_polecen           0                0.0            NaN                        0               0.0
+              meta_rmkt_koszyk           0                0.0            NaN                      656               2.7
+          meta_prosp_l4_szybko           0                0.0            NaN                        0               0.0
+      rankinglekarzy_affiliate           0                0.0            NaN                        0               0.0
+
+3c. Wejścia z newslettera i SMS-ów (kampanie CRM) według typu sesji: wszystkie sesje z tych kampanii,
+    także bez konta. Zakup w ciągu 24 godzin = zamówienie nieanulowane pacjenta w dowolnej sesji (ZALOZENIA.md 26).
+                      kampania  wejscia  zalogowane_od_wejscia  z_krokiem_3  samo_telemedigo  bez_konta  proc_zalogowanych
+              crm_reactivation     8607                   5882         2725                0          0               68.3
+     crm_recepta_przypomnienie     4346                   2920         1426                0          0               67.2
+         crm_sms_przypomnienie     4203                   2875         1328                0          0               68.4
+                 crm_go_upsell      992                    306            0              686          0               30.8
+
+3d. Przypomnienie o recepcie (crm_recepta_przypomnienie) i strona /recepta-online: co robią zalogowani od wejścia
+                                    grupa  sesje  proc_z_usluga  z_terminem  proc_zamowienie_w_1_godz  proc_zamowienie_w_24_godz  proc_zamowienie_w_7_dni
+                 przypomnienie o recepcie   2920           21.0        28.0                       0.2                        2.1                     14.9
+     strona /recepta-online (inne zrodla)   2667           22.7        24.0                       0.0                        1.6                     18.2
+
+====================================================================================================
+4. CO PACJENT ROBI PO SESJI ZALOGOWANEJ OD WEJŚCIA: ZAMÓWIENIE W INNEJ SESJI
+====================================================================================================
+   Odsetek sesji, po których pacjent złożył zamówienie nieanulowane w ciągu 1 godziny, 24 godzin i 7 dni od wejścia.
+   Tylko sesje z pełnymi 7 dniami obserwacji (do 23.09.2026). Według najdalszego kroku w sesji i grupy kampanii.
+       najdalszy_krok zrodlo  sesje  proc_1_godz  proc_24_godz  proc_7_dni
+        1: bez kroków    crm   9335          0.0           2.3        14.3
+        1: bez kroków   inne   7956          0.0           0.9         9.2
+     2: wybrał usługę    crm   2388          0.3           1.0        17.6
+     2: wybrał usługę   inne   2018          0.1           1.1         9.6
+     3: wybrał termin    crm    107          0.0           0.0        29.4
+
+4b. Po ilu minutach od wejścia pada zamówienie, jeśli pada w ciągu 24 godzin (sesje z wyborem usługi)
+           po_ilu  sesje
+     2: 10-60 min      2
+      3: 1-6 godz      4
+     4: 6-24 godz     11
+
+4b2. Dzień następnego zamówienia nieanulowanego po sesji zalogowanej od wejścia (pełne doby od wejścia, UTC);
+     sesje z pełnymi 14 dniami obserwacji (do 16.09.2026). Odsetek wszystkich takich sesji.
+      doba_po_wejsciu  sesje  proc_sesji
+                    0     98        0.45
+                    1    107        0.50
+                    2    113        0.52
+                    3    148        0.69
+                    4    120        0.56
+                    5    128        0.59
+                    6    134        0.62
+                    7    137        0.64
+                    8    139        0.65
+                    9    136        0.63
+                   10     98        0.45
+                   11    103        0.48
+                   12     82        0.38
+                   13     66        0.31
+
+4b3. Odwrotnie: ile zamówień powtórnych poprzedza sesja zalogowana od wejścia tego pacjenta
+      zamowienia_powtorne  proc_z_sesja_w_1_dzien_przed  proc_z_sesja_w_7_dni_przed  proc_z_sesja_w_30_dni_przed
+                    21323                           0.5                         4.0                         16.5
+
+4c. Tło: jak często ci sami pacjenci składają zamówienie w dowolnych 24 godzinach (dni bez sesji zalogowanej
+    od wejścia). Liczone jako zamówienia nieanulowane na pacjento-dzień w okresie od pierwszego zakupu do 30.09.2026.
+      pacjento_dni  zamowienia_powtorne  proc_szansa_zamowienia_na_dzien
+         4905728.0              18399.0                             0.38
+
+====================================================================================================
+5. CZY PACJENCI Z TAKIMI SESJAMI KUPUJĄ POTEM RZADZIEJ NIŻ PODOBNI PACJENCI BEZ NICH
+====================================================================================================
+   Punkt kontrolny: 30 dni po pierwszym zakupie (dzień kohorty d0, ZALOZENIA.md 16). Pacjenci, którzy w dniach 1–30
+   nie złożyli żadnego zamówienia. Grupa „z sesją”: co najmniej jedna sesja zalogowana od wejścia w dniach 1–30.
+   Wynik: powrót (zamówienie nieanulowane) w dniach 31–90. Tylko kohorty do 2.07.2026 (pełne 90 dni).
+   Podobni = te same warstwy: okres, zgoda marketingowa, cel i status pierwszego zamówienia, kanał pozyskania (Z1K).
+   stand_bez_sesji = wynik grupy bez sesji przeliczony na strukturę warstw grupy z sesją (standaryzacja bezpośrednia).
+   Uwaga: odwiedzenie strony samo w sobie świadczy o zainteresowaniu; przy innych równych warunkach grupa z sesją
+   powinna kupować częściej. Porównanie nie rozstrzyga przyczyny.
+
+5a. Punkt kontrolny 30 dni, wynik w dniach 31–90
+          grupa  pacjenci_z_sesja  pacjenci_bez_sesji  powrot_z_sesja_proc  powrot_bez_sesji_proc  z_sesja_w_warstwach_wspolnych_proc  stand_bez_sesji_proc  pacjenci_z_sesja_w_warstwach_wspolnych
+     oba okresy              1142               30637                 15.9                   11.9                                16.0                  13.2                                    1125
+        okres 1               575               13814                 15.5                   14.1                                15.7                  14.3                                     568
+        okres 2               567               16823                 16.4                   10.1                                16.3                  12.0                                     557
+
+5b. Sprawdzenie wrażliwości: punkt kontrolny 60 dni, wynik w dniach 61–120 (kohorty do 2.06.2026)
+          grupa  pacjenci_z_sesja  pacjenci_bez_sesji  powrot_z_sesja_proc  powrot_bez_sesji_proc  z_sesja_w_warstwach_wspolnych_proc  stand_bez_sesji_proc  pacjenci_z_sesja_w_warstwach_wspolnych
+     oba okresy              2013               25522                  8.5                    7.0                                 8.6                   7.7                                    1979
+        okres 1              1026               12013                  9.7                    8.0                                 9.9                   8.2                                    1007
+        okres 2               987               13509                  7.2                    6.1                                 7.2                   7.2                                     972
+
+5c. Według liczby sesji zalogowanych od wejścia w dniach 1–30 i według tego, czy w sesji wybrano usługę
+     sesje_w_dniach_1_30  wybral_usluge  pacjenci  powrot_31_90_proc
+                 0 sesji              0     30637               11.9
+                 1 sesja              0       863               15.8
+                 1 sesja              1       245               14.7
+              2 i więcej              0        22               31.8
+              2 i więcej              1        12               25.0
+
+====================================================================================================
+6. CZAS MIĘDZY WYBOREM TERMINU A KROKIEM 3 (sekundy, UTC): ZAKUPY PIERWSZE WOBEC POWTÓRNYCH
+====================================================================================================
+   Kilkadziesiąt sekund wskazuje na prawdziwe logowanie; 1–2 sekundy raczej na automatyczny zapis kroku.
+                     rodzaj  sesje  min_s  p1_s  p10_s  mediana_s  p90_s  proc_do_2_s  proc_do_10_s
+     1: pierwsze zamowienie  40918   35.0  37.0   58.0      148.0  238.0          0.0           0.0
+     2: zamowienie powtorne  22289   15.0  16.0   28.0       83.0  137.0          0.0           0.0
+          3: bez zamowienia  16777   35.0  37.0   56.0      148.0  238.0          0.0           0.0
+
+6b. Rozkład w przedziałach (procent sesji z zamówieniem)
+        przedzial  pierwsze  powtorne
+       3: 11-30 s       0.0      11.6
+       4: 31-60 s      11.2      21.9
+      5: 61-120 s      26.6      44.8
+     6: 121-300 s      62.2      21.7
+
+6c. Czy w zakupie powtórnym krok 3 to założenie nowego konta (rejestracja w tej sesji)?
+      zakupy_powtorne  konto_zalozone_w_tej_sesji
+                22289                           0
+
+6d. Odstępy między kolejnymi krokami w zakupach powtórnych i pierwszych (mediana i rozstęp p10–p90, sekundy)
+       rodzaj  med_k1_k2  p10_k1_k2  p90_k1_k2  med_k2_k3  p10_k2_k3  p90_k2_k3
+     pierwsze      112.0       42.0      183.0      148.0       58.0      238.0
+     powtorne       83.0       28.0      137.0       83.0       28.0      137.0
+
+====================================================================================================
+7. DANE WEJŚCIOWE DO WARIANTU PESYMISTYCZNEGO (lista niewiadomych; wartość w marży policzymy później)
+====================================================================================================
+   Wariant pesymistyczny: ścieżka zakupu dla zalogowanych jest zepsuta i część tych sesji to utracone zamówienia.
+   W grze: sesje zalogowane od wejścia, w których pacjent wybrał usługę, a nie złożył zamówienia nieanulowanego
+   w ciągu 24 godzin w innej sesji (te, po których zamówienie padło, uznajemy za uratowane).
+      okres  sesje_zalogowane  pacjenci  z_wyborem_uslugi  pacjenci_z_wyborem_uslugi  z_usluga_bez_zamowienia_24h  ich_pacjenci  z_wyborem_terminu  z_terminem_bez_zamowienia_24h
+          1              8026      5023              1662                       1476                         1651          1472                 41                             41
+          2             14042      8656              2912                       2561                         2906          2557                 71                             71
+       <NA>             22068     12461              4574                       3896                         4557          3890                112                            112
+
+7b. Wskaźniki do przeliczenia sesji na zamówienia (sesje zwykłe, dwa lata; analiza/wyniki/a5p_lejek.txt):
+      powracajacy_k5_na_sesje_z_krokiem_3  wszyscy_k5_na_wybor_uslugi  wszyscy_k5_na_wybor_terminu
+                                     90.5                        40.9                         56.9
+
+7c. Średnie zamówienie powtórne (nieanulowane i wszystkie), zł: przychód po zwrotach i koszt lekarza (bez TelemediGO)
+      okres  zamowienia_powtorne  sredni_przychod_po_zwrotach_zl  sredni_koszt_lekarza_zl  srednia_marza_zl  srednia_marza_nieanulowane_zl
+          1                 8485                           87.13                    48.92             38.20                          39.86
+          2                13804                           83.49                    49.50             33.99                          35.40

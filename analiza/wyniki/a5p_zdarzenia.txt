@@ -1,0 +1,312 @@
+A5 POZYSKANIE — ZDARZENIA W LEJKU (2026-10-19 18:29), sesje zwykłe osób, które jeszcze nie kupowały
+Metoda: podział binarny serii dziennych, kara 25.0, odcinek co najmniej 14 dni, najwyżej 6 zmian na serię;
+konwersja: zmiana co najmniej 1.0 punktu procentowego i 5.0% względnie; ruch: co najmniej 25.0% względnie.
+przed / po = poziom w sąsiednich odcinkach (konwersja w %, ruch w sesjach dziennie). Data = pierwszy dzień nowego poziomu.
+Wpływ = (po − przed) × sesje wchodzące na krok po zmianie × dalsza konwersja do płatności; to przybliżenie, nie przyczyna.
+Pełna lista: analiza\wyniki\a5p_zdarzenia.csv (245 wierszy).
+
+====================================================================================================
+1. ZMIANY KONWERSJI W CAŁYM LEJKU GŁÓWNYM
+====================================================================================================
+          przejscie       data  przed   po  zmiana  zmiana_wzgl_proc  dni_przed  dni_po  phi  wejscia_po  zamowienia_razem  zamowienia_na_30_dni
+          logowanie 2026-03-17   66.0 60.6    -5.4              -8.2        532     198 1.00     30635.0           -1213.0                -183.8
+     sesja_do_platn 2026-03-19   10.3  8.5    -1.8             -17.5        101     196 1.04    157990.0           -2840.0                -434.6
+             usluga 2026-04-01   31.0 29.3    -1.8              -5.7         34     183 1.00    146402.0            -749.0                -122.8
+
+====================================================================================================
+2. ZMIANY KONWERSJI W PODZIAŁACH (bez sesja_do_platn), według wielkości wpływu
+====================================================================================================
+                     podzial                wartosc przejscie       data  przed   po  zmiana  zmiana_wzgl_proc  dni_przed  dni_po  phi  wejscia_po  zamowienia_razem  zamowienia_na_30_dni
+                  urzadzenie                 mobile logowanie 2026-03-17   65.8 59.3    -6.6             -10.0        532     198 1.00     24384.0           -1169.0                -177.1
+                  urzadzenie                 mobile    usluga 2026-02-26   31.4 28.6    -2.8              -8.9         81     217 1.03    145786.0           -1149.0                -158.9
+                       kanal        meta_pozyskanie    usluga 2025-11-11   17.3 22.8     5.5              31.7        406     324 1.01     80900.0            1037.0                  96.0
+              strona_wejscia  /zwolnienie-l4-online logowanie 2025-10-29   65.0 58.1    -6.9             -10.6        393     337 1.04     16872.0            -843.0                 -75.0
+         system_przegladarka             iOS Safari logowanie 2026-03-17   66.7 45.6   -21.1             -31.6        532     198 1.00      4678.0            -713.0                -108.0
+                przegladarka                 Safari logowanie 2026-03-17   66.6 48.2   -18.3             -27.5        532     198 1.00      5328.0            -710.0                -107.6
+                przegladarka              Instagram    usluga 2025-11-11   18.3 25.2     6.8              37.2        406     324 1.02     38248.0             691.0                  63.9
+     urzadzenie_przegladarka       mobile Instagram    usluga 2025-11-11   18.3 25.1     6.9              37.6        406     324 1.03     37459.0             681.0                  63.0
+     urzadzenie_przegladarka          mobile Safari logowanie 2026-03-17   66.5 45.4   -21.1             -31.7        532     198 1.00      4414.0            -676.0                -102.5
+              strona_wejscia  /zwolnienie-l4-online    usluga 2026-03-06   27.0 24.6    -2.4              -8.9        123     209 1.05     87814.0            -513.0                 -73.7
+              strona_wejscia                      / logowanie 2026-02-08   64.9 58.5    -6.5             -10.0        495     235 1.00     10433.0            -499.0                 -63.6
+         system_przegladarka      Android Instagram    usluga 2025-11-11   18.0 25.0     7.0              39.1        406     324 1.00     24198.0             442.0                  41.0
+                przegladarka               Facebook    usluga 2025-11-16   18.9 25.0     6.0              31.9        411     319 1.01     27485.0             436.0                  41.0
+     urzadzenie_przegladarka        mobile Facebook    usluga 2025-11-16   19.0 25.0     6.1              32.0        411     319 1.01     26908.0             428.0                  40.2
+              strona_wejscia  /zwolnienie-l4-online    termin 2025-12-07   61.8 58.4    -3.5              -5.6        432     298 1.00     27710.0            -402.0                 -40.5
+              strona_wejscia  /zwolnienie-l4-online    usluga 2025-11-03   32.5 27.0    -5.5             -16.8        398     123 1.05     26557.0            -373.0                 -91.1
+         system_przegladarka       Android Facebook    usluga 2025-11-04   18.8 24.9     6.1              32.7        399     331 1.00     17745.0             284.0                  25.7
+                przegladarka                 Chrome    usluga 2026-03-31   35.3 33.4    -1.9              -5.4        546     184 1.03     42695.0            -270.0                 -43.9
+                    kampania           bezposrednie logowanie 2026-03-21   69.2 63.0    -6.2              -9.0        536     194 1.00      5533.0            -258.0                 -39.9
+                       kanal           bezposrednie logowanie 2026-03-21   69.2 63.0    -6.2              -9.0        536     194 1.00      5533.0            -258.0                 -39.9
+         system_przegladarka          iOS Instagram    usluga 2025-12-10   19.1 25.6     6.5              33.8        435     295 1.00     13426.0             237.0                  24.1
+     urzadzenie_przegladarka          mobile Chrome    usluga 2026-03-14   35.1 33.1    -2.0              -5.8        529     201 1.02     32468.0            -217.0                 -32.4
+                       kanal wyszukiwarka_bezplatna logowanie 2026-02-05   65.6 61.2    -4.4              -6.7        492     238 1.00      5930.0            -194.0                 -24.4
+                    kampania         google_organic logowanie 2026-02-10   65.4 61.3    -4.1              -6.3        497     233 1.00      5596.0            -170.0                 -21.8
+         system_przegladarka           iOS Facebook    usluga 2025-11-08   18.8 25.0     6.2              33.2        403     327 1.08     10093.0             166.0                  15.3
+                       kanal       google_ads_marka logowanie 2026-03-19   68.9 62.2    -6.7              -9.7        534     196 1.00      3262.0            -164.0                 -25.1
+                    kampania               gs_brand logowanie 2026-03-19   68.9 62.2    -6.7              -9.7        534     196 1.00      3262.0            -164.0                 -25.1
+              strona_wejscia         /lekarz-online logowanie 2026-03-14   62.0 56.9    -5.1              -8.2        529     201 1.00      4305.0            -163.0                 -24.3
+                  urzadzenie                desktop    usluga 2026-04-03   36.2 34.0    -2.2              -6.0        549     181 1.06     20900.0            -150.0                 -24.9
+                       kanal      google_ads_ogolne logowanie 2026-03-17   64.5 59.9    -4.5              -7.1        532     198 1.02      4332.0            -146.0                 -22.2
+                       kanal           bezposrednie    usluga 2026-04-10   52.9 50.1    -2.8              -5.3        556     174 1.00     11714.0            -125.0                 -21.6
+                    kampania           bezposrednie    usluga 2026-04-10   52.9 50.1    -2.8              -5.3        556     174 1.00     11714.0            -125.0                 -21.6
+                    kampania       meta_rmkt_koszyk    usluga 2026-04-04   58.6 50.2    -8.4             -14.3        550     180 1.00      3076.0             -98.0                 -16.3
+                       kanal       meta_remarketing    usluga 2026-04-04   58.6 50.2    -8.4             -14.3        550     180 1.00      3076.0             -98.0                 -16.3
+                       kanal       meta_remarketing logowanie 2026-03-26   68.6 61.0    -7.6             -11.1        541     189 1.00      1475.0             -78.0                 -12.3
+                    kampania       meta_rmkt_koszyk logowanie 2026-03-26   68.6 61.0    -7.6             -11.1        541     189 1.00      1475.0             -78.0                 -12.3
+
+====================================================================================================
+3. ZMIANY KONWERSJI SESJA DO PŁATNOŚCI W PODZIAŁACH
+====================================================================================================
+                     podzial               wartosc       data  przed   po  zmiana  zmiana_wzgl_proc  dni_przed  dni_po  phi  wejscia_po  zamowienia_razem  zamowienia_na_30_dni
+                    kampania          bezposrednie 2026-02-21   22.0 19.5    -2.4             -11.1        508     222 1.02     15987.0            -390.0                 -52.7
+                    kampania      meta_rmkt_koszyk 2026-03-20   27.3 19.1    -8.3             -30.3        535     195 1.00      3379.0            -280.0                 -43.1
+                    kampania              gs_brand 2026-05-22   21.2 17.8    -3.4             -16.0        598     132 1.00      5152.0            -174.0                 -39.6
+                       kanal       meta_pozyskanie 2025-11-16    3.4  5.3     1.9              55.6        411     319 1.07     80365.0            1532.0                 144.1
+                       kanal          bezposrednie 2026-02-21   22.0 19.5    -2.4             -11.1        508     222 1.02     15987.0            -390.0                 -52.7
+                       kanal      meta_remarketing 2026-03-20   27.3 19.1    -8.3             -30.3        535     195 1.00      3379.0            -280.0                 -43.1
+                       kanal      google_ads_marka 2026-05-22   21.2 17.8    -3.4             -16.0        598     132 1.00      5152.0            -174.0                 -39.6
+                przegladarka             Instagram 2025-11-08    3.8  6.7     2.9              76.4        403     327 1.03     38372.0            1105.0                 101.4
+                przegladarka              Facebook 2025-11-18    4.1  6.6     2.4              59.3        413     317 1.00     27399.0             670.0                  63.4
+                przegladarka                Safari 2026-03-17   12.0  8.2    -3.8             -31.9        532     198 1.00     22840.0            -876.0                -132.7
+                przegladarka                Chrome 2026-04-02   12.1 11.0    -1.1              -9.3        548     182 1.01     42135.0            -473.0                 -77.9
+              strona_wejscia /zwolnienie-l4-online 2025-12-03    9.3  6.7    -2.5             -27.3        428     118 1.10     33384.0            -844.0                -214.7
+              strona_wejscia                     / 2026-03-30   15.6 13.5    -2.1             -13.5        545     185 1.01     24107.0            -510.0                 -82.6
+         system_przegladarka      Android Facebook 2025-08-29    3.8  6.5     2.7              71.3        332     398 1.00     18471.0             498.0                  37.5
+         system_przegladarka     Android Instagram 2025-11-09    3.7  6.5     2.8              75.4        404     326 1.10     24258.0             678.0                  62.4
+         system_przegladarka          iOS Facebook 2025-11-18    4.1  6.6     2.6              62.5        413     317 1.00      9956.0             255.0                  24.1
+         system_przegladarka         iOS Instagram 2025-12-12    4.1  7.0     2.9              71.7        437     293 1.00     13371.0             392.0                  40.1
+         system_przegladarka            iOS Safari 2026-03-17   12.0  7.6    -4.3             -36.1        532     198 1.00     20171.0            -872.0                -132.1
+                  urzadzenie                mobile 2026-03-15    9.9  8.0    -1.9             -19.4        106     200 1.03    134140.0           -2571.0                -385.7
+                  urzadzenie                tablet 2026-05-08   11.4  7.7    -3.7             -32.6        584     146 1.00      2755.0            -102.0                 -21.0
+     urzadzenie_przegladarka      mobile Instagram 2025-11-08    3.8  6.6     2.9              76.7        403     327 1.04     37580.0            1085.0                  99.5
+     urzadzenie_przegladarka       mobile Facebook 2025-11-18    4.1  6.6     2.5              60.5        413     317 1.00     26825.0             664.0                  62.8
+     urzadzenie_przegladarka         tablet Safari 2026-02-28   13.2  7.4    -5.8             -44.0        515     215 1.00      1310.0             -76.0                 -10.6
+     urzadzenie_przegladarka         mobile Chrome 2026-03-01   12.0 10.9    -1.1              -9.2        516     214 1.00     35020.0            -386.0                 -54.1
+     urzadzenie_przegladarka         mobile Safari 2026-03-17   11.9  7.7    -4.2             -35.6        532     198 1.00     19003.0            -805.0                -121.9
+
+====================================================================================================
+4. ZMIANY RUCHU (sesje dziennie): starty, końce i zmiany poziomu
+====================================================================================================
+            podzial                            wartosc       data  przed    po  zmiana  zmiana_wzgl_proc  dni_przed  dni_po  phi
+           kampania                       bezposrednie 2024-11-04   44.9  59.4    14.5              32.2         34     173 1.85
+           kampania                      gs_generic_l4 2024-11-04   27.0  34.8     7.8              28.8         34     178 2.10
+           kampania           gs_generic_lekarz_online 2024-11-04   35.8  45.6     9.7              27.2         34     178 2.59
+              kanal                       bezposrednie 2024-11-04   44.9  59.4    14.5              32.2         34     173 1.85
+       przegladarka                             Chrome 2024-11-04  171.1 218.3    47.3              27.6         34     178 5.71
+       przegladarka                            Firefox 2024-11-04   16.5  21.8     5.3              32.1         34     173 1.47
+           kampania                     google_organic 2024-11-11   90.6 119.4    28.8              31.8         41     171 4.11
+              kanal             wyszukiwarka_bezplatna 2024-11-11   95.2 125.7    30.5              32.0         41     171 4.23
+         urzadzenie                            desktop 2024-11-18   92.8 116.6    23.8              25.7         48     164 3.65
+           kampania                           gs_brand 2024-11-25   28.1  35.5     7.3              26.0         55     157 1.48
+              kanal                   google_ads_marka 2024-11-25   28.1  35.5     7.3              26.0         55     157 1.48
+           kampania                   meta_rmkt_koszyk 2024-12-10    7.8  10.2     2.4              30.8         70     139 1.00
+              kanal                   meta_remarketing 2024-12-10    7.8  10.2     2.4              30.8         70     139 1.00
+       przegladarka                               Edge 2025-01-05   17.0  21.4     4.4              26.1         96     111 1.41
+           kampania                       bezposrednie 2025-04-26   59.4  42.6   -16.8             -28.3        173     170 1.85
+              kanal                       bezposrednie 2025-04-26   59.4  42.6   -16.8             -28.3        173     170 1.85
+       przegladarka                               Edge 2025-04-26   21.4  13.4    -8.0             -37.3        111     163 1.41
+       przegladarka                            Firefox 2025-04-26   21.8  16.1    -5.7             -26.3        173     198 1.47
+           kampania                     google_organic 2025-05-01  119.4  80.1   -39.3             -32.9        171     137 4.11
+           kampania                           gs_brand 2025-05-01   35.5  24.9   -10.6             -29.8        157     147 1.48
+           kampania                      gs_generic_l4 2025-05-01   34.8  23.5   -11.2             -32.3        178     143 2.10
+              kanal                   google_ads_marka 2025-05-01   35.5  24.9   -10.6             -29.8        157     147 1.48
+              kanal             wyszukiwarka_bezplatna 2025-05-01  125.7  84.1   -41.7             -33.2        171     137 4.23
+       przegladarka                             Safari 2025-05-01  102.4  76.6   -25.8             -25.2        157     151 3.36
+       przegladarka                   Samsung Internet 2025-05-01   37.0  26.7   -10.2             -27.6        157     144 1.66
+     strona_wejscia                                  / 2025-05-01  123.8  88.5   -35.4             -28.6        150     158 2.82
+     strona_wejscia    /blog/e-recepta-jak-zrealizowac 2025-05-01    6.1   4.3    -1.8             -29.3        212     172 1.18
+     strona_wejscia /blog/ile-trwa-l4-na-przeziebienie 2025-05-01    9.8   6.8    -3.1             -31.0        212     124 1.27
+         urzadzenie                            desktop 2025-05-01  116.6  84.8   -31.8             -27.3        164     158 3.65
+     strona_wejscia /blog/ile-trwa-l4-na-przeziebienie 2025-09-02    6.8   9.3     2.5              37.0        124      90 1.27
+           kampania                           gs_brand 2025-09-25   24.9  31.5     6.6              26.7        147      53 1.48
+              kanal                   google_ads_marka 2025-09-25   24.9  31.5     6.6              26.7        147      53 1.48
+       przegladarka                               Edge 2025-10-06   13.4  23.1     9.7              72.4        163     207 1.41
+         urzadzenie                            desktop 2025-10-06   84.8 106.1    21.3              25.1        158      35 3.65
+           kampania                       bezposrednie 2025-10-13   42.6  55.9    13.3              31.1        170      29 1.85
+              kanal                       bezposrednie 2025-10-13   42.6  55.9    13.3              31.1        170      29 1.85
+           kampania                    program_polecen 2025-10-20    5.7   7.4     1.7              30.5        384     346 1.21
+              kanal                    program_polecen 2025-10-20    5.7   7.4     1.7              30.5        384     346 1.21
+     strona_wejscia    /blog/e-recepta-jak-zrealizowac 2025-10-20    4.3   6.7     2.4              56.0        172     255 1.18
+     strona_wejscia                         /polecenie 2025-10-20    6.0   7.8     1.8              30.6        384     346 1.25
+     strona_wejscia                       /specjalisci 2025-10-20   15.6  19.9     4.2              27.1        384     192 1.60
+           kampania                     google_organic 2025-11-03   98.7 127.0    28.3              28.7         49      63 4.11
+           kampania           gs_generic_lekarz_online 2025-11-03   34.9  46.6    11.7              33.4        186     192 2.59
+              kanal                  google_ads_ogolne 2025-11-03  109.8 142.9    33.0              30.1        186     179 5.05
+              kanal                    meta_pozyskanie 2025-11-03   61.0 114.3    53.3              87.4        398      23 3.09
+              kanal             wyszukiwarka_bezplatna 2025-11-03  103.6 132.5    28.9              27.9         49      63 4.23
+       przegladarka                             Chrome 2025-11-03  167.0 232.7    65.7              39.4        186      63 5.71
+       przegladarka                           Facebook 2025-11-03   18.5  36.8    18.3              99.2        398      24 1.58
+     strona_wejscia                             /konto 2025-11-03    8.6  14.2     5.6              65.9        192      73 1.11
+     strona_wejscia                     /lekarz-online 2025-11-03  115.9 152.5    36.6              31.6        186     179 3.82
+         urzadzenie                             mobile 2025-11-03  254.2 418.3   164.1              64.5        186      60 7.92
+           kampania                   meta_rmkt_koszyk 2025-11-04    7.7  11.8     4.1              52.9        190      60 1.00
+              kanal                   meta_remarketing 2025-11-04    7.7  11.8     4.1              52.9        190      60 1.00
+       przegladarka                          Instagram 2025-11-06   25.9  51.9    26.0             100.2        401      18 1.72
+     strona_wejscia              /zwolnienie-l4-online 2025-11-09   35.9 121.6    85.8             239.1        192      29 3.63
+       przegladarka                            Firefox 2025-11-10   16.1  23.0     6.9              43.2        198      56 1.47
+       przegladarka                             Safari 2025-11-10   92.1 116.6    24.5              26.6         42      56 3.36
+       przegladarka                   Samsung Internet 2025-11-10   32.5  41.7     9.2              28.1         49      63 1.66
+         urzadzenie                             tablet 2025-11-16    9.9  15.9     5.9              59.6        213      50 1.29
+           kampania                           gs_brand 2025-11-17   31.5  39.7     8.2              26.0         53      49 1.48
+           kampania               meta_prosp_l4_szybko 2025-11-17   37.6  78.2    40.5             107.7         14      21 3.90
+              kanal                   google_ads_marka 2025-11-17   31.5  39.7     8.2              26.0         53      49 1.48
+       przegladarka                          Instagram 2025-11-24   51.9  65.1    13.2              25.4         18      14 1.72
+       przegladarka                              Opera 2025-11-24    5.6   7.3     1.6              29.0        419     311 1.14
+              kanal                    meta_pozyskanie 2025-11-26  114.3 166.2    51.9              45.4         23      37 3.09
+       przegladarka                           Facebook 2025-11-27   36.8  56.2    19.3              52.5         24      39 1.58
+     strona_wejscia /blog/ile-trwa-l4-na-przeziebienie 2025-12-01    9.3  12.7     3.4              36.3         90     150 1.27
+           kampania               meta_prosp_l4_szybko 2025-12-08   78.2 112.0    33.8              43.2         21      25 3.90
+       przegladarka                          Instagram 2025-12-08   65.1  85.0    19.9              30.5         14      28 1.72
+     strona_wejscia              /zwolnienie-l4-online 2025-12-08  121.6 169.9    48.2              39.7         29      28 3.63
+           kampania               meta_prosp_l4_szybko 2026-01-02  112.0 161.0    49.0              43.8         25      17 3.90
+              kanal                    meta_pozyskanie 2026-01-02  166.2 232.4    66.2              39.8         37      17 3.09
+         urzadzenie                             mobile 2026-01-02  418.3 559.6   141.3              33.8         60      31 7.92
+           kampania                   meta_rmkt_koszyk 2026-01-03   11.8  17.2     5.5              46.7         60     271 1.00
+              kanal                   meta_remarketing 2026-01-03   11.8  17.2     5.5              46.7         60     271 1.00
+           kampania                       bezposrednie 2026-01-05   66.3  83.1    16.9              25.4         55     137 1.85
+           kampania                       bing_organic 2026-01-05    4.6   7.1     2.6              56.7        258     131 1.11
+              kanal                       bezposrednie 2026-01-05   66.3  83.1    16.9              25.4         55     137 1.85
+       przegladarka                             Chrome 2026-01-05  232.7 291.1    58.4              25.1         63     115 5.71
+       przegladarka                           Facebook 2026-01-05   56.2  78.0    21.8              38.9         39      14 1.58
+       przegladarka                          Instagram 2026-01-05   85.0 109.0    24.0              28.2         28      14 1.72
+     strona_wejscia                                  / 2026-01-05  130.9 165.0    34.1              26.0         63     116 2.82
+     strona_wejscia              /zwolnienie-l4-online 2026-01-05  169.9 256.9    87.1              51.3         28      35 3.63
+         urzadzenie                             tablet 2026-01-05   15.9  21.9     6.1              38.4         50     109 1.29
+     strona_wejscia                             /konto 2026-01-15   14.2  17.9     3.7              25.8         73     114 1.11
+           kampania               meta_prosp_l4_szybko 2026-01-19  161.0 220.7    59.7              37.1         17     100 3.90
+         urzadzenie                             mobile 2026-02-02  559.6 705.0   145.4              26.0         31      87 7.92
+     strona_wejscia              /zwolnienie-l4-online 2026-02-09  256.9 359.9   103.0              40.1         35      35 3.63
+           kampania                  tt_prosp_l4_15min 2026-02-23   36.3  73.5    37.2             102.6         14      18 2.96
+              kanal                             tiktok 2026-02-23   36.3  73.5    37.2             102.6         14      18 2.96
+       przegladarka                             TikTok 2026-03-01   40.3  84.5    44.2             109.8         20      22 2.64
+           kampania                  tt_prosp_l4_15min 2026-03-13   73.5 117.3    43.8              59.6         18      24 2.96
+              kanal                             tiktok 2026-03-13   73.5 117.3    43.8              59.6         18      24 2.96
+       przegladarka                             TikTok 2026-03-23   84.5 118.6    34.1              40.3         22      14 2.64
+           kampania                  tt_prosp_l4_15min 2026-04-06  117.3 161.9    44.6              38.0         24     178 2.96
+              kanal                             tiktok 2026-04-06  117.3 161.9    44.6              38.0         24     178 2.96
+       przegladarka                             TikTok 2026-04-06  118.6 152.4    33.8              28.5         14     178 2.64
+           kampania                     google_organic 2026-04-30  150.6 104.5   -46.1             -30.6        115     154 4.11
+           kampania                      gs_generic_l4 2026-04-30   36.7  23.8   -12.9             -35.1        164     154 2.10
+              kanal             wyszukiwarka_bezplatna 2026-04-30  158.0 108.9   -49.1             -31.1        115     154 4.23
+     strona_wejscia /blog/ile-trwa-l4-na-przeziebienie 2026-04-30   12.7   7.9    -4.7             -37.3        150     154 1.27
+         urzadzenie                            desktop 2026-05-01  147.9 110.7   -37.2             -25.2        116     153 3.65
+     strona_wejscia                             /konto 2026-05-09   17.9  13.1    -4.7             -26.6        114     145 1.11
+           kampania           gs_generic_lekarz_online 2026-05-14   46.6  34.9   -11.7             -25.2        192     140 2.59
+           kampania                       bing_organic 2026-05-16    7.1   4.4    -2.7             -38.4        131     138 1.11
+     strona_wejscia    /blog/e-recepta-jak-zrealizowac 2026-07-02    6.7   4.3    -2.4             -35.3        255      91 1.18
+
+====================================================================================================
+5. SPRAWDZENIE WYBRANYCH ZDARZEŃ NA BAZIE
+====================================================================================================
+
+5a. Logowanie albo założenie konta (k3 / k2) w Safari na iOS wobec innych przeglądarek, osoby, które jeszcze
+    nie kupowały. Okna: 60 dni przed 17.03.2026 (16.01–16.03), 60 dni po (17.03–15.05) i całe po (17.03–30.09).
+                     grupa  z_terminem_przed  przed  po_60_dni  po_do_30_09
+                iOS Safari            1763.0   66.2       45.1         45.6
+     iOS inne przegladarki            1307.0   64.4       61.2         60.0
+              macOS Safari             256.0   66.4       64.0         67.4
+                 pozostale            7066.0   64.8       63.8         63.9
+
+5b. To samo w Safari na iOS według kanału (czy spadek jest w każdym kanale, czy to zmiana struktury ruchu)
+                      kanal  z_terminem_przed  przed  z_terminem_po_60_dni  po_60_dni
+     wyszukiwarka_bezplatna             400.0   65.0                 326.0       46.0
+               bezposrednie             400.0   68.0                 362.0       46.4
+          google_ads_ogolne             349.0   65.3                 324.0       39.8
+           google_ads_marka             273.0   67.8                 219.0       52.1
+            meta_pozyskanie             152.0   65.1                 132.0       42.4
+           meta_remarketing              90.0   65.6                  96.0       44.8
+                  pozostale              90.0   67.8                  68.0       45.6
+                     tiktok               9.0   33.3                  26.0       38.5
+
+5c. Dzień po dniu wokół 17.03.2026: k3 / k2 w Safari na iOS i w pozostałych (osoby, które jeszcze nie kupowały)
+       dzien_pl dzien_tyg  z_terminem_ios_safari  ios_safari  pozostale
+     2026-03-10   Tuesday                   39.0        76.9       69.2
+     2026-03-11 Wednesday                   29.0        55.2       66.2
+     2026-03-12  Thursday                   37.0        62.2       62.8
+     2026-03-13    Friday                   20.0        65.0       69.5
+     2026-03-14  Saturday                   25.0        72.0       62.3
+     2026-03-15    Sunday                   22.0        77.3       61.2
+     2026-03-16    Monday                   46.0        65.2       71.1
+     2026-03-17   Tuesday                   40.0        45.0       64.9
+     2026-03-18 Wednesday                   29.0        55.2       62.2
+     2026-03-19  Thursday                   30.0        46.7       61.6
+     2026-03-20    Friday                   27.0        44.4       60.4
+     2026-03-21  Saturday                   19.0        36.8       77.8
+     2026-03-22    Sunday                   27.0        48.1       63.6
+     2026-03-23    Monday                   49.0        42.9       63.6
+     2026-03-24   Tuesday                   26.0        65.4       62.3
+
+5d. Co się psuje: założenie nowego konta czy logowanie do istniejącego. Krok 3 w sesjach zwykłych (także
+    pacjentów powracających); założenie konta w sesji = rejestracja konta między początkiem sesji a krokiem 3
+    (z zapasem 1 minuty). Okna jak w 5a.
+      ios_safari  zalozenia_konta_przed  zalozenia_konta_po_60_dni  logowania_przed  logowania_po_60_dni  w_tym_powracajacy_przed  w_tym_powracajacy_po_60_dni
+           False                   5285                       5234             2361                 2552                     2052                         2277
+            True                   1082                        668              659                  619                      574                          586
+
+5e. Czy odpadnięci na kroku 3 kupują później w tej samej przeglądarce (ten sam visitor_id), w ciągu 30 dni.
+    Sesje osób, które jeszcze nie kupowały, z wyborem terminu i bez kroku 3. Po = 17.03–31.08.2026 (pełne 30 dni).
+          grupa  odpadli_przed  proc_kupilo_pozniej_przed  odpadli_po  proc_kupilo_pozniej_po
+     iOS Safari            596                        6.7        2168                     6.4
+      pozostale           2484                        8.7        6250                     7.5
+
+5f. Ile zamówień kosztuje zdarzenie w Safari na iOS: (k3/k2 przed − k3/k2 po) × sesje z wyborem terminu po
+    × dalsza konwersja do płatności po (k5/k3). Przed = 1.10.2025–16.03.2026, po = 17.03–30.09.2026 (198 dni).
+    Osobno osoby, które jeszcze nie kupowały (pierwsze zamówienia), i pacjenci powracający. Zakłada, że bez
+    zdarzenia Safari na iOS trzymałoby poziom sprzed 17.03; nie odejmuje zakupów odłożonych na później (5e).
+             kto  przed    po  z_terminem_po  k5_do_k3_po  utracone_zamowienia_198_dni  na_30_dni
+            nowi   66.1  45.6         4678.0         72.3                        695.0      105.3
+     powracajacy  100.0 100.0         1681.0         90.5                          0.0        0.0
+
+5g. Start kampanii Meta na L4 (meta_prosp_l4_szybko, od 3.11.2025): lejek dwóch kampanii Meta od tego dnia
+    i lejek strony /zwolnienie-l4-online z ruchem z Meta i TikToka i bez niego (osoby, które jeszcze nie kupowały).
+                     kampania  sesje  usluga  termin  logowanie  k5_do_k3  sesja_do_platn
+         meta_prosp_l4_szybko  60992    24.5    55.9       59.5      72.3            5.89
+     meta_prosp_lekarz_online  20687    17.5    51.0       56.7      71.1            3.61
+                      okres  z_meta_lub_tiktok  sesje  usluga  termin  logowanie  sesja_do_platn
+          1: 1.05-2.11.2025              False   6468    33.3    60.8       65.9            9.45
+     2: 3.11.2025-8.02.2026              False   5754    33.2    65.9       60.1            9.75
+     2: 3.11.2025-8.02.2026               True  11940    24.2    55.0       60.3            5.77
+            3: od 9.02.2026              False  14925    34.4    70.8       54.9            9.96
+            3: od 9.02.2026               True  81752    23.0    54.9       58.7            5.31
+
+5h. Remarketing Meta (meta_rmkt_koszyk) w kwartałach, z Safari na iOS i bez (osoby, które jeszcze nie kupowały)
+     kwartal_od  sesje  usluga  logowanie  sesja_do_platn  usluga_bez_ios_safari  logowanie_bez_ios_safari  sesja_do_platn_bez_ios_safari  proc_w_aplikacji
+        2024-10    779    59.7       67.5            28.1                   58.6                      68.1                           27.0               6.7
+        2025-01    928    61.7       72.0            31.1                   62.9                      71.3                           31.5               7.0
+        2025-04    728    58.1       69.9            27.1                   56.7                      70.0                           27.1              10.2
+        2025-07    665    58.8       67.1            26.5                   58.9                      67.4                           26.1              10.5
+        2025-10   1011    59.4       68.3            28.2                   57.4                      68.3                           27.4              13.3
+        2026-01   1555    55.6       66.7            23.5                   54.4                      68.3                           23.5              23.2
+        2026-04   1603    52.3       60.2            18.9                   50.1                      62.9                           18.9              22.1
+        2026-07   1534    48.5       61.8            19.1                   46.2                      64.7                           18.9              23.4
+
+5i. Remarketing Meta według źródła pierwszej sesji tej samej przeglądarki (skąd pochodzą osoby, do których
+    remarketing wraca). Pierwsza sesja = najwcześniejsza sesja tego samego visitor_id; jeśli to sama sesja
+    remarketingu (nowe ciasteczko), źródło = remarketing. Osoby, które jeszcze nie kupowały.
+             okres          zrodlo  sesje  usluga  sesja_do_platn
+        1: okres 1     google_bing   1802    60.4            27.9
+        1: okres 1     remarketing    461    62.9            31.9
+        1: okres 1 meta_pozyskanie    427    28.8            11.5
+        1: okres 1    bezposrednie    263    91.3            51.0
+        1: okres 1       pozostale    147    74.8            33.3
+     2: X-XII 2025     google_bing    520    63.7            31.7
+     2: X-XII 2025 meta_pozyskanie    210    32.4            11.9
+     2: X-XII 2025     remarketing    143    62.2            30.1
+     2: X-XII 2025    bezposrednie     87    92.0            44.8
+     2: X-XII 2025       pozostale     51    64.7            25.5
+      3: I-IX 2026     google_bing   1485    61.9            26.7
+      3: I-IX 2026 meta_pozyskanie   1482    40.1            13.2
+      3: I-IX 2026     remarketing    679    52.7            18.6
+      3: I-IX 2026          tiktok    667    38.1            12.4
+      3: I-IX 2026    bezposrednie    242    93.0            46.3
+      3: I-IX 2026       pozostale    137    70.1            35.8
+
+====================================================================================================
+6. STARTY KAMPANII WIDOCZNE W RUCHU: ILE SESJI I ZAMÓWIEŃ W SESJI KAMPANII (wszystkie sesje zwykłe)
+====================================================================================================
+   Zamówienia według sesji płatności (pierwsze zamówienia osobno); źródło pozyskania według reguły Z1K
+   jest w analiza/wyniki/a5p_sezon.txt, sekcja 2. Kampania sprzedaży TelemediGO: zakupy samego TelemediGO.
+                  wartosc pierwszy_dzien  dni  sesje  platnosci  zamowienia  pierwsze_zamowienia  sesje_dziennie  zamowienia_dziennie  proc_sesja_do_platn
+            crm_go_upsell     2025-09-08  326    992      686.0         0.0                  0.0             3.0                  0.0                69.15
+     meta_prosp_l4_szybko     2025-11-03  332  60992     3594.0      3594.0               3594.0           183.7                 10.8                 5.89
+        tt_prosp_l4_15min     2026-02-09  234  33470     1593.0      1593.0               1593.0           143.0                  6.8                 4.76

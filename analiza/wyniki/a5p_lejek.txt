@@ -1,0 +1,223 @@
+A5 POZYSKANIE — LEJEK OD SESJI DO PŁATNOŚCI (2026-10-19 18:34), schemat `czyste`
+Kroki: k1 wybór usługi, k2 wybór terminu, k3 logowanie albo konto, k4 wejście na płatność, k5 płatność przyjęta.
+Konwersja kroku = sesje z krokiem / sesje z krokiem poprzednim, w procentach. sesja_do_platn = k5 / sesje.
+Okres 1 = sesje od 1.10.2024 do 30.09.2025, okres 2 = od 1.10.2025 do 30.09.2026 (dzień sesji, czas polski).
+
+Kontrola: sesje = 457 464, unikalne = 457 464, zamowienia = 63 207, platnosci = 63 893
+
+====================================================================================================
+1. TYPY SESJI I ICH KROKI (oba okresy razem i osobno)
+====================================================================================================
+                       typ okres  sesje       k1       k2      k3      k4      k5  zamowienia  usluga  termin  logowanie  wejscie_platn  platnosc  sesja_do_platn
+           samo_telemedigo     1    225      0.0      0.0     0.0   225.0   225.0         0.0     0.0     NaN        NaN            NaN     100.0           100.0
+           samo_telemedigo     2    461      0.0      0.0     0.0   461.0   461.0         0.0     0.0     NaN        NaN            NaN     100.0           100.0
+           samo_telemedigo razem    686      0.0      0.0     0.0   686.0   686.0         0.0     0.0     NaN        NaN            NaN     100.0           100.0
+     zalogowana_od_wejscia     1   8026   1662.0     41.0     0.0     0.0     0.0         0.0    20.7     2.5        0.0            NaN       NaN             0.0
+     zalogowana_od_wejscia     2  14042   2912.0     71.0     0.0     0.0     0.0         0.0    20.7     2.4        0.0            NaN       NaN             0.0
+     zalogowana_od_wejscia razem  22068   4574.0    112.0     0.0     0.0     0.0         0.0    20.7     2.4        0.0            NaN       NaN             0.0
+                    zwykla     1 154085  58025.0  42162.0 31098.0 27003.0 24717.0     24717.0    37.7    72.7       73.8           86.8      91.5            16.0
+                    zwykla     2 280625  96655.0  68888.0 48886.0 42246.0 38490.0     38490.0    34.4    71.3       71.0           86.4      91.1            13.7
+                    zwykla razem 434710 154680.0 111050.0 79984.0 69249.0 63207.0     63207.0    35.6    71.8       72.0           86.6      91.3            14.5
+   Sesje zalogowane od wejścia nie mają kroku 3 z definicji; zakup samego TelemediGO ma tylko kroki 4 i 5.
+
+====================================================================================================
+2. LEJEK GŁÓWNY (sesje zwykłe) W KWARTAŁACH
+====================================================================================================
+     kwartal_od  sesje      k1      k2      k3      k4      k5  zamowienia  pierwsze_zam  usluga  termin  logowanie  wejscie_platn  platnosc  sesja_do_platn
+        2024-10  37882 13265.0  9228.0  6374.0  5424.0  4919.0      4919.0        4186.0    35.0    69.6       69.1           85.1      90.7            13.0
+        2025-01  44656 16621.0 11934.0  8643.0  7486.0  6826.0      6826.0        4789.0    37.2    71.8       72.4           86.6      91.2            15.3
+        2025-04  37493 14642.0 10883.0  8270.0  7235.0  6655.0      6655.0        3819.0    39.1    74.3       76.0           87.5      92.0            17.7
+        2025-07  34054 13497.0 10117.0  7811.0  6858.0  6317.0      6317.0        3438.0    39.6    75.0       77.2           87.8      92.1            18.5
+        2025-10  49419 18688.0 13778.0 10225.0  8869.0  8104.0      8104.0        4963.0    37.8    73.7       74.2           86.7      91.4            16.4
+        2026-01  76835 27160.0 19337.0 13872.0 12019.0 10979.0     10979.0        7408.0    35.3    71.2       71.7           86.6      91.3            14.3
+        2026-04  79812 26432.0 18705.0 13015.0 11253.0 10226.0     10226.0        6429.0    33.1    70.8       69.6           86.5      90.9            12.8
+        2026-07  74559 24375.0 17068.0 11774.0 10105.0  9181.0      9181.0        5886.0    32.7    70.0       69.0           85.8      90.9            12.3
+
+2b. To samo w miesiącach (tylko konwersje kroków)
+     miesiac  sesje     k5  usluga  termin  logowanie  wejscie_platn  platnosc  sesja_do_platn
+     2024-10  11445 1351.0    34.1    68.1       67.6           83.6      89.9            11.8
+     2024-11  12509 1636.0    34.7    70.6       69.7           85.1      90.1            13.1
+     2024-12  13928 1932.0    36.1    69.8       69.7           86.1      91.7            13.9
+     2025-01  15336 2218.0    36.2    71.3       71.5           86.6      90.6            14.5
+     2025-02  14154 2173.0    37.3    70.7       72.9           87.3      91.5            15.4
+     2025-03  15166 2435.0    38.2    73.3       72.9           86.1      91.5            16.1
+     2025-04  13883 2342.0    38.4    72.8       75.3           87.0      92.1            16.9
+     2025-05  12376 2261.0    39.6    74.6       76.1           87.8      92.6            18.3
+     2025-06  11234 2052.0    39.2    75.9       76.7           87.7      91.2            18.3
+     2025-07  11142 2104.0    40.2    75.6       77.5           87.4      91.6            18.9
+     2025-08  11058 2041.0    39.4    74.7       77.2           88.2      92.3            18.5
+     2025-09  11854 2172.0    39.3    74.6       76.9           87.8      92.4            18.3
+     2025-10  13663 2431.0    39.4    75.1       75.1           87.3      91.8            17.8
+     2025-11  16368 2713.0    38.0    73.7       74.2           86.8      91.9            16.6
+     2025-12  19388 2960.0    36.6    72.7       73.6           86.2      90.5            15.3
+     2026-01  23540 3566.0    36.4    71.4       73.0           87.4      91.4            15.1
+     2026-02  24298 3450.0    35.5    70.9       72.1           85.8      91.2            14.2
+     2026-03  28997 3963.0    34.4    71.3       70.3           86.6      91.4            13.7
+     2026-04  28378 3570.0    32.9    70.7       68.6           86.7      90.8            12.6
+     2026-05  26238 3475.0    33.7    71.1       70.7           85.9      91.1            13.2
+     2026-06  25196 3181.0    32.8    70.4       69.5           86.8      90.7            12.6
+     2026-07  24447 3070.0    32.7    70.6       69.8           86.4      90.1            12.6
+     2026-08  24515 3011.0    32.5    70.1       69.1           85.4      91.4            12.3
+     2026-09  25597 3100.0    32.9    69.4       68.0           85.7      91.0            12.1
+
+2c. Sesja do płatności w miesiącach: osoby, które jeszcze nie kupowały, i pacjenci, którzy już kupowali
+    (konto sesji albo konto przeglądarki, w której pacjent kiedyś był zalogowany; pierwszy zakup przed sesją)
+     miesiac  sesje_nowych  sesja_do_platn_nowych  sesje_powracajacych  sesja_do_platn_powracajacych  sesja_do_platn_wszystkich
+     2024-10         11375                   11.3                   70                          94.3                       11.8
+     2024-11         12256                   11.4                  253                          93.3                       13.1
+     2024-12         13472                   11.1                  456                          94.5                       13.9
+     2025-01         14699                   11.1                  637                          92.6                       14.5
+     2025-02         13490                   11.6                  664                          92.3                       15.4
+     2025-03         14259                   11.2                  907                          92.0                       16.1
+     2025-04         12878                   11.1                 1005                          90.7                       16.9
+     2025-05         11290                   11.2                 1086                          91.6                       18.3
+     2025-06         10190                   11.0                 1044                          89.0                       18.3
+     2025-07         10070                   11.1                 1072                          92.2                       18.9
+     2025-08          9986                   10.8                 1072                          90.2                       18.5
+     2025-09         10848                   11.5                 1006                          91.8                       18.3
+     2025-10         12507                   11.0                 1156                          90.7                       17.8
+     2025-11         15263                   11.1                 1105                          92.4                       16.6
+     2025-12         18189                   10.4                 1199                          89.3                       15.3
+     2026-01         22273                   10.9                 1267                          90.2                       15.1
+     2026-02         23056                   10.0                 1242                          92.3                       14.2
+     2026-03         27574                    9.7                 1423                          90.1                       13.7
+     2026-04         26903                    8.4                 1475                          89.1                       12.6
+     2026-05         24795                    8.9                 1443                          88.4                       13.2
+     2026-06         23848                    8.3                 1348                          89.5                       12.6
+     2026-07         23195                    8.4                 1252                          88.8                       12.6
+     2026-08         23264                    8.1                 1251                          89.8                       12.3
+     2026-09         24397                    8.4                 1200                          88.3                       12.1
+
+====================================================================================================
+3. PODZIAŁY LEJKA GŁÓWNEGO: OKRES 1 WOBEC OKRESU 2
+====================================================================================================
+   udzial_ses = udział w sesjach zwykłych okresu w %. Kolumny konwersji jak wyżej, dla okresu 1 i 2;
+   zm_* = zmiana w punktach procentowych (okres 2 minus okres 1).
+
+3. urzadzenie
+     wartosc  sesje_1  sesje_2  udzial_ses_1  udzial_ses_2  usluga_1  usluga_2  termin_1  termin_2  logowanie_1  logowanie_2  wejscie_platn_1  wejscie_platn_2  platnosc_1  platnosc_2  sesja_do_platn_1  sesja_do_platn_2
+      mobile 110641.0 224064.0          71.8          79.8      36.8      33.0      72.3      70.2         73.7         69.5             86.5             86.0        91.5        90.9              15.5              12.6
+     desktop  39069.0  49448.0          25.4          17.6      40.1      41.0      73.7      75.1         73.5         75.9             87.8             87.6        91.7        91.7              17.5              18.8
+      tablet   4375.0   7113.0           2.8           2.5      38.8      35.1      72.7      71.4         76.6         70.3             86.7             87.0        91.3        90.8              17.1              13.9
+
+3. przegladarka
+              wartosc  sesje_1  sesje_2 udzial_ses_1  udzial_ses_2 usluga_1  usluga_2 termin_1  termin_2 logowanie_1  logowanie_2 wejscie_platn_1  wejscie_platn_2 platnosc_1  platnosc_2 sesja_do_platn_1  sesja_do_platn_2
+               Chrome  74456.0  96867.0         48.3          34.5     39.7      39.8     73.8      74.8        74.3         75.7            87.2             87.5       91.5        91.8             17.4              18.1
+               Safari  34705.0  46737.0         22.5          16.7     40.0      40.0     73.2      74.0        74.1         68.1            86.5             87.3       91.8        91.6             17.2              16.1
+            Instagram   9560.0  39744.0          6.2          14.2     19.4      25.5     58.4      61.9        60.4         62.1            80.1             82.0       88.0        89.0              4.8               7.2
+               TikTok        -  31535.0            -          11.2        -      23.2        -      60.5           -         59.7               -             81.2          -        86.6                -               5.9
+             Facebook   6873.0  28676.0          4.5          10.2     19.9      25.3     56.7      61.4        61.0         61.3            83.1             82.1       88.8        89.1              5.1               7.0
+     Samsung Internet  12439.0  16473.0          8.1           5.9     39.5      38.9     72.8      75.2        75.4         75.4            86.9             87.5       91.6        91.7             17.3              17.7
+              Firefox   7287.0   9445.0          4.7           3.4     40.0      41.1     73.6      74.8        75.3         76.6            87.9             87.3       91.8        92.3             17.9              19.0
+                 Edge   6595.0   8344.0          4.3           3.0     40.5      39.7     74.6      74.9        73.3         75.8            88.4             87.4       92.7        90.7             18.2              17.9
+                Opera   2170.0   2804.0          1.4           1.0     38.9      40.1     71.4      76.7        74.5         73.3            84.2             89.1       91.5        91.7             15.9              18.4
+
+3. kanal
+                    wartosc  sesje_1  sesje_2 udzial_ses_1  udzial_ses_2 usluga_1  usluga_2 termin_1  termin_2 logowanie_1  logowanie_2 wejscie_platn_1  wejscie_platn_2 platnosc_1  platnosc_2 sesja_do_platn_1  sesja_do_platn_2
+            meta_pozyskanie  22292.0  83677.0         14.5          29.8     17.3      22.6     51.0      54.9        55.2         58.9            80.1             81.2       86.9        88.6              3.4               5.3
+     wyszukiwarka_bezplatna  40237.0  49489.0         26.1          17.6     31.3      32.8     70.3      73.0        72.4         71.2            87.4             88.8       92.1        92.8             12.8              14.1
+          google_ads_ogolne  45223.0  47509.0         29.3          16.9     32.4      32.9     60.3      61.7        66.9         66.0            84.1             85.8       90.2        90.7              9.9              10.4
+                     tiktok        -  33470.0            -          11.9        -      21.2        -      54.6           -         58.4               -             81.4          -        86.4                -               4.8
+               bezposrednie  22118.0  31752.0         14.4          11.3     60.5      60.8     84.4      86.3        79.1         78.2            91.0             91.3       94.3        94.8             34.6              35.5
+           google_ads_marka  12078.0  17170.0          7.8           6.1     57.3      55.8     81.9      83.4        74.9         73.2            88.5             88.6       92.9        93.1             28.9              28.1
+           meta_remarketing   3360.0   6099.0          2.2           2.2     62.9      56.5     91.8      90.9        73.5         68.6            88.6             85.3       90.4        89.6             34.0              26.9
+          afiliacja_ranking   4741.0   5275.0          3.1           1.9     31.7      31.1     61.0      57.8        64.7         59.0            82.6             83.4       89.4        86.9              9.2               7.7
+                        crm   1973.0   3506.0          1.3           1.2    100.0     100.0    100.0     100.0       100.0        100.0            76.1             73.2       79.0        75.9             60.1              55.6
+            program_polecen   2063.0   2678.0          1.3           1.0     50.2      47.9     69.1      68.6        72.7         68.7            81.5             88.1       93.4        91.6             19.2              18.2
+
+3. kampania
+                       wartosc  sesje_1  sesje_2 udzial_ses_1  udzial_ses_2 usluga_1  usluga_2 termin_1  termin_2 logowanie_1  logowanie_2 wejscie_platn_1  wejscie_platn_2 platnosc_1  platnosc_2 sesja_do_platn_1  sesja_do_platn_2
+          meta_prosp_l4_szybko        -  60992.0            -          21.7        -      24.5        -      55.9           -         59.5               -             81.4          -        88.8                -               5.9
+                google_organic  38349.0  47433.0         24.9          16.9     31.7      33.1     70.7      73.5        72.6         71.4            87.6             88.9       92.2        92.9             13.1              14.4
+             tt_prosp_l4_15min        -  33470.0            -          11.9        -      21.2        -      54.6           -         58.4               -             81.4          -        86.4                -               4.8
+                  bezposrednie  22118.0  31752.0         14.4          11.3     60.5      60.8     84.4      86.3        79.1         78.2            91.0             91.3       94.3        94.8             34.6              35.5
+      meta_prosp_lekarz_online  22292.0  22685.0         14.5           8.1     17.3      17.5     51.0      51.4        55.2         56.6            80.1             80.4       86.9        87.8              3.4               3.6
+                      gs_brand  12078.0  17170.0          7.8           6.1     57.3      55.8     81.9      83.4        74.9         73.2            88.5             88.6       92.9        93.1             28.9              28.1
+      gs_generic_lekarz_online  15202.0  16019.0          9.9           5.7     34.3      35.2     63.2      66.5        70.3         72.2            87.1             89.6       91.2        93.1             12.1              14.1
+           gs_generic_erecepta  12456.0  12876.0          8.1           4.6     31.6      32.0     58.8      59.1        64.7         62.1            82.3             84.1       90.6        88.7              9.0               8.7
+                 gs_generic_l4  10755.0  11092.0          7.0           4.0     31.3      31.0     58.3      59.3        66.0         60.4            81.8             82.7       89.3        89.2              8.8               8.2
+        gs_generic_specjalisci   6810.0   7522.0          4.4           2.7     31.4      32.1     59.3      58.7        63.2         64.3            82.2             81.6       87.6        88.4              8.5               8.7
+              meta_rmkt_koszyk   3360.0   6099.0          2.2           2.2     62.9      56.5     91.8      90.9        73.5         68.6            88.6             85.3       90.4        89.6             34.0              26.9
+      rankinglekarzy_affiliate   4741.0   5275.0          3.1           1.9     31.7      31.1     61.0      57.8        64.7         59.0            82.6             83.4       89.4        86.9              9.2               7.7
+               program_polecen   2063.0   2678.0          1.3           1.0     50.2      47.9     69.1      68.6        72.7         68.7            81.5             88.1       93.4        91.6             19.2              18.2
+                  bing_organic   1888.0   2056.0          1.2           0.7     24.4      25.0     58.6      58.0        67.8         65.4            80.9             83.6       88.5        88.3              6.9               7.0
+              crm_reactivation    990.0   1735.0          0.6           0.6    100.0     100.0    100.0     100.0       100.0        100.0            74.8             73.8       78.5        74.1             58.8              54.6
+     crm_recepta_przypomnienie    510.0    916.0          0.3           0.3    100.0     100.0    100.0     100.0       100.0        100.0            78.6             74.3       81.8        78.9             64.3              58.6
+         crm_sms_przypomnienie    473.0    855.0          0.3           0.3    100.0     100.0    100.0     100.0       100.0        100.0            75.9             70.9       76.9        76.6             58.4              54.3
+
+3. strona_wejscia
+                                    wartosc  sesje_1  sesje_2  udzial_ses_1  udzial_ses_2  usluga_1  usluga_2  termin_1  termin_2  logowanie_1  logowanie_2  wejscie_platn_1  wejscie_platn_2  platnosc_1  platnosc_2  sesja_do_platn_1  sesja_do_platn_2
+                      /zwolnienie-l4-online  15541.0 116501.0          10.1          41.5      34.5      25.7      65.0      59.6         69.9         60.0             85.4             83.2        91.5        89.4              12.3               6.8
+                                          /  40965.0  54180.0          26.6          19.3      46.6      47.3      77.4      79.4         71.0         69.0             87.0             86.9        91.3        90.7              20.3              20.4
+                             /lekarz-online  47899.0  50890.0          31.1          18.1      29.7      30.6      63.9      65.5         65.5         65.9             85.2             87.1        90.4        92.0               9.6              10.6
+                            /recepta-online  19524.0  21389.0          12.7           7.6      36.6      39.3      67.9      70.9         72.3         74.3             84.1             84.1        90.5        88.8              13.7              15.5
+                                     /konto   7754.0  12047.0           5.0           4.3      90.1      91.8      97.2      98.2         97.9         98.1             91.5             90.1        94.0        94.0              73.8              75.0
+                               /specjalisci   5712.0   6538.0           3.7           2.3      33.4      32.9      61.2      61.3         66.4         62.7             82.3             82.9        88.9        89.5               9.9               9.4
+         /blog/ile-trwa-l4-na-przeziebienie   3182.0   3702.0           2.1           1.3       8.7       8.5      42.0      46.8         58.6         59.9             85.3             81.8        84.5        90.3               1.5               1.8
+                                 /polecenie   2179.0   2841.0           1.4           1.0      52.2      50.3      71.7      70.9         71.7         66.1             80.9             87.9        92.4        90.5              20.1              18.8
+            /blog/e-recepta-jak-zrealizowac   1939.0   2197.0           1.3           0.8       9.1       8.3      43.8      44.3         61.0         60.5             78.7             87.8        83.8        88.4               1.6               1.7
+           /blog/antybiotyk-kiedy-potrzebny   1577.0   1716.0           1.0           0.6       8.9       7.9      44.7      44.9         65.1         52.5             80.5             81.2        93.9        76.9               2.0               1.2
+            /blog/bol-gardla-domowe-sposoby   1179.0   1378.0           0.8           0.5       9.1       8.8      37.4      39.7         62.5         62.5             80.0             90.0        90.0        88.9               1.5               1.7
+                    /specjalisci/dermatolog   1009.0   1107.0           0.7           0.4      32.3      33.1      64.7      60.9         57.3         61.4             81.0             80.3        89.8        88.2               8.7               8.8
+          /blog/skierowanie-na-badania-krwi    972.0   1105.0           0.6           0.4       8.3      10.0      48.1      36.4         53.8         55.0             76.2             68.2        87.5        80.0               1.4               1.1
+                     /specjalisci/ginekolog    892.0    963.0           0.6           0.3      31.2      33.1      55.4      62.1         58.4         68.7             80.0             77.2        86.1        83.8               7.0               9.1
+                    /specjalisci/psychiatra    868.0    955.0           0.6           0.3      31.8      33.1      66.7      61.4         62.0         65.5             84.2             86.6        84.4        90.9               9.3              10.5
+            /blog/zapalenie-pecherza-objawy    853.0    954.0           0.6           0.3       8.2       9.4      51.4      52.2         61.1         70.2             90.9             84.8       100.0        85.7               2.3               2.5
+     /blog/tabletki-antykoncepcyjne-recepta    654.0    749.0           0.4           0.3       9.5       9.1      41.9      45.6         69.2         48.4             94.4             80.0        88.2        91.7               2.3               1.5
+                  /specjalisci/endokrynolog    444.0    477.0           0.3           0.2      33.8      31.0      64.0      61.5         57.3         68.1             87.3             82.3        79.2        88.2               8.6               9.4
+                     /specjalisci/kardiolog    490.0    469.0           0.3           0.2      33.9      34.8      61.4      58.3         58.8         52.6             80.0             90.0        87.5        91.1               8.6               8.7
+       /blog/teleporada-jak-sie-przygotowac    452.0    467.0           0.3           0.2       8.4       8.6      57.9      55.0         45.5         50.0             80.0             90.9        75.0        90.0               1.3               1.9
+
+3. pacjent
+               wartosc  sesje_1  sesje_2  udzial_ses_1  udzial_ses_2  usluga_1  usluga_2  termin_1  termin_2  logowanie_1  logowanie_2  wejscie_platn_1  wejscie_platn_2  platnosc_1  platnosc_2  sesja_do_platn_1  sesja_do_platn_2
+           nie_kupowal 144813.0 265264.0          94.0          94.5      33.7      30.6      67.5      65.8         66.4         62.6             83.4             83.0        89.2        88.7              11.2               9.3
+     kupowal_wczesniej   9272.0  15361.0           6.0           5.5     100.0     100.0     100.0     100.0        100.0        100.0             94.9             93.9        96.4        95.7              91.5              89.9
+
+====================================================================================================
+4. ZMIANA KONWERSJI SESJA DO PŁATNOŚCI: STRUKTURA RUCHU A KONWERSJA W OBRĘBIE GRUP
+====================================================================================================
+   Rozkład zmiany (okres 2 minus okres 1, punkty procentowe) na dwie części, w każdym podziale osobno:
+   efekt_struktury = suma po grupach (udział_2 − udział_1) × konwersja_1;
+   efekt_konwersji = suma po grupach udział_2 × (konwersja_2 − konwersja_1).
+   Grupy, których nie było w okresie 1 (nowe kampanie), wchodzą w całości do efektu struktury:
+   ich konwersja_1 przyjmujemy równą konwersji_2. Rozkład opisuje, nie wskazuje przyczyny.
+                     podzial  konwersja_1  konwersja_2  zmiana_pp  efekt_struktury_pp  efekt_konwersji_pp
+                  urzadzenie        16.04        13.72      -2.33               -0.16               -2.17
+                przegladarka        16.04        13.72      -2.33               -3.00                0.67
+     urzadzenie_przegladarka        16.04        13.72      -2.33               -3.00                0.67
+         system_przegladarka        16.04        13.72      -2.33               -3.00                0.67
+                       kanal        16.04        13.72      -2.33               -2.99                0.66
+                    kampania        16.04        13.72      -2.33               -2.44                0.11
+              strona_wejscia        16.04        13.72      -2.33               -0.45               -1.87
+                     pacjent        16.04        13.72      -2.33               -0.44               -1.89
+
+====================================================================================================
+5. CZAS MIĘDZY KROKAMI (sekundy, UTC), sesje zwykłe
+====================================================================================================
+                  rodzaj  okres  z_terminem  med_usluga_termin  med_termin_logowanie  p10_termin_logowanie  med_logowanie_platn  med_platn_sukces
+          bez zamowienia      1       17445              113.0                 147.0                  56.0                 41.0               NaN
+          bez zamowienia      2       30398              113.0                 148.5                  57.0                 40.0               NaN
+     pierwsze zamowienie      1       16232              111.0                 148.0                  58.0                 41.0              55.0
+     pierwsze zamowienie      2       24686              112.0                 148.0                  57.0                 41.0              55.0
+     zamowienie powtorne      1        8485               84.0                  83.0                  28.0                 82.0              82.0
+     zamowienie powtorne      2       13804               82.0                  83.0                  29.0                 82.0              82.0
+
+====================================================================================================
+6. ZAKUP SAMEGO TELEMEDIGO (tylko kroki 4 i 5)
+====================================================================================================
+     kwartal_od  sesje    k4    k5  z_crm_go_upsell  wejscie_telemedigo  wejscie_konto
+        2025-07    225 225.0 225.0              225                 225              0
+        2025-10    107 107.0 107.0              107                 107              0
+        2026-01    116 116.0 116.0              116                 116              0
+        2026-04    130 130.0 130.0              130                 130              0
+        2026-07    108 108.0 108.0              108                 108              0
+   Sesje, które weszły na /telemedigo albo z kampanii crm_go_upsell, a nie kupiły samego TelemediGO:
+                       typ  sesje  k1    k4  zamowienia
+           samo_telemedigo    686 0.0 686.0         0.0
+     zalogowana_od_wejscia    306 0.0   0.0         0.0
+
+====================================================================================================
+7. SERIE DZIENNE: analiza\wyniki\a5p_lejek_dzienny.csv.gz — 129 418 wierszy
+   Kolumny: dzien, typ sesji, pacjent (kupowal_wczesniej / nie_kupowal), podzial, wartosc, sesje, k1..k5,
+   zamowienia, pierwsze_zamowienia.
+   Dni bez sesji w danej grupie nie mają wiersza (zero sesji).

@@ -1,0 +1,246 @@
+rodzaj,podzial,wartosc,przejscie,data,przed,po,zmiana,zmiana_wzgl_proc,dni_przed,dni_po,phi,wejscia_po,zamowienia_razem,zamowienia_na_30_dni
+konwersja,calosc,calosc,usluga,2026-04-01,31.0,29.3,-1.8,-5.7,34,183,1.0,146402.0,-749.0,-122.8
+konwersja,calosc,calosc,logowanie,2026-03-17,66.0,60.6,-5.4,-8.2,532,198,1.0,30635.0,-1213.0,-183.8
+konwersja,calosc,calosc,sesja_do_platn,2026-03-19,10.3,8.5,-1.8,-17.5,101,196,1.04,157990.0,-2840.0,-434.6
+ruch,urzadzenie,desktop,sesje_dziennie,2024-11-18,92.8,116.6,23.8,25.7,48,164,3.65,,,
+ruch,urzadzenie,desktop,sesje_dziennie,2025-05-01,116.6,84.8,-31.8,-27.3,164,158,3.65,,,
+ruch,urzadzenie,desktop,sesje_dziennie,2025-10-06,84.8,106.1,21.3,25.1,158,35,3.65,,,
+ruch,urzadzenie,desktop,sesje_dziennie,2026-05-01,147.9,110.7,-37.2,-25.2,116,153,3.65,,,
+konwersja,urzadzenie,desktop,usluga,2026-04-03,36.2,34.0,-2.2,-6.0,549,181,1.06,20900.0,-150.0,-24.9
+ruch,urzadzenie,mobile,sesje_dziennie,2025-11-03,254.2,418.3,164.1,64.5,186,60,7.92,,,
+ruch,urzadzenie,mobile,sesje_dziennie,2026-01-02,418.3,559.6,141.3,33.8,60,31,7.92,,,
+ruch,urzadzenie,mobile,sesje_dziennie,2026-02-02,559.6,705.0,145.4,26.0,31,87,7.92,,,
+konwersja,urzadzenie,mobile,usluga,2026-02-26,31.4,28.6,-2.8,-8.9,81,217,1.03,145786.0,-1149.0,-158.9
+konwersja,urzadzenie,mobile,logowanie,2026-03-17,65.8,59.3,-6.6,-10.0,532,198,1.0,24384.0,-1169.0,-177.1
+konwersja,urzadzenie,mobile,sesja_do_platn,2026-03-15,9.9,8.0,-1.9,-19.4,106,200,1.03,134140.0,-2571.0,-385.7
+ruch,urzadzenie,tablet,sesje_dziennie,2025-11-16,9.9,15.9,5.9,59.6,213,50,1.29,,,
+ruch,urzadzenie,tablet,sesje_dziennie,2026-01-05,15.9,21.9,6.1,38.4,50,109,1.29,,,
+konwersja,urzadzenie,tablet,sesja_do_platn,2026-05-08,11.4,7.7,-3.7,-32.6,584,146,1.0,2755.0,-102.0,-21.0
+ruch,przegladarka,Chrome,sesje_dziennie,2024-11-04,171.1,218.3,47.3,27.6,34,178,5.71,,,
+ruch,przegladarka,Chrome,sesje_dziennie,2025-11-03,167.0,232.7,65.7,39.4,186,63,5.71,,,
+ruch,przegladarka,Chrome,sesje_dziennie,2026-01-05,232.7,291.1,58.4,25.1,63,115,5.71,,,
+konwersja,przegladarka,Chrome,usluga,2026-03-31,35.3,33.4,-1.9,-5.4,546,184,1.03,42695.0,-270.0,-43.9
+konwersja,przegladarka,Chrome,sesja_do_platn,2026-04-02,12.1,11.0,-1.1,-9.3,548,182,1.01,42135.0,-473.0,-77.9
+ruch,przegladarka,Edge,sesje_dziennie,2025-01-05,17.0,21.4,4.4,26.1,96,111,1.41,,,
+ruch,przegladarka,Edge,sesje_dziennie,2025-04-26,21.4,13.4,-8.0,-37.3,111,163,1.41,,,
+ruch,przegladarka,Edge,sesje_dziennie,2025-10-06,13.4,23.1,9.7,72.4,163,207,1.41,,,
+ruch,przegladarka,Facebook,sesje_dziennie,2025-11-03,18.5,36.8,18.3,99.2,398,24,1.58,,,
+ruch,przegladarka,Facebook,sesje_dziennie,2025-11-27,36.8,56.2,19.3,52.5,24,39,1.58,,,
+ruch,przegladarka,Facebook,sesje_dziennie,2026-01-05,56.2,78.0,21.8,38.9,39,14,1.58,,,
+konwersja,przegladarka,Facebook,usluga,2025-11-16,18.9,25.0,6.0,31.9,411,319,1.01,27485.0,436.0,41.0
+konwersja,przegladarka,Facebook,sesja_do_platn,2025-11-18,4.1,6.6,2.4,59.3,413,317,1.0,27399.0,670.0,63.4
+ruch,przegladarka,Firefox,sesje_dziennie,2024-11-04,16.5,21.8,5.3,32.1,34,173,1.47,,,
+ruch,przegladarka,Firefox,sesje_dziennie,2025-04-26,21.8,16.1,-5.7,-26.3,173,198,1.47,,,
+ruch,przegladarka,Firefox,sesje_dziennie,2025-11-10,16.1,23.0,6.9,43.2,198,56,1.47,,,
+ruch,przegladarka,Instagram,sesje_dziennie,2025-11-06,25.9,51.9,26.0,100.2,401,18,1.72,,,
+ruch,przegladarka,Instagram,sesje_dziennie,2025-11-24,51.9,65.1,13.2,25.4,18,14,1.72,,,
+ruch,przegladarka,Instagram,sesje_dziennie,2025-12-08,65.1,85.0,19.9,30.5,14,28,1.72,,,
+ruch,przegladarka,Instagram,sesje_dziennie,2026-01-05,85.0,109.0,24.0,28.2,28,14,1.72,,,
+konwersja,przegladarka,Instagram,usluga,2025-11-11,18.3,25.2,6.8,37.2,406,324,1.02,38248.0,691.0,63.9
+konwersja,przegladarka,Instagram,sesja_do_platn,2025-11-08,3.8,6.7,2.9,76.4,403,327,1.03,38372.0,1105.0,101.4
+ruch,przegladarka,Opera,sesje_dziennie,2025-11-24,5.6,7.3,1.6,29.0,419,311,1.14,,,
+ruch,przegladarka,Safari,sesje_dziennie,2025-05-01,102.4,76.6,-25.8,-25.2,157,151,3.36,,,
+ruch,przegladarka,Safari,sesje_dziennie,2025-11-10,92.1,116.6,24.5,26.6,42,56,3.36,,,
+konwersja,przegladarka,Safari,logowanie,2026-03-17,66.6,48.2,-18.3,-27.5,532,198,1.0,5328.0,-710.0,-107.6
+konwersja,przegladarka,Safari,sesja_do_platn,2026-03-17,12.0,8.2,-3.8,-31.9,532,198,1.0,22840.0,-876.0,-132.7
+ruch,przegladarka,Samsung Internet,sesje_dziennie,2025-05-01,37.0,26.7,-10.2,-27.6,157,144,1.66,,,
+ruch,przegladarka,Samsung Internet,sesje_dziennie,2025-11-10,32.5,41.7,9.2,28.1,49,63,1.66,,,
+ruch,przegladarka,TikTok,sesje_dziennie,2026-03-01,40.3,84.5,44.2,109.8,20,22,2.64,,,
+ruch,przegladarka,TikTok,sesje_dziennie,2026-03-23,84.5,118.6,34.1,40.3,22,14,2.64,,,
+ruch,przegladarka,TikTok,sesje_dziennie,2026-04-06,118.6,152.4,33.8,28.5,14,178,2.64,,,
+ruch,urzadzenie_przegladarka,desktop Chrome,sesje_dziennie,2024-11-04,54.2,70.4,16.2,30.0,34,159,2.59,,,
+ruch,urzadzenie_przegladarka,desktop Chrome,sesje_dziennie,2025-11-10,54.9,72.3,17.4,31.7,212,56,2.59,,,
+ruch,urzadzenie_przegladarka,desktop Chrome,sesje_dziennie,2026-05-01,90.0,66.7,-23.2,-25.8,116,153,2.59,,,
+ruch,urzadzenie_przegladarka,desktop Edge,sesje_dziennie,2025-01-05,17.0,21.4,4.4,26.1,96,111,1.41,,,
+ruch,urzadzenie_przegladarka,desktop Edge,sesje_dziennie,2025-04-26,21.4,13.4,-8.0,-37.3,111,163,1.41,,,
+ruch,urzadzenie_przegladarka,desktop Edge,sesje_dziennie,2025-10-06,13.4,23.1,9.7,72.4,163,207,1.41,,,
+ruch,urzadzenie_przegladarka,desktop Firefox,sesje_dziennie,2025-05-22,10.3,7.3,-3.0,-29.4,233,158,1.28,,,
+ruch,urzadzenie_przegladarka,desktop Firefox,sesje_dziennie,2025-10-27,7.3,12.9,5.6,76.3,158,186,1.28,,,
+ruch,urzadzenie_przegladarka,desktop Safari,sesje_dziennie,2024-12-02,9.8,13.0,3.2,32.3,62,138,1.24,,,
+ruch,urzadzenie_przegladarka,desktop Safari,sesje_dziennie,2025-11-10,10.0,15.3,5.3,53.0,205,171,1.24,,,
+ruch,urzadzenie_przegladarka,mobile Chrome,sesje_dziennie,2024-11-04,112.8,144.5,31.7,28.1,34,178,3.99,,,
+ruch,urzadzenie_przegladarka,mobile Chrome,sesje_dziennie,2025-11-03,109.9,156.4,46.5,42.4,186,63,3.99,,,
+konwersja,urzadzenie_przegladarka,mobile Chrome,usluga,2026-03-14,35.1,33.1,-2.0,-5.8,529,201,1.02,32468.0,-217.0,-32.4
+konwersja,urzadzenie_przegladarka,mobile Chrome,sesja_do_platn,2026-03-01,12.0,10.9,-1.1,-9.2,516,214,1.0,35020.0,-386.0,-54.1
+ruch,urzadzenie_przegladarka,mobile Facebook,sesje_dziennie,2025-11-03,18.1,35.7,17.6,97.4,398,24,1.57,,,
+ruch,urzadzenie_przegladarka,mobile Facebook,sesje_dziennie,2025-11-27,35.7,54.6,18.9,53.0,24,39,1.57,,,
+ruch,urzadzenie_przegladarka,mobile Facebook,sesje_dziennie,2026-01-05,54.6,76.2,21.7,39.7,39,14,1.57,,,
+konwersja,urzadzenie_przegladarka,mobile Facebook,usluga,2025-11-16,19.0,25.0,6.1,32.0,411,319,1.01,26908.0,428.0,40.2
+konwersja,urzadzenie_przegladarka,mobile Facebook,sesja_do_platn,2025-11-18,4.1,6.6,2.5,60.5,413,317,1.0,26825.0,664.0,62.8
+ruch,urzadzenie_przegladarka,mobile Firefox,sesje_dziennie,2025-11-09,7.9,13.2,5.3,66.7,197,171,1.25,,,
+ruch,urzadzenie_przegladarka,mobile Instagram,sesje_dziennie,2025-11-06,25.4,51.2,25.8,101.5,401,18,1.68,,,
+ruch,urzadzenie_przegladarka,mobile Instagram,sesje_dziennie,2025-11-24,51.2,64.1,12.8,25.1,18,14,1.68,,,
+ruch,urzadzenie_przegladarka,mobile Instagram,sesje_dziennie,2025-12-08,64.1,83.2,19.1,29.9,14,28,1.68,,,
+ruch,urzadzenie_przegladarka,mobile Instagram,sesje_dziennie,2026-01-05,83.2,107.8,24.5,29.5,28,16,1.68,,,
+konwersja,urzadzenie_przegladarka,mobile Instagram,usluga,2025-11-11,18.3,25.1,6.9,37.6,406,324,1.03,37459.0,681.0,63.0
+konwersja,urzadzenie_przegladarka,mobile Instagram,sesja_do_platn,2025-11-08,3.8,6.6,2.9,76.7,403,327,1.04,37580.0,1085.0,99.5
+ruch,urzadzenie_przegladarka,mobile Opera,sesje_dziennie,2025-11-24,3.1,4.2,1.1,34.4,419,311,1.11,,,
+ruch,urzadzenie_przegladarka,mobile Safari,sesje_dziennie,2025-11-10,65.6,96.2,30.7,46.8,193,56,2.85,,,
+konwersja,urzadzenie_przegladarka,mobile Safari,logowanie,2026-03-17,66.5,45.4,-21.1,-31.7,532,198,1.0,4414.0,-676.0,-102.5
+konwersja,urzadzenie_przegladarka,mobile Safari,sesja_do_platn,2026-03-17,11.9,7.7,-4.2,-35.6,532,198,1.0,19003.0,-805.0,-121.9
+ruch,urzadzenie_przegladarka,mobile Samsung Internet,sesje_dziennie,2025-05-01,36.0,26.1,-9.9,-27.6,157,144,1.63,,,
+ruch,urzadzenie_przegladarka,mobile Samsung Internet,sesje_dziennie,2025-11-10,31.7,40.6,8.9,28.2,49,63,1.63,,,
+ruch,urzadzenie_przegladarka,mobile TikTok,sesje_dziennie,2026-03-01,39.5,82.8,43.3,109.6,20,22,2.59,,,
+ruch,urzadzenie_przegladarka,mobile TikTok,sesje_dziennie,2026-03-23,82.8,116.1,33.4,40.3,22,14,2.59,,,
+ruch,urzadzenie_przegladarka,mobile TikTok,sesje_dziennie,2026-04-06,116.1,149.0,32.9,28.3,14,178,2.59,,,
+ruch,urzadzenie_przegladarka,tablet Chrome,sesje_dziennie,2025-04-17,4.5,3.3,-1.2,-26.9,198,199,1.08,,,
+ruch,urzadzenie_przegladarka,tablet Chrome,sesje_dziennie,2025-11-02,3.3,5.5,2.3,69.6,199,193,1.08,,,
+ruch,urzadzenie_przegladarka,tablet Chrome,sesje_dziennie,2026-05-14,5.5,4.1,-1.5,-26.4,193,140,1.08,,,
+ruch,urzadzenie_przegladarka,tablet Facebook,sesje_dziennie,2025-11-12,0.4,1.8,1.4,326.6,406,322,1.0,,,
+ruch,urzadzenie_przegladarka,tablet Instagram,sesje_dziennie,2025-12-09,0.5,2.6,2.0,370.9,433,296,1.02,,,
+ruch,urzadzenie_przegladarka,tablet Safari,sesje_dziennie,2025-11-03,4.4,7.4,3.1,70.0,197,166,1.18,,,
+ruch,urzadzenie_przegladarka,tablet Safari,sesje_dziennie,2026-04-18,7.4,5.5,-1.9,-25.3,166,166,1.18,,,
+konwersja,urzadzenie_przegladarka,tablet Safari,sesja_do_platn,2026-02-28,13.2,7.4,-5.8,-44.0,515,215,1.0,1310.0,-76.0,-10.6
+ruch,urzadzenie_przegladarka,tablet TikTok,sesje_dziennie,2026-03-14,0.8,3.3,2.5,290.5,33,201,1.07,,,
+ruch,system_przegladarka,Android Chrome,sesje_dziennie,2024-11-04,106.0,135.3,29.3,27.6,34,178,3.77,,,
+ruch,system_przegladarka,Android Chrome,sesje_dziennie,2025-11-03,102.8,145.7,42.9,41.7,186,63,3.77,,,
+ruch,system_przegladarka,Android Chrome,sesje_dziennie,2026-01-05,145.7,182.4,36.7,25.1,63,115,3.77,,,
+ruch,system_przegladarka,Android Facebook,sesje_dziennie,2025-11-02,11.6,23.3,11.7,100.8,397,25,1.42,,,
+ruch,system_przegladarka,Android Facebook,sesje_dziennie,2025-11-27,23.3,35.8,12.6,54.0,25,39,1.42,,,
+ruch,system_przegladarka,Android Facebook,sesje_dziennie,2026-01-05,35.8,58.7,22.9,63.9,39,269,1.42,,,
+konwersja,system_przegladarka,Android Facebook,usluga,2025-11-04,18.8,24.9,6.1,32.7,399,331,1.0,17745.0,284.0,25.7
+konwersja,system_przegladarka,Android Facebook,sesja_do_platn,2025-08-29,3.8,6.5,2.7,71.3,332,398,1.0,18471.0,498.0,37.5
+ruch,system_przegladarka,Android Firefox,sesje_dziennie,2025-11-09,5.7,9.5,3.8,66.1,197,171,1.19,,,
+ruch,system_przegladarka,Android Instagram,sesje_dziennie,2025-11-06,16.4,33.4,17.0,103.4,401,18,1.45,,,
+ruch,system_przegladarka,Android Instagram,sesje_dziennie,2025-11-24,33.4,48.9,15.5,46.4,18,39,1.45,,,
+ruch,system_przegladarka,Android Instagram,sesje_dziennie,2026-01-02,48.9,72.1,23.2,47.4,39,29,1.45,,,
+konwersja,system_przegladarka,Android Instagram,usluga,2025-11-11,18.0,25.0,7.0,39.1,406,324,1.0,24198.0,442.0,41.0
+konwersja,system_przegladarka,Android Instagram,sesja_do_platn,2025-11-09,3.7,6.5,2.8,75.4,404,326,1.1,24258.0,678.0,62.4
+ruch,system_przegladarka,Android Opera,sesje_dziennie,2025-11-24,3.2,4.3,1.1,34.2,419,311,1.1,,,
+ruch,system_przegladarka,Android Samsung Internet,sesje_dziennie,2025-05-01,37.0,26.7,-10.2,-27.6,157,144,1.66,,,
+ruch,system_przegladarka,Android Samsung Internet,sesje_dziennie,2025-11-10,32.5,41.7,9.2,28.1,49,63,1.66,,,
+ruch,system_przegladarka,Android TikTok,sesje_dziennie,2026-02-23,22.4,42.9,20.5,91.8,14,18,2.1,,,
+ruch,system_przegladarka,Android TikTok,sesje_dziennie,2026-03-13,42.9,68.9,26.0,60.7,18,24,2.1,,,
+ruch,system_przegladarka,Android TikTok,sesje_dziennie,2026-04-06,68.9,96.6,27.7,40.2,24,178,2.1,,,
+ruch,system_przegladarka,Windows Chrome,sesje_dziennie,2024-11-04,46.7,59.5,12.7,27.2,34,178,2.39,,,
+ruch,system_przegladarka,Windows Chrome,sesje_dziennie,2025-05-01,59.5,43.8,-15.6,-26.3,178,137,2.39,,,
+ruch,system_przegladarka,Windows Chrome,sesje_dziennie,2026-05-01,77.3,56.7,-20.6,-26.6,116,153,2.39,,,
+ruch,system_przegladarka,Windows Edge,sesje_dziennie,2025-01-05,17.0,21.4,4.4,26.1,96,111,1.41,,,
+ruch,system_przegladarka,Windows Edge,sesje_dziennie,2025-04-26,21.4,13.4,-8.0,-37.3,111,163,1.41,,,
+ruch,system_przegladarka,Windows Edge,sesje_dziennie,2025-10-06,13.4,23.1,9.7,72.4,163,207,1.41,,,
+ruch,system_przegladarka,Windows Firefox,sesje_dziennie,2025-05-25,7.7,5.4,-2.3,-29.7,236,155,1.18,,,
+ruch,system_przegladarka,Windows Firefox,sesje_dziennie,2025-10-27,5.4,9.9,4.4,81.2,155,186,1.18,,,
+ruch,system_przegladarka,iOS Chrome,sesje_dziennie,2025-11-14,10.4,17.8,7.4,70.9,197,167,1.28,,,
+ruch,system_przegladarka,iOS Facebook,sesje_dziennie,2025-11-03,6.9,13.1,6.2,90.4,398,22,1.12,,,
+ruch,system_przegladarka,iOS Facebook,sesje_dziennie,2025-11-25,13.1,20.5,7.4,56.6,22,44,1.12,,,
+ruch,system_przegladarka,iOS Facebook,sesje_dziennie,2026-01-08,20.5,35.3,14.8,72.2,44,170,1.12,,,
+konwersja,system_przegladarka,iOS Facebook,usluga,2025-11-08,18.8,25.0,6.2,33.2,403,327,1.08,10093.0,166.0,15.3
+konwersja,system_przegladarka,iOS Facebook,sesja_do_platn,2025-11-18,4.1,6.6,2.6,62.5,413,317,1.0,9956.0,255.0,24.1
+ruch,system_przegladarka,iOS Firefox,sesje_dziennie,2025-11-26,2.9,3.9,1.0,35.8,421,309,1.1,,,
+ruch,system_przegladarka,iOS Instagram,sesje_dziennie,2025-11-06,9.5,19.9,10.3,108.4,401,27,1.25,,,
+ruch,system_przegladarka,iOS Instagram,sesje_dziennie,2025-12-03,19.9,27.9,8.1,40.6,27,24,1.25,,,
+ruch,system_przegladarka,iOS Instagram,sesje_dziennie,2025-12-27,27.9,37.3,9.4,33.8,24,23,1.25,,,
+ruch,system_przegladarka,iOS Instagram,sesje_dziennie,2026-01-19,37.3,50.4,13.0,34.8,23,101,1.25,,,
+konwersja,system_przegladarka,iOS Instagram,usluga,2025-12-10,19.1,25.6,6.5,33.8,435,295,1.0,13426.0,237.0,24.1
+konwersja,system_przegladarka,iOS Instagram,sesja_do_platn,2025-12-12,4.1,7.0,2.9,71.7,437,293,1.0,13371.0,392.0,40.1
+ruch,system_przegladarka,iOS Safari,sesje_dziennie,2025-05-01,89.7,66.8,-22.9,-25.5,157,144,3.02,,,
+ruch,system_przegladarka,iOS Safari,sesje_dziennie,2025-11-10,79.5,102.6,23.1,29.0,49,56,3.02,,,
+konwersja,system_przegladarka,iOS Safari,logowanie,2026-03-17,66.7,45.6,-21.1,-31.6,532,198,1.0,4678.0,-713.0,-108.0
+konwersja,system_przegladarka,iOS Safari,sesja_do_platn,2026-03-17,12.0,7.6,-4.3,-36.1,532,198,1.0,20171.0,-872.0,-132.1
+ruch,system_przegladarka,iOS TikTok,sesje_dziennie,2026-02-23,11.4,28.3,17.0,149.4,14,28,1.61,,,
+ruch,system_przegladarka,iOS TikTok,sesje_dziennie,2026-03-23,28.3,55.0,26.7,94.3,28,192,1.61,,,
+ruch,system_przegladarka,macOS Chrome,sesje_dziennie,2026-01-05,8.1,11.9,3.8,46.6,461,95,1.21,,,
+ruch,system_przegladarka,macOS Safari,sesje_dziennie,2024-12-02,9.8,13.0,3.2,32.3,62,138,1.24,,,
+ruch,system_przegladarka,macOS Safari,sesje_dziennie,2025-11-10,10.0,15.3,5.3,53.0,205,171,1.24,,,
+ruch,kanal,bezposrednie,sesje_dziennie,2024-11-04,44.9,59.4,14.5,32.2,34,173,1.85,,,
+ruch,kanal,bezposrednie,sesje_dziennie,2025-04-26,59.4,42.6,-16.8,-28.3,173,170,1.85,,,
+ruch,kanal,bezposrednie,sesje_dziennie,2025-10-13,42.6,55.9,13.3,31.1,170,29,1.85,,,
+ruch,kanal,bezposrednie,sesje_dziennie,2026-01-05,66.3,83.1,16.9,25.4,55,137,1.85,,,
+konwersja,kanal,bezposrednie,usluga,2026-04-10,52.9,50.1,-2.8,-5.3,556,174,1.0,11714.0,-125.0,-21.6
+konwersja,kanal,bezposrednie,logowanie,2026-03-21,69.2,63.0,-6.2,-9.0,536,194,1.0,5533.0,-258.0,-39.9
+konwersja,kanal,bezposrednie,sesja_do_platn,2026-02-21,22.0,19.5,-2.4,-11.1,508,222,1.02,15987.0,-390.0,-52.7
+ruch,kanal,google_ads_marka,sesje_dziennie,2024-11-25,28.1,35.5,7.3,26.0,55,157,1.48,,,
+ruch,kanal,google_ads_marka,sesje_dziennie,2025-05-01,35.5,24.9,-10.6,-29.8,157,147,1.48,,,
+ruch,kanal,google_ads_marka,sesje_dziennie,2025-09-25,24.9,31.5,6.6,26.7,147,53,1.48,,,
+ruch,kanal,google_ads_marka,sesje_dziennie,2025-11-17,31.5,39.7,8.2,26.0,53,49,1.48,,,
+konwersja,kanal,google_ads_marka,logowanie,2026-03-19,68.9,62.2,-6.7,-9.7,534,196,1.0,3262.0,-164.0,-25.1
+konwersja,kanal,google_ads_marka,sesja_do_platn,2026-05-22,21.2,17.8,-3.4,-16.0,598,132,1.0,5152.0,-174.0,-39.6
+ruch,kanal,google_ads_ogolne,sesje_dziennie,2025-11-03,109.8,142.9,33.0,30.1,186,179,5.05,,,
+konwersja,kanal,google_ads_ogolne,logowanie,2026-03-17,64.5,59.9,-4.5,-7.1,532,198,1.02,4332.0,-146.0,-22.2
+ruch,kanal,meta_pozyskanie,sesje_dziennie,2025-11-03,61.0,114.3,53.3,87.4,398,23,3.09,,,
+ruch,kanal,meta_pozyskanie,sesje_dziennie,2025-11-26,114.3,166.2,51.9,45.4,23,37,3.09,,,
+ruch,kanal,meta_pozyskanie,sesje_dziennie,2026-01-02,166.2,232.4,66.2,39.8,37,17,3.09,,,
+konwersja,kanal,meta_pozyskanie,usluga,2025-11-11,17.3,22.8,5.5,31.7,406,324,1.01,80900.0,1037.0,96.0
+konwersja,kanal,meta_pozyskanie,sesja_do_platn,2025-11-16,3.4,5.3,1.9,55.6,411,319,1.07,80365.0,1532.0,144.1
+ruch,kanal,meta_remarketing,sesje_dziennie,2024-12-10,7.8,10.2,2.4,30.8,70,139,1.0,,,
+ruch,kanal,meta_remarketing,sesje_dziennie,2025-11-04,7.7,11.8,4.1,52.9,190,60,1.0,,,
+ruch,kanal,meta_remarketing,sesje_dziennie,2026-01-03,11.8,17.2,5.5,46.7,60,271,1.0,,,
+konwersja,kanal,meta_remarketing,usluga,2026-04-04,58.6,50.2,-8.4,-14.3,550,180,1.0,3076.0,-98.0,-16.3
+konwersja,kanal,meta_remarketing,logowanie,2026-03-26,68.6,61.0,-7.6,-11.1,541,189,1.0,1475.0,-78.0,-12.3
+konwersja,kanal,meta_remarketing,sesja_do_platn,2026-03-20,27.3,19.1,-8.3,-30.3,535,195,1.0,3379.0,-280.0,-43.1
+ruch,kanal,program_polecen,sesje_dziennie,2025-10-20,5.7,7.4,1.7,30.5,384,346,1.21,,,
+ruch,kanal,tiktok,sesje_dziennie,2026-02-23,36.3,73.5,37.2,102.6,14,18,2.96,,,
+ruch,kanal,tiktok,sesje_dziennie,2026-03-13,73.5,117.3,43.8,59.6,18,24,2.96,,,
+ruch,kanal,tiktok,sesje_dziennie,2026-04-06,117.3,161.9,44.6,38.0,24,178,2.96,,,
+ruch,kanal,wyszukiwarka_bezplatna,sesje_dziennie,2024-11-11,95.2,125.7,30.5,32.0,41,171,4.23,,,
+ruch,kanal,wyszukiwarka_bezplatna,sesje_dziennie,2025-05-01,125.7,84.1,-41.7,-33.2,171,137,4.23,,,
+ruch,kanal,wyszukiwarka_bezplatna,sesje_dziennie,2025-11-03,103.6,132.5,28.9,27.9,49,63,4.23,,,
+ruch,kanal,wyszukiwarka_bezplatna,sesje_dziennie,2026-04-30,158.0,108.9,-49.1,-31.1,115,154,4.23,,,
+konwersja,kanal,wyszukiwarka_bezplatna,logowanie,2026-02-05,65.6,61.2,-4.4,-6.7,492,238,1.0,5930.0,-194.0,-24.4
+ruch,kampania,bezposrednie,sesje_dziennie,2024-11-04,44.9,59.4,14.5,32.2,34,173,1.85,,,
+ruch,kampania,bezposrednie,sesje_dziennie,2025-04-26,59.4,42.6,-16.8,-28.3,173,170,1.85,,,
+ruch,kampania,bezposrednie,sesje_dziennie,2025-10-13,42.6,55.9,13.3,31.1,170,29,1.85,,,
+ruch,kampania,bezposrednie,sesje_dziennie,2026-01-05,66.3,83.1,16.9,25.4,55,137,1.85,,,
+konwersja,kampania,bezposrednie,usluga,2026-04-10,52.9,50.1,-2.8,-5.3,556,174,1.0,11714.0,-125.0,-21.6
+konwersja,kampania,bezposrednie,logowanie,2026-03-21,69.2,63.0,-6.2,-9.0,536,194,1.0,5533.0,-258.0,-39.9
+konwersja,kampania,bezposrednie,sesja_do_platn,2026-02-21,22.0,19.5,-2.4,-11.1,508,222,1.02,15987.0,-390.0,-52.7
+ruch,kampania,bing_organic,sesje_dziennie,2026-01-05,4.6,7.1,2.6,56.7,258,131,1.11,,,
+ruch,kampania,bing_organic,sesje_dziennie,2026-05-16,7.1,4.4,-2.7,-38.4,131,138,1.11,,,
+ruch,kampania,google_organic,sesje_dziennie,2024-11-11,90.6,119.4,28.8,31.8,41,171,4.11,,,
+ruch,kampania,google_organic,sesje_dziennie,2025-05-01,119.4,80.1,-39.3,-32.9,171,137,4.11,,,
+ruch,kampania,google_organic,sesje_dziennie,2025-11-03,98.7,127.0,28.3,28.7,49,63,4.11,,,
+ruch,kampania,google_organic,sesje_dziennie,2026-04-30,150.6,104.5,-46.1,-30.6,115,154,4.11,,,
+konwersja,kampania,google_organic,logowanie,2026-02-10,65.4,61.3,-4.1,-6.3,497,233,1.0,5596.0,-170.0,-21.8
+ruch,kampania,gs_brand,sesje_dziennie,2024-11-25,28.1,35.5,7.3,26.0,55,157,1.48,,,
+ruch,kampania,gs_brand,sesje_dziennie,2025-05-01,35.5,24.9,-10.6,-29.8,157,147,1.48,,,
+ruch,kampania,gs_brand,sesje_dziennie,2025-09-25,24.9,31.5,6.6,26.7,147,53,1.48,,,
+ruch,kampania,gs_brand,sesje_dziennie,2025-11-17,31.5,39.7,8.2,26.0,53,49,1.48,,,
+konwersja,kampania,gs_brand,logowanie,2026-03-19,68.9,62.2,-6.7,-9.7,534,196,1.0,3262.0,-164.0,-25.1
+konwersja,kampania,gs_brand,sesja_do_platn,2026-05-22,21.2,17.8,-3.4,-16.0,598,132,1.0,5152.0,-174.0,-39.6
+ruch,kampania,gs_generic_l4,sesje_dziennie,2024-11-04,27.0,34.8,7.8,28.8,34,178,2.1,,,
+ruch,kampania,gs_generic_l4,sesje_dziennie,2025-05-01,34.8,23.5,-11.2,-32.3,178,143,2.1,,,
+ruch,kampania,gs_generic_l4,sesje_dziennie,2026-04-30,36.7,23.8,-12.9,-35.1,164,154,2.1,,,
+ruch,kampania,gs_generic_lekarz_online,sesje_dziennie,2024-11-04,35.8,45.6,9.7,27.2,34,178,2.59,,,
+ruch,kampania,gs_generic_lekarz_online,sesje_dziennie,2025-11-03,34.9,46.6,11.7,33.4,186,192,2.59,,,
+ruch,kampania,gs_generic_lekarz_online,sesje_dziennie,2026-05-14,46.6,34.9,-11.7,-25.2,192,140,2.59,,,
+ruch,kampania,meta_prosp_l4_szybko,sesje_dziennie,2025-11-17,37.6,78.2,40.5,107.7,14,21,3.9,,,
+ruch,kampania,meta_prosp_l4_szybko,sesje_dziennie,2025-12-08,78.2,112.0,33.8,43.2,21,25,3.9,,,
+ruch,kampania,meta_prosp_l4_szybko,sesje_dziennie,2026-01-02,112.0,161.0,49.0,43.8,25,17,3.9,,,
+ruch,kampania,meta_prosp_l4_szybko,sesje_dziennie,2026-01-19,161.0,220.7,59.7,37.1,17,100,3.9,,,
+ruch,kampania,meta_rmkt_koszyk,sesje_dziennie,2024-12-10,7.8,10.2,2.4,30.8,70,139,1.0,,,
+ruch,kampania,meta_rmkt_koszyk,sesje_dziennie,2025-11-04,7.7,11.8,4.1,52.9,190,60,1.0,,,
+ruch,kampania,meta_rmkt_koszyk,sesje_dziennie,2026-01-03,11.8,17.2,5.5,46.7,60,271,1.0,,,
+konwersja,kampania,meta_rmkt_koszyk,usluga,2026-04-04,58.6,50.2,-8.4,-14.3,550,180,1.0,3076.0,-98.0,-16.3
+konwersja,kampania,meta_rmkt_koszyk,logowanie,2026-03-26,68.6,61.0,-7.6,-11.1,541,189,1.0,1475.0,-78.0,-12.3
+konwersja,kampania,meta_rmkt_koszyk,sesja_do_platn,2026-03-20,27.3,19.1,-8.3,-30.3,535,195,1.0,3379.0,-280.0,-43.1
+ruch,kampania,program_polecen,sesje_dziennie,2025-10-20,5.7,7.4,1.7,30.5,384,346,1.21,,,
+ruch,kampania,tt_prosp_l4_15min,sesje_dziennie,2026-02-23,36.3,73.5,37.2,102.6,14,18,2.96,,,
+ruch,kampania,tt_prosp_l4_15min,sesje_dziennie,2026-03-13,73.5,117.3,43.8,59.6,18,24,2.96,,,
+ruch,kampania,tt_prosp_l4_15min,sesje_dziennie,2026-04-06,117.3,161.9,44.6,38.0,24,178,2.96,,,
+ruch,strona_wejscia,/,sesje_dziennie,2025-05-01,123.8,88.5,-35.4,-28.6,150,158,2.82,,,
+ruch,strona_wejscia,/,sesje_dziennie,2026-01-05,130.9,165.0,34.1,26.0,63,116,2.82,,,
+konwersja,strona_wejscia,/,logowanie,2026-02-08,64.9,58.5,-6.5,-10.0,495,235,1.0,10433.0,-499.0,-63.6
+konwersja,strona_wejscia,/,sesja_do_platn,2026-03-30,15.6,13.5,-2.1,-13.5,545,185,1.01,24107.0,-510.0,-82.6
+ruch,strona_wejscia,/blog/e-recepta-jak-zrealizowac,sesje_dziennie,2025-05-01,6.1,4.3,-1.8,-29.3,212,172,1.18,,,
+ruch,strona_wejscia,/blog/e-recepta-jak-zrealizowac,sesje_dziennie,2025-10-20,4.3,6.7,2.4,56.0,172,255,1.18,,,
+ruch,strona_wejscia,/blog/e-recepta-jak-zrealizowac,sesje_dziennie,2026-07-02,6.7,4.3,-2.4,-35.3,255,91,1.18,,,
+ruch,strona_wejscia,/blog/ile-trwa-l4-na-przeziebienie,sesje_dziennie,2025-05-01,9.8,6.8,-3.1,-31.0,212,124,1.27,,,
+ruch,strona_wejscia,/blog/ile-trwa-l4-na-przeziebienie,sesje_dziennie,2025-09-02,6.8,9.3,2.5,37.0,124,90,1.27,,,
+ruch,strona_wejscia,/blog/ile-trwa-l4-na-przeziebienie,sesje_dziennie,2025-12-01,9.3,12.7,3.4,36.3,90,150,1.27,,,
+ruch,strona_wejscia,/blog/ile-trwa-l4-na-przeziebienie,sesje_dziennie,2026-04-30,12.7,7.9,-4.7,-37.3,150,154,1.27,,,
+ruch,strona_wejscia,/konto,sesje_dziennie,2025-11-03,8.6,14.2,5.6,65.9,192,73,1.11,,,
+ruch,strona_wejscia,/konto,sesje_dziennie,2026-01-15,14.2,17.9,3.7,25.8,73,114,1.11,,,
+ruch,strona_wejscia,/konto,sesje_dziennie,2026-05-09,17.9,13.1,-4.7,-26.6,114,145,1.11,,,
+ruch,strona_wejscia,/lekarz-online,sesje_dziennie,2025-11-03,115.9,152.5,36.6,31.6,186,179,3.82,,,
+konwersja,strona_wejscia,/lekarz-online,logowanie,2026-03-14,62.0,56.9,-5.1,-8.2,529,201,1.0,4305.0,-163.0,-24.3
+ruch,strona_wejscia,/polecenie,sesje_dziennie,2025-10-20,6.0,7.8,1.8,30.6,384,346,1.25,,,
+ruch,strona_wejscia,/specjalisci,sesje_dziennie,2025-10-20,15.6,19.9,4.2,27.1,384,192,1.6,,,
+ruch,strona_wejscia,/zwolnienie-l4-online,sesje_dziennie,2025-11-09,35.9,121.6,85.8,239.1,192,29,3.63,,,
+ruch,strona_wejscia,/zwolnienie-l4-online,sesje_dziennie,2025-12-08,121.6,169.9,48.2,39.7,29,28,3.63,,,
+ruch,strona_wejscia,/zwolnienie-l4-online,sesje_dziennie,2026-01-05,169.9,256.9,87.1,51.3,28,35,3.63,,,
+ruch,strona_wejscia,/zwolnienie-l4-online,sesje_dziennie,2026-02-09,256.9,359.9,103.0,40.1,35,35,3.63,,,
+konwersja,strona_wejscia,/zwolnienie-l4-online,usluga,2025-11-03,32.5,27.0,-5.5,-16.8,398,123,1.05,26557.0,-373.0,-91.1
+konwersja,strona_wejscia,/zwolnienie-l4-online,usluga,2026-03-06,27.0,24.6,-2.4,-8.9,123,209,1.05,87814.0,-513.0,-73.7
+konwersja,strona_wejscia,/zwolnienie-l4-online,termin,2025-12-07,61.8,58.4,-3.5,-5.6,432,298,1.0,27710.0,-402.0,-40.5
+konwersja,strona_wejscia,/zwolnienie-l4-online,logowanie,2025-10-29,65.0,58.1,-6.9,-10.6,393,337,1.04,16872.0,-843.0,-75.0
+konwersja,strona_wejscia,/zwolnienie-l4-online,sesja_do_platn,2025-12-03,9.3,6.7,-2.5,-27.3,428,118,1.1,33384.0,-844.0,-214.7
