@@ -73,7 +73,24 @@ Reguła `dane/` w `.gitignore` projektu wyklucza każdy folder o tej nazwie, tak
 1. **Kohorty** po scaleniu części retencji przez sesję prowadzącą. Potrzebne: kohorty dzienne z filtrami (źródło pozyskania, urządzenie i przeglądarka, pierwsza usługa, zniżka i TelemediGO, status pierwszego zamówienia), powroty w 30, 60 i 90 dniach, zamówienia i marża na pacjenta, zdarzenia retencji na osi. Eksport dojdzie jako nowa sekcja `analiza/b_eksport.py`.
 2. **Po zakupie** oraz tory „retencja” i „obsługa pacjenta” na osi zdarzeń, z plików sesji retencji (`a5r_zdarzenia.csv`, `notatki/a5_retencja.md`) po ich przyjęciu.
 3. **Wynik biznesu, Priorytety, Czego nie wiemy** po punkcie C. Przy ekonomii kampanii obok wynik według sesji płatności, przy CRM okno 24 godzin i obok 7 dni (PLAN.md, punkt B).
-4. **Próbna publikacja we wtorek wieczorem** (dopisek Kuby): na chwilę publiczne repozytorium, sprawdzenie linku, powrót do prywatnego. Uwaga techniczna: GitHub Pages bez własnego skryptu publikacji serwuje tylko główny folder repozytorium albo folder `/docs`, a strona leży w `narzedzie/`. Trzeba więc albo dodać prosty skrypt publikacji (GitHub Actions) wskazujący `narzedzie/`, albo użyć hostingu, który pozwala wskazać folder. Wybór hostingu należy do Kuby.
+4. **Próbna publikacja we wtorek wieczorem** (dopisek Kuby): na chwilę publiczne repozytorium, sprawdzenie linku, powrót do prywatnego. Hosting jest już wybrany (sekcja 9). Plik publikacji jest gotowy, a reszta to akcje Kuby na GitHubie.
+
+## 9. Hosting: GitHub Pages (decyzja Kuby przekazana przez sesję prowadzącą, 2026-10-19)
+
+- Kuba wybrał GitHub Pages z jednego repozytorium w neutralnej organizacji. Wpis: `DECYZJE.md`, „hosting narzędzia i repozytorium”, oraz `CLAUDE.md`, punkt 10.
+- Adres będzie pod podścieżką, w rodzaju `https://<organizacja>.github.io/<repozytorium>/`. Sprawdzone: wszystkie ścieżki na stronie są względne (style, skrypty, biblioteka, pliki danych, także wczytywane później pliki lejka), a nawigacja jest na kotwicach.
+- **Plik publikacji `.github/workflows/pages.yml`** (dopisany do plików tej sesji przez sesję prowadzącą). Publikuje folder `narzedzie/` po każdym commicie na `master` albo po ręcznym uruchomieniu. Uprawnienia: `contents: read`, `pages: write`, `id-token: write`. Oficjalne akcje przypięte do commitów (wersje sprawdzone poleceniem `git ls-remote` 2026-10-19):
+
+  | Akcja | Wersja | Commit |
+  |---|---|---|
+  | `actions/checkout` | v7.0.1 | `3d3c42e5aac5ba805825da76410c181273ba90b1` |
+  | `actions/configure-pages` | v6.0.0 | `45bfe0192ca1faeb007ade9deae92b16b8254a0d` |
+  | `actions/upload-pages-artifact` | v5.0.0 | `fc324d3547104276b827a68afc52ff2a11cc49c9` |
+  | `actions/deploy-pages` | v5.0.1 | `368f82528645a54fb793d4d04e342629a3f51346` |
+
+- Plik sam nic nie publikuje. Zadziała dopiero po włączeniu Pages w ustawieniach repozytorium, ze źródłem „GitHub Actions”.
+- **Czego ta sesja nie robi:** zakłada organizację, tworzy zdalne repozytorium, dodaje `git remote`, robi push, zmienia widoczność ani włącza Pages. Każda z tych akcji jest osobna i wymaga zgody Kuby.
+- Uwaga przy publikacji: przy publikacji przez GitHub Actions GitHub nie przepuszcza strony przez Jekyll, więc plik `.nojekyll` nie jest potrzebny, ale nie szkodzi. Warunki z wcześniejszego wpisu zostają bez zmian: `noindex`, `robots.txt`, biblioteka w repozytorium, każdy plik danych poniżej 25 MB (największy ma 0,59 MB).
 
 ## 8. Propozycje wpisów do wspólnych notatek (scala sesja prowadząca)
 
