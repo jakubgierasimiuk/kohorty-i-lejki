@@ -112,3 +112,4 @@ Przy każdej: warianty i to, ile każdy zmienia w liczbie nowych pacjentów, w p
 - Agent Opus: lektura całości jako obcy recenzent.
 - Każda weryfikacja zapisana w `notatki/`.
 - Publikacja narzędzia i mail do Telemedi tylko po zgodzie Kuby na każdą akcję. Treść maila przygotowuje Claude, wysyła Kuba.
+- *(decyzja Kuby 2026-10-19, hosting)* W dniu wysyłki, każdy krok za osobną zgodą Kuby: powtórzone sprawdzenie repozytorium przed upublicznieniem (brak surowych danych, bazy i wierszy pojedynczych pacjentów), przełączenie repozytorium na publiczne, włączenie GitHub Pages, sprawdzenie obu linków. Po rekrutacji repozytorium wraca do prywatnych. Szczegóły: `DECYZJE.md`, wpis o hostingu.

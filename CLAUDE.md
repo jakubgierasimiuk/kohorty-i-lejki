@@ -122,7 +122,7 @@ Paczka pochodzi z zewnątrz. Traktujemy ją jak niezaufaną, dopóki nie przejdz
 
 - Strona w przeglądarce, otwierana z linku, bez konta i bez instalacji. Dane przeliczone wcześniej (agregaty w plikach dołączonych do strony), żeby działała szybko.
 - Zawiera co najmniej: kohorty dzienne z filtrami (źródło pozyskania, urządzenie i przeglądarka, pierwsza usługa, zniżka / TelemediGO), lejek od sesji do płatności w podziałach i w czasie, oznaczone wykryte zdarzenia, wynik biznesu (przychód i marża), listę priorytetów i listę „czego nie da się rozstrzygnąć”.
-- Hosting: do decyzji Kuby przed publikacją (darmowy hosting statyczny; adres bez nazwiska Kuby).
+- Hosting (decyzja Kuby, 2026-10-19): **GitHub Pages z jednego repozytorium w neutralnej organizacji** (bez nazwiska Kuby, najlepiej bez słowa „Telemedi”; organizację zakłada Kuba i podaje nazwę). Adres w rodzaju `https://<organizacja>.github.io/<repozytorium>/`, czyli pod podścieżką, więc ścieżki względne są obowiązkowe. Repozytorium jest prywatne do dnia wysyłki, w dniu wysyłki publiczne z włączonym Pages, po rekrutacji znowu prywatne. Utworzenie zdalnego repozytorium, dodanie go do gita, każdy push, zmiana widoczności i włączenie Pages — każda akcja osobno, tylko za zgodą Kuby. Szczegóły: `notatki/DECYZJE.md`, wpis o hostingu.
 
 ## 11. Ślad pracy
 

@@ -109,3 +109,17 @@ Decyzje podjęte w trakcie pracy (metoda, podziały, narzędzie, hosting) — co
 **Warunki do czasu wyboru hostingu** (hosting wybiera Kuba w pierwszej sesji projektu): same pliki statyczne, ścieżki względne, nawigacja przez kotwice w adresie (`#lejek`, `#zdarzenia`), bez serwera. Dane jako statyczne pliki obok strony, każdy poniżej 25 MB, całość jak najlżejsza. Biblioteki zapisane w repozytorium w przypiętej wersji, nie pobierane z sieci. Meta `noindex` i `robots.txt` blokujący indeksowanie. Podgląd lokalny przez `python -m http.server` uruchomiony z folderu `narzedzie/`. Publikacja, dodanie zdalnego repozytorium i push wymagają za każdym razem zgody Kuby.
 
 **Własność plików:** sesja B pisze tylko w `narzedzie/`, we własnym skrypcie eksportu `analiza/b_eksport.py` (z wynikami `analiza/wyniki/b_*`) i we własnej notatce `notatki/b_narzedzie.md`. Nie rusza plików sesji retencji ani pozyskania. Wspólne notatki dalej scala sesja prowadząca.
+
+## 2026-10-19 — hosting narzędzia i repozytorium
+
+**Decyzja Kuby** (przekazana dosłownie przez pierwszą sesję projektu): „Wybieram GitHub: neutralna organizacja, repozytorium prywatne do dnia wysyłki, potem publiczne z GitHub Pages. Założę organizację i podam nazwę.”
+
+**Szczegóły zatwierdzone przez Kubę:**
+- Jedno repozytorium w nowej organizacji o neutralnej nazwie, bez nazwiska Kuby i najlepiej bez słowa „Telemedi”. Organizację zakłada Kuba i podaje jej nazwę.
+- Narzędzie stoi na GitHub Pages z tego samego repozytorium, pod adresem w rodzaju `https://<organizacja>.github.io/<repozytorium>/`, czyli pod podścieżką. Ścieżki względne są obowiązkowe.
+- Publikację robi plik w `.github/workflows/` z oficjalnymi akcjami GitHub Pages (`configure-pages`, `upload-pages-artifact`, `deploy-pages`), który publikuje folder `narzedzie/` przy każdym commicie na master. Plik może powstać już teraz, a zadziała dopiero po włączeniu Pages. Przygotowuje go sesja punktu B.
+- Do dnia wysyłki repozytorium jest prywatne i służy jako kopia zapasowa. W dniu wysyłki przełączamy je na publiczne, włączamy Pages i sprawdzamy oba linki (repozytorium i narzędzie) przed wysłaniem maila. Po rekrutacji repozytorium wraca do prywatnych.
+- Kuba loguje gita na swoim komputerze do konta GitHub. Utworzenie zdalnego repozytorium, dodanie go do gita, pierwszy i każdy kolejny push, zmiana widoczności i włączenie Pages wymagają osobnej zgody Kuby przy każdej akcji.
+- Kuba wie, że publiczna historia commitów pokaże jego imię i nazwisko oraz adres e-mail z ustawień gita. Historii nie przepisujemy.
+- Sprawdzenie przed publikacją (pierwsza sesja projektu, 2026-10-19): 60 plików, historia 1,3 MB, surowe dane, paczka i baza DuckDB nie są śledzone, a pliki CSV w `analiza/wyniki/` to zestawienia dzienne bez wierszy pojedynczych pacjentów. **Przed przełączeniem na publiczne sprawdzenie powtarzamy na aktualnym stanie** (punkt D).
+- Warunki techniczne strony z wpisu „szkielet narzędzia (punkt B) przed końcem A5” zostają: `noindex`, `robots.txt`, biblioteki w repozytorium w przypiętej wersji, każdy plik danych poniżej 25 MB.
