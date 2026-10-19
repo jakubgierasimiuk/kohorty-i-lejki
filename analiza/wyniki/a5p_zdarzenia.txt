@@ -1,4 +1,4 @@
-A5 POZYSKANIE — ZDARZENIA W LEJKU (2026-10-19 18:29), sesje zwykłe osób, które jeszcze nie kupowały
+A5 POZYSKANIE — ZDARZENIA W LEJKU (2026-10-19 18:39), sesje zwykłe osób, które jeszcze nie kupowały
 Metoda: podział binarny serii dziennych, kara 25.0, odcinek co najmniej 14 dni, najwyżej 6 zmian na serię;
 konwersja: zmiana co najmniej 1.0 punktu procentowego i 5.0% względnie; ruch: co najmniej 25.0% względnie.
 przed / po = poziom w sąsiednich odcinkach (konwersja w %, ruch w sesjach dziennie). Data = pierwszy dzień nowego poziomu.
@@ -201,11 +201,13 @@ Pełna lista: analiza\wyniki\a5p_zdarzenia.csv (245 wierszy).
 
 5a. Logowanie albo założenie konta (k3 / k2) w Safari na iOS wobec innych przeglądarek, osoby, które jeszcze
     nie kupowały. Okna: 60 dni przed 17.03.2026 (16.01–16.03), 60 dni po (17.03–15.05) i całe po (17.03–30.09).
-                     grupa  z_terminem_przed  przed  po_60_dni  po_do_30_09
-                iOS Safari            1763.0   66.2       45.1         45.6
-     iOS inne przegladarki            1307.0   64.4       61.2         60.0
-              macOS Safari             256.0   66.4       64.0         67.4
-                 pozostale            7066.0   64.8       63.8         63.9
+                               grupa  z_terminem_przed  przed  po_60_dni  po_do_30_09
+                          iOS Safari            1763.0   66.2       45.1         45.6
+               iOS inne przegladarki            1307.0   64.4       61.2         60.0
+                        macOS Safari             256.0   66.4       64.0         67.4
+                           pozostale            7066.0   64.8       63.8         63.9
+     razem wszystkie poza iOS Safari            8629.0   64.8       63.4         63.3
+    Wiersz „pozostale” = przeglądarki poza iOS i poza Safari na Mac; ostatni wiersz = wszystko poza Safari na iOS.
 
 5b. To samo w Safari na iOS według kanału (czy spadek jest w każdym kanale, czy to zmiana struktury ruchu)
                       kanal  z_terminem_przed  przed  z_terminem_po_60_dni  po_60_dni
@@ -256,6 +258,11 @@ Pełna lista: analiza\wyniki\a5p_zdarzenia.csv (245 wierszy).
              kto  przed    po  z_terminem_po  k5_do_k3_po  utracone_zamowienia_198_dni  na_30_dni
             nowi   66.1  45.6         4678.0         72.3                        695.0      105.3
      powracajacy  100.0 100.0         1681.0         90.5                          0.0        0.0
+    Sprawdzenie wrażliwości (po recenzji Codeksa): od spadku w Safari na iOS odejmujemy równoległą zmianę tego
+    kroku we wszystkich pozostałych przeglądarkach w tych samych okresach (różnica różnic), osoby, które jeszcze
+    nie kupowały.
+      spadek_ios_safari_pp  spadek_pozostalych_pp  utracone_zamowienia_po_odjeciu_tla  na_30_dni
+                      20.6                    2.0                               628.0       95.2
 
 5g. Start kampanii Meta na L4 (meta_prosp_l4_szybko, od 3.11.2025): lejek dwóch kampanii Meta od tego dnia
     i lejek strony /zwolnienie-l4-online z ruchem z Meta i TikToka i bez niego (osoby, które jeszcze nie kupowały).

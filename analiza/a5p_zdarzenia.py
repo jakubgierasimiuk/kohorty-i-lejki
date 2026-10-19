@@ -172,7 +172,13 @@ def weryfikacja(r, pokaz):
     pokaz(df(f"""
       SELECT grupa, sum(k2) FILTER (WHERE dzien_pl BETWEEN {przed}) z_terminem_przed,
              {stopa('k3', 'k2', przed)} przed, {stopa('k3', 'k2', po60)} po_60_dni, {stopa('k3', 'k2', po)} po_do_30_09
-      FROM sz WHERE NOT kupowal_wczesniej GROUP BY 1 ORDER BY 1"""))
+      FROM sz WHERE NOT kupowal_wczesniej GROUP BY 1
+      UNION ALL
+      SELECT 'razem wszystkie poza iOS Safari', sum(k2) FILTER (WHERE dzien_pl BETWEEN {przed}),
+             {stopa('k3', 'k2', przed)}, {stopa('k3', 'k2', po60)}, {stopa('k3', 'k2', po)}
+      FROM sz WHERE NOT kupowal_wczesniej AND grupa <> 'iOS Safari'
+      ORDER BY 1"""))
+    r("    Wiersz „pozostale” = przeglądarki poza iOS i poza Safari na Mac; ostatni wiersz = wszystko poza Safari na iOS.")
     r("\n5b. To samo w Safari na iOS według kanału (czy spadek jest w każdym kanale, czy to zmiana struktury ruchu)")
     pokaz(df(f"""
       SELECT kanal, sum(k2) FILTER (WHERE dzien_pl BETWEEN {przed}) z_terminem_przed, {stopa('k3', 'k2', przed)} przed,
@@ -228,6 +234,21 @@ def weryfikacja(r, pokaz):
              round((p0 - p1) * k2_po * dalej) utracone_zamowienia_198_dni,
              round((p0 - p1) * k2_po * dalej / 198 * 30, 1) na_30_dni
       FROM a ORDER BY 1"""))
+    r("    Sprawdzenie wrażliwości (po recenzji Codeksa): od spadku w Safari na iOS odejmujemy równoległą zmianę tego")
+    r("    kroku we wszystkich pozostałych przeglądarkach w tych samych okresach (różnica różnic), osoby, które jeszcze")
+    r("    nie kupowały.")
+    pokaz(df("""
+      WITH a AS (SELECT grupa = 'iOS Safari' ios,
+                        sum(k3) FILTER (WHERE dzien_pl BETWEEN '2025-10-01' AND '2026-03-16')
+                          / sum(k2) FILTER (WHERE dzien_pl BETWEEN '2025-10-01' AND '2026-03-16') p0,
+                        sum(k3) FILTER (WHERE dzien_pl >= '2026-03-17') / sum(k2) FILTER (WHERE dzien_pl >= '2026-03-17') p1,
+                        sum(k2) FILTER (WHERE dzien_pl >= '2026-03-17') k2_po,
+                        sum(k5) FILTER (WHERE dzien_pl >= '2026-03-17') / sum(k3) FILTER (WHERE dzien_pl >= '2026-03-17') dalej
+                 FROM sz WHERE NOT kupowal_wczesniej GROUP BY 1)
+      SELECT round(100 * (s.p0 - s.p1), 1) spadek_ios_safari_pp, round(100 * (r.p0 - r.p1), 1) spadek_pozostalych_pp,
+             round(((s.p0 - s.p1) - (r.p0 - r.p1)) * s.k2_po * s.dalej) utracone_zamowienia_po_odjeciu_tla,
+             round(((s.p0 - s.p1) - (r.p0 - r.p1)) * s.k2_po * s.dalej / 198 * 30, 1) na_30_dni
+      FROM a s, a r WHERE s.ios AND NOT r.ios"""))
 
     r("\n5g. Start kampanii Meta na L4 (meta_prosp_l4_szybko, od 3.11.2025): lejek dwóch kampanii Meta od tego dnia")
     r("    i lejek strony /zwolnienie-l4-online z ruchem z Meta i TikToka i bez niego (osoby, które jeszcze nie kupowały).")

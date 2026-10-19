@@ -1,4 +1,4 @@
-A5 POZYSKANIE — SEZON A WYDATKI NA KAMPANIE (2026-10-19 18:28), schemat `czyste`
+A5 POZYSKANIE — SEZON A WYDATKI NA KAMPANIE (2026-10-19 18:39), schemat `czyste`
 Nowy pacjent = N1 (ZALOZENIA.md 16), miesiąc = miesiąc pierwszego zakupu (czas polski). Źródło = Z1K (punkt 22).
 Kanały płatne: Google Ads (marka i ogólne), Meta (pozyskanie i remarketing), TikTok. Afiliacja (ranking lekarzy)
 osobno, bo płacimy prowizję za pacjenta, a nie za kliknięcie. Bezpłatne: wejścia bezpośrednie, bezpłatne
@@ -440,3 +440,9 @@ wyszukiwanie (Google i Bing), program poleceń, newsletter i SMS. Wydatki netto 
      rok 1: X 2024 - I 2025 wobec V - VIII 2025       1.37    1.20     1.06            1.06             1.21
      rok 2: X 2025 - I 2026 wobec V - VIII 2026       1.47    0.71     0.69            1.19             1.35
    Oba okresy porównania mają po 123 dni (X–I i V–VIII), więc stosunek liczb jest stosunkiem średnich dziennych.
+
+5c. To samo dla kampanii Meta z prawie stałym budżetem (meta_prosp_lekarz_online) i dla kliknięć Google Ads
+    (po recenzji Codeksa): nowi pacjenci kampanii (Z1K), jej wydatki, kliknięcia i koszt kliknięcia Google Ads.
+       rok  meta_lekarz_nowi_zima  meta_lekarz_nowi_lato  meta_lekarz_wydatki_zima_do_lata  google_klikniecia_zima_do_lata  google_koszt_klikniecia_zima_do_lata
+     rok 1                    351                    324                             1.053                           1.160                                 0.916
+     rok 2                    384                    326                             1.084                           1.144                                 1.040

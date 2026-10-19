@@ -1,4 +1,4 @@
-A5 POZYSKANIE — SESJE ZALOGOWANE OD WEJŚCIA (2026-10-19 18:26), schemat `czyste`
+A5 POZYSKANIE — SESJE ZALOGOWANE OD WEJŚCIA (2026-10-19 18:39), schemat `czyste`
 Kroki: k1 wybór usługi, k2 wybór terminu, k3 logowanie albo konto, k4 wejście na płatność, k5 płatność przyjęta.
 Zamówienie liczone jak powrót (ZALOZENIA.md 19): nieanulowane, chyba że opis mówi inaczej. Odstępy w UTC.
 
@@ -49,18 +49,18 @@ Zamówienie liczone jak powrót (ZALOZENIA.md 19): nieanulowane, chyba że opis 
                                  /polecenie           0                0.0            NaN                        0               0.0
                                /specjalisci           0                0.0            NaN                        0               0.0
             /blog/e-recepta-jak-zrealizowac           0                0.0            NaN                        0               0.0
-                     /specjalisci/kardiolog           0                0.0            NaN                        0               0.0
                   /specjalisci/endokrynolog           0                0.0            NaN                        0               0.0
+                     /specjalisci/kardiolog           0                0.0            NaN                        0               0.0
                       /zwolnienie-l4-online           0                0.0            NaN                     1245               5.1
             /blog/zapalenie-pecherza-objawy           0                0.0            NaN                        0               0.0
-                    /specjalisci/psychiatra           0                0.0            NaN                        0               0.0
                     /specjalisci/dermatolog           0                0.0            NaN                        0               0.0
+                    /specjalisci/psychiatra           0                0.0            NaN                        0               0.0
                              /lekarz-online           0                0.0            NaN                     2448               9.9
             /blog/bol-gardla-domowe-sposoby           0                0.0            NaN                        0               0.0
-          /blog/skierowanie-na-badania-krwi           0                0.0            NaN                        0               0.0
      /blog/tabletki-antykoncepcyjne-recepta           0                0.0            NaN                        0               0.0
-                     /specjalisci/ginekolog           0                0.0            NaN                        0               0.0
+          /blog/skierowanie-na-badania-krwi           0                0.0            NaN                        0               0.0
          /blog/ile-trwa-l4-na-przeziebienie           0                0.0            NaN                        0               0.0
+                     /specjalisci/ginekolog           0                0.0            NaN                        0               0.0
            /blog/antybiotyk-kiedy-potrzebny           0                0.0            NaN                        0               0.0
        /blog/teleporada-jak-sie-przygotowac           0                0.0            NaN                        0               0.0
 
@@ -73,15 +73,15 @@ Zamówienie liczone jak powrót (ZALOZENIA.md 19): nieanulowane, chyba że opis 
          crm_sms_przypomnienie        2875               13.0           22.7                     1328               5.4
                       gs_brand        1887                8.6           20.5                     2910              11.8
                  crm_go_upsell         306                1.4            0.0                        0               0.0
-                  bing_organic           0                0.0            NaN                        0               0.0
              tt_prosp_l4_15min           0                0.0            NaN                        0               0.0
-      gs_generic_lekarz_online           0                0.0            NaN                     1565               6.4
            gs_generic_erecepta           0                0.0            NaN                        0               0.0
-        gs_generic_specjalisci           0                0.0            NaN                        0               0.0
+      gs_generic_lekarz_online           0                0.0            NaN                     1565               6.4
+                  bing_organic           0                0.0            NaN                        0               0.0
                  gs_generic_l4           0                0.0            NaN                        0               0.0
+        gs_generic_specjalisci           0                0.0            NaN                        0               0.0
       meta_prosp_lekarz_online           0                0.0            NaN                        0               0.0
-               program_polecen           0                0.0            NaN                        0               0.0
               meta_rmkt_koszyk           0                0.0            NaN                      656               2.7
+               program_polecen           0                0.0            NaN                        0               0.0
           meta_prosp_l4_szybko           0                0.0            NaN                        0               0.0
       rankinglekarzy_affiliate           0                0.0            NaN                        0               0.0
 
@@ -95,8 +95,8 @@ Zamówienie liczone jak powrót (ZALOZENIA.md 19): nieanulowane, chyba że opis 
 
 3d. Przypomnienie o recepcie (crm_recepta_przypomnienie) i strona /recepta-online: co robią zalogowani od wejścia
                                     grupa  sesje  proc_z_usluga  z_terminem  proc_zamowienie_w_1_godz  proc_zamowienie_w_24_godz  proc_zamowienie_w_7_dni
-                 przypomnienie o recepcie   2920           21.0        28.0                       0.2                        2.1                     14.9
-     strona /recepta-online (inne zrodla)   2667           22.7        24.0                       0.0                        1.6                     18.2
+                 przypomnienie o recepcie   2920           21.0        28.0                       0.0                        0.3                      2.4
+     strona /recepta-online (inne zrodla)   2667           22.7        24.0                       0.0                        0.3                      3.0
 
 ====================================================================================================
 4. CO PACJENT ROBI PO SESJI ZALOGOWANEJ OD WEJŚCIA: ZAMÓWIENIE W INNEJ SESJI
@@ -104,11 +104,11 @@ Zamówienie liczone jak powrót (ZALOZENIA.md 19): nieanulowane, chyba że opis 
    Odsetek sesji, po których pacjent złożył zamówienie nieanulowane w ciągu 1 godziny, 24 godzin i 7 dni od wejścia.
    Tylko sesje z pełnymi 7 dniami obserwacji (do 23.09.2026). Według najdalszego kroku w sesji i grupy kampanii.
        najdalszy_krok zrodlo  sesje  proc_1_godz  proc_24_godz  proc_7_dni
-        1: bez kroków    crm   9335          0.0           2.3        14.3
-        1: bez kroków   inne   7956          0.0           0.9         9.2
-     2: wybrał usługę    crm   2388          0.3           1.0        17.6
-     2: wybrał usługę   inne   2018          0.1           1.1         9.6
-     3: wybrał termin    crm    107          0.0           0.0        29.4
+        1: bez kroków    crm   9335          0.0           0.4         2.6
+        1: bez kroków   inne   7956          0.0           0.5         5.4
+     2: wybrał usługę    crm   2388          0.0           0.2         2.8
+     2: wybrał usługę   inne   2018          0.0           0.6         5.5
+     3: wybrał termin    crm    107          0.0           0.0         4.7
 
 4b. Po ilu minutach od wejścia pada zamówienie, jeśli pada w ciągu 24 godzin (sesje z wyborem usługi)
            po_ilu  sesje
@@ -138,8 +138,9 @@ Zamówienie liczone jak powrót (ZALOZENIA.md 19): nieanulowane, chyba że opis 
       zamowienia_powtorne  proc_z_sesja_w_1_dzien_przed  proc_z_sesja_w_7_dni_przed  proc_z_sesja_w_30_dni_przed
                     21323                           0.5                         4.0                         16.5
 
-4c. Tło: jak często ci sami pacjenci składają zamówienie w dowolnych 24 godzinach (dni bez sesji zalogowanej
-    od wejścia). Liczone jako zamówienia nieanulowane na pacjento-dzień w okresie od pierwszego zakupu do 30.09.2026.
+4c. Tło: jak często ci sami pacjenci składają zamówienie w dowolnych 24 godzinach. Liczone jako zamówienia
+    powtórne nieanulowane na pacjento-dzień, wszystkie dni od pierwszego zakupu do 30.09.2026 (także dni z sesją
+    zalogowaną od wejścia; Codex policzył dla dni bez takich sesji 0,364 zamiast 0,375 — różnica pomijalna).
       pacjento_dni  zamowienia_powtorne  proc_szansa_zamowienia_na_dzien
          4905728.0              18399.0                             0.38
 

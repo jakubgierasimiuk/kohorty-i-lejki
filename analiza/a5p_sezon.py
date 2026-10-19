@@ -226,6 +226,27 @@ def main():
                    / (count(*) FILTER (WHERE p = 'lato2' AND kanal IN ('google_ads_marka', 'google_ads_ogolne'))), 2)
       FROM n"""))
     r("   Oba okresy porównania mają po 123 dni (X–I i V–VIII), więc stosunek liczb jest stosunkiem średnich dziennych.")
+    r("\n5c. To samo dla kampanii Meta z prawie stałym budżetem (meta_prosp_lekarz_online) i dla kliknięć Google Ads")
+    r("    (po recenzji Codeksa): nowi pacjenci kampanii (Z1K), jej wydatki, kliknięcia i koszt kliknięcia Google Ads.")
+    pokaz(df("""
+      WITH n AS (SELECT CASE WHEN m BETWEEN '2024-10' AND '2025-01' THEN 'zima1' WHEN m BETWEEN '2025-05' AND '2025-08' THEN 'lato1'
+                             WHEN m BETWEEN '2025-10' AND '2026-01' THEN 'zima2' WHEN m BETWEEN '2026-05' AND '2026-08' THEN 'lato2' END p,
+                        kampania FROM np),
+           w AS (SELECT CASE WHEN m BETWEEN '2024-10' AND '2025-01' THEN 'zima1' WHEN m BETWEEN '2025-05' AND '2025-08' THEN 'lato1'
+                             WHEN m BETWEEN '2025-10' AND '2026-01' THEN 'zima2' WHEN m BETWEEN '2026-05' AND '2026-08' THEN 'lato2' END p,
+                        kampania, wydatki, klikniecia FROM wyd),
+           r AS (SELECT * FROM (VALUES ('rok 1', 'zima1', 'lato1'), ('rok 2', 'zima2', 'lato2')) t(rok, z, l))
+      SELECT r.rok,
+             (SELECT count(*) FROM n WHERE p = r.z AND kampania = 'meta_prosp_lekarz_online') meta_lekarz_nowi_zima,
+             (SELECT count(*) FROM n WHERE p = r.l AND kampania = 'meta_prosp_lekarz_online') meta_lekarz_nowi_lato,
+             (SELECT round(sum(wydatki) FILTER (WHERE p = r.z) / sum(wydatki) FILTER (WHERE p = r.l), 3) FROM w
+              WHERE kampania = 'meta_prosp_lekarz_online') meta_lekarz_wydatki_zima_do_lata,
+             (SELECT round(sum(klikniecia) FILTER (WHERE p = r.z) / sum(klikniecia) FILTER (WHERE p = r.l), 3) FROM w
+              WHERE kampania LIKE 'gs%') google_klikniecia_zima_do_lata,
+             (SELECT round((sum(wydatki) FILTER (WHERE p = r.z) / sum(klikniecia) FILTER (WHERE p = r.z))
+                           / (sum(wydatki) FILTER (WHERE p = r.l) / sum(klikniecia) FILTER (WHERE p = r.l)), 3) FROM w
+              WHERE kampania LIKE 'gs%') google_koszt_klikniecia_zima_do_lata
+      FROM r ORDER BY 1"""))
 
     with open(WYNIK, "w", encoding="utf-8") as f:
         f.write("\n".join(linie) + "\n")

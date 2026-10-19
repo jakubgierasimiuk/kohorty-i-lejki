@@ -48,6 +48,7 @@ Najwięcej pacjentów tracimy na pierwszym kroku: dwie trzecie sesji w ogóle ni
 - W podziale na kanał: −2,99 i +0,66.
 - W podziale na kampanię: −2,44 i +0,11.
 - Zmiana w obrębie grup jest więc bliska zera albo dodatnia. Spadek bierze się z tego, że przybyło ruchu, który płaci rzadko.
+- Rozkład zależy od wyboru wag. Codex w wersji symetrycznej dostał dla przeglądarek −2,88 i +0,56, czyli ten sam kierunek. Wyniku +0,67 nie czytamy jako poprawy produktu, bo w obrębie przeglądarek zmieniają się też kanały i udział pacjentów powracających.
 
 **Przeglądarki wbudowane w aplikacje** (`a5p_lejek.txt`, sekcja 3, przeglądarka):
 - Udział Instagrama, Facebooka i TikToka w sesjach zwykłych urósł z 10,7% do 35,6%.
@@ -73,11 +74,12 @@ Metoda (`a5p_zdarzenia.py`):
 
 1. **17.03.2026 (wtorek): w Safari na iOS przestaje działać zakładanie konta.** Sprawdzenie: `a5p_zdarzenia.txt`, sekcja 5a–5f.
    - Krok konta po wyborze terminu, u osób, które jeszcze nie kupowały, spada z 66,2% (16.01–16.03.2026) do 45,1% (17.03–15.05.2026) i zostaje na 45,6% do 30.09.2026.
-   - Inne przeglądarki tego nie mają. Pozostałe spadają z 64,8% do 63,8%, inne przeglądarki na iOS z 64,4% do 61,2%, Safari na komputerach Mac z 66,4% do 64,0%.
-   - Spadek widać w każdym kanale. Na przykład wejścia bezpośrednie spadają z 68,0% do 46,4%, ogólne kampanie Google Ads z 65,3% do 39,8%, Meta (pozyskanie) z 65,1% do 42,4%. To nie jest zmiana struktury ruchu.
+   - Inne przeglądarki tego nie mają. Wszystkie poza Safari na iOS razem spadają z 64,8% do 63,4%. W tym przeglądarki poza iOS i Mac z 64,8% do 63,8%, inne przeglądarki na iOS z 64,4% do 61,2%, Safari na komputerach Mac z 66,4% do 64,0%.
+   - Spadek widać w każdym kanale poza TikTokiem, gdzie próba jest za mała (9 i 26 sesji z wyborem terminu). Na przykład wejścia bezpośrednie spadają z 68,0% do 46,4%, ogólne kampanie Google Ads z 65,3% do 39,8%, Meta (pozyskanie) z 65,1% do 42,4%. To nie jest zmiana struktury ruchu.
    - Psuje się zakładanie nowego konta, a nie logowanie. Zakładanie kont w Safari na iOS spada z 1 082 do 668 w 60 dniach. Logowania do istniejących kont stoją (659 i 619), zakupy powtórne też (574 i 586). W innych przeglądarkach zakładanie kont stoi (5 285 i 5 234).
    - Odpadnięci nie wracają później częściej: w ciągu 30 dni w tej samej przeglądarce kupuje 6,4% z nich, przed zdarzeniem 6,7%.
    - Szacunek: około 695 utraconych pierwszych zamówień od 17.03 do 30.09.2026, czyli około 105 na 30 dni. Szacunek zakłada, że bez zdarzenia Safari na iOS trzymałoby poziom z 1.10.2025–16.03.2026 (66,1%).
+   - Sprawdzenie wrażliwości (po recenzji Codeksa): po odjęciu równoległego spadku tego kroku w pozostałych przeglądarkach (2,0 punktu procentowego wobec 20,6 w Safari na iOS) wychodzi około 628 zamówień, czyli 95 na 30 dni. To nie jest liczba bezpowrotnie utraconych pacjentów, tylko zamówień w sesjach, w których doszło do wyboru terminu.
    - Przyczyny w danych nie widać. Pasuje do niej zmiana w formularzu rejestracji albo aktualizacja systemu iOS. Test i potrzebne informacje: sekcja 5.
 2. **3.11.2025: start kampanii Meta na L4** (`meta_prosp_l4_szybko`). Ruch rośnie skokami 17.11 i 8.12.2025 oraz 2.01 i 19.01.2026.
    - Średnio 183,7 sesji i 10,8 zamówienia dziennie, konwersja 5,89%, razem 3 594 zamówienia.
@@ -123,10 +125,11 @@ Liczby (`a5p_zalogowane.txt`):
   - Strony wejścia: `/konto` 66,9%, `/recepta-online` 16,0%, strona główna 15,7%, `/telemedigo` 1,4%. Zakupy powracających wchodzą też na `/lekarz-online` (9,9%) i `/zwolnienie-l4-online` (5,1%), a sesje zalogowane od wejścia nigdy.
   - Kampanie: newsletter reaktywacyjny 26,7%, wejścia bezpośrednie 23,9%, przypomnienie o recepcie 13,2%, bezpłatne wyszukiwanie 13,2%, SMS z przypomnieniem 13,0%, wyszukiwanie marki 8,6%, sprzedaż TelemediGO 1,4%. Z CRM (newsletter i SMS) jest więc 54,3%.
   - Wejścia z CRM są zalogowane od wejścia w 67–68% (reaktywacja 68,3%, recepta 67,2%, SMS 68,4%). Pozostałe 32% to sesje z krokiem konta, czyli sesje zakupu.
-  - **Przypomnienie o recepcie:** 2 920 sesji zalogowanych od wejścia. Usługę wybiera 21,0%. Zamówienie pada w ciągu 24 godzin po 2,1% z nich, a w ciągu 7 dni po 14,9%.
+  - **Przypomnienie o recepcie:** 2 920 sesji zalogowanych od wejścia. Usługę wybiera 21,0%. Zamówienie pada w ciągu 24 godzin po 0,3% z nich, a w ciągu 7 dni po 2,4%.
 - **Co pacjent robi potem** (sekcja 4):
-  - Po sesji zalogowanej od wejścia zamówienie w ciągu godziny pada prawie nigdy (0–0,3%), w ciągu doby po 0,9–2,3%, w ciągu 7 dni po 9,2–17,6%.
-  - Szansa zamówienia jest płaska przez dwa tygodnie: 0,45% w pierwszej dobie i 0,50–0,69% w kolejnych. Tło tych samych pacjentów wynosi 0,38% na dobę.
+  - Po sesji zalogowanej od wejścia zamówienie w ciągu godziny nie pada nigdy (0,0%), w ciągu doby po 0,2–0,6%, w ciągu 7 dni po 2,6–5,5% (po 4,7% sesji z wyborem terminu z CRM).
+  - Po wejściach z CRM to tyle co tło: tło tych samych pacjentów wynosi 0,38% na dobę, czyli około 2,7% w 7 dni, a po sesji z CRM 2,6–2,8%. Po wejściach z innych źródeł zamówienie pada dwa razy częściej niż tło (5,4–5,5%).
+  - Szansa zamówienia jest płaska przez dwa tygodnie: 0,45% w pierwszej dobie i 0,50–0,69% w kolejnych.
   - Gdyby to były nieudane próby zakupu, a pacjent obchodził problem (nowa sesja, inne urządzenie), zobaczylibyśmy skok zamówień w pierwszych minutach albo godzinach. Takiego skoku nie ma: tylko 17 sesji z wyborem usługi kończy się zamówieniem w ciągu doby, większość po 6–24 godzinach.
   - Odwrotnie: zamówienie powtórne poprzedza sesja zalogowana od wejścia tylko w 0,5% przypadków w ciągu doby, w 4,0% w ciągu 7 dni i w 16,5% w ciągu 30 dni.
 - **Czy kupują rzadziej niż podobni pacjenci** (sekcja 5). Punkt kontrolny: 30 dni po pierwszym zakupie. Do porównania biorę pacjentów bez żadnego zamówienia w dniach 1–30, a wynikiem jest powrót w dniach 31–90. Warstwy: okres, zgoda marketingowa, cel i status pierwszego zamówienia, kanał pozyskania.
@@ -134,13 +137,13 @@ Liczby (`a5p_zalogowane.txt`):
   - Bez niej: 30 637 pacjentów, powrót 11,9%, a po wyrównaniu warstw 13,2%.
   - W okresie 2: 16,3% wobec 12,0%.
   - Sprawdzenie wrażliwości, punkt kontrolny 60 dni, wynik w dniach 61–120: 8,6% wobec 7,7%. W okresie 2 po równo, 7,2% i 7,2%.
-  - Wniosek: pacjenci z takimi sesjami nie kupują rzadziej. Odwiedzenie strony samo świadczy jednak o zainteresowaniu, więc to porównanie nie wyklucza, że część ich zakupów przepadła.
+  - Wniosek: pacjenci z takimi sesjami nie kupują rzadziej. Odwiedzenie strony samo świadczy jednak o zainteresowaniu, więc to porównanie nie wyklucza, że część ich zakupów przepadła. Wynik dotyczy tylko pacjentów bez zamówienia w pierwszych 30 dniach. Codex sprawdził dwa dodatkowe warianty (z miesiącem kohorty w warstwach: 16,5% wobec 13,7%; z wyrównaniem dat kohort: 15,9% wobec 13,2%) i kierunek się nie odwraca.
 - **Czas od wyboru terminu do kroku konta** (sekcja 6, sekundy, UTC):
   - pierwsze zakupy: mediana 148, najmniej 35;
   - zakupy powtórne: mediana 83, najmniej 15, 10% sesji poniżej 28;
   - żaden zakup nie ma tego odstępu krótszego niż 11 sekund. Kilkadziesiąt sekund wskazuje na prawdziwe logowanie, a nie na automatyczny zapis;
   - w zakupie powtórnym krok konta nigdy nie jest założeniem nowego konta.
-  - **Podejrzane:** w zakupach powtórnych odstęp usługa → termin i odstęp termin → konto mają dokładnie ten sam rozkład (mediana 83, p10 28, p90 137 sekund). Wygląda to na cechę generatora danych, a nie na zachowanie ludzi. Długość logowania nie jest więc mocnym dowodem.
+  - **Podejrzane:** w zakupach powtórnych odstęp usługa → termin i odstęp termin → konto mają te same kwantyle (mediana 83, p10 28, p90 137 sekund), a rozkłady są bardzo podobne (Codex: nie identyczne). Wygląda to na cechę generatora danych, a nie na zachowanie ludzi. Długość logowania nie jest więc mocnym dowodem ani za prawdziwym logowaniem, ani przeciw niemu.
 
 **Materiał na listę niewiadomych (punkt C):**
 - **Odczytanie A — wizyty „sprawdzam konto”.** Pacjent wchodzi z newslettera, SMS-a albo zakładki `/konto`. Przegląda historię, receptę albo cennik i nie kupuje. Do zakupu przechodzi przez logowanie. Za tym przemawia: krok odpadania przed kontem, brak skoku zakupów po sesji, częstsze powroty tych pacjentów.
@@ -150,7 +153,7 @@ Liczby (`a5p_zalogowane.txt`):
   - W danych: poprosić o logi błędów i odsłon dla sesji zalogowanych od wejścia, zwłaszcza na kroku wyboru terminu, oraz o znacznik „zalogowany na wejściu” w analityce.
 - **Dane wejściowe do wariantu pesymistycznego** (sekcja 7; wartość w marży policzy sesja prowadząca):
   - W grze: 4 557 sesji zalogowanych od wejścia z wyborem usługi, po których pacjent nie złożył zamówienia w ciągu 24 godzin. To 3 890 pacjentów: 1 651 sesji w okresie 1 i 2 906 w okresie 2. Węższa wersja: 112 sesji z wyborem terminu.
-  - Przeliczniki: z wyboru usługi do płatności przechodzi 40,9% sesji (wszyscy), z wyboru terminu 56,9%, a sesja powracającego z krokiem konta płaci w 90,5%.
+  - Przeliczniki: z wyboru usługi do płatności przechodzi 40,9% sesji (wszyscy), z wyboru terminu 56,9%, a sesja powracającego z krokiem konta płaci w 90,5%. Ostatni przelicznik jest wysoki częściowo z definicji grupy (sesje powracających bez kroku konta trafiają do sesji zalogowanych od wejścia), więc nadaje się tylko jako górna granica.
   - Przykład w zamówieniach: 4 557 × 40,9% ≈ 1 864 zamówień w dwa lata. Górna granica: 4 557 × 90,5% ≈ 4 124.
   - Średnia marża zamówienia powtórnego przed kosztem pozyskania: 38,20 zł w okresie 1 i 33,99 zł w okresie 2, a dla zamówień nieanulowanych 39,86 zł i 35,40 zł. To przychód po zwrotach minus koszt lekarza, bez TelemediGO.
   - Zastrzeżenie: ci pacjenci i tak kupują później częściej niż podobni. Część „utraconych” zakupów mogła się tylko przesunąć.
@@ -162,7 +165,7 @@ Liczby (`a5p_zalogowane.txt`):
 **W skrócie:**
 - W kanałach opartych na wyszukiwaniu widać wyraźny sezon: zimą więcej nowych pacjentów niż latem. Dotyczy to wyszukiwania bezpłatnego i płatnego.
 - Wydatki rosły jednak w tych samych miesiącach. Wzrostu od października 2024 do stycznia 2025 nie da się rozdzielić na sezon i wydatki.
-- Kampania Meta ze stałym budżetem sezonu nie ma.
+- Kampania Meta z prawie stałym budżetem ma co najwyżej słaby sezon (+8% pacjentów zimą przy +5% wydatków), dużo słabszy niż kanały bezpłatne.
 - Przyczyny nie przesądzamy.
 
 Liczby (`a5p_sezon.txt`):
@@ -178,7 +181,8 @@ Liczby (`a5p_sezon.txt`):
   - Rok 1: kanały bezpłatne ×1,37, płatne ×1,20, wydatki ×1,06. Google Ads daje ×1,21 nowych pacjentów przy wydatkach na Google ×1,06.
   - Rok 2: bezpłatne ×1,47. Google Ads ×1,35 przy wydatkach ×1,19.
   - Płatne w roku 2 mają ×0,71, bo latem 2026 działają już Meta na L4 i TikTok.
-- **Meta ze stałym budżetem** (`meta_prosp_lekarz_online`, sekcja 2): wydatki 4,2–5,9 tys. zł miesięcznie przez dwa lata. Daje 70–112 nowych pacjentów miesięcznie, bez wzorca zima–lato. Reklama, która sama dociera do ludzi, nie ma sezonu. Wyszukiwanie, które zależy od tego, czego ludzie szukają, ma.
+- **Meta z prawie stałym budżetem** (`meta_prosp_lekarz_online`, sekcje 2 i 5c): wydatki 4,2–5,9 tys. zł miesięcznie przez dwa lata, 70–112 nowych pacjentów miesięcznie. Zimą (X 2024 – I 2025) 351 nowych pacjentów wobec 324 latem (V–VIII 2025), czyli +8,3% przy wydatkach wyższych o 5,3%. W roku 2: 384 wobec 326 przy wydatkach wyższych o 8,4%. Ta kampania nie pokazuje sezonu porównywalnego z kanałami bezpłatnymi (×1,37), ale braku sezonu to porównanie nie dowodzi (uwaga Codeksa). Pasuje to do obrazu: reklama, która sama dociera do ludzi, zależy od sezonu słabiej niż wyszukiwanie.
+- **Google Ads zimą: tańsze kliknięcia** (sekcja 5c, uwaga Codeksa). W roku 1 zimą jest 16,0% więcej kliknięć przy wydatkach wyższych o 6,3%, a koszt kliknięcia jest o 8,4% niższy. Część przewagi zimowej Google Ads to więc tańszy ruch. Nowi pacjenci na kliknięcie rosną zimą o dalsze około 4,7% (1,21 / 1,16). W roku 2 koszt kliknięcia zimą jest o 4,0% wyższy niż latem.
 - **Cel pierwszej wizyty** (sekcja 4): w kanałach bezpłatnych udział L4 waha się od 16,8% do 24,0% bez wzorca zimowego. Sezon podnosi wszystkie cele wizyt naraz, a nie tylko L4.
 - **Wyszukiwanie marki** (sekcja 3): wyświetlenia kampanii na hasło „Telemedi” rosną z 4 054 (X 2024) do 5 625 (I 2025), spadają do 4 472 (VIII 2025) i rosną do 8 765 (I 2026). Rok do roku w styczniu to +56%.
 - **Rok do roku** (sekcja 5): nowi z kanałów bezpłatnych latem 1 906 → 2 070 (+8,6%), zimą 2 606 → 3 044 (+16,8%). Z płatnych latem 2 494 → 5 785, zimą 2 985 → 4 135. Wzrost liczby nowych pacjentów rok do roku pochodzi więc głównie z kanałów płatnych.
@@ -233,7 +237,9 @@ Liczby (`a5p_sezon.txt`):
 
 ## 7. Recenzja Codeksa (model Sol)
 
-Polecenie: `notatki/recenzje/a5p_codex_prompt.md`. Odpowiedź: `notatki/recenzje/a5p_codex_odpowiedz.md`. Podsumowanie i co z tym zrobiliśmy: `notatki/recenzje/a5p_codex.md`.
+**Poprawka w trakcie recenzji:** Codex wskazał błąd w `a5p_zalogowane.py` (sekcje 3d i 4). Odsetki zamówień po sesji zalogowanej od wejścia liczyły się tylko wśród sesji, po których pacjent kiedykolwiek złożył zamówienie. Sesje bez żadnego późniejszego zamówienia wypadały z mianownika (średnia pomija wartości puste). Przykład: po wejściach z CRM bez kroków wyszło 14,3% zamówień w 7 dni, a poprawnie jest 2,6%. Poprawione (brak zamówienia liczymy jako „nigdy”), liczby w sekcji 3 tej notatki są już po poprawce. Sekcje 4b2 i 7 miały poprawny mianownik od początku.
+
+Polecenie: `notatki/recenzje/a5p_codex_prompt.md`. Odpowiedź: `notatki/recenzje/a5p_codex_odpowiedz.md`. Podsumowanie i co z tym zrobiliśmy: `notatki/recenzje/a5p_codex.md`. Codex potwierdził własnym kodem wszystkie pięć zestawów liczb; poprawki i zawężenia są już w tej notatce.
 
 ## 8. Dopiski i decyzje Kuby
 

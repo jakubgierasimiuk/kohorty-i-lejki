@@ -86,6 +86,7 @@ def main():
     con.execute("CREATE TEMP TABLE zl AS SELECT * FROM sk WHERE typ = 'zalogowana_od_wejscia'")
     # następne zamówienie pacjenta po sesji (w innej sesji), nieanulowane i dowolne
     con.execute("""
+      -- brak późniejszego zamówienia = NULL; przy odsetkach zamieniamy go na „nigdy” (coalesce), żeby został w mianowniku
       CREATE TEMP TABLE zl_po AS
       SELECT zl.session_id,
              min(epoch(timezone('Europe/Warsaw', z.created_at)) - epoch(timezone('UTC', zl.started_at_utc)))
@@ -186,9 +187,9 @@ def main():
       SELECT CASE WHEN kampania = 'crm_recepta_przypomnienie' THEN 'przypomnienie o recepcie'
                   WHEN landing_page = '/recepta-online' THEN 'strona /recepta-online (inne zrodla)' END grupa,
              count(*) sesje, round(100 * avg(k1), 1) proc_z_usluga, sum(k2) z_terminem,
-             round(100 * avg((p.sek_do_zamowienia <= 3600)::INT), 1) proc_zamowienie_w_1_godz,
-             round(100 * avg((p.sek_do_zamowienia <= 86400)::INT), 1) proc_zamowienie_w_24_godz,
-             round(100 * avg((p.sek_do_zamowienia <= 7 * 86400)::INT), 1) proc_zamowienie_w_7_dni
+             round(100 * avg((coalesce(p.sek_do_zamowienia, 1e12) <= 3600)::INT), 1) proc_zamowienie_w_1_godz,
+             round(100 * avg((coalesce(p.sek_do_zamowienia, 1e12) <= 86400)::INT), 1) proc_zamowienie_w_24_godz,
+             round(100 * avg((coalesce(p.sek_do_zamowienia, 1e12) <= 7 * 86400)::INT), 1) proc_zamowienie_w_7_dni
       FROM zl JOIN zl_po p USING (session_id)
       WHERE kampania = 'crm_recepta_przypomnienie' OR landing_page = '/recepta-online' GROUP BY 1 ORDER BY 1""")
 
@@ -202,9 +203,9 @@ def main():
       SELECT CASE WHEN k2 = 1 THEN '3: wybrał termin' WHEN k1 = 1 THEN '2: wybrał usługę' ELSE '1: bez kroków' END najdalszy_krok,
              CASE WHEN utm_medium IN ('email', 'sms') THEN 'crm' ELSE 'inne' END zrodlo,
              count(*) sesje,
-             round(100 * avg((p.sek_do_zamowienia <= 3600)::INT), 1) proc_1_godz,
-             round(100 * avg((p.sek_do_zamowienia <= 86400)::INT), 1) proc_24_godz,
-             round(100 * avg((p.sek_do_zamowienia <= 7 * 86400)::INT), 1) proc_7_dni
+             round(100 * avg((coalesce(p.sek_do_zamowienia, 1e12) <= 3600)::INT), 1) proc_1_godz,
+             round(100 * avg((coalesce(p.sek_do_zamowienia, 1e12) <= 86400)::INT), 1) proc_24_godz,
+             round(100 * avg((coalesce(p.sek_do_zamowienia, 1e12) <= 7 * 86400)::INT), 1) proc_7_dni
       FROM zl JOIN zl_po p USING (session_id)
       WHERE dzien_pl <= DATE '2026-09-23' GROUP BY 1, 2 ORDER BY 1, 2""")
     r("\n4b. Po ilu minutach od wejścia pada zamówienie, jeśli pada w ciągu 24 godzin (sesje z wyborem usługi)")
@@ -231,8 +232,9 @@ def main():
              round(100 * avg((EXISTS (SELECT 1 FROM zl WHERE zl.user_id = z.user_id AND zl.started_at_pl < z.created_at
                                       AND zl.started_at_pl >= z.created_at - INTERVAL 30 DAY))::INT), 1) proc_z_sesja_w_30_dni_przed
       FROM zam z WHERE z.nr > 1 AND z.status <> 'cancelled' AND z.created_at >= TIMESTAMP '2024-11-01'""")
-    r("\n4c. Tło: jak często ci sami pacjenci składają zamówienie w dowolnych 24 godzinach (dni bez sesji zalogowanej")
-    r("    od wejścia). Liczone jako zamówienia nieanulowane na pacjento-dzień w okresie od pierwszego zakupu do 30.09.2026.")
+    r("\n4c. Tło: jak często ci sami pacjenci składają zamówienie w dowolnych 24 godzinach. Liczone jako zamówienia")
+    r("    powtórne nieanulowane na pacjento-dzień, wszystkie dni od pierwszego zakupu do 30.09.2026 (także dni z sesją")
+    r("    zalogowaną od wejścia; Codex policzył dla dni bez takich sesji 0,364 zamiast 0,375 — różnica pomijalna).")
     tab("""
       WITH p AS (SELECT DISTINCT user_id FROM zl),
            dni AS (SELECT k.user_id, date_diff('day', k.d0, DATE '2026-09-30') dni FROM koh k JOIN p USING (user_id)),
