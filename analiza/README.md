@@ -8,6 +8,7 @@ Wszystkie skrypty uruchamiamy z głównego folderu projektu. Wymagają rozpakowa
 | A2 | `python -I analiza/a2_jakosc.py` | Raport jakości danych. Tylko czyta schemat `surowe`. | `wyniki/a2_jakosc.txt` |
 | A2 | `python -I analiza/a2_czyste.py` | Buduje schemat `czyste`: zamówienia bez duplikatów, bez 22 kont testowych i ich sesji. Decyzje: `notatki/ZALOZENIA.md`, punkty 6–9. | `wyniki/a2_czyste.txt` |
 | A2 | `python -I analiza/a2_dyskusja.py` | Wyliczenia do trzech otwartych spraw z przeglądu A2 (sesje zalogowane, pierwsze tygodnie, kody rabatowe). Czyta `czyste`. | `wyniki/a2_dyskusja.txt` |
+| A3 | `python -I analiza/a3_dashboard.py` | Odtworzenie dashboardu: siatka 864 kombinacji definicji na danych surowych, kombinacje zgodne z czterema liczbami, mostek do danych oczyszczonych. | `wyniki/a3_dashboard.txt`, `wyniki/a3_siatka.csv` |
 
 Plik bazy jest poza repozytorium. Krok A1 usuwa go i buduje od nowa, więc po nim trzeba ponownie uruchomić `a2_czyste.py`.
 

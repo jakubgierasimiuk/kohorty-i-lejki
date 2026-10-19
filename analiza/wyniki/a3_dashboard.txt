@@ -1,0 +1,71 @@
+A3 — ODTWORZENIE DASHBOARDU (2026-10-19 14:58), dane surowe
+Okres 1 = X 2024 – IX 2025, okres 2 = X 2025 – IX 2026. Wzrost = okres 2 / okres 1 − 1.
+Siatka: 528 wierszy (miara × wariant). Pełna siatka: analiza/wyniki/a3_siatka.csv
+
+1. Każda miara osobno: zakres wzrostu w siatce i liczba wariantów zgodnych z dashboardem
+   pacjenci z pierwszym zakupem   dashboard +52%  w siatce od +45.6% do +62.9%, pasuje 52 z 144 wariantów
+   zamówienia                     dashboard +61%  w siatce od +51.9% do +61.1%, pasuje 6 z 48 wariantów
+   przychód z konsultacji         dashboard +50%  w siatce od +44.0% do +59.6%, pasuje 32 z 288 wariantów
+   sprzedane TelemediGO           dashboard +40%  w siatce od +40.3% do +40.3%, pasuje 48 z 48 wariantów
+
+2. Wpływ pojedynczych wymiarów (pozostałe ustawione na: z duplikatami, z testami, wszystkie statusy,
+   czas polski, przychód = zapłata bez TelemediGO, nowy pacjent = pierwsze zamówienie)
+                                                      nowi  zamówienia    przychód          GO
+   DASHBOARD                                          +52%        +61%        +50%        +40%
+   wszystko surowo                                 +51.92%     +60.72%     +50.30%     +40.31%
+   bez duplikatów                                  +51.92%     +58.33%     +48.14%     +40.31%
+   bez kodu TEST-QA                                +51.95%     +58.45%     +50.27%     +40.31%
+   bez kont testowych                              +52.10%     +58.05%     +49.88%     +40.31%
+   statusy: bez_anulowanych                        +51.66%     +61.12%     +50.51%     +40.31%
+   statusy: odbyte                                 +51.42%     +60.90%     +50.19%     +40.31%
+   statusy: completed                              +45.71%     +56.72%     +46.41%     +40.31%
+   granice okresów w UTC                           +51.89%     +60.69%     +50.27%     +40.31%
+   przychód: netto, bez_go                         +51.92%     +60.72%     +46.83%     +40.31%
+   przychód: katalog, bez_go                       +51.92%     +60.72%     +59.34%     +40.31%
+   przychód: zaplata, z_go                         +51.92%     +60.72%     +49.68%     +40.31%
+   nowy pacjent: pierwsza płatność (z samym GO)    +51.92%     +60.72%     +50.30%     +40.31%
+   nowy pacjent: kupujący w okresie                +62.88%     +60.72%     +50.30%     +40.31%
+
+3. Kombinacje, w których naraz pasują wszystkie cztery liczby dashboardu (zaokrąglenie do całości)
+   Wszystkich kombinacji w siatce: 864. Pasujących: 14.
+     duplikaty testy         statusy granice       przychod        nowy_pacjent    nowi zamowienia przychod_proc      go
+             z     z bez_anulowanych      pl   zaplata/z_go pierwsze_zamowienie +51.66%    +61.12%       +49.86% +40.31%
+             z     z bez_anulowanych      pl   zaplata/z_go   pierwsza_platnosc +51.55%    +61.12%       +49.86% +40.31%
+             z     z bez_anulowanych     utc zaplata/bez_go pierwsze_zamowienie +51.63%    +61.08%       +50.48% +40.31%
+             z     z bez_anulowanych     utc zaplata/bez_go   pierwsza_platnosc +51.51%    +61.08%       +50.48% +40.31%
+             z     z bez_anulowanych     utc   zaplata/z_go pierwsze_zamowienie +51.63%    +61.08%       +49.83% +40.31%
+             z     z bez_anulowanych     utc   zaplata/z_go   pierwsza_platnosc +51.51%    +61.08%       +49.83% +40.31%
+             z     z       wszystkie      pl zaplata/bez_go pierwsze_zamowienie +51.92%    +60.72%       +50.30% +40.31%
+             z     z       wszystkie      pl zaplata/bez_go   pierwsza_platnosc +51.92%    +60.72%       +50.30% +40.31%
+             z     z       wszystkie      pl   zaplata/z_go pierwsze_zamowienie +51.92%    +60.72%       +49.68% +40.31%
+             z     z       wszystkie      pl   zaplata/z_go   pierwsza_platnosc +51.92%    +60.72%       +49.68% +40.31%
+             z     z       wszystkie     utc zaplata/bez_go pierwsze_zamowienie +51.89%    +60.69%       +50.27% +40.31%
+             z     z       wszystkie     utc zaplata/bez_go   pierwsza_platnosc +51.89%    +60.69%       +50.27% +40.31%
+             z     z       wszystkie     utc   zaplata/z_go pierwsze_zamowienie +51.89%    +60.69%       +49.66% +40.31%
+             z     z       wszystkie     utc   zaplata/z_go   pierwsza_platnosc +51.89%    +60.69%       +49.66% +40.31%
+   Wartości wymiarów występujące w pasujących kombinacjach:
+     duplikaty      z
+     testy          z
+     statusy        bez_anulowanych, wszystkie
+     granice        pl, utc
+     przychod       zaplata/bez_go, zaplata/z_go
+     nowy_pacjent   pierwsza_platnosc, pierwsze_zamowienie
+
+4. Najprostsza pasująca kombinacja: każdy wiersz pliku orders liczony jako zamówienie, przychód = suma
+   zapłat bez odejmowania zwrotów i bez TelemediGO, nowy pacjent = konto z pierwszym zamówieniem, czas polski.
+   Ta kombinacja jest wśród pasujących: tak.
+   Pozostałe pasujące kombinacje różnią się od niej najwyżej o (punkty procentowe): pacjenci z pierwszym zakupem 0.41, zamówienia 0.39, przychód z konsultacji 0.64, sprzedane TelemediGO 0.00.
+
+   Mostek: od liczb dashboardu do danych oczyszczonych, krok po kroku (te same pozostałe definicje)
+   krok                               pacjenci z pierwszym zakup                  zamówienia      przychód z konsultacji        sprzedane TelemediGO
+   dashboard (dane surowe)                16,251 > 24,689 +51.9%      25,269 > 40,613 +60.7%    2.382 > 3.580 mln +50.3%        1,759 > 2,468 +40.3%
+   bez duplikatów                         16,251 > 24,689 +51.9%      25,269 > 40,009 +58.3%    2.382 > 3.529 mln +48.1%        1,759 > 2,468 +40.3%
+   bez duplikatów i kont testowych        16,231 > 24,687 +52.1%      24,716 > 38,491 +55.7%    2.375 > 3.508 mln +47.7%        1,759 > 2,468 +40.3%
+   + przychód po odjęciu zwrotów          16,231 > 24,687 +52.1%      24,716 > 38,491 +55.7%    2.230 > 3.228 mln +44.8%        1,759 > 2,468 +40.3%
+   Ostatni krok (przychód po zwrotach) to już zmiana definicji, a nie czyszczenie. Pokazany, bo dashboard
+   liczy przychód przed zwrotami, a w marży liczymy po zwrotach.
+   Trop do A5: zwroty (dane oczyszczone) 144,461 zł w okresie 1 i 279,855 zł w okresie 2, czyli +93.7%.
+   Udział zwrotów w zapłatach: 6.1% w okresie 1 i 8.0% w okresie 2.
+
+5. Odporność: gdyby dashboard obcinał procenty (np. 60,7% pokazane jako 60%) zamiast zaokrąglać
+   Pasujących kombinacji: 0.

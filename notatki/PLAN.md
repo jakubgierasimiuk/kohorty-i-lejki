@@ -17,7 +17,7 @@ Kolejność: **wstępna analiza → narzędzie → uzupełnienie analizy → wer
 | 0 | Kontrola bezpieczeństwa paczki | zrobione (commit `e5897ac`, wynik w `ZNALEZISKA.md`) |
 | A1 | Baza danych | zrobione (commit `025d6f0`, `analiza/a1_baza.py`, wynik w `analiza/wyniki/a1_baza.txt`) |
 | A2 | Jakość danych | zrobione: raport (commit `b7466aa`), czyszczenie przyjęte przez Kubę, warstwa `czyste` (`analiza/a2_czyste.py`). Zamówienia testowe do ponownego przeglądu w punkcie D |
-| A3 | Odtworzenie dashboardu | do zrobienia |
+| A3 | Odtworzenie dashboardu | wynik gotowy (`analiza/a3_dashboard.py`, `analiza/wyniki/a3_dashboard.txt`), czeka na przegląd z Kubą |
 | A4 | Definicje (razem) | do zrobienia |
 | A5 | Pierwsze kohorty, lejek, po zakupie, zdarzenia | do zrobienia |
 | B | Narzędzie | do zrobienia |
