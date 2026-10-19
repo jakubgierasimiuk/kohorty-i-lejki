@@ -240,6 +240,37 @@ def main():
       SELECT typ, count(*) sesje, sum(k1) k1, sum(k4) k4, sum(zamowienie) zamowienia
       FROM sl WHERE (landing_page = '/telemedigo' OR kampania = 'crm_go_upsell') GROUP BY 1 ORDER BY 2 DESC"""))
 
+    # ---------- 6b. od kliknięcia reklamy do sesji ----------
+    r("\n" + "=" * 100)
+    r("6b. OD KLIKNIĘCIA REKLAMY DO SESJI (krok przed lejkiem; dopisek Kuby po przeglądzie, 2026-10-19)")
+    r("=" * 100)
+    r("   Kliknięcia z marketing_spend.csv wobec sesji z tym samym utm_campaign (wszystkie typy sesji), w okresach.")
+    r("   W grze = kliknięcia × (sesje na kliknięcie w ogólnych kampaniach Google Ads w tym samym okresie) − sesje,")
+    r("   czyli ile sesji więcej byłoby przy stosunku z Google. Zamówienia w grze = to × konwersja sesji kampanii")
+    r("   do płatności (sesje zwykłe). Górna granica: zakłada, że brakujące osoby zachowałyby się jak te, które")
+    r("   dotarły. Z danych nie wiemy, czy to porzucenie przed załadowaniem strony, czy luka w śledzeniu.")
+    kl = df("""
+      WITH k AS (SELECT utm_campaign kampania, CASE WHEN date < DATE '2025-10-01' THEN 1 ELSE 2 END okres,
+                        sum(clicks) klikniecia, sum(spend_pln)::DOUBLE wydatki
+                 FROM czyste.marketing_spend GROUP BY 1, 2),
+           s AS (SELECT kampania, okres, count(*) sesje,
+                        sum(k5) FILTER (WHERE typ = 'zwykla') / count(*) FILTER (WHERE typ = 'zwykla') konw,
+                        avg((browser IN ('Instagram', 'Facebook', 'TikTok'))::INT) w_aplikacji
+                 FROM sl GROUP BY 1, 2),
+           g AS (SELECT okres, sum(s.sesje) / sum(k.klikniecia) wsk
+                 FROM k JOIN s USING (kampania, okres) WHERE kampania LIKE 'gs_generic%' GROUP BY 1)
+      SELECT k.kampania, k.okres, k.klikniecia, s.sesje, round(s.sesje / k.klikniecia, 3) sesje_na_klik,
+             round(100 * s.w_aplikacji, 1) proc_sesji_w_aplikacji, round(100 * s.konw, 2) proc_sesja_do_platn,
+             round(greatest(k.klikniecia * g.wsk - s.sesje, 0)) sesje_w_grze,
+             round(greatest(k.klikniecia * g.wsk - s.sesje, 0) * s.konw) zamowienia_w_grze,
+             round(k.wydatki * greatest(1 - s.sesje / (k.klikniecia * g.wsk), 0)) wydatki_bez_sesji_zl
+      FROM k JOIN s USING (kampania, okres) JOIN g USING (okres) ORDER BY k.kampania, k.okres""")
+    pokaz(kl)
+    r("   wydatki_bez_sesji_zl = część wydatków przypadająca na brakujące sesje przy tym samym stosunku co Google.")
+    r("   Razem w okresie 2 dla kampanii Meta i TikToka:")
+    pokaz(kl[(kl["okres"] == 2) & kl["kampania"].str.match(r"^(meta|tt)_")][["sesje_w_grze", "zamowienia_w_grze",
+                                                                            "wydatki_bez_sesji_zl"]].sum().to_frame().T)
+
     # ---------- 7. serie dzienne do pliku ----------
     czesci = []
     for nazwa, wyr in {"calosc": "'calosc'", **PODZIALY}.items():

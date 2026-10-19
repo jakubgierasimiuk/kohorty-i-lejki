@@ -2,13 +2,13 @@
 
 Część punktu A5 o pozyskaniu: lejek od sesji do płatności, zdarzenia w lejku, sesje zalogowane od wejścia oraz sezon a wydatki. Równolegle pracuje sesja retencji (`notatki/a5_retencja.md`). Wspólne notatki scala sesja prowadząca. Propozycje wpisów są w sekcji 6.
 
-**Status:** policzone, czeka na przegląd Kuby (jeden przegląd, na końcu). Nic z tego nie jest jeszcze wnioskiem przyjętym przez Kubę. Odczytania, przy których dane dopuszczają więcej niż jedno wyjaśnienie, są opisane jako otwarte.
+**Status:** przyjęte przez Kubę 2026-10-19 do scalenia, z dwoma dopiskami (sekcja 8, oba wprowadzone). Czeka na scalenie wspólnych notatek przez sesję prowadzącą. Odczytania, przy których dane dopuszczają więcej niż jedno wyjaśnienie, są opisane jako otwarte.
 
 ## Pliki
 
 | Skrypt | Co robi | Wynik |
 |---|---|---|
-| `analiza/a5p_lejek.py` | Lejek od sesji do płatności: typy sesji, kwartały i miesiące, podziały na urządzenie, przeglądarkę, kanał, kampanię, stronę wejścia i to, czy odwiedzający kupował już wcześniej. Rozkład zmiany konwersji na strukturę ruchu i konwersję w obrębie grup. Czasy między krokami. Serie dzienne do pliku. Około 85 sekund. | `analiza/wyniki/a5p_lejek.txt`, `analiza/wyniki/a5p_lejek_dzienny.csv.gz` |
+| `analiza/a5p_lejek.py` | Lejek od sesji do płatności: typy sesji, kwartały i miesiące, podziały na urządzenie, przeglądarkę, kanał, kampanię, stronę wejścia i to, czy odwiedzający kupował już wcześniej. Rozkład zmiany konwersji na strukturę ruchu i konwersję w obrębie grup. Czasy między krokami. Od kliknięcia reklamy do sesji (sekcja 6b). Serie dzienne do pliku. Około 85 sekund. | `analiza/wyniki/a5p_lejek.txt`, `analiza/wyniki/a5p_lejek_dzienny.csv.gz` |
 | `analiza/a5p_zdarzenia.py` | Wykrywanie dni, od których zmienia się konwersja kroku albo ruch (seria dzienna, podział binarny). Sprawdzenie wybranych zdarzeń na bazie (Safari na iOS, start kampanii Meta na L4, remarketing). Starty kampanii. Uruchamiać po `a5p_lejek.py`. Około 100 sekund. | `analiza/wyniki/a5p_zdarzenia.txt`, `analiza/wyniki/a5p_zdarzenia.csv` |
 | `analiza/a5p_zalogowane.py` | Sesje zalogowane od wejścia: skala, krok odpadania, strony i kampanie (z CRM), zakupy po takiej sesji, porównanie z podobnymi pacjentami, czas między wyborem terminu a krokiem 3, dane do wariantu pesymistycznego. Importuje `analiza/definicje.py`. Około 15 sekund. | `analiza/wyniki/a5p_zalogowane.txt` |
 | `analiza/a5p_sezon.py` | Sezon a wydatki: nowi pacjenci w kanałach płatnych i bezpłatnych miesiąc po miesiącu, koszt pozyskania kampanii, popyt w wyszukiwarce, cel pierwszej wizyty, zima wobec lata. Importuje `analiza/definicje.py`. | `analiza/wyniki/a5p_sezon.txt`, `analiza/wyniki/a5p_sezon_miesiace.csv` |
@@ -20,9 +20,13 @@ Wszystkie skrypty tylko czytają schemat `czyste` i uruchamia się je z główne
 ## 1. Lejek — gdzie i od kiedy tracimy pacjentów
 
 **W skrócie:**
-- Konwersja sesji do płatności spadła z 16,0% w okresie 1 (X 2024 – IX 2025) do 13,7% w okresie 2 (X 2025 – IX 2026). Prawie cały spadek to zmiana struktury ruchu, a nie gorsza konwersja w obrębie grup.
-- Ruchu z reklam Meta i TikToka, otwieranego w przeglądarkach wbudowanych w aplikacje, jest dużo więcej. Te sesje płacą 4 razy rzadziej niż sesje z wyszukiwarki.
-- Jedno prawdziwe zdarzenie w samym produkcie: od 17.03.2026 w Safari na iPhone'ach i iPadach przestaje działać zakładanie konta (sekcja 2).
+- **Tracimy pacjentów w dwóch miejscach, które trzeba naprawić na stronie.**
+  - Przeglądarki wbudowane w aplikacje (Instagram, Facebook, TikTok) tracą pacjentów na każdym kroku lejka. Płacą w 5–7% sesji, a Chrome i Safari w 16–18%.
+  - W Safari na iPhone'ach i iPadach od 17.03.2026 nie działa zakładanie konta. Kosztuje to około 95–105 pierwszych zamówień na 30 dni (sekcja 2).
+- Konwersja sesji do płatności spadła z 16,0% w okresie 1 (X 2024 – IX 2025) do 13,7% w okresie 2 (X 2025 – IX 2026).
+- Rachunkowo prawie cały ten spadek to większy udział ruchu z przeglądarek wbudowanych w aplikacje: z 10,7% do 35,6% sesji, głównie z reklam Meta i TikToka.
+- To nie jest tylko „inny ruch”. Ten ruch płaci 2–4 razy rzadziej i traci na każdym kroku lejka, także na zakładaniu konta, a nie tylko na pierwszym kroku. Część tej różnicy da się naprawić na stronie, zanim zaczniemy ciąć budżet (zasada „najpierw napraw, potem wyłączaj”). Ile, pokaże dopiero test (sekcja 5, punkt 4).
+- Przed lejkiem jest jeszcze strata między kliknięciem reklamy a sesją w Meta i TikToku (sekcja 5, punkt 6).
 
 **Typy sesji** (`a5p_lejek.txt`, sekcja 1). W danych oczyszczonych jest 457 464 sesji:
 - 434 710 zwykłych: 154 085 w okresie 1 i 280 625 w okresie 2;
@@ -204,6 +208,23 @@ Liczby (`a5p_sezon.txt`):
 3. **Sezon a wydatki:** nie rozdzielimy w pełni bez testu z grupą kontrolną (sekcja 4).
 4. **Przeglądarki wbudowane w aplikacje:** wartość naprawy (krótsza rejestracja, logowanie przez Google albo Apple) wobec ograniczenia budżetu. Do policzenia w punkcie C razem z powrotami tych pacjentów od sesji retencji.
 5. **Ekonomia kampanii** (koszt pozyskania według Z1K i według sesji płatności) — liczy sesja prowadząca po scaleniu. W `a5p_sezon.txt`, sekcja 2, są wydatki, kliknięcia i nowi pacjenci według Z1K w miesiącach.
+6. **Strata między kliknięciem reklamy a sesją** (dopisek Kuby; `a5p_lejek.txt`, sekcja 6b).
+   - **Co widać.** Na 1 kliknięcie przypada 0,92–0,93 sesji w Google Ads, 0,79–0,82 sesji w Meta i 0,72 sesji w TikToku. Stosunki są stałe w każdym kwartale (ZNALEZISKA.md, A2).
+   - **Czego nie wiemy.** Trzy możliwe odczytania:
+     - pacjent porzuca stronę, zanim się załaduje, np. przez wolne ładowanie w przeglądarce w aplikacji;
+     - w przeglądarkach wbudowanych w aplikacje nie działa śledzenie;
+     - platformy reklamowe liczą kliknięcia inaczej niż Google, np. wliczają kliknięcia, które nie prowadzą na stronę.
+   - **Obserwacja, która nie rozstrzyga.** W remarketingu Meta tylko 8–29% sesji jest w przeglądarkach wbudowanych, a stosunek jest ten sam (0,80). W pozyskaniu Meta takich sesji jest 65–76%. To pasuje bardziej do sposobu liczenia kliknięć albo do zachowania na samej platformie niż do samej przeglądarki.
+   - **W grze, okres 2, górna granica** (gdyby Meta i TikTok miały stosunek z Google, a brakujące osoby zachowywały się jak te, które dotarły):
+     - 23 776 sesji;
+     - do 1 434 zamówień;
+     - 50 494 zł wydatków przypadających na brakujące sesje.
+     Najwięcej dotyczy kampanii Meta na L4 (10 738 sesji, 633 zamówienia) i TikToka (9 297 sesji, 442 zamówienia).
+   - **Test i dane.**
+     - W panelach Meta i TikToka porównać kliknięcia w link i wyświetlenia strony docelowej z sesjami w analityce, dzień po dniu.
+     - Logi serwera (wejścia z parametrami UTM) porównać z sesjami w analityce.
+     - Zmierzyć czas ładowania strony w przeglądarkach wbudowanych.
+     - Na kilka tygodni włączyć zliczanie wejść po stronie serwera.
 
 ---
 
@@ -222,16 +243,17 @@ Liczby (`a5p_sezon.txt`):
 - Przeglądarki wbudowane w aplikacje tracą na każdym kroku (punkt 1).
 - Remarketing słabnie przez zmianę puli odbiorców (punkt 2.5).
 - Sesje zalogowane od wejścia: zero anonimowych sesji pacjenta po pierwszym zakupie; niespójność ze słownikiem danych; jednakowy rozkład odstępów między krokami w zakupach powtórnych, który wygląda na cechę generatora (punkt 3).
-- Sezon w kanałach opartych na wyszukiwaniu i brak sezonu w Meta ze stałym budżetem (punkt 4).
+- Sezon w kanałach opartych na wyszukiwaniu i co najwyżej słaby sezon w Meta z prawie stałym budżetem (punkt 4).
+- Strata między kliknięciem reklamy a sesją w Meta i TikToku: trzy odczytania i dane w grze (punkt 5.6).
 
 ### Do `DECYZJE.md`
-- Decyzje i dopiski Kuby po przeglądzie (sekcja 8 tej notatki).
+- Przyjęcie wyników części pozyskania przez Kubę, z dwoma dopiskami (sekcja 8 tej notatki).
 
 ### Do `analiza/README.md`
 - Cztery wiersze ze skryptami z tabeli „Pliki” na początku tej notatki. Kolejność: `a5p_lejek.py` przed `a5p_zdarzenia.py`.
 
 ### Do `PLAN.md`
-- A5, część pozyskania: zrobione po przeglądzie Kuby. Do punktu C dopisać pozycje z sekcji 5 tej notatki. Do punktu B: oś czasu zdarzeń, lejek w podziałach z pliku `a5p_lejek_dzienny.csv.gz`, osobne wiersze sesji zalogowanych i zakupów samego TelemediGO.
+- A5, część pozyskania: zrobione, przyjęte przez Kubę 2026-10-19 (z dwoma dopiskami). Do punktu C dopisać pozycje z sekcji 5 tej notatki, w tym nową niewiadomą: strata między kliknięciem reklamy a sesją. Do punktu B: oś czasu zdarzeń, lejek w podziałach z pliku `a5p_lejek_dzienny.csv.gz`, osobne wiersze sesji zalogowanych i zakupów samego TelemediGO.
 
 ---
 
@@ -243,4 +265,11 @@ Polecenie: `notatki/recenzje/a5p_codex_prompt.md`. Odpowiedź: `notatki/recenzje
 
 ## 8. Dopiski i decyzje Kuby
 
-(do uzupełnienia po przeglądzie)
+**2026-10-19, przegląd części pozyskania.** Kuba przyjął wyniki do scalenia, z dwoma dopiskami (tekst wklejony do rozmowy):
+
+1. Nagłówek „konwersja spadła, bo zmienił się ruch, a nie dlatego, że lejek działa gorzej” ma nie gubić dwóch rzeczy:
+   - awarii zakładania konta w Safari na iOS od 17.03.2026;
+   - tego, że przeglądarki wbudowane w aplikacje tracą na każdym kroku. To też jest problem do naprawienia na stronie, a nie tylko „inny ruch”.
+   → Przepisane w sekcji 1 („W skrócie”). Ta sama zasada obowiązuje przy opisie lejka w narzędziu i na liście priorytetów.
+2. Do niewiadomych dopisać stratę między kliknięciem reklamy a sesją. W Mecie i TikToku na kliknięcie przypada wyraźnie mniej sesji niż w Google (A2). Nie wiemy, czy to porzucenie przed załadowaniem strony, czy luka w śledzeniu w przeglądarkach wbudowanych w aplikacje.
+   → Sekcja 5, punkt 6. Wyliczenie w `a5p_lejek.txt`, sekcja 6b. Dodałem trzecie odczytanie (inne liczenie kliknięć przez platformy) i obserwację z remarketingu Meta.
