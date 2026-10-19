@@ -13,14 +13,19 @@ Zasada z `CLAUDE.md`, punkt 14: każda sesja czyta ten plik na starcie i aktuali
 | A2 Jakość danych | zrobione, czyszczenie przyjęte przez Kubę | `b7466aa`, `95140a0`, `12a0128` |
 | A3 Odtworzenie dashboardu | zrobione, przyjęte przez Kubę | `b91975a` |
 | A4 Definicje (razem z Kubą) | zrobione, definicje przyjęte przez Kubę, recenzja Codeksa (Sol) uwzględniona | commit „A4: definicje przyjęte…” (pierwszy po `78e69a9`) |
-| **A5 Kohorty, lejek, po zakupie, zdarzenia** | **w toku: dwie sesje równoległe, retencja i pozyskanie (zakres w `PLAN.md`, sekcja A5)** | — |
+| A5 Kohorty, lejek, po zakupie, zdarzenia — część pozyskania | zrobione, przyjęte przez Kubę, scalone we wspólnych notatkach (założenia 28–32) | `9923800`, `0b157c4`, `f240505` |
+| **A5 — część retencji** | **w toku** (`notatki/a5_retencja.md`; jej propozycje założeń numerowane od 33) | `c5b17ea` … |
+| **B Narzędzie — szkielet** | **startuje przed końcem A5 (decyzja Kuby): układ strony, lejek, oś zdarzeń, jakość danych; kohorty po drugim zatrzymaniu sesji retencji** | — |
 
 Status wszystkich punktów: `notatki/PLAN.md`.
 
 **Własność plików w A5 (dwie sesje pracują naraz w tym samym folderze):**
 - sesja retencji: `analiza/definicje.py` (jedyna sesja, która go edytuje), `analiza/a5r_*.py`, `analiza/wyniki/a5r_*`, `notatki/a5_retencja.md`, `notatki/recenzje/a5r_*`;
 - sesja pozyskania: `analiza/a5p_*.py`, `analiza/wyniki/a5p_*`, `notatki/a5_pozyskanie.md`, `notatki/recenzje/a5p_*`;
+- sesja punktu B (narzędzie): `narzedzie/`, `analiza/b_eksport.py`, `analiza/wyniki/b_*`, `notatki/b_narzedzie.md`. Pliki sesji retencji i pozyskania czyta tylko do odczytu;
 - wspólne notatki (`ZALOZENIA.md`, `ZNALEZISKA.md`, `DECYZJE.md`, `PLAN.md`, ten plik, `analiza/README.md`) oraz pliki A1–A4 edytuje tylko sesja prowadząca. Propozycje wpisów do nich sesje zapisują we własnych notatkach.
+
+**Warunki techniczne narzędzia do czasu wyboru hostingu:** `DECYZJE.md`, wpis „szkielet narzędzia (punkt B) przed końcem A5”. W skrócie: pliki statyczne, ścieżki względne, kotwice w adresie, dane obok strony (każdy plik poniżej 25 MB), biblioteki w repozytorium w przypiętej wersji, `noindex` i `robots.txt`, podgląd przez `python -m http.server` z folderu `narzedzie/`. Publikacja, zdalne repozytorium i push tylko za zgodą Kuby, za każdym razem.
 
 ## 2. Dane i kod
 

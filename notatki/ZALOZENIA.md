@@ -67,3 +67,13 @@ Warianty i ich wpływ: `analiza/a4_definicje.py`, wynik w `analiza/wyniki/a4_def
 27. **Okresy porównujemy na tych samych dniach kalendarzowych i zawsze podajemy liczbę pacjentów** (po recenzji Codeksa, przyjęte przez Kubę). Pełne okno powrotu obcina okres 2 (dla 90 dni: kohorty do 2.07.2026). Porównanie z całym okresem 1 mieszałoby więc różne pory roku. Do porównania okres 1 obcinamy do tego samego dnia roku: 31.08.2025 dla 30 dni, 1.08.2025 dla 60 dni i 2.07.2025 dla 90 dni. **Wpływ:** powrót w 90 dniach 23,9% (12 867 pacjentów) wobec 17,4% (18 924 pacjentów). Przy pełnym okresie 1 było 23,6%. Liczby z pełnego okresu 1 zostają jako opis wszystkich dojrzałych kohort.
 
 Dopiski do wcześniejszych punktów: punkt 11 (okno) uzupełnia punkt 26, a punkt 15 (reguła prowizji) — punkt 25. Recenzja definicji przez Codeksa (model Sol): `notatki/recenzje/a4_codex.md`.
+
+## 2026-10-19 — lejek i zdarzenia w lejku (punkt A5, część pozyskania, przyjęte przez Kubę)
+
+Szczegóły i liczby: `notatki/a5_pozyskanie.md`, skrypty `analiza/a5p_*.py`.
+
+28. **Lejek liczymy na sesjach zwykłych.** To sesje bez konta albo z kontem, które pojawia się dopiero na kroku logowania. Sesje zalogowane od wejścia i zakupy samego TelemediGO pokazujemy osobnymi wierszami. Dzień sesji to `dzien_pl`, a odstępy między krokami liczymy w UTC.
+29. **„Kupował wcześniej”** znaczy, że pierwszy zakup pacjenta był przed początkiem sesji. Pacjenta rozpoznajemy po koncie w sesji albo po koncie przeglądarki, w której kiedykolwiek był zalogowany. Zdarzeń w lejku szukamy w sesjach osób, które jeszcze nie kupowały, bo liczba sesji powracających rośnie od zera przez pierwszy rok i podnosi konwersję całości bez żadnego zdarzenia.
+30. **Wykrywanie zdarzeń w lejku:** podział binarny serii dziennych (kara 25, odcinek co najmniej 14 dni, zmiana co najmniej o 1 punkt procentowy i o 5% względnie). Wpływ = (poziom po − poziom przed) × sesje wchodzące na krok × dalsza konwersja do płatności. To przybliżenie, a nie dowód przyczyny. Każde zdarzenie sprawdzamy na bazie: czy jest w każdym kanale i czy nie jest zmianą struktury ruchu.
+31. **Rozkład zmiany konwersji** dzielimy na efekt struktury ruchu i efekt konwersji w obrębie grup. Grupy nowe w okresie 2 (na przykład nowe kampanie) wchodzą w całości do efektu struktury.
+32. **Grupy kanałów przy sezonie:** płatne (Google Ads, Meta, TikTok), afiliacja osobno, bezpłatne (wejścia bezpośrednie, bezpłatne wyszukiwanie, program poleceń, newsletter i SMS). Źródło według przyjętej reguły (`Z1K`).

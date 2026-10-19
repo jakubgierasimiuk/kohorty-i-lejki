@@ -93,3 +93,19 @@ Decyzje podjęte w trakcie pracy (metoda, podziały, narzędzie, hosting) — co
 **Dlaczego taki podział (Kuba):** sesja proponowała podział na kohorty z zdarzeniami i lejek z tym, co po zakupie. Kuba połączył to, co dzieje się po zakupie, z retencją, bo przebieg wizyty może zmieniać powroty. Lejek liczy się na sesjach, więc sesja pozyskania nie musi czekać na wspólny moduł definicji.
 
 **Korekta po uwadze Kuby:** w podsumowaniu A4 napisałem, że sama zmiana struktury źródeł nie tłumaczy spadku powrotu w Mecie (z 20,7% do 6,7% w 90 dniach). To hipoteza, nie wniosek: w drugim roku w Mecie pojawiła się nowa kampania na L4 (`meta_prosp_l4_szybko`, od 3.11.2025). Spadek sprawdzamy na poziomie kampanii, a strukturę rozdzielamy co najmniej po kampanii, pierwszej usłudze, zniżce i przebiegu pierwszej wizyty.
+
+## 2026-10-19 — wyniki części pozyskania (punkt A5)
+
+**Decyzja Kuby:** wyniki części pozyskania przyjęte do scalenia, z dwoma dopiskami. Sesja prowadząca scaliła: założenia 28–32, znaleziska (sekcja A5, pozyskanie), plan (punkty B i C), spis skryptów. Pełny opis: `notatki/a5_pozyskanie.md`, sekcja 8.
+1. Nagłówek „konwersja spadła, bo zmienił się ruch” nie może gubić awarii zakładania konta w Safari na iOS od 17.03.2026 ani tego, że przeglądarki wbudowane w aplikacje tracą na każdym kroku. To problemy do naprawienia na stronie, a nie tylko „inny ruch”. Ta sama zasada obowiązuje w narzędziu i na liście priorytetów.
+2. Do niewiadomych dochodzi strata między kliknięciem reklamy a sesją w Meta i TikToku.
+
+## 2026-10-19 — szkielet narzędzia (punkt B) przed końcem A5
+
+**Decyzja Kuby** (przekazana dosłownie przez pierwszą sesję projektu): „Kiedy scalisz część pozyskania, nie czekaj na koniec retencji. Zacznij szkielet narzędzia (punkt B): układ strony, lejek, oś zdarzeń i jakość danych. Kohorty dołożymy po drugim zatrzymaniu sesji retencji.”
+
+**Co to zmienia w planie:** punkt B startuje przed końcem A5. Pierwsza wersja narzędzia obejmuje układ strony, lejek, oś zdarzeń i jakość danych. Kohorty dochodzą po drugim zatrzymaniu sesji retencji. Technologię strony sesja B uzgadnia z Kubą na swoim pierwszym zatrzymaniu.
+
+**Warunki do czasu wyboru hostingu** (hosting wybiera Kuba w pierwszej sesji projektu): same pliki statyczne, ścieżki względne, nawigacja przez kotwice w adresie (`#lejek`, `#zdarzenia`), bez serwera. Dane jako statyczne pliki obok strony, każdy poniżej 25 MB, całość jak najlżejsza. Biblioteki zapisane w repozytorium w przypiętej wersji, nie pobierane z sieci. Meta `noindex` i `robots.txt` blokujący indeksowanie. Podgląd lokalny przez `python -m http.server` uruchomiony z folderu `narzedzie/`. Publikacja, dodanie zdalnego repozytorium i push wymagają za każdym razem zgody Kuby.
+
+**Własność plików:** sesja B pisze tylko w `narzedzie/`, we własnym skrypcie eksportu `analiza/b_eksport.py` (z wynikami `analiza/wyniki/b_*`) i we własnej notatce `notatki/b_narzedzie.md`. Nie rusza plików sesji retencji ani pozyskania. Wspólne notatki dalej scala sesja prowadząca.

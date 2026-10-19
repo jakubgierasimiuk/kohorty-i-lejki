@@ -19,8 +19,8 @@ Kolejność: **wstępna analiza → narzędzie → uzupełnienie analizy → wer
 | A2 | Jakość danych | zrobione: raport (commit `b7466aa`), czyszczenie przyjęte przez Kubę, warstwa `czyste` (`analiza/a2_czyste.py`). Zamówienia testowe do ponownego przeglądu w punkcie D |
 | A3 | Odtworzenie dashboardu | zrobione, przyjęte przez Kubę (commit `b91975a`, `analiza/a3_dashboard.py`, `analiza/wyniki/a3_dashboard.txt`) |
 | A4 | Definicje (razem) | zrobione: definicje przyjęte przez Kubę (`ZALOZENIA.md` 16–27, `analiza/a4_definicje.py`, `analiza/wyniki/a4_definicje.txt`), recenzja Codeksa (Sol) uwzględniona (`notatki/recenzje/a4_codex.md`) |
-| A5 | Pierwsze kohorty, lejek, po zakupie, zdarzenia | w toku: dwie sesje równoległe, retencja i pozyskanie (podział niżej, w sekcji A5) |
-| B | Narzędzie | do zrobienia |
+| A5 | Pierwsze kohorty, lejek, po zakupie, zdarzenia | w toku: część pozyskania zrobiona i przyjęta przez Kubę (commit `f240505`, `notatki/a5_pozyskanie.md`), część retencji w toku (`notatki/a5_retencja.md`) |
+| B | Narzędzie | startuje przed końcem A5 (decyzja Kuby 2026-10-19): szkielet, czyli układ, lejek, oś zdarzeń i jakość danych; kohorty po drugim zatrzymaniu sesji retencji |
 | C | Uzupełnienie analizy, priorytety, niewiadome | do zrobienia |
 | D | Weryfikacja, publikacja, mail | do zrobienia |
 
@@ -90,12 +90,16 @@ Przy każdej: warianty i to, ile każdy zmienia w liczbie nowych pacjentów, w p
 - Zawartość: odpowiedź „czy to wzrost”, kohorty dzienne z filtrami, lejek w podziałach i w czasie, sekcja „po zakupie”, oś czasu wykrytych zdarzeń, wynik biznesu (przychód i marża), jakość danych, priorytety, czego nie wiemy.
 - *(dopisane 2026-10-19 po A4)* Filtr kohort według statusu pierwszego zamówienia. Przy ekonomii kampanii wynik według sesji płatności obok wyniku według przyjętej reguły źródła. Przy CRM okno 24 godzin, a obok okno 7 dni.
 
-**Stop — Kuba przegląda narzędzie lokalnie, przed jakąkolwiek publikacją.**
+- *(dopisane 2026-10-19 po części pozyskania A5)* Oś czasu zdarzeń (`analiza/wyniki/a5p_zdarzenia.csv`), lejek w podziałach z pliku `analiza/wyniki/a5p_lejek_dzienny.csv.gz`, osobne wiersze sesji zalogowanych od wejścia i zakupów samego TelemediGO. Przy lejku nagłówek nie gubi awarii w Safari na iOS ani strat w przeglądarkach wbudowanych w aplikacje (dopisek Kuby).
+- *(decyzja Kuby 2026-10-19)* **Kolejność:** najpierw szkielet (układ strony, lejek, oś zdarzeń, jakość danych), kohorty po drugim zatrzymaniu sesji retencji. Warunki techniczne do czasu wyboru hostingu i własność plików: `DECYZJE.md`, wpis „szkielet narzędzia (punkt B) przed końcem A5”.
+
+**Stop — na starcie: Kuba wybiera technologię i układ strony. Na końcu: Kuba przegląda narzędzie lokalnie, przed jakąkolwiek publikacją.**
 
 ## C. Uzupełnienie analizy
 - Pogłębienie przyczyn wykrytych zdarzeń. Każdy słaby wynik oglądamy oczami marketingu i obsługi pacjenta (zasada „najpierw napraw, potem wyłączaj”): obietnica reklamy, strona wejścia, przebieg wizyty, komunikacja po zakupie.
 - **Lista priorytetów, wartość w marży.** Marża = przychód z konsultacji po zwrotach + przychód z TelemediGO − koszt lekarza (także za wizyty zwrócone) − wydatki na kampanie − prowizja afiliacyjna. Przy każdej pozycji: założenia, po czym poznamy, że zadziałała, ile zajmie wdrożenie. Przy słabych wynikach dwie opcje — naprawić albo wyłączyć — każda z wartością w marży.
 - Lista „czego nie da się rozstrzygnąć” — przy każdej pozycji test albo dane, których brakuje. Pozycje już wpisane: (1) sesje zalogowane od wejścia bez zakupu — oba odczytania (zepsuta ścieżka zakupu dla powracających albo inny cel wizyty / sposób pomiaru), test rozstrzygający (zalogować się, wejść ponownie zalogowanym, spróbować kupić bez ponownego logowania, sprawdzić zapisane kroki) i wartość wariantu pesymistycznego w marży; (2) koszt lekarza za wizyty testowe (51 775 zł według zasady z zadania). *(dopisane 2026-10-19 po A4)* (3) wartość remarketingu porzuconego koszyka — reguła pierwszego wejścia z definicji przypisuje mu mało pacjentów; test: grupa kontrolna bez remarketingu; (4) czy newsletter i SMS wywołują zakup, czy pacjent kupiłby i tak — widać tylko kliknięcia, nie wysyłki; test: grupa kontrolna bez wysyłki; (5) warunki umowy z rankingiem lekarzy (która wizyta daje prowizję) — liczymy naszą regułą źródła, wariant po kodzie RANKING10 obok.
+- *(dopisane 2026-10-19 po części pozyskania A5, `notatki/a5_pozyskanie.md`, sekcja 5)* Kolejne pozycje listy niewiadomych i priorytetów: przyczyna awarii w Safari na iOS (lista zmian z 16–17.03.2026, logi błędów rejestracji, powtórzenie na iPhonie; wartość naprawy w marży: około 105 pierwszych zamówień na 30 dni plus ich powroty); sesje zalogowane od wejścia (dane do wariantu pesymistycznego w `a5_pozyskanie.md`, sekcja 3); sezon a wydatki (do rozdzielenia tylko testem z grupą kontrolną); przeglądarki wbudowane w aplikacje (wartość naprawy wobec ograniczenia budżetu, z powrotami tych pacjentów); strata między kliknięciem reklamy a sesją w Meta i TikToku (trzy odczytania, test w panelach reklamowych i logach serwera). Ekonomię kampanii liczy sesja prowadząca po scaleniu obu części A5.
 - Uzupełnienie narzędzia.
 
 **Stop — przegląd z Kubą.**
