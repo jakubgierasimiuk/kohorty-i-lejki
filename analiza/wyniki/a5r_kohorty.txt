@@ -1,4 +1,4 @@
-A5 RETENCJA — KOHORTY DZIENNE, POWROTY, ZAMÓWIENIA I MARŻA NA PACJENTA (2026-10-19 17:40)
+A5 RETENCJA — KOHORTY DZIENNE, POWROTY, ZAMÓWIENIA I MARŻA NA PACJENTA (2026-10-19 17:46)
 Schemat `czyste`, definicje z analiza/definicje.py (ZALOZENIA.md 16–27). Okres 1 = kohorty X 2024 – IX 2025,
 okres 2 = kohorty X 2025 – IX 2026. Powrót = kolejne zamówienie nieanulowane najpóźniej N-tego dnia po dniu kohorty.
 Marża = przychód z konsultacji po zwrotach + TelemediGO − koszt lekarza (25 zł internista, 200 zł psychiatra,
@@ -263,6 +263,16 @@ ostatnia dojrzała kohorta okresu 2 (ZALOZENIA.md 27). n = liczba pacjentów.
      2026-09-14 478    7       NaN       NaN       NaN      NaN
      2026-09-21 492    7       NaN       NaN       NaN      NaN
      2026-09-28 245    3       NaN       NaN       NaN      NaN
+
+==============================================================================================================
+7. WRAŻLIWOŚĆ NA KOSZT LEKARZA U PEDIATRY (przyjęte 100 zł jak specjalista; wariant 25 zł jak internista)
+==============================================================================================================
+      okres  wizyty_odbyte_pediatra  roznica_kosztu_zl
+          1                    1124              84300
+          2                    1476             110700
+      okres     n  marza90_przyjeta  marza90_pediatra_25zl
+          1 12867              66.6                   71.4
+          2 18924              58.3                   62.0
 
 Kohorty dzienne (730 dni): analiza\wyniki\a5r_kohorty_dzienne.csv
 Kolumny: nowi, powroty30/60/90 (liczba pacjentów z powrotem; puste = brak pełnego okna), kolejne_zamN, marzaN_zl (sumy).

@@ -225,6 +225,26 @@ def main():
       FROM pac GROUP BY 1 ORDER BY 1""")
     pokaz(t6)
 
+    # ============ 7. WRAŻLIWOŚĆ: KOSZT PEDIATRY ============
+    r("\n" + "=" * 110)
+    r("7. WRAŻLIWOŚĆ NA KOSZT LEKARZA U PEDIATRY (przyjęte 100 zł jak specjalista; wariant 25 zł jak internista)")
+    r("=" * 110)
+    t7 = df("""
+      SELECT CASE WHEN created_at < TIMESTAMP '2025-10-01' THEN 1 ELSE 2 END okres,
+             count(*) FILTER (WHERE status IN ('completed', 'refunded')) wizyty_odbyte_pediatra,
+             75 * count(*) FILTER (WHERE status IN ('completed', 'refunded')) roznica_kosztu_zl
+      FROM zam WHERE specialization = 'pediatra' GROUP BY 1 ORDER BY 1""")
+    pokaz(t7)
+    g1, g2 = D.granice_por(90)
+    t7b = df(f"""
+      WITH p AS (SELECT user_id, okres FROM pac WHERE (okres = 1 AND d0 <= DATE '{g1}') OR (okres = 2 AND d0 <= DATE '{g2}'))
+      SELECT p.okres, count(DISTINCT p.user_id) n,
+             round(sum(e.marza) / count(DISTINCT p.user_id), 1) marza90_przyjeta,
+             round((sum(e.marza) + 75 * count(*) FILTER (WHERE e.specialization = 'pediatra' AND e.koszt_lekarza > 0))
+                   / count(DISTINCT p.user_id), 1) marza90_pediatra_25zl
+      FROM p LEFT JOIN ek e ON e.user_id = p.user_id AND e.dni <= 90 GROUP BY 1 ORDER BY 1""")
+    pokaz(t7b)
+
     # ============ CSV: kohorty dzienne ============
     kol = []
     for w in (30, 60, 90):

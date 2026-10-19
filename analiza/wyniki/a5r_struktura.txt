@@ -1,0 +1,358 @@
+A5 RETENCJA — STRUKTURA PACJENTÓW A ICH ZACHOWANIE (2026-10-19 17:45)
+Schemat `czyste`, definicje z analiza/definicje.py. Powrót R2 (kolejne zamówienie nieanulowane), źródło Z1K.
+Okno główne 90 dni, okresy na tych samych dniach kalendarzowych: okres 1 = kohorty 1.10.2024–2.07.2025,
+okres 2 = kohorty 1.10.2025–2.07.2026. Zmiany w punktach procentowych (powrót) albo w zł (marża na pacjenta).
+Rozkład: zmiana = nowe_segmenty + znikniete + struktura + zachowanie. nowe_segmenty = wpływ pacjentów z komórek,
+których nie było w okresie 1 (np. TikTok); struktura i zachowanie liczone w komórkach obecnych w obu okresach.
+o2_przy_strukturze_o1 = powrót okresu 2, gdyby komórki wspólne miały udziały z okresu 1.
+
+========================================================================================================================
+0. POWTÓRZENIE LICZB CODEKSA Z RECENZJI A4 (okres 1 w całości, okres 2 do 2.07.2026, kanał Z1K, 90 dni)
+========================================================================================================================
+     okres 1 (całość): 23.60% (n = 16231), okres 2: 17.38% (n = 18924),
+     okres 2 przy strukturze kanałów okresu 1 (TikTok z wagą 0): 21.29%   [Codex: 23,60 / 17,38 / 21,29]
+     okres 1 bez kohort z października 2024: 23.72% (n = 14946), okres 2: 17.38%   [Codex: 23,72 / 17,38]
+
+========================================================================================================================
+1. ROZKŁAD ZMIANY POWROTU W 90 DNIACH (punkty procentowe), okresy na tych samych dniach kalendarzowych
+========================================================================================================================
+                                                 podzial  komorki_wspolne  n_o1  n_o2  pokrycie_o1_proc  pokrycie_o2_proc    o1    o2  zmiana  nowe_segmenty  znikniete  struktura  zachowanie  o2_przy_strukturze_o1
+                                                   kanal                8 12867 18924             100.0              93.3 23.91 17.38   -6.53          -1.02       0.00      -1.72       -3.79                  21.33
+                                                kampania               12 12867 18924             100.0              74.1 23.91 17.38   -6.53          -4.61       0.00       0.08       -1.99                  21.91
+                                                  usluga                7 12867 18924             100.0             100.0 23.91 17.38   -6.53           0.00       0.00      -2.08       -4.44                  19.69
+                                                  znizka                4 12867 18924             100.0              81.6 23.91 17.38   -6.53          -3.07      -0.00       0.03       -3.48                  20.43
+                                                 status1                4 12867 18924             100.0             100.0 23.91 17.38   -6.53           0.00       0.00      -0.52       -6.00                  17.82
+                                            przegladarka                3 12867 18924             100.0              94.5 23.91 17.38   -6.53          -0.83       0.00      -1.24       -4.47                  20.23
+                                              urzadzenie                3 12867 18924             100.0             100.0 23.91 17.38   -6.53           0.00       0.00      -0.11       -6.42                  17.61
+                                       kampania x usluga               77 12867 18924             100.0              74.1 23.91 17.38   -6.53          -4.61       0.00       0.13       -2.04                  21.88
+                              kampania x usluga x znizka              213 12867 18924              99.9              74.0 23.91 17.38   -6.53          -4.60       0.00       0.22       -2.15                  21.79
+                    kampania x usluga x znizka x status1              409 12867 18924              99.0              73.2 23.91 17.38   -6.53          -4.72       0.12       0.19       -2.11                  21.96
+     kampania x usluga x znizka x status1 x przegladarka              447 12867 18924              98.6              72.8 23.91 17.38   -6.53          -4.75       0.15       0.19       -2.12                  22.00
+     pokrycie = % pacjentów okresu w komórkach obecnych w obu okresach. Przy drobnych podziałach rośnie szum
+     w małych komórkach; status pierwszego zamówienia to przebieg wizyty, który sam może zależeć od kampanii.
+
+1b. To samo bez pacjentów dwóch nowych kampanii (meta_prosp_l4_szybko od 3.11.2025, tt_prosp_l4_15min od 9.02.2026)
+                                  podzial  komorki_wspolne  n_o1  n_o2  pokrycie_o1_proc  pokrycie_o2_proc    o1    o2  zmiana  nowe_segmenty  znikniete  struktura  zachowanie  o2_przy_strukturze_o1
+                                    kanal                8 12867 14031             100.0             100.0 23.91 21.99   -1.91           0.00       0.00       0.07       -1.98                  21.91
+                                 kampania               12 12867 14031             100.0             100.0 23.91 21.99   -1.91           0.00       0.00       0.08       -1.99                  21.91
+                                   usluga                7 12867 14031             100.0             100.0 23.91 21.99   -1.91           0.00       0.00       0.08       -1.99                  21.93
+                                   znizka                4 12867 14031             100.0             100.0 23.91 21.99   -1.91           0.00      -0.00       0.03       -1.94                  21.96
+                                  status1                4 12867 14031             100.0             100.0 23.91 21.99   -1.91          -0.00       0.00       0.05       -1.96                  21.94
+                        kampania x usluga               77 12867 14031             100.0             100.0 23.91 21.99   -1.91          -0.00       0.00       0.13       -2.04                  21.88
+     kampania x usluga x znizka x status1              409 12867 14031              99.0              98.7 23.91 21.99   -1.91          -0.11       0.12       0.19       -2.11                  21.96
+
+1c. Rozkład zmiany marży na pacjenta w 90 dniach (zł, przed kosztem pozyskania)
+                                  podzial  komorki_wspolne  n_o1  n_o2  pokrycie_o1_proc  pokrycie_o2_proc   o1   o2  zmiana  nowe_segmenty  znikniete  struktura  zachowanie  o2_przy_strukturze_o1
+                                    kanal                8 12867 18924             100.0              93.3 66.6 58.3    -8.3          -1.89      -0.00      -2.38       -4.03                  64.67
+                                 kampania               12 12867 18924             100.0              74.1 66.6 58.3    -8.3          -7.68       0.00      -0.10       -0.52                  66.08
+                                   usluga                7 12867 18924             100.0             100.0 66.6 58.3    -8.3           0.00       0.00      -0.60       -7.70                  59.92
+                        kampania x usluga               77 12867 18924             100.0              74.1 66.6 58.3    -8.3          -7.68       0.00       0.22       -0.84                  65.76
+     kampania x usluga x znizka x status1              409 12867 18924              99.0              73.2 66.6 58.3    -8.3          -7.91       0.29       0.55       -1.23                  65.70
+
+========================================================================================================================
+2. POWRÓT W 90 DNIACH W SEGMENTACH (%, te same dni kalendarzowe); zmiana w punktach procentowych
+========================================================================================================================
+
+2.kanal
+                      kanal  n_o1  n_o2  udzial_o1  udzial_o2   o1   o2  zmiana
+            meta_pozyskanie   786  4463        6.1       23.6 21.2  6.7   -14.5
+          google_ads_ogolne  4302  4423       33.4       23.4 23.6 21.1    -2.5
+     wyszukiwarka_bezplatna  2789  3151       21.7       16.7 24.1 22.7    -1.4
+               bezposrednie  2448  2794       19.0       14.8 25.1 23.6    -1.5
+           google_ads_marka  1522  1715       11.8        9.1 25.6 23.6    -2.0
+                     tiktok     0  1265        0.0        6.7  NaN  3.2     NaN
+            program_polecen   436   521        3.4        2.8 25.0 26.1     1.1
+          afiliacja_ranking   489   489        3.8        2.6 15.5 16.8     1.3
+           meta_remarketing    95   103        0.7        0.5 30.5 21.4    -9.1
+
+2.kampania
+                     kampania  n_o1  n_o2  udzial_o1  udzial_o2   o1   o2  zmiana
+         meta_prosp_l4_szybko     0  3628        0.0       19.2  NaN  4.5     NaN
+               google_organic  2644  2975       20.5       15.7 24.1 22.6    -1.5
+                 bezposrednie  2448  2794       19.0       14.8 25.1 23.6    -1.5
+                     gs_brand  1522  1715       11.8        9.1 25.6 23.6    -2.0
+     gs_generic_lekarz_online  1429  1399       11.1        7.4 22.9 20.7    -2.2
+            tt_prosp_l4_15min     0  1265        0.0        6.7  NaN  3.2     NaN
+          gs_generic_erecepta  1193  1233        9.3        6.5 32.4 27.8    -4.6
+                gs_generic_l4  1078  1072        8.4        5.7 16.0 16.0     0.0
+     meta_prosp_lekarz_online   786   835        6.1        4.4 21.2 16.2    -5.0
+       gs_generic_specjalisci   602   719        4.7        3.8 21.8 17.9    -3.9
+              program_polecen   436   521        3.4        2.8 25.0 26.1     1.1
+     rankinglekarzy_affiliate   489   489        3.8        2.6 15.5 16.8     1.3
+                 bing_organic   145   176        1.1        0.9 25.5 25.0    -0.5
+             meta_rmkt_koszyk    95   103        0.7        0.5 30.5 21.4    -9.1
+
+2.usluga
+                     usluga  n_o1  n_o2  udzial_o1  udzial_o2   o1   o2  zmiana
+              internista_l4  2795  7045       21.7       37.2 14.6  8.1    -6.5
+       internista_e_recepta  3206  3764       24.9       19.9 33.4 28.7    -4.7
+           inny_specjalista  2325  2712       18.1       14.3 25.2 20.1    -5.1
+     internista_konsultacja  2157  2522       16.8       13.3 23.3 19.8    -3.5
+     internista_skierowanie  1161  1335        9.0        7.1 20.2 19.0    -1.2
+                   pediatra   673   776        5.2        4.1 22.3 24.6     2.3
+                 psychiatra   550   770        4.3        4.1 22.5 19.9    -2.6
+
+2.znizka
+         znizka  n_o1  n_o2  udzial_o1  udzial_o2   o1   o2  zmiana
+           brak 10733 12841       83.4       67.9 23.5 19.8    -3.7
+     L4SZYBKO20     0  2531        0.0       13.4  NaN  4.0     NaN
+        START10  1190  1499        9.2        7.9 22.5 19.1    -3.4
+       TIKTOK25     0   958        0.0        5.1  NaN  3.1     NaN
+     TelemediGO   707   858        5.5        4.5 35.8 34.5    -1.3
+      RANKING10   237   237        1.8        1.3 15.2 13.1    -2.1
+
+2.status1
+       status1  n_o1  n_o2  udzial_o1  udzial_o2   o1   o2  zmiana
+     completed 11737 16744       91.2       88.5 24.8 18.6    -6.2
+      refunded   280   983        2.2        5.2  4.3  3.3    -1.0
+     cancelled   538   731        4.2        3.9 19.0 10.4    -8.6
+       no_show   312   466        2.4        2.5 16.0 13.1    -2.9
+
+2.przegladarka
+            przegladarka  n_o1  n_o2  udzial_o1  udzial_o2   o1   o2  zmiana
+            przegladarka 12379 14678       96.2       77.6 24.0 20.8    -3.2
+     aplikacja_Instagram   282  1858        2.2        9.8 20.9  7.2   -13.7
+      aplikacja_Facebook   206  1349        1.6        7.1 20.9  5.4   -15.5
+        aplikacja_TikTok     0  1039        0.0        5.5  NaN  3.2     NaN
+
+2.urzadzenie
+     urzadzenie  n_o1  n_o2  udzial_o1  udzial_o2   o1   o2  zmiana
+         mobile  8907 14144       69.2       74.7 24.0 16.3    -7.7
+        desktop  3555  4276       27.6       22.6 23.7 20.8    -2.9
+         tablet   405   504        3.1        2.7 23.2 18.5    -4.7
+
+2.tryb
+      tryb  n_o1  n_o2  udzial_o1  udzial_o2   o1   o2  zmiana
+     phone  7958 11670       61.8       61.7 23.9 17.4    -6.5
+      chat  2985  4284       23.2       22.6 24.2 17.5    -6.7
+     video  1924  2970       15.0       15.7 23.4 17.3    -6.1
+
+2.grupa
+                    grupa  n_o1  n_o2  udzial_o1  udzial_o2   o1   o2  zmiana
+       4_pozostale_kanaly 12081 13196       93.9       69.7 24.1 22.4    -1.7
+         2_meta_l4_szybko     0  3628        0.0       19.2  NaN  4.5     NaN
+                 3_tiktok     0  1265        0.0        6.7  NaN  3.2     NaN
+     1_meta_lekarz_online   786   835        6.1        4.4 21.2 16.2    -5.0
+
+2.kanal bez dwóch nowych kampanii
+                      kanal  n_o1  n_o2  udzial_o1  udzial_o2   o1   o2  zmiana
+          google_ads_ogolne  4302  4423       33.4       31.5 23.6 21.1    -2.5
+     wyszukiwarka_bezplatna  2789  3151       21.7       22.5 24.1 22.7    -1.4
+               bezposrednie  2448  2794       19.0       19.9 25.1 23.6    -1.5
+           google_ads_marka  1522  1715       11.8       12.2 25.6 23.6    -2.0
+            meta_pozyskanie   786   835        6.1        6.0 21.2 16.2    -5.0
+            program_polecen   436   521        3.4        3.7 25.0 26.1     1.1
+          afiliacja_ranking   489   489        3.8        3.5 15.5 16.8     1.3
+           meta_remarketing    95   103        0.7        0.7 30.5 21.4    -9.1
+
+========================================================================================================================
+3. META NA POZIOMIE KAMPANII
+========================================================================================================================
+3a. Kohorty miesięczne według grupy kampanii: liczba nowych pacjentów i powrót w 30 i 90 dniach (%)
+    (powrót tylko dla miesięcy z pełnym oknem dla wszystkich dni miesiąca)
+     miesiac  meta_lekarz_online_n  meta_lekarz_online_p30  meta_lekarz_online_p90  meta_l4_szybko_n  meta_l4_szybko_p30  meta_l4_szybko_p90  tiktok_n  tiktok_p30  tiktok_p90  pozostale_kanaly_n  pozostale_kanaly_p30  pozostale_kanaly_p90
+     2024-10                  97.0                     6.2                    16.5               NaN                 NaN                 NaN       NaN         NaN         NaN              1188.0                  10.6                  22.6
+     2024-11                  81.0                    16.0                    25.9               NaN                 NaN                 NaN       NaN         NaN         NaN              1319.0                  10.5                  23.8
+     2024-12                  84.0                     3.6                    16.7               NaN                 NaN                 NaN       NaN         NaN         NaN              1417.0                  13.3                  26.2
+     2025-01                  89.0                    10.1                    21.3               NaN                 NaN                 NaN       NaN         NaN         NaN              1539.0                  12.0                  26.6
+     2025-02                  78.0                    11.5                    15.4               NaN                 NaN                 NaN       NaN         NaN         NaN              1482.0                   9.9                  23.2
+     2025-03                  89.0                    13.5                    24.7               NaN                 NaN                 NaN       NaN         NaN         NaN              1512.0                  12.2                  24.1
+     2025-04                  93.0                     6.5                    19.4               NaN                 NaN                 NaN       NaN         NaN         NaN              1337.0                  11.6                  22.7
+     2025-05                  76.0                    17.1                    36.8               NaN                 NaN                 NaN       NaN         NaN         NaN              1190.0                  11.1                  23.4
+     2025-06                  94.0                     7.4                    17.0               NaN                 NaN                 NaN       NaN         NaN         NaN              1029.0                  10.9                  23.2
+     2025-07                  77.0                     9.1                    15.6               NaN                 NaN                 NaN       NaN         NaN         NaN              1039.0                   9.0                  22.1
+     2025-08                  77.0                     5.2                    19.5               NaN                 NaN                 NaN       NaN         NaN         NaN               997.0                  10.0                  21.5
+     2025-09                  87.0                     5.7                    21.8               NaN                 NaN                 NaN       NaN         NaN         NaN              1160.0                  10.5                  24.3
+     2025-10                  85.0                     3.5                    14.1               NaN                 NaN                 NaN       NaN         NaN         NaN              1298.0                  11.6                  24.1
+     2025-11                  94.0                     6.4                    16.0             121.0                 3.3                 5.8       NaN         NaN         NaN              1477.0                  10.2                  21.4
+     2025-12                  93.0                     5.4                    12.9             279.0                 2.5                 4.3       NaN         NaN         NaN              1517.0                  10.0                  22.0
+     2026-01                 112.0                     9.8                    19.6             445.0                 2.7                 4.9       NaN         NaN         NaN              1866.0                  10.7                  23.6
+     2026-02                  96.0                     7.3                    16.7             551.0                 2.4                 5.4      59.0         3.4         5.1              1597.0                  11.3                  24.5
+     2026-03                  87.0                    13.8                    23.0             619.0                 2.4                 3.7     207.0         1.9         3.4              1769.0                   9.1                  20.9
+     2026-04                  98.0                     6.1                    13.3             511.0                 2.5                 4.3     314.0         2.2         3.2              1333.0                   8.6                  20.7
+     2026-05                  88.0                     5.7                    13.6             565.0                 1.6                 3.2     345.0         2.6         3.5              1201.0                   8.9                  21.6
+     2026-06                  76.0                     3.9                    14.5             505.0                 2.4                 5.5     313.0         1.0         2.6              1080.0                   9.4                  22.5
+     2026-07                  92.0                     5.4                     NaN             481.0                 2.3                 NaN     318.0         2.2         NaN              1067.0                  11.9                   NaN
+     2026-08                  70.0                     5.7                     NaN             467.0                 3.2                 NaN     318.0         2.5         NaN              1032.0                  11.1                   NaN
+     2026-09                  85.0                     NaN                     NaN             515.0                 NaN                 NaN     335.0         NaN         NaN              1106.0                   NaN                   NaN
+
+3b. meta_prosp_lekarz_online: powrót w 90 dniach według pierwszej usługi, zniżki i statusu pierwszego zamówienia
+                     usluga  n_o1  n_o2  udzial_o1  udzial_o2   o1   o2  zmiana
+       internista_e_recepta   184   202       23.4       24.2 26.6 17.8    -8.8
+              internista_l4   156   172       19.8       20.6 11.5 11.6     0.1
+     internista_konsultacja   158   162       20.1       19.4 25.9 17.3    -8.6
+           inny_specjalista   123   116       15.6       13.9 21.1 16.4    -4.7
+     internista_skierowanie    98    96       12.5       11.5 20.4 14.6    -5.8
+                   pediatra    42    50        5.3        6.0 14.3 20.0     5.7
+                 psychiatra    25    37        3.2        4.4 28.0 21.6    -6.4
+
+         znizka  n_o1  n_o2  udzial_o1  udzial_o2   o1   o2  zmiana
+           brak   663   704       84.4       84.3 20.5 15.1    -5.4
+        START10    73    84        9.3       10.1 23.3 13.1   -10.2
+     TelemediGO    50    47        6.4        5.6 28.0 38.3    10.3
+
+       status1  n_o1  n_o2  udzial_o1  udzial_o2   o1   o2  zmiana
+     completed   714   763       90.8       91.4 22.3 16.4    -5.9
+     cancelled    39    35        5.0        4.2 12.8 14.3     1.5
+      refunded    14    21        1.8        2.5 14.3  9.5    -4.8
+       no_show    19    16        2.4        1.9  5.3 18.8    13.5
+
+            przegladarka  n_o1  n_o2  udzial_o1  udzial_o2   o1   o2  zmiana
+     aplikacja_Instagram   271   307       34.5       36.8 21.4 17.9    -3.5
+            przegladarka   318   301       40.5       36.0 21.7 16.6    -5.1
+      aplikacja_Facebook   197   227       25.1       27.2 20.3 13.2    -7.1
+
+     Rozkład w obrębie meta_prosp_lekarz_online:
+                       podzial  komorki_wspolne  n_o1  n_o2  pokrycie_o1_proc  pokrycie_o2_proc    o1    o2  zmiana  nowe_segmenty  znikniete  struktura  zachowanie  o2_przy_strukturze_o1
+                        usluga                7   786   835             100.0             100.0 21.25 16.17   -5.08          -0.00       0.00       0.03       -5.11                  16.09
+               usluga x znizka               21   786   835             100.0             100.0 21.25 16.17   -5.08           0.00       0.00       0.37       -5.45                  15.88
+     usluga x znizka x status1               39   786   835              98.7              98.1 21.25 16.17   -5.08          -0.19      -0.11       0.46       -5.23                  15.80
+
+3b. meta_prosp_l4_szybko: powrót w 90 dniach według pierwszej usługi, zniżki i statusu pierwszego zamówienia
+                     usluga  n_o1  n_o2  udzial_o1  udzial_o2  o1   o2  zmiana
+              internista_l4     0  3016        NaN       83.1 NaN  4.3     NaN
+     internista_konsultacja     0   171        NaN        4.7 NaN  1.8     NaN
+       internista_e_recepta     0   146        NaN        4.0 NaN  4.1     NaN
+           inny_specjalista     0   127        NaN        3.5 NaN 13.4     NaN
+                 psychiatra     0   121        NaN        3.3 NaN  2.5     NaN
+                   pediatra     0    47        NaN        1.3 NaN  8.5     NaN
+
+         znizka  n_o1  n_o2  udzial_o1  udzial_o2  o1   o2  zmiana
+     L4SZYBKO20     0  2531        NaN       69.8 NaN  4.0     NaN
+           brak     0   930        NaN       25.6 NaN  4.8     NaN
+        START10     0   118        NaN        3.3 NaN  6.8     NaN
+     TelemediGO     0    49        NaN        1.4 NaN 16.3     NaN
+
+       status1  n_o1  n_o2  udzial_o1  udzial_o2  o1  o2  zmiana
+     completed     0  2896        NaN       79.8 NaN 5.0     NaN
+      refunded     0   510        NaN       14.1 NaN 1.8     NaN
+     cancelled     0   132        NaN        3.6 NaN 4.5     NaN
+       no_show     0    90        NaN        2.5 NaN 4.4     NaN
+
+            przegladarka  n_o1  n_o2  udzial_o1  udzial_o2  o1  o2  zmiana
+     aplikacja_Instagram     0  1521        NaN       41.9 NaN 4.9     NaN
+      aplikacja_Facebook     0  1104        NaN       30.4 NaN 3.9     NaN
+            przegladarka     0  1003        NaN       27.6 NaN 4.6     NaN
+
+     meta_prosp_l4_szybko nie ma pacjentów w okresie 1, więc rozkładu w jej obrębie nie liczymy.
+
+3c. Meta pozyskanie razem: rozkład zmiany na kampanie i zachowanie w kampaniach (90 dni)
+                         podzial  komorki_wspolne  n_o1  n_o2  pokrycie_o1_proc  pokrycie_o2_proc    o1   o2  zmiana  nowe_segmenty  znikniete  struktura  zachowanie  o2_przy_strukturze_o1
+                        kampania                1   786  4463             100.0              18.7 21.25 6.68  -14.57          -9.49       0.00       0.00       -5.08                  16.17
+               kampania x usluga                7   786  4463             100.0              18.7 21.25 6.68  -14.57          -9.49       0.00       0.03       -5.11                  16.09
+     kampania x usluga x status1               23   786  4463              99.9              18.6 21.25 6.68  -14.57          -9.55       0.03       0.39       -5.44                  15.80
+
+3d. Pierwsza usługa L4 u internisty (L4 z L4): powrót w 90 dniach według grupy kampanii i kanału
+                    grupa  n_o1  n_o2  udzial_o1  udzial_o2   o1   o2  zmiana
+         2_meta_l4_szybko     0  3016        0.0       42.8  NaN  4.3     NaN
+       4_pozostale_kanaly  2639  2797       94.4       39.7 14.8 13.9    -0.9
+                 3_tiktok     0  1060        0.0       15.0  NaN  2.8     NaN
+     1_meta_lekarz_online   156   172        5.6        2.4 11.5 11.6     0.1
+
+                      kanal  n_o1  n_o2  udzial_o1  udzial_o2   o1   o2  zmiana
+            meta_pozyskanie   156  3188        5.6       45.3 11.5  4.7    -6.8
+          google_ads_ogolne  1084  1077       38.8       15.3 13.9 13.5    -0.4
+                     tiktok     0  1060        0.0       15.0  NaN  2.8     NaN
+     wyszukiwarka_bezplatna   584   609       20.9        8.6 16.3 14.1    -2.2
+               bezposrednie   462   548       16.5        7.8 15.8 13.9    -1.9
+           google_ads_marka   309   344       11.1        4.9 13.9 13.7    -0.2
+            program_polecen    89   106        3.2        1.5 21.3 27.4     6.1
+          afiliacja_ranking    95    90        3.4        1.3  7.4  5.6    -1.8
+           meta_remarketing    16    23        0.6        0.3 12.5  8.7    -3.8
+     Rozkład w obrębie pierwszego zamówienia L4:
+                         podzial  komorki_wspolne  n_o1  n_o2  pokrycie_o1_proc  pokrycie_o2_proc   o1   o2  zmiana  nowe_segmenty  znikniete  struktura  zachowanie  o2_przy_strukturze_o1
+                        kampania               10  2795  7045             100.0              42.1 14.6 8.09   -6.51          -5.72       0.00       0.06       -0.85                  13.77
+               kampania x znizka               29  2795  7045             100.0              42.0 14.6 8.09   -6.51          -5.72       0.00       0.15       -0.94                  13.71
+     kampania x znizka x status1               72  2795  7045              99.2              41.7 14.6 8.09   -6.51          -5.83       0.01       0.17       -0.85                  13.92
+
+========================================================================================================================
+4. TIKTOK JAKO NOWY SEGMENT (tylko okres 2; kohorty z pełnym oknem)
+========================================================================================================================
+     30 dni: TikTok 2.1% (n = 1874); pozostałe kanały w tych samych dniach od 9.02.2026: 7.6% (n = 12760)
+     60 dni: TikTok 2.9% (n = 1562); pozostałe kanały w tych samych dniach od 9.02.2026: 13.4% (n = 11249)
+     90 dni: TikTok 3.2% (n = 1265); pozostałe kanały w tych samych dniach od 9.02.2026: 16.7% (n = 9647)
+                     usluga    n  powrot90
+              internista_l4 1060       2.8
+     internista_konsultacja   59       5.1
+       internista_e_recepta   48      10.4
+                 psychiatra   44       2.3
+           inny_specjalista   36       2.8
+                   pediatra   18       0.0
+
+         znizka   n  powrot90
+       TIKTOK25 958       3.1
+           brak 262       3.1
+        START10  30       6.7
+     TelemediGO  15       0.0
+
+       status1   n  powrot90
+     completed 997       3.4
+      refunded 190       2.6
+     cancelled  54       1.9
+       no_show  24       0.0
+
+         przegladarka    n  powrot90
+     aplikacja_TikTok 1032       3.2
+         przegladarka  233       3.0
+
+     Udział TikToka w okresie 2 (kohorty do 2.07.2026): 6.7% pacjentów.
+     Powrót okresu 2 bez TikToka: 18.40% (n = 17659) wobec 17.38% z TikTokiem.
+
+========================================================================================================================
+5. KONTROLE WRAŻLIWOŚCI ROZKŁADU (kanał i kampania x usługa x zniżka x status)
+========================================================================================================================
+                                              wariant                              podzial  n_o1  n_o2    o1    o2  zmiana  nowe_segmenty  znikniete  struktura  zachowanie  o2_przy_strukturze_o1  pokrycie_o2_proc
+                         90 dni, te same dni (główny)                                kanal 12867 18924 23.91 17.38   -6.53          -1.02       0.00      -1.72       -3.79                  21.33              93.3
+                         90 dni, te same dni (główny) kampania x usluga x znizka x status1 12867 18924 23.91 17.38   -6.53          -4.72       0.12       0.19       -2.11                  21.96              73.2
+                                  30 dni, te same dni                                kanal 14984 22646 11.02  7.84   -3.18          -0.51       0.00      -0.84       -1.82                   9.74              91.7
+                                  30 dni, te same dni kampania x usluga x znizka x status1 14984 22646 11.02  7.84   -3.18          -2.23       0.04       0.10       -1.10                   9.89              70.9
+                                  60 dni, te same dni                                kanal 13941 20823 19.09 13.73   -5.35          -0.88       0.00      -1.41       -3.07                  17.01              92.5
+                                  60 dni, te same dni kampania x usluga x znizka x status1 13941 20823 19.09 13.73   -5.35          -3.87       0.07       0.20       -1.76                  17.40              72.0
+     90 dni, bez kohort z października w obu okresach                                kanal 11582 17541 24.10 16.90   -7.20          -1.07       0.00      -1.84       -4.30                  21.18              92.8
+     90 dni, bez kohort z października w obu okresach kampania x usluga x znizka x status1 11582 17541 24.10 16.90   -7.20          -5.03       0.13       0.27       -2.58                  21.68              71.1
+                            90 dni, okres 1 w całości                                kanal 16231 18924 23.60 17.38   -6.22          -1.02       0.00      -1.71       -3.49                  21.29              93.3
+                            90 dni, okres 1 w całości kampania x usluga x znizka x status1 16231 18924 23.60 17.38   -6.22          -4.73       0.12       0.16       -1.76                  21.95              73.3
+           90 dni, źródło według sesji płatności (Z2)                                kanal 12867 18924 23.91 17.38   -6.53          -0.76       0.00      -1.06       -4.71                  19.96              95.1
+           90 dni, źródło według sesji płatności (Z2) kampania x usluga x znizka x status1 12867 18924 23.91 17.38   -6.53          -4.28       0.11      -0.14       -2.21                  21.76              75.2
+
+5b. Te same miesiące rok do roku, bez dwóch nowych kampanii: powrót w 90 dniach (%)
+     mm   n_o1   n_o2  p90_o1  p90_o2  zmiana_pkt
+     10 1285.0 1383.0    22.2    23.5         1.3
+     11 1400.0 1571.0    23.9    21.1        -2.8
+     12 1501.0 1610.0    25.6    21.4        -4.2
+     01 1628.0 1978.0    26.3    23.4        -2.9
+     02 1560.0 1693.0    22.8    24.0         1.2
+     03 1601.0 1856.0    24.1    21.0        -3.1
+     04 1430.0 1431.0    22.5    20.2        -2.3
+     05 1266.0 1289.0    24.2    21.1        -3.1
+     06 1123.0 1156.0    22.7    22.0        -0.7
+     07 1116.0 1159.0    21.7     NaN         NaN
+     08 1074.0 1102.0    21.3     NaN         NaN
+     09 1247.0 1191.0    24.1     NaN         NaN
+
+========================================================================================================================
+6. NIEPEWNOŚĆ KLUCZOWYCH RÓŻNIC (powrót w 90 dniach, te same dni; 95% przedział, przybliżenie normalne)
+========================================================================================================================
+                                 grupa  n_o1  n_o2   o1   o2  zmiana_pkt   od   do
+                               wszyscy 12867 18924 23.9 17.4        -6.5 -7.4 -5.6
+             bez dwóch nowych kampanii 12867 14031 23.9 22.0        -1.9 -2.9 -0.9
+              meta_prosp_lekarz_online   786   835 21.2 16.2        -5.1 -8.9 -1.3
+     L4 u internisty, pozostałe kanały  2639  2797 14.8 13.9        -0.8 -2.7  1.0
+               kampania google_organic  2644  2975 24.1 22.6        -1.5 -3.7  0.7
+                 kampania bezposrednie  2448  2794 25.1 23.6        -1.5 -3.8  0.8
+                     kampania gs_brand  1522  1715 25.6 23.6        -2.1 -5.0  0.9
+     kampania gs_generic_lekarz_online  1429  1399 22.9 20.7        -2.2 -5.3  0.8
+          kampania gs_generic_erecepta  1193  1233 32.4 27.8        -4.6 -8.3 -1.0
+                kampania gs_generic_l4  1078  1072 16.0 16.0        -0.0 -3.1  3.1
+       kampania gs_generic_specjalisci   602   719 21.8 17.9        -3.8 -8.1  0.5
+              kampania program_polecen   436   521 25.0 26.1         1.1 -4.4  6.6
+     kampania rankinglekarzy_affiliate   489   489 15.5 16.8         1.2 -3.4  5.8
+
+6b. Marża na pacjenta (zł, przed kosztem pozyskania): dzień 0 (pierwsze zamówienie i TelemediGO przy kasie)
+    i dni 1–90; te same dni kalendarzowe, okno 90 dni
+                         grupa  okres     n  marza_dzien0  marza_dni_1_90  marza_90  powrot90
+                       wszyscy      1 12867          50.0            16.6      66.6      23.9
+                       wszyscy      2 18924          46.1            12.2      58.3      17.4
+     bez dwóch nowych kampanii      1 12867          50.0            16.6      66.6      23.9
+     bez dwóch nowych kampanii      2 14031          50.4            15.6      66.0      22.0
+            dwie nowe kampanie      2  4893          34.0             2.2      36.3       4.1
