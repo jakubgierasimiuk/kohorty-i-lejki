@@ -116,6 +116,7 @@ Paczka pochodzi z zewnątrz. Traktujemy ją jak niezaufaną, dopóki nie przejdz
 - **Zdarzenia znajdujemy w danych:** szukamy dni, od których zmienia się zachowanie (konwersja na krokach lejka, mix źródeł i urządzeń, ceny i zniżki, retencja kolejnych kohort), i opisujemy, co i kiedy się stało.
 - **Podejrzane rzeczy w danych** (duplikaty, luki w zbieraniu danych, niespójności między tabelami, wartości nierealne) — zgłaszamy w `notatki/ZNALEZISKA.md` i w narzędziu.
 - Każda liczba, która trafia do odpowiedzi, ma być powtarzalna z kodu w repozytorium.
+- **Najpierw napraw, potem wyłączaj (stała zasada).** Na wyniki patrzymy nie tylko analitycznie, ale też oczami marketingu i obsługi pacjenta. Słaby wynik źródła, kampanii albo kroku lejka nie znaczy jeszcze, że to źródło jest złe i trzeba je wyłączyć. Przyczyna może leżeć gdzie indziej: w obietnicy reklamy, w stronie wejścia, w obsłudze pacjenta albo w braku komunikacji po zakupie (CRM, automatyzacje, przypomnienia). Przy każdym słabym wyniku najpierw szukamy, co da się poprawić, żeby zaczęło działać, a dopiero potem sprawdzamy, czy z tego zrezygnować. W liście priorytetów pokazujemy obie opcje — naprawić albo wyłączyć — każdą z wartością w marży.
 
 ## 10. Narzędzie
 
@@ -127,6 +128,7 @@ Paczka pochodzi z zewnątrz. Traktujemy ją jak niezaufaną, dopóki nie przejdz
 
 - To repozytorium jest śladem pracy. **Commitujemy często, z opisowymi wiadomościami po polsku.** Ślepe uliczki zostają w historii. **Nie przepisujemy historii** (bez rebase, squash i force push).
 - Notatki robocze: `notatki/ZALOZENIA.md`, `notatki/ZNALEZISKA.md`, `notatki/DECYZJE.md`, `notatki/konsylium/`.
+- **Plan pracy: `notatki/PLAN.md`** (zatwierdzony przez Kubę 2026-10-19) — z tabelą statusu punktów. Przed rozpoczęciem każdego punktu pytamy Kubę, czy idziemy dalej. Claude liczy i pokazuje, wnioski wyciągamy razem po każdym większym kroku.
 
 ## 12. Struktura folderu
 
