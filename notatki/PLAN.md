@@ -15,8 +15,8 @@ Kolejność: **wstępna analiza → narzędzie → uzupełnienie analizy → wer
 | Punkt | Co | Status |
 |---|---|---|
 | 0 | Kontrola bezpieczeństwa paczki | zrobione (commit `e5897ac`, wynik w `ZNALEZISKA.md`) |
-| A1 | Baza danych | zrobione (`analiza/a1_baza.py`, wynik w `analiza/wyniki/a1_baza.txt`) |
-| A2 | Jakość danych | do zrobienia |
+| A1 | Baza danych | zrobione (commit `025d6f0`, `analiza/a1_baza.py`, wynik w `analiza/wyniki/a1_baza.txt`) |
+| A2 | Jakość danych | raport gotowy (`analiza/a2_jakosc.py`, `analiza/wyniki/a2_jakosc.txt`), czeka na przegląd z Kubą |
 | A3 | Odtworzenie dashboardu | do zrobienia |
 | A4 | Definicje (razem) | do zrobienia |
 | A5 | Pierwsze kohorty, lejek, po zakupie, zdarzenia | do zrobienia |

@@ -1,0 +1,435 @@
+A2 — JAKOŚĆ DANYCH (2026-10-19 13:30)
+Baza: analiza/telemedi.duckdb (schemat `surowe`, dane bez czyszczenia). Czas polski, chyba że napisano UTC.
+Okresy dashboardu: rok 1 = X 2024 – IX 2025, rok 2 = X 2025 – IX 2026 (od 2025-10-01).
+
+====================================================================================================
+1. DUPLIKATY
+====================================================================================================
+
+1a. Każda tabela: wiersze, wiersze unikalne w całości, unikalne identyfikatory
+              tabela           identyfikator  wiersze  unikalne_w_calosci  unikalne_id
+               users                 user_id    52422               52422        52422
+            sessions              session_id   459557              459557       459557
+              events session_id + event_name   494605              494605       494605
+              orders                order_id    65882               65278        65278
+      go_memberships           membership_id     4227                4227         4227
+     marketing_spend     date + utm (3 pola)     5676                5676         5676
+   Gdy 'unikalne_w_calosci' = 'unikalne_id', ten sam identyfikator nigdy nie ma dwóch różnych treści.
+   Duplikaty są tylko w orders. W pozostałych tabelach nie ma ani jednego, także na stykach plików.
+
+1b. Styki plików kwartalnych i półrocznych (zakres czasu UTC w każdym pliku)
+                    plik  wiersze        pierwszy_utc         ostatni_utc
+       events_2024h2.csv    39510 2024-09-30 22:14:45 2024-12-31 22:56:28
+       events_2025h1.csv   101513 2024-12-31 23:09:16 2025-06-30 21:43:09
+       events_2025h2.csv   109052 2025-06-30 22:14:41 2025-12-31 22:55:28
+       events_2026h1.csv   168991 2025-12-31 23:29:14 2026-06-30 21:54:02
+       events_2026h2.csv    75539 2026-06-30 22:01:56 2026-09-30 21:34:11
+     sessions_2024q4.csv    38490 2024-09-30 22:01:31 2024-12-31 22:55:51
+     sessions_2025q1.csv    46524 2024-12-31 23:08:01 2025-03-31 21:51:31
+     sessions_2025q2.csv    40384 2025-03-31 22:03:33 2025-06-30 21:41:50
+     sessions_2025q3.csv    37511 2025-06-30 22:13:06 2025-09-30 21:57:58
+     sessions_2025q4.csv    52797 2025-09-30 22:00:58 2025-12-31 22:55:13
+     sessions_2026q1.csv    80728 2025-12-31 23:00:22 2026-03-31 21:59:28
+     sessions_2026q2.csv    84383 2026-03-31 22:00:19 2026-06-30 21:59:15
+     sessions_2026q3.csv    78740 2026-06-30 22:01:41 2026-09-30 21:26:12
+   Pliki są pocięte według północy czasu polskiego (np. ostatnia sesja IV kwartału 2024: 22:55 UTC = 23:55 w Polsce).
+   Na stykach nie ma ani zdublowanych, ani zgubionych godzin: każdy plik zaczyna się tuż po końcu poprzedniego.
+
+1c. Duplikaty zamówień: ile kopii i gdzie w pliku
+      kopie  odstep_linii_miedzy_kopiami  zamowienia
+          2                            1         604
+   Każde zdublowane zamówienie ma dokładnie dwie kopie, w dwóch sąsiednich liniach pliku.
+
+1d. Duplikaty zamówień w czasie
+   Pierwszy zdublowany: 2026-06-10 00:07:06, ostatni zdublowany: 2026-06-24 23:59:07.
+   Ostatnie zamówienie przed oknem: 2026-06-09 23:59:31, pierwsze po oknie: 2026-06-25 02:36:43 — oba bez duplikatu.
+          dzien  zamowienia_unikalne  zdublowane  proc_zdublowanych
+     2026-06-08                  121           0                0.0
+     2026-06-09                  113           0                0.0
+     2026-06-10                  111          38               34.2
+     2026-06-11                  110          44               40.0
+     2026-06-12                  109          42               38.5
+     2026-06-13                  106          30               28.3
+     2026-06-14                  103          39               37.9
+     2026-06-15                  138          53               38.4
+     2026-06-16                  110          40               36.4
+     2026-06-17                  123          42               34.1
+     2026-06-18                  110          41               37.3
+     2026-06-19                  114          42               36.8
+     2026-06-20                   85          29               34.1
+     2026-06-21                  103          43               41.7
+     2026-06-22                  122          41               33.6
+     2026-06-23                  115          38               33.0
+     2026-06-24                  120          42               35.0
+     2026-06-25                  103           0                0.0
+     2026-06-26                  105           0                0.0
+   Udział zdublowanych wobec cech zamówienia w oknie 10–24.06.2026 (podobny = duplikacja przypadkowa):
+                cecha   wartosc  zamowienia  proc_zdublowanych
+     metoda platnosci      blik         950               35.8
+     metoda platnosci      card         534               35.6
+     metoda platnosci  transfer         195               37.9
+               status cancelled          55               32.7
+               status completed        1489               36.0
+               status   no_show          45               33.3
+               status  refunded          90               38.9
+               znizka        go         274               34.7
+               znizka      none         981               35.0
+               znizka     promo         424               39.2
+   Skala w okresach dashboardu (dodatkowe kopie = wiersze ponad zamówienia unikalne):
+     okres  wiersze_surowe  zamowienia_unikalne  dodatkowe_kopie  zaplata_w_kopiach_zl  zaplata_po_zwrotach_w_kopiach_zl
+     rok 1           25269                25269                0                   0.0                               0.0
+     rok 2           40613                40009              604               51293.0                           45804.9
+
+====================================================================================================
+2. ZAMÓWIENIA TESTOWE
+====================================================================================================
+
+2a. Kod TEST-QA: 1,810 wierszy surowych, 1,781 zamówień unikalnych (reszta to duplikaty z sekcji 1), 22 konta.
+   Wszystkie zamówienia kont testowych (z kodem i bez):
+            kod    status specialization consultation_mode  zamowienia  cena_kat  zaplata_min  zaplata_max  zwrot_max  czas_min  czas_max  z_ocena
+        TEST-QA completed     internista              chat        1781      89.0          1.0          1.0        0.0         1         1        0
+     (bez kodu)  refunded     internista              chat         290      89.0         89.0         89.0       89.0         1         1        0
+   Kontrola podpisu: czas wizyty 1 minuta wobec kont testowych w całych danych:
+      konto_testowe  duration_min  zamowienia
+              False             3        2077
+               True             1        2071
+   Czas trwania 1 minuta występuje tylko u kont testowych. Najkrótsza wizyta u pozostałych pacjentów trwa 3 minuty.
+   Zatem zbiór 'konta, które użyły TEST-QA' i zbiór 'zamówienia trwające 1 minutę' to to samo.
+
+2b. Konta testowe w tabeli users
+          region       city_size  marketing_consent  konta  rocznik_od  rocznik_do pierwsze_konto ostatnie_konto
+     mazowieckie miasto_pow_200k                  0     22        1986        1997     2024-10-17     2026-02-12
+
+2c. Kiedy składane (dzień tygodnia i godzina, czas polski)
+     dzien_tygodnia  zamowienia  godzina_od  godzina_do
+     1 poniedzialek         767           9          17
+           2 wtorek         330           9          17
+            3 sroda         304           9          17
+         4 czwartek         344           9          17
+           5 piatek         326           9          17
+   Liczba zamówień testowych w kwartałach:
+     kwartal_od  zamowienia_testowe  wszystkie_unikalne
+        2024-10                  35                4954
+        2025-01                  94                6920
+        2025-04                 170                6825
+        2025-07                 254                6570
+        2025-10                 330                8435
+        2026-01                 370               11349
+        2026-04                 410               10636
+        2026-07                 408                9589
+     okres  zamowienia_unikalne  testowe  konta_testowe_aktywne
+     rok 1                25269      553                     20
+     rok 2                40009     1518                     22
+
+2d. Ślad w analityce
+      sesje_kont_testowych  przegladarki  z_zamowieniem  bez_zamowienia
+                      2093            22           2071              22
+             zrodlo  device browser landing_page  sesje
+     (bezposrednie) desktop  Chrome            /     22
+     (bezposrednie) desktop  Chrome       /konto   2071
+     kroki_12345  sesje
+           11111   2071
+           00100     22
+   Kroki: 1 wybór usługi, 2 wybór terminu, 3 logowanie lub konto, 4 wejście na płatność, 5 płatność przyjęta.
+   Sesje bez zamówienia (po jednej na konto) to sesje założenia konta. Konta testowe nie mają TelemediGO: 0 zakupów.
+
+2e. Pieniądze w zamówieniach testowych
+      zamowienia  zaplata_zl  zwroty_zl  przychod_po_zwrotach_zl  wizyty_odbyte  koszt_lekarza_wg_zasady_zl
+            2071     27591.0    25810.0                   1781.0           2071                       51775
+   Koszt lekarza według zasady z zadania: 25 zł za odbytą wizytę u internisty, także zwróconą.
+   Czy lekarz naprawdę dostał wynagrodzenie za wizytę testową trwającą 1 minutę, z danych nie wiemy.
+
+====================================================================================================
+3. KLIKNIĘCIA (marketing_spend) WOBEC SESJI
+====================================================================================================
+
+3a. Źródła wejścia w sesjach
+         utm_source  utm_medium              utm_campaign  sesje pierwszy_dzien ostatni_dzien
+             (brak)      (brak)                    (brak)  61245     2024-10-01    2026-09-30
+               bing     organic                    (brak)   3944     2024-10-01    2026-09-30
+             google         cpc                  gs_brand  31135     2024-10-01    2026-09-30
+             google         cpc       gs_generic_erecepta  25332     2024-10-01    2026-09-30
+             google         cpc             gs_generic_l4  21847     2024-10-01    2026-09-30
+             google         cpc  gs_generic_lekarz_online  31221     2024-10-01    2026-09-30
+             google         cpc    gs_generic_specjalisci  14332     2024-10-01    2026-09-30
+             google     organic                    (brak)  88698     2024-10-01    2026-09-30
+               meta paid_social      meta_prosp_l4_szybko  60992     2025-11-03    2026-09-30
+               meta paid_social  meta_prosp_lekarz_online  44977     2024-10-01    2026-09-30
+               meta paid_social          meta_rmkt_koszyk   9459     2024-10-01    2026-09-30
+         newsletter       email             crm_go_upsell    992     2025-09-08    2026-09-30
+         newsletter       email          crm_reactivation   8607     2024-10-06    2026-09-30
+         newsletter       email crm_recepta_przypomnienie   4346     2024-10-04    2026-09-30
+          polecenie    referral           program_polecen   4741     2024-10-01    2026-09-30
+     rankinglekarzy   affiliate                    (brak)  10016     2024-10-01    2026-09-30
+                sms         sms     crm_sms_przypomnienie   4203     2024-10-11    2026-09-30
+             tiktok paid_social         tt_prosp_l4_15min  33470     2026-02-09    2026-09-30
+   Bing ma utm_medium = organic (bezpłatne wyniki wyszukiwania), tak jak google/organic. Brak kosztu jest zgodny z oznaczeniem.
+
+3b. Kampanie w marketing_spend
+     utm_source  utm_medium             utm_campaign  dni  wyswietlenia  klikniecia  koszt_zl pierwszy_dzien ostatni_dzien
+         google         cpc                 gs_brand  730        152771       33722  37645.29     2024-10-01    2026-09-30
+         google         cpc      gs_generic_erecepta  730        422747       27387 176739.02     2024-10-01    2026-09-30
+         google         cpc            gs_generic_l4  730        340560       23639 139975.17     2024-10-01    2026-09-30
+         google         cpc gs_generic_lekarz_online  730        566614       33781 181436.13     2024-10-01    2026-09-30
+         google         cpc   gs_generic_specjalisci  730        310748       15486 100315.39     2024-10-01    2026-09-30
+           meta paid_social     meta_prosp_l4_szybko  332       6218570       77630 163322.48     2025-11-03    2026-09-30
+           meta paid_social meta_prosp_lekarz_online  730       4988953       54692 117801.81     2024-10-01    2026-09-30
+           meta paid_social         meta_rmkt_koszyk  730        663631       11837  17607.72     2024-10-01    2026-09-30
+         tiktok paid_social        tt_prosp_l4_15min  234       6466977       46285  82464.30     2026-02-09    2026-09-30
+
+3c. Dzień × kampania: 0 par z sesjami płatnymi bez wiersza kosztu, 0 par z kosztem bez sesji.
+   Sesje na kliknięcie: cały okres oraz najniższy i najwyższy kwartał
+                     kampania  klikniecia  sesje  sesje_na_klik  kwartal_min  kwartal_max
+       gs_generic_specjalisci       15486  14332          0.925        0.919        0.932
+          gs_generic_erecepta       27387  25332          0.925        0.918        0.933
+                gs_generic_l4       23639  21847          0.924        0.918        0.936
+     gs_generic_lekarz_online       33781  31221          0.924        0.918        0.930
+                     gs_brand       33722  31135          0.923        0.918        0.927
+     meta_prosp_lekarz_online       54692  44977          0.822        0.820        0.826
+             meta_rmkt_koszyk       11837   9459          0.799        0.793        0.807
+         meta_prosp_l4_szybko       77630  60992          0.786        0.783        0.791
+            tt_prosp_l4_15min       46285  33470          0.723        0.721        0.725
+   Największe odchylenia pojedynczego dnia od średniej kampanii (w odchyleniach standardowych rozkładu dwumianowego):
+          dzien                 kampania  klikniecia  sesje  oczekiwane  odchylenie
+     2026-05-19     meta_prosp_l4_szybko         290    203       227.8        -3.6
+     2026-05-27     meta_prosp_l4_szybko         313    221       245.9        -3.4
+     2025-12-05                 gs_brand          70     57        64.6        -3.4
+     2026-02-14     meta_prosp_l4_szybko         231    203       181.5         3.4
+     2025-12-17 gs_generic_lekarz_online          77     64        71.2        -3.1
+   Przy 5,676 parach dzień × kampania odchylenie ok. 3,5–4 to zwykły szum losowy.
+   Wniosek kontroli: nie ma dni z utratą śledzenia kampanii płatnych.
+
+====================================================================================================
+4. MOMENT PŁATNOŚCI: SYSTEM TRANSAKCYJNY WOBEC ANALITYKI
+====================================================================================================
+
+   Najwięcej kroków payment_succeeded w jednej sesji: 1.
+4a. orders.created_at wobec payment_succeeded tej samej sesji, przeliczonego na czas polski (różnica w sekundach)
+      roznica_s  zamowienia
+              0       65278
+   Ta sama różnica wobec czasu UTC (w godzinach): przesunięcie zimowe i letnie
+      roznica_h  zamowienia           od_chwili           do_chwili
+            1.0       27961 2024-10-27 03:13:54 2026-03-29 01:10:10
+            2.0       37317 2024-10-01 05:24:16 2026-09-30 23:34:11
+4b. go_memberships.purchased_at wobec payment_succeeded tej samej sesji
+      kupione_osobno  zakupy  z_krokiem_platnosci  czas_identyczny
+               False    3541                 3541             3541
+                True     686                  686              686
+   Wniosek kontroli: system transakcyjny zapisuje czas polski i poprawnie obsługuje zmianę czasu.
+
+====================================================================================================
+5. POZOSTAŁE KONTROLE
+====================================================================================================
+
+5a. Powiązania między tabelami
+                      co  wszystkie  z_istniejaca_sesja  sesja_tego_samego_konta  konto_istnieje
+     zamowienia unikalne      65278               65278                    65278           65278
+       zakupy TelemediGO       4227                4227                     4227            4227
+         zdarzenia lejka     494605              494605                     <NA>            <NA>
+      kroki_payment_succeeded  z_zamowieniem  samo_telemedigo  bez_pokrycia
+                        65964          65278              686             0
+      sesje_zalogowane  konto_nieznane
+                104831               0
+
+5b. Kolejność w czasie: zamówienia, TelemediGO i sesje wobec założenia konta
+      zam_przed_kontem  go_przed_kontem  sesje_przed_kontem  konta_z_taka_sesja  max_minut_przed
+                     0                0               52422               52422               10
+   Sesja zalogowana zaczęta przed założeniem konta to sesja, w której konto powstało (jedna na konto).
+      konta  z_zamowieniem  z_telemedigo  bez_zakupu
+      52422          40940          4142       11482
+
+5c. Status wizyty wobec startu, czasu trwania, zwrotu i oceny
+        status  zamowienia  ze_startem  z_czasem_trwania  zwrot_zero  zwrot_pelny  zwrot_wiekszy_niz_zaplata  zwrot_czesciowy  z_ocena
+     completed       58718       58718             58718       58718            0                          0                0    18212
+     cancelled        2572           0                 0           0         2572                          0                0        0
+      refunded        2408        2408              2408           0         2408                          0                0      458
+       no_show        1580           0                 0        1580            0                          0                0        0
+
+5d. Cena katalogowa: czy stała w czasie dla każdej specjalizacji
+     specialization  rozne_ceny  cena  zamowienia                              cele_wizyt
+         internista           1  89.0       48723 e_recepta, konsultacja, l4, skierowanie
+           pediatra           1  95.0        2767                konsultacja, skierowanie
+          psycholog           1  99.0         515                  e_recepta, konsultacja
+         dermatolog           1 109.0        3074                  e_recepta, konsultacja
+          kardiolog           1 109.0         988                  e_recepta, konsultacja
+           neurolog           1 109.0         817                  e_recepta, konsultacja
+             urolog           1 109.0         779                  e_recepta, konsultacja
+       endokrynolog           1 119.0        1602                  e_recepta, konsultacja
+          ginekolog           1 119.0        3090                  e_recepta, konsultacja
+         psychiatra           1 269.0        2923              e_recepta, konsultacja, l4
+
+5e. Zapłata wobec zniżki
+     discount_type        kod  internista  rabat_zl  zaplata_do_ceny  zamowienia pierwszy_dzien ostatni_dzien
+                go          -       False      19.0            0.800         382     2024-10-11    2026-09-30
+                go          -       False      19.8            0.800          73     2024-10-11    2026-09-26
+                go          -       False      21.8            0.800         932     2024-10-07    2026-09-30
+                go          -       False      23.8            0.800         878     2024-10-07    2026-09-30
+                go          -       False      53.8            0.800         523     2024-10-11    2026-09-30
+                go          -        True      44.5            0.500        6950     2024-10-01    2026-09-30
+              none          -       False       0.0            1.000       12153     2024-10-01    2026-09-30
+              none          -        True       0.0            1.000       32094     2024-10-01    2026-09-30
+             promo L4SZYBKO20       False      20.0            0.798           9     2025-12-29    2026-09-25
+             promo L4SZYBKO20       False      20.0            0.789          48     2025-11-15    2026-09-25
+             promo L4SZYBKO20       False      20.0            0.817          69     2025-12-04    2026-09-25
+             promo L4SZYBKO20       False      20.0            0.832          49     2025-11-08    2026-09-30
+             promo L4SZYBKO20       False      20.0            0.926         122     2025-12-05    2026-09-28
+             promo L4SZYBKO20        True      20.0            0.775        3214     2025-11-04    2026-09-30
+             promo  RANKING10       False      10.0            0.895          40     2024-10-07    2026-09-25
+             promo  RANKING10       False      10.0            0.899           8     2024-12-03    2026-07-10
+             promo  RANKING10       False      10.0            0.908          54     2024-10-09    2026-08-07
+             promo  RANKING10       False      10.0            0.963          20     2024-10-20    2026-09-06
+             promo  RANKING10       False      10.0            0.916          45     2024-10-17    2026-09-27
+             promo  RANKING10        True      10.0            0.888         428     2024-10-02    2026-09-29
+             promo    START10       False      10.0            0.916         240     2024-10-09    2026-09-14
+             promo    START10       False      10.0            0.899          35     2024-10-20    2026-09-22
+             promo    START10       False      10.0            0.963         152     2024-10-02    2026-09-29
+             promo    START10       False      10.0            0.895         171     2024-10-01    2026-09-29
+             promo    START10       False      10.0            0.908         310     2024-10-04    2026-09-27
+             promo    START10        True      10.0            0.888        2478     2024-10-01    2026-09-30
+             promo    TEST-QA        True      88.0            0.011        1781     2024-10-21    2026-09-30
+             promo   TIKTOK25       False      25.0            0.737          26     2026-02-20    2026-09-27
+             promo   TIKTOK25       False      25.0            0.747           3     2026-06-21    2026-09-05
+             promo   TIKTOK25       False      25.0            0.907          55     2026-02-15    2026-09-30
+             promo   TIKTOK25       False      25.0            0.771          23     2026-04-02    2026-09-28
+             promo   TIKTOK25       False      25.0            0.790          29     2026-03-21    2026-09-24
+             promo   TIKTOK25        True      25.0            0.719        1529     2026-02-10    2026-09-30
+             promo   WRACAM15       False      15.0            0.862          32     2024-11-05    2026-09-19
+             promo   WRACAM15       False      15.0            0.842          17     2024-12-06    2026-08-08
+             promo   WRACAM15       False      15.0            0.944          17     2024-12-11    2026-09-24
+             promo   WRACAM15       False      15.0            0.848           2     2025-03-18    2025-10-07
+             promo   WRACAM15       False      15.0            0.874          38     2024-12-28    2026-09-06
+             promo   WRACAM15        True      15.0            0.831         249     2024-10-06    2026-09-27
+   TelemediGO: 50% u internisty, 20% u pozostałych — zgodnie z zasadą. Kody rabatowe to stała kwota w złotych,
+   nie procent (START10 i RANKING10: 10 zł, WRACAM15: 15 zł, L4SZYBKO20: 20 zł, TIKTOK25: 25 zł, TEST-QA: 88 zł).
+      go_niezgodne  bez_znizki_niezgodne  promo_bez_kodu  kod_bez_promo
+                 0                     0               0              0
+   Kody rabatowe na pierwszym i kolejnym zamówieniu pacjenta (zamówienia unikalne, kolejność według created_at):
+            kod  zamowienia  na_pierwszym  na_kolejnym
+     L4SZYBKO20        3511          3511            0
+        START10        3386          3386            0
+        TEST-QA        1781            18         1763
+       TIKTOK25        1665          1665            0
+      RANKING10         595           595            0
+       WRACAM15         355             0          355
+   START10 w kwartałach — czy to kod tylko z okresu startu:
+     kwartal_od  start10  pierwsze_zamowienia  proc_pierwszych
+        2024-10      377                 4192              9.0
+        2025-01      453                 4793              9.5
+        2025-04      354                 3825              9.3
+        2025-07      316                 3441              9.2
+        2025-10      465                 4964              9.4
+        2026-01      579                 7410              7.8
+        2026-04      444                 6429              6.9
+        2026-07      398                 5886              6.8
+   Zniżka TelemediGO wobec członkostwa aktywnego w chwili zamówienia (zakup <= zamówienie <= valid_until):
+     znizka  aktywne_go  zamowienia
+         go           1        9738
+       none           0       44246
+       none           1           1
+      promo           0       11293
+   TelemediGO kupione przy zamówieniu wobec zniżki w tym zamówieniu:
+     znizka_w_zamowieniu  zakupy_go  ta_sama_chwila_sesja_konto
+                      go       3541                        3541
+
+5f. TelemediGO: cena, ważność, nakładanie się członkostw
+      amount_paid  dni_waznosci  zakupy  pacjenci
+             89.0           365    4227      4142
+      pary_nakladajacych_sie_czlonkostw
+                                      0
+
+5g. Luki w zbieraniu danych
+      dni  bez_sesji  bez_zdarzen  bez_zamowien  min_sesji  min_zamowien
+      730          0            0             0        197            23
+   Dni najniższe wobec mediany z 15 dni wokół (sesje, zamówienia):
+          dzien  sesje  sesje_do_mediany  zamowienia  zam_do_mediany
+     2024-11-01    197              0.47          23            0.47
+     2025-11-01    246              0.48          48            0.59
+     2024-12-26    262              0.66          34            0.53
+     2025-05-03    249              0.55          69            0.96
+     2025-12-26    350              0.55          73            0.80
+     2025-12-25    363              0.57          61            0.67
+     2026-05-03    520              0.58          90            0.83
+     2026-05-01    532              0.58          93            0.85
+     2024-12-24    283              0.62          48            0.75
+     2025-05-01    293              0.62          72            1.00
+   Wszystkie to święta i dni wokół nich (1.11, 24–26.12, 31.12, 1.05, 3.05) — spadek naturalny, nie luka.
+   Godziny z najmniejszą liczbą sesji wobec tej samej godziny w 15 dniach wokół (gdy mediana >= 10):
+              godzina  sesje  mediana_sesji  zdarzenia  zamowienia
+     2025-05-17 13:00      1           21.0          0           0
+     2024-11-01 12:00      3           19.0          2           0
+     2025-02-15 05:00      2           11.0          9           1
+     2025-01-18 05:00      2           10.0          0           0
+     2025-11-01 08:00      8           36.0         21           4
+   Godziny z najmniejszą liczbą zdarzeń lejka wobec tej samej godziny w 15 dniach wokół (gdy mediana >= 10):
+              godzina  sesje  zdarzenia  mediana_zdarzen  zamowienia
+     2025-05-17 13:00      1          0             20.0           0
+     2024-10-11 16:00     14          0             20.0           0
+     2024-12-14 13:00     15          0             17.0           0
+     2026-01-24 00:00      8          0             16.0           0
+     2026-04-05 04:00      5          0             15.0           0
+   Jedyna wyraźna luka: 17.05.2025 13:00–14:00 (1 sesja zamiast ok. 21, zero zamówień).
+   Dwie godziny z sesjami, ale bez zdarzeń lejka: 11.10.2024 16:00 (14 sesji) i 14.12.2024 13:00 (15 sesji).
+   Zdarzenie lejka ma ok. 35% sesji, więc 14–15 sesji bez zdarzenia to szansa ok. 1:500 na godzinę. Przy ok. 2 500
+   godzinach dziennych w pierwszym półroczu jedna–dwie takie godziny mogą być przypadkiem. Wpływ pomijalny.
+
+5h. Kroki lejka w sesjach
+             sesja   kroki_12345  sesje  z_zamowieniem  samo_telemedigo
+     niezalogowana (bez zdarzeń) 280030              0                0
+     niezalogowana         10000  43630              0                0
+     niezalogowana         11000  31066              0                0
+        zalogowana         11111  65278          65278                0
+        zalogowana (bez zdarzeń)  17494              0                0
+        zalogowana         11100  10735              0                0
+        zalogowana         11110   6042              0                0
+        zalogowana         10000   4462              0                0
+        zalogowana         00011    686              0              686
+        zalogowana         11000    112              0                0
+        zalogowana         00100     22              0                0
+   Kroki: 1 wybór usługi, 2 wybór terminu, 3 logowanie lub konto, 4 wejście na płatność, 5 płatność przyjęta.
+      termin_przed_usluga  konto_przed_terminem  platnosc_przed_poprzednim  sukces_przed_wejsciem  termin_bez_uslugi  sukces_bez_wejscia
+                        0                     0                          0                      0                  0                   0
+   Sesje zalogowane od wejścia (konto w sesji, bez kroku 3), poza zakupem samego TelemediGO:
+     kwartal_od  sesje  z_wyborem_uslugi  z_wyborem_terminu  z_platnoscia  pacjent_juz_kupowal
+        2024-10    567               116                  3             0                  567
+        2025-01   1770               386                 10             0                 1770
+        2025-04   2715               575                 17             0                 2715
+        2025-07   2974               585                 11             0                 2974
+        2025-10   2941               591                 13             0                 2941
+        2026-01   3405               706                 13             0                 3405
+        2026-04   4031               861                 19             0                 4031
+        2026-07   3665               754                 26             0                 3665
+      sesje_zamowien_powtornych  z_krokiem_logowania
+                          24338                24338
+
+5i. Realność wartości
+      rocznik_min  rocznik_max  plec_inna
+             1942         2008          0
+      min_minut_zaplata_do_terminu  max_godzin_zaplata_do_terminu  termin_przed_zaplata  start_przed_zaplata  min_minut_opoznienia  max_minut_opoznienia
+                                 9                             71                     0                    0                    -4                   377
+     consultation_mode  czas_min  czas_mediana  czas_max
+                  chat         3          10.0        35
+                 phone         3          10.0        36
+                 video         3          10.0        33
+      klikniecia_ponad_wyswietlenia  koszt_zero  min_koszt_klikniecia_zl  max_koszt_klikniecia_zl
+                                  0           0                      0.8                      8.8
+     specialization visit_purpose  zamowienia
+          psycholog   konsultacja         491
+          psycholog     e_recepta          24
+   Psycholog nie jest lekarzem i w Polsce nie wystawia e-recept. Zamówienia 'psycholog + e_recepta' są nierealne.
+
+5j. Tożsamość: przeglądarki (visitor_id) wobec kont
+      przegladarki_z_kontem  przegladarki_kilku_kont
+                      57495                        0
+      konta  konta_z_kilkoma_przegladarkami  srednio  najwiecej
+      52422                            3835      1.1          8
+      przegladarki  kiedys_zalogowane  nigdy_zalogowane
+            365078              57495            307583
+
+5k. Program poleceń: strona /polecenie wobec źródła polecenie
+             zrodlo       kanal  wejscie_na_polecenie  sesje
+          polecenie    referral                  True   4690
+     (bezposrednie)           -                  True    131
+             google         cpc                  True     82
+             google     organic                  True     71
+          polecenie    referral                 False     51
+               meta paid_social                  True     46
