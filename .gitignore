@@ -1,0 +1,13 @@
+# Paczka i surowe dane z zadania — nie trafiają do repozytorium
+pobrane/
+dane/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Pliki tymczasowe
+*.tmp
+.DS_Store
+Thumbs.db
