@@ -84,3 +84,12 @@ Decyzje podjęte w trakcie pracy (metoda, podziały, narzędzie, hosting) — co
 - trzy poprawki techniczne w kodzie (czas w UTC, pełne 61 dni obserwacji tła, wyjątek dla samego TelemediGO w sesjach zalogowanych);
 - trzy doprecyzowania definicji, przyjęte przez Kubę: okno CRM tylko z zamówieniami nieanulowanymi, rozłączne przypisanie sprzedaży do ostatniego wejścia z CRM oraz porównanie okresów na tych samych dniach kalendarzowych (`ZALOZENIA.md` 26 i 27);
 - jedną metodę do A5: oddzielenie zmiany struktury pacjentów od zmiany ich zachowania.
+
+
+## 2026-10-19 — wykonanie punktu A5 w dwóch sesjach
+
+**Decyzja Kuby:** A5 robią dwie sesje równoległe, z podziałem na retencję i pozyskanie. Zakres każdej, zatrzymania i zasady są w `PLAN.md`, sekcja A5, punkt „Wykonanie A5”. Żadna sesja nie przebudowuje bazy, każda pisze we własnych plikach, a wspólne notatki scala sesja prowadząca.
+
+**Dlaczego taki podział (Kuba):** sesja proponowała podział na kohorty z zdarzeniami i lejek z tym, co po zakupie. Kuba połączył to, co dzieje się po zakupie, z retencją, bo przebieg wizyty może zmieniać powroty. Lejek liczy się na sesjach, więc sesja pozyskania nie musi czekać na wspólny moduł definicji.
+
+**Korekta po uwadze Kuby:** w podsumowaniu A4 napisałem, że sama zmiana struktury źródeł nie tłumaczy spadku powrotu w Mecie (z 20,7% do 6,7% w 90 dniach). To hipoteza, nie wniosek: w drugim roku w Mecie pojawiła się nowa kampania na L4 (`meta_prosp_l4_szybko`, od 3.11.2025). Spadek sprawdzamy na poziomie kampanii, a strukturę rozdzielamy co najmniej po kampanii, pierwszej usłudze, zniżce i przebiegu pierwszej wizyty.

@@ -13,9 +13,14 @@ Zasada z `CLAUDE.md`, punkt 14: każda sesja czyta ten plik na starcie i aktuali
 | A2 Jakość danych | zrobione, czyszczenie przyjęte przez Kubę | `b7466aa`, `95140a0`, `12a0128` |
 | A3 Odtworzenie dashboardu | zrobione, przyjęte przez Kubę | `b91975a` |
 | A4 Definicje (razem z Kubą) | zrobione, definicje przyjęte przez Kubę, recenzja Codeksa (Sol) uwzględniona | commit „A4: definicje przyjęte…” (pierwszy po `78e69a9`) |
-| **A5 Kohorty, lejek, po zakupie, zdarzenia** | **następny — decyzję, gdzie i kiedy, podejmuje sesja prowadząca z Kubą** | — |
+| **A5 Kohorty, lejek, po zakupie, zdarzenia** | **w toku: dwie sesje równoległe, retencja i pozyskanie (zakres w `PLAN.md`, sekcja A5)** | — |
 
 Status wszystkich punktów: `notatki/PLAN.md`.
+
+**Własność plików w A5 (dwie sesje pracują naraz w tym samym folderze):**
+- sesja retencji: `analiza/definicje.py` (jedyna sesja, która go edytuje), `analiza/a5r_*.py`, `analiza/wyniki/a5r_*`, `notatki/a5_retencja.md`, `notatki/recenzje/a5r_*`;
+- sesja pozyskania: `analiza/a5p_*.py`, `analiza/wyniki/a5p_*`, `notatki/a5_pozyskanie.md`, `notatki/recenzje/a5p_*`;
+- wspólne notatki (`ZALOZENIA.md`, `ZNALEZISKA.md`, `DECYZJE.md`, `PLAN.md`, ten plik, `analiza/README.md`) oraz pliki A1–A4 edytuje tylko sesja prowadząca. Propozycje wpisów do nich sesje zapisują we własnych notatkach.
 
 ## 2. Dane i kod
 
