@@ -39,3 +39,13 @@ Decyzje podjęte w trakcie pracy (metoda, podziały, narzędzie, hosting) — co
 **Jak wykonane:** dane surowe zostają nietknięte w schemacie `surowe`. Oczyszczona kopia powstaje obok, w schemacie `czyste` (skrypt `analiza/a2_czyste.py`). Dzięki temu w A3 da się porównać dashboard liczony na surowo z liczbami po oczyszczeniu, a każdą decyzję o czyszczeniu można cofnąć bez ponownego ładowania danych.
 
 **Otwarte po przeglądzie (czekają na Kubę):** jak czytać sesje zalogowane od wejścia, które nigdy nie kończą się zakupem; jak wyznaczyć okres rozruchu, skoro START10 działa przez całe dwa lata (zmiana w planie, punkt A5); kody rabatowe jako stała kwota w złotych.
+
+## 2026-10-19 — trzy otwarte sprawy z przeglądu A2
+
+**Decyzja Kuby:** przyjęte wszystkie trzy propozycje, z dopiskami. Założenia: `ZALOZENIA.md`, punkty 10–15. Zmiany w planie: A4 (źródło pozyskania i prowizja), A5 (lejek, komunikacja po zakupie, pułapki), C (lista niewiadomych).
+
+1. **Sesje zalogowane od wejścia.** Osobny wiersz w lejku, newsletter i SMS oceniane na poziomie pacjenta. Dopisek Kuby: wyjaśnienie nadal niepełne. Rozważamy trzy odczytania: zepsuta ścieżka zakupu dla zalogowanych, inny cel wizyty albo sposób pomiaru (krok logowania zapisywany każdemu przy kasie). Pogłębienie w A5: na którym kroku odpadają, z jakich stron i kampanii przychodzą (np. przypomnienie o recepcie), czy kupują potem rzadziej niż podobni pacjenci, czas między wyborem terminu a krokiem logowania. Zepsuta ścieżka uderzałaby wyłącznie w powracających, czyli w retencję. Dlatego na liście niewiadomych będą oba odczytania, test rozstrzygający i wartość wariantu pesymistycznego w marży.
+2. **Okres rozruchu.** Zgoda na zmianę w A5: nie wyznaczamy okresu rozruchu kodem START10. Dopisek Kuby: nie przesądzamy, że wzrost od października do stycznia to sezon infekcji, bo w tym samym czasie rosną wydatki na kampanie. Sezon i wydatki rozdzielamy w A5.
+3. **Kody rabatowe.** Zgoda. Kody kampanii służą jako kontrola reguł przypisania źródła w A4. Dopisek Kuby: prowizję dla rankingu liczymy tą samą regułą co źródło pozyskania, drugi wariant jedną liczbą obok. Jeśli różnica jest mała, nie poświęcamy temu więcej czasu.
+
+**Korekta po uwadze Kuby:** w rozmowie napisałem, że wzrost liczby nowych pacjentów od października 2024 do stycznia 2025 „pasuje do sezonu infekcji”. To było za szybkie. W tej samej tabeli rosną wydatki na kampanie, więc przyczyna jest otwarta.

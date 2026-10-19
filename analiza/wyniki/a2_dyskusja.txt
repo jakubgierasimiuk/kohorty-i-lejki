@@ -1,0 +1,83 @@
+A2 — WYLICZENIA DO DYSKUSJI (2026-10-19 14:34), schemat `czyste`
+
+1. Sesje zalogowane od wejścia (bez kroku logowania, bez zakupu samego TelemediGO):
+   kiedy ten sam pacjent składa następne zamówienie
+                 sesja  sesje  proc_zam_do_1h  proc_zam_do_24h  proc_zam_do_7_dni  proc_zam_do_30_dni
+     bez zdarzeń lejka  17494             0.0              0.5                4.3                16.8
+         wybrał usługę   4574             0.0              0.4                4.6                16.7
+
+2. Pierwsze tygodnie (tydzień od poniedziałku; pierwszy tydzień ma 6 dni: 1–6.10.2024)
+     tydzien_od  nowi_pacjenci  zamowienia  zamowienia_powtorne  sesje  koszt_kampanii_zl  start10
+     2024-09-30            198         200                    2   1897             4808.0       23
+     2024-10-07            296         302                    6   2470             5542.0       18
+     2024-10-14            291         314                   23   2576             6062.0       23
+     2024-10-21            309         329                   20   2741             6431.0       24
+     2024-10-28            281         308                   27   2677             6176.0       29
+     2024-11-04            352         402                   50   3009             7121.0       22
+     2024-11-11            320         372                   52   3043             6956.0       24
+     2024-11-18            344         408                   64   2979             6656.0       42
+     2024-11-25            338         408                   70   3198             7197.0       28
+     2024-12-02            361         446                   85   3315             7443.0       38
+     2024-12-09            353         446                   93   3448             7735.0       32
+     2024-12-16            375         471                   96   3495             7535.0       40
+     2024-12-23            275         376                  101   2686             5717.0       27
+     2024-12-30            327         485                  158   3071             6488.0       37
+     2025-01-06            360         491                  131   3627             7962.0       30
+     2025-01-13            339         461                  122   3445             7469.0       27
+     2025-01-20            392         523                  131   3780             8169.0       44
+     2025-01-27            411         537                  126   3708             8206.0       38
+     2025-02-03            387         538                  151   3641             8332.0       34
+     2025-02-10            377         527                  150   3672             8051.0       38
+     2025-02-17            393         561                  168   3739             8293.0       30
+     2025-02-24            386         550                  164   3622             7957.0       28
+     2025-03-03            376         546                  170   3750             7977.0       35
+     2025-03-10            393         580                  187   3543             8103.0       40
+     2025-03-17            367         544                  177   3590             8268.0       37
+     2025-03-24            314         531                  217   3573             7767.0       29
+     2025-03-31            365         589                  224   3499             7933.0       40
+
+3a. Kody rabatowe: źródło sesji, w której pacjent zapłacił (cztery najczęstsze)
+            kod                      zrodlo_sesji  zamowienia  proc_kodu
+     L4SZYBKO20       meta / meta_prosp_l4_szybko        2468       70.3
+     L4SZYBKO20                (bezposrednie) / -         437       12.4
+     L4SZYBKO20                  google / organic         242        6.9
+     L4SZYBKO20                 google / gs_brand         226        6.4
+      RANKING10        rankinglekarzy / affiliate         401       67.4
+      RANKING10                (bezposrednie) / -          73       12.3
+      RANKING10                 google / gs_brand          48        8.1
+      RANKING10                  google / organic          45        7.6
+        START10                (bezposrednie) / -         812       24.0
+        START10                  google / organic         666       19.7
+        START10                 google / gs_brand         490       14.5
+        START10 google / gs_generic_lekarz_online         257        7.6
+       TIKTOK25        tiktok / tt_prosp_l4_15min        1191       71.5
+       TIKTOK25                (bezposrednie) / -         181       10.9
+       TIKTOK25                 google / gs_brand         116        7.0
+       TIKTOK25                  google / organic         103        6.2
+       WRACAM15     newsletter / crm_reactivation         355      100.0
+
+3b. Pierwsze zamówienia według źródła sesji płatności: udział kodów kampanii
+                 zrodlo_sesji  pierwsze_zamowienia  proc_l4szybko20  proc_tiktok25  proc_ranking10  proc_start10
+               (bezposrednie)                 9344              4.7            1.9             0.8           8.7
+                       google                 7407              3.3            1.4             0.6           9.0
+                     gs_brand                 5410              4.2            2.1             0.9           9.1
+         meta_prosp_l4_szybko                 3594             68.7            0.0             0.0           3.3
+     gs_generic_lekarz_online                 2535              0.0            0.0             0.0          10.1
+          gs_generic_erecepta                 2242              0.0            0.0             0.0           9.6
+             meta_rmkt_koszyk                 2127              6.5            3.5             1.3           9.4
+                gs_generic_l4                 1859              0.0            0.0             0.0           9.0
+            tt_prosp_l4_15min                 1593              0.0           74.8             0.0           3.1
+     meta_prosp_lekarz_online                 1572              0.0            0.0             0.0           9.8
+       gs_generic_specjalisci                 1234              0.0            0.0             0.0          10.0
+              program_polecen                  884              0.0            0.0             0.0           8.3
+               rankinglekarzy                  842              0.0            0.0            47.6           5.3
+                         bing                  275              0.0            0.0             0.0           6.2
+
+3c. Wartość zniżek w złotych (cena katalogowa minus zapłata), dwa lata
+         znizka  zamowienia  zl_zniżki  sredni_proc_ceny
+     TelemediGO        9738   387329.8              41.4
+     L4SZYBKO20        3511    70220.0              21.8
+       TIKTOK25        1665    41625.0              27.2
+        START10        3386    33860.0              10.5
+      RANKING10         595     5950.0              10.5
+       WRACAM15         355     5325.0              15.5
