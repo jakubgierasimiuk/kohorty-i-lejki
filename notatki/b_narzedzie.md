@@ -2,7 +2,7 @@
 
 Pierwsza wersja narzędzia: układ strony, lejek, oś zdarzeń i jakość danych. Kohorty dochodzą po drugim zatrzymaniu sesji retencji (`DECYZJE.md`, wpis „szkielet narzędzia (punkt B) przed końcem A5”). Wspólne notatki scala sesja prowadząca. Propozycje wpisów do nich są w sekcji „Propozycje wpisów do wspólnych notatek”.
 
-**Status:** druga wersja narzędzia przyjęta przez Kubę 2026-10-20, po trzech poprawkach (sekcje 10 i 11). Trzecia wersja (2026-10-20, sekcja 12): wynik punktu C na stronie, czyli ostateczne „Czy to wzrost”, „Priorytety” i „Czego nie wiemy”. Kuba ją przejrzał i dał trzy poprawki (sekcja 13); wprowadzone, czekają na jego przyjęcie przed próbną publikacją. Propozycje wpisów do wspólnych notatek z sekcji 12 i 13 czekają na scalenie przez sesję prowadzącą. Nic nie jest opublikowane.
+**Status:** druga wersja narzędzia przyjęta przez Kubę 2026-10-20, po trzech poprawkach (sekcje 10 i 11). Trzecia wersja (2026-10-20, sekcja 12): wynik punktu C na stronie, czyli ostateczne „Czy to wzrost”, „Priorytety” i „Czego nie wiemy”. Kuba ją przejrzał, dał trzy poprawki (sekcja 13) i po ich wprowadzeniu przyjął trzecią wersję 2026-10-20 (commit `f584585`). Publikacji na razie nie robimy: to ostatni, osobny krok przed wysłaniem. Propozycje wpisów do wspólnych notatek z sekcji 12 i 13 czekają na scalenie przez sesję prowadzącą. Nic nie jest opublikowane.
 
 **Jak uruchomić lokalnie** (z głównego folderu projektu):
 1. Jeśli zmieniły się wyniki lejka: `python -I analiza/b_eksport.py` (około 10 sekund, baza tylko do odczytu). Raport z kontrolą: `analiza/wyniki/b_eksport.txt`.
@@ -291,3 +291,7 @@ Do tego dopisek Kuby z przeglądu ekonomii kampanii (`notatki/a5_ekonomia.md`, s
 - **`DECYZJE.md`:** trzy poprawki Kuby do trzeciej wersji narzędzia (słowa wyżej) i ich wykonanie.
 - **`notatki/c_szkic.md`, sekcja 4, wiersz 1:** dopisać horyzont 180 dni (−32,9 tys. zł) i oba progi (85,4% i 84,5%), tak jak na stronie, żeby szkic i strona mówiły to samo.
 - **`analiza/README.md`:** w wierszu `b2_eksport_c.py` dopisać kartę TelemediGO (liczby z `c_telemedigo.txt`); w wierszu `b_eksport.py` kontrola 93 liczb.
+
+**Decyzja Kuby (2026-10-20, po przeglądzie poprawek, słowa Kuby):** „Przyjmuję trzecią wersję, przekaż to sesji prowadzącej. Publikacji na razie nie robimy. To będzie ostatni krok przed wysłaniem, osobno.”
+
+- **Propozycja do `DECYZJE.md`, `PLAN.md` i `PRZEKAZANIE.md`:** trzecia wersja narzędzia przyjęta przez Kubę 2026-10-20 (commit `f584585`); punkt B zamknięty co do treści. Publikacja (próbna i właściwa) to ostatni, osobny krok przed wysłaniem, za zgodą Kuby przy każdej akcji.
