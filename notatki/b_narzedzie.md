@@ -2,7 +2,7 @@
 
 Pierwsza wersja narzędzia: układ strony, lejek, oś zdarzeń i jakość danych. Kohorty dochodzą po drugim zatrzymaniu sesji retencji (`DECYZJE.md`, wpis „szkielet narzędzia (punkt B) przed końcem A5”). Wspólne notatki scala sesja prowadząca. Propozycje wpisów do nich są w sekcji „Propozycje wpisów do wspólnych notatek”.
 
-**Status:** druga wersja narzędzia przyjęta przez Kubę 2026-10-20, po trzech poprawkach (sekcje 10 i 11). Trzecia wersja (2026-10-20, sekcja 12): wynik punktu C na stronie, czyli ostateczne „Czy to wzrost”, „Priorytety” i „Czego nie wiemy”. Czeka na przegląd Kuby lokalnie, przed próbną publikacją. Propozycje wpisów do wspólnych notatek z sekcji 12 czekają na scalenie przez sesję prowadzącą. Nic nie jest opublikowane.
+**Status:** druga wersja narzędzia przyjęta przez Kubę 2026-10-20, po trzech poprawkach (sekcje 10 i 11). Trzecia wersja (2026-10-20, sekcja 12): wynik punktu C na stronie, czyli ostateczne „Czy to wzrost”, „Priorytety” i „Czego nie wiemy”. Kuba ją przejrzał i dał trzy poprawki (sekcja 13); wprowadzone, czekają na jego przyjęcie przed próbną publikacją. Propozycje wpisów do wspólnych notatek z sekcji 12 i 13 czekają na scalenie przez sesję prowadzącą. Nic nie jest opublikowane.
 
 **Jak uruchomić lokalnie** (z głównego folderu projektu):
 1. Jeśli zmieniły się wyniki lejka: `python -I analiza/b_eksport.py` (około 10 sekund, baza tylko do odczytu). Raport z kontrolą: `analiza/wyniki/b_eksport.txt`.
@@ -265,3 +265,29 @@ Do tego dopisek Kuby z przeglądu ekonomii kampanii (`notatki/a5_ekonomia.md`, s
   W wierszu `b_eksport.py`: na końcu uruchamia `b2_eksport_c.py`, kontrola 91 liczb.
 - **`PLAN.md` i `PRZEKAZANIE.md`:** punkt B: „Priorytety”, „Czego nie wiemy” i ostateczne „czy to wzrost” zrobione, czekają na przegląd Kuby; kolejny krok to próbna publikacja za zgodą Kuby.
 - **`ZNALEZISKA.md`:** nic nowego w danych.
+
+## 13. Trzy poprawki Kuby po przeglądzie trzeciej wersji (2026-10-20)
+
+**Poprawki Kuby (wklejone do rozmowy, słowa Kuby):** „Przejrzałem trzecią wersję, dobra robota. Trzy rzeczy, zanim ją przyjmę: 1. W zakładce »Priorytety« daj na górę tabelę przeglądu, a zasady listy i definicje pod nią. Czytelnik ma najpierw zobaczyć, co robimy. 2. Osobnej zakładki o TelemediGO nie rób. Dodaj za to krótką kartę w »Czy to wzrost«: skąd +40%, czy rośnie odsetek kupujących, ile dają opłaty wobec zniżek i że rozstrzygnie to test z pozycji 12. To jedna z czterech liczb dashboardu, więc odpowiedź powinna ją objąć. 3. W niewiadomej 1 dopisz horyzont tak jak w pozycji 9 (90 i 180 dni). Potem jeszcze raz kontrola liczb, commit i daj znać.”
+
+**Co zrobione:**
+1. **Priorytety:** pod wstępem najpierw tabela przeglądu, a pod nią zasady listy i definicje.
+2. **Czy to wzrost:** nowa karta „TelemediGO: skąd +40,3% sprzedaży”, między kartami o pacjentach i retencji a kartą „Wynik pod koniec okresu”. Treść idzie za sekcją 2 szkicu (2.1, 2.2 i 2.4):
+   - zdanie główne: wzrost o 709 zakupów to więcej zamówień i pełny rok sprzedaży w newsletterze, a odsetek kupujących nie rośnie;
+   - tabela typów zakupu (przy kasie z pierwszym zamówieniem, z kolejnym, osobno z newslettera) w obu okresach, ze zmianą i udziałem we wzroście;
+   - start sprzedaży w newsletterze (23 dni w okresie 1, 225 członkostw);
+   - odsetek kupujących przy kasie z liczbą zamówień: przy pierwszym zamówieniu spada (5,58% → 4,41%), w całości przez pacjentów nowych kampanii (1,5%); bez nich 5,58% wobec 5,63%; przy kolejnych rośnie lekko;
+   - opłaty wobec zniżek: członkostwa z okresu 1, −27 388 zł, czyli −15,57 zł na członkostwo, przy założeniu tych samych wizyt; w okresie 2 przybliżenie −10,7 zł;
+   - powroty kupujących (34,7% wobec 20,0%) i zdanie, że rozstrzygnie to test z pozycji 12, z odnośnikiem do karty.
+3. **Niewiadoma 1:** „od −30,6 tys. zł (90 dni) albo −32,9 tys. zł (180 dni) do +179,6 tys. zł na pełny rok (pozycja 9; próg decyzji około 85% pacjentów dodatkowych: 85,4% w 90 dniach i 84,5% w 180 dniach)”.
+
+**Kontrola liczb:** `b_eksport.txt`: 93 kontrole, 0 różnic. Kontrola ze szkicem obejmuje teraz 790 liczb w 46 fragmentach. Karta TelemediGO jest porównywana z sekcją 2 szkicu. W niewiadomej 1 liczby horyzontu 180 dni i oba progi są dopisane poza szkicem (dopisek Kuby), odczytane z `c_priorytety.txt` (P11) i wypisane w raporcie jako „dodane”.
+
+**Błąd złapany przy czytaniu, a nie przez kontrolę:** w pierwszej wersji karty zdanie „bez nich odsetek stoi” brało wiersz okresu 1 zamiast okresu 2 („5,58% wobec 5,58%”). Kontrola ze szkicem tego nie wykryła, bo obie liczby były poprawne, tylko z niewłaściwego wiersza. Poprawione, a do kontroli doszły dwie zgodności, które wyłapałyby taką pomyłkę: pacjenci bez nowych kampanii w raporcie TelemediGO wobec `c_priorytety.txt` (17 419) i pierwsze zamówienia w obu okresach wobec liczby nowych pacjentów (16 231 i 24 687).
+
+**Sprawdzone w przeglądarce:** karta TelemediGO i jej cztery odnośniki (pozycje 12 i 10, kohorty według TelemediGO przy pierwszym zakupie, lejek zakupów samego TelemediGO); kolejność kart w „Priorytetach”; niewiadoma 1; wszystkie 9 zakładek na 375 px bez przewijania w bok; konsola bez błędów. Tabela typów zakupu na telefonie przewija się wewnątrz swojej ramki, jak pozostałe tabele.
+
+**Propozycje wpisów do wspólnych notatek (scala sesja prowadząca):**
+- **`DECYZJE.md`:** trzy poprawki Kuby do trzeciej wersji narzędzia (słowa wyżej) i ich wykonanie.
+- **`notatki/c_szkic.md`, sekcja 4, wiersz 1:** dopisać horyzont 180 dni (−32,9 tys. zł) i oba progi (85,4% i 84,5%), tak jak na stronie, żeby szkic i strona mówiły to samo.
+- **`analiza/README.md`:** w wierszu `b2_eksport_c.py` dopisać kartę TelemediGO (liczby z `c_telemedigo.txt`); w wierszu `b_eksport.py` kontrola 93 liczb.

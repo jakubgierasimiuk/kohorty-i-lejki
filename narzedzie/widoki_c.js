@@ -63,6 +63,22 @@
     t.appendChild(tb);
     lista($("wz-retencja-punkty"), W.retencja.punkty);
 
+    var G = W.telemedigo;
+    $("wz-go-tytul").textContent = G.tytul;
+    $("wz-go-puenta").textContent = G.puenta;
+    var g = B.wyczysc($("wz-go-tabela"));
+    g.appendChild(el("thead", null, [wiersz(G.tabela.kolumny, true)]));
+    var gb = el("tbody");
+    G.tabela.wiersze.forEach(function (r, i) {
+      var tr = wiersz([r.opis].concat(r.komorki));
+      if (i === G.tabela.wiersze.length - 1) tr.className = "podsuma";
+      gb.appendChild(tr);
+    });
+    g.appendChild(gb);
+    lista($("wz-go-punkty"), G.punkty);
+    linkiDanych($("wz-go-linki"), G.linki);
+    $("wz-go-zrodlo").textContent = G.zrodlo;
+
     $("wz-zamkniecie").textContent = W.zamkniecie;
     $("wz-safari").textContent = W.safari;
     $("wz-kwartaly-naglowek").textContent = W.kwartaly.naglowek;

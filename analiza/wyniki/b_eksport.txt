@@ -1,4 +1,4 @@
-B — EKSPORT DANYCH NARZĘDZIA (2026-10-20 14:44, commit 51e9e58)
+B — EKSPORT DANYCH NARZĘDZIA (2026-10-20 15:07, commit cfa8c57)
 
 1. Pliki w narzedzie/dane_strony/ (bajty)
    calosc                             38,075
@@ -11,12 +11,12 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-20 14:44, commit 51e9e58)
    strona_wejscia                    265,403
    podsumowanie                       10,824
    zdarzenia                          35,755
-   jakosc                              8,892
+   jakosc                              8,887
    kohorty                         1,441,101
    po_zakupie                        294,096
    wynik                              83,682
-   c                                  54,246
-   razem                           4,147,934
+   c                                  57,127
+   razem                           4,150,810
 
 2. Kontrola: liczby z eksportu wobec notatek i wcześniejszych raportów
    co                                                                    eksport  oczekiwane  wynik
@@ -89,6 +89,8 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-20 14:44, commit 51e9e58)
    C: wzrost nowych pacjentów z liczb W1 = zmiana w raporcie (%)            52.1        52.1  zgodne
    C: bez nowych kampanii Z1K / Z2 (%)                                7.3 / 20.1  7.3 / 20.1  zgodne
    C: kanały bezpłatne (%)                                                  12.1        12.1  zgodne
+   C: TelemediGO: pacjenci bez nowych kampanii, okres 2 (c_telemedigo = c_priorytety W1)      17419       17419  zgodne
+   C: TelemediGO: zamówienia pierwsze, okres 1 / 2 (c_telemedigo 1e = nowi pacjenci W1) 16231 / 24687 16231 / 24687  zgodne
    C: powrót 90 dni c_priorytety = a5r_kohorty (%, pacjenci)          23.9 17.4 12867 18924 23.9 17.4 12867 18924  zgodne
    C: TikTok dziś 90/180 dni, c_priorytety = a5e_scenariusze (zł)     -11928 -30801 -13468 -32341 -11928 -30801 -13468 -32341  zgodne
    C: TikTok po naprawie A 90/180 dni (zł)                            2963 -23196 1423 -24736 2963 -23196 1423 -24736  zgodne
@@ -110,9 +112,9 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-20 14:44, commit 51e9e58)
    C: powrót 90 dni = eksport z bazy (%, pacjenci)                    23.9 17.4 12867 18924 23.9 17.4 12867 18924  zgodne
    C: zamówienia dashboardu i oczyszczone = mostek z bazy             25269 40613 24716 38491 25269 40613 24716 38491  zgodne
    C: marża po kwartałach = eksport z bazy (zł, 8 kwartałów)          151340 226877 227044 222824 259375 324423 256558 207713 151340 226877 227044 222824 259375 324423 256558 207713  zgodne
-   C: liczby w tekstach bez pokrycia w c_szkic.md (45 fragmentów, 738 liczb)          0           0  zgodne
+   C: liczby w tekstach bez pokrycia w c_szkic.md (46 fragmentów, 790 liczb)          0           0  zgodne
 
-   Różnic: 0 z 91 kontroli.
+   Różnic: 0 z 93 kontroli.
 
 3. Zdarzenia na osi czasu
    2025-05-17  jakosc   Godzina bez danych
@@ -134,6 +136,7 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-20 14:44, commit 51e9e58)
 „Dodane” = liczby dopisane poza szkicem (liczebność przy odsetku, okres, kwoty w dniach działania), odczytane z raportów.
    fragment          liczb  bez pokrycia   dodane
    wzrost              195  —              06, 10, 2325, 24, 24716, 2549, 2639, 2797, 3,2, 3206, 3570, 38491, 5,3, 5,4, 6,5
+   telemedigo           45  —              16231, 17419, 24687, 6784, 7268, 9307
    zasady               19  —              —
    nie_robimy            4  —              —
    przeglad:1            6  —              —
@@ -160,7 +163,7 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-20 14:44, commit 51e9e58)
    pozycja:10           31  —              —
    pozycja:11           14  —              1434, 23776
    pozycja:12           24  —              1, 1140, 20,0, 34,7, 62, 858
-   niewiadoma:1          8  —              —
+   niewiadoma:1         15  —              180, 32,9, 84,5, 85,4, 90
    niewiadoma:2          0  —              —
    niewiadoma:3          9  —              —
    niewiadoma:4          7  —              —

@@ -1,12 +1,14 @@
-B2 — EKSPORT PUNKTU C NA STRONĘ (2026-10-20 14:48)
+B2 — EKSPORT PUNKTU C NA STRONĘ (2026-10-20 15:07)
 
-1. Plik: narzedzie/dane_strony/c.js (54,246 bajtów). Odczytów z raportów: 108.
+1. Plik: narzedzie/dane_strony/c.js (57,127 bajtów). Odczytów z raportów: 116.
 
 2. Kontrole krzyżowe
    co                                                                                              eksport               oczekiwane  wynik
    C: wzrost nowych pacjentów z liczb W1 = zmiana w raporcie (%)                                      52.1                     52.1  zgodne
    C: bez nowych kampanii Z1K / Z2 (%)                                                          7.3 / 20.1               7.3 / 20.1  zgodne
    C: kanały bezpłatne (%)                                                                            12.1                     12.1  zgodne
+   C: TelemediGO: pacjenci bez nowych kampanii, okres 2 (c_telemedigo = c_priorytety W1)                    17419                    17419  zgodne
+   C: TelemediGO: zamówienia pierwsze, okres 1 / 2 (c_telemedigo 1e = nowi pacjenci W1)            16231 / 24687            16231 / 24687  zgodne
    C: powrót 90 dni c_priorytety = a5r_kohorty (%, pacjenci)                         23.9 17.4 12867 18924    23.9 17.4 12867 18924  zgodne
    C: TikTok dziś 90/180 dni, c_priorytety = a5e_scenariusze (zł)                 -11928 -30801 -13468 -32341 -11928 -30801 -13468 -32341  zgodne
    C: TikTok po naprawie A 90/180 dni (zł)                                         2963 -23196 1423 -24736  2963 -23196 1423 -24736  zgodne
@@ -22,14 +24,15 @@ B2 — EKSPORT PUNKTU C NA STRONĘ (2026-10-20 14:48)
    C: zwroty L4 nowych kampanii: a5r_po_zakupie = a5e_scenariusze (wizyty odbyte)                     5895                     5895  zgodne
    C: zamówienia testowe w P1b (okres 1 + 2) = P13                                                    2071                     2071  zgodne
    C: wizyty testowe u internisty i trwające 1 minutę = wszystkie                                2071 2071                2071 2071  zgodne
-   C: liczby w tekstach bez pokrycia w c_szkic.md (45 fragmentów, 738 liczb)                             0                        0  zgodne
+   C: liczby w tekstach bez pokrycia w c_szkic.md (46 fragmentów, 790 liczb)                             0                        0  zgodne
 
-   Różnic: 0 z 19 kontroli.
+   Różnic: 0 z 21 kontroli.
 
 3. Kontrola ze szkicem (notatki/c_szkic.md): każda liczba w zdaniach strony stoi w tym samym fragmencie szkicu.
 „Dodane” = liczby dopisane poza szkicem (liczebność przy odsetku, okres, kwoty w dniach działania), odczytane z raportów.
    fragment          liczb  bez pokrycia   dodane
    wzrost              195  —              06, 10, 2325, 24, 24716, 2549, 2639, 2797, 3,2, 3206, 3570, 38491, 5,3, 5,4, 6,5
+   telemedigo           45  —              16231, 17419, 24687, 6784, 7268, 9307
    zasady               19  —              —
    nie_robimy            4  —              —
    przeglad:1            6  —              —
@@ -56,7 +59,7 @@ B2 — EKSPORT PUNKTU C NA STRONĘ (2026-10-20 14:48)
    pozycja:10           31  —              —
    pozycja:11           14  —              1434, 23776
    pozycja:12           24  —              1, 1140, 20,0, 34,7, 62, 858
-   niewiadoma:1          8  —              —
+   niewiadoma:1         15  —              180, 32,9, 84,5, 85,4, 90
    niewiadoma:2          0  —              —
    niewiadoma:3          9  —              —
    niewiadoma:4          7  —              —
@@ -167,6 +170,14 @@ B2 — EKSPORT PUNKTU C NA STRONĘ (2026-10-20 14:48)
    c_priorytety.txt         P14.                                     (73630.0,)
    c_telemedigo.txt         3a.                                      tabela 10 wierszy
    c_telemedigo.txt                                                  (-15.57,)
+   c_telemedigo.txt         1a.                                      tabela 4 wierszy
+   c_telemedigo.txt         1b.                                      (38.4,)
+   c_telemedigo.txt         1e.                                      tabela 4 wierszy
+   c_telemedigo.txt         1e.                                      (184.0, 471.0, -287.0)
+   c_telemedigo.txt         1f.                                      tabela 4 wierszy
+   c_telemedigo.txt         bez pacjentów dwóch nowych kampanii      tabela 2 wierszy
+   c_telemedigo.txt         2a.                                      tabela 10 wierszy
+   c_telemedigo.txt         2b.                                      (-10.7,)
    c_telemedigo.txt         1d.                                      tabela 3 wierszy
    c_telemedigo.txt                                                  (4.53,)
    c_telemedigo.txt                                                  (50.6,)

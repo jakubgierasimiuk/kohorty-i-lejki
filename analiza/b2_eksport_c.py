@@ -349,6 +349,16 @@ def wartosci(Z):
     # TelemediGO (c_telemedigo.txt)
     V["cennik"] = Z.tabela(CT, ["specialization", "cena", "liczba_cen", "cena_z_go"], od="3a.").set_index("specialization")
     V["go_bilans"] = Z.r(CT, r"oplata_minus_znizka_efektywna_na_czlonkostwo\s+{N}")
+    V["go_typy"] = Z.tabela(CT, ["typ", "okres_1", "okres_2", "zmiana"], od="1a.").set_index("typ")
+    V["go_start_data"] = Z.s(CT, r"start (\d+\.\d+\.\d{4})", od="1b.")
+    V["go_osobno_mies"] = Z.r(CT, r"w okresie 2 średnio {N} miesięcznie", od="1b.")
+    V["go_kasa"] = Z.tabela(CT, ["okres", "zamowienie", "zamowienia_do_oferty"], od="1e.")
+    V["go_rozklad_1"] = Z.r(CT, r"1_pierwsze_zamowienie: zmiana \+{N} zakupów = więcej zamówień \+{N} \+ zmiana odsetka {N}", od="1e.")
+    V["go_grupy"] = Z.tabela(CT, ["grupa", "n_okres_1", "n_okres_2", "odsetek_okres_1"], od="1f.").set_index("grupa")
+    V["go_bez_nowych"] = Z.tabela(CT, ["okres", "n", "odsetek", "z_go"], od="bez pacjentów dwóch nowych kampanii").set_index("okres").loc[2]
+    g2a = Z.tabela(CT, ["miara", "okres_1"], od="2a.").set_index("miara")["okres_1"]
+    V["go_2a"] = g2a
+    V["go_okres2"] = Z.r(CT, r"czyli {N} zł opłaty ponad zniżkę na członkostwo", od="2b.")
     odn = Z.tabela(CT, ["dni_po_wygasnieciu", "wygasle_czlonkostwa"], od="1d.").set_index("dni_po_wygasnieciu")
     V["odnowienia"] = (int(odn.loc[90, "wygasle_czlonkostwa"]), int(odn.loc[90, "odnowione"]), float(odn.loc[90, "odnowione_proc"]))
     V["go_kupujacy"] = Z.r(CT, r"odsetek kupujących przy pierwszym zamówieniu {N}%")
@@ -562,8 +572,68 @@ def czy_wzrost(V):
                      "że identyczni pacjenci zachowują się gorzej. Rozkład na strukturę i zachowanie nie mówi też, co by "
                      "się stało bez nowych kampanii. Spadek w starych kampaniach zbiega się z porannymi opóźnieniami "
                      "u internistów, ale ich nie dowodzi (czwarta pozycja w zakładce „Czego nie wiemy”)."}
+    # TelemediGO: jedna z czterech liczb dashboardu (dopisek Kuby po przeglądzie trzeciej wersji)
+    exg = Dodane()
+    ty = V["go_typy"]
+    razem = ty.loc["razem"]
+    nazwy_typow = {"1_kasa_z_pierwszym_zamowieniem": "Przy kasie z pierwszym zamówieniem pacjenta",
+                   "2_kasa_z_kolejnym_zamowieniem": "Przy kasie z kolejnym zamówieniem",
+                   "3_osobno_newsletter_crm_go_upsell": "Osobno, z newslettera crm_go_upsell", "razem": "Razem"}
+    tab_go = [{"opis": nazwy_typow[t], "komorki": [liczba(ty.loc[t, "okres_1"]), liczba(ty.loc[t, "okres_2"]),
+                                                   zn(ty.loc[t, "zmiana"], 0), proc(ty.loc[t, "udzial_we_wzroscie_proc"], 0)]}
+              for t in ty.index]
+    ka = V["go_kasa"]
+    k = {(int(r["okres"]), r["zamowienie"][:1]): r for _, r in ka.iterrows()}
+    gr, bn, roz = V["go_grupy"], V["go_bez_nowych"], V["go_rozklad_1"]
+    nowe_n = gr.loc["2_meta_l4_szybko", "n_okres_2"] + gr.loc["3_tiktok", "n_okres_2"]
+    nowe_proc = (gr.loc["2_meta_l4_szybko", "n_okres_2"] * gr.loc["2_meta_l4_szybko", "odsetek_okres_2"]
+                 + gr.loc["3_tiktok", "n_okres_2"] * gr.loc["3_tiktok", "odsetek_okres_2"]) / nowe_n
+    g2a = V["go_2a"]
+    go_dni2, go_n2 = V["go_start"]
+    g4 = V["go_4a"]
+    telemedigo = {
+        "tytul": f"TelemediGO: skąd {zn(razem['zmiana_proc'])}% sprzedaży",
+        "puenta": f"Wzrost o {liczba(razem['zmiana'])} zakupów (z {liczba(razem['okres_1'])} do {liczba(razem['okres_2'])}, "
+                  f"{zn(razem['zmiana_proc'])}%) wynika z tego, że jest więcej zamówień, i z pełnego roku sprzedaży "
+                  f"w newsletterze. Odsetek pacjentów, którzy kupują TelemediGO, nie rośnie.",
+        "tabela": {"kolumny": ["Typ zakupu", "Okres 1", "Okres 2", "Zmiana", "Udział we wzroście"], "wiersze": tab_go},
+        "punkty": [
+            f"Sprzedaż osobna w newsletterze ruszyła {V['go_start_data']}. W okresie 1 działała więc tylko "
+            f"{liczba(go_dni2)} dni, a sprzedała w nich {liczba(go_n2)} członkostw. W okresie 2 sprzedaje średnio "
+            f"{liczba(V['go_osobno_mies'])} miesięcznie.",
+            f"Przy kasie przybywa zakupów, bo jest więcej zamówień, a nie wyższy odsetek kupujących. Przy pierwszym "
+            f"zamówieniu odsetek kupujących spada z {proc(k[(1, '1')]['odsetek_proc'], 2)} "
+            f"({exg(liczba(k[(1, '1')]['zamowienia_do_oferty']))} zamówień) do {proc(k[(2, '1')]['odsetek_proc'], 2)} "
+            f"({exg(liczba(k[(2, '1')]['zamowienia_do_oferty']))}): więcej zamówień dodaje {liczba(roz[1])} zakupów, "
+            f"a niższy odsetek odejmuje {liczba(abs(roz[2]))}. Przy kolejnych zamówieniach odsetek rośnie lekko, z "
+            f"{proc(k[(1, '2')]['odsetek_proc'], 2)} ({exg(liczba(k[(1, '2')]['zamowienia_do_oferty']))}) do "
+            f"{proc(k[(2, '2')]['odsetek_proc'], 2)} ({exg(liczba(k[(2, '2')]['zamowienia_do_oferty']))}).",
+            f"Spadek odsetka przy pierwszym zamówieniu to w całości pacjenci nowych kampanii na L4: kupuje u nich "
+            f"{proc(nowe_proc)} ({exg(liczba(nowe_n))} pacjentów). Bez nich odsetek stoi: "
+            f"{proc(k[(1, '1')]['odsetek_proc'], 2)} wobec {proc(bn['odsetek'], 2)} ({exg(liczba(bn['n']))} pacjentów).",
+            f"Opłata {OPLATA_GO} zł nie pokrywa średniej zniżki. Członkostwa z okresu 1 ({liczba(g2a['czlonkostwa'])}, "
+            f"pełne 365 dni) przyniosły {zl(g2a['oplaty_zl'])} opłat i dostały {zl(g2a['znizka_efektywna_zl'])} zniżki "
+            f"efektywnej, czyli {zl(g2a['oplaty_minus_znizki_efektywne_zl'])} ({liczba(g2a['oplata_minus_znizka_efektywna_na_czlonkostwo'], 2)} zł "
+            f"na członkostwo). W okresie 2 przybliżenie to {liczba(V['go_okres2'], 1)} zł na członkostwo. To rachunek "
+            f"przy założeniu, że te same wizyty zostałyby kupione bez TelemediGO, a nie strata programu: nie wiemy, "
+            f"ile wizyt członkostwo dokłada.",
+            f"Kupujący TelemediGO przy pierwszym zamówieniu wracają w 90 dniach częściej niż podobni pacjenci: "
+            f"{proc(g4[4])} wobec {proc(g4[5])} w okresie 2 ({liczba(g4[0])} kupujących). Dane nie mówią, ile z tego to "
+            f"wpływ zniżki, a ile to, że kupują ci, którzy i tak planują wracać. Rozstrzygnie to test z pozycji 12: "
+            f"losowy, bezpłatny dostęp do zniżek.",
+        ],
+        "linki": [{"tekst": "Priorytety: pozycja 12, test TelemediGO", "href": "#priorytety?p=12"},
+                  {"tekst": "Priorytety: pozycja 10, warunki TelemediGO u specjalistów", "href": "#priorytety?p=10"},
+                  {"tekst": "Kohorty: kupujący TelemediGO przy pierwszym zakupie", "href": "#kohorty?okno=90&podz=go0&wygl=28"},
+                  {"tekst": "Lejek: zakupy samego TelemediGO",
+                   "href": "#lejek?typ=samo_telemedigo&pac=wszyscy&podz=kampania&krok=sesje&w=crm_go_upsell"}],
+        "zrodlo": "Liczby: analiza/c_telemedigo.py → analiza/wyniki/c_telemedigo.txt (1a, 1b, 1e, 1f, 2a, 2b, 4a). "
+                  "Notatka: notatki/c_szkic.md, sekcja 2.",
+        "_dodane": exg.lista,
+    }
     return {
         "werdykt": "Nie. Pacjentów jest więcej, ale wracają rzadziej, więc z dwóch warunków wzrostu spełniony jest tylko jeden.",
+        "telemedigo": telemedigo,
         "puenta": puenta, "zamkniecie": zamkniecie, "safari": safari,
         "pacjenci": {"liczba": f"{zn(wz[0])}%", "podpis": f"{liczba(n1)} → {liczba(n2)} nowych pacjentów", "punkty": pacjenci},
         "retencja": {"liczba": f"{proc(W['p90_o1'])} → {proc(W['p90_o2'])}",
@@ -1262,10 +1332,12 @@ def niewiadome(V):
     ped = V["pediatra"]
     prow = V["prowizja"]
     cp = V["crm_powrot"]
+    exn = Dodane()   # niewiadoma 1: horyzont 180 dni dopisany poza szkicem (dopisek Kuby)
     w = [
         ("Czy pacjenci nowych kampanii na L4 są dodatkowi",
-         f"od tego zależy decyzja o Meta na L4: od {t1(pm_[2])} do {tzn(pm_[3])} na pełny rok (pozycja 9; próg decyzji "
-         f"{proc(prog, 0)} pacjentów dodatkowych)",
+         f"od tego zależy decyzja o Meta na L4: od {t1(pm_[2])} tys. zł ({exn('90 dni')}) albo {exn(t1(V['p11_180'][4]))} "
+         f"tys. zł ({exn('180 dni')}) do {tzn(pm_[3])} na pełny rok (pozycja 9; próg decyzji około {proc(prog, 0)} "
+         f"pacjentów dodatkowych: {exn(proc(V['p11_prog'][0]))} w 90 dniach i {exn(proc(V['p11_prog'][1]))} w 180 dniach)",
          "wyłączenie kampanii w losowej połowie województw na 4–6 tygodni; badanie przyrostu w panelach Meta i TikToka", 9),
         ("Która reguła źródła jest bliższa prawdy dla kampanii bez kodu (Google Ads ogólne, Meta lekarz online)",
          "znak wyniku tych kampanii zależy od reguły", "ten sam test z grupą kontrolną bez reklamy", None),
@@ -1323,7 +1395,8 @@ def niewiadome(V):
     return {
         "wstep": "Rzeczy, których te dane nie rozstrzygają. Przy każdej: dlaczego to ważne i jaki test albo jakie dane by "
                  "to domknęły. Kwoty to zmiana marży na rok, jak w zakładce „Priorytety”.",
-        "wiersze": [{"nr": i + 1, "co": c, "dlaczego": d, "test": t, "pozycja": p} for i, (c, d, t, p) in enumerate(w)],
+        "wiersze": [{"nr": i + 1, "co": c, "dlaczego": d, "test": t, "pozycja": p, "_dodane": exn.lista if i == 0 else []}
+                    for i, (c, d, t, p) in enumerate(w)],
         "zrodlo": "Notatka: notatki/c_szkic.md, sekcja 4. Liczby: analiza/wyniki/c_priorytety.txt (P4, P5, P8, P9, P11, P14), "
                   "analiza/wyniki/a5r_po_zakupie.txt (2b, 5e), analiza/wyniki/a5r_kohorty.txt (7), "
                   "analiza/wyniki/a2_jakosc.txt (2e), analiza/wyniki/a5e_ekonomia.txt.",
@@ -1346,7 +1419,8 @@ def szkic_fragmenty():
         j = s.index(b, i + len(a)) if b else len(s)
         return s[i:j]
 
-    fr = {"wzrost": miedzy("\n## 1.", "\n## 2."), "zasady": miedzy("**Zasady listy:**", "**Przegląd:**"),
+    fr = {"wzrost": miedzy("\n## 1.", "\n## 2."), "telemedigo": miedzy("\n## 2.", "\n## 3."),
+          "zasady": miedzy("**Zasady listy:**", "**Przegląd:**"),
           "nie_robimy": miedzy("### Czego proponujemy teraz nie robić", "\n## 4.")}
     p3 = miedzy("**Przegląd:**", "### Pozycja 1.")
     for m in re.finditer(r"^\| (\d+) \|.*$", p3, re.M):
@@ -1379,14 +1453,16 @@ def teksty(obj):
 
 def kontrola_szkicu(C):
     fr = szkic_fragmenty()
-    bloki = [("wzrost", C["wzrost"], C["wzrost"]["_dodane"]),
+    tg = C["wzrost"]["telemedigo"]
+    bloki = [("wzrost", {k: v for k, v in C["wzrost"].items() if k != "telemedigo"}, C["wzrost"]["_dodane"]),
+             ("telemedigo", tg, tg["_dodane"]),
              ("zasady", C["priorytety"]["zasady"], []), ("nie_robimy", C["priorytety"]["nie_robimy"], [])]
     for p in C["priorytety"]["przeglad"]:
         bloki.append((f"przeglad:{p['nr']}", {k: v for k, v in p.items() if k != "wdrozenie"}, []))
     for k in C["priorytety"]["karty"]:
         bloki.append((f"pozycja:{k['nr']}", k, k["_dodane"]))
     for w in C["niewiadome"]["wiersze"]:
-        bloki.append((f"niewiadoma:{w['nr']}", w, []))
+        bloki.append((f"niewiadoma:{w['nr']}", w, w.get("_dodane", [])))
     wynik = []
     for nazwa, obj, dodane in bloki:
         if nazwa not in fr:
@@ -1413,6 +1489,10 @@ def kontrole_krzyzowe(V, kontrole, wz=None, mostek=None, wy=None):
         ("C: bez nowych kampanii Z1K / Z2 (%)", f"{100 * (V['bez_z1k'] / n1 - 1):.1f} / {100 * (V['bez_z2'] / n1 - 1):.1f}",
          f"{wz_[1]:.1f} / {wz_[2]:.1f}"),
         ("C: kanały bezpłatne (%)", round(100 * (V["bezpl"][2] / V["bezpl"][1] - 1), 1), wz_[3]),
+        ("C: TelemediGO: pacjenci bez nowych kampanii, okres 2 (c_telemedigo = c_priorytety W1)", int(V["go_bez_nowych"]["n"]), V["bez_z1k"]),
+        ("C: TelemediGO: zamówienia pierwsze, okres 1 / 2 (c_telemedigo 1e = nowi pacjenci W1)",
+         " / ".join(str(int(r["zamowienia_do_oferty"])) for _, r in V["go_kasa"][V["go_kasa"]["zamowienie"] == "1_pierwsze_zamowienie"].iterrows()),
+         f"{n1} / {n2}"),
         ("C: powrót 90 dni c_priorytety = a5r_kohorty (%, pacjenci)",
          f"{V['pow_wszyscy']['p90_o1']} {V['pow_wszyscy']['p90_o2']} {int(V['pow_wszyscy']['n90_o1'])} {int(V['pow_wszyscy']['n90_o2'])}",
          f"{V['p90_kohorty'][2]} {V['p90_kohorty'][3]} {int(V['p90_kohorty'][0])} {int(V['p90_kohorty'][1])}"),
@@ -1528,6 +1608,9 @@ def eksport_c(kontrole, wz=None, mostek=None, wy=None, nag=None):
     kontrole.append((f"C: liczby w tekstach bez pokrycia w c_szkic.md ({len(sz)} fragmentów, {liczb} liczb)", brakow, 0))
     # pola techniczne nie trafiają na stronę
     C["wzrost"].pop("_dodane", None)
+    C["wzrost"]["telemedigo"].pop("_dodane", None)
+    for w in C["niewiadome"]["wiersze"]:
+        w.pop("_dodane", None)
     for k in C["priorytety"]["karty"]:
         k.pop("_dodane", None)
     with open(os.path.join(DANE, "c.js"), "w", encoding="utf-8", newline="\n") as f:
