@@ -2,7 +2,7 @@
 
 Pierwsza wersja narzędzia: układ strony, lejek, oś zdarzeń i jakość danych. Kohorty dochodzą po drugim zatrzymaniu sesji retencji (`DECYZJE.md`, wpis „szkielet narzędzia (punkt B) przed końcem A5”). Wspólne notatki scala sesja prowadząca. Propozycje wpisów do nich są w sekcji „Propozycje wpisów do wspólnych notatek”.
 
-**Status:** szkielet przyjęty przez Kubę 2026-10-20. Druga wersja (kohorty, po zakupie, wynik biznesu, zdarzenia retencji i obsługi pacjenta) gotowa do porannego przeglądu Kuby, sekcja 10. Nic nie jest opublikowane.
+**Status:** druga wersja narzędzia przyjęta przez Kubę 2026-10-20, po trzech poprawkach (sekcje 10 i 11). Propozycje wpisów do wspólnych notatek czekają na scalenie przez sesję prowadzącą (sekcje 8, 10 i 11). Priorytety i „Czego nie wiemy” czekają na wynik punktu C. Nic nie jest opublikowane.
 
 **Jak uruchomić lokalnie** (z głównego folderu projektu):
 1. Jeśli zmieniły się wyniki lejka: `python -I analiza/b_eksport.py` (około 10 sekund, baza tylko do odczytu). Raport z kontrolą: `analiza/wyniki/b_eksport.txt`.
@@ -188,3 +188,5 @@ Do tego dopisek Kuby z przeglądu ekonomii kampanii (`notatki/a5_ekonomia.md`, s
 - Kontrola eksportu: 66 liczb, 0 różnic.
 
 **Propozycja wpisu do `DECYZJE.md`:** trzy poprawki Kuby do drugiej wersji narzędzia (jak wyżej) i ich wykonanie. Do `ZNALEZISKA.md` (sekcja wyniku biznesu): marża w III kwartale 2026 niższa niż rok wcześniej o 6,8% przy wydatkach na kampanie wyższych 2,1 raza; suma roczna +26,6% to ukrywa.
+
+**Decyzja Kuby (2026-10-20, po przeglądzie poprawek, słowa Kuby):** „Przejrzałem poprawki i przyjmuję drugą wersję narzędzia. Przekaż wynik sesji prowadzącej, żeby scaliła propozycje wpisów z notatki b_narzedzie.md.”
