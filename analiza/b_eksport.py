@@ -7,6 +7,8 @@ albo z wyników części pozyskania A5 (`analiza/wyniki/a5p_lejek_dzienny.csv.gz
 Pliki danych są skryptami JS (`window.D...`), a nie JSON-em. Dzięki temu strona działa z serwera
 statycznego i po otwarciu `narzedzie/index.html` wprost z dysku.
 
+Na końcu uruchamia analiza/b2_eksport_c.py (wynik punktu C, plik c.js) i dopisuje jego kontrole do raportu.
+
 Uruchamianie z głównego folderu projektu, po `a5p_lejek.py` i `a5p_zdarzenia.py`:
     python -I analiza/b_eksport.py
 Baza tylko do odczytu. Raport z kontrolą zgodności z notatkami: analiza/wyniki/b_eksport.txt.
@@ -23,6 +25,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import definicje as D  # noqa: E402
 import a5r_punktualnosc as RP  # noqa: E402  (KOSZYK, PORA, NOWE: definicje części retencji, ZALOZENIA 37)
 import a5r_struktura as RS  # noqa: E402  (USLUGA, ZNIZKA: cechy pierwszego zakupu, ZALOZENIA 35)
+import b2_eksport_c as B2  # noqa: E402  (wynik punktu C: czy to wzrost, priorytety, czego nie wiemy)
 
 KATALOG = D.KATALOG
 WYNIKI = os.path.join(KATALOG, "analiza", "wyniki")
@@ -1280,6 +1283,7 @@ def main():
     wy["ekonomia"] = ekonomia_kampanii(kontrole)
     zdarzenia_retencji(zdz, pac, kontrole)
     con.close()
+    _, szkic, _ = B2.eksport_c(kontrole, wz=wz, mostek=mostek, wy=wy, nag=nag)
     koh["zdania"] = koh_zdania
 
     try:
@@ -1298,6 +1302,7 @@ def main():
     rozmiary["kohorty"] = zapisz_js("kohorty.js", ".kohorty", koh)
     rozmiary["po_zakupie"] = zapisz_js("po_zakupie.js", ".po_zakupie", pz)
     rozmiary["wynik"] = zapisz_js("wynik.js", ".wynik", wy)
+    rozmiary["c"] = os.path.getsize(os.path.join(DANE, "c.js"))
 
     linie = [f"B — EKSPORT DANYCH NARZĘDZIA ({meta['wygenerowano']}, commit {commit})", "",
              "1. Pliki w narzedzie/dane_strony/ (bajty)"]
@@ -1316,6 +1321,7 @@ def main():
     for z in zdz["lista"]:
         linie.append(f"   {z['od']}  {z['obszar']:8} {z['tytul']}")
     linie.append(f"   Zmiany wykryte automatycznie (tabela pod osią): {len(zdz['wykryte']['wiersze'])}")
+    linie += ["", "4. " + B2.raport_szkicu(szkic)[0]] + B2.raport_szkicu(szkic)[1:]
     with open(RAPORT, "w", encoding="utf-8", newline="\n") as f:
         f.write("\n".join(linie) + "\n")
     print("\n".join(linie))

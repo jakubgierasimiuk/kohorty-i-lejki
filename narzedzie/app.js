@@ -1,4 +1,4 @@
-/* Narzędzie B2C: nawigacja, lejek, oś zdarzeń, jakość danych.
+/* Narzędzie B2C: nawigacja, lejek, oś zdarzeń, jakość danych (pozostałe zakładki: widoki.js i widoki_c.js).
    Wszystkie liczby pochodzą z plików w dane_strony/ (tworzy je analiza/b_eksport.py). Ten plik ich nie wpisuje, tylko liczy
    z nich odsetki i sumy dla wybranych filtrów oraz je formatuje. */
 (function () {
@@ -78,34 +78,6 @@
       tb.appendChild(r);
     });
     tabela.appendChild(tb);
-  }
-
-  // ------------------------------------------------------------ czy to wzrost
-  function rysujWzrost() {
-    var W = P.wzrost;
-    $("wz-pacjenci-liczba").textContent = znak(W.pacjenci.wzrost, 1) + "%";
-    $("wz-pacjenci-zdanie").textContent = W.pacjenci.zdanie;
-    var o90 = W.retencja.okna.filter(function (o) { return o.dni === 90; })[0];
-    $("wz-retencja-liczba").textContent = proc(o90.p1) + " → " + proc(o90.p2);
-    $("wz-retencja-zdanie").textContent = W.retencja.zdanie;
-    var t = wyczysc($("wz-retencja-tabela"));
-    t.appendChild(el("thead", null, [el("tr", null, [el("th", { text: "Powrót w ciągu" }),
-      el("th", { text: "Okres " + P.meta.okresy[0].nazwa }), el("th", { text: "Okres " + P.meta.okresy[1].nazwa }),
-      el("th", { text: "Zmiana" })])]));
-    var tb = el("tbody");
-    W.retencja.okna.forEach(function (o) {
-      var d = o.p2 - o.p1;
-      tb.appendChild(el("tr", null, [
-        el("td", { text: o.dni + " dni" }),
-        el("td", null, [el("strong", { text: proc(o.p1) }), el("br"),
-          el("span", { class: "przypis", text: liczba(o.n1) + " pacjentów, kohorty do " + dataPL(idxIso(o.do1)) })]),
-        el("td", null, [el("strong", { text: proc(o.p2) }), el("br"),
-          el("span", { class: "przypis", text: liczba(o.n2) + " pacjentów, kohorty do " + dataPL(idxIso(o.do2)) })]),
-        el("td", { class: "delta " + (d >= 0 ? "plus" : "minus"), text: (d >= 0 ? "▲ " : "▼ ") + liczba(Math.abs(d), 1) + " pkt proc." })]));
-    });
-    t.appendChild(tb);
-    $("wz-dashboard-zdanie").textContent = W.dashboard.zdanie;
-    mostek($("wz-mostek"));
   }
 
   // ------------------------------------------------------------ lejek
@@ -188,6 +160,8 @@
 
   function czytajAdres(q) {
     if (!q || !Array.from(q.keys()).length) return;
+    // ustawienia, których nie ma w adresie, wracają do domyślnych (a nie zostają z poprzedniego widoku)
+    S.typ = "zwykla"; S.pac = "wszyscy"; S.podz = "przegladarka"; S.krok = "k5s"; S.wygl = 7; ustawPreset("rok");
     if (q.get("typ")) S.typ = q.get("typ");
     if (q.get("pac")) S.pac = q.get("pac");
     if (q.get("podz")) S.podz = q.get("podz");
@@ -640,7 +614,6 @@
     });
     if (biezacy !== widok) window.scrollTo(0, 0);
     biezacy = widok;
-    if (widok === "wzrost" && !narysowane.wzrost) { rysujWzrost(); narysowane.wzrost = true; }
     if (widok === "lejek") {
       if (!narysowane.lejek) { rysujNaglowekLejka(); przygotujFiltry(); narysowane.lejek = true; }
       czytajAdres(q);
@@ -662,7 +635,8 @@
     if (window.BW && window.BW[biezacy] && window.BW[biezacy].przerysuj) window.BW[biezacy].przerysuj();
   }
 
-  // pomocnicze funkcje dla widoków z pliku widoki.js (kohorty, po zakupie, wynik biznesu)
+  // pomocnicze funkcje dla widoków z plików widoki.js (kohorty, po zakupie, wynik biznesu)
+  // i widoki_c.js (czy to wzrost, priorytety, czego nie wiemy)
   var wczytywane = {};
   function wczytaj(plik, klucz) {
     if (window.D[klucz]) return Promise.resolve(window.D[klucz]);
@@ -678,7 +652,8 @@
   window.B = { P: P, ZD: ZD, ET: ET, O: O, NDNI: NDNI, START: START, DZIEN: DZIEN, MIES: MIES, RZYM: RZYM,
     liczba: liczba, proc: proc, znak: znak, dataPL: dataPL, isoIdx: isoIdx, idxIso: idxIso, ogranicz: ogranicz,
     el: el, wyczysc: wyczysc, $: $, css: css, akapity: akapity, osieWykresu: osieWykresu, krocz: krocz,
-    zdarzeniaNumerowane: zdarzeniaNumerowane, rysujZdarzeniaNaWykresie: rysujZdarzeniaNaWykresie, wczytaj: wczytaj };
+    zdarzeniaNumerowane: zdarzeniaNumerowane, rysujZdarzeniaNaWykresie: rysujZdarzeniaNaWykresie, wczytaj: wczytaj,
+    mostek: mostek };
 
   var czasResize = null;
   window.addEventListener("resize", function () { clearTimeout(czasResize); czasResize = setTimeout(przerysujWykresy, 200); });
@@ -689,7 +664,7 @@
   window.addEventListener("hashchange", trasa);
 
   $("stopka-meta").textContent = "Dane od " + dataPL(0) + " do " + dataPL(NDNI - 1) + ". Liczby przeliczone " +
-    P.meta.wygenerowano + " skryptem analiza/b_eksport.py" + (P.meta.commit ? " (stan repozytorium " + P.meta.commit + ")" : "") +
+    P.meta.wygenerowano + " skryptami analiza/b_eksport.py i analiza/b2_eksport_c.py" + (P.meta.commit ? " (stan repozytorium " + P.meta.commit + ")" : "") +
     ". Strona nie pobiera niczego z internetu.";
   trasa();
 })();

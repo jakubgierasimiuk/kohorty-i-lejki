@@ -2,7 +2,7 @@
 
 Pierwsza wersja narzędzia: układ strony, lejek, oś zdarzeń i jakość danych. Kohorty dochodzą po drugim zatrzymaniu sesji retencji (`DECYZJE.md`, wpis „szkielet narzędzia (punkt B) przed końcem A5”). Wspólne notatki scala sesja prowadząca. Propozycje wpisów do nich są w sekcji „Propozycje wpisów do wspólnych notatek”.
 
-**Status:** druga wersja narzędzia przyjęta przez Kubę 2026-10-20, po trzech poprawkach (sekcje 10 i 11). Propozycje wpisów do wspólnych notatek czekają na scalenie przez sesję prowadzącą (sekcje 8, 10 i 11). Priorytety i „Czego nie wiemy” czekają na wynik punktu C. Nic nie jest opublikowane.
+**Status:** druga wersja narzędzia przyjęta przez Kubę 2026-10-20, po trzech poprawkach (sekcje 10 i 11). Trzecia wersja (2026-10-20, sekcja 12): wynik punktu C na stronie, czyli ostateczne „Czy to wzrost”, „Priorytety” i „Czego nie wiemy”. Czeka na przegląd Kuby lokalnie, przed próbną publikacją. Propozycje wpisów do wspólnych notatek z sekcji 12 czekają na scalenie przez sesję prowadzącą. Nic nie jest opublikowane.
 
 **Jak uruchomić lokalnie** (z głównego folderu projektu):
 1. Jeśli zmieniły się wyniki lejka: `python -I analiza/b_eksport.py` (około 10 sekund, baza tylko do odczytu). Raport z kontrolą: `analiza/wyniki/b_eksport.txt`.
@@ -72,7 +72,7 @@ Reguła `dane/` w `.gitignore` projektu wyklucza każdy folder o tej nazwie, tak
 
 1. *(zrobione 2026-10-20, sekcja 10)* **Kohorty** po scaleniu części retencji przez sesję prowadzącą. Potrzebne: kohorty dzienne z filtrami (źródło pozyskania, urządzenie i przeglądarka, pierwsza usługa, zniżka i TelemediGO, status pierwszego zamówienia), powroty w 30, 60 i 90 dniach, zamówienia i marża na pacjenta, zdarzenia retencji na osi. Eksport dojdzie jako nowa sekcja `analiza/b_eksport.py`.
 2. *(zrobione 2026-10-20, sekcja 10)* **Po zakupie** oraz tory „retencja” i „obsługa pacjenta” na osi zdarzeń, z plików sesji retencji (`a5r_zdarzenia.csv`, `notatki/a5_retencja.md`) po ich przyjęciu.
-3. *(wynik biznesu zrobiony 2026-10-20, sekcja 10; priorytety i niewiadome czekają na punkt C)* **Wynik biznesu, Priorytety, Czego nie wiemy** po punkcie C. Przy ekonomii kampanii obok wynik według sesji płatności, przy CRM okno 24 godzin i obok 7 dni (PLAN.md, punkt B).
+3. *(wynik biznesu zrobiony 2026-10-20, sekcja 10; priorytety i niewiadome zrobione 2026-10-20, sekcja 12)* **Wynik biznesu, Priorytety, Czego nie wiemy** po punkcie C. Przy ekonomii kampanii obok wynik według sesji płatności, przy CRM okno 24 godzin i obok 7 dni (PLAN.md, punkt B).
 4. **Próbna publikacja we wtorek wieczorem** (dopisek Kuby): na chwilę publiczne repozytorium, sprawdzenie linku, powrót do prywatnego. Hosting jest już wybrany (sekcja 9). Plik publikacji jest gotowy, a reszta to akcje Kuby na GitHubie.
 
 ## 9. Hosting: GitHub Pages (decyzja Kuby przekazana przez sesję prowadzącą, 2026-10-19)
@@ -190,3 +190,78 @@ Do tego dopisek Kuby z przeglądu ekonomii kampanii (`notatki/a5_ekonomia.md`, s
 **Propozycja wpisu do `DECYZJE.md`:** trzy poprawki Kuby do drugiej wersji narzędzia (jak wyżej) i ich wykonanie. Do `ZNALEZISKA.md` (sekcja wyniku biznesu): marża w III kwartale 2026 niższa niż rok wcześniej o 6,8% przy wydatkach na kampanie wyższych 2,1 raza; suma roczna +26,6% to ukrywa.
 
 **Decyzja Kuby (2026-10-20, po przeglądzie poprawek, słowa Kuby):** „Przejrzałem poprawki i przyjmuję drugą wersję narzędzia. Przekaż wynik sesji prowadzącej, żeby scaliła propozycje wpisów z notatki b_narzedzie.md.”
+
+## 12. Trzecia wersja: wynik punktu C na stronie (2026-10-20)
+
+**Zlecenie sesji prowadzącej:** przenieść na stronę wynik punktu C, przyjęty przez Kubę 2026-10-20: ostateczną odpowiedź „czy to wzrost” bez znacznika „wstępne”, listę 12 priorytetów i listę 18 niewiadomych. Teksty idą za `notatki/c_szkic.md` (sekcje 1, 3 i 4) w wersji z commitu `8ebd2a4`. To wersja po pięciu poprawkach spójności Kuby (`bd827b0`) i po uwagach z końcowej weryfikacji Codeksem (model Astra), które sesja prowadząca przyjęła i wprowadziła (`DECYZJE.md`, wpis o weryfikacji Astrą).
+
+### Co doszło na stronie
+
+- **Czy to wzrost** (`#wzrost`), bez znacznika „wstępne”:
+  - werdykt w jednym zdaniu i dwa zdania odpowiedzi;
+  - dwie karty: „Więcej pacjentów: tak” (z liczbami, także bez nowych kampanii i w kanałach bezpłatnych) i „Lepsza retencja: nie” (tabela powrotu w 30, 60, 90 i 180 dniach z liczbą pacjentów, marża na pacjenta, wynik bez nowych kampanii, usługi, liczba powracających osób);
+  - karta „Wynik pod koniec okresu”: zdanie zamykające o III kwartale 2026, zdanie o skali problemu w Safari na iOS, tabela marży po kwartałach rok do roku z wydatkami na kampanie obok i trzy zdania pod nią;
+  - karta „Najważniejsze zastrzeżenia” (siedem punktów z sekcji 1c szkicu);
+  - dashboard i mostek do danych oczyszczonych bez zmian, odnośniki do kohort, wyniku biznesu i jakości danych.
+- **Priorytety** (`#priorytety`):
+  - wstęp, zasady listy (kwoty się nie sumują, kolejność to waga, a nie kalendarz, zasada budżetu, czas wdrożenia to szacunek) i definicje okresów, reguł źródła i nowych kampanii;
+  - tabela przeglądu 12 pozycji: co robimy, ile warte rocznie w marży, pewność, wdrożenie. Numer i nazwa prowadzą do karty (`#priorytety?p=N` przewija do karty i ją podświetla);
+  - 12 kart. Każda ma: z danych, ile warta i założenia, naprawić albo wyłączyć (tam, gdzie dotyczy), propozycję albo co robimy, po czym poznamy, wdrożenie, odnośniki do zakładek z danymi i pole „skąd liczby”;
+  - przy TikToku i Meta na L4 tabela: wynik dziś, wynik po naprawie zwrotów, zmiana marży po wyłączeniu przy 100%, 50% i 0% pacjentów dodatkowych. Kolumny: obie reguły źródła po 90 i po 180 dniach. W komórce kwota z dni działania kampanii, a pod nią pełny rok. Przy `gs_generic_specjalisci` ta sama tabela z kwotami rocznymi, przy cenniku specjalistów tabela marży na wizycie;
+  - karta „Czego proponujemy teraz nie robić”.
+- **Czego nie wiemy** (`#niewiadome`): tabela 18 pozycji (czego nie wiemy, dlaczego to ważne, test albo brakujące dane) z odnośnikiem do pozycji listy priorytetów.
+- Na telefonie tabele przeglądu i niewiadomych układają się w karty, a każda komórka ma podpis.
+
+### Jak to jest zbudowane
+
+- **`analiza/b2_eksport_c.py`** zapisuje `narzedzie/dane_strony/c.js` (`window.D.C`). Działa bez bazy, w około sekundę. Każdą liczbę odczytuje z raportów (108 odczytów): z `c_priorytety.txt` i `c_telemedigo.txt`, a tam, gdzie szkic powołuje się na wcześniejsze części, z `a5e_scenariusze.txt`, `a5e_kampanie.csv`, `a5e_ekonomia.txt`, `a5r_kohorty.txt`, `a5r_struktura.txt`, `a5r_po_zakupie.txt`, `a5r_punktualnosc.txt`, `a5p_zdarzenia.txt`, `a5p_zalogowane.txt`, `a5p_sezon.txt` i `a2_jakosc.txt`. Kilka liczb liczy z odczytanych: udział nowych kampanii w spadku powrotu (46–71%), próg decyzji Meta, przeliczenie na pełny rok, zakresy od najniższej do najwyższej wartości.
+- Czas wdrożenia i parametry planu testów to szacunek ze szkicu, a nie liczby z danych. Są w jednym słowniku na górze skryptu.
+- **`analiza/b_eksport.py`** uruchamia ten eksport na końcu i dopisuje jego kontrole do swojego raportu. Jedno polecenie (`python -I analiza/b_eksport.py`) odświeża całą stronę.
+- **`narzedzie/widoki_c.js`** rysuje trzy zakładki i nie wpisuje żadnej liczby. Rysowanie „Czy to wzrost” przeszło tu z `app.js`, który udostępnia funkcję mostka.
+- Raporty: `analiza/wyniki/b_eksport_c.txt` (kontrole, liczby dopisane poza szkicem, lista odczytów) i sekcja 4 w `analiza/wyniki/b_eksport.txt`.
+
+### Kontrola liczb
+
+- **`b_eksport.txt`: 91 kontroli, 0 różnic** (było 66). Nowych jest 25:
+  - zgodność między raportami: zdania `c_priorytety.txt` wobec tabel `a5e_scenariusze.txt` (TikTok i Meta, oba horyzonty, naprawa zwrotów), przeliczenie na pełny rok, próg Meta (85,4% i 84,5%), `gs_generic_specjalisci` wobec `a5e_kampanie.csv`, powrót w 90 dniach wobec `a5r_kohorty.txt`, spadek marży III kwartału, zwroty L4 w dwóch raportach, zamówienia testowe;
+  - zgodność z tym, co eksport liczy sam na bazie: nowi pacjenci, powrót w 30, 60 i 90 dniach z liczbą pacjentów, zamówienia dashboardu i po oczyszczeniu, marża w ośmiu kwartałach;
+  - **zgodność ze szkicem:** każda liczba w każdym zdaniu strony (738 liczb w 45 fragmentach) musi stać w tym samym fragmencie `c_szkic.md`: w sekcji 1, w zasadach listy, w wierszu przeglądu, w karcie tej samej pozycji albo w wierszu tej samej niewiadomej. Wyjątek to liczby dopisane poza szkicem: liczebność przy odsetku (zasada Kuby), okresy i kwoty w dniach działania kampanii. Każda z nich jest odczytana z raportu i wypisana w raporcie jako „dodana”. Wynik: 0 liczb bez pokrycia.
+- Ta kontrola zadziałała dwa razy. Przy pierwszym przebiegu wyłapała mój błąd (zła kolumna marży nowych kampanii: 32,7 zł zamiast 36,3 zł). Potem wyłapała poprawki po Astrze, które sesja prowadząca wnosiła do szkicu w trakcie mojej pracy (np. −23,3 → −23,2 tys. zł przy `gs_generic_specjalisci`). Po ich przeniesieniu wynik to 0.
+
+### Poprawki przy okazji
+
+- **Lejek:** odnośnik, w którym brakowało części ustawień, zostawiał je z poprzedniego widoku (np. typ sesji i daty). Teraz brakujące ustawienia wracają do domyślnych, tak jak w kohortach. Dotyczy to też odnośników „Pokaż w lejku” na osi zdarzeń.
+- **Telefon:** siatka kart priorytetów rozszerzała się do szerokości tabeli kampanii (874 px zamiast 375 px). Poprawione w stylach.
+
+### Jak sprawdziłem
+
+- Podgląd http://127.0.0.1:8765/ w przeglądarce w aplikacji: wszystkie 9 zakładek bez błędów w konsoli. Przy szerokości 375 px żadna zakładka nie przewija się w bok, a przy 1366 px tabele mieszczą się w ramkach.
+- 18 odnośników z kart i z „Czy to wzrost”: każdy otwiera właściwą zakładkę z ustawionym filtrem albo z podświetlonym zdarzeniem.
+- `#priorytety?p=N` przewija do karty i ją podświetla, także na telefonie.
+- Na stronie nie ma wzmianek o Kubie (wyszukiwanie w plikach strony).
+- Nie sprawdzałem otwarcia strony wprost z dysku, bo przeglądarka w aplikacji nie otwiera plików z dysku. `c.js` jest plikiem skryptu, tak jak pozostałe dane, więc ten mechanizm się nie zmienił.
+
+### Decyzje techniczne
+
+- Sekcja 2 szkicu (TelemediGO) nie ma osobnej zakładki, bo nie było jej w zleceniu. Jej liczby są w pozycjach 10 i 12 i w zastrzeżeniach. To kandydat na kolejny krok, jeśli Kuba uzna, że warto.
+- Pełny rok w tabelach kampanii = kwota z dni działania × 365 / dni działania, bez zaokrąglania mnożnika (tak liczy `c_priorytety.py`).
+- `gs_generic_specjalisci`: wynik dziś i wyłączenie przy 100% pacjentów dodatkowych bez pośredniego zaokrąglania marży (uwaga Astry), wyłączenie przy 50% i 0% jak w raporcie (P7), bo tak stoi w szkicu.
+- Przy liście priorytetów pole „skąd liczby” wskazuje syntezę rundy kilku modeli AI (`notatki/konsylium/c_priorytety/synteza.md`) i recenzję liczb (`notatki/recenzje/c_codex.md`).
+
+### Pliki
+
+- Nowe: `analiza/b2_eksport_c.py`, `analiza/wyniki/b_eksport_c.txt`, `narzedzie/widoki_c.js`, `narzedzie/dane_strony/c.js`.
+- Zmienione: `analiza/b_eksport.py` (uruchamia eksport punktu C), `analiza/wyniki/b_eksport.txt`, `narzedzie/index.html`, `narzedzie/app.js`, `narzedzie/styl.css`, `narzedzie/dane_strony/podsumowanie.js` i `jakosc.js` (przeliczone, te same liczby).
+- Dane strony: 15 plików, razem 4,15 MB bez kompresji, `c.js` ma 54 KB.
+
+### Propozycje wpisów do wspólnych notatek (scala sesja prowadząca)
+
+- **`DECYZJE.md`:** wynik punktu C przeniesiony na stronę (ostateczne „czy to wzrost”, 12 priorytetów, 18 niewiadomych), za szkicem z commitu `8ebd2a4`, czyli z uwagami Astry. Czeka na przegląd Kuby lokalnie, przed próbną publikacją.
+- **`ZALOZENIA.md`:** na stronie kwota kampanii na pełny rok = kwota z dni działania × 365 / dni działania; przy każdym odsetku w tekstach punktu C liczebność dopisana z raportów.
+- **`analiza/README.md`:** nowy wiersz tabeli:
+
+  | B | `python -I analiza/b2_eksport_c.py` | Wynik punktu C na stronę narzędzia (`narzedzie/dane_strony/c.js`): „czy to wzrost”, priorytety, czego nie wiemy. Liczby z raportów `c_*` i A5, kontrola zgodności między raportami i ze szkicem `notatki/c_szkic.md`. Bez bazy, około sekundy. Uruchamia go też `b_eksport.py`. | `wyniki/b_eksport_c.txt`, `narzedzie/dane_strony/c.js` |
+
+  W wierszu `b_eksport.py`: na końcu uruchamia `b2_eksport_c.py`, kontrola 91 liczb.
+- **`PLAN.md` i `PRZEKAZANIE.md`:** punkt B: „Priorytety”, „Czego nie wiemy” i ostateczne „czy to wzrost” zrobione, czekają na przegląd Kuby; kolejny krok to próbna publikacja za zgodą Kuby.
+- **`ZNALEZISKA.md`:** nic nowego w danych.

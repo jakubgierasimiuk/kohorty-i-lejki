@@ -32,35 +32,50 @@
 <main>
   <!-- CZY TO WZROST -->
   <section id="v-wzrost" class="widok" hidden>
-    <div class="tytul-sekcji">
-      <h2>Czy to, co widać na dashboardzie, jest wzrostem?</h2>
-      <span class="znacznik-wstepne" title="Liczby przyjęte w analizie, ale bez wniosków o przyczynach">Wstępne, do potwierdzenia po analizie kohort</span>
-    </div>
-    <p class="wstep">Wzrost to dwie rzeczy naraz: więcej pacjentów i lepsza retencja. Sprawdzamy oba warunki osobno, na danych oczyszczonych.</p>
+    <h2>Czy to, co widać na dashboardzie, jest wzrostem?</h2>
+    <p class="wstep">Wzrost to dwie rzeczy naraz: więcej pacjentów i lepsza retencja. Sprawdzamy oba warunki osobno, na danych oczyszczonych, porównując okres 2 (ostatnie 12 miesięcy) z okresem 1 (poprzednie 12 miesięcy).</p>
+    <article class="karta puenta">
+      <p class="puenta-werdykt" id="wz-werdykt"></p>
+      <div id="wz-puenta"></div>
+    </article>
     <div class="karty-dwie">
       <article class="karta">
-        <h3>Więcej pacjentów?</h3>
+        <h3>Więcej pacjentów: tak</h3>
         <p class="liczba-glowna" id="wz-pacjenci-liczba"></p>
-        <p id="wz-pacjenci-zdanie"></p>
+        <p class="przypis" id="wz-pacjenci-podpis"></p>
+        <ul class="punkty" id="wz-pacjenci-punkty"></ul>
       </article>
       <article class="karta">
-        <h3>Lepsza retencja?</h3>
+        <h3>Lepsza retencja: nie</h3>
         <p class="liczba-glowna" id="wz-retencja-liczba"></p>
-        <p id="wz-retencja-zdanie"></p>
+        <p class="przypis" id="wz-retencja-podpis"></p>
         <div class="tabela-ramka"><table class="tabela" id="wz-retencja-tabela"></table></div>
-        <p class="przypis">Powrót to kolejne zamówienie, które nie zostało anulowane. Liczymy tylko kohorty z pełnym oknem obserwacji, a pierwszy rok obcinamy do tych samych dni kalendarzowych.</p>
+        <ul class="punkty" id="wz-retencja-punkty"></ul>
       </article>
     </div>
+    <article class="karta">
+      <h3>Wynik pod koniec okresu</h3>
+      <p class="zdanie-glowne" id="wz-zamkniecie"></p>
+      <p id="wz-safari"></p>
+      <h4 class="podtytul-karty" id="wz-kwartaly-naglowek"></h4>
+      <div class="tabela-ramka"><table class="tabela" id="wz-kwartaly"></table></div>
+      <ul class="punkty" id="wz-kwartaly-punkty"></ul>
+    </article>
+    <article class="karta">
+      <h3>Najważniejsze zastrzeżenia</h3>
+      <ol class="lista-zastrzezen" id="wz-zastrzezenia"></ol>
+    </article>
     <article class="karta">
       <h3>Dashboard a dane oczyszczone</h3>
       <p id="wz-dashboard-zdanie"></p>
       <div class="tabela-ramka"><table class="tabela" id="wz-mostek"></table></div>
     </article>
     <article class="karta karta-cicha">
-      <h3>Czego ta sekcja jeszcze nie mówi</h3>
-      <p>Nie daje jeszcze ostatecznej odpowiedzi. Część spadku powrotów wiąże się ze zmianą struktury pacjentów (nowe kampanie na L4), a część to spadek w kampaniach działających w obu latach. Oba kawałki da się obejrzeć w zakładce <a href="#kohorty">Kohorty</a>, z filtrem i podziałem według kampanii. Ostateczną odpowiedź przygotowuje lista priorytetów (punkt C).</p>
-      <p>Gdzie szukać dalej: <a href="#lejek">lejek</a> pokazuje, gdzie tracimy pacjentów przed pierwszym zakupem, <a href="#po-zakupie">po zakupie</a> pokazuje przebieg wizyt, <a href="#zdarzenia">zdarzenia</a> pokazują, co i kiedy się zmieniło, a <a href="#jakosc">jakość danych</a> wyjaśnia różnicę między dashboardem a danymi oczyszczonymi.</p>
+      <h3>Co dalej</h3>
+      <p class="linki-danych" id="wz-linki"></p>
+      <p>Co z tego robimy: <a href="#priorytety">lista priorytetów</a>, od najważniejszej pozycji, z wartością w marży. Czego dane nie rozstrzygają i jakim testem to domknąć: <a href="#niewiadome">czego nie wiemy</a>.</p>
     </article>
+    <p class="przypis" id="wz-zrodlo"></p>
   </section>
 
   <!-- KOHORTY -->
@@ -290,21 +305,31 @@
 
   <!-- PRIORYTETY -->
   <section id="v-priorytety" class="widok" hidden>
-    <h2>Priorytety</h2>
-    <div class="w-przygotowaniu">
-      <p class="znacznik-przyg">W przygotowaniu</p>
-      <p>Miejsce na wynik punktu C (w toku). Tu będzie lista działań od najważniejszego. Przy każdym: ile jest warte w złotych marży (z założeniami), po czym poznamy, że zadziałało, i ile zajmie wdrożenie.</p>
-      <p>Przy każdym słabym wyniku pokażemy dwie opcje: naprawić albo wyłączyć, każdą z wartością w marży. Najpierw szukamy, co da się poprawić.</p>
-    </div>
+    <h2>Priorytety: co robimy po kolei</h2>
+    <p class="wstep" id="pr-wstep"></p>
+    <article class="karta">
+      <h3>Zasady listy</h3>
+      <ul class="punkty" id="pr-zasady"></ul>
+      <p class="przypis" id="pr-definicje"></p>
+    </article>
+    <article class="karta">
+      <h3>Przegląd</h3>
+      <div class="tabela-ramka"><table class="tabela tabela-tekst" id="pr-przeglad"></table></div>
+    </article>
+    <div class="lista-priorytetow" id="pr-karty"></div>
+    <article class="karta karta-cicha">
+      <h3>Czego proponujemy teraz nie robić</h3>
+      <ul class="punkty" id="pr-nie-robimy"></ul>
+    </article>
+    <p class="przypis" id="pr-zrodlo"></p>
   </section>
 
   <!-- CZEGO NIE WIEMY -->
   <section id="v-niewiadome" class="widok" hidden>
     <h2>Czego z tych danych nie wiemy</h2>
-    <div class="w-przygotowaniu">
-      <p class="znacznik-przyg">W przygotowaniu</p>
-      <p>Miejsce na wynik punktu C (w toku). Tu będzie lista spraw, których dane nie rozstrzygają, z testem albo informacją, która by je domknęła. Na przykład: przyczyna awarii zakładania konta w Safari na iOS, sesje zalogowane od wejścia bez zakupu, strata między kliknięciem reklamy a sesją w Meta i TikToku, sezon a wydatki na kampanie, wartość remarketingu oraz koszt lekarza za wizyty testowe.</p>
-    </div>
+    <p class="wstep" id="nw-wstep"></p>
+    <div class="karta"><div class="tabela-ramka"><table class="tabela tabela-tekst" id="nw-tabela"></table></div></div>
+    <p class="przypis" id="nw-zrodlo"></p>
   </section>
 </main>
 
@@ -316,7 +341,9 @@
 <script src="dane_strony/podsumowanie.js"></script>
 <script src="dane_strony/zdarzenia.js"></script>
 <script src="dane_strony/jakosc.js"></script>
+<script src="dane_strony/c.js"></script>
 <script src="widoki.js"></script>
+<script src="widoki_c.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

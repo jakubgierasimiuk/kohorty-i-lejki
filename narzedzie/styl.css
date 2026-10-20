@@ -120,16 +120,17 @@ main { max-width: 1320px; margin: 0 auto; padding: 16px 24px 48px; }
 .przypis { color: var(--muted); font-size: 13px; }
 .liczba-glowna { font-size: 40px; font-weight: 600; line-height: 1.1; margin: 4px 0 8px; }
 
-.znacznik-wstepne, .znacznik-przyg {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: var(--warn); color: var(--warn-ink);
-  font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px;
-}
-.znacznik-wstepne::before, .znacznik-przyg::before { content: "!"; font-weight: 800; }
-.w-przygotowaniu {
-  border: 1px dashed var(--axis); border-radius: 10px; padding: 18px; max-width: 880px; color: var(--ink-2);
-}
-.w-przygotowaniu .znacznik-przyg { margin-bottom: 12px; }
+
+/* czy to wzrost */
+.puenta { border-left: 4px solid var(--accent); }
+.puenta-werdykt { font-size: 20px; font-weight: 700; line-height: 1.3; margin-bottom: 10px; }
+.puenta #wz-puenta p { max-width: 960px; }
+.zdanie-glowne { font-size: 16px; font-weight: 600; max-width: 960px; }
+ul.punkty, ol.lista-zastrzezen { margin: 8px 0 0; padding-left: 20px; }
+ul.punkty li, ol.lista-zastrzezen li { margin-bottom: 6px; }
+ol.lista-zastrzezen li { margin-bottom: 10px; max-width: 960px; }
+.linki-danych { font-size: 14px; }
+.linki-etykieta { color: var(--muted); }
 
 /* nagłówek lejka */
 .karta-naglowek #lj-zdania p { font-size: 15px; }
@@ -229,6 +230,36 @@ select, input[type="date"] {
 .slupek-wiersz span { color: var(--ink-2); font-variant-numeric: tabular-nums; }
 #jk-drobne li, #jk-czyste li { margin-bottom: 6px; }
 
+/* priorytety i czego nie wiemy */
+.nr {
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+  min-width: 26px; height: 26px; padding: 0 6px; border-radius: 999px;
+  background: var(--accent); color: #fff; font-size: 13px; font-weight: 700; text-decoration: none;
+}
+.tabela-tekst th, .tabela-tekst td { text-align: left; white-space: normal; }
+.tabela-tekst td { font-size: 14px; }
+.tabela-tekst td.nr-kom { width: 44px; }
+#pr-przeglad td:nth-child(2) { min-width: 260px; }
+#pr-przeglad td:nth-child(3) { min-width: 220px; }
+#nw-tabela td:nth-child(2) { min-width: 200px; }
+.lista-priorytetow { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; margin-top: 12px; }
+.lista-priorytetow .karta { margin: 0; min-width: 0; }
+.priorytet { scroll-margin-top: 140px; }
+.priorytet.podswietlone { outline: 2px solid var(--accent); }
+.priorytet-naglowek { display: flex; align-items: flex-start; gap: 10px; }
+.priorytet-naglowek h3 { margin: 2px 0 0; }
+.priorytet-meta { display: flex; flex-wrap: wrap; gap: 4px 20px; font-size: 14px; margin: 8px 0 4px; }
+.sekcje { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 8px 14px; margin: 10px 0 4px; font-size: 14px; }
+.sekcje dt { color: var(--ink-2); font-weight: 600; }
+.sekcje dd { margin: 0; }
+.sekcje dd p { margin: 0; max-width: 960px; }
+.sekcje dd ul { margin: 0; padding-left: 18px; max-width: 960px; }
+.sekcje dd li { margin-bottom: 4px; }
+.tabela-kampanii { margin: 10px 0 6px; }
+.tabela-kampanii caption { text-align: left; caption-side: top; padding-bottom: 6px; }
+.tabela-kampanii td .ujemne { color: var(--bad); }
+.tabela-kampanii td:first-child { min-width: 240px; }
+
 .stopka { max-width: 1320px; margin: 0 auto; padding: 0 24px 32px; color: var(--muted); font-size: 12px; }
 
 @media (max-width: 720px) {
@@ -236,6 +267,15 @@ select, input[type="date"] {
   main { padding: 12px 16px 40px; }
   .karty-dwie, .naprawy { grid-template-columns: 1fr; }
   .zdarzenie dl { grid-template-columns: 1fr; }
+  .sekcje { grid-template-columns: minmax(0, 1fr); }
+  .sekcje dt { margin-top: 4px; }
+  .priorytet { scroll-margin-top: 12px; }
+  .puenta-werdykt { font-size: 18px; }
+  .tabela-tekst thead { display: none; }
+  .tabela-tekst tr { display: block; padding: 10px 0; border-bottom: 1px solid var(--grid); }
+  .tabela-tekst td { display: block; border: 0; padding: 2px 0; min-width: 0 !important; width: auto !important; }
+  .tabela-tekst td::before { content: attr(data-etykieta); display: block; font-size: 12px; color: var(--muted); }
+  .tabela-tekst td.nr-kom::before { display: none; }
   .lista-zdarzen-wykres { columns: 1; }
   .liczba-glowna { font-size: 32px; }
   .okresy input { width: 140px; }
