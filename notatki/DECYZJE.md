@@ -172,3 +172,25 @@ Decyzja Kuby: wyniki przyjęte do scalenia, z jednym dopiskiem. W narzędziu i p
 4. **Konsylium na liście priorytetów: tak.** Przed wysłaniem dopisać do briefu kandydata „pomiar” i do kontekstu fakt o marży w ostatnim kwartale. Wynik pokazać jako wynik, a nie przegląd modeli.
 
 **Dalej:** po konsylium ostateczna wersja listy do akceptacji Kuby. Po akceptacji odpowiedź, priorytety i niewiadome przekazujemy sesji B do narzędzia.
+
+## 2026-10-19 / 2026-10-20 — narzędzie (punkt B): technologia, układ, druga wersja
+
+Scalone przez sesję prowadzącą z `notatki/b_narzedzie.md` (sekcje 1, 8, 10 i 11), po przyjęciu drugiej wersji przez Kubę.
+
+**2026-10-19, pierwsze zatrzymanie — decyzje Kuby:**
+- strona HTML z biblioteką uPlot 1.6.32 zapisaną w repozytorium; odrzucone: ECharts i wykresy bez biblioteki;
+- zakładki jak w aplikacji; odrzucone: jedna długa strona;
+- wstępna odpowiedź „czy to wzrost” z liczbami A3 i A4; odrzucone: samo miejsce „w przygotowaniu”;
+- cztery zasady dla strony: odsetek zawsze z liczebnością i okresem, żadnych liczb wpisanych ręcznie w tekstach, oś zdarzeń w czterech obszarach, próbna publikacja we wtorek wieczorem (po zgodzie Kuby).
+
+**Folder danych strony to `narzedzie/dane_strony/`,** bo `.gitignore` wyklucza każdy folder o nazwie `dane/`. Sesja B zaproponowała zmianę reguły na `/dane/`. **Decyzja sesji prowadzącej: zostawiamy `dane/`,** bo szersza reguła lepiej chroni przed przypadkowym dodaniem surowych danych do repozytorium, a nazwa `dane_strony/` nic nie kosztuje.
+
+**2026-10-20, przegląd szkieletu (słowa Kuby):** „Przejrzałem szkielet i przyjmuję go. A5 jest zamknięte i scalone, więc dobuduj teraz pozostałe zakładki z wyników A5. Kohorty: kohorty dzienne i powroty w 30, 60 i 90 dniach, z filtrami źródło (obie reguły), urządzenie i przeglądarka, pierwsza usługa, zniżka i TelemediGO. Po zakupie: punktualność według pory i specjalizacji, zwroty, oceny. Wynik biznesu: przychód i marża w czasie oraz ekonomia kampanii według obu reguł. Na osi zdarzeń dołóż zdarzenia z retencji i obsługi pacjenta. Priorytety i niewiadome zostaw jako miejsca na wynik punktu C. Te same zasady co dotąd: liczebność przy każdym odsetku, żadnych liczb wpisanych ręcznie. Nic nie publikuj. Zatrzymaj się u mnie z całością rano.”
+
+**2026-10-20, trzy poprawki Kuby do drugiej wersji** (commit `8f7f461`):
+1. „Po zakupie” nie mówi już, że dane „pasują do hipotezy przeciążenia, ale jej nie dowodzą”. Pokazuje przyjęte odczytanie: przy tym samym porannym ruchu opóźnień jest o 26,4 punktu procentowego więcej niż rok wcześniej, więc spadła poranna przepustowość (obsada, organizacja zapisów albo lekarze zajęci pacjentami spoza B2C).
+2. W „Kohortach” doszła macierz kohort (tygodnie albo miesiące × 7, 14, 30, 60, 90 i 180 dni, mapa ciepła) i krzywa powrotu według dnia od pierwszego zakupu dla okresów A i B, z tymi samymi filtrami.
+3. „Wynik biznesu” pokazuje marżę po kwartałach rok do roku z wydatkami obok. Nagłówek mówi, że suma roczna (+26,6%) ukrywa spadek w III kwartale 2026. Strona dokładnie opisuje, że lipiec 2026 jest jeszcze wyższy niż rok wcześniej, i że wrzesień 2025 zawyża bazę przez start sprzedaży TelemediGO w newsletterze.
+- Ze strony zniknęły wzmianki o Kubie (stronę czyta Telemedi).
+
+**2026-10-20, decyzja Kuby (słowa Kuby):** „Przejrzałem poprawki i przyjmuję drugą wersję narzędzia. Przekaż wynik sesji prowadzącej, żeby scaliła propozycje wpisów z notatki b_narzedzie.md.” Commit przyjęcia: `c9e1621`. Na stronie zostają do uzupełnienia: „Priorytety”, „Czego nie wiemy” i ostateczna odpowiedź „czy to wzrost” (dziś ze znacznikiem „wstępne”) — po akceptacji punktu C.

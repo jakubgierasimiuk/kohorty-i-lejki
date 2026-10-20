@@ -104,3 +104,11 @@ Szczegóły i liczby: `notatki/a5_ekonomia.md`, skrypty `analiza/a5e_*.py`.
 
     Każdy powrót wyceniamy na 95,6 zł (założenie 38). Kwot w horyzoncie 180 dni (powroty, zgody, poranek) nie dodajemy do wyników w horyzoncie 90 dni.
 43. **Scenariusz porannych opóźnień** = spadek powrotu w starych kampaniach z części retencji (sama zmiana rozkładu opóźnień albo cały spadek, obie reguły) × liczba ich pacjentów w okresie 2 × 95,6 zł, zawsze razem z wariantem „brak efektu” (0 zł). Zawsze nazywamy go scenariuszem, a nie kosztem kampanii. Wariant szeroki nie jest formalną górną granicą.
+
+## 2026-10-20 — narzędzie (punkt B, przyjęte przez Kubę)
+
+Szczegóły: `notatki/b_narzedzie.md`, sekcje 8 i 10; kod `analiza/b_eksport.py`.
+
+44. **Lejek na stronie narzędzia liczymy tak jak w A5 (pozyskanie):** sesje zwykłe, dzień sesji w czasie polskim, „jeszcze nie kupowali” według pierwszego zakupu konta albo przeglądarki (założenia 28–29). Przy wygładzeniu wykresu odsetek to suma licznika z N dni podzielona przez sumę mianownika z tych samych dni, a nie średnia odsetków dziennych.
+45. **Porównanie okresów w kohortach na stronie:** okres B obcinamy do kohort z pełnym oknem, a okres A do tej samej długości od jego początku. Przy porównaniu rok do roku to dokładnie te same dni kalendarzowe (założenie 27), a przy własnych datach ta sama długość.
+46. **Wynik biznesu w czasie — dni księgowania:** przychód, zwrot i koszt lekarza w dniu płatności zamówienia; TelemediGO w dniu zakupu; wydatki na kampanie w dniu z pliku kampanii; prowizja afiliacyjna według przyjętej reguły źródła, w dniu pierwszego zamówienia pacjenta. Tak samo liczy `analiza/c_priorytety.py` (W3, W4). Pacjentów nowych kampanii w zakładce „Po zakupie” wyznaczamy według przyjętej reguły źródła, jak w części retencji.

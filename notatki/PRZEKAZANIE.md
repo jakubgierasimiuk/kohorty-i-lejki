@@ -16,7 +16,7 @@ Zasada z `CLAUDE.md`, punkt 14: każda sesja czyta ten plik na starcie i aktuali
 | A5 Kohorty, lejek, po zakupie, zdarzenia — część pozyskania | zrobione, przyjęte przez Kubę, scalone we wspólnych notatkach (założenia 28–32) | `9923800`, `0b157c4`, `f240505` |
 | A5 — część retencji | zrobione, przyjęte przez Kubę, scalone we wspólnych notatkach (założenia 33–38) | `c5b17ea` … `f8fda6d` |
 | A5 — ekonomia kampanii | zrobione, przyjęte przez Kubę, scalone (założenia 39–43) | `d6f63e4` … `7d8a58f` |
-| B Narzędzie | druga wersja (kohorty, po zakupie, wynik biznesu, oś zdarzeń z retencją; 63 liczby sprawdzone z notatkami), czeka na przyjęcie przez Kubę w sesji B; sekcje priorytetów i niewiadomych czekają na przyjęcie punktu C | `b76a7de`, `66ce8f8`, `005b5e9` |
+| B Narzędzie | druga wersja przyjęta przez Kubę 2026-10-20, propozycje scalone (założenia 44–46); sesja B zamknięta; zostają zakładki „Priorytety”, „Czego nie wiemy” i ostateczne „czy to wzrost” po akceptacji C | `b76a7de` … `c9e1621` |
 | **C Szkic: TelemediGO, „czy to wzrost”, priorytety, niewiadome** | **szkic gotowy, czeka na poranny przegląd Kuby (2026-10-21); recenzja Codeksa (Sol) uwzględniona** | commit „C: szkic…” (ten wpis) |
 
 Status wszystkich punktów: `notatki/PLAN.md`.

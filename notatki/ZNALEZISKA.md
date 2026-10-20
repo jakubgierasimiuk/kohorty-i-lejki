@@ -197,3 +197,13 @@ Szczegóły, liczby i metoda: `notatki/a5_ekonomia.md`. Raporty: `analiza/wyniki
 - `gs_generic_lekarz_online` i `gs_generic_erecepta` przestają zależeć od reguły atrybucji: po 180 dniach są dodatnie w obu regułach;
 - zależne od reguły zostają `meta_prosp_l4_szybko`, `gs_generic_l4` i `meta_prosp_lekarz_online`;
 - TikTok i `gs_generic_specjalisci` są ujemne w obu regułach w obu oknach.
+
+## 2026-10-20 — wynik biznesu po kwartałach (punkt B i dopisek Kuby do punktu C)
+
+Raporty: `analiza/wyniki/b_eksport.txt` i `analiza/wyniki/c_priorytety.txt` (W4, P1). Obie sesje liczyły to niezależnie i dostały te same liczby.
+
+- **Suma roczna ukrywa przebieg w kwartałach.** Marża (przychód z konsultacji po zwrotach + TelemediGO − koszt lekarza − kampanie − prowizja) rośnie rok do roku o 71,4% w IV kwartale 2025, o 43,0% w I kwartale 2026, o 13,0% w II kwartale i spada o 6,8% w III kwartale 2026 (207 713 zł wobec 222 824 zł). Wydatki na kampanie są w tych kwartałach 1,30, 1,66, 2,04 i 2,08 raza wyższe niż rok wcześniej. Za cały rok marża rośnie o 26,6%.
+- **Spadek w III kwartale to wydatki rosnące szybciej niż marża przed kampaniami:** marża przed kampaniami +78 963 zł, wydatki +94 123 zł.
+- **Niższy jest kwartał, a nie każdy miesiąc.** Lipiec 2026: 73 384 zł wobec 66 832 zł; sierpień: 66 315 wobec 67 190 zł; wrzesień: 68 014 wobec 88 802 zł.
+- **Wrzesień 2025 zawyża bazę porównania** przez start sprzedaży TelemediGO w newsletterze (225 zakupów w 23 dni). Bez opłat za TelemediGO III kwartał 2026 też jest niższy: −4,9%.
+- **Utracone przez awarię Safari na iOS pierwsze zamówienia odpowiadają w III kwartale 2026 około 14–21 tys. zł marży**, czyli mniej więcej całemu spadkowi (`c_priorytety.txt`, P1). Bez awarii kwartał byłby mniej więcej na poziomie roku wcześniejszego przy dwa razy wyższych wydatkach.

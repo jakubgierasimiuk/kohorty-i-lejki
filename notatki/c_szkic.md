@@ -377,14 +377,14 @@ Wynik i nasze decyzje: sekcja 8.
 
 ## 7. Propozycje wpisów do wspólnych notatek (scalę po przeglądzie Kuby)
 
-### Do `ZALOZENIA.md` (nowe punkty od 44, sekcja „TelemediGO i priorytety, punkt C”)
+### Do `ZALOZENIA.md` (nowe punkty od 47, bo 44–46 zajęło narzędzie; sekcja „TelemediGO i priorytety, punkt C”)
 
-44. **Zniżka TelemediGO w złotych** = cena katalogowa − zapłata na zamówieniu ze zniżką TelemediGO. **Zniżka efektywna** liczy tylko wizyty odbyte i nieodebrane, bo przy anulowanej i zwróconej wizycie pacjent dostaje całą zapłatę z powrotem. Zniżkę przypisujemy członkostwu, w którego ważności (od chwili zakupu do `valid_until` włącznie) padło zamówienie.
-45. **Typ zakupu TelemediGO:** przy kasie z pierwszym zamówieniem pacjenta, przy kasie z kolejnym zamówieniem, osobno (sesja z kampanii `crm_go_upsell`). Okres zakupu = dzień zakupu członkostwa. **Odsetek kupujących przy kasie** liczymy na zamówieniach pacjentów, którzy w chwili zamówienia nie mieli ważnego członkostwa.
-46. **Opłata wobec zniżek** to rachunek przy założeniu, że wizyty ze zniżką odbyłyby się i bez TelemediGO. Nie jest to wynik programu, bo nie wiemy, ile wizyt członkostwo dokłada.
-47. **Kupujący TelemediGO a podobni pacjenci:** dokładne dopasowanie w warstwach (okres, kanał pozyskania według przyjętej reguły, pierwsza usługa, miesiąc kohorty), wynik ważony liczbą kupujących. Różnica to suma wpływu zniżki i samoselekcji, nie efekt programu.
-48. **Wartość pozycji listy priorytetów** = zmiana marży na rok, z okresem 2 jako rokiem bazowym, przy kampaniach w horyzoncie 90 i 180 dni od pozyskania i według obu reguł źródła. Kwot z różnych pozycji nie sumujemy (różne horyzonty, nakładanie się). Czas wdrożenia to nasz szacunek.
-49. **Utracony pierwszy zakup w Safari na iOS = utracony nowy pacjent** z marżą nowych pacjentów z pierwszą płatnością w Safari na iOS w okresie 2, bez kosztu pozyskania (wejście już opłacone).
+47. **Zniżka TelemediGO w złotych** = cena katalogowa − zapłata na zamówieniu ze zniżką TelemediGO. **Zniżka efektywna** liczy tylko wizyty odbyte i nieodebrane, bo przy anulowanej i zwróconej wizycie pacjent dostaje całą zapłatę z powrotem. Zniżkę przypisujemy członkostwu, w którego ważności (od chwili zakupu do `valid_until` włącznie) padło zamówienie.
+48. **Typ zakupu TelemediGO:** przy kasie z pierwszym zamówieniem pacjenta, przy kasie z kolejnym zamówieniem, osobno (sesja z kampanii `crm_go_upsell`). Okres zakupu = dzień zakupu członkostwa. **Odsetek kupujących przy kasie** liczymy na zamówieniach pacjentów, którzy w chwili zamówienia nie mieli ważnego członkostwa.
+49. **Opłata wobec zniżek** to rachunek przy założeniu, że wizyty ze zniżką odbyłyby się i bez TelemediGO. Nie jest to wynik programu, bo nie wiemy, ile wizyt członkostwo dokłada.
+50. **Kupujący TelemediGO a podobni pacjenci:** dokładne dopasowanie w warstwach (okres, kanał pozyskania według przyjętej reguły, pierwsza usługa, miesiąc kohorty), wynik ważony liczbą kupujących. Różnica to suma wpływu zniżki i samoselekcji, nie efekt programu.
+51. **Wartość pozycji listy priorytetów** = zmiana marży na rok, z okresem 2 jako rokiem bazowym, przy kampaniach w horyzoncie 90 i 180 dni od pozyskania i według obu reguł źródła. Kwot z różnych pozycji nie sumujemy (różne horyzonty, nakładanie się). Czas wdrożenia to nasz szacunek.
+52. **Utracony pierwszy zakup w Safari na iOS = utracony nowy pacjent** z marżą nowych pacjentów z pierwszą płatnością w Safari na iOS w okresie 2, bez kosztu pozyskania (wejście już opłacone).
 
 ### Do `ZNALEZISKA.md` (sekcja „C — TelemediGO”)
 
