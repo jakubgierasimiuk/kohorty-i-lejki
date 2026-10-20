@@ -208,3 +208,11 @@ Scalone przez sesję prowadzącą z `notatki/b_narzedzie.md` (sekcje 1, 8, 10 i 
 ## 2026-10-20 — końcowa weryfikacja liczb (Codex, model Astra)
 
 **Decyzja Kuby:** weryfikacja Astrą przed wysłaniem (punkt D). **Wynik:** 45 liczb przeliczonych niezależnie, wszystkie zgodne, bez błędu krytycznego. Siedem ważnych i osiem drobnych uwag dotyczyło pewności zdań i spójności wycen. Wszystkie przyjęte i wprowadzone przez sesję prowadzącą, bez zmiany kierunku żadnego wniosku. Szczegóły: `notatki/recenzje/d_astra.md`. Do odpowiedzi „czy to wzrost” doszło zdanie, że liczba osób powracających w 90 dniach rośnie (3 076 → 3 289), a spada odsetek.
+
+## 2026-10-20 — trzecia wersja narzędzia: wynik punktu C na stronie
+
+Scalone przez sesję prowadzącą z `notatki/b_narzedzie.md` (sekcje 12 i 13). Pracę wykonała sesja „Narzędzie: czy to wzrost, priorytety i niewiadome” (`local_0ea34a6a-6b84-45c6-87b7-e953f33e3452`).
+
+- **Co doszło:** ostateczne „czy to wzrost” bez znacznika „wstępne”, 12 priorytetów z kartami i 18 niewiadomych, za szkicem `notatki/c_szkic.md` w wersji z uwagami Astry (`8ebd2a4`). Liczby na stronie odczytuje z raportów skrypt `analiza/b2_eksport_c.py` i porównuje każdą liczbę z każdego zdania ze szkicem (commity `77c2aef`, `cfa8c57`).
+- **Trzy poprawki Kuby (słowa Kuby):** „1. W zakładce »Priorytety« daj na górę tabelę przeglądu, a zasady listy i definicje pod nią. Czytelnik ma najpierw zobaczyć, co robimy. 2. Osobnej zakładki o TelemediGO nie rób. Dodaj za to krótką kartę w »Czy to wzrost«: skąd +40%, czy rośnie odsetek kupujących, ile dają opłaty wobec zniżek i że rozstrzygnie to test z pozycji 12. To jedna z czterech liczb dashboardu, więc odpowiedź powinna ją objąć. 3. W niewiadomej 1 dopisz horyzont tak jak w pozycji 9 (90 i 180 dni).” Wykonane w `f584585`, kontrola 93 liczb, 0 różnic.
+- **Decyzja Kuby (słowa Kuby):** „Przyjmuję trzecią wersję, przekaż to sesji prowadzącej. Publikacji na razie nie robimy. To będzie ostatni krok przed wysłaniem, osobno.” Commit przyjęcia: `df4d23c`. Punkt B jest zamknięty co do treści. Publikacja (próbna i właściwa) to ostatni, osobny krok przed wysłaniem, za zgodą Kuby przy każdej akcji.

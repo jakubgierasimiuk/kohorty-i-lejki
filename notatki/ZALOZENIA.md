@@ -124,3 +124,7 @@ Szczegóły: `notatki/c_szkic.md`, skrypty `analiza/c_telemedigo.py` i `analiza/
 51. **Wartość pozycji listy priorytetów** = zmiana marży na rok, z okresem 2 jako rokiem bazowym, przy kampaniach w horyzoncie 90 i 180 dni od pozyskania i według obu reguł źródła. Kwot z różnych pozycji nie sumujemy (różne horyzonty, nakładanie się). Czas wdrożenia to nasz szacunek.
 52. **Utracony pierwszy zakup w Safari na iOS = utracony nowy pacjent** z marżą nowych pacjentów z pierwszą płatnością w Safari na iOS w okresie 2, bez kosztu pozyskania (wejście już opłacone).
 53. **Kwoty kampanii działających krócej niż rok przeliczamy na pełny rok przy tym samym tempie** (TikTok na L4: 234 dni, mnożnik 1,56; Meta na L4: 332 dni, mnożnik 1,10) i podajemy obok kwot z dni działania (`c_priorytety.txt`, P11). Po wstrzymaniu TikToka naprawę zwrotów L4 wyceniamy tylko dla Meta.
+
+## 2026-10-20 — narzędzie, trzecia wersja (przyjęte przez Kubę)
+
+54. **Na stronie kwota kampanii na pełny rok = kwota z dni działania × 365 / dni działania, bez zaokrąglania mnożnika** (tak liczy `analiza/c_priorytety.py`, założenie 53). Przy każdym odsetku w tekstach punktu C stoi liczebność odczytana z raportów (zasada Kuby dla strony); takie liczby, dopisane poza szkicem, raport `analiza/wyniki/b_eksport_c.txt` wypisuje jako „dodane”.
