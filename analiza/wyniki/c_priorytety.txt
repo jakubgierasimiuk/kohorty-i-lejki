@@ -1,0 +1,153 @@
+C — LICZBY DO ODPOWIEDZI „CZY TO WZROST” I DO LISTY PRIORYTETÓW (2026-10-20 12:58), schemat `czyste`
+Okres 1 = X 2024 – IX 2025, okres 2 = X 2025 – IX 2026. Z1K = przyjęta reguła źródła (pierwsze wejście, kod kampanii
+rozstrzyga), Z2 = sesja płatności. „Nowe kampanie” = meta_prosp_l4_szybko i tt_prosp_l4_15min (oba na L4, od 3.11.2025
+i 9.02.2026).
+
+==============================================================================================================
+W1. WIĘCEJ PACJENTÓW: nowi pacjenci w okresach, z nowymi kampaniami i bez nich, obie reguły
+==============================================================================================================
+      okres  nowi  bez_nowych_z1k  bez_nowych_z2  bezplatne_z1k
+          1 16231           16231          16231           7069
+          2 24687           17419          19500           7924
+     zmiana %: nowi: +52.1%, bez_nowych_z1k: +7.3%, bez_nowych_z2: +20.1%, bezplatne_z1k: +12.1%
+
+==============================================================================================================
+W2. LEPSZA RETENCJA: powrót w 30/60/90 dniach na tych samych dniach kalendarzowych (ZALOZENIA.md 27)
+==============================================================================================================
+   wszyscy:
+      p30_o1  p30_o2  n30_o1  n30_o2  p60_o1  p60_o2  n60_o1  n60_o2  p90_o1  p90_o2  n90_o1  n90_o2
+        11.0     7.8   14984   22646    19.1    13.7   13941   20823    23.9    17.4   12867   18924
+   bez nowych kampanii (Z1K):
+      p30_o1  p30_o2  n30_o1  n30_o2  p60_o1  p60_o2  n60_o1  n60_o2  p90_o1  p90_o2  n90_o1  n90_o2
+        11.0    10.0   14984   16228    19.1    17.5   13941   15164    23.9    22.0   12867   14031
+   bez nowych kampanii (Z2):
+      p30_o1  p30_o2  n30_o1  n30_o2  p60_o1  p60_o2  n60_o1  n60_o2  p90_o1  p90_o2  n90_o1  n90_o2
+        11.0     9.2   14984   18027    19.1    16.2   13941   16758    23.9    20.4   12867   15414
+   tylko nowe kampanie (Z1K):
+      p30_o1  p30_o2  n30_o1  n30_o2  p60_o1  p60_o2  n60_o1  n60_o2  p90_o1  p90_o2  n90_o1  n90_o2
+         NaN     2.4       0    6418     NaN     3.6       0    5659     NaN     4.1       0    4893
+   Marża na pacjenta w 90 dniach (przed kosztem pozyskania, ZALOZENIA.md 34), te same dni kalendarzowe:
+      okres  pacjenci  marza_wszyscy  marza_bez_nowych_z1k  marza_bez_nowych_z2
+          1     12867           66.6                  66.6                 66.6
+          2     18924           58.3                  66.0                 63.3
+
+==============================================================================================================
+W3. WYNIK BIZNESU W OKRESACH KALENDARZOWYCH (zł)
+==============================================================================================================
+   Marża = przychód z konsultacji po zwrotach + TelemediGO − koszt lekarza − wydatki na kampanie − prowizja afiliacyjna
+   (prowizja według przyjętej reguły, ZALOZENIA.md 25). Zamówienia według dnia płatności, zwrot w dniu płatności.
+                   pozycja   okres_1   okres_2    zmiana  zmiana_proc
+      przychod_konsultacji 2230266.0 3228342.0  998076.0         45.0
+             koszt_lekarza 1175700.0 1734825.0  559125.0         48.0
+          marza_pierwszych  730408.0 1024348.0  293940.0         40.0
+     marza_powt_kohorty_o1  324159.0  152960.0 -171198.0        -53.0
+     marza_powt_kohorty_o2       NaN  316209.0       NaN          NaN
+              zam_pierwsze   16231.0   24687.0    8456.0         52.0
+               zam_powt_o1    8485.0    5289.0   -3196.0        -38.0
+               zam_powt_o2       0.0    8515.0    8515.0          inf
+                telemedigo  156551.0  219652.0   63101.0         40.0
+     telemedigo_kohorty_o1  156551.0   41474.0 -115077.0        -74.0
+          wydatki_kampanie  367632.0  649675.0  282043.0         77.0
+                  prowizja   15400.0   15425.0      25.0          0.0
+                     marza  828085.0 1048069.0  219984.0         27.0
+   marza_powt_kohorty_o1 w okresie 2 = marża z zamówień powtórnych pacjentów pozyskanych w okresie 1 (start od zera:
+   w okresie 1 takiej bazy z poprzedniego roku nie było).
+   Po odjęciu marży powtórnych konsultacji pacjentów pozyskanych w okresie 1: okres 2 895 109 zł (+8.1% wobec okresu 1; bez odjęcia +26.6%).
+   Po odjęciu także ich opłat za TelemediGO w okresie 2 (41 474 zł): 853 635 zł (+3.1%).
+   To rozbicie księgowe, a nie wynik biznesu, który startuje od zera: nie modeluje zmian wydatków ani zachowania
+   pacjentów (recenzja Codeksa).
+
+==============================================================================================================
+P1. SAFARI NA iOS: ZAKŁADANIE KONTA OD 17.03.2026 (a5p_zdarzenia.txt, 5f)
+==============================================================================================================
+      n90  marza90  n180  marza180
+     2990     64.6  2278      74.3
+   po odjęciu tła: 628 pierwszych zamówień w 198 dniach, czyli 1158 rocznie; marża w 90 dniach 74 786 zł, w 180 dniach 86 043 zł rocznie
+   bez odjęcia tła: 695 pierwszych zamówień w 198 dniach, czyli 1281 rocznie; marża w 90 dniach 82 765 zł, w 180 dniach 95 222 zł rocznie
+   Założenia: utracone pierwsze zamówienie = utracony nowy pacjent (odpadnięci nie kupują później częściej w tej samej
+   przeglądarce, a5p 5e; inne urządzenia nieznane); marża jak u nowych pacjentów z pierwszą płatnością w Safari na iOS
+   w okresie 2; bez kosztu pozyskania, bo wejście już zostało opłacone; skala problemu z 17.03–30.09.2026 utrzymuje się
+   przez rok. Kwoty to marża rocznika odzyskanych pacjentów w 90 albo 180 dniach od pozyskania, a nie wpływy w całości
+   w tym samym roku kalendarzowym (recenzja Codeksa).
+
+==============================================================================================================
+P2. ZWROTY PO WIZYTACH L4 W NOWYCH KAMPANIACH — OBIETNICA REKLAMY (a5e_scenariusze.txt, E2a, E3, E3b)
+==============================================================================================================
+   90 dni: przyjęta reguła od 22 283 zł (wariant B) do 57 112 zł (wariant A); sesja płatności od 12 680 zł do 31 795 zł rocznie.
+   180 dni (zmiana wobec dziś): przyjęta reguła 22 283 zł do 57 112 zł; sesja płatności 12 680 zł do 31 795 zł.
+
+==============================================================================================================
+P3. TIKTOK NA L4 (tt_prosp_l4_15min): WYŁĄCZYĆ ALBO NAPRAWIĆ (a5e_scenariusze.txt, E3, E3b)
+==============================================================================================================
+   Dziś (90 dni): −11 928 zł (Z1K), −30 801 zł (Z2). 180 dni: −13 468 zł i −32 341 zł.
+   Wyłączyć (zmiana marży): przy 100% pacjentów dodatkowych +11 928 / +30 801 zł (90 dni), +13 468 / +32 341 zł (180 dni);
+   przy 50%: +47 196 / +56 633 zł; przy 0%: +82 464 zł (oszczędzone wydatki).
+   Naprawić zwroty: wynik po naprawie (wariant A) +2 963 zł (Z1K) i −23 196 zł (Z2) w 90 dniach; +1 423 i −24 736 zł w 180 dniach.
+
+==============================================================================================================
+P4. META NA L4 (meta_prosp_l4_szybko): DECYZJA PO TEŚCIE DODATKOWOŚCI (a5e_scenariusze.txt, E3, E3b)
+==============================================================================================================
+   Dziś (90 dni): +27 845 zł (Z1K), −28 735 zł (Z2); 180 dni: +29 882 zł i −27 474 zł.
+   Wyłączyć: od −27 845 zł (Z1K, 100% dodatkowych) do +163 322 zł (0% dodatkowych). Naprawić zwroty (A): wynik +70 107 zł
+   (Z1K) albo −4 462 zł (Z2). Rozpiętość decyzji: od −27,8 do +163,3 tys. zł rocznie — tyle jest wart test.
+
+==============================================================================================================
+P5. SESJE ZALOGOWANE OD WEJŚCIA BEZ ZAKUPU — WARIANT PESYMISTYCZNY (a5p_zalogowane.txt, sekcja 7)
+==============================================================================================================
+   Okres 2: 2906 sesji z wyborem usługi bez zamówienia w 24 godziny (2557 pacjentów). Scenariusze, gdyby ścieżka była
+   zepsuta (odczytanie B), przy założeniu, że odzyskane płatności to odrębne, dodatkowe zamówienia:
+   - sesje × 40.9% (z wyboru usługi do płatności) × 33.99 zł marży zamówienia powtórnego = 40 399 zł rocznie;
+   - pacjenci zamiast sesji (kilka sesji jednego pacjenta to często ten sam zamiar zakupu): 35 547 zł rocznie;
+   - wysoki scenariusz × 90.5% (przelicznik z późniejszego kroku, nie formalna górna granica): 89 391 zł rocznie.
+   Odczytanie A (wizyty „sprawdzam konto”): 0 zł. Część tych zakupów i tak się odbywa później (pacjenci z takimi sesjami
+   wracają częściej niż podobni).
+
+==============================================================================================================
+P6. TELEMEDIGO: ZNIŻKA 20% U SPECJALISTÓW Z CENĄ PO ZNIŻCE PONIŻEJ KOSZTU LEKARZA (c_telemedigo.txt, 3c)
+==============================================================================================================
+      okres  zamowienia    marza  znizka_efektywna
+          1         753  -7845.0           15539.0
+          2        1512 -14682.0           31405.0
+   Zmiana warunków (bez zniżki u tych specjalistów), okres 2, scenariusze (nie granice; recenzja Codeksa):
+   - znikają wszystkie te zamówienia: 14 682 zł rocznie;
+   - znikają tylko zamówienia, które dziś przynoszą stratę: 18 915 zł rocznie;
+   - wszystkie zostają po cenie katalogowej: 31 405 zł rocznie;
+   - przy osobnej reakcji przy każdym zamówieniu: od 10 896 do 35 191 zł (c_telemedigo.txt, 3c).
+   Wszystkie bez wpływu na sprzedaż członkostw (część pacjentów może rzadziej kupować TelemediGO).
+
+==============================================================================================================
+P7. gs_generic_specjalisci: WYNIK UJEMNY W OBU REGUŁACH I OBU OKNACH (a5e_kampanie.csv)
+==============================================================================================================
+   Z1K, 90 dni: nowi rocznie 923, wydatki 53 158 zł, koszt pozyskania 57.6 zł, marża na pacjenta 32.4 zł, wynik -23 253 zł; wyłączyć przy 100% / 50% / 0% dodatkowych: 23 253 zł / 38 205 zł / 53 158 zł; koszt pozyskania na zero wyniku: 32.4 zł
+   Z1K, 180 dni: nowi rocznie 923, wydatki 53 158 zł, koszt pozyskania 57.6 zł, marża na pacjenta 36.6 zł, wynik -19 376 zł; wyłączyć przy 100% / 50% / 0% dodatkowych: 19 376 zł / 36 267 zł / 53 158 zł; koszt pozyskania na zero wyniku: 36.6 zł
+   Z2, 90 dni: nowi rocznie 657, wydatki 53 158 zł, koszt pozyskania 80.9 zł, marża na pacjenta 32.9 zł, wynik -31 543 zł; wyłączyć przy 100% / 50% / 0% dodatkowych: 31 543 zł / 42 350 zł / 53 158 zł; koszt pozyskania na zero wyniku: 32.9 zł
+   Z2, 180 dni: nowi rocznie 657, wydatki 53 158 zł, koszt pozyskania 80.9 zł, marża na pacjenta 35.0 zł, wynik -30 163 zł; wyłączyć przy 100% / 50% / 0% dodatkowych: 30 163 zł / 41 660 zł / 53 158 zł; koszt pozyskania na zero wyniku: 35.0 zł
+   Założenia rachunku „wyłączyć”: ZALOZENIA.md 42 (pacjenci dodatkowi mają średnią marżę przypisanych, pozostali
+   zachowują się jak dziś, koszty pozostałych kanałów bez zmian).
+   Naprawić = obniżyć koszt pozyskania do poziomu marży pacjenta (stawki, słowa kluczowe, strona wejścia) albo podnieść
+   marżę wizyt u specjalistów (cena katalogowa 109–119 zł przy koszcie lekarza 100 zł, c_telemedigo.txt 3a).
+
+==============================================================================================================
+P8. PORANNA PRZEPUSTOWOŚĆ INTERNISTÓW — SCENARIUSZ (a5e_scenariusze.txt, C)
+==============================================================================================================
+   Brak efektu 0 zł; wąski 11 931–12 656 zł; szeroki 31 806–65 247 zł marży w 180 dniach rocznie. Koszt dodatkowej obsady
+   nieznany (koszt lekarza w zadaniu to stawka za wizytę), więc wartości netto nie da się policzyć.
+
+==============================================================================================================
+P9. STRATA MIĘDZY KLIKNIĘCIEM REKLAMY A SESJĄ W META I TIKTOKU (a5p_lejek.txt, 6b)
+==============================================================================================================
+   Górna granica okresu 2: 23 776 sesji, do 1 434 zamówień, 50 494 zł wydatków. Jeśli to porzucenie ładowania strony i da się
+   je odzyskać: do 1 434 × 36.3 zł (marża w 90 dniach pacjenta nowych kampanii) = 52 054 zł rocznie.
+   Jeśli to sposób liczenia kliknięć przez platformy: 0 zł (sprawa pomiaru).
+
+==============================================================================================================
+P10. TELEMEDIGO: KOSZT TESTU Z LOSOWYM CZŁONKOSTWEM PRÓBNYM (c_telemedigo.txt, 4d, projekt B)
+==============================================================================================================
+      pacjenci  znizka_na_pacjenta_dni_1_90  dodatkowy_koszt_na_pacjenta
+         17569                         6.76                         6.71
+   znizka_na_pacjenta = nominalna zniżka TelemediGO od ceny katalogowej; dodatkowy_koszt = różnica wobec dzisiejszej
+   zapłaty (część wizyt ma już inne kody rabatowe, recenzja Codeksa). Koszt lekarza się nie zmienia.
+   487 pacjentów w grupie próbnej (c_telemedigo.txt, 4d): około 3 266 zł dodatkowego kosztu (nominalnie 3 295 zł) przy obecnym zachowaniu; więcej, jeśli członkostwo wywołuje dodatkowe wizyty.
+   1823 pacjentów w grupie próbnej (c_telemedigo.txt, 4d): około 12 225 zł dodatkowego kosztu (nominalnie 12 333 zł) przy obecnym zachowaniu; więcej, jeśli członkostwo wywołuje dodatkowe wizyty.
+   Członkostwo próbne zaczyna się dzień po pierwszym zamówieniu, więc pierwsze zamówienie jest bez zniżki z członkostwa
+   próbnego (inne kody rabatowe nadal obowiązują).

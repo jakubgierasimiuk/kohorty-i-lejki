@@ -1,0 +1,345 @@
+C — TELEMEDIGO (2026-10-20 12:58), schemat `czyste`
+Okres zakupu = dzień zakupu członkostwa (czas polski): okres 1 = X 2024 – IX 2025, okres 2 = X 2025 – IX 2026.
+TelemediGO: 89 zł za 365 dni, 50% zniżki u internisty, 20% u pozostałych; nie odnawia się samo.
+Zniżka = cena katalogowa − zapłata. Zniżka efektywna = tylko wizyty, za które zapłata zostaje (odbyte i nieodebrane).
+Koszt lekarza: 25 zł internista, 200 zł psychiatra, 100 zł pozostali (pediatra i psycholog też), za wizyty odbyte i
+zwrócone po wizycie (ZALOZENIA.md 33). Obserwacje, nie wnioski: przyczyn nie przesądzamy.
+
+==============================================================================================================
+0. KONTROLA: liczba zakupów TelemediGO w okresach (A3: 1 759 i 2 468, +40,3%)
+==============================================================================================================
+      okres  zakupy  oplaty_zl
+          1    1759   156551.0
+          2    2468   219652.0
+     zmiana: +709 zakupów, +40.3%
+     każde członkostwo trwa dokładnie 365 dni i kosztuje 89 zł: 0 wyjątków
+     zamówienia ze zniżką TelemediGO: 9738, w tym poza okresem ważności członkostwa: 0
+
+==============================================================================================================
+1. SKĄD WZROST SPRZEDAŻY O 40%
+==============================================================================================================
+1a. Typ zakupu. Przy kasie = razem z zamówieniem konsultacji; osobno = sam TelemediGO (strona /telemedigo).
+                                   typ  okres_1  okres_2  zmiana  zmiana_proc  udzial_we_wzroscie_proc
+        1_kasa_z_pierwszym_zamowieniem    905.0   1089.0   184.0         20.3                     26.0
+         2_kasa_z_kolejnym_zamowieniem    629.0    918.0   289.0         45.9                     40.8
+     3_osobno_newsletter_crm_go_upsell    225.0    461.0   236.0        104.9                     33.3
+                                 razem   1759.0   2468.0   709.0         40.3                    100.0
+     przy kasie razem: 1534 → 2007 (+30.8%); osobno razem: 1984 → 2929
+
+1b. Zakupy osobne w kampanii crm_go_upsell miesiąc po miesiącu (start 8.09.2025; w okresie 1 tylko 23 dni września).
+     miesiac  osobno_crm  przy_kasie  razem
+     2025-07           0         134    134
+     2025-08           0         133    133
+     2025-09         225         145    370
+     2025-10          27         149    176
+     2025-11          34         160    194
+     2025-12          46         171    217
+     2026-01          36         206    242
+     2026-02          33         156    189
+     2026-03          47         198    245
+     2026-04          40         174    214
+     2026-05          40         176    216
+     2026-06          50         167    217
+     2026-07          39         170    209
+     2026-08          38         145    183
+     2026-09          31         135    166
+     Pierwsze 23 dni kampanii: 225 zakupów; w okresie 2 średnio 38.4 miesięcznie.
+     Odczytanie do sprawdzenia: start kampanii zebrał od razu pacjentów, którzy czekali na ofertę, a potem sprzedaż
+     osobna ustala się na niższym poziomie. Wysyłek w danych nie ma (widać tylko wejścia), więc nie wiemy, ile
+     wiadomości wysłano w kolejnych miesiącach.
+
+1c. Kupujący: pierwsze członkostwo pacjenta wobec drugiego (ponowny zakup po wygaśnięciu pierwszego).
+                              kupujacy  okres_1  okres_2  zmiana  udzial_we_wzroscie_proc
+            1_nowy_pacjent_pierwsze_go    905.0   1089.0   184.0                     26.0
+     2_pacjent_juz_kupowal_pierwsze_go    854.0   1294.0   440.0                     62.1
+             3_ponowny_zakup_drugie_go      0.0     85.0    85.0                     12.0
+
+1d. Ponowne zakupy. Członkostwa z okresu 1 wygasają w okresie 2 (ważność 365 dni). Odnowienie = kolejny zakup
+    tego samego pacjenta. Liczymy tylko członkostwa, po których wygaśnięciu jest N dni obserwacji.
+      dni_po_wygasnieciu  wygasle_czlonkostwa  odnowione  odnowione_proc  pacjenci_z_zamowieniem_po_wygasnieciu  z_zamowieniem_proc
+                      30                 1389         36             2.6                                     67                 4.8
+                      90                 1140         62             5.4                                    100                 8.8
+                     180                  703         44             6.3                                     73                10.4
+    Drugie członkostwa (wszystkie są w okresie 2), według typu zakupu i odstępu od wygaśnięcia pierwszego:
+                                   typ  n  mediana_dni_od_wygasniecia  min_dni
+         2_kasa_z_kolejnym_zamowieniem 66                        33.5        1
+     3_osobno_newsletter_crm_go_upsell 19                        34.0       12
+    W okresie 2 wygasa 1759 członkostw. Odnowienia nie są przypominane automatycznie (słownik danych),
+    a w danych nie widać kampanii przypominającej o wygaśnięciu.
+
+1e. Zakup przy kasie jako odsetek zamówień, przy których pacjent nie miał ważnego członkostwa (zamówienia „do
+    oferty”). Rozbicie wzrostu zakupów przy kasie na liczbę zamówień i odsetek kupujących.
+      okres            zamowienie  zamowienia_do_oferty  z_go_przy_kasie  odsetek_proc
+          1 1_pierwsze_zamowienie                 16231              905          5.58
+          2 1_pierwsze_zamowienie                 24687             1089          4.41
+          1  2_kolejne_zamowienie                  6784              629          9.27
+          2  2_kolejne_zamowienie                  9307              918          9.86
+     1_pierwsze_zamowienie: zmiana +184 zakupów = więcej zamówień +471 + zmiana odsetka -287
+     2_kolejne_zamowienie: zmiana +289 zakupów = więcej zamówień +234 + zmiana odsetka +55
+
+1f. Odsetek nowych pacjentów, którzy kupują TelemediGO przy pierwszym zamówieniu, według grupy kampanii
+    pozyskania (przyjęta reguła źródła, ZALOZENIA.md 22) i według pierwszej usługi.
+                    grupa  n_okres_1  n_okres_2  odsetek_okres_1  odsetek_okres_2
+     1_meta_lekarz_online       1022       1076             6.46             5.02
+         2_meta_l4_szybko          0       5059             0.00             1.48
+                 3_tiktok          0       2209             0.00             1.49
+       4_pozostale_kanaly      15209      16343             5.52             5.67
+
+                      kanal  n_okres_1  n_okres_2  odsetek_okres_1  odsetek_okres_2
+          afiliacja_ranking        616        617             6.01             6.97
+               bezposrednie       3069       3399             5.38             5.77
+           google_ads_marka       1864       2084             5.53             5.81
+          google_ads_ogolne       5540       5597             5.72             5.54
+            meta_pozyskanie       1022       6135             6.46             2.10
+           meta_remarketing        120        121             5.00             5.79
+            program_polecen        550        660             4.91             5.61
+                     tiktok          0       2209             0.00             1.49
+     wyszukiwarka_bezplatna       3450       3865             5.33             5.51
+
+                     usluga  n_okres_1  n_okres_2  odsetek_okres_1  odsetek_okres_2
+           inny_specjalista       2971       3427             5.22             4.44
+       internista_e_recepta       4059       4780             8.01             7.03
+     internista_konsultacja       2675       3165             4.60             5.12
+              internista_l4       3526       9670             4.91             2.81
+     internista_skierowanie       1467       1648             3.82             4.00
+                   pediatra        845        999             4.38             5.31
+                 psychiatra        688        998             5.23             4.81
+
+      okres     n  odsetek   z_go
+          1 16231 5.575750  905.0
+          2 24687 4.411229 1089.0
+     bez pacjentów dwóch nowych kampanii na L4:
+      okres     n  odsetek  z_go
+          1 16231 5.575750 905.0
+          2 17419 5.631781 981.0
+     Rozkład zmiany odsetka (punkty procentowe) na komórki grupa kampanii × pierwsza usługa:
+     okres_1: +5.58, okres_2: +4.41, zmiana: -1.16, nowe_komorki: -1.22, znikniete: -0.00, struktura: +0.02, zachowanie: +0.04
+     „nowe_komorki” = segmenty bez pacjentów w okresie 1 (np. nowe kampanie na L4). Opis, nie przyczyna.
+
+1g. Wszystkie zakupy TelemediGO według kanału pozyskania kupującego (przyjęta reguła źródła).
+                      kanal  okres_1  okres_2  zmiana  udzial_we_wzroscie_proc
+               bezposrednie    318.0    530.0   212.0                     29.9
+     wyszukiwarka_bezplatna    391.0    532.0   141.0                     19.9
+          google_ads_ogolne    588.0    711.0   123.0                     17.3
+            meta_pozyskanie     97.0    183.0    86.0                     12.1
+           google_ads_marka    223.0    307.0    84.0                     11.8
+                     tiktok      0.0     33.0    33.0                      4.7
+          afiliacja_ranking     51.0     69.0    18.0                      2.5
+            program_polecen     73.0     87.0    14.0                      2.0
+           meta_remarketing     18.0     16.0    -2.0                     -0.3
+
+==============================================================================================================
+2. OPŁATY ZA TELEMEDIGO WOBEC ZNIŻEK UDZIELONYCH NA WIZYTACH
+==============================================================================================================
+2a. Na członkostwo, w czasie jego ważności (365 dni). Członkostwa z okresu 1 mają pełne okno (wygasają najpóźniej
+    30.09.2026). Członkostwa z okresu 2 jeszcze trwają, więc pokazujemy je w 2b w tych samych dniach od zakupu.
+                                            miara   okres_1
+                                            okres      1.00
+                                      czlonkostwa   1759.00
+                                        oplaty_zl 156551.00
+                              znizka_nominalna_zl 195136.70
+                              znizka_efektywna_zl 183939.20
+                             zamowienia_ze_znizka   4902.00
+                  znizka_efektywna_na_czlonkostwo    104.57
+     oplata_minus_znizka_efektywna_na_czlonkostwo    -15.57
+                 oplaty_minus_znizki_efektywne_zl -27388.00
+                        zamowienia_na_czlonkostwo      2.79
+    Przy założeniu, że te same wizyty zostałyby kupione po cenie katalogowej bez TelemediGO, opłaty są o 27 388 zł
+    niższe od udzielonych zniżek. To nie jest wynik programu:
+    nie wiemy, ile wizyt członkostwo dokłada (sekcja 4), a koszt lekarza za wizyty zwrócone jest w rachunku marży (sekcja 3).
+    Okres 1 według typu zakupu i grupy specjalizacji (zniżka efektywna na członkostwo, zł):
+                                   typ  czlonkostwa  internista  specjalisci  razem  zamowienia_na_czlonkostwo  bez_zniżki_efektywnej_proc  wizyty_po_zakupie
+        1_kasa_z_pierwszym_zamowieniem          905       71.84        17.10  88.94                       2.37                        4.75               1.29
+         2_kasa_z_kolejnym_zamowieniem          629      108.46        27.90 136.36                       3.64                        4.13               2.50
+     3_osobno_newsletter_crm_go_upsell          225       62.50        16.06  78.56                       2.07                       41.78               1.97
+    „wizyty_po_zakupie” = wizyty ze zniżką efektywną poza zamówieniem, przy którym kupiono członkostwo.
+    Rozkład zniżki efektywnej na członkostwo (okres 1, zł):
+     10%: 19.0, 25%: 44.5, 50%: 66.3, 75%: 153.5, 90%: 246.9, 99%: 398.0; powyżej 89 zł: 38.0% członkostw
+
+2b. Zniżka efektywna narastająco w dniach od zakupu, członkostwa z pełnym oknem N dni (oba okresy).
+      dni  czlonkostwa_okres_1  czlonkostwa_okres_2  znizka_na_czlonkostwo_zl_okres_1  znizka_na_czlonkostwo_zl_okres_2
+        0               1759.0               2468.0                             32.75                             30.66
+       30               1759.0               2302.0                             41.81                             39.85
+       90               1759.0               1924.0                             61.27                             58.95
+      180               1759.0               1286.0                             81.68                             77.91
+      365               1759.0                  NaN                            104.57                               NaN
+    Dzień 0 = zamówienie, przy którym kupiono członkostwo (dla zakupów przy kasie), i inne zamówienia tego dnia.
+    Przybliżenie dla okresu 2 (dni 181–365 w tej samej proporcji co w okresie 1): 99.7 zł zniżki na członkostwo,
+    czyli -10.7 zł opłaty ponad zniżkę na członkostwo. To przybliżenie, nie wynik.
+
+2c. Rok kalendarzowy (widok kasowy): opłaty za członkostwa kupione w okresie wobec zniżek na zamówieniach
+    złożonych w tym samym okresie (także na członkostwach kupionych wcześniej).
+      okres  oplaty_zl  znizka_nominalna_zl  znizka_efektywna_zl  zamowienia_ze_znizka  oplaty_minus_znizki_efektywne_zl
+          1   156551.0             128516.0             120788.0                  3235                           35763.0
+          2   219652.0             258813.0             244520.0                  6503                          -24868.0
+
+==============================================================================================================
+3. CZY WIZYTY ZE ZNIŻKĄ TELEMEDIGO POKRYWAJĄ KOSZT LEKARZA
+==============================================================================================================
+3a. Cennik (z danych): cena katalogowa, cena po zniżce TelemediGO, koszt lekarza za wizytę odbytą, marża na wizycie.
+     specialization  cena  liczba_cen  cena_z_go  koszt_lekarza  znizka_proc  marza_bez_znizki  marza_z_go
+         internista  89.0           1       44.5             25         50.0              64.0        19.5
+           pediatra  95.0           1       76.0            100         20.0              -5.0       -24.0
+          psycholog  99.0           1       79.2            100         20.0              -1.0       -20.8
+          kardiolog 109.0           1       87.2            100         20.0               9.0       -12.8
+         dermatolog 109.0           1       87.2            100         20.0               9.0       -12.8
+           neurolog 109.0           1       87.2            100         20.0               9.0       -12.8
+             urolog 109.0           1       87.2            100         20.0               9.0       -12.8
+          ginekolog 119.0           1       95.2            100         20.0              19.0        -4.8
+       endokrynolog 119.0           1       95.2            100         20.0              19.0        -4.8
+         psychiatra 269.0           1      215.2            200         20.0              69.0        15.2
+
+3b. Rzeczywiste zamówienia ze zniżką TelemediGO wobec zamówień bez zniżki, obie lata razem, z anulacjami,
+    nieodebranymi i zwrotami. Marża = przychód po zwrotach − koszt lekarza (także za wizyty zwrócone po wizycie).
+                  grupa specialization znizka  zamowienia  zwrocone_po_wizycie_proc  anulowane_proc  przychod_zl  koszt_lekarza_zl  marza_zl  marza_na_zamowienie
+           1_internista     internista     go        6950                       1.7             3.9     291786.5          162600.0  129186.5                 18.6
+           1_internista     internista   none       31804                       2.9             4.0    2633510.0          743050.0 1890460.0                 59.4
+           2_psychiatra     psychiatra     go         523                       1.3             4.2     106308.8           97400.0    8908.8                 17.0
+           2_psychiatra     psychiatra   none        2034                       2.1             4.0     513790.0          380800.0  132990.0                 65.4
+             3_pediatra       pediatra     go         382                       1.8             3.1      27588.0           35900.0   -8312.0                -21.8
+             3_pediatra       pediatra   none        2083                       0.8             4.2     188005.0          195500.0   -7495.0                 -3.6
+     4_inny_specjalista     dermatolog     go         588                       1.7             4.8      47960.0           54100.0   -6140.0                -10.4
+     4_inny_specjalista     dermatolog   none        2256                       1.1             3.7     234241.0          212000.0   22241.0                  9.9
+     4_inny_specjalista   endokrynolog     go         291                       2.1             4.8      25799.2           27100.0   -1300.8                 -4.5
+     4_inny_specjalista   endokrynolog   none        1168                       1.5             4.4     130900.0          109300.0   21600.0                 18.5
+     4_inny_specjalista      ginekolog     go         587                       1.7             4.8      52264.8           53800.0   -1535.2                 -2.6
+     4_inny_specjalista      ginekolog   none        2245                       1.4             4.0     252756.0          210700.0   42056.0                 18.7
+     4_inny_specjalista      kardiolog     go         138                       0.7             3.6      11510.4           13100.0   -1589.6                -11.5
+     4_inny_specjalista      kardiolog   none         751                       1.1             3.1      78480.0           70300.0    8180.0                 10.9
+     4_inny_specjalista       neurolog     go          97                       0.0             5.2       8022.4            9000.0    -977.6                -10.1
+     4_inny_specjalista       neurolog   none         633                       1.9             3.3      65400.0           59700.0    5700.0                  9.0
+     4_inny_specjalista      psycholog     go          73                       0.0             6.8       5385.6            6800.0   -1414.4                -19.4
+     4_inny_specjalista      psycholog   none         385                       1.6             4.4      35838.0           35600.0     238.0                  0.6
+     4_inny_specjalista         urolog     go         109                       0.9             1.8       9243.2           10500.0   -1256.8                -11.5
+     4_inny_specjalista         urolog   none         598                       1.7             4.8      60931.0           55500.0    5431.0                  9.1
+
+3c. Suma marży na zamówieniach ze zniżką TelemediGO, według grupy specjalizacji i okresu zamówienia (zł).
+                  grupa  okres  zamowienia  przychod_zl  koszt_lekarza_zl  znizka_efektywna_zl  marza_zl
+           1_internista      1        2322      97232.0           54500.0              97232.0   42732.0
+           1_internista      2        4628     194554.0          108100.0             194554.0   86454.0
+           2_psychiatra      1         160      32065.0           29800.0               8016.0    2265.0
+           2_psychiatra      2         363      74244.0           67600.0              18561.0    6644.0
+             3_pediatra      1         135       9500.0           12600.0               2375.0   -3100.0
+             3_pediatra      2         247      18088.0           23300.0               4522.0   -5212.0
+     4_inny_specjalista      1         618      52655.0           57400.0              13164.0   -4745.0
+     4_inny_specjalista      2        1265     107530.0          117000.0              26883.0   -9470.0
+     Specjaliści z ceną po zniżce poniżej kosztu lekarza (wszyscy poza internistą i psychiatrą):
+      okres  zamowienia  marza_zl  znizka_efektywna_zl
+          1         753   -7845.0              15539.0
+          2        1512  -14682.0              31405.0
+     Scenariusze zmiany warunków (zniżka 0% u tych specjalistów, internista i psychiatra bez zmian), rocznie. To
+     scenariusze, nie granice (recenzja Codeksa): pacjenci mogą reagować różnie przy różnych wizytach.
+      okres  znikaja_wszystkie  zostaja_wszystkie_po_cenie_katalogowej  znikaja_tylko_zamowienia_ze_strata  kazde_zamowienie_najgorzej  kazde_zamowienie_najlepiej
+          1             7845.0                                 15539.0                              9198.0                      6303.0                     17081.0
+          2            14682.0                                 31405.0                             18915.0                     10896.0                     35191.0
+     „znikaja_wszystkie” = znikają wszystkie te zamówienia (także nieodebrane, które dziś dają marżę bez kosztu lekarza);
+     „zostaja_...” = wszystkie zostają po cenie katalogowej; ostatnie dwie kolumny = każde zamówienie osobno znika albo
+     zostaje, w wariancie najgorszym i najlepszym. Bez wpływu na sprzedaż członkostw (część pacjentów może rzadziej
+     kupować TelemediGO).
+
+==============================================================================================================
+4. CZY TELEMEDIGO ZMIENIA POWROTY (zastrzeżenie samoselekcji)
+==============================================================================================================
+Uwaga: TelemediGO kupują pacjenci, którzy i tak planują wracać. Różnica w powrotach między kupującymi a podobnymi
+pacjentami bez TelemediGO to suma dwóch rzeczy: wpływu niższej ceny i tego, że kupują inni ludzie. Dane
+obserwacyjne ich nie rozdzielają. Kontrole w 4b i 4c to opisy zgodne z kilkoma wyjaśnieniami; żadna z nich
+nie rozstrzyga między nimi (recenzja Codeksa).
+
+4a. Nowi pacjenci, którzy kupili TelemediGO przy pierwszym zamówieniu, wobec podobnych pacjentów bez niego.
+    Dopasowanie dokładne w warstwach: okres, kanał pozyskania (przyjęta reguła), pierwsza usługa, miesiąc kohorty.
+    Wynik ważony liczbą kupujących w warstwie. Przedział 95% z wariancji w warstwach (bez niepewności dopasowania).
+                                            miara okresy                        warstwy  kupujacy  pokrycie_proc  surowe_z_go  surowe_bez_go  dopasowane_z_go  podobni_bez_go  roznica     od     do
+                           powrót w 90 dniach (%)      1           kanał+usługa+miesiąc       905           99.9        34.25          22.97            34.29           24.17    10.12   6.86  13.38
+                           powrót w 90 dniach (%)      1 + status pierwszego zamówienia       905           96.8        34.25          22.97            34.82           24.28    10.53   7.17  13.90
+                           powrót w 90 dniach (%)      2           kanał+usługa+miesiąc       858           99.5        34.50          16.57            34.66           20.04    14.62  11.43  17.81
+                           powrót w 90 dniach (%)      2 + status pierwszego zamówienia       858           97.4        34.50          16.57            35.17           19.84    15.33  12.05  18.62
+                           powrót w 90 dniach (%)    1+2           kanał+usługa+miesiąc      1763           99.7        34.37          19.50            34.47           22.16    12.31  10.02  14.59
+                           powrót w 90 dniach (%)    1+2 + status pierwszego zamówienia      1763           97.1        34.37          19.50            34.99           22.11    12.88  10.52  15.23
+                          powrót w 180 dniach (%)      1           kanał+usługa+miesiąc       905           99.9        41.33          26.22            41.37           27.45    13.92  10.59  17.26
+                          powrót w 180 dniach (%)      1 + status pierwszego zamówienia       905           96.8        41.33          26.22            42.12           27.57    14.55  11.14  17.96
+                          powrót w 180 dniach (%)      2           kanał+usługa+miesiąc       614           99.8        39.90          21.33            39.97           24.76    15.21  11.32  19.09
+                          powrót w 180 dniach (%)      2 + status pierwszego zamówienia       614           97.9        39.90          21.33            40.27           24.92    15.35  11.34  19.36
+                          powrót w 180 dniach (%)    1+2           kanał+usługa+miesiąc      1519           99.9        40.75          24.08            40.80           26.36    14.44  11.91  16.97
+                          powrót w 180 dniach (%)    1+2 + status pierwszego zamówienia      1519           97.2        40.75          24.08            41.37           26.49    14.88  12.28  17.48
+     kolejne zamówienia nieanulowane w 365 dniach      1           kanał+usługa+miesiąc       905           99.9         1.31           0.70             1.31            0.74     0.58   0.44   0.72
+     kolejne zamówienia nieanulowane w 365 dniach      1 + status pierwszego zamówienia       905           96.8         1.31           0.70             1.34            0.75     0.59   0.44   0.74
+                              marża dni 1–90 (zł)      1           kanał+usługa+miesiąc       905           99.9         5.98          17.11             5.98           18.15   -12.16 -13.74 -10.58
+                              marża dni 1–90 (zł)      1 + status pierwszego zamówienia       905           96.8         5.98          17.11             6.14           18.57   -12.44 -14.21 -10.67
+                              marża dni 1–90 (zł)      2           kanał+usługa+miesiąc       858           99.5         6.19          12.44             6.22           15.47    -9.26 -10.64  -7.87
+                              marża dni 1–90 (zł)      2 + status pierwszego zamówienia       858           97.4         6.19          12.44             6.32           15.21    -8.89 -10.35  -7.43
+                              marża dni 1–90 (zł)    1+2           kanał+usługa+miesiąc      1763           99.7         6.08          14.59             6.10           16.85   -10.75 -11.81  -9.70
+                              marża dni 1–90 (zł)    1+2 + status pierwszego zamówienia      1763           97.1         6.08          14.59             6.23           16.93   -10.71 -11.86  -9.55
+                             marża dni 1–180 (zł)      1           kanał+usługa+miesiąc       905           99.9        10.47          26.79            10.48           28.84   -18.36 -20.53 -16.19
+                             marża dni 1–180 (zł)      1 + status pierwszego zamówienia       905           96.8        10.47          26.79            10.73           29.64   -18.91 -21.32 -16.50
+                             marża dni 1–180 (zł)      2           kanał+usługa+miesiąc       614           99.8        10.91          20.75            10.93           24.88   -13.95 -16.35 -11.56
+                             marża dni 1–180 (zł)      2 + status pierwszego zamówienia       614           97.9        10.91          20.75            11.08           24.75   -13.67 -16.21 -11.13
+                             marża dni 1–180 (zł)    1+2           kanał+usługa+miesiąc      1519           99.9        10.65          24.14            10.66           27.24   -16.58 -18.19 -14.96
+                             marża dni 1–180 (zł)    1+2 + status pierwszego zamówienia      1519           97.2        10.65          24.14            10.87           27.65   -16.78 -18.54 -15.02
+                             marża dni 1–365 (zł)      1           kanał+usługa+miesiąc       905           99.9        15.64          34.69            15.66           37.59   -21.93 -24.83 -19.03
+                             marża dni 1–365 (zł)      1 + status pierwszego zamówienia       905           96.8        15.64          34.69            16.07           38.75   -22.68 -25.91 -19.45
+               marża dni 0–90 z opłatą 89 zł (zł)      1           kanał+usługa+miesiąc       905           99.9       107.64          64.02           107.65           66.25    41.40  39.35  43.44
+               marża dni 0–90 z opłatą 89 zł (zł)      1 + status pierwszego zamówienia       905           96.8       107.64          64.02           108.38           69.20    39.18  37.26  41.10
+               marża dni 0–90 z opłatą 89 zł (zł)      2           kanał+usługa+miesiąc       858           99.5       108.10          55.93           107.94           62.99    44.95  43.16  46.74
+               marża dni 0–90 z opłatą 89 zł (zł)      2 + status pierwszego zamówienia       858           97.4       108.10          55.93           108.20           64.53    43.67  42.05  45.29
+               marża dni 0–90 z opłatą 89 zł (zł)    1+2           kanał+usługa+miesiąc      1763           99.7       107.87          59.64           107.79           64.67    43.12  41.76  44.49
+               marża dni 0–90 z opłatą 89 zł (zł)    1+2 + status pierwszego zamówienia      1763           97.1       107.87          59.64           108.29           66.92    41.37  40.11  42.63
+              marża dni 0–365 z opłatą 89 zł (zł)      1           kanał+usługa+miesiąc       905           99.9       117.31          81.60           117.32           85.69    31.63  28.41  34.85
+              marża dni 0–365 z opłatą 89 zł (zł)      1 + status pierwszego zamówienia       905           96.8       117.31          81.60           118.31           89.38    28.94  25.62  32.25
+    Marża dni 1–N obejmuje niższe ceny wizyt ze zniżką i ewentualny drugi zakup TelemediGO; nie obejmuje opłaty
+    89 zł z dnia 0. Wiersze „dni 0–N” dodają dzień 0: opłatę 89 zł i zniżkę na pierwszym zamówieniu.
+
+4b. Kontrola 1 — przebieg zamówień przed wygaśnięciem członkostwa i po nim. Gdyby różnica brała się tylko z niższej
+    ceny, po wygaśnięciu (dzień 366) powinna zniknąć; gdyby tylko z tego, że kupują inni pacjenci, powinna zostać.
+    Okres 1, kohorty do 3.07.2025 (pełne 455 dni). Grupa porównawcza: bez żadnego zakupu TelemediGO do dnia 455.
+    Dwie wersje grupy z TelemediGO: (1) bez kolejnego zakupu członkostwa do dnia 455 — wyłączenie zależy od zachowania
+    po zakupie i usuwa najaktywniejszych; (2) wszyscy pierwotni kupujący, także odnawiający (recenzja Codeksa).
+                    wersja                            okno  kupujacy  pokrycie_proc  z_go_proc  podobni_proc  roznica_pkt    od    do  iloraz
+     (1) bez odnawiających    dni 1–90 (członkostwo ważne)       683           99.7      34.65         19.07        15.59 11.78 19.39    1.82
+     (1) bez odnawiających dni 276–365 (członkostwo ważne)       683           99.7       8.52          2.26         6.26  4.02  8.49    3.77
+     (1) bez odnawiających    dni 366–455 (po wygaśnięciu)       683           99.7       2.94          1.66         1.28 -0.16  2.71    1.77
+                   wersja                            okno  kupujacy  pokrycie_proc  z_go_proc  podobni_proc  roznica_pkt    od    do  iloraz
+     (2) wszyscy kupujący    dni 1–90 (członkostwo ważne)       707           99.7      35.89         18.98        16.91 13.16 20.65    1.89
+     (2) wszyscy kupujący dni 276–365 (członkostwo ważne)       707           99.7      10.78          2.27         8.51  6.12 10.91    4.75
+     (2) wszyscy kupujący    dni 366–455 (po wygaśnięciu)       707           99.7       6.24          1.64         4.60  2.71  6.48    3.79
+    Miara: odsetek pacjentów z co najmniej jednym nieanulowanym zamówieniem w danym oknie. Iloraz = z_go / podobni.
+    Różnica w punktach maleje po wygaśnięciu, ale poziom zamówień też spada, więc patrzymy też na iloraz. Wynik jest
+    zgodny z kilkoma wyjaśnieniami i nie rozstrzyga między nimi (recenzja Codeksa).
+
+4c. Kontrola 2 — pacjenci, którzy weszli z newslettera crm_go_upsell: kupili TelemediGO osobno wobec tych, którzy
+    nie kupili przy wejściu i przez następne 30 dni. Obie grupy zainteresowały się ofertą. Zamówienia nieanulowane na
+    pacjenta w 180 dniach przed i po dniu odniesienia (zakup albo pierwsze wejście bez zakupu), dzień odniesienia do
+    3.04.2026 (pełne 180 dni). Wiersz kupil = 0 obejmuje też pacjentów, którzy kupili członkostwo później w oknie
+    180 dni; wiersz kupil = -1 to ta sama grupa bez nich (kontrola wrażliwości; wyłączenie też selekcjonuje według
+    przyszłego zachowania).
+      kupil  pacjenci  zam_180_przed  zam_180_po  zam_wczesniej_razem  zmiana_po_minus_przed
+          0       189          3.037       1.217                3.884                 -1.820
+          1       450          2.931       1.509                3.638                 -1.422
+         -1       174          2.971       1.063                3.845                 -1.908
+     W grupie bez zakupu 15 z 189 pacjentów kupuje członkostwo później w oknie 180 dni.
+     Różnica różnic (kupili − bez zakupu przy wejściu i przez 30 dni): +0.398 zamówienia na pacjenta w 180 dniach; bez późniejszych kupujących: +0.486.
+     To statystyka opisowa: zakłada równoległe trendy obu grup. Decyzja o zakupie może sama wynikać z planowanej
+     wizyty, grupa bez zakupu jest mała, a to nie jest grupa kontrolna z losowania. Lepsze porównanie na tych danych:
+     dopasowanie przy wejściu według miesiąca, stażu, czasu od ostatniej konsultacji i wcześniejszych zamówień.
+
+4d. Test, który to rozstrzygnie. Dwa projekty, wielkość próby przy istotności 5% i mocy 80%, okno 90 dni, liczby z
+    okresu 2. (A) Losowa oferta: połowa nowych pacjentów widzi ofertę TelemediGO przy kasie, połowa nie; porównujemy
+    wszystkich pacjentów z obu połówek, także tych, którzy nie kupili, więc efekt rozcieńcza mały odsetek kupujących.
+    Losowanie przed zakupem; oferta może też zmienić samą pierwszą płatność, więc ją też porównujemy.
+    (B) Losowe członkostwo próbne: połowa nowych pacjentów dostaje bezpłatny dostęp do zniżek TelemediGO na 90 dni,
+    od dnia po pierwszym zamówieniu; mierzy wpływ niższej ceny, bez samoselekcji. Nie rozstrzyga sam rentowności
+    płatnego programu za 89 zł (recenzja Codeksa). Koszt testu (B) = zniżki udzielone grupie próbnej.
+    Różnice z 4a służą tylko jako scenariusze efektu, nie jako oszacowanie oczekiwanego wyniku testu.
+    Wzór: dwie proporcje z osobnymi wariancjami grup, liczebność zaokrąglona w górę.
+     (A) cała różnica z 4a to wpływ ceny: różnica między połówkami 0.66 punktu procentowego  potrzeba 52 069 pacjentów na połówkę  czyli 50.6 miesiąca pozyskania (+90 dni obserwacji)
+     (A) połowa: różnica między połówkami 0.33 punktu procentowego  potrzeba 206 746 pacjentów na połówkę  czyli 201.0 miesiąca pozyskania (+90 dni obserwacji)
+     (A) jedna czwarta: różnica między połówkami 0.17 punktu procentowego  potrzeba 823 909 pacjentów na połówkę  czyli 801.0 miesiąca pozyskania (+90 dni obserwacji)
+     (B) cała różnica z 4a to wpływ ceny: różnica między połówkami 14.62 punktu procentowego  potrzeba 136 pacjentów na połówkę  czyli 0.1 miesiąca pozyskania (+90 dni obserwacji)
+     (B) połowa: różnica między połówkami 7.31 punktu procentowego  potrzeba 487 pacjentów na połówkę  czyli 0.5 miesiąca pozyskania (+90 dni obserwacji)
+     (B) jedna czwarta: różnica między połówkami 3.65 punktu procentowego  potrzeba 1 823 pacjentów na połówkę  czyli 1.8 miesiąca pozyskania (+90 dni obserwacji)
+     Założenia: odsetek kupujących przy pierwszym zamówieniu 4.53%, powrót w 90 dniach 17.4%,
+     różnica z 4a (okres 2) 14.62 punktu, 2057 nowych pacjentów miesięcznie. Przy tak małym
+     odsetku kupujących projekt (A) jest niewykonalny w rozsądnym czasie. Projekt (B) wystarczy na kilka tygodni
+     pozyskania, ale kosztuje zniżki. Wariant pośredni: losowa grupa bez newslettera crm_go_upsell wśród pacjentów
+     po drugim zamówieniu (tam kupuje większy odsetek).
+
+(Zestawienia miesięczne: analiza\wyniki\c_telemedigo_miesiace.csv i analiza\wyniki\c_telemedigo_miesiace_znizki.csv)

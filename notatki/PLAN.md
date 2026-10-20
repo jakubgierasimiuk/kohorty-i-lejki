@@ -21,7 +21,7 @@ Kolejność: **wstępna analiza → narzędzie → uzupełnienie analizy → wer
 | A4 | Definicje (razem) | zrobione: definicje przyjęte przez Kubę (`ZALOZENIA.md` 16–27, `analiza/a4_definicje.py`, `analiza/wyniki/a4_definicje.txt`), recenzja Codeksa (Sol) uwzględniona (`notatki/recenzje/a4_codex.md`) |
 | A5 | Pierwsze kohorty, lejek, po zakupie, zdarzenia | zrobione w całości: pozyskanie (`f240505`), retencja (`c5b17ea` … `f8fda6d`) i ekonomia kampanii (`d6f63e4` … `24ac35d`), wszystko przyjęte przez Kubę i scalone |
 | B | Narzędzie | startuje przed końcem A5 (decyzja Kuby 2026-10-19): szkielet, czyli układ, lejek, oś zdarzeń i jakość danych; kohorty po drugim zatrzymaniu sesji retencji |
-| C | Uzupełnienie analizy, priorytety, niewiadome | w toku (od 2026-10-20, nowa sesja prowadząca): analiza TelemediGO, szkic listy priorytetów, niewiadomych i odpowiedzi „czy to wzrost” na poranny przegląd Kuby |
+| C | Uzupełnienie analizy, priorytety, niewiadome | szkic gotowy, czeka na poranny przegląd Kuby (2026-10-21): `notatki/c_szkic.md` — analiza TelemediGO (`analiza/c_telemedigo.py`), propozycja odpowiedzi „czy to wzrost”, lista 10 priorytetów z wartością w marży, lista 16 niewiadomych (`analiza/c_priorytety.py`); recenzja Codeksa (Sol) w `notatki/recenzje/c_codex.md`; brief konsylium przygotowany, niewysłany (decyzja Kuby rano) |
 | D | Weryfikacja, publikacja, mail | do zrobienia |
 
 ---
