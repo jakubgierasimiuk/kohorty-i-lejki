@@ -240,3 +240,9 @@ select, input[type="date"] {
   .liczba-glowna { font-size: 32px; }
   .okresy input { width: 140px; }
 }
+
+/* filtry z datami w widokach kohort */
+.filtry-daty { display: flex; flex-wrap: wrap; gap: 10px 14px; }
+.filtry-daty input { width: 150px; }
+#pz-tabela td:nth-child(2), #pz-tabela th:nth-child(2) { text-align: left; }
+#ek-tabela td:last-child { white-space: normal; color: var(--bad); font-size: 12px; min-width: 140px; }

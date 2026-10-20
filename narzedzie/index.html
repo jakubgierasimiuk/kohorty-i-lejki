@@ -58,20 +58,33 @@
     </article>
     <article class="karta karta-cicha">
       <h3>Czego ta sekcja jeszcze nie mówi</h3>
-      <p>Nie mówi, dlaczego powroty spadają. Część spadku może wynikać ze zmiany struktury pacjentów (nowe kampanie, inne usługi), a część ze zmiany ich zachowania. To rozdziela analiza kohort, która dojdzie w zakładce Kohorty. Do tego czasu nie wyciągamy wniosków o przyczynach.</p>
-      <p>Gdzie szukać dalej: <a href="#lejek">lejek</a> pokazuje, gdzie tracimy pacjentów przed pierwszym zakupem, <a href="#zdarzenia">zdarzenia</a> pokazują, co i kiedy się zmieniło, a <a href="#jakosc">jakość danych</a> wyjaśnia różnicę między dashboardem a danymi oczyszczonymi.</p>
+      <p>Nie daje jeszcze ostatecznej odpowiedzi. Część spadku powrotów wiąże się ze zmianą struktury pacjentów (nowe kampanie na L4), a część to spadek w kampaniach działających w obu latach. Oba kawałki da się obejrzeć w zakładce <a href="#kohorty">Kohorty</a>, z filtrem i podziałem według kampanii. Ostateczną odpowiedź przygotowuje lista priorytetów (punkt C).</p>
+      <p>Gdzie szukać dalej: <a href="#lejek">lejek</a> pokazuje, gdzie tracimy pacjentów przed pierwszym zakupem, <a href="#po-zakupie">po zakupie</a> pokazuje przebieg wizyt, <a href="#zdarzenia">zdarzenia</a> pokazują, co i kiedy się zmieniło, a <a href="#jakosc">jakość danych</a> wyjaśnia różnicę między dashboardem a danymi oczyszczonymi.</p>
     </article>
   </section>
 
   <!-- KOHORTY -->
   <section id="v-kohorty" class="widok" hidden>
-    <h2>Kohorty</h2>
-    <div class="w-przygotowaniu">
-      <p class="znacznik-przyg">W przygotowaniu</p>
-      <p>Tu będą kohorty dzienne nowych pacjentów: powroty w kolejnych oknach dni, liczba wizyt oraz przychód i marża na pacjenta w kolejnych miesiącach.</p>
-      <p>Filtry: źródło pozyskania, urządzenie i przeglądarka, pierwsza usługa, zniżka i TelemediGO oraz status pierwszego zamówienia. Wykryte zdarzenia będą zaznaczone na osi czasu kohort.</p>
-      <p>Sekcja dojdzie po przeglądzie części retencji, żeby budować ją na sprawdzonych liczbach.</p>
+    <h2>Kohorty dzienne nowych pacjentów</h2>
+    <div class="karta karta-naglowek"><div id="ko-zdania"></div></div>
+    <form class="filtry" id="ko-filtry" onsubmit="return false"></form>
+    <div class="karta">
+      <div class="naglowek-karty">
+        <h3>Kohorty w podziale</h3>
+        <p class="przypis" id="ko-okresy-opis"></p>
+      </div>
+      <p class="przypis">Kohorta to nowi pacjenci z tego samego dnia pierwszego zakupu. Powrót to kolejne zamówienie, które nie zostało anulowane, w ciągu N dni. Marża na pacjenta to przychód z konsultacji po zwrotach i TelemediGO minus koszt lekarza, przed kosztem pozyskania. Liczymy tylko kohorty z pełnym oknem; okres A obcinamy do tej samej długości co dojrzała część okresu B (przy porównaniu rok do roku to te same dni kalendarzowe). W każdej komórce: wartość w okresie B i liczba pacjentów, pod spodem okres A i zmiana.</p>
+      <div class="tabela-ramka"><table class="tabela tabela-lejek" id="ko-tabela"></table></div>
     </div>
+    <div class="karta">
+      <div class="naglowek-karty">
+        <h3 id="ko-wykres-tytul">Dzień po dniu</h3>
+        <div class="filtry-wykresu" id="ko-filtry-wykresu"></div>
+      </div>
+      <p class="przypis">Oś pozioma to dzień pierwszego zakupu (dzień kohorty). Szare pola to okresy A i B, pionowe linie to zdarzenia z zakładki Zdarzenia. Powrót i marża kończą się na ostatniej kohorcie z pełnym oknem. Legenda pod kursorem pokazuje wartość i liczbę pacjentów.</p>
+      <div id="ko-wykres" class="wykres"></div>
+    </div>
+    <p class="przypis">Jak liczymy: nowy pacjent to konto z pierwszym opłaconym zamówieniem, bez względu na status. Źródło pozyskania według przyjętej reguły (pierwsze wejście pacjenta, także anonimowe sesje jego przeglądarek, a kod kampanii na pierwszym zamówieniu rozstrzyga) albo według sesji płatności. Urządzenie i przeglądarka z sesji płatności. Pierwsza usługa: internista według celu wizyty, pediatra, psychiatra, inny specjalista. Opóźnienie i pora z pierwszej wizyty. Źródło danych: <code>analiza/definicje.py</code>, <code>analiza/a5r_kohorty.py</code>, eksport <code>analiza/b_eksport.py</code>.</p>
   </section>
 
   <!-- LEJEK -->
@@ -151,18 +164,42 @@
 
   <!-- PO ZAKUPIE -->
   <section id="v-po-zakupie" class="widok" hidden>
-    <h2>Po zakupie</h2>
-    <div class="w-przygotowaniu">
-      <p class="znacznik-przyg">W przygotowaniu</p>
-      <p>Tu będzie to, co dzieje się z pacjentem po pierwszym zakupie: punktualność i przebieg wizyty, zwroty po wizycie, oceny, kontakt z newslettera i SMS-ów oraz ich związek z powrotami.</p>
-      <p>Sekcja dojdzie po przeglądzie części retencji.</p>
-    </div>
+    <h2>Po zakupie: przebieg wizyty</h2>
+    <article class="karta">
+      <h3>Punktualność wizyt według pory i specjalizacji</h3>
+      <div id="pz-zdania"></div>
+      <form class="filtry" id="pz-filtry" onsubmit="return false"></form>
+      <p class="przypis">Opóźnienie to faktyczny start wizyty minus umówiony termin, tylko wizyty odbyte. Dzień i pora według terminu. Wykres: odsetek wizyt spóźnionych w wybranej specjalizacji, osobno dla każdej pory, z liczbą wizyt w legendzie.</p>
+      <div id="pz-wykres" class="wykres"></div>
+      <div class="tabela-ramka"><table class="tabela tabela-lejek" id="pz-tabela"></table></div>
+    </article>
+    <article class="karta">
+      <h3>Powrót według opóźnienia pierwszej wizyty</h3>
+      <p class="przypis">Rano spada powrót po wizytach spóźnionych, nie po punktualnych. Tabela liczy powrót w 90 dniach na tych samych dniach kalendarzowych, tylko kohorty z pełnym oknem.</p>
+      <form class="filtry" id="pz-powrot-filtry" onsubmit="return false"></form>
+      <div class="tabela-ramka"><table class="tabela tabela-lejek" id="pz-powrot"></table></div>
+    </article>
+    <article class="karta">
+      <h3>Zwroty, anulacje i wizyty nieodebrane</h3>
+      <div id="zw-zdania"></div>
+      <form class="filtry" id="zw-filtry" onsubmit="return false"></form>
+      <p class="przypis">Wykres: odsetek odbytych wizyt, za które pacjent dostał zwrot po wizycie, według celu wizyty i dnia płatności. Tabela: okres B to ostatnie 12 miesięcy, okres A to poprzednie 12.</p>
+      <div id="zw-wykres" class="wykres"></div>
+      <div class="tabela-ramka"><table class="tabela tabela-lejek" id="zw-tabela"></table></div>
+    </article>
+    <article class="karta">
+      <h3>Oceny według opóźnienia wizyty</h3>
+      <div id="oc-zdania"></div>
+      <form class="filtry" id="oc-filtry" onsubmit="return false"></form>
+      <div class="tabela-ramka"><table class="tabela tabela-lejek" id="oc-tabela"></table></div>
+    </article>
+    <p class="przypis">Nowe kampanie na L4 to pacjenci z kampanii <code>meta_prosp_l4_szybko</code> i <code>tt_prosp_l4_15min</code> według przyjętej reguły źródła. Źródło danych: <code>analiza/a5r_punktualnosc.py</code>, <code>analiza/a5r_po_zakupie.py</code>, eksport <code>analiza/b_eksport.py</code>.</p>
   </section>
 
   <!-- ZDARZENIA -->
   <section id="v-zdarzenia" class="widok" hidden>
     <h2>Oś zdarzeń: co się stało i kiedy</h2>
-    <p class="wstep">Zdarzenia znalezione w danych, bo listy zmian w produkcie i kalendarza kampanii nie mamy. Przy każdym: data, co się zmieniło, o ile i skąd to wiemy. Zdarzenia z analizy retencji i przebiegu wizyt dojdą po jej przeglądzie.</p>
+    <p class="wstep">Zdarzenia znalezione w danych, bo listy zmian w produkcie i kalendarza kampanii nie mamy. Przy każdym: data, co się zmieniło, o ile i skąd to wiemy. Tory: lejek (pozyskanie), retencja (kohorty), obsługa pacjenta (przebieg wizyt) i jakość danych.</p>
     <div class="filtry" id="zd-filtry"></div>
     <div class="karta"><div id="zd-os" class="os-zdarzen"></div></div>
     <div id="zd-lista" class="lista-zdarzen"></div>
@@ -176,12 +213,22 @@
 
   <!-- WYNIK BIZNESU -->
   <section id="v-wynik" class="widok" hidden>
-    <h2>Wynik biznesu</h2>
-    <div class="w-przygotowaniu">
-      <p class="znacznik-przyg">W przygotowaniu</p>
-      <p>Tu będzie przychód z konsultacji po zwrotach i przychód z TelemediGO, osobno, oraz marża po koszcie lekarza (także za wizyty zwrócone), po wydatkach na kampanie i po prowizji afiliacyjnej.</p>
-      <p>Przy ekonomii kampanii obok wyniku według przyjętej reguły źródła pozyskania pokażemy wynik według sesji płatności. Jeśli wynik kampanii zmienia znak zależnie od reguły, oznaczymy go jako niepewny.</p>
-    </div>
+    <h2>Wynik biznesu: przychód, marża i ekonomia kampanii</h2>
+    <article class="karta">
+      <h3>Przychód i marża w czasie</h3>
+      <div id="wy-zdania"></div>
+      <form class="filtry" id="wy-filtry" onsubmit="return false"></form>
+      <div id="wy-wykres" class="wykres"></div>
+      <div class="tabela-ramka"><table class="tabela" id="wy-tabela"></table></div>
+    </article>
+    <article class="karta">
+      <h3>Ekonomia kampanii: koszt pozyskania i wynik na pacjenta</h3>
+      <div id="ek-zdania"></div>
+      <form class="filtry" id="ek-filtry" onsubmit="return false"></form>
+      <p class="przypis">Wynik na pacjenta to marża na pacjenta w 90 albo 180 dniach minus koszt pozyskania (wydatki na kampanię albo prowizja afiliacyjna na nowego pacjenta). Obie reguły źródła stoją obok siebie. Liczymy kohorty z pełnym oknem, a wydatki z tych samych dni. Pod wynikiem: marża, liczba pacjentów i przedział warunkowy.</p>
+      <div class="tabela-ramka"><table class="tabela tabela-lejek" id="ek-tabela"></table></div>
+    </article>
+    <p class="przypis">Źródło danych: <code>analiza/definicje.py</code> (koszt lekarza, marża), <code>analiza/a5e_ekonomia.py</code> (ekonomia kampanii), eksport <code>analiza/b_eksport.py</code>.</p>
   </section>
 
   <!-- JAKOŚĆ DANYCH -->
@@ -223,7 +270,7 @@
     <h2>Priorytety</h2>
     <div class="w-przygotowaniu">
       <p class="znacznik-przyg">W przygotowaniu</p>
-      <p>Tu będzie lista działań od najważniejszego. Przy każdym: ile jest warte w złotych marży (z założeniami), po czym poznamy, że zadziałało, i ile zajmie wdrożenie.</p>
+      <p>Miejsce na wynik punktu C (w toku). Tu będzie lista działań od najważniejszego. Przy każdym: ile jest warte w złotych marży (z założeniami), po czym poznamy, że zadziałało, i ile zajmie wdrożenie.</p>
       <p>Przy każdym słabym wyniku pokażemy dwie opcje: naprawić albo wyłączyć, każdą z wartością w marży. Najpierw szukamy, co da się poprawić.</p>
     </div>
   </section>
@@ -233,7 +280,7 @@
     <h2>Czego z tych danych nie wiemy</h2>
     <div class="w-przygotowaniu">
       <p class="znacznik-przyg">W przygotowaniu</p>
-      <p>Tu będzie lista spraw, których dane nie rozstrzygają, z testem albo informacją, która by je domknęła. Na przykład: przyczyna awarii zakładania konta w Safari na iOS, sesje zalogowane od wejścia bez zakupu, strata między kliknięciem reklamy a sesją w Meta i TikToku, sezon a wydatki na kampanie, wartość remarketingu oraz koszt lekarza za wizyty testowe.</p>
+      <p>Miejsce na wynik punktu C (w toku). Tu będzie lista spraw, których dane nie rozstrzygają, z testem albo informacją, która by je domknęła. Na przykład: przyczyna awarii zakładania konta w Safari na iOS, sesje zalogowane od wejścia bez zakupu, strata między kliknięciem reklamy a sesją w Meta i TikToku, sezon a wydatki na kampanie, wartość remarketingu oraz koszt lekarza za wizyty testowe.</p>
     </div>
   </section>
 </main>
@@ -246,6 +293,7 @@
 <script src="dane_strony/podsumowanie.js"></script>
 <script src="dane_strony/zdarzenia.js"></script>
 <script src="dane_strony/jakosc.js"></script>
+<script src="widoki.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

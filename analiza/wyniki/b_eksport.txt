@@ -1,4 +1,4 @@
-B — EKSPORT DANYCH NARZĘDZIA (2026-10-19 21:28, commit f8fda6d)
+B — EKSPORT DANYCH NARZĘDZIA (2026-10-20 12:43, commit 7d8a58f)
 
 1. Pliki w narzedzie/dane_strony/ (bajty)
    calosc                             38,075
@@ -9,10 +9,13 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-19 21:28, commit f8fda6d)
    kanal                             177,555
    kampania                          249,718
    strona_wejscia                    265,403
-   podsumowanie                        8,133
-   zdarzenia                          31,068
-   jakosc                              8,894
-   razem                           2,267,433
+   podsumowanie                       10,824
+   zdarzenia                          35,755
+   jakosc                              8,895
+   kohorty                         1,441,101
+   po_zakupie                        291,505
+   wynik                              83,005
+   razem                           4,090,423
 
 2. Kontrola: liczby z eksportu wobec notatek i wcześniejszych raportów
    co                                                                    eksport  oczekiwane  wynik
@@ -52,15 +55,48 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-19 21:28, commit f8fda6d)
    sprzedaż TelemediGO: zakupy samego TelemediGO                             686         686  zgodne
    remarketing: płatność na sesję IV kw. 2025 (%)                           28.2        28.2  zgodne
    remarketing: udział w aplikacjach IV kw. 2025 (%)                        13.3        13.3  zgodne
+   kohorty: powrót 30 dni, okres 1 (%) / pacjenci                     11.0 / 14984 11.0 / 14984  zgodne
+   kohorty: powrót 30 dni, okres 2 (%) / pacjenci                     7.8 / 22646 7.8 / 22646  zgodne
+   kohorty: powrót 60 dni, okres 1 (%) / pacjenci                     19.1 / 13941 19.1 / 13941  zgodne
+   kohorty: powrót 60 dni, okres 2 (%) / pacjenci                     13.7 / 20823 13.7 / 20823  zgodne
+   kohorty: powrót 90 dni, okres 1 (%) / pacjenci                     23.9 / 12867 23.9 / 12867  zgodne
+   kohorty: powrót 90 dni, okres 2 (%) / pacjenci                     17.4 / 18924 17.4 / 18924  zgodne
+   kohorty: powrót 180 dni, okres 1 (%) / pacjenci                    27.5 / 9125 27.5 / 9125  zgodne
+   kohorty: powrót 180 dni, okres 2 (%) / pacjenci                    22.2 / 12591 22.2 / 12591  zgodne
+   kohorty: marża na pacjenta 30 dni, okres 1 / okres 2 (zł)          55.9 / 49.9 55.9 / 49.9  zgodne
+   kohorty: marża na pacjenta 90 dni, okres 1 / okres 2 (zł)          66.6 / 58.3 66.6 / 58.3  zgodne
+   kohorty: marża na pacjenta 180 dni, okres 1 / okres 2 (zł)         75.5 / 67.7 75.5 / 67.7  zgodne
+   po zakupie: internista rano ponad 15 min, spoza nowych kampanii, 2025-11 (%)       15.7        15.7  zgodne
+   po zakupie: internista rano ponad 15 min, spoza nowych kampanii, 2025-12 (%)       29.7        29.7  zgodne
+   po zakupie: internista rano ponad 15 min, spoza nowych kampanii, 2026-01 (%)       42.6        42.6  zgodne
+   po zakupie: internista rano ponad 15 min, spoza nowych kampanii, 2026-02 (%)       49.4        49.4  zgodne
+   po zakupie: zwroty L4 nowe kampanie, okres 2 (zwrócone / odbyte)   1024 / 5895 1024 / 5895  zgodne
+   po zakupie: zwroty L4 pozostali, okres 2 (zwrócone / odbyte)       270 / 5080  270 / 5080  zgodne
+   po zakupie: zwroty nowe kampanie okres 2: wizyty, zł, koszt lekarza 1044 / 84112 / 33975 1044 / 84112 / 33975  zgodne
+   po zakupie: średnia ocena internista, pozostali, ponad 30 min, okres 1 / 2 2.95 / 2.92 2.95 / 2.92  zgodne
+   po zakupie: średnia ocena internista, pozostali, do 5 min, okres 1 / 2 4.47 / 4.45 4.47 / 4.45  zgodne
+   wynik: przychód z konsultacji po zwrotach, okres 1 (zł)               2230266     2230266  zgodne
+   wynik: zakupy TelemediGO, okres 1                                        1759        1759  zgodne
+   wynik: przychód z konsultacji po zwrotach, okres 2 (zł)               3228342     3228342  zgodne
+   wynik: zakupy TelemediGO, okres 2                                        2468        2468  zgodne
+   wynik: prowizja afiliacyjna za dwa lata (zł)                            30825       30825  zgodne
+   ekonomia: nowe kampanie, wynik na pacjenta 90 dni Z1K / Z2 (zł)    3.6 / -9.4  3.6 / -9.4  zgodne
+   zdarzenia: powrót 90 dni stare kampanie przed / po 2.03.2026 (%)   23.3 / 20.9 23.3 / 20.9  zgodne
 
-   Różnic: 0 z 36 kontroli.
+   Różnic: 0 z 63 kontroli.
 
 3. Zdarzenia na osi czasu
    2025-05-17  jakosc   Godzina bez danych
    2025-09-08  lejek    Start sprzedaży TelemediGO w newsletterze (crm_go_upsell)
+   2025-10-30  retencja Marża na pacjenta w 30 dniach spada stopniami
    2025-11-03  lejek    Start kampanii Meta na L4 (meta_prosp_l4_szybko)
+   2025-11-03  retencja Rośnie udział pacjentów nowych kampanii na L4 wśród nowych pacjentów
+   2025-11-13  obsluga  Więcej pierwszych zamówień zwracanych po wizycie
+   2025-11-24  obsluga  Poranne wizyty u internisty zaczynają się z opóźnieniem
    2026-01-01  lejek    Remarketing Meta słabnie, bo zmienia się pula odbiorców
    2026-02-09  lejek    Start kampanii TikTok na L4 (tt_prosp_l4_15min)
+   2026-02-10  retencja Powrót nowych pacjentów w 30 dniach spada
+   2026-03-02  retencja Powrót w 90 dniach w kampaniach działających w obu latach: brak wyraźnego skoku
    2026-03-17  lejek    Safari na iOS: przestaje działać zakładanie konta
    2026-06-10  jakosc   Duplikaty zamówień w eksporcie
    Zmiany wykryte automatycznie (tabela pod osią): 245

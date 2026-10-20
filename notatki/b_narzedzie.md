@@ -2,7 +2,7 @@
 
 Pierwsza wersja narzędzia: układ strony, lejek, oś zdarzeń i jakość danych. Kohorty dochodzą po drugim zatrzymaniu sesji retencji (`DECYZJE.md`, wpis „szkielet narzędzia (punkt B) przed końcem A5”). Wspólne notatki scala sesja prowadząca. Propozycje wpisów do nich są w sekcji „Propozycje wpisów do wspólnych notatek”.
 
-**Status:** szkielet gotowy do drugiego zatrzymania, czyli przeglądu Kuby lokalnie. Nic nie jest opublikowane.
+**Status:** szkielet przyjęty przez Kubę 2026-10-20. Druga wersja (kohorty, po zakupie, wynik biznesu, zdarzenia retencji i obsługi pacjenta) gotowa do porannego przeglądu Kuby, sekcja 10. Nic nie jest opublikowane.
 
 **Jak uruchomić lokalnie** (z głównego folderu projektu):
 1. Jeśli zmieniły się wyniki lejka: `python -I analiza/b_eksport.py` (około 10 sekund, baza tylko do odczytu). Raport z kontrolą: `analiza/wyniki/b_eksport.txt`.
@@ -70,9 +70,9 @@ Reguła `dane/` w `.gitignore` projektu wyklucza każdy folder o tej nazwie, tak
 
 ## 7. Co zostało na potem
 
-1. **Kohorty** po scaleniu części retencji przez sesję prowadzącą. Potrzebne: kohorty dzienne z filtrami (źródło pozyskania, urządzenie i przeglądarka, pierwsza usługa, zniżka i TelemediGO, status pierwszego zamówienia), powroty w 30, 60 i 90 dniach, zamówienia i marża na pacjenta, zdarzenia retencji na osi. Eksport dojdzie jako nowa sekcja `analiza/b_eksport.py`.
-2. **Po zakupie** oraz tory „retencja” i „obsługa pacjenta” na osi zdarzeń, z plików sesji retencji (`a5r_zdarzenia.csv`, `notatki/a5_retencja.md`) po ich przyjęciu.
-3. **Wynik biznesu, Priorytety, Czego nie wiemy** po punkcie C. Przy ekonomii kampanii obok wynik według sesji płatności, przy CRM okno 24 godzin i obok 7 dni (PLAN.md, punkt B).
+1. *(zrobione 2026-10-20, sekcja 10)* **Kohorty** po scaleniu części retencji przez sesję prowadzącą. Potrzebne: kohorty dzienne z filtrami (źródło pozyskania, urządzenie i przeglądarka, pierwsza usługa, zniżka i TelemediGO, status pierwszego zamówienia), powroty w 30, 60 i 90 dniach, zamówienia i marża na pacjenta, zdarzenia retencji na osi. Eksport dojdzie jako nowa sekcja `analiza/b_eksport.py`.
+2. *(zrobione 2026-10-20, sekcja 10)* **Po zakupie** oraz tory „retencja” i „obsługa pacjenta” na osi zdarzeń, z plików sesji retencji (`a5r_zdarzenia.csv`, `notatki/a5_retencja.md`) po ich przyjęciu.
+3. *(wynik biznesu zrobiony 2026-10-20, sekcja 10; priorytety i niewiadome czekają na punkt C)* **Wynik biznesu, Priorytety, Czego nie wiemy** po punkcie C. Przy ekonomii kampanii obok wynik według sesji płatności, przy CRM okno 24 godzin i obok 7 dni (PLAN.md, punkt B).
 4. **Próbna publikacja we wtorek wieczorem** (dopisek Kuby): na chwilę publiczne repozytorium, sprawdzenie linku, powrót do prywatnego. Hosting jest już wybrany (sekcja 9). Plik publikacji jest gotowy, a reszta to akcje Kuby na GitHubie.
 
 ## 9. Hosting: GitHub Pages (decyzja Kuby przekazana przez sesję prowadzącą, 2026-10-19)
@@ -115,3 +115,56 @@ Nowy wiersz tabeli:
 
 ### Do `ZNALEZISKA.md`
 - Nic nowego w danych. Pułapka z `.gitignore` (sekcja 6) dotyczy repozytorium, a nie danych.
+
+## 10. Druga wersja: kohorty, po zakupie, wynik biznesu (2026-10-20)
+
+**Decyzja Kuby (przegląd szkieletu, 2026-10-20, słowa Kuby):** „Przejrzałem szkielet i przyjmuję go. A5 jest zamknięte i scalone, więc dobuduj teraz pozostałe zakładki z wyników A5. Kohorty: kohorty dzienne i powroty w 30, 60 i 90 dniach, z filtrami źródło (obie reguły), urządzenie i przeglądarka, pierwsza usługa, zniżka i TelemediGO. Po zakupie: punktualność według pory i specjalizacji, zwroty, oceny. Wynik biznesu: przychód i marża w czasie oraz ekonomia kampanii według obu reguł. Na osi zdarzeń dołóż zdarzenia z retencji i obsługi pacjenta. Priorytety i niewiadome zostaw jako miejsca na wynik punktu C. Te same zasady co dotąd: liczebność przy każdym odsetku, żadnych liczb wpisanych ręcznie. Nic nie publikuj. Zatrzymaj się u mnie z całością rano.”
+
+Do tego dopisek Kuby z przeglądu ekonomii kampanii (`notatki/a5_ekonomia.md`, sekcja 11): obok wyniku po 90 dniach pokazujemy wynik po 180 dniach. Jest w tabeli ekonomii kampanii i w kohortach (okno 180 dni).
+
+### Co doszło na stronie
+
+- **Kohorty** (`#kohorty`). Dane są zapisane pacjent po pacjencie (40 918 nowych pacjentów, bez identyfikatorów), więc strona liczy dowolne połączenie filtrów.
+  - Filtry: reguła źródła (przyjęta albo sesja płatności), źródło (kanał), kampania, nowe kampanie na L4 albo pozostałe, urządzenie, przeglądarka, pierwsza usługa, zniżka, TelemediGO kupione przy pierwszym zakupie, status pierwszego zamówienia, opóźnienie i pora pierwszej wizyty.
+  - Podział na serie według każdego z tych wymiarów. Porównanie okresów A i B działa jak w lejku.
+  - Tabela: nowi pacjenci, udział, powrót w 30, 60, 90 i 180 dniach, marża na pacjenta w 90 i 180 dniach. Przy każdej wartości stoi liczba pacjentów z pełnym oknem.
+  - Wykres według dnia pierwszego zakupu: powrót, marża na pacjenta, nowi pacjenci dziennie albo udział, z wygładzeniem z 1, 7 albo 28 dni i ze zdarzeniami.
+- **Po zakupie** (`#po-zakupie`): punktualność według pory i specjalizacji (wykres i tabela, okres 1 wobec okresu 2), powrót według opóźnienia pierwszej wizyty, zwroty, anulacje i wizyty nieodebrane według celu wizyty, oceny według opóźnienia.
+- **Wynik biznesu** (`#wynik`): przychód z konsultacji po zwrotach (pierwsze i kolejne zamówienia), TelemediGO, koszt lekarza, kampanie, prowizja i marża, w miesiącach, tygodniach albo dniach, z sumami okresów. Pod spodem ekonomia kampanii z pliku sesji ekonomii (`a5e_kampanie.csv`): grupy, kampanie albo kanały, obie reguły źródła obok siebie, wynik na pacjenta po 90 i po 180 dniach. Gdy znak wyniku zależy od reguły, wiersz ma oznaczenie „niepewny”.
+- **Oś zdarzeń:** tory retencji i obsługi pacjenta mają sześć zdarzeń z `a5r_zdarzenia.csv`:
+  - udział nowych kampanii w nowych pacjentach (od 3.11.2025);
+  - powrót w 30 dniach (10.02.2026);
+  - marża na pacjenta w 30 dniach (od 30.10.2025);
+  - kandydat w powrocie w 90 dniach w kampaniach działających w obu latach (2.03.2026, poniżej progu);
+  - poranne opóźnienia u internisty (od 24.11.2025);
+  - zwroty pierwszych zamówień po wizycie (od 13.11.2025).
+  Linki prowadzą do kohort albo do zakładki „Po zakupie” z ustawionymi filtrami.
+- **Czy to wzrost:** zostaje znacznik „wstępne”. Tekst odsyła do kohort, a ostateczną odpowiedź przygotowuje punkt C.
+- **Priorytety i Czego nie wiemy:** miejsca na wynik punktu C.
+
+### Kontrola liczb
+
+- Eksport porównuje teraz 63 liczby z notatkami i raportami (A3, A4, A5: pozyskanie, retencja i ekonomia). Wynik: 0 różnic (`analiza/wyniki/b_eksport.txt`).
+- Nowe kontrole: powroty w 30, 60, 90 i 180 dniach z liczbą pacjentów, marża na pacjenta w 30, 90 i 180 dniach, poranne opóźnienia u internisty od XI 2025 do II 2026, zwroty L4 (1 024 z 5 895 i 270 z 5 080), zwroty nowych kampanii w złotych, średnie oceny, przychód po zwrotach i zakupy TelemediGO w obu okresach, prowizja afiliacyjna, wynik nowych kampanii według obu reguł, kandydat z 2.03.2026.
+- Oceny początkowo się nie zgadzały. Część retencji liczyła je tylko u internisty i osobno dla pacjentów nowych kampanii. Eksport liczy je teraz tak samo, a strona pozwala wybrać specjalizację i grupę pacjentów.
+- W przeglądarce tabele pokazują te same liczby co notatki. Na przykład spadek powrotu w 90 dniach w kampaniach działających w obu latach to −1,9 punktu procentowego według przyjętej reguły i −3,5 według sesji płatności. Powrót po porannej wizycie u internisty spóźnionej ponad 30 minut to 10,1% (533 pacjentów) wobec 14,3% (35 pacjentów).
+
+### Decyzje techniczne
+
+- **Kohorty na stronie liczone z danych pacjent po pacjencie**, bez identyfikatorów i bez danych demograficznych. Zapisane są: dzień kohorty, dzień pierwszego powrotu, marża w 30, 60, 90 i 180 dniach (w dziesiątych częściach złotówki) i cechy pierwszego zakupu zakodowane jednym znakiem. Plik `kohorty.js` ma 1,44 MB.
+- **Porównanie okresów w kohortach:** okres B obcinamy do kohort z pełnym oknem, a okres A do tej samej długości od jego początku. Przy porównaniu rok do roku to dokładnie te same dni kalendarzowe (ZALOZENIA 27). Przy własnych datach to ta sama długość.
+- **Wynik w czasie:** przychód, zwrot i koszt lekarza liczymy w dniu płatności, TelemediGO w dniu zakupu, wydatki w dniu z pliku kampanii, a prowizję afiliacyjną według przyjętej reguły źródła, w dniu pierwszego zamówienia.
+- **Nowe kampanie na L4 w zakładce „Po zakupie”** wyznaczamy według przyjętej reguły źródła, tak jak w części retencji.
+
+### Pliki
+
+- `analiza/b_eksport.py`: nowe części 5–8 (kohorty, po zakupie, wynik biznesu z ekonomią kampanii, zdarzenia retencji). Importuje definicje z `a5r_punktualnosc.py` (opóźnienie, pora, nowe kampanie) i `a5r_struktura.py` (usługa, zniżka), żeby nie powielać kodu. Działa około 13 sekund.
+- `narzedzie/widoki.js`: nowe zakładki. `narzedzie/app.js` udostępnia im funkcje pomocnicze i wczytuje dane dopiero przy pierwszym wejściu na zakładkę.
+- Dane strony to 14 plików, razem 4,1 MB bez kompresji, największy ma 1,44 MB (`kohorty.js`). Cała strona ma 4,25 MB.
+
+### Propozycje wpisów do wspólnych notatek
+
+- **`DECYZJE.md`:** przyjęcie szkieletu przez Kubę 2026-10-20 i polecenie dobudowania kohort, zakładki „Po zakupie” i wyniku biznesu (słowa Kuby wyżej).
+- **`ZALOZENIA.md`:** sposób porównania okresów w kohortach przy własnych datach oraz dni księgowania w wyniku biznesu (sekcja „Decyzje techniczne”).
+- **`analiza/README.md`:** w wierszu `b_eksport.py` dopisać kohorty, „Po zakupie”, wynik biznesu i zdarzenia retencji; kontrola 63 liczb; około 13 sekund; importuje `a5r_punktualnosc.py` i `a5r_struktura.py`.
+- **`PLAN.md`:** punkt B: kohorty, „Po zakupie”, wynik biznesu i oś zdarzeń zrobione. Zostają priorytety i niewiadome z punktu C oraz ostateczna odpowiedź „czy to wzrost”.

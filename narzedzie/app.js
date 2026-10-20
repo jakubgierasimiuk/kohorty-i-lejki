@@ -498,8 +498,11 @@
       svg.appendChild(s("text", { x: 0, y: y + tor / 2 + 4, class: "tor-nazwa" }, ET.obszary[o.id]));
       var tu = zd.filter(function (z) { return z.obszar === o.id; });
       if (!tu.length && o.puste) svg.appendChild(s("text", { x: lewy + 10, y: y + tor / 2 + 4, class: "puste" }, o.puste));
+      var ostatniX = -99;
       tu.forEach(function (z) {
         var i0 = idxIso(z.od), i1 = z.do ? idxIso(z.do) : null, g;
+        var xl = xp(i0) - ostatniX < 14 ? ostatniX + 14 : xp(i0);   // numery bliskich zdarzeń nie nachodzą na siebie
+        ostatniX = xl;
         if (i1 !== null && i1 > i0) {
           g = s("rect", { x: xp(i0), y: y + tor / 2 - 6, width: Math.max(6, xp(i1) - xp(i0)), height: 12, rx: 4, class: "znacznik-zakres", tabindex: 0 });
         } else {
@@ -509,7 +512,7 @@
         g.addEventListener("click", function () { pokazZdarzenie(z.id); });
         g.addEventListener("keydown", function (e) { if (e.key === "Enter") pokazZdarzenie(z.id); });
         svg.appendChild(g);
-        svg.appendChild(s("text", { x: xp(i0), y: y + tor / 2 - 9, "text-anchor": "middle" }, String(z.nr)));
+        svg.appendChild(s("text", { x: xl, y: y + tor / 2 - 9, "text-anchor": "middle" }, String(z.nr)));
       });
     });
     kont.appendChild(svg);
@@ -649,13 +652,33 @@
       if (q.get("z")) setTimeout(function () { pokazZdarzenie(q.get("z")); }, 50);
     }
     if (widok === "jakosc") { if (!narysowane.jakosc) { rysujJakosc(); narysowane.jakosc = true; } else rysujWykresDup(); }
+    if (window.BW && window.BW[widok]) window.BW[widok].pokaz(q);
   }
 
   function przerysujWykresy() {
     if (biezacy === "lejek" && narysowane.lejek) odswiezLejek(true, true);
     if (biezacy === "jakosc" && narysowane.jakosc) rysujWykresDup();
     if (biezacy === "zdarzenia" && narysowane.zdarzenia) rysujOs();
+    if (window.BW && window.BW[biezacy] && window.BW[biezacy].przerysuj) window.BW[biezacy].przerysuj();
   }
+
+  // pomocnicze funkcje dla widoków z pliku widoki.js (kohorty, po zakupie, wynik biznesu)
+  var wczytywane = {};
+  function wczytaj(plik, klucz) {
+    if (window.D[klucz]) return Promise.resolve(window.D[klucz]);
+    if (!wczytywane[plik]) wczytywane[plik] = new Promise(function (ok, blad) {
+      var sk = document.createElement("script");
+      sk.src = "dane_strony/" + plik + ".js";
+      sk.onload = function () { ok(window.D[klucz]); };
+      sk.onerror = function () { delete wczytywane[plik]; blad(new Error("Nie udało się wczytać danych: " + plik)); };
+      document.body.appendChild(sk);
+    });
+    return wczytywane[plik];
+  }
+  window.B = { P: P, ZD: ZD, ET: ET, O: O, NDNI: NDNI, START: START, DZIEN: DZIEN, MIES: MIES, RZYM: RZYM,
+    liczba: liczba, proc: proc, znak: znak, dataPL: dataPL, isoIdx: isoIdx, idxIso: idxIso, ogranicz: ogranicz,
+    el: el, wyczysc: wyczysc, $: $, css: css, akapity: akapity, osieWykresu: osieWykresu, krocz: krocz,
+    zdarzeniaNumerowane: zdarzeniaNumerowane, rysujZdarzeniaNaWykresie: rysujZdarzeniaNaWykresie, wczytaj: wczytaj };
 
   var czasResize = null;
   window.addEventListener("resize", function () { clearTimeout(czasResize); czasResize = setTimeout(przerysujWykresy, 200); });

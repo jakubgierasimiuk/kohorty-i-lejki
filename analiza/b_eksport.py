@@ -21,6 +21,8 @@ import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import definicje as D  # noqa: E402
+import a5r_punktualnosc as RP  # noqa: E402  (KOSZYK, PORA, NOWE: definicje części retencji, ZALOZENIA 37)
+import a5r_struktura as RS  # noqa: E402  (USLUGA, ZNIZKA: cechy pierwszego zakupu, ZALOZENIA 35)
 
 KATALOG = D.KATALOG
 WYNIKI = os.path.join(KATALOG, "analiza", "wyniki")
@@ -77,7 +79,8 @@ def data(d):
 
 FORMY = {"sesja": ("sesja", "sesje", "sesji"), "zamowienie": ("zamówienie", "zamówienia", "zamówień"),
          "pacjent": ("pacjent", "pacjentów", "pacjentów"), "minuta": ("minuta", "minuty", "minut"),
-         "zakup": ("zakup", "zakupy", "zakupów"), "przegladarka": ("przeglądarka", "przeglądarki", "przeglądarek")}
+         "zakup": ("zakup", "zakupy", "zakupów"), "przegladarka": ("przeglądarka", "przeglądarki", "przeglądarek"),
+         "wizyta": ("wizyta", "wizyty", "wizyt")}
 
 
 def ile(n, rzecz):
@@ -761,6 +764,397 @@ def zdarzenia(con, d, zd, lejek_nag, jak, kontrole):
     return {"lista": lista, "wykryte": wykryte, "obszary": obszary}
 
 
+# ---------------------------------------------------------------- 5. kohorty (pacjent po pacjencie)
+
+ZNAKI = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+A5R_ZDARZENIA = os.path.join(WYNIKI, "a5r_zdarzenia.csv")
+A5E_KAMPANIE = os.path.join(WYNIKI, "a5e_kampanie.csv")
+OKNA_KOH = (30, 60, 90, 180)
+KAT_KOH = ["kanal", "kampania", "kanal_z2", "kampania_z2", "urzadzenie", "przegladarka", "usluga", "znizka", "go0",
+           "status1", "koszyk", "pora"]
+ETYKIETY.update({
+    "usluga": {"internista_l4": "Internista: L4", "internista_e_recepta": "Internista: e-recepta",
+               "internista_konsultacja": "Internista: konsultacja", "internista_skierowanie": "Internista: skierowanie",
+               "pediatra": "Pediatra", "psychiatra": "Psychiatra", "inny_specjalista": "Inny specjalista"},
+    "znizka": {"brak": "Bez zniżki", "TelemediGO": "Zniżka TelemediGO"},
+    "go0": {"tak": "Kupił TelemediGO przy pierwszym zakupie", "nie": "Bez zakupu TelemediGO przy pierwszym zakupie"},
+    "status1": {"completed": "Odbyta", "refunded": "Odbyta, zwrot po wizycie", "cancelled": "Anulowana przed wizytą",
+                "no_show": "Pacjent nie odebrał"},
+    "koszyk": {"a_do_5_min": "Do 5 minut po terminie", "b_5_15_min": "Ponad 5 do 15 minut",
+               "c_15_30_min": "Ponad 15 do 30 minut", "d_ponad_30_min": "Ponad 30 minut",
+               "brak_wizyty": "Brak wizyty (anulowana, nieodebrana)"},
+    "pora": {"a_rano_6_11": "Rano (6–11)", "b_poludnie_12_15": "Południe (12–15)", "c_wieczor_16_23": "Wieczór (16–23)",
+             "d_noc_0_5": "Noc (0–5)"},
+    "spec": {"internista": "Internista", "pediatra": "Pediatra", "psychiatra": "Psychiatra", "inny": "Inni specjaliści"},
+    "cel": {"l4": "L4", "e_recepta": "E-recepta", "konsultacja": "Konsultacja", "skierowanie": "Skierowanie"},
+    "grupa_ek": {"1_nowe_kampanie_L4": "Nowe kampanie na L4 (Meta i TikTok)", "2_pozostale_platne": "Pozostałe kampanie płatne",
+                 "3_afiliacja_ranking": "Afiliacja (ranking lekarzy)", "4_bezplatne": "Kanały bezpłatne"},
+    "nowe_kampanie": list(RP.NOWE),
+})
+ETYKIETY["kanal_z2"] = ETYKIETY["kanal"]
+ETYKIETY["kampania_z2"] = ETYKIETY["kampania"]
+
+
+def koduj(seria):
+    """Kategorie jako napis: jeden znak na pacjenta, słownik wartości od najczęstszej."""
+    wart = seria.value_counts().index.tolist()
+    assert len(wart) <= len(ZNAKI), seria.name
+    mapa = {w: ZNAKI[i] for i, w in enumerate(wart)}
+    return [str(w) for w in wart], "".join(mapa[w] for w in seria)
+
+
+def stopy_z_pacjentow(p, n, kol=None):
+    """Powrót (albo średnia kolumny `kol`) w oknie n na tych samych dniach kalendarzowych (ZALOZENIA 27)."""
+    g1, g2 = D.granice_por(n)
+    a, b = p[(p["okres"] == 1) & (p["d0"] <= g1)], p[(p["okres"] == 2) & (p["d0"] <= g2)]
+    if kol:
+        return a[kol].mean(), b[kol].mean(), len(a), len(b)
+    f = lambda x: 100 * ((x["dni_R2"] >= 0) & (x["dni_R2"] <= n)).mean()  # noqa: E731
+    return f(a), f(b), len(a), len(b)
+
+
+def kohorty(con, kontrole):
+    D.zbuduj_zrodla(con)
+    D.zbuduj_ekonomie(con)
+    con.execute(f"""
+      CREATE TEMP TABLE b_pac AS
+      WITH z AS (SELECT z.*, epoch(z.started_at - z.scheduled_at) / 60.0 op, hour(z.scheduled_at) h,
+                        EXISTS (SELECT 1 FROM czyste.go_memberships g WHERE g.order_id = z.order_id) kupil_go
+                 FROM zam z WHERE z.nr = 1),
+           m AS (SELECT user_id, sum(marza) FILTER (WHERE dni <= 30) m30, sum(marza) FILTER (WHERE dni <= 60) m60,
+                        sum(marza) FILTER (WHERE dni <= 90) m90, sum(marza) FILTER (WHERE dni <= 180) m180
+                 FROM ek GROUP BY 1)
+      SELECT p.user_id, p.d0, p.okres, coalesce(p.dni_R2, -1) dni_R2, r.kanal, r.kampania, r.kanal_z2, r.kampania_z2,
+             s.device urzadzenie, s.browser przegladarka, {RS.USLUGA} usluga, {RS.ZNIZKA} znizka,
+             CASE WHEN z.kupil_go THEN 'tak' ELSE 'nie' END go0, z.status status1, {RP.KOSZYK} koszyk, {RP.PORA} pora,
+             coalesce(m.m30, 0) m30, coalesce(m.m60, 0) m60, coalesce(m.m90, 0) m90, coalesce(m.m180, 0) m180
+      FROM powr p JOIN zrodlo r USING (user_id) JOIN z ON z.user_id = p.user_id
+      JOIN czyste.sessions s ON s.session_id = z.session_id
+      LEFT JOIN m ON m.user_id = p.user_id
+      ORDER BY p.d0, p.user_id""")
+    p = con.execute("SELECT * EXCLUDE (user_id) FROM b_pac").df()
+    p["d0"] = pd.to_datetime(p["d0"]).dt.date
+    for k in ("m30", "m60", "m90", "m180"):
+        p[k] = (p[k] * 10).round().astype(int) / 10      # zapis w dziesiątych częściach złotówki
+    dane = {"n": len(p), "d": [(x - START).days for x in p["d0"]], "r": [int(x) for x in p["dni_R2"]],
+            "okna": list(OKNA_KOH), "kat": {}, "wart": {}}
+    for k in ("m30", "m60", "m90", "m180"):
+        dane[k] = [int(round(x * 10)) for x in p[k]]
+    for k in KAT_KOH:
+        dane["wart"][k], dane["kat"][k] = koduj(p[k].astype(str))
+
+    # kontrola: liczby części retencji (ZNALEZISKA, A5 retencja) z danych zapisanych dla strony
+    ocz = {30: (11.0, 7.8, 14984, 22646), 60: (19.1, 13.7, 13941, 20823), 90: (23.9, 17.4, 12867, 18924),
+           180: (27.5, 22.2, 9125, 12591)}
+    for n, (e1, e2, n1, n2) in ocz.items():
+        a, b, la, lb = stopy_z_pacjentow(p, n)
+        kontrole += [(f"kohorty: powrót {n} dni, okres 1 (%) / pacjenci", f"{a:.1f} / {la}", f"{e1:.1f} / {n1}"),
+                     (f"kohorty: powrót {n} dni, okres 2 (%) / pacjenci", f"{b:.1f} / {lb}", f"{e2:.1f} / {n2}")]
+    for n, (e1, e2) in {30: (55.9, 49.9), 90: (66.6, 58.3), 180: (75.5, 67.7)}.items():
+        a, b, _, _ = stopy_z_pacjentow(p, n, f"m{n}")
+        kontrole.append((f"kohorty: marża na pacjenta {n} dni, okres 1 / okres 2 (zł)", f"{a:.1f} / {b:.1f}", f"{e1:.1f} / {e2:.1f}"))
+
+    zd = []
+    for n in OKNA_KOH:
+        a, b, la, lb = stopy_z_pacjentow(p, n)
+        zd.append(f"w {n} dniach {proc(b)} ({ile(lb, 'pacjent')}) wobec {proc(a)} ({ile(la, 'pacjent')})")
+    m90 = stopy_z_pacjentow(p, 90, "m90")
+    m180 = stopy_z_pacjentow(p, 180, "m180")
+    zdania = [
+        "Powrót nowych pacjentów spada w każdym oknie. Okres " + O2_NAZWA + " wobec " + O1_NAZWA +
+        ", te same dni kalendarzowe, tylko kohorty z pełnym oknem: " + "; ".join(zd) + ".",
+        f"Marża na pacjenta przed kosztem pozyskania (przychód z konsultacji po zwrotach, TelemediGO, minus koszt "
+        f"lekarza): w 90 dniach {liczba(m90[1], 1)} zł wobec {liczba(m90[0], 1)} zł, w 180 dniach "
+        f"{liczba(m180[1], 1)} zł wobec {liczba(m180[0], 1)} zł.",
+        "Większość spadku powrotów wiąże się z pacjentami dwóch nowych kampanii na L4, ale w kampaniach działających "
+        "w obu latach też jest spadek, którego sprawdzone cechy nie tłumaczą. Podział zależy od reguły źródła, "
+        "dlatego obie reguły są do wyboru w filtrach.",
+    ]
+    return p, dane, zdania
+
+
+# ---------------------------------------------------------------- 6. po zakupie
+
+def tablice_dzienne(df, klucze, kol_dnia, miary):
+    """Grupy `klucze` → tablice dzienne miar (indeks dnia od START). Puste tablice pomijamy."""
+    dni = (KONIEC - START).days + 1
+    df = df[(df[kol_dnia] >= START) & (df[kol_dnia] <= KONIEC)]
+    wyn = []
+    for kl, g in df.groupby(klucze, sort=True):
+        kl = kl if isinstance(kl, tuple) else (kl,)
+        s = {k: (v.item() if hasattr(v, "item") else v) for k, v in zip(klucze, kl)}
+        for m in miary:
+            tab = [0] * dni
+            for dz, v in zip(g[kol_dnia], g[m]):
+                tab[(dz - START).days] = round(float(v), 2) if not float(v).is_integer() else int(v)
+            if any(tab):
+                s[m] = tab
+        wyn.append(s)
+    return wyn
+
+
+def po_zakupie(con, kontrole):
+    con.execute(f"""
+      CREATE TEMP TABLE b_wiz AS
+      SELECT z.order_id, z.nr, z.created_at::DATE dz, z.scheduled_at::DATE dt, z.status, z.visit_purpose cel, z.rating,
+             CASE WHEN z.specialization IN ('internista', 'pediatra', 'psychiatra') THEN z.specialization ELSE 'inny' END spec,
+             epoch(z.started_at - z.scheduled_at) / 60.0 op, hour(z.scheduled_at) h, z.started_at,
+             r.kampania IN {tuple(RP.NOWE)} nowa, z.refund_amount::DOUBLE zw, ({D.KOSZT_LEKARZA})::DOUBLE kl,
+             CASE WHEN z.created_at < TIMESTAMP '{D.OKRES2}' THEN 1 ELSE 2 END okres
+      FROM zam z JOIN zrodlo r USING (user_id)""")
+    # punktualność: dzień terminu, tylko wizyty odbyte (ZALOZENIA 37)
+    pt = con.execute(f"""
+      SELECT dt, spec, {RP.PORA} pora, nowa, count(*) n, count(*) FILTER (WHERE op > 15) p15, count(*) FILTER (WHERE op > 30) p30
+      FROM b_wiz WHERE status IN ('completed', 'refunded') GROUP BY ALL""").df()
+    pt["dt"] = pd.to_datetime(pt["dt"]).dt.date
+    # kontrola: internista rano, pacjenci spoza nowych kampanii, miesiące (ZNALEZISKA, A5 retencja)
+    x = pt[(pt["spec"] == "internista") & (pt["pora"] == "a_rano_6_11") & (~pt["nowa"])].copy()
+    x["m"] = [f"{d:%Y-%m}" for d in x["dt"]]
+    mies = x.groupby("m")[["n", "p15"]].sum()
+    mies["proc"] = 100 * mies["p15"] / mies["n"]
+    for m, e in (("2025-11", 15.7), ("2025-12", 29.7), ("2026-01", 42.6), ("2026-02", 49.4)):
+        kontrole.append((f"po zakupie: internista rano ponad 15 min, spoza nowych kampanii, {m} (%)", round(mies.loc[m, "proc"], 1), e))
+    przed = mies[(mies.index >= f"{START:%Y-%m}") & (mies.index <= "2025-10")]["proc"]
+    po = mies[(mies.index >= "2026-02") & (mies.index <= f"{KONIEC:%Y-%m}")]["proc"]
+    reszta = pt[(pt["spec"] == "internista") & (pt["pora"] != "a_rano_6_11") & (~pt["nowa"])].copy()
+    reszta["o"] = [1 if d < OKRES2 else 2 for d in reszta["dt"]]
+    ro = reszta.groupby("o")[["n", "p15"]].sum()
+    zdania_p = [
+        f"Opóźnienia rosną tylko u internisty rano. Wizyty z terminem 6:00–11:59, które zaczęły się ponad 15 minut po "
+        f"terminie, u pacjentów spoza nowych kampanii: {zakres(przed.min(), przed.max(), 1)} miesięcznie do X 2025, "
+        f"{proc(mies.loc['2025-11', 'proc'])} w XI 2025 ({ile(mies.loc['2025-11', 'n'], 'wizyta')}), "
+        f"{proc(mies.loc['2025-12', 'proc'])} w XII 2025, {proc(mies.loc['2026-01', 'proc'])} w I 2026 i "
+        f"{zakres(po.min(), po.max(), 1)} od II do IX 2026.",
+        f"U internisty w innych porach: {proc(100 * ro.loc[1, 'p15'] / ro.loc[1, 'n'])} wizyt spóźnionych ponad 15 minut "
+        f"w okresie {O1_NAZWA} ({ile(ro.loc[1, 'n'], 'wizyta')}) i {proc(100 * ro.loc[2, 'p15'] / ro.loc[2, 'n'])} w okresie "
+        f"{O2_NAZWA} ({ile(ro.loc[2, 'n'], 'wizyta')}).",
+        "Długość wizyty i czas od zapłaty do terminu się nie zmieniają. W danych nie ma grafików lekarzy, więc dane pasują "
+        "do hipotezy przeciążenia porannych godzin, ale jej nie dowodzą.",
+    ]
+    punkt = tablice_dzienne(pt, ["spec", "pora", "nowa"], "dt", ["n", "p15", "p30"])
+
+    # zwroty i statusy: dzień płatności
+    zw = con.execute("""
+      SELECT dz, cel, nowa, nr = 1 pierwsze, count(*) wszystkie, count(*) FILTER (WHERE status = 'cancelled') anul,
+             count(*) FILTER (WHERE status = 'no_show') nieodebr, count(*) FILTER (WHERE status IN ('completed', 'refunded')) odbyte,
+             count(*) FILTER (WHERE status = 'refunded') zwrocone, coalesce(sum(zw) FILTER (WHERE status = 'refunded'), 0) zw_zl,
+             coalesce(sum(kl) FILTER (WHERE status = 'refunded'), 0) kl_zw
+      FROM b_wiz GROUP BY ALL""").df()
+    zw["dz"] = pd.to_datetime(zw["dz"]).dt.date
+    zw["o"] = [1 if d < OKRES2 else 2 for d in zw["dz"]]
+    s = zw.groupby(["o", "cel", "nowa"])[["odbyte", "zwrocone", "zw_zl", "kl_zw"]].sum()
+    l4n, l4s, l41 = s.loc[(2, "l4", True)], s.loc[(2, "l4", False)], s.loc[1].loc["l4"].sum()
+    nowe2 = s.loc[2].xs(True, level="nowa").sum()
+    kontrole += [("po zakupie: zwroty L4 nowe kampanie, okres 2 (zwrócone / odbyte)", f"{int(l4n.zwrocone)} / {int(l4n.odbyte)}", "1024 / 5895"),
+                 ("po zakupie: zwroty L4 pozostali, okres 2 (zwrócone / odbyte)", f"{int(l4s.zwrocone)} / {int(l4s.odbyte)}", "270 / 5080"),
+                 ("po zakupie: zwroty nowe kampanie okres 2: wizyty, zł, koszt lekarza",
+                  f"{int(nowe2.zwrocone)} / {round(nowe2.zw_zl)} / {round(nowe2.kl_zw)}", "1044 / 84112 / 33975")]
+    zdania_z = [
+        f"Zwroty po odbytej wizycie skupiają się w L4 z nowych kampanii: w okresie {O2_NAZWA} zwrot dostaje "
+        f"{proc(100 * l4n.zwrocone / l4n.odbyte)} odbytych wizyt L4 ich pacjentów ({ile(l4n.odbyte, 'wizyta')}) wobec "
+        f"{proc(100 * l4s.zwrocone / l4s.odbyte)} L4 pozostałych pacjentów ({ile(l4s.odbyte, 'wizyta')}) i "
+        f"{proc(100 * l41.zwrocone / l41.odbyte)} w okresie {O1_NAZWA} ({ile(l41.odbyte, 'wizyta')}).",
+        f"W okresie {O2_NAZWA} zwroty po wizycie u pacjentów nowych kampanii to {ile(nowe2.zwrocone, 'wizyta')}, "
+        f"{zl(nowe2.zw_zl)} zwróconych zapłat i {zl(nowe2.kl_zw)} kosztu lekarza za te wizyty. Powodu zwrotu w danych "
+        f"nie ma; możliwe odczytanie: lekarz nie wystawia L4, którego pacjent oczekuje po obietnicy reklamy.",
+    ]
+    zwroty = tablice_dzienne(zw, ["cel", "nowa", "pierwsze"], "dz",
+                             ["wszystkie", "anul", "nieodebr", "odbyte", "zwrocone", "zw_zl", "kl_zw"])
+
+    # oceny według opóźnienia wizyty (jak a5r_po_zakupie.py, sekcja 3a; na stronie z wyborem specjalizacji i grupy)
+    oc = con.execute(f"""
+      SELECT okres, spec, nowa, {RP.KOSZYK} koszyk, count(*) odbyte, count(rating) ocenione, coalesce(sum(rating), 0) suma,
+             count(*) FILTER (WHERE rating <= 2) niskie
+      FROM b_wiz WHERE status IN ('completed', 'refunded') GROUP BY ALL ORDER BY 1, 2, 3, 4""").df()
+    oi = oc[(oc["spec"] == "internista") & (~oc["nowa"])].groupby(["koszyk", "okres"])[["odbyte", "ocenione", "suma", "niskie"]].sum()
+    oi["sr"] = oi["suma"] / oi["ocenione"]
+    o30, o5 = oi.loc["d_ponad_30_min"], oi.loc["a_do_5_min"]
+    kontrole += [("po zakupie: średnia ocena internista, pozostali, ponad 30 min, okres 1 / 2",
+                  f"{o30.loc[1, 'sr']:.2f} / {o30.loc[2, 'sr']:.2f}", "2.95 / 2.92"),
+                 ("po zakupie: średnia ocena internista, pozostali, do 5 min, okres 1 / 2",
+                  f"{o5.loc[1, 'sr']:.2f} / {o5.loc[2, 'sr']:.2f}", "4.47 / 4.45")]
+    n30, n5 = o30.sum(), o5.sum()
+    zdania_o = [
+        f"Spóźnione wizyty są gorzej oceniane, w obu okresach tak samo. U internisty, pacjenci spoza nowych kampanii: "
+        f"przy opóźnieniu ponad 30 minut średnia ocena to {liczba(o30.loc[1, 'sr'], 2)} w okresie {O1_NAZWA} i "
+        f"{liczba(o30.loc[2, 'sr'], 2)} w okresie {O2_NAZWA}, a oceny 1–2 to {proc(100 * n30.niskie / n30.ocenione, 0)} "
+        f"({liczba(n30.ocenione)} ocen). Przy wizycie zaczętej do 5 minut po terminie średnia to {liczba(o5.loc[1, 'sr'], 2)} "
+        f"i {liczba(o5.loc[2, 'sr'], 2)}, a ocen 1–2 jest {proc(100 * n5.niskie / n5.ocenione, 0)} ({liczba(n5.ocenione)} ocen). "
+        f"Ocenę wystawia {proc(100 * oc.ocenione.sum() / oc.odbyte.sum(), 0)} pacjentów po odbytej wizycie.",
+    ]
+    oceny = [{k: (v.item() if hasattr(v, "item") else v) for k, v in r.items() if k != "sr"} for r in oc.to_dict("records")]
+    return {"punktualnosc": punkt, "zwroty": zwroty, "oceny": oceny,
+            "zdania_punktualnosc": zdania_p, "zdania_zwroty": zdania_z, "zdania_oceny": zdania_o,
+            "start": START.isoformat(), "dni": (KONIEC - START).days + 1}
+
+
+# ---------------------------------------------------------------- 7. wynik biznesu
+
+def wynik(con, kontrole, mostek):
+    dni = (KONIEC - START).days + 1
+
+    def dzienne(sql, kolumny):
+        df = con.execute(sql).df()
+        df["d"] = pd.to_datetime(df["d"]).dt.date
+        out = {}
+        for k in kolumny:
+            tab = [0.0] * dni
+            for dz, v in zip(df["d"], df[k]):
+                if START <= dz <= KONIEC:
+                    tab[(dz - START).days] = round(float(v), 2)
+            out[k] = [int(v) if float(v).is_integer() else v for v in tab]
+        return out
+
+    s = {}
+    s.update(dzienne(f"""
+      SELECT created_at::DATE d, coalesce(sum(amount_paid - refund_amount) FILTER (WHERE nr = 1), 0) przychod_pierwsze,
+             coalesce(sum(amount_paid - refund_amount) FILTER (WHERE nr > 1), 0) przychod_powtorne,
+             sum(amount_paid) zaplaty, sum(refund_amount) zwroty, sum({D.KOSZT_LEKARZA}) koszt_lekarza,
+             count(*) zamowienia, count(*) FILTER (WHERE nr = 1) nowi
+      FROM zam GROUP BY 1""", ["przychod_pierwsze", "przychod_powtorne", "zaplaty", "zwroty", "koszt_lekarza",
+                               "zamowienia", "nowi"]))
+    s.update(dzienne("SELECT purchased_at::DATE d, sum(amount_paid) go, count(*) go_n FROM czyste.go_memberships GROUP BY 1",
+                     ["go", "go_n"]))
+    s.update(dzienne("""
+      SELECT date d, coalesce(sum(spend_pln) FILTER (WHERE utm_source = 'google'), 0) wydatki_google,
+             coalesce(sum(spend_pln) FILTER (WHERE utm_source = 'meta'), 0) wydatki_meta,
+             coalesce(sum(spend_pln) FILTER (WHERE utm_source = 'tiktok'), 0) wydatki_tiktok
+      FROM czyste.marketing_spend GROUP BY 1""", ["wydatki_google", "wydatki_meta", "wydatki_tiktok"]))
+    s.update(dzienne("""
+      SELECT k.d0 d, 25 * count(*) prowizja FROM koh k JOIN zrodlo r USING (user_id)
+      WHERE r.kanal = 'afiliacja_ranking' GROUP BY 1""", ["prowizja"]))
+    i2 = (OKRES2 - START).days
+    sum_o = lambda k, o: sum(s[k][:i2]) if o == 1 else sum(s[k][i2:])  # noqa: E731
+    prz = mostek["kroki"][3]["miary"]["przychod"]
+    for o in (1, 2):
+        kontrole.append((f"wynik: przychód z konsultacji po zwrotach, okres {o} (zł)",
+                         round(sum_o("przychod_pierwsze", o) + sum_o("przychod_powtorne", o)), round(prz[f"p{o}"])))
+        kontrole.append((f"wynik: zakupy TelemediGO, okres {o}", sum_o("go_n", o), mostek["kroki"][0]["miary"]["go"][f"p{o}"]))
+    kontrole.append(("wynik: prowizja afiliacyjna za dwa lata (zł)", sum(s["prowizja"]), 30825))
+
+    def razem(o):
+        p = sum_o("przychod_pierwsze", o) + sum_o("przychod_powtorne", o)
+        g, kl, pr = sum_o("go", o), sum_o("koszt_lekarza", o), sum_o("prowizja", o)
+        w = sum_o("wydatki_google", o) + sum_o("wydatki_meta", o) + sum_o("wydatki_tiktok", o)
+        return p, g, kl, w, pr, p + g - kl - w - pr
+    r1, r2 = razem(1), razem(2)
+    zm = lambda a, b: f"{'+' if b >= a else '−'}{liczba(abs(100 * (b / a - 1)), 1)}%"  # noqa: E731
+    ruch = lambda n, a, b, mn=False: f"{n} {('rosną' if mn else 'rośnie') if b >= a else ('spadają' if mn else 'spada')} o {liczba(abs(100 * (b / a - 1)), 1)}% ({zl(a)} → {zl(b)})"  # noqa: E731
+    zdania = [
+        f"Marża po koszcie lekarza, kampaniach i prowizji afiliacyjnej: {zl(r2[5])} w okresie {O2_NAZWA} wobec "
+        f"{zl(r1[5])} w okresie {O1_NAZWA}, czyli {zm(r1[5], r2[5])}.",
+        f"{ruch('Przychód z konsultacji po zwrotach', r1[0], r2[0])}, {ruch('TelemediGO', r1[1], r2[1])}. "
+        f"{ruch('Koszt lekarza', r1[2], r2[2])}, {ruch('wydatki na kampanie', r1[3], r2[3], True)}, "
+        f"{ruch('prowizja afiliacyjna', r1[4], r2[4])}.",
+        "Koszt lekarza liczymy także za wizyty zwrócone po wizycie (zasada z zadania), a koszt i zwrot przypisujemy do "
+        "dnia płatności. Prowizję afiliacyjną liczymy według przyjętej reguły źródła, w dniu pierwszego zamówienia.",
+    ]
+    return {"dni": dni, "start": START.isoformat(), "serie": s, "zdania": zdania}
+
+
+def ekonomia_kampanii(kontrole):
+    """Zestawienie sesji ekonomii kampanii (a5e_kampanie.csv), obie reguły źródła, okna 90 i 180 dni."""
+    e = pd.read_csv(A5E_KAMPANIE)
+    e = e[e["okno_dni"].isin(["90", "180"])].copy()
+    e["klucz"] = e["grupa"].fillna(e["kampania"]).fillna(e["kanal"])
+    wiersze = []
+    for _, r in e.iterrows():
+        wiersze.append({"okres": int(r["okres"]), "regula": r["regula"], "okno": int(r["okno_dni"]), "poziom": r["poziom"],
+                        "klucz": r["klucz"], "nowi": int(r["nowi"]), "wydatki": float(r["wydatki_zl"]),
+                        "prowizja": float(r["prowizja_zl"]), "cac": float(r["koszt_pozysk_na_pac"]),
+                        "marza": float(r["marza_na_pac"]), "wynik": float(r["wynik_na_pac"]), "od": float(r["wynik_od"]),
+                        "do": float(r["wynik_do"]), "razem": float(r["wynik_razem_zl"]), "powrot": float(r["powrot_proc"])})
+    g = e[(e["poziom"] == "grupa") & (e["okres"] == 2) & (e["grupa"] == "1_nowe_kampanie_L4")].set_index(["regula", "okno_dni"])
+    t = e[(e["poziom"] == "kampania") & (e["okres"] == 2) & (e["kampania"] == "tt_prosp_l4_15min")].set_index(["regula", "okno_dni"])
+    kontrole += [("ekonomia: nowe kampanie, wynik na pacjenta 90 dni Z1K / Z2 (zł)",
+                  f"{g.loc[('Z1K', '90'), 'wynik_na_pac']} / {g.loc[('Z2', '90'), 'wynik_na_pac']}", "3.6 / -9.4")]
+    w = lambda x, k="wynik_na_pac": f"{'+' if x[k] >= 0 else '−'}{liczba(abs(x[k]), 1)} zł"  # noqa: E731
+    zdania = [
+        f"Nowe kampanie na L4 (okres {O2_NAZWA}): wynik na pacjenta po koszcie pozyskania według przyjętej reguły źródła "
+        f"{w(g.loc[('Z1K', '90')])} w 90 dniach i {w(g.loc[('Z1K', '180')])} w 180 dniach, a według sesji płatności "
+        f"{w(g.loc[('Z2', '90')])} i {w(g.loc[('Z2', '180')])}. Znak zależy od reguły, więc to wynik niepewny.",
+        f"Kampania na TikToku ma wynik ujemny w obu regułach: {w(t.loc[('Z1K', '90')])} i {w(t.loc[('Z2', '90')])} na "
+        f"pacjenta w 90 dniach.",
+        "Obok wyniku po 90 dniach pokazujemy wynik po 180 dniach (dopisek Kuby): pacjenci kampanii na L4 prawie nie wracają, "
+        "a pozostali tak, więc 90 dni zaniża wartość pozostałych kampanii. Przedział przy wyniku jest warunkowy: liczony tylko "
+        "z rozrzutu marży, bez niepewności atrybucji.",
+    ]
+    return {"wiersze": wiersze, "zdania": zdania}
+
+
+# ---------------------------------------------------------------- 8. zdarzenia retencji i obsługi pacjenta
+
+def zdarzenia_retencji(zdz, pac, kontrole):
+    z = pd.read_csv(A5R_ZDARZENIA)
+    seria = lambda s: z[z["seria"] == s].reset_index(drop=True)  # noqa: E731
+    d = lambda x: data(dt.date.fromisoformat(x))  # noqa: E731
+    lista = zdz["lista"]
+    zrodlo = "Źródło: analiza/a5r_zdarzenia.py (podział binarny serii dziennych, próg |z| ≥ 4), notatki/a5_retencja.md, krok 5. "
+    kandydaci = "Daty to kandydaci zmian, nie potwierdzone zdarzenia."
+
+    u = seria("udzial_nowych_kampanii")
+    lista.append({"id": "udzial_nowych", "obszar": "retencja", "od": u.loc[1, "od"], "rodzaj": "zmiana struktury pacjentów",
+                  "tytul": "Rośnie udział pacjentów nowych kampanii na L4 wśród nowych pacjentów",
+                  "co": "Od startu kampanii Meta na L4 coraz większa część nowych pacjentów przychodzi z dwóch nowych kampanii "
+                        "na L4. Ci pacjenci prawie nie wracają, więc ich udział obniża powrót całej kohorty.",
+                  "ile": "Udział w nowych pacjentach: " + ", ".join(
+                      f"{proc(r['poziom'])} od {d(r['od'])} do {d(r['do'])} ({ile(r['n'], 'pacjent')})" for _, r in u.iterrows()) + ".",
+                  "skad": zrodlo + kandydaci,
+                  "link": "#kohorty?miara=udzial&podz=grupa&wygl=28"})
+    p30 = seria("powrot30_wszyscy")
+    lista.append({"id": "powrot30_spada", "obszar": "retencja", "od": p30.loc[2, "od"], "rodzaj": "zmiana zachowania kohort",
+                  "tytul": "Powrót nowych pacjentów w 30 dniach spada",
+                  "co": "Powrót w 30 dniach całej kohorty spada skokowo w dniu startu kampanii TikTok na L4. To głównie skład "
+                        "pacjentów (rosnący udział nowych kampanii), co pokazuje krok 3 analizy retencji.",
+                  "ile": f"{proc(p30.loc[1, 'poziom'])} ({ile(p30.loc[1, 'n'], 'pacjent')}, {d(p30.loc[1, 'od'])}–{d(p30.loc[1, 'do'])}) "
+                         f"→ {proc(p30.loc[2, 'poziom'])} ({ile(p30.loc[2, 'n'], 'pacjent')}, {d(p30.loc[2, 'od'])}–{d(p30.loc[2, 'do'])}). "
+                         f"Wcześniejszy kandydat {d(p30.loc[1, 'od'])}: {proc(p30.loc[0, 'poziom'])} → {proc(p30.loc[1, 'poziom'])}; "
+                         f"wypada w pierwszym roku, więc może być porą roku.",
+                  "skad": zrodlo + kandydaci, "link": "#kohorty?okno=30&podz=grupa&wygl=28"})
+    m = seria("marza30_na_pacjenta_zl")
+    lista.append({"id": "marza30_spada", "obszar": "retencja", "od": m.loc[1, "od"], "rodzaj": "zmiana wyniku kohort",
+                  "tytul": "Marża na pacjenta w 30 dniach spada stopniami",
+                  "co": "Marża nowego pacjenta w pierwszych 30 dniach (przed kosztem pozyskania) spada trzema stopniami, "
+                        "głównie przez skład pacjentów.",
+                  "ile": " → ".join(f"{liczba(r['poziom'], 1)} zł od {d(r['od'])} ({ile(r['n'], 'pacjent')})" for _, r in m.iterrows()) + ".",
+                  "skad": zrodlo + kandydaci, "link": "#kohorty?miara=marza&okno=30&wygl=28"})
+    # kandydat w powrocie 90 dni starych kampanii (poniżej progu): poziomy przed i po liczone z danych kohort
+    data_kand = dt.date(2026, 3, 2)           # najsilniejszy kandydat z a5r_zdarzenia.txt (|z| poniżej progu 4)
+    stare = pac[~pac["kampania"].isin(RP.NOWE) & (pac["d0"] <= KONIEC - dt.timedelta(days=90))]
+    pr = lambda x: 100 * ((x["dni_R2"] >= 0) & (x["dni_R2"] <= 90)).mean()  # noqa: E731
+    sp, sa = stare[stare["d0"] < data_kand], stare[stare["d0"] >= data_kand]
+    kontrole.append(("zdarzenia: powrót 90 dni stare kampanie przed / po 2.03.2026 (%)", f"{pr(sp):.1f} / {pr(sa):.1f}", "23.3 / 20.9"))
+    lista.append({"id": "powrot90_stare", "obszar": "retencja", "od": data_kand.isoformat(), "rodzaj": "kandydat poniżej progu",
+                  "tytul": "Powrót w 90 dniach w kampaniach działających w obu latach: brak wyraźnego skoku",
+                  "co": "W kampaniach obecnych w obu latach powrót też spada, ale metoda nie znalazła zmiany skokowej powyżej "
+                        "progu. Najsilniejszy kandydat to ten dzień. Brak skoku nie znaczy, że spadek musi być rozłożony w czasie.",
+                  "ile": f"{proc(pr(sp))} przed ({ile(len(sp), 'pacjent')}) i {proc(pr(sa))} po ({ile(len(sa), 'pacjent')}, "
+                         f"kohorty z pełnym oknem 90 dni).",
+                  "skad": zrodlo + "Luty 2026 nie pasuje do prostej hipotezy przeciążenia (opóźnienia już wysokie, powrót bez "
+                          "spadku), to trop eksploracyjny.",
+                  "link": "#kohorty?okno=90&f_grupa=pozostale&wygl=28"})
+    o = seria("rano_internista_ponad15_stare")
+    lista.append({"id": "opoznienia_rano", "obszar": "obsluga", "od": o.loc[1, "od"], "rodzaj": "zmiana obsługi pacjenta",
+                  "tytul": "Poranne wizyty u internisty zaczynają się z opóźnieniem",
+                  "co": "Rośnie odsetek wizyt u internisty z terminem 6:00–11:59, które zaczynają się ponad 15 minut po "
+                        "terminie, także u pacjentów spoza nowych kampanii. Przy tym samym porannym ruchu opóźnień jest teraz "
+                        "dużo więcej niż rok wcześniej, więc spadła poranna przepustowość (bez przesądzania przyczyny).",
+                  "ile": " → ".join(f"{proc(r['poziom'])} od {d(r['od'])} ({ile(r['n'], 'wizyta')})" for _, r in o.iterrows()) + ".",
+                  "skad": zrodlo + "Seria: wizyty u internisty rano, pacjenci spoza nowych kampanii. " + kandydaci,
+                  "link": "#po-zakupie"})
+    zw = seria("pierwsze_zwrot_po_wizycie")
+    lista.append({"id": "zwroty_pierwsze", "obszar": "obsluga", "od": zw.loc[1, "od"], "rodzaj": "zmiana obsługi pacjenta",
+                  "tytul": "Więcej pierwszych zamówień zwracanych po wizycie",
+                  "co": "Rośnie odsetek pierwszych zamówień, za które pacjent dostaje zwrot po odbytej wizycie. Skupia się "
+                        "w wizytach L4 pacjentów nowych kampanii. Lekarz dostaje wynagrodzenie także za te wizyty.",
+                  "ile": " → ".join(f"{proc(r['poziom'])} od {d(r['od'])} ({ile(r['n'], 'pacjent')})" for _, r in zw.iterrows()) + ".",
+                  "skad": zrodlo + kandydaci, "link": "#po-zakupie"})
+    lista.sort(key=lambda x: x["od"])
+    for ob in zdz["obszary"]:
+        if ob["id"] in ("retencja", "obsluga"):
+            ob["puste"] = ""
+
+
 # ---------------------------------------------------------------- main
 
 def main():
@@ -778,7 +1172,13 @@ def main():
     mostek, jak = jakosc(con, kontrole)
     wz = czy_wzrost(con, mostek, kontrole)
     zdz = zdarzenia(con, d, zd, nag, jak, kontrole)
+    pac, koh, koh_zdania = kohorty(con, kontrole)
+    pz = po_zakupie(con, kontrole)
+    wy = wynik(con, kontrole, mostek)
+    wy["ekonomia"] = ekonomia_kampanii(kontrole)
+    zdarzenia_retencji(zdz, pac, kontrole)
     con.close()
+    koh["zdania"] = koh_zdania
 
     try:
         commit = subprocess.run(["git", "-C", KATALOG, "rev-parse", "--short", "HEAD"], capture_output=True,
@@ -793,6 +1193,9 @@ def main():
     rozmiary["podsumowanie"] = zapisz_js("podsumowanie.js", ".P", tresc)
     rozmiary["zdarzenia"] = zapisz_js("zdarzenia.js", ".zdarzenia", zdz)
     rozmiary["jakosc"] = zapisz_js("jakosc.js", ".jakosc", jak)
+    rozmiary["kohorty"] = zapisz_js("kohorty.js", ".kohorty", koh)
+    rozmiary["po_zakupie"] = zapisz_js("po_zakupie.js", ".po_zakupie", pz)
+    rozmiary["wynik"] = zapisz_js("wynik.js", ".wynik", wy)
 
     linie = [f"B — EKSPORT DANYCH NARZĘDZIA ({meta['wygenerowano']}, commit {commit})", "",
              "1. Pliki w narzedzie/dane_strony/ (bajty)"]
@@ -803,7 +1206,7 @@ def main():
               f"   {'co':66} {'eksport':>10} {'oczekiwane':>11}  wynik"]
     bledy = 0
     for opis, wartosc, oczek in kontrole:
-        ok = abs(float(wartosc) - float(oczek)) < 1e-9
+        ok = (str(wartosc) == str(oczek)) if isinstance(oczek, str) else abs(float(wartosc) - float(oczek)) < 1e-9
         bledy += not ok
         linie.append(f"   {opis:66} {wartosc!s:>10} {oczek!s:>11}  {'zgodne' if ok else 'RÓŻNICA'}")
     linie += ["", f"   Różnic: {bledy} z {len(kontrole)} kontroli.", "",
