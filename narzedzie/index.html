@@ -84,6 +84,19 @@
       <p class="przypis">Oś pozioma to dzień pierwszego zakupu (dzień kohorty). Szare pola to okresy A i B, pionowe linie to zdarzenia z zakładki Zdarzenia. Powrót i marża kończą się na ostatniej kohorcie z pełnym oknem. Legenda pod kursorem pokazuje wartość i liczbę pacjentów.</p>
       <div id="ko-wykres" class="wykres"></div>
     </div>
+    <div class="karta">
+      <div class="naglowek-karty">
+        <h3>Macierz kohort: powrót według dni od pierwszego zakupu</h3>
+        <div class="filtry-wykresu" id="ko-macierz-filtry"></div>
+      </div>
+      <p class="przypis">Wiersz to kohorta (nowi pacjenci z tego samego tygodnia albo miesiąca pierwszego zakupu), kolumna to okno: odsetek pacjentów kohorty, którzy wrócili w ciągu tylu dni. Kolor: ciemniej znaczy wyżej, skala osobno w każdej kolumnie. Kropka oznacza kohortę bez pełnego okna. Kolumna „Zdarzenia” podaje numery zdarzeń z osi, które wypadają w tej kohorcie. Te same filtry co wyżej, bez podziału na serie.</p>
+      <div class="tabela-ramka macierz-ramka"><table class="tabela macierz" id="ko-macierz"></table></div>
+    </div>
+    <div class="karta">
+      <h3>Krzywa powrotu według dnia od pierwszego zakupu: okres A i okres B</h3>
+      <p class="przypis">Dla każdego dnia od pierwszego zakupu: odsetek pacjentów, którzy do tego dnia wrócili. Na każdy dzień bierzemy tylko kohorty, które ten dzień już osiągnęły, a okres A obcinamy tak samo jak w tabeli. Legenda pod kursorem pokazuje liczbę pacjentów i poziom B jako odsetek poziomu A.</p>
+      <div id="ko-krzywa" class="wykres"></div>
+    </div>
     <p class="przypis">Jak liczymy: nowy pacjent to konto z pierwszym opłaconym zamówieniem, bez względu na status. Źródło pozyskania według przyjętej reguły (pierwsze wejście pacjenta, także anonimowe sesje jego przeglądarek, a kod kampanii na pierwszym zamówieniu rozstrzyga) albo według sesji płatności. Urządzenie i przeglądarka z sesji płatności. Pierwsza usługa: internista według celu wizyty, pediatra, psychiatra, inny specjalista. Opóźnienie i pora z pierwszej wizyty. Źródło danych: <code>analiza/definicje.py</code>, <code>analiza/a5r_kohorty.py</code>, eksport <code>analiza/b_eksport.py</code>.</p>
   </section>
 
@@ -174,6 +187,13 @@
       <div class="tabela-ramka"><table class="tabela tabela-lejek" id="pz-tabela"></table></div>
     </article>
     <article class="karta">
+      <h3>Opóźnienia przy tym samym porannym ruchu</h3>
+      <div id="pz-ruch-zdania"></div>
+      <form class="filtry" id="pz-ruch-filtry" onsubmit="return false"></form>
+      <p class="przypis">Ruch poranny w dniu to wszystkie nieanulowane wizyty u internisty z terminem 6:00–11:59 tego dnia. Dni grupujemy według tego ruchu i w każdej grupie porównujemy odsetek porannych wizyt spóźnionych ponad 15 minut w obu okresach.</p>
+      <div class="tabela-ramka"><table class="tabela tabela-lejek" id="pz-ruch"></table></div>
+    </article>
+    <article class="karta">
       <h3>Powrót według opóźnienia pierwszej wizyty</h3>
       <p class="przypis">Rano spada powrót po wizytach spóźnionych, nie po punktualnych. Tabela liczy powrót w 90 dniach na tych samych dniach kalendarzowych, tylko kohorty z pełnym oknem.</p>
       <form class="filtry" id="pz-powrot-filtry" onsubmit="return false"></form>
@@ -219,6 +239,9 @@
       <div id="wy-zdania"></div>
       <form class="filtry" id="wy-filtry" onsubmit="return false"></form>
       <div id="wy-wykres" class="wykres"></div>
+      <h4 class="podtytul-karty">Kwartały rok do roku</h4>
+      <div class="tabela-ramka"><table class="tabela tabela-lejek" id="wy-kwartaly"></table></div>
+      <h4 class="podtytul-karty">Miesiące i sumy okresów</h4>
       <div class="tabela-ramka"><table class="tabela" id="wy-tabela"></table></div>
     </article>
     <article class="karta">

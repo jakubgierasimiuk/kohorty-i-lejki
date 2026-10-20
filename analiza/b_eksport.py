@@ -928,10 +928,59 @@ def po_zakupie(con, kontrole):
         f"U internisty w innych porach: {proc(100 * ro.loc[1, 'p15'] / ro.loc[1, 'n'])} wizyt spóźnionych ponad 15 minut "
         f"w okresie {O1_NAZWA} ({ile(ro.loc[1, 'n'], 'wizyta')}) i {proc(100 * ro.loc[2, 'p15'] / ro.loc[2, 'n'])} w okresie "
         f"{O2_NAZWA} ({ile(ro.loc[2, 'n'], 'wizyta')}).",
-        "Długość wizyty i czas od zapłaty do terminu się nie zmieniają. W danych nie ma grafików lekarzy, więc dane pasują "
-        "do hipotezy przeciążenia porannych godzin, ale jej nie dowodzą.",
+        "Długość wizyty i czas od zapłaty do terminu się nie zmieniają.",
     ]
     punkt = tablice_dzienne(pt, ["spec", "pora", "nowa"], "dt", ["n", "p15", "p30"])
+
+    # przepustowość poranka (a5r_punktualnosc.py, sekcje 3f–3g; odczytanie przyjęte przez Kubę po STOP 2 retencji)
+    dz = con.execute(f"""
+      SELECT dt dzien, CASE WHEN dt < DATE '{D.OKRES2}' THEN 1 ELSE 2 END okres, strftime(dt, '%Y-%m') miesiac,
+             count(*) FILTER (WHERE status <> 'cancelled') ruch, count(op) odbyte, count(*) FILTER (WHERE op > 15) spoznione,
+             count(op) FILTER (WHERE NOT nowa) odbyte_stare, count(*) FILTER (WHERE op > 15 AND NOT nowa) spoznione_stare
+      FROM b_wiz WHERE spec = 'internista' AND {RP.PORA} = 'a_rano_6_11' AND dt <= DATE '{D.KONIEC}'
+      GROUP BY ALL""").df()
+    przedz = [0, 8, 12, 16, 20, 24, 28, 32, 40, 1000]
+    etyk = ["do 8", "9–12", "13–16", "17–20", "21–24", "25–28", "29–32", "33–40", "41 i więcej"]
+    dz["przedzial"] = pd.cut(dz["ruch"], przedz, labels=etyk)
+    rt = dz.groupby(["przedzial", "okres"], observed=True).agg(
+        dni=("dzien", "size"), odbyte=("odbyte", "sum"), spoznione=("spoznione", "sum"),
+        odbyte_stare=("odbyte_stare", "sum"), spoznione_stare=("spoznione_stare", "sum")).reset_index()
+    wsp = rt.pivot(index="przedzial", columns="okres", values=["odbyte", "spoznione"]).dropna()
+    waga = wsp[("odbyte", 1)] + wsp[("odbyte", 2)]
+    roz = wsp[("spoznione", 2)] / wsp[("odbyte", 2)] - wsp[("spoznione", 1)] / wsp[("odbyte", 1)]
+    rozn = 100 * (roz * waga).sum() / waga.sum()
+    kontrole.append(("po zakupie: przy tym samym porannym ruchu, różnica (pp) / przedziały / wizyty",
+                     f"{rozn:.1f} / {len(wsp)} / {int(waga.sum())}", "26.4 / 5 / 9979"))
+    # remisy w ruchu rozstrzyga data (a5r_punktualnosc.py nie ustalał kolejności wierszy, więc jego tercyle mogą się
+    # nieznacznie różnić; kontrola z tolerancją 0,5 punktu procentowego)
+    dz = dz.sort_values("dzien").reset_index(drop=True)
+    dz["tercyl"] = dz.groupby("miesiac")["ruch"].transform(lambda x: pd.qcut(x.rank(method="first"), 3, labels=[1, 2, 3]))
+    tc = dz.groupby(["okres", "tercyl"], observed=True)[["odbyte", "spoznione"]].sum()
+    tc["proc"] = 100 * tc["spoznione"] / tc["odbyte"]
+    ref = [5.8, 5.9, 6.1, 42.2, 43.6, 43.5]
+    kontrole.append((f"po zakupie: tercyle ruchu w miesiącu w granicy 0,5 pp ({' '.join(f'{v:.1f}' for v in tc['proc'])})",
+                     "tak" if max(abs(a - b) for a, b in zip(tc["proc"], ref)) <= 0.5 else "nie", "tak"))
+    r1 = rt[rt["okres"] == 1].copy()
+    r1["proc"] = 100 * r1["spoznione"] / r1["odbyte"]
+    przyk = rt[rt["przedzial"] == "17–20"].set_index("okres")
+    med = dz.groupby("okres")["ruch"].median()
+    zdania_ruch = [
+        f"Przy tym samym porannym ruchu opóźnień jest teraz dużo więcej niż rok wcześniej. Średnio o {pp(rozn)} więcej "
+        f"porannych wizyt u internisty zaczyna się ponad 15 minut po terminie ({len(wsp)} przedziałów ruchu obecnych w obu "
+        f"okresach, {ile(waga.sum(), 'wizyta')}). Na przykład w dni z 17–20 porannymi wizytami: "
+        f"{proc(100 * przyk.loc[1, 'spoznione'] / przyk.loc[1, 'odbyte'])} ({liczba(przyk.loc[1, 'dni'])} dni) w okresie "
+        f"{O1_NAZWA} wobec {proc(100 * przyk.loc[2, 'spoznione'] / przyk.loc[2, 'odbyte'])} ({liczba(przyk.loc[2, 'dni'])} dni) "
+        f"w okresie {O2_NAZWA}.",
+        f"W okresie {O1_NAZWA} opóźnienia nie zależą od ruchu ({zakres(r1['proc'].min(), r1['proc'].max(), 1)} w każdym "
+        f"przedziale). W obrębie miesiąca dni z większym ruchem prawie nie mają więcej opóźnień: w tercylach dni według "
+        f"ruchu {', '.join(proc(v) for v in tc.loc[1, 'proc'])} w okresie {O1_NAZWA} i "
+        f"{', '.join(proc(v) for v in tc.loc[2, 'proc'])} w okresie {O2_NAZWA}. Mediana ruchu porannego to "
+        f"{liczba(med.loc[1])} wizyt na dzień w okresie {O1_NAZWA} i {liczba(med.loc[2])} w okresie {O2_NAZWA}.",
+        "Odczytanie: spadła poranna przepustowość, a nie tylko przybyło pacjentów. Możliwe przyczyny to mniejsza obsada "
+        "rano, inna organizacja zapisów albo lekarze zajęci pacjentami spoza B2C. Której z nich, z tych danych nie da się "
+        "ustalić, bo nie ma w nich grafików lekarzy.",
+    ]
+    ruch_tab = [{k: (v.item() if hasattr(v, "item") else v) for k, v in r.items()} for r in rt.astype({"przedzial": str}).to_dict("records")]
 
     # zwroty i statusy: dzień płatności
     zw = con.execute("""
@@ -983,7 +1032,7 @@ def po_zakupie(con, kontrole):
         f"Ocenę wystawia {proc(100 * oc.ocenione.sum() / oc.odbyte.sum(), 0)} pacjentów po odbytej wizycie.",
     ]
     oceny = [{k: (v.item() if hasattr(v, "item") else v) for k, v in r.items() if k != "sr"} for r in oc.to_dict("records")]
-    return {"punktualnosc": punkt, "zwroty": zwroty, "oceny": oceny,
+    return {"punktualnosc": punkt, "zwroty": zwroty, "oceny": oceny, "ruch": ruch_tab, "zdania_ruch": zdania_ruch,
             "zdania_punktualnosc": zdania_p, "zdania_zwroty": zdania_z, "zdania_oceny": zdania_o,
             "start": START.isoformat(), "dni": (KONIEC - START).days + 1}
 
@@ -1038,11 +1087,64 @@ def wynik(con, kontrole, mostek):
         w = sum_o("wydatki_google", o) + sum_o("wydatki_meta", o) + sum_o("wydatki_tiktok", o)
         return p, g, kl, w, pr, p + g - kl - w - pr
     r1, r2 = razem(1), razem(2)
+
+    # marża po kwartałach rok do roku (uwaga Kuby: suma roczna ukrywa spadek w ostatnim kwartale)
+    def okno_sum(k, od, do):
+        return sum(s[k][(od - START).days:(do - START).days + 1])
+
+    def marza_okna(od, do):
+        p_ = okno_sum("przychod_pierwsze", od, do) + okno_sum("przychod_powtorne", od, do)
+        w_ = okno_sum("wydatki_google", od, do) + okno_sum("wydatki_meta", od, do) + okno_sum("wydatki_tiktok", od, do)
+        return p_ + okno_sum("go", od, do) - okno_sum("koszt_lekarza", od, do) - w_ - okno_sum("prowizja", od, do), w_
+
+    def kwartal_od(d):
+        return dt.date(d.year, 3 * ((d.month - 1) // 3) + 1, 1)
+
+    def koniec_mies(d, n):
+        m = d.month - 1 + n
+        return dt.date(d.year + m // 12, m % 12 + 1, 1) - dt.timedelta(days=1)
+
+    kw = []
+    q = kwartal_od(OKRES2)
+    while q <= KONIEC:
+        qp = dt.date(q.year - 1, q.month, 1)
+        m2, w2 = marza_okna(q, koniec_mies(q, 3))
+        m1, w1 = marza_okna(qp, koniec_mies(qp, 3))
+        kw.append({"q": q, "m1": m1, "m2": m2, "w1": w1, "w2": w2})
+        q = koniec_mies(q, 3) + dt.timedelta(days=1)
+    nazwa_kw = lambda q: f"{MIESIACE_RZ[(q.month - 1) // 3]} kwartale {q.year}"  # noqa: E731
+    zdanie_kw = ("Po kwartałach rok do roku marża zmienia się tak: " + ", ".join(
+        f"w {nazwa_kw(k['q'])} {'+' if k['m2'] >= k['m1'] else '−'}{liczba(abs(100 * (k['m2'] / k['m1'] - 1)), 1)}%" for k in kw) + ".")
+    for k in kw:
+        if k["m2"] < k["m1"]:
+            mies = []
+            for i in range(3):
+                od = dt.date(k["q"].year, k["q"].month + i, 1)
+                odp = dt.date(od.year - 1, od.month, 1)
+                a, _ = marza_okna(odp, koniec_mies(odp, 1))
+                b_, _ = marza_okna(od, koniec_mies(od, 1))
+                mies.append((MIESIACE_RZ[od.month - 1], b_ >= a))
+            wyzsze = [m for m, w in mies if w]
+            nizsze = [m for m, w in mies if not w]
+            zdanie_kw += (f" W {nazwa_kw(k['q'])} marża jest niższa niż rok wcześniej: {zl(k['m2'])} wobec {zl(k['m1'])}, "
+                          f"choć wydatki na kampanie są {liczba(k['w2'] / k['w1'], 1)} raza wyższe ({zl(k['w2'])} wobec {zl(k['w1'])}).")
+            if wyzsze:
+                zdanie_kw += (f" Po miesiącach: w {', '.join(wyzsze)} marża jest jeszcze wyższa niż rok wcześniej, "
+                              f"w {' i '.join(nizsze)} niższa.")
+    # wrzesień ostatniego miesiąca okresu 1 jako baza porównania: start sprzedaży TelemediGO w newsletterze
+    wrz = dt.date(OKRES2.year, 9, 1)
+    go_wrz = okno_sum("go", wrz, koniec_mies(wrz, 1))
+    go_sr = okno_sum("go", START, wrz - dt.timedelta(days=1)) / ((wrz.year - START.year) * 12 + wrz.month - START.month)
+    if go_wrz > 2 * go_sr:
+        zdanie_kw += (f" Bazę porównania podnosi wrzesień {wrz.year}: TelemediGO daje wtedy {zl(go_wrz)} wobec średnio "
+                      f"{zl(go_sr)} miesięcznie wcześniej (start sprzedaży TelemediGO w newsletterze, zdarzenie na osi).")
+    kontrole.append(("wynik: marża III kw. 2026 / III kw. 2025 (zł)", f"{round(kw[-1]['m2'])} / {round(kw[-1]['m1'])}", "207713 / 222824"))
     zm = lambda a, b: f"{'+' if b >= a else '−'}{liczba(abs(100 * (b / a - 1)), 1)}%"  # noqa: E731
     ruch = lambda n, a, b, mn=False: f"{n} {('rosną' if mn else 'rośnie') if b >= a else ('spadają' if mn else 'spada')} o {liczba(abs(100 * (b / a - 1)), 1)}% ({zl(a)} → {zl(b)})"  # noqa: E731
     zdania = [
         f"Marża po koszcie lekarza, kampaniach i prowizji afiliacyjnej: {zl(r2[5])} w okresie {O2_NAZWA} wobec "
-        f"{zl(r1[5])} w okresie {O1_NAZWA}, czyli {zm(r1[5], r2[5])}.",
+        f"{zl(r1[5])} w okresie {O1_NAZWA}, czyli {zm(r1[5], r2[5])}. Ta suma ukrywa, jak zmienia się marża w kolejnych kwartałach.",
+        zdanie_kw,
         f"{ruch('Przychód z konsultacji po zwrotach', r1[0], r2[0])}, {ruch('TelemediGO', r1[1], r2[1])}. "
         f"{ruch('Koszt lekarza', r1[2], r2[2])}, {ruch('wydatki na kampanie', r1[3], r2[3], True)}, "
         f"{ruch('prowizja afiliacyjna', r1[4], r2[4])}.",
@@ -1075,7 +1177,7 @@ def ekonomia_kampanii(kontrole):
         f"{w(g.loc[('Z2', '90')])} i {w(g.loc[('Z2', '180')])}. Znak zależy od reguły, więc to wynik niepewny.",
         f"Kampania na TikToku ma wynik ujemny w obu regułach: {w(t.loc[('Z1K', '90')])} i {w(t.loc[('Z2', '90')])} na "
         f"pacjenta w 90 dniach.",
-        "Obok wyniku po 90 dniach pokazujemy wynik po 180 dniach (dopisek Kuby): pacjenci kampanii na L4 prawie nie wracają, "
+        "Obok wyniku po 90 dniach pokazujemy wynik po 180 dniach: pacjenci kampanii na L4 prawie nie wracają, "
         "a pozostali tak, więc 90 dni zaniża wartość pozostałych kampanii. Przedział przy wyniku jest warunkowy: liczony tylko "
         "z rozrzutu marży, bez niepewności atrybucji.",
     ]

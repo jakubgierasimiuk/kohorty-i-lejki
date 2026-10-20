@@ -1,4 +1,4 @@
-B — EKSPORT DANYCH NARZĘDZIA (2026-10-20 12:43, commit 7d8a58f)
+B — EKSPORT DANYCH NARZĘDZIA (2026-10-20 13:08, commit 11c2871)
 
 1. Pliki w narzedzie/dane_strony/ (bajty)
    calosc                             38,075
@@ -11,11 +11,11 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-20 12:43, commit 7d8a58f)
    strona_wejscia                    265,403
    podsumowanie                       10,824
    zdarzenia                          35,755
-   jakosc                              8,895
+   jakosc                              8,890
    kohorty                         1,441,101
-   po_zakupie                        291,505
-   wynik                              83,005
-   razem                           4,090,423
+   po_zakupie                        294,096
+   wynik                              83,682
+   razem                           4,093,686
 
 2. Kontrola: liczby z eksportu wobec notatek i wcześniejszych raportów
    co                                                                    eksport  oczekiwane  wynik
@@ -70,6 +70,8 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-20 12:43, commit 7d8a58f)
    po zakupie: internista rano ponad 15 min, spoza nowych kampanii, 2025-12 (%)       29.7        29.7  zgodne
    po zakupie: internista rano ponad 15 min, spoza nowych kampanii, 2026-01 (%)       42.6        42.6  zgodne
    po zakupie: internista rano ponad 15 min, spoza nowych kampanii, 2026-02 (%)       49.4        49.4  zgodne
+   po zakupie: przy tym samym porannym ruchu, różnica (pp) / przedziały / wizyty 26.4 / 5 / 9979 26.4 / 5 / 9979  zgodne
+   po zakupie: tercyle ruchu w miesiącu w granicy 0,5 pp (5.4 6.1 6.1 42.1 43.5 43.6)        tak         tak  zgodne
    po zakupie: zwroty L4 nowe kampanie, okres 2 (zwrócone / odbyte)   1024 / 5895 1024 / 5895  zgodne
    po zakupie: zwroty L4 pozostali, okres 2 (zwrócone / odbyte)       270 / 5080  270 / 5080  zgodne
    po zakupie: zwroty nowe kampanie okres 2: wizyty, zł, koszt lekarza 1044 / 84112 / 33975 1044 / 84112 / 33975  zgodne
@@ -80,10 +82,11 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-20 12:43, commit 7d8a58f)
    wynik: przychód z konsultacji po zwrotach, okres 2 (zł)               3228342     3228342  zgodne
    wynik: zakupy TelemediGO, okres 2                                        2468        2468  zgodne
    wynik: prowizja afiliacyjna za dwa lata (zł)                            30825       30825  zgodne
+   wynik: marża III kw. 2026 / III kw. 2025 (zł)                      207713 / 222824 207713 / 222824  zgodne
    ekonomia: nowe kampanie, wynik na pacjenta 90 dni Z1K / Z2 (zł)    3.6 / -9.4  3.6 / -9.4  zgodne
    zdarzenia: powrót 90 dni stare kampanie przed / po 2.03.2026 (%)   23.3 / 20.9 23.3 / 20.9  zgodne
 
-   Różnic: 0 z 63 kontroli.
+   Różnic: 0 z 66 kontroli.
 
 3. Zdarzenia na osi czasu
    2025-05-17  jakosc   Godzina bez danych

@@ -246,3 +246,11 @@ select, input[type="date"] {
 .filtry-daty input { width: 150px; }
 #pz-tabela td:nth-child(2), #pz-tabela th:nth-child(2) { text-align: left; }
 #ek-tabela td:last-child { white-space: normal; color: var(--bad); font-size: 12px; min-width: 140px; }
+
+/* macierz kohort */
+.macierz-ramka { max-height: 640px; overflow: auto; }
+.macierz td.macierz-kom { text-align: center; font-variant-numeric: tabular-nums; border-bottom: 2px solid var(--surface); border-left: 2px solid var(--surface); }
+.macierz td.macierz-pusta { text-align: center; color: var(--muted); }
+.macierz td.macierz-zd { text-align: left; color: var(--ink-2); font-size: 12px; }
+.macierz th { text-align: center; }
+.podtytul-karty { font-size: 14px; margin: 18px 0 6px; }

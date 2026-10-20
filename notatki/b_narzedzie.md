@@ -168,3 +168,23 @@ Do tego dopisek Kuby z przeglądu ekonomii kampanii (`notatki/a5_ekonomia.md`, s
 - **`ZALOZENIA.md`:** sposób porównania okresów w kohortach przy własnych datach oraz dni księgowania w wyniku biznesu (sekcja „Decyzje techniczne”).
 - **`analiza/README.md`:** w wierszu `b_eksport.py` dopisać kohorty, „Po zakupie”, wynik biznesu i zdarzenia retencji; kontrola 63 liczb; około 13 sekund; importuje `a5r_punktualnosc.py` i `a5r_struktura.py`.
 - **`PLAN.md`:** punkt B: kohorty, „Po zakupie”, wynik biznesu i oś zdarzeń zrobione. Zostają priorytety i niewiadome z punktu C oraz ostateczna odpowiedź „czy to wzrost”.
+
+## 11. Trzy poprawki Kuby po przeglądzie drugiej wersji (2026-10-20)
+
+**Poprawki Kuby (wklejone do rozmowy, w skrócie):**
+1. „Po zakupie” nie może mówić, że dane „pasują do hipotezy przeciążenia, ale jej nie dowodzą”. Przyjęte odczytanie: przy tym samym porannym ruchu w dniu opóźnień jest o 26,4 punktu procentowego więcej niż rok wcześniej, więc spadła poranna przepustowość (obsada, organizacja zapisów albo lekarze zajęci pacjentami spoza B2C), a nie tylko przybyło pacjentów. Pokazać to porównanie.
+2. W „Kohortach” brakuje macierzy kohort (kohorta tygodniowa × dni od pierwszego zakupu: 7, 14, 30, 60, 90, 180, mapa ciepła) i krzywej powrotu według dnia od pierwszego zakupu dla okresu A i B, z tymi samymi filtrami.
+3. W „Wyniku biznesu” marża w ostatnim kwartale jest niższa niż rok wcześniej mimo dwa razy wyższych wydatków, a suma roczna (+26,6%) to ukrywa. Pokazać marżę po kwartałach rok do roku z wydatkami obok i dopisać to zdanie w nagłówku zakładki.
+
+**Co zrobione:**
+1. **Po zakupie.** Usunięte zdanie o hipotezie. Nowa karta „Opóźnienia przy tym samym porannym ruchu”: trzy zdania (różnica przy tym samym ruchu, brak zależności od ruchu w okresie 1 i w obrębie miesiąca, odczytanie) i tabela przedziałów ruchu, okres 1 wobec okresu 2, z liczbą wizyt i dni, dla wszystkich pacjentów albo spoza nowych kampanii. Liczone tym samym kodem co `a5r_punktualnosc.py`, sekcje 3f–3g. Kontrola: +26,4 punktu procentowego, 5 przedziałów, 9 979 wizyt, zgodne. Tercyle ruchu w miesiącu różnią się od raportu retencji najwyżej o 0,4 punktu procentowego, bo przy równym ruchu o przydziale dnia do tercyla decyduje kolejność wierszy, a skrypt retencji jej nie ustalał. Eksport ustala ją według daty, a kontrola ma tolerancję 0,5 punktu.
+2. **Kohorty.** Dwie nowe karty pod wykresem, z tymi samymi filtrami (bez podziału na serie):
+   - macierz kohort: tygodnie albo miesiące × okna 7, 14, 30, 60, 90 i 180 dni, mapa ciepła z jednej barwy (skala osobno w każdej kolumnie), kropka przy kohorcie bez pełnego okna, kolumna z numerami zdarzeń z osi w danej kohorcie;
+   - krzywa powrotu od 1. do 180. dnia dla okresu A i B. Na każdy dzień liczymy tylko kohorty, które go już osiągnęły, z tym samym obcięciem okresu A co w tabeli. Legenda pokazuje liczbę pacjentów i poziom B jako odsetek poziomu A. Przy porównaniu rok do roku krzywa kończy się na 27,5% i 22,2% w 180 dniach, jak w notatkach.
+3. **Wynik biznesu.** Drugie zdanie nagłówka mówi wprost, że suma ukrywa przebieg w kwartałach. Trzecie podaje zmianę marży w każdym kwartale rok do roku: +71,4%, +43,0%, +13,0% i −6,8% w III kwartale 2026 (207 713 zł wobec 222 824 zł), choć wydatki na kampanie są 2,1 raza wyższe (181 555 zł wobec 87 431 zł). Nowa tabela „Kwartały rok do roku”: marża, wydatki na kampanie, przychód z konsultacji i TelemediGO, koszt lekarza, nowi pacjenci, z obu okresów i ze zmianą.
+   - **Uwaga do sformułowania Kuby:** w lipcu 2026 marża jest jeszcze wyższa niż rok wcześniej (73 384 zł wobec 66 832 zł), niższa jest w sierpniu i wrześniu. Niższy jest więc cały III kwartał, a nie każdy z trzech miesięcy. Zdanie na stronie mówi to dokładnie.
+   - Do tego zdanie o bazie porównania: we wrześniu 2025 TelemediGO dało 32 930 zł wobec średnio 11 238 zł miesięcznie wcześniej (start sprzedaży w newsletterze). Bez tego wrzesień 2026 wyglądałby na mniejszy spadek.
+- Ze strony zniknęły wzmianki o Kubie (stronę czyta Telemedi). W kodzie i w notatkach zostają.
+- Kontrola eksportu: 66 liczb, 0 różnic.
+
+**Propozycja wpisu do `DECYZJE.md`:** trzy poprawki Kuby do drugiej wersji narzędzia (jak wyżej) i ich wykonanie. Do `ZNALEZISKA.md` (sekcja wyniku biznesu): marża w III kwartale 2026 niższa niż rok wcześniej o 6,8% przy wydatkach na kampanie wyższych 2,1 raza; suma roczna +26,6% to ukrywa.
