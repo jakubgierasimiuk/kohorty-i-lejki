@@ -496,7 +496,7 @@ def main():
     r("   i _B (E2a), po_naprawie_A i _B, wylacz_* (zmiana marży przy 100%, 50% i 0% pacjentów dodatkowych; przy 100% to")
     r("   −obecny_wynik). Osobno, w horyzoncie 180 dni i nie dodawane do sum: zgoda_1 i zgoda_2 (E2b, dwa odczytania).")
     r("   Scenariusz poranka w sekcji C. Przeglądarki wbudowane: 0 zł w tym rachunku (E2c).")
-    wiersze = []
+    wiersze, w180_ = [], []
     for kamp in ("meta_prosp_l4_szybko", "tt_prosp_l4_15min", "nowe kampanie"):
         kp = "obie" if kamp == "nowe kampanie" else kamp
         for reg in ("Z1K", "Z2"):
@@ -511,7 +511,18 @@ def main():
                             "wylacz_50proc": round(p.wydatki_rok - 0.5 * p.marza90_rok),
                             "wylacz_0proc": round(p.wydatki_rok),
                             "zgoda_1_180dni": b.wartosc_1_zl, "zgoda_2_180dni": b.wartosc_2_zl})
+            w180_.append({"kampania": kamp, "regula": reg, "obecny_wynik_90": round(p.wynik90_rok),
+                          "obecny_wynik_180": round(p.wynik180_rok),
+                          "po_naprawie_A_180": round(p.wynik180_rok + a.wariant_A_zl),
+                          "po_naprawie_B_180": round(p.wynik180_rok + a.wariant_B_zl),
+                          "wylacz_100proc_180": round(p.wydatki_rok - p.marza180_rok),
+                          "wylacz_50proc_180": round(p.wydatki_rok - 0.5 * p.marza180_rok)})
     pokaz(pd.DataFrame(wiersze))
+    r("\n   E3b. To samo w horyzoncie 180 dni od pozyskania (dopisek Kuby po przeglądzie: wynik po 180 dniach zawsze obok")
+    r("   wyniku po 90 dniach, bo pacjenci kampanii na L4 prawie nie wracają, a pozostali tak). Marża w 180 dniach pochodzi")
+    r("   z kohort 1.10.2025–3.04.2026 (TikTok: 299 pacjentów według przyjętej reguły), czyli z innych kohort niż w 90 dniach.")
+    r("   Naprawa zwrotów (A, B) liczona jak w E2a; jej wartość prawie nie zależy od horyzontu.")
+    pokaz(pd.DataFrame(w180_))
     r("   napraw_* i wylacz_* to zmiana marży wobec dziś; po_naprawie = wynik kampanii po naprawie. Obie drogi zakładają, że")
     r("   reszta biznesu się nie zmienia. Wariant B zmniejsza liczbę zamówień przy tych samych wydatkach.")
 

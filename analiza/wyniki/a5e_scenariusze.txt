@@ -1,5 +1,5 @@
 A5 EKONOMIA KAMPANII, CZĘŚĆ 2 — KOSZTY NOWYCH KAMPANII NA L4, SCENARIUSZE, DODATKOWOŚĆ, NAPRAWIĆ ALBO WYŁĄCZYĆ
-(2026-10-19 22:02), schemat `czyste`. Nowe kampanie na L4 = meta_prosp_l4_szybko (od 3.11.2025) i
+(2026-10-20 09:19), schemat `czyste`. Nowe kampanie na L4 = meta_prosp_l4_szybko (od 3.11.2025) i
 tt_prosp_l4_15min (od 9.02.2026). Reguły źródła: Z1K (przyjęta) i Z2 (sesja płatności). Definicje jak w
 analiza/a5e_ekonomia.py. Kwoty w zł. Scenariusze opisują, ile byłoby warte coś, czego dane nie dowodzą.
 
@@ -265,5 +265,17 @@ E3. ZESTAWIENIE NA ROK: OBECNY WYNIK, NAPRAWIĆ, WYŁĄCZYĆ (zł)
         tt_prosp_l4_15min     Z2        -30801             7605             2976         -23196         -27825           30801          56633         82464               0            -611
             nowe kampanie    Z1K         15917            57112            22283          73029          38200          -15917         114935        245787            1900              53
             nowe kampanie     Z2        -59536            31795            12680         -27741         -46856           59536         152661        245787            1429             106
+
+   E3b. To samo w horyzoncie 180 dni od pozyskania (dopisek Kuby po przeglądzie: wynik po 180 dniach zawsze obok
+   wyniku po 90 dniach, bo pacjenci kampanii na L4 prawie nie wracają, a pozostali tak). Marża w 180 dniach pochodzi
+   z kohort 1.10.2025–3.04.2026 (TikTok: 299 pacjentów według przyjętej reguły), czyli z innych kohort niż w 90 dniach.
+   Naprawa zwrotów (A, B) liczona jak w E2a; jej wartość prawie nie zależy od horyzontu.
+                 kampania regula  obecny_wynik_90  obecny_wynik_180  po_naprawie_A_180  po_naprawie_B_180  wylacz_100proc_180  wylacz_50proc_180
+     meta_prosp_l4_szybko    Z1K            27845             29882              72144              46368              -29882              66720
+     meta_prosp_l4_szybko     Z2           -28735            -27474              -3201             -17729               27474              95398
+        tt_prosp_l4_15min    Z1K           -11928            -13468               1423              -7658               13468              47966
+        tt_prosp_l4_15min     Z2           -30801            -32341             -24736             -29365               32341              57402
+            nowe kampanie    Z1K            15917             16414              73526              38697              -16414             114687
+            nowe kampanie     Z2           -59536            -59815             -28020             -47135               59815             152801
    napraw_* i wylacz_* to zmiana marży wobec dziś; po_naprawie = wynik kampanii po naprawie. Obie drogi zakładają, że
    reszta biznesu się nie zmienia. Wariant B zmniejsza liczbę zamówień przy tych samych wydatkach.
