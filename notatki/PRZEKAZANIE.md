@@ -2,7 +2,7 @@
 
 Zasada z `CLAUDE.md`, punkt 14: każda sesja czyta ten plik na starcie i aktualizuje go na końcu swojej pracy.
 
-**Ostatnia aktualizacja:** 2026-10-19, po zamknięciu punktu A4 (sesja „a4-definicje”, uruchomiona przez sesję, która prowadziła A1–A3).
+**Ostatnia aktualizacja:** 2026-10-20, przy przekazaniu roli sesji prowadzącej nowej sesji (decyzja Kuby, `DECYZJE.md` 2026-10-20). Poprzednia sesja prowadząca prowadziła A1–A5 i uruchamiała sesje A4, A5 (retencja, pozyskanie, ekonomia) i B.
 
 ## 1. Gdzie jesteśmy
 
@@ -18,6 +18,13 @@ Zasada z `CLAUDE.md`, punkt 14: każda sesja czyta ten plik na starcie i aktuali
 | **B Narzędzie — szkielet** | **startuje przed końcem A5 (decyzja Kuby): układ strony, lejek, oś zdarzeń, jakość danych; kohorty po drugim zatrzymaniu sesji retencji** | — |
 
 Status wszystkich punktów: `notatki/PLAN.md`.
+
+**Stan na 2026-10-20 rano (dla nowej sesji prowadzącej):**
+- **A5 ekonomia kampanii:** policzona i zrecenzowana przez Codeksa (commity `d6f63e4`, `77c18aa`, `8e362bf`), w trakcie przeglądu Kuby w sesji „A5: ekonomia kampanii” (`local_2813a0e9-04d5-4045-9d78-f4d2fad741f0`). Notatka `notatki/a5_ekonomia.md`, propozycje wpisów w sekcji 9 (założenia od 39). **Scala ją poprzednia sesja prowadząca** (`local_06eb3146-72e0-461b-a459-034c491fd691`) po przyjęciu przez Kubę i wtedy wiadomością oddaje wspólne notatki nowej sesji prowadzącej.
+- **B szkielet narzędzia:** zbudowany (commit `b76a7de`), plik publikacji GitHub Pages gotowy (`66ce8f8`, nic nie publikuje). Czeka na przegląd Kuby w sesji „B: szkielet narzędzia” (`local_3d5ab14b-1c4c-4fbb-b051-cdffdbeabf1b`), podgląd lokalny pod http://127.0.0.1:8765/. Jej propozycje wpisów będą w `notatki/b_narzedzie.md`. Kohorty dochodzą do narzędzia po zamknięciu A5 (dane retencji: `PLAN.md`, sekcja B).
+- **Hosting:** GitHub Pages z repozytorium w neutralnej organizacji (`DECYZJE.md`). Organizację zakłada Kuba i poda nazwę. Każda akcja na GitHubie tylko za zgodą Kuby.
+- **C:** w toku w nowej sesji prowadzącej (zakres: `DECYZJE.md` 2026-10-20). Pliki tej pracy: `analiza/c_*.py`, `analiza/wyniki/c_*`, `notatki/c_szkic.md`.
+- Sesje A4, A5 retencja i A5 pozyskanie są zamknięte. Pierwsza sesja projektu (bezpieczeństwo, hosting): `local_20b4afd7-a9cf-430c-a930-9737c9b50eb9`.
 
 **Własność plików w A5 (dwie sesje pracują naraz w tym samym folderze):**
 - sesja retencji (zamknięta): `analiza/a5r_*.py`, `analiza/wyniki/a5r_*`, `notatki/a5_retencja.md`, `notatki/recenzje/a5r_*`. Moduł `analiza/definicje.py` od zamknięcia retencji należy do sesji prowadzącej;

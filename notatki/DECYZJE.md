@@ -143,3 +143,15 @@ Decyzje podjęte w trakcie pracy (metoda, podziały, narzędzie, hosting) — co
 
 **Scalenie:** sesja prowadząca scaliła część retencji we wspólnych notatkach: założenia 33–38, znaleziska (sekcja A5, retencja), plan (B i C), przekazanie, spis skryptów. Moduł `analiza/definicje.py` przejmuje sesja prowadząca.
 
+
+## 2026-10-20 — nowa sesja prowadząca i szkic punktu C na poranny przegląd
+
+**Decyzja Kuby:** po scaleniu ekonomii kampanii rola sesji prowadzącej przechodzi do nowej sesji, bo dotychczasowa jest już długa (zasada 60% kontekstu, `CLAUDE.md` punkt 14). Nowa sesja przygotowuje na poranny przegląd Kuby szkic punktu C:
+- **najpierw brakująca analiza TelemediGO:** skąd wzrost sprzedaży o 40%; ile dają opłaty wobec zniżek udzielonych na wizytach; czy wizyty ze zniżką u specjalistów pokrywają koszt lekarza; czy TelemediGO zmienia powroty, z zastrzeżeniem samoselekcji (kupują je pacjenci, którzy i tak planują wracać);
+- **lista priorytetów** od najważniejszego, każda pozycja z wartością w marży i założeniami, sposobem pomiaru i czasem wdrożenia, a przy słabych wynikach obie drogi: naprawić albo wyłączyć;
+- **lista „czego nie da się rozstrzygnąć”**, z testem przy każdej pozycji;
+- **propozycja ostatecznej odpowiedzi „czy to wzrost”** do akceptacji Kuby.
+
+O rundzie konsylium na liście priorytetów Kuba decyduje rano.
+
+**Jak wykonane:** sesja ekonomii kampanii jeszcze wprowadzała uwagę Kuby z przeglądu, gdy przyszła ta decyzja. Żeby nie tracić czasu i nie mieć dwóch piszących we wspólnych notatkach, nowa sesja prowadząca startuje od razu, od analizy TelemediGO we własnych plikach. Ekonomię scala dotychczasowa sesja prowadząca po przyjęciu wyników przez Kubę. Potem jedną wiadomością przekazuje nowej sesji wspólne notatki i całą rolę.
