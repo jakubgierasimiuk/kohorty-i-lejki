@@ -19,7 +19,7 @@ Kolejność: **wstępna analiza → narzędzie → uzupełnienie analizy → wer
 | A2 | Jakość danych | zrobione: raport (commit `b7466aa`), czyszczenie przyjęte przez Kubę, warstwa `czyste` (`analiza/a2_czyste.py`). Zamówienia testowe do ponownego przeglądu w punkcie D |
 | A3 | Odtworzenie dashboardu | zrobione, przyjęte przez Kubę (commit `b91975a`, `analiza/a3_dashboard.py`, `analiza/wyniki/a3_dashboard.txt`) |
 | A4 | Definicje (razem) | zrobione: definicje przyjęte przez Kubę (`ZALOZENIA.md` 16–27, `analiza/a4_definicje.py`, `analiza/wyniki/a4_definicje.txt`), recenzja Codeksa (Sol) uwzględniona (`notatki/recenzje/a4_codex.md`) |
-| A5 | Pierwsze kohorty, lejek, po zakupie, zdarzenia | zrobione: część pozyskania (`f240505`) i część retencji (`c5b17ea` … `f8fda6d`) przyjęte przez Kubę i scalone; dalej: ekonomia kampanii i wspólne wstępne wnioski |
+| A5 | Pierwsze kohorty, lejek, po zakupie, zdarzenia | zrobione w całości: pozyskanie (`f240505`), retencja (`c5b17ea` … `f8fda6d`) i ekonomia kampanii (`d6f63e4` … `24ac35d`), wszystko przyjęte przez Kubę i scalone |
 | B | Narzędzie | startuje przed końcem A5 (decyzja Kuby 2026-10-19): szkielet, czyli układ, lejek, oś zdarzeń i jakość danych; kohorty po drugim zatrzymaniu sesji retencji |
 | C | Uzupełnienie analizy, priorytety, niewiadome | w toku (od 2026-10-20, nowa sesja prowadząca): analiza TelemediGO, szkic listy priorytetów, niewiadomych i odpowiedzi „czy to wzrost” na poranny przegląd Kuby |
 | D | Weryfikacja, publikacja, mail | do zrobienia |
@@ -92,6 +92,7 @@ Przy każdej: warianty i to, ile każdy zmienia w liczbie nowych pacjentów, w p
 
 - *(dopisane 2026-10-19 po części pozyskania A5)* Oś czasu zdarzeń (`analiza/wyniki/a5p_zdarzenia.csv`), lejek w podziałach z pliku `analiza/wyniki/a5p_lejek_dzienny.csv.gz`, osobne wiersze sesji zalogowanych od wejścia i zakupów samego TelemediGO. Przy lejku nagłówek nie gubi awarii w Safari na iOS ani strat w przeglądarkach wbudowanych w aplikacje (dopisek Kuby).
 - *(dopisane 2026-10-19 po części retencji A5)* Kohorty z plików `analiza/wyniki/a5r_kohorty_dzienne.csv` (nowi, powroty w 30/60/90 dniach, kolejne zamówienia i marża w 30–365 dniach; puste = brak pełnego okna), opóźnienia wizyt z `a5r_punktualnosc_tygodnie.csv`, zdarzenia retencji z `a5r_zdarzenia.csv`. Spadek powrotu w 90 dniach (z 23,9% do 17,4%) pokazujemy w obu wersjach reguły źródła: przyjęta reguła 4,6 punktu nowych kampanii i 2,0 starych, sesja płatności 3,0 i 3,5 (dopisek Kuby).
+- *(dopisane 2026-10-20 po ekonomii kampanii A5)* Do narzędzia (punkt B): zestawienie `analiza/wyniki/a5e_kampanie.csv` (grupy, kampanie, kanały; obie reguły; okna 90, 180 i pełny rok). **Wynik po 180 dniach zawsze obok wyniku po 90 dniach** (dopisek Kuby), z dopiskiem, że to inne kohorty (do 3.04.2026). Przy każdej kampanii obie reguły obok siebie i oznaczenie „wynik zależny od reguły atrybucji”. Przedziały 95% opisane jako warunkowe.
 - *(decyzja Kuby 2026-10-19)* **Kolejność:** najpierw szkielet (układ strony, lejek, oś zdarzeń, jakość danych), kohorty po drugim zatrzymaniu sesji retencji. Warunki techniczne do czasu wyboru hostingu i własność plików: `DECYZJE.md`, wpis „szkielet narzędzia (punkt B) przed końcem A5”.
 
 **Stop — na starcie: Kuba wybiera technologię i układ strony. Na końcu: Kuba przegląda narzędzie lokalnie, przed jakąkolwiek publikacją.**
@@ -109,6 +110,19 @@ Przy każdej: warianty i to, ile każdy zmienia w liczbie nowych pacjentów, w p
   - **Wysyłki CRM:** widać kliknięcia, nie wysyłki. Liczba wejść na 1 000 pacjentów spada z 56–108 do 24–52 miesięcznie; nie wiemy, czy z powodu mniejszej liczby wysyłek, czy mniejszej klikalności.
   - **Luty 2026:** brak spadku mimo opóźnień; różni się od marca–maja w porównaniu nominalnym (z = 2,35), wynik eksploracyjny.
   - **Mechanizm opóźnień:** w tym samym miesiącu i przy tej samej liczbie wizyt w godzinie obecność pacjentów nowych kampanii prawie nie zmienia opóźnienia (0,7 punktu). Potrzebne dane o obsadzie, kolejce i zaległościach z wcześniejszych godzin.
+- *(dopisane 2026-10-20 po ekonomii kampanii A5, `notatki/a5_ekonomia.md`)* **Kandydaci na listę priorytetów z ekonomii kampanii:**
+  - Do punktu C, lista priorytetów, trzy pozycje z obiema drogami i liczbami z punktu 7, każda z wynikiem po 90 i po 180 dniach (dopisek Kuby):
+    - TikTok na L4 (wyłączyć albo naprawić zwroty);
+    - Meta na L4 (decyzja po teście dodatkowości);
+    - zwroty po wizytach L4 (obietnica reklamy).
+    Do tego `gs_generic_specjalisci` jako nowy kandydat.
+- *(dopisane 2026-10-20 po ekonomii kampanii A5)* **Kolejne pozycje listy niewiadomych:**
+  1. **Czy pacjenci nowych kampanii są dodatkowi.** Test: wyłączenie kampanii na L4 w losowej połowie województw na 4–6 tygodni (punkt 6) i badanie przyrostu w panelach reklamowych. Od wyniku zależy, czy wyłączenie Meta na L4 kosztuje, czy daje marżę (od −27,8 do +163,3 tys. zł rocznie). Przy okazji warto policzyć L4 tygodniowo z trendem przed startem i niepewnością uwzględniającą zależność między dniami (recenzja Codeksa).
+  2. **Która reguła źródła jest bliższa prawdy dla kampanii bez kodu** (Google Ads ogólne, Meta lekarz online). Znak ich wyniku zależy od reguły. To ten sam test: grupa kontrolna bez reklamy.
+  3. **Powód zwrotów po wizycie L4** (już na liście z części retencji). Od niego zależy, czy naprawa zwrotów jest bliżej wariantu A (+57 tys. zł), czy B (+22 tys. zł).
+  4. **Koszt porannej obsady internistów.** Bez niego nie wycenimy netto naprawy przepustowości poranka.
+  5. **`gs_generic_specjalisci` traci w obu regułach** (marża 32 zł na pacjenta w 90 dniach przy koszcie pozyskania 56–78 zł). Kandydat do punktu C, z obiema drogami.
+  6. **Rachunek w 90 i 180 dniach nie obejmuje marży po 180 dniach.** Dla kampanii z powracającymi pacjentami to zaniża wynik. W okresie 1 marża na pacjenta w 365 dniach wynosiła 83,6 zł wobec 66,6 zł w 90 dniach. Dla nowych kampanii na L4 różnica jest mała.
 - Uzupełnienie narzędzia.
 
 **Stop — przegląd z Kubą.**

@@ -20,7 +20,7 @@ Zasada z `CLAUDE.md`, punkt 14: każda sesja czyta ten plik na starcie i aktuali
 Status wszystkich punktów: `notatki/PLAN.md`.
 
 **Stan na 2026-10-20 rano (dla nowej sesji prowadzącej):**
-- **A5 ekonomia kampanii:** policzona i zrecenzowana przez Codeksa (commity `d6f63e4`, `77c18aa`, `8e362bf`), w trakcie przeglądu Kuby w sesji „A5: ekonomia kampanii” (`local_2813a0e9-04d5-4045-9d78-f4d2fad741f0`). Notatka `notatki/a5_ekonomia.md`, propozycje wpisów w sekcji 9 (założenia od 39). **Scala ją poprzednia sesja prowadząca** (`local_06eb3146-72e0-461b-a459-034c491fd691`) po przyjęciu przez Kubę i wtedy wiadomością oddaje wspólne notatki nowej sesji prowadzącej.
+- **A5 ekonomia kampanii:** zrobiona, przyjęta przez Kubę (dopisek: wynik po 180 dniach zawsze obok wyniku po 90 dniach) i scalona we wspólnych notatkach (założenia 39–43). Commity `d6f63e4` … `24ac35d`. **Punkt A5 jest zamknięty w całości.** Rola sesji prowadzącej i wspólne notatki przechodzą do nowej sesji prowadzącej (decyzja Kuby, `DECYZJE.md` 2026-10-20).
 - **B szkielet narzędzia:** zbudowany (commit `b76a7de`), plik publikacji GitHub Pages gotowy (`66ce8f8`, nic nie publikuje). Czeka na przegląd Kuby w sesji „B: szkielet narzędzia” (`local_3d5ab14b-1c4c-4fbb-b051-cdffdbeabf1b`), podgląd lokalny pod http://127.0.0.1:8765/. Jej propozycje wpisów będą w `notatki/b_narzedzie.md`. Kohorty dochodzą do narzędzia po zamknięciu A5 (dane retencji: `PLAN.md`, sekcja B).
 - **Hosting:** GitHub Pages z repozytorium w neutralnej organizacji (`DECYZJE.md`). Organizację zakłada Kuba i poda nazwę. Każda akcja na GitHubie tylko za zgodą Kuby.
 - **C:** w toku w nowej sesji prowadzącej (zakres: `DECYZJE.md` 2026-10-20). Pliki tej pracy: `analiza/c_*.py`, `analiza/wyniki/c_*`, `notatki/c_szkic.md`.

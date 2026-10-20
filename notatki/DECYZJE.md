@@ -155,3 +155,10 @@ Decyzje podjęte w trakcie pracy (metoda, podziały, narzędzie, hosting) — co
 O rundzie konsylium na liście priorytetów Kuba decyduje rano.
 
 **Jak wykonane:** sesja ekonomii kampanii jeszcze wprowadzała uwagę Kuby z przeglądu, gdy przyszła ta decyzja. Żeby nie tracić czasu i nie mieć dwóch piszących we wspólnych notatkach, nowa sesja prowadząca startuje od razu, od analizy TelemediGO we własnych plikach. Ekonomię scala dotychczasowa sesja prowadząca po przyjęciu wyników przez Kubę. Potem jedną wiadomością przekazuje nowej sesji wspólne notatki i całą rolę.
+
+## 2026-10-20 — wyniki ekonomii kampanii (punkt A5)
+
+Decyzja Kuby: wyniki przyjęte do scalenia, z jednym dopiskiem. W narzędziu i przy priorytetach obok wyniku po 90 dniach pokazujemy też wynik po 180 dniach. Pacjenci kampanii na L4 prawie nie wracają, a pozostali tak, więc okno 90 dni zaniża wartość pozostałych kampanii. Recenzja Codeksa (Sol) uwzględniona przed przeglądem: `notatki/recenzje/a5e_codex.md`. Pełny opis: `notatki/a5_ekonomia.md`.
+
+**Scalenie:** sesja prowadząca scaliła ekonomię kampanii we wspólnych notatkach: założenia 39–43, znaleziska (sekcja ekonomia kampanii), plan (B i C), spis skryptów. Punkt A5 jest zamknięty w całości.
+

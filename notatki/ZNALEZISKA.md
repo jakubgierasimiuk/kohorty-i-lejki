@@ -166,3 +166,34 @@ Szczegóły, liczby i metoda: `notatki/a5_retencja.md`. Raporty: `analiza/wyniki
   - **Zwroty po wizytach L4 w nowych kampaniach (ważne dla listy priorytetów):** 17,4% odbytych wizyt L4 pacjentów kampanii `meta_prosp_l4_szybko` i `tt_prosp_l4_15min` kończy się zwrotem po wizycie (1 024 z 5 895 w okresie 2), wobec 5,3% L4 pozostałych pacjentów (270 z 5 080) i 6,0% w okresie 1. Kod rabatowy i opóźnienie nie zmieniają odsetka. W okresie 2 wszystkie zwroty po wizycie pacjentów nowych kampanii to 1 044 wizyty, 84 112 zł zwróconych zapłat i 33 975 zł kosztu lekarza za te wizyty. Powodu zwrotu w danych nie ma (możliwe odczytanie: lekarz nie wystawia L4, którego pacjent oczekuje po obietnicy reklamy).
   - **Niska zgoda marketingowa pacjentów nowych kampanii (ważne dla listy priorytetów):** 37,8% wobec 63,8–64,4% pacjentów starych kampanii; wejście z newslettera albo SMS-a w dniach 1–90 ma 8,2% z nich wobec 17,5–17,9%. Newsletter i SMS-y do tych pacjentów prawie nie docierają.
   - **Brak wyraźnego zdarzenia w powrocie starych kampanii:** najsilniejszy kandydat 2.03.2026 (z = −3,943, poniżej progu 4): 23,3% przed, 20,9% po. Luty 2026 bez spadku mimo opóźnień — trop eksploracyjny.
+
+## 2026-10-20 — ekonomia kampanii (punkt A5)
+
+Szczegóły, liczby i metoda: `notatki/a5_ekonomia.md`. Raporty: `analiza/wyniki/a5e_*.txt`, zestawienie `analiza/wyniki/a5e_kampanie.csv`. Recenzja Codeksa (model Sol) uwzględniona. Wynik po 180 dniach stoi zawsze obok wyniku po 90 dniach (dopisek Kuby).
+
+**W skrócie:**
+
+1. **Nowe kampanie na L4 pozyskują pacjenta taniej niż reszta kampanii płatnych, ale ten pacjent zostawia prawie o połowę mniej marży.** Według przyjętej reguły źródła wynik na pacjenta to +3,6 zł po 90 dniach i +7,0 zł po 180 dniach. Według sesji płatności to −9,4 zł i −5,2 zł. Znak zależy od reguły atrybucji, więc to wynik **niepewny**. Pozostałe kampanie płatne mają +20,0 zł po 90 dniach i +29,7 zł po 180 dniach.
+2. **Kampania na TikToku ma wynik ujemny w obu regułach i w obu oknach:** −4,6 i −17,8 zł na pacjenta po 90 dniach oraz −1,1 i −11,0 zł po 180 dniach, przy małej próbie. Kampania Meta na L4 jest niepewna: +6,5 i −6,5 zł po 90 dniach oraz +8,2 i −4,3 zł po 180 dniach.
+3. **Niska marża tych pacjentów to kody rabatowe, zwroty po wizycie L4 i prawie zerowe powroty.** Tańszy lekarz (internista) częściowo to równoważy.
+4. **Zgoda marketingowa i przeglądarki wbudowane w aplikacje nie dają w tym rachunku wyraźnej wartości.** U pacjentów nowych kampanii zgoda prawie nie zmienia powrotu. Surowa konwersja w przeglądarkach wbudowanych nie jest w tych kampaniach niższa niż w zwykłych.
+5. **Największa dźwignia naprawy to zwroty po wizytach L4.** Gdyby spadły do poziomu pozostałych pacjentów, dawałoby to od 22 do 57 tys. zł marży rocznie według przyjętej reguły.
+6. **Dane nie rozstrzygają, czy pacjenci tych kampanii są dodatkowi.** Łączne pozyskanie w pozostałych kanałach po startach kampanii nie spadło wyraźnie. Widać jednak sygnał względnego osłabienia L4 w pozostałych kanałach po starcie kampanii Meta.
+7. **Hipoteza porannych opóźnień to tylko scenariusz: od 0 do 65 tys. zł marży rocznie.** W wariancie wąskim wychodzi około 12 tys. zł. Na pacjenta nowych kampanii to od 0 do 12,6 zł. Szeroki wariant zjada cały ich wynik według przyjętej reguły.
+
+**Szczegóły:**
+
+- Nowe kampanie na L4 według przyjętej reguły: koszt pozyskania 32,7 zł, marża 36,3 zł, wynik +3,6 zł na pacjenta w 90 dniach. Według sesji płatności: 45,6 zł, 36,1 zł i −9,4 zł. Pozostałe kampanie płatne: +20,0 zł i +18,7 zł. Wynik nowych kampanii zależy od reguły atrybucji (niepewny). TikTok ma wynik ujemny w obu regułach (−4,6 i −17,8 zł), a Meta na L4 jest niepewna (+6,5 i −6,5 zł).
+- Według sesji płatności prawie wszystkie kampanie pozyskujące mają wynik ujemny w 90 dniach, a według przyjętej reguły dodatni. To własność reguły, nie błąd kodu (punkt 2, potwierdził Codex).
+- Marża pacjentów nowych kampanii jest niższa o 27,9 zł na pacjenta. Odpowiadają za to kody rabatowe (−12,8 zł), zwroty (−8,7 zł), brak powrotów (−12,1 zł), niższa cena (−6,7 zł) i rzadsze TelemediGO (−3,8 zł). Tańszy lekarz równoważy +16,2 zł.
+- Zgoda marketingowa u pacjentów nowych kampanii prawie nie zmienia ich powrotu (4,2% wobec 4,1%).
+- W nowych kampaniach surowa konwersja sesji do pierwszego zamówienia w przeglądarkach wbudowanych w aplikacje nie jest niższa niż w zwykłych (bez rozdzielenia urządzenia, daty i pacjenta).
+- `gs_generic_specjalisci` ma wynik ujemny w obu regułach i oknach. `gs_generic_erecepta` drożeje: koszt pozyskania rośnie z 48,8 do 59,8 zł.
+- Dodatkowość: nie widać dużego spadku łącznego pozyskania w pozostałych kanałach po startach kampanii. Widać jednak sygnał względnego osłabienia L4 po starcie Meta: L4 wobec innych usług w pozostałych kanałach 0,73 (od 0,56 do 0,95), kampania Google Ads na L4 0,67 (od 0,45 do 0,98). Na fikcyjnych datach startu w okresie 1 tak niski iloraz wychodzi w 4 z 44 tygodni. Dane nie rozstrzygają dodatkowości.
+- Ranking lekarzy daje w obu okresach prawie tę samą liczbę pacjentów (616 i 617). Możliwa cecha generatora, bez wpływu na wnioski.
+
+**Co zmienia okno 180 dni:**
+
+- `gs_generic_lekarz_online` i `gs_generic_erecepta` przestają zależeć od reguły atrybucji: po 180 dniach są dodatnie w obu regułach;
+- zależne od reguły zostają `meta_prosp_l4_szybko`, `gs_generic_l4` i `meta_prosp_lekarz_online`;
+- TikTok i `gs_generic_specjalisci` są ujemne w obu regułach w obu oknach.
