@@ -206,7 +206,7 @@ Raporty: `analiza/wyniki/b_eksport.txt` i `analiza/wyniki/c_priorytety.txt` (W4,
 - **Spadek w III kwartale to wydatki rosnące szybciej niż marża przed kampaniami:** marża przed kampaniami +78 963 zł, wydatki +94 123 zł.
 - **Niższy jest kwartał, a nie każdy miesiąc.** Lipiec 2026: 73 384 zł wobec 66 832 zł; sierpień: 66 315 wobec 67 190 zł; wrzesień: 68 014 wobec 88 802 zł.
 - **Wrzesień 2025 zawyża bazę porównania** przez start sprzedaży TelemediGO w newsletterze (225 zakupów w 23 dni). Bez opłat za TelemediGO III kwartał 2026 też jest niższy: −4,9%.
-- **Utracone przez awarię Safari na iOS pierwsze zamówienia odpowiadają w III kwartale 2026 około 14–21 tys. zł marży**, czyli mniej więcej całemu spadkowi (`c_priorytety.txt`, P1). Bez awarii kwartał byłby mniej więcej na poziomie roku wcześniejszego przy dwa razy wyższych wydatkach.
+- **Szacowana skala problemu Safari na iOS w III kwartale 2026 (około 14–21 tys. zł marży) jest porównywalna ze spadkiem marży tego kwartału** (15,1 tys. zł; `c_priorytety.txt`, P1), ale wyniku kwartału bez tego problemu nie ustaliliśmy (weryfikacja Astrą, `notatki/recenzje/d_astra.md`).
 
 ## 2026-10-20 — TelemediGO i lista priorytetów (punkt C, przyjęte przez Kubę)
 
@@ -221,6 +221,6 @@ Szczegóły i liczby: `notatki/c_szkic.md` (sekcje 1–4), raporty `analiza/wyni
 - Kupujący TelemediGO wracają częściej niż podobni pacjenci (+10,1 i +14,6 punktu procentowego w 90 dniach), ale po wygaśnięciu przewaga w proporcji zostaje (iloraz 1,77). Dane nie rozdzielają wpływu zniżki od samoselekcji.
 - Wizyta u specjalisty po cenie katalogowej zostawia ponad koszt lekarza tylko 9–19 zł (cena 109–119 zł); pediatra (95 zł) i psycholog (99 zł) mają cenę poniżej kosztu lekarza przy założeniu 33 (`c_priorytety.txt`, P14).
 
-**Odpowiedź „czy to wzrost” (przyjęta przez Kubę):** pacjentów z pierwszym zakupem jest o 52,1% więcej, ale retencja jest gorsza: powrót w 90 dniach 17,4% wobec 23,9% na tych samych dniach kalendarzowych, a bez pacjentów nowych kampanii 22,0% (przyjęta reguła) albo 20,4% (sesja płatności). W III kwartale 2026 marża była o 6,8% niższa niż rok wcześniej przy wydatkach na kampanie 2,08 raza wyższych; awaria Safari odpowiada mniej więcej temu spadkowi (sekcja „wynik biznesu po kwartałach”).
+**Odpowiedź „czy to wzrost” (przyjęta przez Kubę):** pacjentów z pierwszym zakupem jest o 52,1% więcej, ale retencja jest gorsza: powrót w 90 dniach 17,4% wobec 23,9% na tych samych dniach kalendarzowych, a bez pacjentów nowych kampanii 22,0% (przyjęta reguła) albo 20,4% (sesja płatności). W III kwartale 2026 marża była o 6,8% niższa niż rok wcześniej przy wydatkach na kampanie 2,08 raza wyższych; szacowana skala problemu Safari jest porównywalna z tym spadkiem (sekcja „wynik biznesu po kwartałach”). Liczba osób, które wróciły w 90 dniach, rośnie (3 076 → 3 289, +6,9%), spada odsetek.
 
 **Lista priorytetów (przyjęta przez Kubę, 12 pozycji):** Safari na iOS; pomiar; wstrzymać TikToka na L4; wstrzymać Google Ads na specjalistów do zmiany cennika; uczciwa obietnica L4 w Meta; poranna obsada internistów; komunikacja po wizycie z grupą kontrolną; test zalogowanych; test dodatkowości Meta; cennik i warunki TelemediGO u specjalistów; strata kliknięć; test TelemediGO. Wartości, sposób pomiaru i wdrożenie: `c_szkic.md`, sekcja 3.

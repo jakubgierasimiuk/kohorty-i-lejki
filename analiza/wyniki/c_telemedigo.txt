@@ -1,4 +1,4 @@
-C — TELEMEDIGO (2026-10-20 12:58), schemat `czyste`
+C — TELEMEDIGO (2026-10-20 14:32), schemat `czyste`
 Okres zakupu = dzień zakupu członkostwa (czas polski): okres 1 = X 2024 – IX 2025, okres 2 = X 2025 – IX 2026.
 TelemediGO: 89 zł za 365 dni, 50% zniżki u internisty, 20% u pozostałych; nie odnawia się samo.
 Zniżka = cena katalogowa − zapłata. Zniżka efektywna = tylko wizyty, za które zapłata zostaje (odbyte i nieodebrane).
@@ -24,7 +24,7 @@ zwrócone po wizycie (ZALOZENIA.md 33). Obserwacje, nie wnioski: przyczyn nie pr
          2_kasa_z_kolejnym_zamowieniem    629.0    918.0   289.0         45.9                     40.8
      3_osobno_newsletter_crm_go_upsell    225.0    461.0   236.0        104.9                     33.3
                                  razem   1759.0   2468.0   709.0         40.3                    100.0
-     przy kasie razem: 1534 → 2007 (+30.8%); osobno razem: 1984 → 2929
+     przy kasie razem: 1534 → 2007 (+30.8%); osobno razem: 225 → 461
 
 1b. Zakupy osobne w kampanii crm_go_upsell miesiąc po miesiącu (start 8.09.2025; w okresie 1 tylko 23 dni września).
      miesiac  osobno_crm  przy_kasie  razem
@@ -181,10 +181,10 @@ zwrócone po wizycie (ZALOZENIA.md 33). Obserwacje, nie wnioski: przyczyn nie pr
          internista  89.0           1       44.5             25         50.0              64.0        19.5
            pediatra  95.0           1       76.0            100         20.0              -5.0       -24.0
           psycholog  99.0           1       79.2            100         20.0              -1.0       -20.8
-          kardiolog 109.0           1       87.2            100         20.0               9.0       -12.8
          dermatolog 109.0           1       87.2            100         20.0               9.0       -12.8
            neurolog 109.0           1       87.2            100         20.0               9.0       -12.8
              urolog 109.0           1       87.2            100         20.0               9.0       -12.8
+          kardiolog 109.0           1       87.2            100         20.0               9.0       -12.8
           ginekolog 119.0           1       95.2            100         20.0              19.0        -4.8
        endokrynolog 119.0           1       95.2            100         20.0              19.0        -4.8
          psychiatra 269.0           1      215.2            200         20.0              69.0        15.2

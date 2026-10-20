@@ -168,7 +168,7 @@ def main():
     pokaz(t.reset_index())
     kasa = t.loc[["1_kasa_z_pierwszym_zamowieniem", "2_kasa_z_kolejnym_zamowieniem"]].sum()
     r(f"     przy kasie razem: {int(kasa.okres_1)} → {int(kasa.okres_2)} ({100 * (kasa.okres_2 / kasa.okres_1 - 1):+.1f}%); "
-      f"osobno razem: {int(t.okres_1.iloc[2:4].sum())} → {int(t.okres_2.iloc[2:4].sum())}")
+      f"osobno razem: {int(t.loc[t.index.str.match(r'^[34]_'), 'okres_1'].sum())} → {int(t.loc[t.index.str.match(r'^[34]_'), 'okres_2'].sum())}")
     r("\n1b. Zakupy osobne w kampanii crm_go_upsell miesiąc po miesiącu (start 8.09.2025; w okresie 1 tylko 23 dni września).")
     m = q("""SELECT strftime(dzien, '%Y-%m') miesiac, count(*) FILTER (WHERE typ LIKE '3_%') osobno_crm,
                     count(*) FILTER (WHERE typ LIKE '1_%' OR typ LIKE '2_%') przy_kasie, count(*) razem

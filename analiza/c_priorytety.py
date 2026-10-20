@@ -27,6 +27,8 @@ WYNIKI = os.path.join(D.KATALOG, "analiza", "wyniki")
 WYNIK = os.path.join(WYNIKI, "c_priorytety.txt")
 KONIEC = D.KONIEC
 NOWE = ("meta_prosp_l4_szybko", "tt_prosp_l4_15min")
+USLUGA_SQL = """CASE WHEN z.specialization = 'internista' THEN 'internista_' || z.visit_purpose
+                     WHEN z.specialization IN ('pediatra', 'psychiatra') THEN z.specialization ELSE 'inny_specjalista' END"""
 pd.set_option("display.width", 250)
 pd.set_option("display.max_columns", 60)
 
@@ -89,6 +91,16 @@ def main():
         t = q(D.stopy_por(warunek=war, tabela="kz"))
         r(f"   {nazwa}:")
         pokaz(t)
+    g1_, g2_ = D.granice_por(90)
+    lp = q(f"""SELECT okres, count(*) pacjenci, count(*) FILTER (WHERE dni_R2 <= 90) powracajacy_90
+               FROM kz WHERE (okres = 1 AND d0 <= DATE '{g1_}') OR (okres = 2 AND d0 <= DATE '{g2_}') GROUP BY 1 ORDER BY 1""")
+    r(f"   Liczba pacjentów, którzy wrócili w 90 dniach (kohorty do {g1_} i do {g2_}, uwaga Astry): "
+      f"{int(lp.powracajacy_90[0])} wobec {int(lp.powracajacy_90[1])} ({100 * (lp.powracajacy_90[1] / lp.powracajacy_90[0] - 1):+.1f}%),"
+      " czyli więcej powracających osób przy niższym odsetku.")
+    con.execute(f"""CREATE TEMP TABLE kz_usl AS SELECT kz.*, {USLUGA_SQL} usluga
+                    FROM kz JOIN zam z ON z.user_id = kz.user_id AND z.nr = 1""")
+    r("   Powrót w 90 dniach według pierwszej usługi, bez pacjentów nowych kampanii (przyjęta reguła), te same dni:")
+    pokaz(q(D.stopy_por(grupa="usluga", warunek="NOT nowa_z1k", tabela="kz_usl", okna=(90,))))
     r("   Marża na pacjenta w 90 dniach (przed kosztem pozyskania, ZALOZENIA.md 34), te same dni kalendarzowe:")
     g1, g2 = D.granice_por(90)
     con.execute("CREATE TEMP TABLE m90 AS SELECT user_id, sum(marza) FILTER (WHERE dni <= 90) m FROM ek GROUP BY 1")
@@ -316,6 +328,15 @@ def main():
             r(f"   {reg}, {okno} dni: nowi rocznie {nowi}, wydatki {zl(wyd)}, koszt pozyskania {wyd / nowi:.1f} zł, marża na pacjenta "
               f"{w.marza_na_pac} zł, wynik {zl(dz)}; wyłączyć przy 100% / 50% / 0% dodatkowych: "
               f"{zl(-dz)} / {zl(wyd - 0.5 * nowi * w.marza_na_pac)} / {zl(wyd)}; koszt pozyskania na zero wyniku: {w.marza_na_pac} zł")
+    import a5e_ekonomia as E
+    pe = E.zbuduj_pe(con)
+    for okno in (90, 180):
+        gr = E.granice(okno)[2]
+        pp = pe[(pe.okres == 2) & (pe.d0 >= gr[0]) & (pe.d0 <= gr[1])]
+        for reg, kol in (("Z1K", "kampania"), ("Z2", "kampania_z2")):
+            mm = pp.loc[pp[kol] == "gs_generic_specjalisci", f"marza_{okno}"].mean()
+            nowi, wyd = rok.loc[reg, "nowi"], rok.loc[reg, "wydatki_zl"]
+            r(f"   bez zaokrąglania marży (uwaga Astry): {reg}, {okno} dni: marża {mm:.3f} zł, wynik {zl(nowi * mm - wyd)}")
     r("   Założenia rachunku „wyłączyć”: ZALOZENIA.md 42 (pacjenci dodatkowi mają średnią marżę przypisanych, pozostali")
     r("   zachowują się jak dziś, koszty pozostałych kanałów bez zmian).")
     r("   Naprawić = obniżyć koszt pozyskania do poziomu marży pacjenta (stawki, słowa kluczowe, strona wejścia) albo podnieść")
@@ -374,6 +395,12 @@ def main():
       f"przy 0% +{zl(82464 * m_tt)}.")
     r(f"   Meta na L4 w przeliczeniu na pełny rok (×{m_meta:.2f}): dziś {zl(27845 * m_meta)} i {zl(-28735 * m_meta)}; rozpiętość decyzji od "
       f"{zl(-27845 * m_meta)} do +{zl(163322 * m_meta)}.")
+    z_raportu("a5e_scenariusze.txt", "tt_prosp_l4_15min    Z1K           -11928            -13468", None)
+    z_raportu("a5e_scenariusze.txt", "meta_prosp_l4_szybko    Z1K            27845             29882", None)
+    r(f"   Horyzont 180 dni na pełny rok (uwaga Astry): TikTok — wyłączenie przy 100% dodatkowych +{zl(13468 * m_tt)} do +{zl(32341 * m_tt)};"
+      f" Meta — dziś {zl(29882 * m_meta)} i {zl(-27474 * m_meta)}, rozpiętość decyzji od {zl(-29882 * m_meta)} do +{zl(163322 * m_meta)}.")
+    r(f"   Próg decyzji Meta (udział pacjentów dodatkowych, przy którym wyłączenie przestaje się opłacać, przyjęta reguła):"
+      f" {100 * 163322 / (163322 + 27845):.1f}% w horyzoncie 90 dni i {100 * 163322 / (163322 + 29882):.1f}% w horyzoncie 180 dni.")
     r(f"   Koszt testu Meta (wyłączenie w połowie kraju na 6 tygodni), gdy wszyscy pacjenci są dodatkowi: {zl(27845 * 6 / 52 * 0.5)}"
       f" w dniach działania, {zl(27845 * m_meta * 6 / 52 * 0.5)} na pełny rok.")
     r("   Naprawa zwrotów L4 (P2) po wstrzymaniu TikToka dotyczy tylko kampanii Meta: wariant B–A 16 486–42 262 zł (przyjęta")
@@ -418,6 +445,10 @@ def main():
     pokaz(t.round(0))
     n_opl = int(t.oplacone_okres_2.sum())
     r(f"   Razem okres 2: {int(t.zamowienia_okres_2.sum())} zamówień u tych specjalistów, {n_opl} z zapłatą, która zostaje; marża {zl(t.marza_okres_2.sum())}.")
+    n_go = int(q(f"""SELECT count(*) n FROM czyste.orders WHERE created_at >= TIMESTAMP '{D.OKRES2}' AND discount_type = 'go'
+                      AND status IN ('completed', 'no_show') AND specialization NOT IN ('internista', 'psychiatra')""").n[0])
+    r(f"   Przy obecnej zniżce TelemediGO 20% na {n_go} z tych wizyt podwyżka ceny katalogowej o 10 zł daje {zl(10 * n_opl - 2 * n_go)}"
+      " (uwaga Astry).")
     r(f"   Scenariusz: każde 10 zł podwyżki ceny przy tej samej liczbie wizyt to {zl(10 * n_opl)} rocznie (górna granica; nie znamy")
     r("   reakcji pacjentów na cenę, więc potrzebny test dwóch cen). Pediatra (95 zł) i psycholog (99 zł) mają cenę poniżej kosztu")
     r("   lekarza 100 zł przy założeniu 33.")
@@ -425,6 +456,11 @@ def main():
     naglowek("P15. ALARMY W CODZIENNYM RAPORCIE (uwaga z konsylium): ile kosztuje późne wykrycie awarii")
     r(f"   Awaria Safari na iOS trwała w danych {dni} dni (17.03–30.09.2026) i kosztowała 628–695 pierwszych zamówień.")
     r(f"   Wykrycie po 7 dniach ograniczyłoby stratę do {7 / dni:.1%} tej liczby, czyli do {utr_lo * 7 / dni:.0f}–{utr_hi * 7 / dni:.0f} zamówień.")
+
+    naglowek("P16. ILE KOHORT OKRESU 2 MA JUŻ DŁUŻSZĄ OBSERWACJĘ (uwaga Astry do niewiadomej o marży po 180 dniach)")
+    for n in (270, 365):
+        x = q(f"SELECT count(*) n FROM koh WHERE okres = 2 AND d0 <= DATE '{KONIEC}' - {n}").n[0]
+        r(f"   pacjenci okresu 2 z pełnymi {n} dniami obserwacji: {x}")
 
     with open(WYNIK, "w", encoding="utf-8") as f:
         f.write("\n".join(linie) + "\n")

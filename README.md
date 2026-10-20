@@ -16,6 +16,7 @@ Rozwiązanie zadania rekrutacyjnego na stanowisko Head of B2C. Dane to dwa lata 
   - Powrót w 90 dniach spadł z 23,9% do 17,4%, liczony na tych samych dniach kalendarzowych.
   - Marża na pacjenta w 90 dniach spadła z 66,6 zł do 58,3 zł.
   - Bez pacjentów nowych kampanii retencja też jest niższa: powrót w 90 dniach 22,0% albo 20,4%, zależnie od reguły przypisania.
+  - Liczba osób, które wróciły w 90 dniach, rośnie (3 289 wobec 3 076). Spada odsetek, a nie liczba powracających.
 - **Wynik:** w III kwartale 2026 marża była o 6,8% niższa niż rok wcześniej, choć wydatki na kampanie były 2,08 raza wyższe.
 - **Dashboard liczy dane na surowo.** Zawiera 604 zdublowane zamówienia, zamówienia 22 kont testowych i przychód przed zwrotami. Po oczyszczeniu zamówienia rosną o 55,7% zamiast 61%, a przychód z konsultacji po zwrotach o 44,8% zamiast 50%.
 
@@ -78,7 +79,7 @@ Surowych danych, paczki i bazy danych nie ma w repozytorium.
 
 - 604 zamówienia zapisane dwa razy, wszystkie z 10–24.06.2026.
 - 22 konta testowe z 2 071 zamówieniami: kod TEST-QA i zamówienia bez kodu na tych samych kontach, każda wizyta trwa 1 minutę. Testów przybywa.
-- Od 17.03.2026 w Safari na iPhone'ach i iPadach przestaje działać zakładanie nowego konta.
+- Od 17.03.2026 w Safari na iPhone'ach i iPadach gwałtownie spada skuteczność zakładania nowego konta.
 - Sesje pacjentów zalogowanych od wejścia nigdy nie kończą się zakupem, choć według słownika danych powinny.
 - Na kliknięcie reklamy w Meta i TikToku przypada wyraźnie mniej sesji niż w Google Ads.
 - Wizyta u pediatry kosztuje pacjenta mniej niż wynosi koszt lekarza (przy założeniu, że pediatra to „inny specjalista” za 100 zł).

@@ -1,4 +1,4 @@
-C — LICZBY DO ODPOWIEDZI „CZY TO WZROST” I DO LISTY PRIORYTETÓW (2026-10-20 13:30), schemat `czyste`
+C — LICZBY DO ODPOWIEDZI „CZY TO WZROST” I DO LISTY PRIORYTETÓW (2026-10-20 14:32), schemat `czyste`
 Okres 1 = X 2024 – IX 2025, okres 2 = X 2025 – IX 2026. Z1K = przyjęta reguła źródła (pierwsze wejście, kod kampanii
 rozstrzyga), Z2 = sesja płatności. „Nowe kampanie” = meta_prosp_l4_szybko i tt_prosp_l4_15min (oba na L4, od 3.11.2025
 i 9.02.2026).
@@ -26,6 +26,16 @@ W2. LEPSZA RETENCJA: powrót w 30/60/90 dniach na tych samych dniach kalendarzow
    tylko nowe kampanie (Z1K):
       p30_o1  p30_o2  n30_o1  n30_o2  p60_o1  p60_o2  n60_o1  n60_o2  p90_o1  p90_o2  n90_o1  n90_o2
          NaN     2.4       0    6418     NaN     3.6       0    5659     NaN     4.1       0    4893
+   Liczba pacjentów, którzy wrócili w 90 dniach (kohorty do 2025-07-02 i do 2026-07-02, uwaga Astry): 3076 wobec 3289 (+6.9%), czyli więcej powracających osób przy niższym odsetku.
+   Powrót w 90 dniach według pierwszej usługi, bez pacjentów nowych kampanii (przyjęta reguła), te same dni:
+                     usluga  p90_o1  p90_o2  n90_o1  n90_o2
+       internista_e_recepta    33.4    29.9    3206    3570
+                 psychiatra    22.5    24.6     550     605
+                   pediatra    22.3    26.3     673     711
+              internista_l4    14.6    13.8    2795    2969
+     internista_skierowanie    20.2    19.0    1161    1335
+           inny_specjalista    25.2    20.6    2325    2549
+     internista_konsultacja    23.3    21.5    2157    2292
    Marża na pacjenta w 90 dniach (przed kosztem pozyskania, ZALOZENIA.md 34), te same dni kalendarzowe:
       okres  pacjenci  marza_wszyscy  marza_bez_nowych_z1k  marza_bez_nowych_z2
           1     12867           66.6                  66.6                 66.6
@@ -171,6 +181,10 @@ P7. gs_generic_specjalisci: WYNIK UJEMNY W OBU REGUŁACH I OBU OKNACH (a5e_kampa
    Z1K, 180 dni: nowi rocznie 923, wydatki 53 158 zł, koszt pozyskania 57.6 zł, marża na pacjenta 36.6 zł, wynik -19 376 zł; wyłączyć przy 100% / 50% / 0% dodatkowych: 19 376 zł / 36 267 zł / 53 158 zł; koszt pozyskania na zero wyniku: 36.6 zł
    Z2, 90 dni: nowi rocznie 657, wydatki 53 158 zł, koszt pozyskania 80.9 zł, marża na pacjenta 32.9 zł, wynik -31 543 zł; wyłączyć przy 100% / 50% / 0% dodatkowych: 31 543 zł / 42 350 zł / 53 158 zł; koszt pozyskania na zero wyniku: 32.9 zł
    Z2, 180 dni: nowi rocznie 657, wydatki 53 158 zł, koszt pozyskania 80.9 zł, marża na pacjenta 35.0 zł, wynik -30 163 zł; wyłączyć przy 100% / 50% / 0% dodatkowych: 30 163 zł / 41 660 zł / 53 158 zł; koszt pozyskania na zero wyniku: 35.0 zł
+   bez zaokrąglania marży (uwaga Astry): Z1K, 90 dni: marża 32.412 zł, wynik -23 242 zł
+   bez zaokrąglania marży (uwaga Astry): Z2, 90 dni: marża 32.937 zł, wynik -31 518 zł
+   bez zaokrąglania marży (uwaga Astry): Z1K, 180 dni: marża 36.588 zł, wynik -19 387 zł
+   bez zaokrąglania marży (uwaga Astry): Z2, 180 dni: marża 34.990 zł, wynik -30 170 zł
    Założenia rachunku „wyłączyć”: ZALOZENIA.md 42 (pacjenci dodatkowi mają średnią marżę przypisanych, pozostali
    zachowują się jak dziś, koszty pozostałych kanałów bez zmian).
    Naprawić = obniżyć koszt pozyskania do poziomu marży pacjenta (stawki, słowa kluczowe, strona wejścia) albo podnieść
@@ -211,6 +225,8 @@ P11. KWOTY KAMPANII „NA ROK” A DNI DZIAŁANIA KAMPANII W OKRESIE 2 (uwaga z 
         tt_prosp_l4_15min              234 2026-02-09 2026-09-30  82464.30            1.56
    TikTok w przeliczeniu na pełny rok (×1.56): dziś -18 606 zł (przyjęta reguła) i -48 044 zł (sesja płatności) w 90 dniach; wyłączenie przy 100% dodatkowych +18 606 zł do +48 044 zł, przy 0% +128 630 zł.
    Meta na L4 w przeliczeniu na pełny rok (×1.10): dziś 30 613 zł i -31 591 zł; rozpiętość decyzji od -30 613 zł do +179 556 zł.
+   Horyzont 180 dni na pełny rok (uwaga Astry): TikTok — wyłączenie przy 100% dodatkowych +21 008 zł do +50 446 zł; Meta — dziś 32 852 zł i -30 205 zł, rozpiętość decyzji od -32 852 zł do +179 556 zł.
+   Próg decyzji Meta (udział pacjentów dodatkowych, przy którym wyłączenie przestaje się opłacać, przyjęta reguła): 85.4% w horyzoncie 90 dni i 84.5% w horyzoncie 180 dni.
    Koszt testu Meta (wyłączenie w połowie kraju na 6 tygodni), gdy wszyscy pacjenci są dodatkowi: 1 606 zł w dniach działania, 1 766 zł na pełny rok.
    Naprawa zwrotów L4 (P2) po wstrzymaniu TikToka dotyczy tylko kampanii Meta: wariant B–A 16 486–42 262 zł (przyjęta
    reguła) i 9 745–24 273 zł (sesja płatności) w dniach działania; na pełny rok ×1.10: 18 125 zł–46 463 zł i 10 714 zł–26 686 zł.
@@ -243,13 +259,14 @@ P14. CENNIK SPECJALISTÓW (uwaga z konsylium): marża wizyty po cenie katalogowe
      specialization  cena  koszt_lekarza  zamowienia_okres_2  oplacone_okres_2  marza_okres_2  marza_na_wizycie_po_cenie_katalogowej
            pediatra  95.0            100                1567              1490       -13257.0                                   -5.0
           psycholog  99.0            100                 310               289        -1430.0                                   -1.0
-           neurolog 109.0            100                 455               434         2922.0                                    9.0
          dermatolog 109.0            100                1758              1673         7175.0                                    9.0
           kardiolog 109.0            100                 537               513         2677.0                                    9.0
+           neurolog 109.0            100                 455               434         2922.0                                    9.0
              urolog 109.0            100                 463               434         2106.0                                    9.0
-          ginekolog 119.0            100                1765              1655        22462.0                                   19.0
        endokrynolog 119.0            100                 932               875        11812.0                                   19.0
+          ginekolog 119.0            100                1765              1655        22462.0                                   19.0
    Razem okres 2: 7787 zamówień u tych specjalistów, 7363 z zapłatą, która zostaje; marża 34 467 zł.
+   Przy obecnej zniżce TelemediGO 20% na 1425 z tych wizyt podwyżka ceny katalogowej o 10 zł daje 70 780 zł (uwaga Astry).
    Scenariusz: każde 10 zł podwyżki ceny przy tej samej liczbie wizyt to 73 630 zł rocznie (górna granica; nie znamy
    reakcji pacjentów na cenę, więc potrzebny test dwóch cen). Pediatra (95 zł) i psycholog (99 zł) mają cenę poniżej kosztu
    lekarza 100 zł przy założeniu 33.
@@ -259,3 +276,9 @@ P15. ALARMY W CODZIENNYM RAPORCIE (uwaga z konsylium): ile kosztuje późne wykr
 ==============================================================================================================
    Awaria Safari na iOS trwała w danych 198 dni (17.03–30.09.2026) i kosztowała 628–695 pierwszych zamówień.
    Wykrycie po 7 dniach ograniczyłoby stratę do 3.5% tej liczby, czyli do 22–25 zamówień.
+
+==============================================================================================================
+P16. ILE KOHORT OKRESU 2 MA JUŻ DŁUŻSZĄ OBSERWACJĘ (uwaga Astry do niewiadomej o marży po 180 dniach)
+==============================================================================================================
+   pacjenci okresu 2 z pełnymi 270 dniami obserwacji: 5137
+   pacjenci okresu 2 z pełnymi 365 dniami obserwacji: 0

@@ -11,12 +11,12 @@ Kolejność zespołu w dużej mierze zgadza się z naszą: na górze naprawa Saf
 
 ## Uzasadnienie
 
-- **Safari na iOS** jest pewne, tanie i warte najwięcej. Sprawdziliśmy to: utracone przez awarię pierwsze zamówienia odpowiadają w III kwartale 2026 około 14–21 tys. zł marży, czyli mniej więcej całemu spadkowi marży rok do roku (15,1 tys. zł). Bez awarii kwartał byłby mniej więcej na poziomie roku wcześniej. To dalej znaczy, że dwa razy wyższe wydatki nie przyniosły wzrostu marży.
+- **Safari na iOS** jest pewne, tanie i warte najwięcej. Sprawdziliśmy to: szacowana skala problemu w III kwartale 2026 (około 14–21 tys. zł marży) jest porównywalna ze spadkiem marży rok do roku (15,1 tys. zł). *(Korekta po weryfikacji Astrą: wyniku kwartału bez awarii nie ustaliliśmy; pierwotnie pisaliśmy, że bez awarii kwartał byłby na poziomie roku wcześniej.)*
 - **Pomiar** jest warunkiem oceny wszystkich pozostałych pozycji. Najcenniejsze w nim nie są złotówki za wizyty testowe, tylko codzienny raport z marżą po koszcie pozyskania, zwrotami według kampanii, powrotem kohort i alarmami na krokach lejka według przeglądarki. Awaria Safari trwała 198 dni bez reakcji. Wykrycie po tygodniu ograniczyłoby stratę do 3,5%.
 - **Pauza zamiast naprawy przy TikToku:**
   - wyłączenie zyskuje przy każdym udziale pacjentów dodatkowych;
   - najlepsza naprawa doprowadza wynik najwyżej do zera;
-  - każdy tydzień naprawy przy pełnym budżecie to pewna strata;
+  - naprawa przy pełnym budżecie w najlepszym razie doprowadza wynik do zera;
   - naprawy (obietnica, ładowanie strony) da się sprawdzić na Meta, a TikTok może wrócić jako mały test.
 - **Google Ads na specjalistów to problem cennika, a nie tylko kampanii.** Wizyta u specjalisty po cenie katalogowej zostawia 9–19 zł ponad koszt lekarza, a u pediatry i psychologa cena jest niższa niż koszt lekarza. Obniżka kosztu pozyskania o 40–60% to inny model kampanii, nie naprawa. Wstrzymać, a wrócić po zmianie cennika albo przy koszcie pozyskania nie wyższym niż marża pacjenta.
 - **Test Meta ma z góry ustalony próg decyzji.** Według przyjętej reguły wyłączenie traci pieniądze tylko wtedy, gdy ponad około 85% pacjentów kampanii przyszłoby i bez niej (163,3 ÷ (163,3 + 27,8)). Test mówi więc tylko, czy jesteśmy powyżej, czy poniżej progu. Projekt:

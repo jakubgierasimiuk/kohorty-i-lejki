@@ -204,3 +204,7 @@ Scalone przez sesję prowadzącą z `notatki/b_narzedzie.md` (sekcje 1, 8, 10 i 
 **Kto przenosi wynik do narzędzia:** sesja B jest zamknięta, więc robi to nowa sesja „Narzędzie: czy to wzrost, priorytety i niewiadome” (`local_0ea34a6a-6b84-45c6-87b7-e953f33e3452`), zaproponowana przez sesję prowadzącą i uruchomiona przez Kubę. Pisze w plikach narzędzia, wspólnych notatek nie edytuje, zatrzymuje się u Kuby przed próbną publikacją. Sesja prowadząca: `local_ca1efb6a-0cb9-4abb-b08b-9d90f7e7de79`.
 
 **Równolegle (decyzja Kuby):** końcowa weryfikacja liczb Codeksem (model Astra) i README repozytorium dla Telemedi.
+
+## 2026-10-20 — końcowa weryfikacja liczb (Codex, model Astra)
+
+**Decyzja Kuby:** weryfikacja Astrą przed wysłaniem (punkt D). **Wynik:** 45 liczb przeliczonych niezależnie, wszystkie zgodne, bez błędu krytycznego. Siedem ważnych i osiem drobnych uwag dotyczyło pewności zdań i spójności wycen. Wszystkie przyjęte i wprowadzone przez sesję prowadzącą, bez zmiany kierunku żadnego wniosku. Szczegóły: `notatki/recenzje/d_astra.md`. Do odpowiedzi „czy to wzrost” doszło zdanie, że liczba osób powracających w 90 dniach rośnie (3 076 → 3 289), a spada odsetek.
