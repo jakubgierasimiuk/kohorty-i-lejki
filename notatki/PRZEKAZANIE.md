@@ -2,7 +2,7 @@
 
 Zasada z `CLAUDE.md`, punkt 14: każda sesja czyta ten plik na starcie i aktualizuje go na końcu swojej pracy.
 
-**Ostatnia aktualizacja:** 2026-10-20 wieczorem, nowa sesja prowadząca (`local_06eb3146-72e0-461b-a459-034c491fd691`) po szkicu punktu C na poranny przegląd Kuby. Poprzednia sesja prowadząca prowadziła A1–A5 i uruchamiała sesje A4, A5 (retencja, pozyskanie, ekonomia) i B.
+**Ostatnia aktualizacja:** 2026-10-20, sesja prowadząca `local_ca1efb6a-0cb9-4abb-b08b-9d90f7e7de79`, po przyjęciu punktu C przez Kubę. Poprzednia sesja prowadząca prowadziła A1–A5 i uruchamiała sesje A4, A5 (retencja, pozyskanie, ekonomia) i B.
 
 ## 1. Gdzie jesteśmy
 
@@ -17,7 +17,7 @@ Zasada z `CLAUDE.md`, punkt 14: każda sesja czyta ten plik na starcie i aktuali
 | A5 — część retencji | zrobione, przyjęte przez Kubę, scalone we wspólnych notatkach (założenia 33–38) | `c5b17ea` … `f8fda6d` |
 | A5 — ekonomia kampanii | zrobione, przyjęte przez Kubę, scalone (założenia 39–43) | `d6f63e4` … `7d8a58f` |
 | B Narzędzie | druga wersja przyjęta przez Kubę 2026-10-20, propozycje scalone (założenia 44–46); sesja B zamknięta; zostają zakładki „Priorytety”, „Czego nie wiemy” i ostateczne „czy to wzrost” po akceptacji C | `b76a7de` … `c9e1621` |
-| **C Szkic: TelemediGO, „czy to wzrost”, priorytety, niewiadome** | **szkic gotowy, czeka na poranny przegląd Kuby (2026-10-21); recenzja Codeksa (Sol) uwzględniona** | commit „C: szkic…” (ten wpis) |
+| C TelemediGO, „czy to wzrost”, priorytety, niewiadome | zrobione, przyjęte przez Kubę 2026-10-20, scalone (założenia 47–53); przeniesienie do narzędzia w sesji `local_0ea34a6a` | `bae2920` … (commit „C: lista priorytetów przyjęta…”) |
 
 Status wszystkich punktów: `notatki/PLAN.md`.
 
@@ -25,8 +25,8 @@ Status wszystkich punktów: `notatki/PLAN.md`.
 - **A5 ekonomia kampanii:** zrobiona, przyjęta przez Kubę (dopisek: wynik po 180 dniach zawsze obok wyniku po 90 dniach) i scalona we wspólnych notatkach (założenia 39–43). Commity `d6f63e4` … `24ac35d`. **Punkt A5 jest zamknięty w całości.** Rola sesji prowadzącej i wspólne notatki przechodzą do nowej sesji prowadzącej (decyzja Kuby, `DECYZJE.md` 2026-10-20).
 - **B szkielet narzędzia:** zbudowany (commit `b76a7de`), plik publikacji GitHub Pages gotowy (`66ce8f8`, nic nie publikuje). Czeka na przegląd Kuby w sesji „B: szkielet narzędzia” (`local_3d5ab14b-1c4c-4fbb-b051-cdffdbeabf1b`), podgląd lokalny pod http://127.0.0.1:8765/. Jej propozycje wpisów będą w `notatki/b_narzedzie.md`. Kohorty dochodzą do narzędzia po zamknięciu A5 (dane retencji: `PLAN.md`, sekcja B).
 - **Hosting:** GitHub Pages z repozytorium w neutralnej organizacji (`DECYZJE.md`). Organizację zakłada Kuba i poda nazwę. Każda akcja na GitHubie tylko za zgodą Kuby.
-- **C (stan 2026-10-20 po południu):** Kuba przejrzał szkic, przyjął kierunek i dał cztery dopiski (`DECYZJE.md`); wszystkie wprowadzone. Konsylium na liście priorytetów zrobione (9 z 9, 0,49 USD, wynik `notatki/konsylium/c_priorytety/synteza.md`). **Ostateczna lista 12 priorytetów (`c_szkic.md`, sekcja 3) czeka na akceptację Kuby.** Po akceptacji: scalić sekcję 7 szkicu do wspólnych notatek i przekazać sesji B sekcje 1, 3 i 4 do narzędzia. Wcześniejszy opis szkicu: Zawiera propozycję odpowiedzi „czy to wzrost” (sekcja 1), analizę TelemediGO (sekcja 2), listę 10 priorytetów z wartością w marży (sekcja 3), listę 16 niewiadomych (sekcja 4) i propozycje wpisów do wspólnych notatek (sekcja 7, **jeszcze niescalone** — scalamy po przyjęciu przez Kubę). Kod: `analiza/c_telemedigo.py`, `analiza/c_priorytety.py`; wyniki: `analiza/wyniki/c_*`. Recenzja Codeksa (Sol): `notatki/recenzje/c_codex.md`, osiem uwag, wszystkie wprowadzone, liczby zgodne. Brief konsylium: `notatki/konsylium/c_priorytety/brief.md`, **niewysłany** — o rundzie decyduje Kuba rano.
-- **Na porannym przeglądzie C Kuba decyduje o:** odpowiedzi „czy to wzrost”, wnioskach z TelemediGO, kolejności listy priorytetów, liście niewiadomych, rundzie konsylium na liście priorytetów. Każdy dopisek → `DECYZJE.md` i `PLAN.md`. Potem: scalenie propozycji z sekcji 7 szkicu, przekazanie gotowej treści sesji B do narzędzia (sekcje „czy to wzrost”, priorytety, niewiadome, TelemediGO), punkt D.
+- **C (stan 2026-10-20):** zrobione i przyjęte przez Kubę. Szkic, cztery dopiski, konsylium (9 z 9), ostateczna lista 12 priorytetów i 18 niewiadomych, pięć poprawek spójności: `notatki/c_szkic.md`. Scalone we wspólnych notatkach (założenia 47–53, znaleziska, decyzje). Kod: `analiza/c_telemedigo.py`, `analiza/c_priorytety.py`; recenzja Codeksa (Sol): `notatki/recenzje/c_codex.md`; konsylium: `notatki/konsylium/c_priorytety/synteza.md`.
+- **W toku:** sesja „Narzędzie: czy to wzrost, priorytety i niewiadome” (`local_0ea34a6a-6b84-45c6-87b7-e953f33e3452`) przenosi sekcje 1, 3 i 4 szkicu na stronę i zatrzymuje się u Kuby przed próbną publikacją. Sesja prowadząca (`local_ca1efb6a-0cb9-4abb-b08b-9d90f7e7de79`): weryfikacja liczb Codeksem (Astra) i README dla Telemedi (punkt D). Propozycje sesji narzędzia scala sesja prowadząca.
 - Sesje A4, A5 retencja i A5 pozyskanie są zamknięte. Pierwsza sesja projektu (bezpieczeństwo, hosting): `local_20b4afd7-a9cf-430c-a930-9737c9b50eb9`.
 
 **Własność plików w A5 (dwie sesje pracują naraz w tym samym folderze):**

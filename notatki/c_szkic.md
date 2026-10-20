@@ -1,6 +1,6 @@
 # C — szkic na poranny przegląd Kuby (sesja prowadząca, 2026-10-20)
 
-**Status:** szkic przejrzany przez Kubę 2026-10-20: kierunek przyjęty, z czterema dopiskami (`DECYZJE.md`, wpis „przegląd szkicu punktu C”, i sekcja 9 niżej). Ostateczna lista priorytetów powstaje po rundzie konsylium i czeka na akceptację Kuby. Zakres: `DECYZJE.md`, wpis z 2026-10-20 o nowej sesji prowadzącej.
+**Status:** przyjęte przez Kubę 2026-10-20: szkic z czterema dopiskami, runda konsylium, ostateczna lista 12 priorytetów i 18 niewiadomych, pięć poprawek spójności (`DECYZJE.md`, sekcja 9 niżej). Propozycje z sekcji 7 są scalone we wspólnych notatkach. Na stronę narzędzia przenosi to osobna sesja. Zakres: `DECYZJE.md`, wpis z 2026-10-20 o nowej sesji prowadzącej.
 
 **Pliki:**
 
@@ -51,7 +51,7 @@ Okres 1 = X 2024 – IX 2025, okres 2 = X 2025 – IX 2026. „Przyjęta reguła
 3. **Wynik biznesu rośnie wolniej niż sprzedaż.** Marża po koszcie lekarza, kampaniach i prowizji wynosi 828 tys. zł w okresie 1 i 1 048 tys. zł w okresie 2, czyli +26,6%. Po odjęciu marży powtórnych konsultacji pacjentów pozyskanych w okresie 1 to +8,1%, a po odjęciu także ich opłat za TelemediGO (41,5 tys. zł) +3,1%. To rozbicie księgowe, a nie wynik biznesu, który startuje od zera: nie modeluje zmian wydatków ani zachowania pacjentów. Wydatki na kampanie rosną o 77% (z 368 do 650 tys. zł).
 4. **Struktura pacjentów się zmieniła.** Pacjenci nowych kampanii to 29% nowych pacjentów okresu 2 według przyjętej reguły (7 268 z 24 687). Zostawiają 36,3 zł marży w 90 dniach wobec 66,0 zł pozostałych.
 5. **Obie reguły źródła.** Podział spadku powrotu (z 23,9% do 17,4%) na nowe i stare kampanie zależy od reguły. Według przyjętej reguły to 4,6 punktu procentowego nowych kampanii i 2,0 punktu starych. Według sesji płatności to 3,0 i 3,5 punktu (`ZNALEZISKA.md`, A5 retencja). Kierunek jest ten sam w obu.
-7. **Marża po kwartałach rok do roku** (`c_priorytety.txt`, W4). Wzrost marży słabnie z kwartału na kwartał, a wydatki na kampanie rosną coraz szybciej:
+6. **Marża po kwartałach rok do roku** (`c_priorytety.txt`, W4). Wzrost marży słabnie z kwartału na kwartał, a wydatki na kampanie rosną coraz szybciej:
 
    ```
    kwartał    marża         rok wcześniej   zmiana   wydatki na kampanie   rok wcześniej   iloraz
@@ -64,7 +64,7 @@ Okres 1 = X 2024 – IX 2025, okres 2 = X 2025 – IX 2026. „Przyjęta reguła
    - Marża przed kampaniami (przychód po zwrotach + TelemediGO − koszt lekarza) rośnie w III kwartale 2026 o 25,2% (+79,0 tys. zł), ale wydatki na kampanie rosną o 94,1 tys. zł.
    - We wrześniu 2025 ruszyła sprzedaż TelemediGO w newsletterze (225 zakupów w 23 dni), co podnosi III kwartał 2025. Bez opłat za TelemediGO marża III kwartału 2026 też jest niższa: −4,9% rok do roku.
    - W samych miesiącach: lipiec 2026 73,4 tys. zł wobec 66,8 tys. zł, sierpień 66,3 wobec 67,2 tys. zł, wrzesień 68,0 wobec 88,8 tys. zł. Niższy jest więc kwartał jako całość, a nie każdy miesiąc.
-8. **To opis, nie przyczyna.** Widzimy spadek obserwowanej retencji, także po wyłączeniu pacjentów nowych kampanii. Nie dowodzi to, że identyczni pacjenci zachowują się gorzej. Rozkład na strukturę i zachowanie nie mówi też, co by się stało bez nowych kampanii. Spadek w starych kampaniach zbiega się z porannymi opóźnieniami u internistów, ale ich nie dowodzi (sekcja 4, punkt 4).
+7. **To opis, nie przyczyna.** Widzimy spadek obserwowanej retencji, także po wyłączeniu pacjentów nowych kampanii. Nie dowodzi to, że identyczni pacjenci zachowują się gorzej. Rozkład na strukturę i zachowanie nie mówi też, co by się stało bez nowych kampanii. Spadek w starych kampaniach zbiega się z porannymi opóźnieniami u internistów, ale ich nie dowodzi (sekcja 4, punkt 4).
 
 ---
 
@@ -170,7 +170,7 @@ Raport: `analiza/wyniki/c_telemedigo.txt`. Każde członkostwo kosztuje 89 zł i
 
 ---
 
-## 3. Lista priorytetów — wersja ostateczna do akceptacji Kuby (po konsylium, 2026-10-20)
+## 3. Lista priorytetów — wersja ostateczna, przyjęta przez Kubę 2026-10-20 (po konsylium)
 
 **Zasady listy:**
 - Wartość to zmiana marży na rok. Rokiem bazowym jest okres 2. Marża = przychód z konsultacji po zwrotach + TelemediGO − koszt lekarza − wydatki na kampanie − prowizja.
@@ -266,7 +266,7 @@ Raport: `analiza/wyniki/c_telemedigo.txt`. Każde członkostwo kosztuje 89 zł i
 
 ### Pozycja 6. Poranna obsada internistów: diagnoza, potem test (dopisek Kuby: przed testem zalogowanych i testem Meta)
 
-- **Z danych:** od listopada 2025 około połowa porannych wizyt u internisty (6:00–11:59) zaczyna się ponad 15 minut po terminie, wobec 5–7% rok wcześniej. Przy tym samym porannym ruchu opóźnień jest o 26,4 punktu procentowego więcej. Długość porannej wizyty się nie zmieniła (8,5 minuty w obu okresach), więc dłuższe wizyty tego nie tłumaczą. Wizyty spóźnione ponad 30 minut mają średnią ocenę 2,9 wobec 4,5 przy punktualnych. Rano spada powrót po wizytach spóźnionych.
+- **Z danych:** od listopada 2025 poranne opóźnienia u internisty rosną z miesiąca na miesiąc. Odsetek wizyt z terminem 6:00–11:59, które zaczynają się ponad 15 minut po terminie, wynosi 15,6% w listopadzie 2025, 29,7% w grudniu i 41,8% w styczniu 2026, a od lutego do września 2026 około połowy (48,4–52,6% miesięcznie). Od października 2024 do października 2025 było to 4,7–6,9% miesięcznie (wszyscy pacjenci; `a5r_punktualnosc.txt`, tabela miesięczna). Przy tym samym porannym ruchu opóźnień jest o 26,4 punktu procentowego więcej. Długość porannej wizyty się nie zmieniła (8,5 minuty w obu okresach), więc dłuższe wizyty tego nie tłumaczą. Wizyty spóźnione ponad 30 minut mają średnią ocenę 2,9 wobec 4,5 przy punktualnych. Rano spada powrót po wizytach spóźnionych.
 - **Dlaczego wysoko:** to jedyna dźwignia na retencję pacjentów z kanałów działających w obu latach, a pierwszy krok jest tani (dopisek Kuby).
 - **Ile warta:** scenariusz od 0 zł do 65,2 tys. zł marży rocznie w horyzoncie 180 dni (`c_priorytety.txt`, P8). Związek opóźnień z powrotami może częściowo wynikać z tego, kto przychodzi rano, więc kwota jest niepewna. Kosztu dodatkowej obsady nie ma w danych.
 - **Co robimy:** diagnoza (grafiki i obsada poranna przed i po 3.11.2025, obciążenie lekarzy pacjentami spoza B2C, rozmowa z osobami od grafików). Potem naprawy, także bez dodatkowej obsady: liczba porannych terminów dopasowana do przepustowości, przesunięcie godzin lekarzy, realny czas oczekiwania pokazany pacjentowi. Na końcu test w losowo wybrane dni.
@@ -346,9 +346,9 @@ Raport: `analiza/wyniki/c_telemedigo.txt`. Każde członkostwo kosztuje 89 zł i
 
 | # | Czego nie wiemy | Dlaczego to ważne | Test albo brakujące dane |
 |---|---|---|---|
-| 1 | Czy pacjenci nowych kampanii na L4 są dodatkowi | od tego zależy decyzja o Meta na L4: od −27,8 do +163,3 tys. zł rocznie | wyłączenie kampanii w losowej połowie województw na 4–6 tygodni; badanie przyrostu w panelach Meta i TikToka |
+| 1 | Czy pacjenci nowych kampanii na L4 są dodatkowi | od tego zależy decyzja o Meta na L4: od −30,6 do +179,6 tys. zł na pełny rok (pozycja 9; próg decyzji 85% pacjentów dodatkowych) | wyłączenie kampanii w losowej połowie województw na 4–6 tygodni; badanie przyrostu w panelach Meta i TikToka |
 | 2 | Która reguła źródła jest bliższa prawdy dla kampanii bez kodu (Google Ads ogólne, Meta lekarz online) | znak wyniku tych kampanii zależy od reguły | ten sam test z grupą kontrolną bez reklamy |
-| 3 | Powód zwrotów po wizycie L4 w nowych kampaniach (17,4% wobec 5,3%) | od niego zależy, czy naprawa jest bliżej 57 tys. zł (wariant A), czy 22 tys. zł (wariant B) | powód zwrotu, decyzja lekarza (czy L4 wystawiono), treść reklam |
+| 3 | Powód zwrotów po wizycie L4 w nowych kampaniach (17,4% wobec 5,3%) | po wstrzymaniu TikToka dotyczy tylko Meta: od niego zależy, czy naprawa jest bliżej górnego, czy dolnego wariantu z pozycji 5, czyli 18,1–46,5 tys. zł według przyjętej reguły i 10,7–26,7 tys. zł według sesji płatności na pełny rok | powód zwrotu, decyzja lekarza (czy L4 wystawiono), treść reklam |
 | 4 | Dlaczego spadła poranna przepustowość internistów i czy opóźnienia obniżają powroty | scenariusz od 0 do 65 tys. zł rocznie; luty 2026 nie pasuje do prostej hipotezy | grafiki i obsada poranna przed i po 3.11.2025, obciążenie lekarzy pacjentami spoza B2C, koszt obsady; test z dodatkową poranną obsadą w losowe dni |
 | 5 | Sesje zalogowane od wejścia: wizyty „sprawdzam konto” czy zepsuta ścieżka | 0 albo około 36–40 tys. zł rocznie (wysoki scenariusz 89 tys. zł) | ręczny test zakupu po zalogowaniu; logi błędów; znacznik „zalogowany na wejściu” w analityce |
 | 6 | Przyczyna awarii zakładania konta w Safari na iOS od 17.03.2026 | potrzebna do naprawy (pozycja 1) | lista zmian w produkcie z 16–17.03.2026, logi rejestracji według przeglądarki, powtórzenie na iPhonie |
@@ -426,4 +426,13 @@ Pełne podsumowanie: `notatki/recenzje/c_codex.md`. Polecenie i odpowiedź: `c_c
 3. poranna przepustowość internistów przed testem zalogowanych i testem Meta — **wprowadzone** (pozycja 6, przed 8 i 9);
 4. runda konsylium z kandydatem „pomiar” i faktem o marży w ostatnim kwartale — **zrobione** (sekcja 5, synteza w `notatki/konsylium/c_priorytety/synteza.md`).
 
-**Dalej:** ostateczna lista (sekcja 3) czeka na akceptację Kuby. Po akceptacji: scalenie propozycji z sekcji 7 do wspólnych notatek i przekazanie sesji B odpowiedzi (sekcja 1), listy priorytetów (sekcja 3) i niewiadomych (sekcja 4) do narzędzia.
+### 2026-10-20, akceptacja ostatecznej listy
+
+**Decyzja Kuby:** ostateczna lista przyjęta, z pięcioma poprawkami spójności:
+1. niewiadoma 1 z kwotami na pełny rok, jak w pozycji 9 — **wprowadzone**;
+2. niewiadoma 3 z kwotami samej Meta, jak w pozycji 5 — **wprowadzone**;
+3. pozycja 6: przebieg porannych opóźnień miesiąc po miesiącu — **sprawdzone i poprawione** (w listopadzie 2025 opóźnienia dopiero zaczynają rosnąć; około połowa od lutego 2026);
+4. numeracja w sekcji 1c — **poprawiona**;
+5. opis punktu C w `PLAN.md` i `PRZEKAZANIE.md` — **zaktualizowany**.
+
+Potem przeniesienie do narzędzia (odpowiedź bez znacznika „wstępne”, priorytety, niewiadome) w nowej sesji, bo sesja B jest zamknięta. Równolegle weryfikacja liczb Codeksem (model Astra) i README dla Telemedi. Zatrzymanie u Kuby z narzędziem przed próbną publikacją.

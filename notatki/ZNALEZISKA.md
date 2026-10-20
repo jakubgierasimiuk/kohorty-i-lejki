@@ -207,3 +207,20 @@ Raporty: `analiza/wyniki/b_eksport.txt` i `analiza/wyniki/c_priorytety.txt` (W4,
 - **Niższy jest kwartał, a nie każdy miesiąc.** Lipiec 2026: 73 384 zł wobec 66 832 zł; sierpień: 66 315 wobec 67 190 zł; wrzesień: 68 014 wobec 88 802 zł.
 - **Wrzesień 2025 zawyża bazę porównania** przez start sprzedaży TelemediGO w newsletterze (225 zakupów w 23 dni). Bez opłat za TelemediGO III kwartał 2026 też jest niższy: −4,9%.
 - **Utracone przez awarię Safari na iOS pierwsze zamówienia odpowiadają w III kwartale 2026 około 14–21 tys. zł marży**, czyli mniej więcej całemu spadkowi (`c_priorytety.txt`, P1). Bez awarii kwartał byłby mniej więcej na poziomie roku wcześniejszego przy dwa razy wyższych wydatkach.
+
+## 2026-10-20 — TelemediGO i lista priorytetów (punkt C, przyjęte przez Kubę)
+
+Szczegóły i liczby: `notatki/c_szkic.md` (sekcje 1–4), raporty `analiza/wyniki/c_telemedigo.txt` i `c_priorytety.txt`. Liczby główne potwierdził Codex (Sol) własnym kodem. Listę priorytetów oceniło konsylium (9 z 9): `notatki/konsylium/c_priorytety/synteza.md`.
+
+**TelemediGO:**
+- Wzrost sprzedaży TelemediGO o 40,3% to więcej zamówień i pełny rok sprzedaży w newsletterze (w okresie 1 23 dni). Odsetek nowych pacjentów, którzy kupują przy pierwszym zamówieniu, spada z 5,58% do 4,41%, w całości przez pacjentów nowych kampanii na L4 (1,5%).
+- Członkostwa z okresu 1 dostały 104,57 zł zniżki efektywnej przy opłacie 89 zł. Kupujący przy kolejnym zamówieniu dostają 136,36 zł.
+- Po zniżce 20% cena wizyty jest niższa niż koszt lekarza u wszystkich specjalistów poza psychiatrą. W okresie 2 to −14,7 tys. zł marży na 1 512 zamówieniach.
+- Przy koszcie pediatry 100 zł (założenie 33) wizyta u pediatry przynosi stratę także bez zniżki (cena 95 zł).
+- Odnawia około 5% członków. W danych nie widać przypomnienia o wygaśnięciu.
+- Kupujący TelemediGO wracają częściej niż podobni pacjenci (+10,1 i +14,6 punktu procentowego w 90 dniach), ale po wygaśnięciu przewaga w proporcji zostaje (iloraz 1,77). Dane nie rozdzielają wpływu zniżki od samoselekcji.
+- Wizyta u specjalisty po cenie katalogowej zostawia ponad koszt lekarza tylko 9–19 zł (cena 109–119 zł); pediatra (95 zł) i psycholog (99 zł) mają cenę poniżej kosztu lekarza przy założeniu 33 (`c_priorytety.txt`, P14).
+
+**Odpowiedź „czy to wzrost” (przyjęta przez Kubę):** pacjentów z pierwszym zakupem jest o 52,1% więcej, ale retencja jest gorsza: powrót w 90 dniach 17,4% wobec 23,9% na tych samych dniach kalendarzowych, a bez pacjentów nowych kampanii 22,0% (przyjęta reguła) albo 20,4% (sesja płatności). W III kwartale 2026 marża była o 6,8% niższa niż rok wcześniej przy wydatkach na kampanie 2,08 raza wyższych; awaria Safari odpowiada mniej więcej temu spadkowi (sekcja „wynik biznesu po kwartałach”).
+
+**Lista priorytetów (przyjęta przez Kubę, 12 pozycji):** Safari na iOS; pomiar; wstrzymać TikToka na L4; wstrzymać Google Ads na specjalistów do zmiany cennika; uczciwa obietnica L4 w Meta; poranna obsada internistów; komunikacja po wizycie z grupą kontrolną; test zalogowanych; test dodatkowości Meta; cennik i warunki TelemediGO u specjalistów; strata kliknięć; test TelemediGO. Wartości, sposób pomiaru i wdrożenie: `c_szkic.md`, sekcja 3.

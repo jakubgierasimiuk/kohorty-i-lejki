@@ -194,3 +194,13 @@ Scalone przez sesję prowadzącą z `notatki/b_narzedzie.md` (sekcje 1, 8, 10 i 
 - Ze strony zniknęły wzmianki o Kubie (stronę czyta Telemedi).
 
 **2026-10-20, decyzja Kuby (słowa Kuby):** „Przejrzałem poprawki i przyjmuję drugą wersję narzędzia. Przekaż wynik sesji prowadzącej, żeby scaliła propozycje wpisów z notatki b_narzedzie.md.” Commit przyjęcia: `c9e1621`. Na stronie zostają do uzupełnienia: „Priorytety”, „Czego nie wiemy” i ostateczna odpowiedź „czy to wzrost” (dziś ze znacznikiem „wstępne”) — po akceptacji punktu C.
+
+## 2026-10-20 — punkt C przyjęty: ostateczna lista priorytetów
+
+**Decyzja Kuby:** ostateczna lista 12 priorytetów i 18 niewiadomych przyjęta (`notatki/c_szkic.md`, sekcje 3 i 4), razem z odpowiedzią „czy to wzrost” (sekcja 1). Przed przeniesieniem do narzędzia pięć poprawek spójności (kwoty w niewiadomych 1 i 3, przebieg porannych opóźnień w pozycji 6, numeracja w sekcji 1c, opis punktu C w planie i przekazaniu) — wprowadzone.
+
+**Konsylium (2026-10-20, zgoda Kuby):** 9 z 9 członków, koszt 0,49 USD. Wynik: `notatki/konsylium/c_priorytety/synteza.md`. Co zmieniło na liście: wstrzymanie TikToka i Google Ads na specjalistów wyżej, obietnica L4 tylko w Meta i niżej, nowa pozycja „komunikacja po wizycie z grupą kontrolną”, cennik specjalistów dołączony do warunków TelemediGO, alarmy w pomiarze, zasada budżetu. Zarzuty sprawdzalne w danych sprawdziliśmy kodem; najważniejsza poprawka: kwoty nowych kampanii przeliczone na pełny rok (założenie 53).
+
+**Kto przenosi wynik do narzędzia:** sesja B jest zamknięta, więc robi to nowa sesja „Narzędzie: czy to wzrost, priorytety i niewiadome” (`local_0ea34a6a-6b84-45c6-87b7-e953f33e3452`), zaproponowana przez sesję prowadzącą i uruchomiona przez Kubę. Pisze w plikach narzędzia, wspólnych notatek nie edytuje, zatrzymuje się u Kuby przed próbną publikacją. Sesja prowadząca: `local_ca1efb6a-0cb9-4abb-b08b-9d90f7e7de79`.
+
+**Równolegle (decyzja Kuby):** końcowa weryfikacja liczb Codeksem (model Astra) i README repozytorium dla Telemedi.

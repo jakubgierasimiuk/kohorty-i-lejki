@@ -21,8 +21,8 @@ Kolejność: **wstępna analiza → narzędzie → uzupełnienie analizy → wer
 | A4 | Definicje (razem) | zrobione: definicje przyjęte przez Kubę (`ZALOZENIA.md` 16–27, `analiza/a4_definicje.py`, `analiza/wyniki/a4_definicje.txt`), recenzja Codeksa (Sol) uwzględniona (`notatki/recenzje/a4_codex.md`) |
 | A5 | Pierwsze kohorty, lejek, po zakupie, zdarzenia | zrobione w całości: pozyskanie (`f240505`), retencja (`c5b17ea` … `f8fda6d`) i ekonomia kampanii (`d6f63e4` … `24ac35d`), wszystko przyjęte przez Kubę i scalone |
 | B | Narzędzie | druga wersja przyjęta przez Kubę 2026-10-20 (`b76a7de`, `66ce8f8`, `005b5e9`, `8f7f461`, `c9e1621`): lejek, kohorty z macierzą i krzywą powrotu, po zakupie, wynik biznesu z kwartałami, oś zdarzeń, jakość danych. Zostają: „Priorytety”, „Czego nie wiemy” i ostateczna odpowiedź „czy to wzrost” — po akceptacji punktu C. Próbna publikacja tylko po zgodzie Kuby |
-| C | Uzupełnienie analizy, priorytety, niewiadome | szkic przejrzany przez Kubę 2026-10-20 (kierunek przyjęty, cztery dopiski wprowadzone), konsylium zrobione (9 z 9, `notatki/konsylium/c_priorytety/synteza.md`); **ostateczna lista 12 priorytetów czeka na akceptację Kuby**: `notatki/c_szkic.md` — analiza TelemediGO (`analiza/c_telemedigo.py`), propozycja odpowiedzi „czy to wzrost”, lista 10 priorytetów z wartością w marży, lista 16 niewiadomych (`analiza/c_priorytety.py`); recenzja Codeksa (Sol) w `notatki/recenzje/c_codex.md`; brief konsylium przygotowany, niewysłany (decyzja Kuby rano) |
-| D | Weryfikacja, publikacja, mail | do zrobienia |
+| C | Uzupełnienie analizy, priorytety, niewiadome | **zrobione, przyjęte przez Kubę 2026-10-20**: analiza TelemediGO, odpowiedź „czy to wzrost”, lista 12 priorytetów i 18 niewiadomych (`notatki/c_szkic.md`), konsylium 9 z 9, recenzja Codeksa (Sol); scalone (założenia 47–53, znaleziska); przeniesienie do narzędzia w sesji `local_0ea34a6a` (w toku) |
+| D | Weryfikacja, publikacja, mail | w toku: weryfikacja liczb Codeksem (Astra), README dla Telemedi; publikacja i mail tylko za zgodą Kuby |
 
 ---
 
