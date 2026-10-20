@@ -1,0 +1,102 @@
+{
+  "folder": "notatki\\konsylium\\c_priorytety",
+  "koszt_razem_usd": 0.4883,
+  "odpowiedzieli": [
+    "GLM (Z.ai)",
+    "GPT Astra (Codex)",
+    "GPT Sol (Codex)",
+    "Gemini 4 Argon (Google)",
+    "Grok (xAI)",
+    "Kimi (Moonshot)",
+    "Muse Wonder (Meta)",
+    "Qwen Max (Alibaba)"
+  ],
+  "uciete": [],
+  "bledy": [],
+  "wyniki": {
+    "GLM (Z.ai)": {
+      "finish_reason": "stop",
+      "ucieta": false,
+      "tokeny_rozumowania": 1733,
+      "prawdziwy_model": "z-ai/glm-5.3",
+      "dostawca": "Sail Research",
+      "koszt_usd": 0.007496725,
+      "tokeny_wej": 3420,
+      "tokeny_wyj": 3845,
+      "sekundy": 30,
+      "plik": "GLM_Z_ai.md"
+    },
+    "Kimi (Moonshot)": {
+      "finish_reason": "stop",
+      "ucieta": false,
+      "tokeny_rozumowania": 45,
+      "prawdziwy_model": "moonshotai/kimi-k3",
+      "dostawca": "InferenceNet",
+      "koszt_usd": 0.052419069,
+      "tokeny_wej": 4179,
+      "tokeny_wyj": 4308,
+      "sekundy": 94,
+      "plik": "Kimi_Moonshot.md"
+    },
+    "Muse Wonder (Meta)": {
+      "finish_reason": "stop",
+      "ucieta": false,
+      "tokeny_rozumowania": 2663,
+      "prawdziwy_model": "meta/muse-wonder",
+      "dostawca": "Meta",
+      "koszt_usd": 0.154532,
+      "tokeny_wej": 2983,
+      "tokeny_wyj": 7130,
+      "sekundy": 113,
+      "plik": "Muse_Wonder_Meta.md"
+    },
+    "Qwen Max (Alibaba)": {
+      "finish_reason": "stop",
+      "ucieta": false,
+      "tokeny_rozumowania": 2443,
+      "prawdziwy_model": "qwen/qwen3.8-max-0902",
+      "dostawca": "Alibaba",
+      "koszt_usd": 0.041816,
+      "tokeny_wej": 3406,
+      "tokeny_wyj": 5834,
+      "sekundy": 130,
+      "plik": "Qwen_Max_Alibaba.md"
+    },
+    "Gemini 4 Argon (Google)": {
+      "finish_reason": "stop",
+      "ucieta": false,
+      "tokeny_rozumowania": 5202,
+      "prawdziwy_model": "google/gemini-4-argon",
+      "dostawca": "Google",
+      "koszt_usd": 0.122314,
+      "tokeny_wej": 3287,
+      "tokeny_wyj": 11574,
+      "sekundy": 159,
+      "plik": "Gemini_4_Argon_Google.md"
+    },
+    "GPT Sol (Codex)": {
+      "prawdziwy_model": "gpt-6.1-sol (Codex, wysiłek high)",
+      "koszt_usd": 0,
+      "sekundy": 257,
+      "plik": "GPT_Sol_Codex.md"
+    },
+    "GPT Astra (Codex)": {
+      "prawdziwy_model": "gpt-6-astra (Codex, wysiłek high)",
+      "koszt_usd": 0,
+      "sekundy": 258,
+      "plik": "GPT_Astra_Codex.md"
+    },
+    "Grok (xAI)": {
+      "finish_reason": "stop",
+      "ucieta": false,
+      "tokeny_rozumowania": 13206,
+      "prawdziwy_model": "x-ai/grok-4.7",
+      "dostawca": "xAI",
+      "koszt_usd": 0.109714,
+      "tokeny_wej": 4298,
+      "tokeny_wyj": 17141,
+      "sekundy": 279,
+      "plik": "Grok_xAI.md"
+    }
+  }
+}

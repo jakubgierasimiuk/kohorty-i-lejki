@@ -162,3 +162,13 @@ Decyzja Kuby: wyniki przyjęte do scalenia, z jednym dopiskiem. W narzędziu i p
 
 **Scalenie:** sesja prowadząca scaliła ekonomię kampanii we wspólnych notatkach: założenia 39–43, znaleziska (sekcja ekonomia kampanii), plan (B i C), spis skryptów. Punkt A5 jest zamknięty w całości.
 
+## 2026-10-20 — przegląd szkicu punktu C
+
+**Decyzja Kuby:** szkic dobry, kierunek przyjęty (`notatki/c_szkic.md`, commit `bae2920`), z czterema dopiskami (brzmienie Kuby, lekko skrócone):
+
+1. **Odpowiedź „czy to wzrost”:** dodać marżę po kwartałach rok do roku, z wydatkami na kampanie obok. W tabeli miesięcznej narzędzia w VII–IX 2026 marża jest niższa niż rok wcześniej, przy ponad dwa razy wyższych wydatkach. Policzyć to naszym kodem; jeśli się potwierdzi, to zdanie zamyka odpowiedź.
+2. **Nowa pozycja listy priorytetów „naprawić pomiar”:** dashboard bez duplikatów i kont testowych, przychód po zwrotach, wyjaśnić i zamknąć kod TEST-QA, sprawdzić, czy lekarze dostają wynagrodzenie za wizyty testowe. Pewna i tania, a bez niej nie da się prowadzić biznesu na kohortach. Wysoko, zaraz po Safari na iOS.
+3. **Poranna przepustowość internistów wyżej,** przed test zalogowanych i test Meta. To jedyna dźwignia na retencję pacjentów z kanałów działających w obu latach, a pierwszy krok (grafiki i obsada) jest tani.
+4. **Konsylium na liście priorytetów: tak.** Przed wysłaniem dopisać do briefu kandydata „pomiar” i do kontekstu fakt o marży w ostatnim kwartale. Wynik pokazać jako wynik, a nie przegląd modeli.
+
+**Dalej:** po konsylium ostateczna wersja listy do akceptacji Kuby. Po akceptacji odpowiedź, priorytety i niewiadome przekazujemy sesji B do narzędzia.

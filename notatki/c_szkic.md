@@ -1,6 +1,6 @@
 # C — szkic na poranny przegląd Kuby (sesja prowadząca, 2026-10-20)
 
-**Status:** szkic. Nic tu nie jest wnioskiem, dopóki Kuba go nie przyjmie. Zakres: `DECYZJE.md`, wpis z 2026-10-20 o nowej sesji prowadzącej.
+**Status:** szkic przejrzany przez Kubę 2026-10-20: kierunek przyjęty, z czterema dopiskami (`DECYZJE.md`, wpis „przegląd szkicu punktu C”, i sekcja 9 niżej). Ostateczna lista priorytetów powstaje po rundzie konsylium i czeka na akceptację Kuby. Zakres: `DECYZJE.md`, wpis z 2026-10-20 o nowej sesji prowadzącej.
 
 **Pliki:**
 
@@ -20,6 +20,10 @@ Okres 1 = X 2024 – IX 2025, okres 2 = X 2025 – IX 2026. „Przyjęta reguła
 ## 1. Propozycja odpowiedzi „czy to wzrost” (do akceptacji Kuby)
 
 **Propozycja w dwóch zdaniach:** w rozumieniu Telemedi to nie jest wzrost, bo z dwóch warunków spełniony jest tylko pierwszy: pacjentów z pierwszym zakupem jest o 52,1% więcej (24 687 wobec 16 231), ale retencja jest gorsza (powrót w 90 dniach 17,4% wobec 23,9% na tych samych dniach kalendarzowych, a marża na pacjenta w 90 dniach 58,3 zł wobec 66,6 zł). Większość spadku retencji to pacjenci dwóch nowych kampanii na L4, ale bez nich retencja też spada (do 22,0% według przyjętej reguły albo 20,4% według sesji płatności), a nowych pacjentów spoza tych kampanii przybyło tylko o 7,3–20,1%.
+
+**Zdanie zamykające (dopisek Kuby, potwierdzone naszym kodem):** pod koniec okresu wzrost przestał się przekładać na wynik: w III kwartale 2026 marża była o 6,8% niższa niż rok wcześniej (207,7 tys. zł wobec 222,8 tys. zł), choć wydatki na kampanie były 2,08 raza wyższe (181,6 tys. zł wobec 87,4 tys. zł).
+
+*Uzupełnienie po konsylium (sprawdzone kodem):* utracone przez awarię Safari na iOS pierwsze zamówienia odpowiadają w III kwartale 2026 około 14–21 tys. zł marży, czyli mniej więcej całemu spadkowi. Bez awarii kwartał byłby więc mniej więcej na poziomie roku wcześniejszego, a nie wyżej: dwa razy wyższe wydatki nie przyniosły wzrostu marży (`c_priorytety.txt`, P1 i W4).
 
 ### 1a. Więcej pacjentów: tak
 
@@ -47,7 +51,20 @@ Okres 1 = X 2024 – IX 2025, okres 2 = X 2025 – IX 2026. „Przyjęta reguła
 3. **Wynik biznesu rośnie wolniej niż sprzedaż.** Marża po koszcie lekarza, kampaniach i prowizji wynosi 828 tys. zł w okresie 1 i 1 048 tys. zł w okresie 2, czyli +26,6%. Po odjęciu marży powtórnych konsultacji pacjentów pozyskanych w okresie 1 to +8,1%, a po odjęciu także ich opłat za TelemediGO (41,5 tys. zł) +3,1%. To rozbicie księgowe, a nie wynik biznesu, który startuje od zera: nie modeluje zmian wydatków ani zachowania pacjentów. Wydatki na kampanie rosną o 77% (z 368 do 650 tys. zł).
 4. **Struktura pacjentów się zmieniła.** Pacjenci nowych kampanii to 29% nowych pacjentów okresu 2 według przyjętej reguły (7 268 z 24 687). Zostawiają 36,3 zł marży w 90 dniach wobec 66,0 zł pozostałych.
 5. **Obie reguły źródła.** Podział spadku powrotu (z 23,9% do 17,4%) na nowe i stare kampanie zależy od reguły. Według przyjętej reguły to 4,6 punktu procentowego nowych kampanii i 2,0 punktu starych. Według sesji płatności to 3,0 i 3,5 punktu (`ZNALEZISKA.md`, A5 retencja). Kierunek jest ten sam w obu.
-6. **To opis, nie przyczyna.** Widzimy spadek obserwowanej retencji, także po wyłączeniu pacjentów nowych kampanii. Nie dowodzi to, że identyczni pacjenci zachowują się gorzej. Rozkład na strukturę i zachowanie nie mówi też, co by się stało bez nowych kampanii. Spadek w starych kampaniach zbiega się z porannymi opóźnieniami u internistów, ale ich nie dowodzi (sekcja 4, punkt 4).
+7. **Marża po kwartałach rok do roku** (`c_priorytety.txt`, W4). Wzrost marży słabnie z kwartału na kwartał, a wydatki na kampanie rosną coraz szybciej:
+
+   ```
+   kwartał    marża         rok wcześniej   zmiana   wydatki na kampanie   rok wcześniej   iloraz
+   IV 2025    259,4 tys. zł   151,3 tys. zł   +71,4%       113,1 tys. zł        87,3 tys. zł    1,30
+   I 2026     324,4 tys. zł   226,9 tys. zł   +43,0%       170,6 tys. zł       102,6 tys. zł    1,66
+   II 2026    256,6 tys. zł   227,0 tys. zł   +13,0%       184,4 tys. zł        90,4 tys. zł    2,04
+   III 2026   207,7 tys. zł   222,8 tys. zł    −6,8%       181,6 tys. zł        87,4 tys. zł    2,08
+   ```
+
+   - Marża przed kampaniami (przychód po zwrotach + TelemediGO − koszt lekarza) rośnie w III kwartale 2026 o 25,2% (+79,0 tys. zł), ale wydatki na kampanie rosną o 94,1 tys. zł.
+   - We wrześniu 2025 ruszyła sprzedaż TelemediGO w newsletterze (225 zakupów w 23 dni), co podnosi III kwartał 2025. Bez opłat za TelemediGO marża III kwartału 2026 też jest niższa: −4,9% rok do roku.
+   - W samych miesiącach: lipiec 2026 73,4 tys. zł wobec 66,8 tys. zł, sierpień 66,3 wobec 67,2 tys. zł, wrzesień 68,0 wobec 88,8 tys. zł. Niższy jest więc kwartał jako całość, a nie każdy miesiąc.
+8. **To opis, nie przyczyna.** Widzimy spadek obserwowanej retencji, także po wyłączeniu pacjentów nowych kampanii. Nie dowodzi to, że identyczni pacjenci zachowują się gorzej. Rozkład na strukturę i zachowanie nie mówi też, co by się stało bez nowych kampanii. Spadek w starych kampaniach zbiega się z porannymi opóźnieniami u internistów, ale ich nie dowodzi (sekcja 4, punkt 4).
 
 ---
 
@@ -148,129 +165,180 @@ Raport: `analiza/wyniki/c_telemedigo.txt`. Każde członkostwo kosztuje 89 zł i
 
 ### 2.5 Co z tego wynika dla listy priorytetów (propozycja)
 
-- Warunki TelemediGO u specjalistów to pozycja 7 listy.
-- **Nie promujemy mocniej sprzedaży ani odnowień TelemediGO przed testem.** Jeśli wizyty odbyłyby się i bez członkostwa, opłaty są niższe od zniżek o około 11–16 zł na członkostwo. Program opłaca się tylko wtedy, gdy przyciąga dodatkowe wizyty, zwłaszcza u internisty. Test to pozycja 10 listy.
+- Warunki TelemediGO u specjalistów i cennik specjalistów to pozycja 10 listy.
+- **Nie promujemy mocniej sprzedaży ani odnowień TelemediGO przed testem.** Jeśli wizyty odbyłyby się i bez członkostwa, opłaty są niższe od zniżek o około 11–16 zł na członkostwo. Program opłaca się tylko wtedy, gdy przyciąga dodatkowe wizyty, zwłaszcza u internisty. Test to pozycja 12 listy.
 
 ---
 
-## 3. Lista priorytetów (propozycja, od najważniejszego)
+## 3. Lista priorytetów — wersja ostateczna do akceptacji Kuby (po konsylium, 2026-10-20)
 
 **Zasady listy:**
 - Wartość to zmiana marży na rok. Rokiem bazowym jest okres 2. Marża = przychód z konsultacji po zwrotach + TelemediGO − koszt lekarza − wydatki na kampanie − prowizja.
-- Przy kampaniach podajemy wynik po 90 i po 180 dniach od pozyskania (dopisek Kuby) oraz obie reguły źródła.
-- **Kwot nie sumujemy.** Mają różne horyzonty i częściowo się nakładają. Na przykład wstrzymanie TikToka (pozycja 3) zabiera tę część naprawy zwrotów L4 (pozycja 2), która dotyczy TikToka: 14,9 tys. z 57,1 tys. zł w wariancie A.
-- Czas wdrożenia to nasz szacunek, a nie liczba z danych. Telemedi zna swój zespół i system lepiej.
-- Kolejność: najpierw rzeczy pewne w danych i szybkie, potem decyzje, które wymagają testu.
+- Przy kampaniach podajemy wynik po 90 i po 180 dniach od pozyskania (dopisek Kuby) oraz obie reguły źródła. Kwoty kampanii, które działały krócej niż rok, przeliczamy na pełny rok przy tym samym tempie: TikTok działał w okresie 2 przez 234 dni (mnożnik 1,56), Meta na L4 przez 332 dni (1,10) (`c_priorytety.txt`, P11).
+- **Kwot nie sumujemy.** Mają różne horyzonty i zależą od siebie. Każdą wyceniamy przy założeniu, że wcześniejsze pozycje są zrobione: po wstrzymaniu TikToka naprawa obietnicy L4 dotyczy już tylko Meta.
+- **Kolejność to waga, a nie kalendarz.** Pozycje 1, 3, 4 i krótkie sprawdzenia (pierwsze kroki pozycji 2, 6, 8 i 11) zespół może zrobić równolegle w pierwszym tygodniu.
+- **Zasada budżetu:** pieniędzy uwolnionych przez pozycje 3 i 4 nie przesuwamy automatycznie do innych kampanii, bo kolejna złotówka zarabia zwykle mniej niż średnia. Przesuwamy tylko z testem. Niewydanie ich też liczy się do marży.
+- Czas wdrożenia to nasz szacunek, a nie liczba z danych.
+- **Co się zmieniło po przeglądzie Kuby i po konsylium:**
+  - pomiar zaraz po Safari (dopisek Kuby), rozszerzony o alarmy w codziennym raporcie;
+  - wstrzymanie TikToka i kampanii Google Ads na specjalistów na miejsca 3 i 4 (konsylium: strata w obu regułach i horyzontach, wyłączenie darmowe i odwracalne);
+  - obietnica L4 na miejsce 5 i tylko w Meta;
+  - poranna obsada przed testem zalogowanych i testem Meta (dopisek Kuby), jako diagnoza;
+  - nowa pozycja 7: komunikacja po wizycie z grupą kontrolną (konsylium);
+  - cennik specjalistów dołączony do warunków TelemediGO w pozycji 10 (konsylium).
 
 **Przegląd:**
 
 | # | Co robimy | Ile warte rocznie (marża) | Pewność | Wdrożenie |
 |---|---|---|---|---|
-| 1 | Naprawić zakładanie konta w Safari na iOS | 75–83 tys. zł (90 dni), 86–95 tys. zł (180 dni) | wysoka: awaria widoczna w danych | dni |
-| 2 | Uczciwa obietnica w reklamach L4: mniej zwrotów po wizycie | 22–57 tys. zł (przyjęta reguła), 13–32 tys. zł (sesja płatności) | średnia: nie znamy powodu zwrotów | 1–2 tygodnie |
-| 3 | Wstrzymać TikToka na L4 (naprawa nie wystarcza) | +12–31 tys. zł przy 100% pacjentów dodatkowych, do +82 tys. zł | średnia: znak ten sam w obu regułach i oknach | 1 dzień |
-| 4 | Sprawdzić ręcznie zakup dla zalogowanych pacjentów | 0 albo 36–40 tys. zł (wysoki scenariusz 89 tys. zł) | niska: dane wskazują raczej na 0 zł | 1 dzień |
-| 5 | Test dodatkowości Meta na L4 w połowie województw | decyzja warta od −28 do +163 tys. zł | — (to jest test) | 1 tydzień + 4–6 tygodni |
-| 6 | Poranna obsada internistów: dane o grafikach i test | scenariusz od 0 do 65 tys. zł, koszt obsady nieznany | niska | 2–6 tygodni |
-| 7 | TelemediGO: bez zniżki u specjalistów z ceną po zniżce poniżej kosztu lekarza | scenariusze 15–31 tys. zł | wysoka co do kierunku | 1–2 tygodnie, pełny efekt po 12 miesiącach |
-| 8 | `gs_generic_specjalisci`: obniżyć koszt pozyskania albo wyłączyć | +19–32 tys. zł przy 100% pacjentów dodatkowych, do +53 tys. zł | średnia: strata w obu regułach i oknach | 1 tydzień + 4–8 tygodni |
-| 9 | Sprawdzić stratę między kliknięciem a sesją w Meta i TikToku | 0 albo do 52 tys. zł (górna granica) | niska | 1–2 dni |
-| 10 | Test TelemediGO z losowym członkostwem próbnym | decyduje o roli programu; koszt testu 3–12 tys. zł | — (to jest test) | 2–6 tygodni + 90 dni |
+| 1 | Naprawić zakładanie konta w Safari na iOS | 75–83 tys. zł (90 dni), 86–95 tys. zł (180 dni); górna granica | wysoka: awaria widoczna w danych | dni |
+| 2 | Naprawić pomiar: raport bez duplikatów i kont testowych, przychód po zwrotach, zamknąć testy TEST-QA, wynagrodzenie lekarzy za testy, alarmy na lejku i zwrotach | 0 albo 38 tys. zł bezpośrednio; pośrednio warunek pozostałych decyzji | wysoka: oba błędy widoczne w danych | 1 dzień sprawdzenie, 1–2 tygodnie raport |
+| 3 | Wstrzymać TikToka na L4 | +18,6 do +48,0 tys. zł przy 100% pacjentów dodatkowych (pełny rok), więcej przy mniejszej dodatkowości | wysoka co do znaku | 1 dzień |
+| 4 | Wstrzymać `gs_generic_specjalisci` (Google Ads na specjalistów) do czasu zmiany cennika | +19,4 do +31,5 tys. zł przy 100% pacjentów dodatkowych, do +53,2 tys. zł | wysoka co do znaku | 1 dzień |
+| 5 | Uczciwa obietnica w reklamach L4 Meta (test dwóch kreacji) | 18,1–46,5 tys. zł (przyjęta reguła), 10,7–26,7 tys. zł (sesja płatności), pełny rok | średnia: nie znamy powodu zwrotów | 1–2 tygodnie + 4–6 tygodni pomiaru |
+| 6 | Poranna obsada internistów: diagnoza, potem test | scenariusz od 0 do 65 tys. zł, koszt obsady nieznany | niska co do kwoty | diagnoza 1–2 dni, test 2–4 tygodnie |
+| 7 | Komunikacja po wizycie z losową grupą kontrolną (retencja) | scenariusz: 23,6 tys. zł za każdy punkt procentowy powrotu w 90 dniach | niska co do kwoty | dane o wysyłkach dni, sekwencja 2–4 tygodnie, pomiar 90 dni |
+| 8 | Sprawdzić ręcznie zakup dla zalogowanych pacjentów | 0 albo 36–40 tys. zł (wysoki scenariusz 89 tys. zł) | niska: dane wskazują raczej na 0 zł | 1 dzień |
+| 9 | Test dodatkowości Meta na L4 w parach województw, z progiem decyzji 85% | decyzja warta od −30,6 do +179,6 tys. zł (pełny rok) | — (to jest test) | 1 tydzień + 4–6 tygodni |
+| 10 | Cennik specjalistów i warunki TelemediGO u specjalistów | TelemediGO: scenariusze 15–31 tys. zł po pełnym roku (w pierwszym około połowa); cennik: do 73,6 tys. zł za każde 10 zł podwyżki przy tej samej liczbie wizyt (górna granica) | wysoka co do kierunku, niska co do kwoty cennika | 1–2 tygodnie + test dwóch cen 4 tygodnie |
+| 11 | Sprawdzić stratę między kliknięciem a sesją w Meta i TikToku | 0 albo do 52 tys. zł (górna granica, po wstrzymaniu TikToka mniej) | niska | 1–2 dni |
+| 12 | Test TelemediGO z losowym, bezpłatnym dostępem do zniżek | decyduje o roli programu; koszt testu 3–12 tys. zł | — (to jest test) | 2–6 tygodni + 90 dni |
 
 ### Pozycja 1. Naprawić zakładanie konta w Safari na iOS
 
 - **Z danych:** od 17.03.2026 w Safari na iPhone'ach i iPadach przestaje działać zakładanie nowego konta. Krok konta po wyborze terminu u osób, które jeszcze nie kupowały, spada z 66,1% do 45,6% i nie wraca. Logowanie do istniejących kont działa. Inne przeglądarki tego nie mają, a spadek jest w każdym kanale (`a5_pozyskanie.md`, sekcja 2).
-- **Ile warta:** w 198 dniach od 17.03 do 30.09.2026 to 628–695 utraconych pierwszych zamówień, czyli 1 158–1 281 rocznie. Nowy pacjent z pierwszą płatnością w Safari na iOS zostawia w okresie 2 średnio 64,6 zł marży w 90 dniach i 74,3 zł w 180 dniach. Daje to **75–83 tys. zł marży rocznie w horyzoncie 90 dni i 86–95 tys. zł w horyzoncie 180 dni** (`c_priorytety.txt`, P1).
-- **Założenia:** utracone pierwsze zamówienie to utracony nowy pacjent (odpadnięci nie kupują później częściej w tej samej przeglądarce, ale innych urządzeń nie widzimy); nie doliczamy kosztu pozyskania, bo wejście już zostało opłacone; skala problemu z 17.03–30.09.2026 utrzymywałaby się przez rok. Kwoty to marża rocznika odzyskanych pacjentów w 90 albo 180 dniach od pozyskania, a nie wpływy w całości w tym samym roku.
-- **Po czym poznamy, że zadziałała:** krok konta po wyborze terminu w Safari na iOS u osób, które jeszcze nie kupowały, wraca z około 46% do około 66%, a zakładanie kont w Safari na iOS wraca do poziomu sprzed 17.03 (około 1 080 w 60 dniach). Widać to w lejku dzień po dniu po 1–2 tygodniach.
+- **Ile warta:** w 198 dniach od 17.03 do 30.09.2026 to 628–695 utraconych pierwszych zamówień, czyli 1 158–1 281 rocznie. Nowy pacjent z pierwszą płatnością w Safari na iOS zostawia w okresie 2 średnio 64,6 zł marży przed kosztem pozyskania w 90 dniach i 74,3 zł w 180 dniach. Daje to **75–83 tys. zł rocznie w horyzoncie 90 dni i 86–95 tys. zł w horyzoncie 180 dni** (`c_priorytety.txt`, P1). **W samym III kwartale 2026 to około 14–21 tys. zł marży, czyli mniej więcej cały spadek marży rok do roku (15,1 tys. zł).**
+- **Założenia:** utracone pierwsze zamówienie to utracony nowy pacjent (górna granica: odpadnięci nie kupują później częściej w tej samej przeglądarce, ale innych urządzeń nie widzimy); nie doliczamy kosztu pozyskania, bo wejście już zostało opłacone; skala problemu utrzymywałaby się przez rok (przeliczenie z marca–września może zaniżać, bo pomija zimę). Kwoty to marża rocznika odzyskanych pacjentów, a nie wpływy w całości w tym samym roku.
+- **Po czym poznamy:** krok konta po wyborze terminu w Safari na iOS u osób, które jeszcze nie kupowały, wraca z około 46% do około 66% w ciągu tygodnia od poprawki, a zakładanie kont wraca do poziomu sprzed 17.03 (około 1 080 w 60 dniach).
 - **Wdrożenie:** powtórzenie rejestracji na iPhonie, logi błędów i lista zmian z 16–17.03.2026 to 1–2 dni. Sama poprawka to zwykle dni.
 
-### Pozycja 2. Uczciwa obietnica w reklamach L4 i na stronie wejścia: mniej zwrotów po wizycie
+### Pozycja 2. Naprawić pomiar (dopisek Kuby; rozszerzone o alarmy po konsylium)
 
-- **Z danych:** 17,4% odbytych wizyt L4 pacjentów nowych kampanii kończy się zwrotem po wizycie (1 024 z 5 895), wobec 5,3% L4 pozostałych pacjentów. Kod rabatowy ani opóźnienie wizyty nie zmieniają tego odsetka. Za zwróconą wizytę lekarz dostaje wynagrodzenie (`a5_ekonomia.md`, sekcja 4b).
-- **Ile warta:** gdyby odsetek spadł do poziomu pozostałych pacjentów, **od 22,3 tys. zł (wariant B) do 57,1 tys. zł (wariant A) marży rocznie według przyjętej reguły i od 12,7 do 31,8 tys. zł według sesji płatności.** Wynik po 180 dniach jest taki sam, bo ci pacjenci prawie nie wracają (`c_priorytety.txt`, P2).
-- **Założenia:** wariant A — wizyta daje pacjentowi to, czego oczekiwał, i zapłata zostaje. Wariant B — uczciwa obietnica odstrasza pacjentów, którzy nie dostaliby L4, i ci nie kupują; oszczędzamy koszt lekarza. Prawda leży zwykle pomiędzy.
-- **Po czym poznamy:** odsetek zwróconych wizyt L4 z tych kampanii tydzień po tygodniu spada z 17,4% w stronę 5–6%. Obok śledzimy liczbę pierwszych zamówień z kampanii i koszt pozyskania, bo wariant B zmniejsza liczbę zamówień.
-- **Wdrożenie:** zmiana treści reklam i strony `/zwolnienie-l4-online` to 1–2 tygodnie. Pytanie przed płatnością („lekarz wystawia L4 tylko przy wskazaniach medycznych”) to 2–4 tygodnie. Pomiar to 4–6 tygodni.
-- **Czego nie wiemy:** powodu zwrotów nie ma w danych (sekcja 4, punkt 3).
+- **Z danych:** codzienny raport liczy dane na surowo. Zawiera 604 zdublowane zamówienia z 10–24.06.2026, 2 071 zamówień 22 kont testowych i przychód przed zwrotami. Konta testowe mają kod TEST-QA albo zamówienia bez kodu, a wszystkie ich wizyty trwają 1 minutę u internisty. Przez to raport pokazuje +60,7% zamówień zamiast +55,7% i +50,3% przychodu z konsultacji zamiast +44,8% po zwrotach. Testów przybywa: 553 zamówienia w okresie 1 i 1 518 w okresie 2. Raport liczy też zamówienia i przychód, a nie marżę po koszcie pozyskania i powroty kohort. Dlatego kampanie na L4 wyglądały na nim jak wzrost.
+- **Co robimy:**
+  - raport bez duplikatów i kont testowych, przychód po zwrotach;
+  - testy przeniesione z produkcji na środowisko testowe;
+  - jednodniowe sprawdzenie w dziale rozliczeń, czy lekarze dostają wynagrodzenie za wizyty testowe;
+  - sprawdzenie, czy kod TEST-QA nie wyciekł poza 22 konta i czy przy duplikatach nikt nie zapłacił dwa razy;
+  - do raportu marża po koszcie pozyskania według źródła, zwroty po wizycie według kampanii, powrót w 90 dniach każdej kohorty dziennej i kroki lejka według przeglądarki, z alarmami.
+- **Ile warta** (`c_priorytety.txt`, P1b i P15):
+  - bezpośrednio **37 950 zł rocznie**, jeśli lekarze dostają 25 zł za każdą wizytę testową (wszystkie są u internisty), albo 0 zł, jeśli nie dostają. Pieniądze już wypłacone są stracone, a oszczędność dotyczy kolejnych miesięcy;
+  - pośrednio: bez poprawnych liczb nie da się prowadzić biznesu na kohortach. Alarm na krokach lejka wykryłby awarię Safari po kilku dniach, a nie po 198. Wykrycie po tygodniu ograniczyłoby stratę do 3,5% (22–25 zamówień zamiast 628–695).
+- **Po czym poznamy:** raport pokazuje te same liczby co nasza oczyszczona warstwa danych (w okresie 2: 38 491 zamówień i 3,228 mln zł przychodu z konsultacji po zwrotach), a od ustalonej daty na produkcji nie ma zamówień testowych.
+- **Wdrożenie:** sprawdzenie wynagrodzeń 1 dzień; raport i testy 1–2 tygodnie; alarmy 2–4 tygodnie.
 
-### Pozycja 3. Wstrzymać kampanię TikTok na L4 — naprawa nie wystarcza
+### Pozycja 3. Wstrzymać kampanię TikTok na L4
 
 - **Z danych:** wynik na pacjenta jest ujemny w obu regułach i w obu oknach: −4,6 i −17,8 zł po 90 dniach, −1,1 i −11,0 zł po 180 dniach. Pacjenci wracają w 90 dniach w 3,2% (`a5_ekonomia.md`, sekcje 1–2).
-- **Naprawić albo wyłączyć — obie drogi w marży na rok** (`c_priorytety.txt`, P3):
-  - **dziś:** −11,9 tys. zł (przyjęta reguła) i −30,8 tys. zł (sesja płatności) po 90 dniach; −13,5 i −32,3 tys. zł po 180 dniach;
-  - **naprawić zwroty** (wariant A, najlepszy): wynik +3,0 tys. zł albo −23,2 tys. zł po 90 dniach; +1,4 i −24,7 tys. zł po 180 dniach. Przeglądarki wbudowane w aplikacje nie dają w tym rachunku nic (w TikToku konwersja nie jest w nich niższa);
-  - **wyłączyć:** przy 100% pacjentów dodatkowych +11,9 albo +30,8 tys. zł po 90 dniach i +13,5 albo +32,3 tys. zł po 180 dniach; przy 50% +47,2 albo +56,6 tys. zł; przy 0% +82,5 tys. zł (oszczędzone wydatki).
-- **Propozycja:** wstrzymać. Wyłączenie nie pogarsza marży w żadnej regule, żadnym oknie i żadnym wariancie dodatkowości. Naprawa w najlepszym razie doprowadza wynik do zera. Do kampanii można wrócić po naprawie obietnicy (pozycja 2), na małym budżecie i z grupą kontrolną.
-- **Dodatkowa korzyść, jeśli hipoteza porannych opóźnień jest prawdziwa:** mniej porannych wizyt u internisty (pozycja 6).
-- **Po czym poznamy:** łączna marża rośnie co najmniej o 11,9 tys. zł rocznie, czyli tyle, ile w wariancie, w którym wszyscy pacjenci TikToka byli dodatkowi. Jeśli po wstrzymaniu w pozostałych kanałach przybywa nowych pacjentów L4, część pacjentów TikToka przyszłaby i bez niego, a zysk jest większy.
-- **Wdrożenie:** 1 dzień. Pomiar 4–6 tygodni.
+- **Naprawić albo wyłączyć — obie drogi** (`c_priorytety.txt`, P3 i P11; kwoty z 234 dni działania, w nawiasie pełny rok):
+  - **dziś:** −11,9 tys. zł (−18,6) według przyjętej reguły i −30,8 tys. zł (−48,0) według sesji płatności po 90 dniach; −13,5 i −32,3 tys. zł po 180 dniach;
+  - **naprawić zwroty** (wariant A, najlepszy): wynik +3,0 tys. zł albo −23,2 tys. zł po 90 dniach; +1,4 i −24,7 tys. zł po 180 dniach. Przeglądarki wbudowane w aplikacje nie dają w tym rachunku nic;
+  - **wyłączyć:** przy 100% pacjentów dodatkowych +11,9 do +30,8 tys. zł (+18,6 do +48,0 na pełny rok); przy 0% +82,5 tys. zł (+128,6).
+- **Propozycja:** wstrzymać od razu. Wyłączenie zyskuje w każdej regule, każdym oknie i każdym wariancie dodatkowości, a każdy tydzień naprawy przy pełnym budżecie to pewna strata. Naprawy (obietnica, ładowanie strony) sprawdzamy na Meta. TikTok może wrócić jako mały test, jeśli zadziałają.
+- **Po czym poznamy:** w 4 tygodnie po pauzie marża całego biznesu po wydatkach rośnie, a łączna liczba nowych pacjentów spada mniej niż liczba pacjentów przypisanych dotąd TikTokowi. Pauza daje przy okazji słaby, darmowy pomiar dodatkowości.
+- **Wdrożenie:** 1 dzień.
 
-### Pozycja 4. Sprawdzić ręcznie zakup dla pacjentów zalogowanych od wejścia
+### Pozycja 4. Wstrzymać `gs_generic_specjalisci` (Google Ads ogólne na specjalistów) do czasu zmiany cennika
 
-- **Z danych:** 22 068 sesji zalogowanych od wejścia nigdy nie kończy się zakupem konsultacji. Każdy z 22 289 zakupów powtórnych ma krok logowania, choć według słownika danych zalogowany pacjent nie powinien go mieć. Dane nie rozstrzygają między odczytaniami: (A) to wizyty „sprawdzam konto” albo (B) ścieżka zakupu dla zalogowanych jest zepsuta. Kilka faktów przemawia za A (`a5_pozyskanie.md`, sekcja 3).
-- **Ile warta** (`c_priorytety.txt`, P5): w odczytaniu A 0 zł. W odczytaniu B to scenariusze: 2 906 sesji z wyborem usługi w okresie 2 × 40,9% do płatności × 33,99 zł marży zamówienia powtórnego = **około 40 tys. zł rocznie**, a licząc pacjentów zamiast sesji (2 557, bo kilka sesji to często ten sam zamiar zakupu) około 36 tys. zł. Wysoki scenariusz (× 90,5%) daje około 89 tys. zł, ale to przelicznik z późniejszego kroku, a nie górna granica. Zakładamy, że odzyskane płatności to odrębne zamówienia. Część tych zakupów i tak dzieje się później.
-- **Po czym poznamy:** test daje odpowiedź od razu. Jeśli ścieżka jest zepsuta, po naprawie sesje zalogowane od wejścia zaczynają kończyć się płatnością.
-- **Wdrożenie:** ręczny test w 1 dzień: zalogować się, zamknąć kartę, wrócić zalogowanym z linku w newsletterze i z `/konto`, wybrać usługę i termin, zapłacić, sprawdzić zapisane kroki. Do tego prośba o logi błędów dla sesji zalogowanych od wejścia.
-- **Dlaczego tak wysoko mimo niskiej pewności:** to najtańsza pozycja z wartością rzędu kilkudziesięciu tysięcy złotych, a CRM to główny kanał powrotów.
-
-### Pozycja 5. Meta na L4: test dodatkowości przed decyzją
-
-- **Z danych:** wynik kampanii zależy od reguły źródła: +27,8 tys. zł rocznie według przyjętej reguły i −28,7 tys. zł według sesji płatności po 90 dniach; +29,9 i −27,5 tys. zł po 180 dniach. Dane nie rozstrzygają, ilu jej pacjentów przyszłoby i bez niej. Jest słaby sygnał przejmowania pacjentów L4 z pozostałych kanałów po jej starcie (`a5_ekonomia.md`, sekcje 6–7).
-- **Naprawić albo wyłączyć** (`c_priorytety.txt`, P4):
-  - **naprawić zwroty** (wariant A): wynik +70,1 tys. zł (przyjęta reguła) albo −4,5 tys. zł (sesja płatności);
-  - **wyłączyć:** od −27,8 tys. zł (przyjęta reguła, wszyscy pacjenci dodatkowi) do +163,3 tys. zł (żaden pacjent nie jest dodatkowy).
-  - **Tyle jest wart test:** decyzja waha się od −27,8 do +163,3 tys. zł rocznie.
-- **Propozycja:** do czasu wyniku testu kampania działa z poprawioną obietnicą (pozycja 2).
-- **Test:** na 4–6 tygodni wyłączyć albo mocno obniżyć budżet w losowo wybranej połowie województw. Porównać nowych pacjentów ze wszystkich kanałów, osobno L4, i powroty pozostałych pacjentów w województwach z kampanią i bez niej. Ten sam test sprawdza hipotezę porannych opóźnień, jeśli zmierzymy przy okazji opóźnienia porannych wizyt.
-- **Po czym poznamy:** różnica w liczbie nowych pacjentów między połówkami kraju wobec różnicy w wydatkach. To daje koszt pozyskania pacjenta dodatkowego.
-- **Wdrożenie:** tydzień przygotowania i 4–6 tygodni testu.
-
-### Pozycja 6. Poranna obsada internistów: dane o grafikach i test
-
-- **Z danych:** od listopada 2025 około połowa porannych wizyt u internisty (6:00–11:59) zaczyna się ponad 15 minut po terminie, wobec 5–7% rok wcześniej. Przy tym samym porannym ruchu opóźnień jest o 26,4 punktu procentowego więcej, więc spadła przepustowość poranka, a nie tylko przybyło pacjentów. Wizyty spóźnione ponad 30 minut mają średnią ocenę 2,9 wobec 4,5 przy punktualnych. Rano spada powrót po wizytach spóźnionych (`a5_retencja.md`, krok 4).
-- **Ile warta:** to tylko scenariusz: od 0 zł (opóźnienia nie zmieniają powrotów) przez 11,9–12,7 tys. zł (wariant wąski) do 31,8–65,2 tys. zł (wariant szeroki) marży rocznie w horyzoncie 180 dni (`c_priorytety.txt`, P8). Kosztu dodatkowej obsady nie ma w danych, więc wartości netto nie da się policzyć.
-- **Po czym poznamy:** odsetek porannych wizyt u internisty spóźnionych ponad 15 minut spada z około 50% w stronę 5–7%, oceny porannych wizyt rosną, a powrót w 90 dniach pacjentów z pierwszą wizytą rano wraca w stronę 23–24%.
-- **Wdrożenie:** dane o obsadzie i grafikach to kilka dni. Test (więcej internistów rano w losowo wybrane dni albo mniej porannych terminów z kampanii na L4) to 2–4 tygodnie. Efekt w powrotach widać po 90 dniach.
-
-### Pozycja 7. TelemediGO: bez zniżki u specjalistów, u których cena po zniżce jest niższa niż koszt lekarza
-
-- **Z danych:** po zniżce 20% cena jest niższa niż koszt lekarza u wszystkich specjalistów poza psychiatrą: od −4,8 zł (endokrynolog, ginekolog) do −24 zł (pediatra) na wizycie. W okresie 2 te wizyty przyniosły 14,7 tys. zł straty na 1 512 zamówieniach (punkt 2.3).
-- **Ile warta** (scenariusze, nie granice; `c_priorytety.txt`, P6): **14,7 tys. zł rocznie**, jeśli wszystkie te zamówienia znikną; 18,9 tys. zł, jeśli znikną tylko te, które dziś przynoszą stratę; **31,4 tys. zł**, jeśli wszystkie zostaną po cenie katalogowej. Gdy każdy pacjent reaguje inaczej, wynik mieści się między 10,9 a 35,2 tys. zł. Ryzyko: część pacjentów może rzadziej kupować TelemediGO. Jeśli wizyty odbyłyby się i bez programu, opłaty są dziś niższe od zniżek (punkt 2.2), więc mniejsza sprzedaż nie obniżałaby marży.
-- **Warianty:** zniżka 0% u tych specjalistów; zniżka najwyżej 8% u specjalistów z ceną 109–119 zł (cena po zniżce zostaje powyżej 100 zł kosztu lekarza) i bez zniżki u pediatry i psychologa, których cena katalogowa już jest poniżej kosztu lekarza; albo zniżka tylko u internisty i psychiatry.
-- **Po czym poznamy:** marża wizyt członków u specjalistów przechodzi z −14,7 tys. zł na zero albo powyżej. Obok śledzimy sprzedaż TelemediGO i powroty członków.
-- **Wdrożenie:** zmiana regulaminu i kasy to 1–2 tygodnie. Obecni członkowie mają stare warunki do końca ważności, więc pełny efekt jest po 12 miesiącach.
-
-### Pozycja 8. `gs_generic_specjalisci` (Google Ads ogólne na specjalistów): obniżyć koszt pozyskania albo wyłączyć
-
-- **Z danych:** wynik na pacjenta jest ujemny w obu regułach i obu oknach: −23,7 i −44,7 zł po 90 dniach, −14,3 i −36,6 zł po 180 dniach. Marża pacjenta jest niska, bo wizyta u specjalisty po cenie katalogowej zostawia tylko 9–19 zł ponad koszt lekarza (`a5_ekonomia.md`, sekcja 2; punkt 2.3).
+- **Z danych:** wynik na pacjenta jest ujemny w obu regułach i obu oknach: −23,7 i −44,7 zł po 90 dniach, −14,3 i −36,6 zł po 180 dniach. Koszt pozyskania wynosi 57,6 zł (przyjęta reguła) albo 80,9 zł (sesja płatności) przy marży pacjenta przed kosztem pozyskania 32–37 zł. Przyczyną jest cennik: wizyta u specjalisty po cenie katalogowej zostawia tylko 9–19 zł ponad koszt lekarza (pozycja 10).
 - **Naprawić albo wyłączyć** (`c_priorytety.txt`, P7; 923 nowych pacjentów rocznie według przyjętej reguły, 657 według sesji płatności, wydatki 53,2 tys. zł):
-  - **dziś:** −23,3 tys. zł (przyjęta reguła) i −31,5 tys. zł (sesja płatności) po 90 dniach; −19,4 i −30,2 tys. zł po 180 dniach;
-  - **naprawić:** koszt pozyskania musiałby spaść z 57,6 zł (przyjęta reguła) albo 80,9 zł (sesja płatności) do 32–37 zł, czyli o 40–60% (stawki, słowa kluczowe, strona wejścia). Druga droga to wyższa marża wizyt u specjalistów (ceny). Wartość naprawy: do 19–32 tys. zł, czyli do zera straty;
-  - **wyłączyć:** +19,4 do +31,5 tys. zł przy 100% pacjentów dodatkowych, +36,3 do +42,4 tys. zł przy 50%, +53,2 tys. zł przy 0%.
-- **Propozycja:** najpierw obniżyć stawki i sprawdzić koszt pozyskania przez 4–8 tygodni. Jeśli nie spadnie w stronę 35 zł, wyłączyć.
-- **Po czym poznamy:** koszt pozyskania i marża na pacjenta w 90 dniach z tej kampanii, miesiąc po miesiącu.
-- **Wdrożenie:** tydzień zmian w kampanii i 4–8 tygodni pomiaru.
+  - **dziś:** −23,3 tys. zł i −31,5 tys. zł po 90 dniach; −19,4 i −30,2 tys. zł po 180 dniach;
+  - **naprawić:** sama kampania musiałaby obniżyć koszt pozyskania o 40–60%, a to inny model kampanii, nie naprawa. Prawdziwa naprawa to cennik (pozycja 10). Uwaga: awaria Safari od 17.03 zawyża koszt pozyskania także tej kampanii;
+  - **wyłączyć:** +19,4 do +31,5 tys. zł przy 100% pacjentów dodatkowych, +36,3 do +42,4 tys. zł przy 50%, +53,2 tys. zł przy 0%. Założenia: `ZALOZENIA.md` 42.
+- **Propozycja:** wstrzymać. Wrócić po zmianie cennika albo gdy koszt pozyskania nie przekracza marży pacjenta w 90 dniach w obu regułach.
+- **Po czym poznamy:** marża po wydatkach rośnie, a nowych pacjentów u specjalistów z pozostałych kanałów nie ubywa więcej, niż kampania przypisywała.
+- **Wdrożenie:** 1 dzień.
 
-### Pozycja 9. Sprawdzić stratę między kliknięciem reklamy a sesją w Meta i TikToku
+### Pozycja 5. Uczciwa obietnica w reklamach L4 Meta i na stronie wejścia: mniej zwrotów po wizycie
+
+- **Z danych:** 17,4% odbytych wizyt L4 pacjentów nowych kampanii kończy się zwrotem po wizycie (1 024 z 5 895), wobec 5,3% L4 pozostałych pacjentów. Kod rabatowy ani opóźnienie wizyty nie zmieniają tego odsetka. Za zwróconą wizytę lekarz dostaje wynagrodzenie.
+- **Ile warta po wstrzymaniu TikToka** (tylko Meta; `c_priorytety.txt`, P11): **18,1–46,5 tys. zł rocznie według przyjętej reguły i 10,7–26,7 tys. zł według sesji płatności**, na pełny rok. Wynik po 180 dniach jest taki sam, bo ci pacjenci prawie nie wracają. Jeśli test (pozycja 9) pokaże, że Meta trzeba wyłączyć, ta pozycja jest warta zero.
+- **Założenia i zastrzeżenia:**
+  - dolny wariant zakłada, że uczciwa reklama odstrasza tylko tych, którzy i tak dostaliby zwrot; w praktyce odstraszy też część pozostałych, więc może być niżej;
+  - górny wariant („wizyta zostaje opłacona”) może wymagać zmiany zasad zwrotów, a nie samej treści reklamy. To osobna decyzja z ryzykiem prawnym i wizerunkowym;
+  - 5,3% to odsetek z innej grupy pacjentów, więc pełne zrównanie jest optymistyczne. Rozsądny wariant bazowy to zmniejszenie luki o połowę.
+- **Co robimy:**
+  - najpierw jednodniowe sprawdzenie, co obiecują reklama, strona `/zwolnienie-l4-online` i regulamin przy odmowie L4;
+  - potem nowa kreacja i pytanie przed płatnością („lekarz wystawia L4 tylko przy wskazaniach medycznych”);
+  - w Meta losowy podział ruchu na starą i nową kreację, z osobnym oznaczeniem kampanii.
+- **Po czym poznamy:** odsetek zwrotów po wizycie L4 przy nowej kreacji spada wobec starej, a marża na kliknięcie nie spada. Liczy się marża, nie sam odsetek zwrotów.
+- **Wdrożenie:** 1–2 tygodnie zmian i 4–6 tygodni pomiaru.
+
+### Pozycja 6. Poranna obsada internistów: diagnoza, potem test (dopisek Kuby: przed testem zalogowanych i testem Meta)
+
+- **Z danych:** od listopada 2025 około połowa porannych wizyt u internisty (6:00–11:59) zaczyna się ponad 15 minut po terminie, wobec 5–7% rok wcześniej. Przy tym samym porannym ruchu opóźnień jest o 26,4 punktu procentowego więcej. Długość porannej wizyty się nie zmieniła (8,5 minuty w obu okresach), więc dłuższe wizyty tego nie tłumaczą. Wizyty spóźnione ponad 30 minut mają średnią ocenę 2,9 wobec 4,5 przy punktualnych. Rano spada powrót po wizytach spóźnionych.
+- **Dlaczego wysoko:** to jedyna dźwignia na retencję pacjentów z kanałów działających w obu latach, a pierwszy krok jest tani (dopisek Kuby).
+- **Ile warta:** scenariusz od 0 zł do 65,2 tys. zł marży rocznie w horyzoncie 180 dni (`c_priorytety.txt`, P8). Związek opóźnień z powrotami może częściowo wynikać z tego, kto przychodzi rano, więc kwota jest niepewna. Kosztu dodatkowej obsady nie ma w danych.
+- **Co robimy:** diagnoza (grafiki i obsada poranna przed i po 3.11.2025, obciążenie lekarzy pacjentami spoza B2C, rozmowa z osobami od grafików). Potem naprawy, także bez dodatkowej obsady: liczba porannych terminów dopasowana do przepustowości, przesunięcie godzin lekarzy, realny czas oczekiwania pokazany pacjentowi. Na końcu test w losowo wybrane dni.
+- **Po czym poznamy:** odsetek porannych wizyt spóźnionych ponad 15 minut spada z około 50% poniżej 10%, oceny porannych wizyt rosną, a powrót w 90 dniach pacjentów z pierwszą wizytą rano, z tego samego źródła, wraca w stronę 23–24%.
+- **Wdrożenie:** diagnoza 1–2 dni, test 2–4 tygodnie, efekt w powrotach po 90 dniach.
+
+### Pozycja 7. Komunikacja po wizycie z losową grupą kontrolną (nowa, po konsylium)
+
+- **Z danych:** retencja to połowa definicji wzrostu, a spada także bez pacjentów nowych kampanii (powrót w 90 dniach 22,0% wobec 23,9%). Liczba wejść z newslettera i SMS-ów na 1 000 pacjentów spada z 56–108 do 24–52 miesięcznie. Widać kliknięcia, a nie wysyłki, więc nie wiemy, czy wysyłek jest mniej (`a5_retencja.md`, krok 4c).
+- **Ile warta:** scenariusz: każdy punkt procentowy powrotu w 90 dniach to około **23,6 tys. zł marży rocznie** (24 687 nowych pacjentów × 1% × 95,6 zł), a bez pacjentów nowych kampanii 16,7 tys. zł (`c_priorytety.txt`, P12). To różnica obserwacyjna, a nie zmierzony efekt wiadomości.
+- **Co robimy:** dane o wysyłkach (ile, komu, kiedy); sekwencja po pierwszej wizycie (przypomnienie o kontynuacji leczenia, recepta, kontrola), zawsze z losową grupą kontrolną bez wysyłki.
+- **Po czym poznamy:** różnica powrotu w 90 dniach i marży między grupą z wysyłką a grupą kontrolną.
+- **Wdrożenie:** dane o wysyłkach kilka dni, sekwencja 2–4 tygodnie, pomiar 90 dni.
+
+### Pozycja 8. Sprawdzić ręcznie zakup dla pacjentów zalogowanych od wejścia
+
+- **Z danych:** 22 068 sesji zalogowanych od wejścia nigdy nie kończy się zakupem konsultacji, a każdy z 22 289 zakupów powtórnych ma krok logowania. Dane nie rozstrzygają między odczytaniami: (A) wizyty „sprawdzam konto” albo sposób zapisu (logowanie zaczyna nową sesję) albo (B) zepsuta ścieżka zakupu dla zalogowanych. Kilka faktów przemawia za A (`a5_pozyskanie.md`, sekcja 3).
+- **Ile warta** (`c_priorytety.txt`, P5): w odczytaniu A 0 zł dla przychodu (ale wtedy cierpi pomiar lejka, pozycja 2). W odczytaniu B scenariusze: około 40 tys. zł rocznie na sesjach, około 36 tys. zł na pacjentach, wysoki scenariusz 89 tys. zł.
+- **Po czym poznamy:** test daje odpowiedź od razu. Jeśli ścieżka jest zepsuta, po naprawie sesje zalogowane od wejścia zaczynają kończyć się płatnością.
+- **Wdrożenie:** 1 dzień, w pierwszym tygodniu niezależnie od miejsca na liście.
+
+### Pozycja 9. Meta na L4: test dodatkowości w parach województw, z progiem decyzji
+
+- **Z danych:** wynik kampanii zależy od reguły źródła: +27,8 tys. zł według przyjętej reguły i −28,7 tys. zł według sesji płatności po 90 dniach, w 332 dniach działania (+30,6 i −31,6 tys. zł na pełny rok). Dane nie rozstrzygają, ilu jej pacjentów przyszłoby i bez niej.
+- **Naprawić albo wyłączyć** (`c_priorytety.txt`, P4 i P11):
+  - naprawić zwroty: pozycja 5, w tej samej kampanii;
+  - wyłączyć: od −30,6 tys. zł (wszyscy pacjenci dodatkowi) do +179,6 tys. zł (żaden) na pełny rok.
+- **Próg decyzji, ustalony przed testem:** według przyjętej reguły wyłączenie traci pieniądze tylko wtedy, gdy ponad około 85% pacjentów kampanii jest dodatkowych (163,3 ÷ (163,3 + 27,8)). Według sesji płatności wyłączenie zyskuje zawsze.
+- **Projekt testu:**
+  - na 4–6 tygodni wyłączyć kampanię w połowie województw, łącząc je w pary podobne wielkością i trendem i losując w parach;
+  - wskaźnik główny: wszyscy nowi pacjenci i marża w województwie, a nie pacjenci przypisani Meta;
+  - budżetu z wyłączonych województw nie przesuwać;
+  - przy okazji mierzyć poranne opóźnienia u internisty (pozycja 6).
+  - Test kosztuje najwyżej około 1,6–1,8 tys. zł utraconej marży, jeśli wszyscy pacjenci są dodatkowi (`c_priorytety.txt`, P11). Uzupełnienie: badanie przyrostu konwersji w panelu Meta.
+- **Po czym poznamy:** spadek nowych pacjentów w województwach bez reklamy wobec liczby pacjentów przypisanych Meta: poniżej progu 85% wyłączamy, powyżej zostawiamy.
+- **Wdrożenie:** tydzień przygotowania i 4–6 tygodni testu. Wynik może się nie przenieść z jesieni na lato.
+
+### Pozycja 10. Cennik specjalistów i warunki TelemediGO u specjalistów
+
+- **Z danych:**
+  - po cenie katalogowej wizyta zostawia ponad koszt lekarza tylko 9 zł (dermatolog, kardiolog, neurolog, urolog: 109 zł) albo 19 zł (endokrynolog, ginekolog: 119 zł);
+  - pediatra (95 zł) i psycholog (99 zł) mają cenę niższą niż koszt lekarza 100 zł (przy założeniu 33);
+  - po zniżce TelemediGO 20% cena jest niższa niż koszt lekarza u wszystkich specjalistów poza psychiatrą. W okresie 2 te wizyty przyniosły 14,7 tys. zł straty na 1 512 zamówieniach (punkt 2.3, `c_priorytety.txt`, P6 i P14).
+  - To wspólna przyczyna strat w TelemediGO u specjalistów i w kampanii na specjalistów (pozycja 4).
+- **Ile warta:**
+  - **warunki TelemediGO:** scenariusze 14,7 / 18,9 / 31,4 tys. zł rocznie (znikają wszystkie te wizyty / tylko te ze stratą / wszystkie zostają po cenie katalogowej). Sufit 31,4 tys. zł pomija reakcję pacjentów na cenę. W pierwszym roku efekt to około połowa, bo obecni członkowie mają stare warunki do końca ważności;
+  - **cennik:** każde 10 zł podwyżki przy tej samej liczbie wizyt to do 73,6 tys. zł rocznie (7 363 opłacone wizyty w okresie 2). To górna granica, bo nie znamy reakcji pacjentów na cenę.
+- **Warianty:** zniżka u specjalistów ustawiona tak, żeby cena nie spadała poniżej kosztu lekarza (najwyżej około 8% przy 109 zł, bez zniżki u pediatry i psychologa); test dwóch cen dla nowych pacjentów przez 4 tygodnie, mierzony marżą na sesję, a nie odsetkiem kupujących.
+- **Po czym poznamy:** marża wizyt u specjalistów (z członkami i bez) nieujemna; sprzedaż TelemediGO nie spada bardziej niż ustalony z góry próg.
+- **Wdrożenie:** zmiana regulaminu i kasy 1–2 tygodnie; test cen 4 tygodnie.
+
+### Pozycja 11. Sprawdzić stratę między kliknięciem reklamy a sesją w Meta i TikToku
 
 - **Z danych:** na kliknięcie przypada 0,92–0,93 sesji w Google Ads, 0,79–0,82 w Meta i 0,72 w TikToku, stale w każdym kwartale (`a5_pozyskanie.md`, sekcja 5).
-- **Ile warta:** 0 zł, jeśli to sposób liczenia kliknięć przez platformy. Jeśli ludzie porzucają stronę, zanim się załaduje, i da się to odzyskać: do 1 434 zamówień × 36,3 zł marży = do 52 tys. zł rocznie (górna granica, `c_priorytety.txt`, P9).
-- **Po czym poznamy:** porównanie kliknięć w link i wyświetleń strony docelowej w panelach Meta i TikToka z sesjami w analityce, dzień po dniu, oraz czas ładowania w przeglądarkach wbudowanych.
-- **Wdrożenie:** 1–2 dni na sprawdzenie. Naprawa, jeśli potrzebna, zależy od przyczyny.
+- **Ile warta:** 0 zł, jeśli plik wydatków liczy wszystkie kliknięcia (także te, które nie prowadzą na stronę). Jeśli ludzie porzucają stronę, zanim się załaduje, i da się to odzyskać: do 52 tys. zł rocznie (górna granica, `c_priorytety.txt`, P9). Po wstrzymaniu TikToka mniej. Realnie raczej ułamek, bo porzucający są mniej zdecydowani.
+- **Po czym poznamy:** w panelach porównać kliknięcia w link i wyświetlenia strony docelowej z sesjami, dzień po dniu; czas ładowania w przeglądarkach wbudowanych. Wynik zmienia ocenę pozycji 3 i 9.
+- **Wdrożenie:** 1–2 dni, w pierwszym tygodniu.
 
-### Pozycja 10. Test TelemediGO z losowym członkostwem próbnym
+### Pozycja 12. Test TelemediGO z losowym, bezpłatnym dostępem do zniżek
 
-- **Z danych:** punkt 2.4. Nie wiemy, czy TelemediGO podnosi powroty, czy tylko przyciąga pacjentów, którzy i tak wracają.
-- **Ile warta:** decyduje, czy program promować (sprzedaż, przypomnienie o odnowieniu; dziś odnawia około 5%), czy ograniczyć. Dodatkowy koszt testu to około 3,3–12,2 tys. zł zniżek (`c_priorytety.txt`, P10). Test mierzy wpływ zniżki; o opłacalności płatnego programu za 89 zł decydujemy na jego podstawie razem z rachunkiem z punktu 2.2.
-- **Po czym poznamy:** różnica powrotu w 90 dniach i marży między grupą z członkostwem próbnym a grupą bez niego.
+- **Z danych:** punkt 2.4. Nie wiemy, czy TelemediGO podnosi powroty, czy tylko przyciąga pacjentów, którzy i tak wracają. Zniżki przewyższają opłatę średnio o 15,6 zł na członkostwo, więc program opłaca się tylko wtedy, gdy dokłada wizyt.
+- **Ile warta:** decyduje, czy program promować (sprzedaż, przypomnienie o odnowieniu; dziś odnawia około 5%), czy przebudować razem z pozycją 10. Dodatkowy koszt testu to około 3,3–12,2 tys. zł zniżek (`c_priorytety.txt`, P10).
+- **Zastrzeżenie:** darmowy dostęp mierzy wpływ zniżki, a nie opłacalność oferty za 89 zł. Losowanie samej oferty przy kasie mierzyłoby decyzję biznesową, ale przy 4,5% kupujących potrzebuje ponad 4 lat pozyskania. Wskaźnikiem głównym jest marża na pacjenta.
+- **Po czym poznamy:** różnica powrotu w 90 dniach i marży między grupą z dostępem a grupą bez niego.
 - **Wdrożenie:** 2–6 tygodni na losowe przydzielenie (487–1 823 pacjentów na grupę), potem 90 dni obserwacji.
 
 ### Czego proponujemy teraz nie robić (z danych)
 
 - **Zgoda marketingowa pacjentów nowych kampanii:** w najlepszym odczytaniu 1,9 tys. zł rocznie (`a5_ekonomia.md`, sekcja 7).
-- **Przeglądarki wbudowane w aplikacje w nowych kampaniach:** w tym rachunku 0 zł, bo konwersja nie jest tam niższa. W pozostałych kampaniach sprawa jest otwarta.
-- **Mocniejsza sprzedaż i odnowienia TelemediGO:** dopiero po teście z pozycji 10.
+- **Przeglądarki wbudowane w aplikacje w nowych kampaniach:** w tym rachunku 0 zł, bo konwersja nie jest tam niższa. W pozostałych kampaniach sprawa jest otwarta (pomiar w pozycji 2).
+- **Mocniejsza sprzedaż i odnowienia TelemediGO:** dopiero po teście z pozycji 12.
+- **Przesuwanie uwolnionego budżetu do innych kampanii bez testu** (zasada budżetu).
 
 ---
 
@@ -285,7 +353,7 @@ Raport: `analiza/wyniki/c_telemedigo.txt`. Każde członkostwo kosztuje 89 zł i
 | 5 | Sesje zalogowane od wejścia: wizyty „sprawdzam konto” czy zepsuta ścieżka | 0 albo około 36–40 tys. zł rocznie (wysoki scenariusz 89 tys. zł) | ręczny test zakupu po zalogowaniu; logi błędów; znacznik „zalogowany na wejściu” w analityce |
 | 6 | Przyczyna awarii zakładania konta w Safari na iOS od 17.03.2026 | potrzebna do naprawy (pozycja 1) | lista zmian w produkcie z 16–17.03.2026, logi rejestracji według przeglądarki, powtórzenie na iPhonie |
 | 7 | Czy utraceni w Safari na iOS kupili na innym urządzeniu | zmienia wartość pozycji 1 | powiązanie urządzeń po adresie e-mail albo numerze telefonu przy próbie rejestracji |
-| 8 | Czy TelemediGO podnosi powroty, czy tylko przyciąga pacjentów, którzy i tak wracają | decyduje o tym, czy program promować | losowe członkostwo próbne (pozycja 10) |
+| 8 | Czy TelemediGO podnosi powroty, czy tylko przyciąga pacjentów, którzy i tak wracają | decyduje o tym, czy program promować | losowy, bezpłatny dostęp do zniżek (pozycja 12) |
 | 9 | Czy newsletter i SMS wywołują zakup | CRM to główny kanał powrotów; widać kliknięcia, nie wysyłki; wejść z CRM na 1 000 pacjentów jest coraz mniej (z 56–108 do 24–52 miesięcznie) | liczba wysyłek; losowa grupa kontrolna bez wysyłki |
 | 10 | Wartość remarketingu porzuconego koszyka | przyjęta reguła z definicji przypisuje mu mało pacjentów | grupa kontrolna, której remarketing się nie wyświetla |
 | 11 | Sezon a wydatki na kampanie | wzrostu od X 2024 do I 2025 nie da się rozdzielić; dwa lata to jedna zima i jedno lato w roku | zmiana budżetu w części kraju (grupa kontrolna według województw) |
@@ -294,12 +362,14 @@ Raport: `analiza/wyniki/c_telemedigo.txt`. Każde członkostwo kosztuje 89 zł i
 | 14 | Koszt lekarza za wizyty testowe (51 775 zł według zasady z zadania) | wynik biznesu | informacja, czy lekarze dostali wynagrodzenie za testy; przegląd testów w punkcie D |
 | 15 | Warunki umowy z rankingiem lekarzy | prowizja 30,8 tys. zł według naszej reguły albo 14,9 tys. zł według kodu | umowa z rankingiem |
 | 16 | Marża po 180 dniach | rachunek kampanii jej nie obejmuje; zaniża wartość kampanii z powracającymi pacjentami | czas: kohorty okresu 2 dojrzeją dopiero w 2027 |
+| 17 | Reakcja pacjentów na cenę u specjalistów | od niej zależy, ile da zmiana cennika (do 73,6 tys. zł za 10 zł podwyżki) | test dwóch cen dla nowych pacjentów przez 4 tygodnie |
+| 18 | Zasady zwrotów przy odmowie L4 i ryzyko prawne reklam L4 | górny wariant pozycji 5 może wymagać zmiany zasad zwrotów | regulamin, opinia prawna, treść reklam |
 
 ---
 
 ## 5. Konsylium
 
-Brief do oceny listy priorytetów leży w `notatki/konsylium/c_priorytety/brief.md`. Jest napisany bez naszej opinii. **Nic nie zostało wysłane.** Decyzja należy do Kuby (rano). Limit rundy to 3 USD.
+Runda odbyła się 2026-10-20 po zgodzie Kuby, na briefie z dopisanym kandydatem „pomiar” i faktem o marży w III kwartale. Odpowiedziało 9 z 9 członków, koszt 0,49 USD. Wynik: `notatki/konsylium/c_priorytety/synteza.md`. Zmiany, które wniósł do listy, są w sekcji 3 („Co się zmieniło”). Zarzuty sprawdzalne w danych sprawdziliśmy kodem (`c_priorytety.txt`, P11–P15).
 
 ## 6. Recenzja Codeksa (model Sol)
 
@@ -348,4 +418,12 @@ Pełne podsumowanie: `notatki/recenzje/c_codex.md`. Polecenie i odpowiedź: `c_c
 
 ## 9. Dopiski i decyzje Kuby
 
-(po porannym przeglądzie)
+### 2026-10-20, przegląd szkicu
+
+**Decyzja:** szkic dobry, kierunek przyjęty, z czterema dopiskami (pełne brzmienie: `DECYZJE.md`, wpis „przegląd szkicu punktu C”):
+1. marża po kwartałach rok do roku z wydatkami obok; jeśli potwierdzi się niższa marża w VII–IX 2026 przy ponad dwa razy wyższych wydatkach, to zdanie zamyka odpowiedź — **potwierdzone** (III kwartał: −6,8%, wydatki ×2,08; sekcja 1);
+2. nowa pozycja „naprawić pomiar” zaraz po Safari — **wprowadzone** (pozycja 2);
+3. poranna przepustowość internistów przed testem zalogowanych i testem Meta — **wprowadzone** (pozycja 6, przed 8 i 9);
+4. runda konsylium z kandydatem „pomiar” i faktem o marży w ostatnim kwartale — **zrobione** (sekcja 5, synteza w `notatki/konsylium/c_priorytety/synteza.md`).
+
+**Dalej:** ostateczna lista (sekcja 3) czeka na akceptację Kuby. Po akceptacji: scalenie propozycji z sekcji 7 do wspólnych notatek i przekazanie sesji B odpowiedzi (sekcja 1), listy priorytetów (sekcja 3) i niewiadomych (sekcja 4) do narzędzia.

@@ -138,6 +138,61 @@ def main():
     r("   To rozbicie księgowe, a nie wynik biznesu, który startuje od zera: nie modeluje zmian wydatków ani zachowania")
     r("   pacjentów (recenzja Codeksa).")
 
+    naglowek("W4. MARŻA PO KWARTAŁACH ROK DO ROKU, Z WYDATKAMI NA KAMPANIE OBOK (dopisek Kuby 2026-10-21; zł)")
+    r("   Te same składniki co W3, według kwartału kalendarzowego (czas polski). Prowizja według przyjętej reguły, w kwartale")
+    r("   pierwszego zamówienia pacjenta. „Przed kampaniami” = marża przed wydatkami na kampanie i prowizją.")
+    kw = q(f"""
+      WITH zz AS (
+        SELECT date_trunc('quarter', z.created_at)::DATE kw, sum(z.amount_paid - z.refund_amount)::DOUBLE przychod,
+               sum({D.KOSZT_LEKARZA})::DOUBLE koszt_lekarza, count(*) zamowienia
+        FROM zam z GROUP BY 1),
+      gg AS (SELECT date_trunc('quarter', purchased_at)::DATE kw, sum(amount_paid)::DOUBLE telemedigo FROM czyste.go_memberships GROUP BY 1),
+      ww AS (SELECT date_trunc('quarter', date)::DATE kw, sum(spend_pln)::DOUBLE wydatki FROM czyste.marketing_spend GROUP BY 1),
+      pp AS (SELECT date_trunc('quarter', k.t0)::DATE kw, 25.0 * count(*) prowizja FROM koh k JOIN zrodlo r USING (user_id)
+             WHERE r.kanal = 'afiliacja_ranking' GROUP BY 1)
+      SELECT zz.kw, zamowienia, przychod, telemedigo, koszt_lekarza, coalesce(wydatki, 0) wydatki, coalesce(prowizja, 0) prowizja
+      FROM zz LEFT JOIN gg USING (kw) LEFT JOIN ww USING (kw) LEFT JOIN pp USING (kw) ORDER BY 1""")
+    kw["przed_kampaniami"] = kw.przychod + kw.telemedigo - kw.koszt_lekarza
+    kw["marza"] = kw.przed_kampaniami - kw.wydatki - kw.prowizja
+    kw["kwartal"] = pd.to_datetime(kw.kw).dt.year.astype(str) + "-Q" + pd.to_datetime(kw.kw).dt.quarter.astype(str)
+    pokaz(kw.drop(columns="kw")[["kwartal", "zamowienia", "przychod", "telemedigo", "koszt_lekarza", "przed_kampaniami",
+                                  "wydatki", "prowizja", "marza"]].round(0))
+    kw["kw"] = pd.to_datetime(kw.kw)
+    rr = kw.merge(kw.assign(kw=kw.kw + pd.DateOffset(years=1)), on="kw", suffixes=("", "_rok_wczesniej"))
+    rr = pd.DataFrame({"kwartal": rr.kwartal, "marza": rr.marza, "marza_rok_wczesniej": rr.marza_rok_wczesniej,
+                       "marza_zmiana_proc": 100 * (rr.marza / rr.marza_rok_wczesniej - 1),
+                       "przed_kampaniami_zmiana_proc": 100 * (rr.przed_kampaniami / rr.przed_kampaniami_rok_wczesniej - 1),
+                       "wydatki": rr.wydatki, "wydatki_rok_wczesniej": rr.wydatki_rok_wczesniej,
+                       "wydatki_iloraz": rr.wydatki / rr.wydatki_rok_wczesniej,
+                       "marza_bez_telemedigo_zmiana_proc": 100 * ((rr.marza - rr.telemedigo) / (rr.marza_rok_wczesniej - rr.telemedigo_rok_wczesniej) - 1)})
+    r("   Rok do roku (kwartał okresu 2 wobec tego samego kwartału rok wcześniej):")
+    pokaz(rr.round(2))
+    r("   Miesiące VII–IX, rok do roku:")
+    mm = q(f"""
+      WITH zz AS (SELECT date_trunc('month', z.created_at)::DATE m, sum(z.amount_paid - z.refund_amount - ({D.KOSZT_LEKARZA}))::DOUBLE kons
+                  FROM zam z GROUP BY 1),
+      gg AS (SELECT date_trunc('month', purchased_at)::DATE m, sum(amount_paid)::DOUBLE go FROM czyste.go_memberships GROUP BY 1),
+      ww AS (SELECT date_trunc('month', date)::DATE m, sum(spend_pln)::DOUBLE wydatki FROM czyste.marketing_spend GROUP BY 1),
+      pp AS (SELECT date_trunc('month', k.t0)::DATE m, 25.0 * count(*) prowizja FROM koh k JOIN zrodlo r USING (user_id)
+             WHERE r.kanal = 'afiliacja_ranking' GROUP BY 1)
+      SELECT strftime(m, '%Y-%m') miesiac, kons + coalesce(go, 0) przed_kampaniami, wydatki, coalesce(prowizja, 0) prowizja,
+             kons + coalesce(go, 0) - wydatki - coalesce(prowizja, 0) marza
+      FROM zz LEFT JOIN gg USING (m) LEFT JOIN ww USING (m) LEFT JOIN pp USING (m)
+      WHERE month(m) IN (7, 8, 9) AND year(m) IN (2025, 2026) ORDER BY m""")
+    pokaz(mm.round(0))
+    ost = rr[rr.kwartal == "2026-Q3"].iloc[0]
+    r(f"   III kwartał 2026 wobec III kwartału 2025: marża {zl(ost.marza)} wobec {zl(ost.marza_rok_wczesniej)} "
+      f"({ost.marza_zmiana_proc:+.1f}%), wydatki na kampanie {zl(ost.wydatki)} wobec {zl(ost.wydatki_rok_wczesniej)} "
+      f"(×{ost.wydatki_iloraz:.2f}).")
+    przed = kw.set_index("kwartal").przed_kampaniami
+    wyd_ = kw.set_index("kwartal").wydatki
+    prow_ = kw.set_index("kwartal").prowizja
+    r(f"   Rozbicie zmiany marży III kwartału ({zl(ost.marza - ost.marza_rok_wczesniej)}): marża przed kampaniami "
+      f"{zl(przed['2026-Q3'] - przed['2025-Q3'])}, wydatki na kampanie {zl(-(wyd_['2026-Q3'] - wyd_['2025-Q3']))}, prowizja "
+      f"{zl(-(prow_['2026-Q3'] - prow_['2025-Q3']))}.")
+    r(f"   Bez opłat za TelemediGO (we wrześniu 2025 ruszyła ich sprzedaż w newsletterze: 225 zakupów w 23 dni) marża III kwartału")
+    r(f"   zmienia się o {ost.marza_bez_telemedigo_zmiana_proc:+.1f}% rok do roku, więc spadek nie wynika z samego startu tej kampanii.")
+
     # ======================= P. PRIORYTETY =======================
     naglowek("P1. SAFARI NA iOS: ZAKŁADANIE KONTA OD 17.03.2026 (a5p_zdarzenia.txt, 5f)")
     utr_hi = z_raportu("a5p_zdarzenia.txt", "695.0      105.3", 695.0)
@@ -156,11 +211,39 @@ def main():
         rok = utr / dni * 365
         r(f"   {nazwa}: {utr:.0f} pierwszych zamówień w {dni} dniach, czyli {rok:.0f} rocznie; marża w 90 dniach "
           f"{zl(rok * m.marza90[0])}, w 180 dniach {zl(rok * m.marza180[0])} rocznie")
+    m0 = q(f"""SELECT avg(coalesce(m0, 0)) marza_dzien0, avg(coalesce(m91, 0)) marza_do_91_dni
+               FROM koh k JOIN czyste.sessions s ON s.session_id = k.session_id
+               LEFT JOIN (SELECT user_id, sum(marza) FILTER (WHERE dni = 0) m0, sum(marza) FILTER (WHERE dni <= 91) m91
+                          FROM ek GROUP BY 1) e ON e.user_id = k.user_id
+               WHERE k.okres = 2 AND s.os = 'iOS' AND s.browser = 'Safari' AND k.d0 <= DATE '{KONIEC}' - 91""")
+    for nazwa, utr in (("po odjęciu tła", utr_lo), ("bez odjęcia tła", utr_hi)):
+        kw3 = utr / dni * 92
+        r(f"   III kwartał 2026 (92 dni), {nazwa}: {kw3:.0f} utraconych pierwszych zamówień; marża z dnia pierwszego zamówienia "
+          f"{zl(kw3 * m0.marza_dzien0[0])}, a z pierwszego zamówienia i dalszych zamówień w ciągu kwartału najwyżej {zl(kw3 * m0.marza_do_91_dni[0])}"
+          f" (spadek marży III kwartału rok do roku: 15 111 zł, W4). Przybliżenie: marża przed kosztem pozyskania.")
     r("   Założenia: utracone pierwsze zamówienie = utracony nowy pacjent (odpadnięci nie kupują później częściej w tej samej")
     r("   przeglądarce, a5p 5e; inne urządzenia nieznane); marża jak u nowych pacjentów z pierwszą płatnością w Safari na iOS")
     r("   w okresie 2; bez kosztu pozyskania, bo wejście już zostało opłacone; skala problemu z 17.03–30.09.2026 utrzymuje się")
     r("   przez rok. Kwoty to marża rocznika odzyskanych pacjentów w 90 albo 180 dniach od pozyskania, a nie wpływy w całości")
     r("   w tym samym roku kalendarzowym (recenzja Codeksa).")
+
+    naglowek("P1b. NAPRAWIĆ POMIAR (dopisek Kuby 2026-10-21): dashboard, kod TEST-QA, wynagrodzenie lekarzy za wizyty testowe")
+    z_raportu("a3_dashboard.txt", "25,269 > 40,613 +60.7%", None)
+    z_raportu("a3_dashboard.txt", "24,716 > 38,491 +55.7%", None)
+    z_raportu("a3_dashboard.txt", "2.382 > 3.580 mln +50.3%", None)
+    r("   Dashboard dziś (a3_dashboard.txt): zamówienia +60,7% (25 269 → 40 613), przychód z konsultacji +50,3% (2,382 → 3,580 mln zł).")
+    r("   Po usunięciu duplikatów i kont testowych: zamówienia +55,7% (24 716 → 38 491); przychód po zwrotach +44,8%")
+    r("   (ZALOZENIA.md 21). Duplikaty: 604 zamówienia z 10–24.06.2026, 45 805 zł zapłat po zwrotach (ZALOZENIA.md 6).")
+    t = q(f"""SELECT CASE WHEN o.created_at < TIMESTAMP '{D.OKRES2}' THEN 1 ELSE 2 END okres,
+                     count(DISTINCT o.order_id) zamowienia_testowe,
+                     count(DISTINCT o.order_id) FILTER (WHERE o.status IN ('completed', 'refunded')) wizyty_odbyte,
+                     25.0 * count(DISTINCT o.order_id) FILTER (WHERE o.status IN ('completed', 'refunded')) koszt_lekarza_wg_zasady_zl
+              FROM surowe.orders o JOIN czyste.konta_testowe t USING (user_id) GROUP BY 1 ORDER BY 1""")
+    pokaz(t)
+    r(f"   Jeśli lekarze dostają wynagrodzenie za wizyty testowe (zasada z zadania: 25 zł za odbytą wizytę u internisty),")
+    r(f"   zamknięcie testów na produkcji oszczędza {zl(t.koszt_lekarza_wg_zasady_zl[1])} rocznie (okres 2); jeśli nie dostają, 0 zł.")
+    r("   Pozostała wartość jest pośrednia: decyzje o kampaniach warte dziesiątki tysięcy złotych (P3–P7) zależą od tego,")
+    r("   czy liczby w codziennym raporcie są poprawne; tej wartości nie liczymy w złotych.")
 
     naglowek("P2. ZWROTY PO WIZYTACH L4 W NOWYCH KAMPANIACH — OBIETNICA REKLAMY (a5e_scenariusze.txt, E2a, E3, E3b)")
     a_z1k = z_raportu("a5e_scenariusze.txt", "710.7         57112", 57112)
@@ -275,6 +358,73 @@ def main():
           f" (nominalnie {zl(n * t.znizka_na_pacjenta_dni_1_90[0])}) przy obecnym zachowaniu; więcej, jeśli członkostwo wywołuje dodatkowe wizyty.")
     r("   Członkostwo próbne zaczyna się dzień po pierwszym zamówieniu, więc pierwsze zamówienie jest bez zniżki z członkostwa")
     r("   próbnego (inne kody rabatowe nadal obowiązują).")
+
+    naglowek("P11. KWOTY KAMPANII „NA ROK” A DNI DZIAŁANIA KAMPANII W OKRESIE 2 (uwaga z konsylium, sprawdzona)")
+    r("   Kwoty P2–P4 liczą nowych pacjentów i wydatki z całego okresu 2. Nowe kampanie działały w nim krócej niż rok, więc")
+    r("   te kwoty opisują dni działania kampanii, a nie pełny rok. Przeliczenie na pełny rok zakłada to samo tempo.")
+    dk = q(f"""SELECT utm_campaign kampania, count(DISTINCT date) dni_z_wydatkami, min(date) od, max(date) do_,
+                      sum(spend_pln)::DOUBLE wydatki FROM czyste.marketing_spend
+               WHERE date >= DATE '{D.OKRES2}' AND utm_campaign IN {NOWE} GROUP BY 1 ORDER BY 1""")
+    dk["mnoznik_na_rok"] = 365 / dk.dni_z_wydatkami
+    pokaz(dk.round(2))
+    m_meta = float(dk.set_index("kampania").mnoznik_na_rok["meta_prosp_l4_szybko"])
+    m_tt = float(dk.set_index("kampania").mnoznik_na_rok["tt_prosp_l4_15min"])
+    r(f"   TikTok w przeliczeniu na pełny rok (×{m_tt:.2f}): dziś {zl(-11928 * m_tt)} (przyjęta reguła) i {zl(-30801 * m_tt)} "
+      f"(sesja płatności) w 90 dniach; wyłączenie przy 100% dodatkowych +{zl(11928 * m_tt)} do +{zl(30801 * m_tt)}, "
+      f"przy 0% +{zl(82464 * m_tt)}.")
+    r(f"   Meta na L4 w przeliczeniu na pełny rok (×{m_meta:.2f}): dziś {zl(27845 * m_meta)} i {zl(-28735 * m_meta)}; rozpiętość decyzji od "
+      f"{zl(-27845 * m_meta)} do +{zl(163322 * m_meta)}.")
+    r(f"   Koszt testu Meta (wyłączenie w połowie kraju na 6 tygodni), gdy wszyscy pacjenci są dodatkowi: {zl(27845 * 6 / 52 * 0.5)}"
+      f" w dniach działania, {zl(27845 * m_meta * 6 / 52 * 0.5)} na pełny rok.")
+    r("   Naprawa zwrotów L4 (P2) po wstrzymaniu TikToka dotyczy tylko kampanii Meta: wariant B–A 16 486–42 262 zł (przyjęta")
+    r(f"   reguła) i 9 745–24 273 zł (sesja płatności) w dniach działania; na pełny rok ×{m_meta:.2f}: {zl(16486 * m_meta)}–{zl(42262 * m_meta)}"
+      f" i {zl(9745 * m_meta)}–{zl(24273 * m_meta)}.")
+    z_raportu("a5e_scenariusze.txt", "meta_prosp_l4_szybko    Z1K       4102        728           5.31 510.0         42262 538.6             32.93          2.32         16486", None)
+    z_raportu("a5e_scenariusze.txt", "meta_prosp_l4_szybko     Z2       2923        532           8.15 293.7         24273 319.7             32.89          2.41          9745", None)
+
+    naglowek("P12. WARTOŚĆ PUNKTU PROCENTOWEGO POWROTU (do pozycji o komunikacji po wizycie; scenariusz, ZALOZENIA.md 38)")
+    nowi2 = int(w1.nowi[1])
+    wart = z_raportu("a5e_scenariusze.txt", "różnica 95.6 zł", 95.6)
+    r(f"   {nowi2} nowych pacjentów w okresie 2 × 1 punkt procentowy powrotu w 90 dniach × {wart} zł = {zl(nowi2 * 0.01 * wart)} marży")
+    r("   w 180 dniach rocznie. To różnica obserwacyjna między pacjentem z powrotem i bez niego, a nie zmierzony efekt wiadomości.")
+    r("   Bez pacjentów nowych kampanii (17 419 według przyjętej reguły): "
+      f"{zl(17419 * 0.01 * wart)} rocznie na punkt procentowy.")
+
+    naglowek("P13. KONTROLE ZARZUTÓW Z KONSYLIUM, KTÓRE DA SIĘ SPRAWDZIĆ W DANYCH")
+    t = q("""SELECT count(*) zamowienia_testowe, count(*) FILTER (WHERE o.specialization = 'internista') u_internisty,
+                    count(*) FILTER (WHERE o.duration_min = 1) trwajace_1_minute
+             FROM (SELECT DISTINCT order_id, specialization, duration_min FROM surowe.orders o JOIN czyste.konta_testowe USING (user_id)) o""")
+    pokaz(t)
+    r("   Wszystkie wizyty testowe są u internisty i trwają 1 minutę, więc stawka 25 zł jest właściwa. 2 071 to dwa lata,")
+    r("   1 518 to okres 2.")
+    r("   Marża na pacjenta w P1, P7 i E0 to marża PRZED kosztem pozyskania (ZALOZENIA.md 34 i 40), więc wydatków nie odejmujemy")
+    r("   dwa razy: odzyskany pacjent z Safari na iOS daje marżę przed reklamą (64,6 zł w 90 dniach), a koszt pozyskania")
+    r("   gs_generic_specjalisci odejmujemy od marży przed reklamą (32,4–36,6 zł).")
+    dl = q("""SELECT CASE WHEN created_at < TIMESTAMP '2025-10-01' THEN 1 ELSE 2 END okres,
+                     avg(duration_min) FILTER (WHERE specialization = 'internista' AND hour(scheduled_at) BETWEEN 6 AND 11
+                                                AND status IN ('completed', 'refunded')) dlugosc_porannej_wizyty_internisty_min
+              FROM czyste.orders GROUP BY 1 ORDER BY 1""")
+    pokaz(dl.round(2))
+    r("   Długość porannej wizyty u internisty się nie zmienia, więc „dłuższe wizyty” nie tłumaczą porannych opóźnień.")
+
+    naglowek("P14. CENNIK SPECJALISTÓW (uwaga z konsylium): marża wizyty po cenie katalogowej i skala")
+    t = q(f"""SELECT specialization, any_value(list_price)::DOUBLE cena,
+                     CASE specialization WHEN 'internista' THEN 25 WHEN 'psychiatra' THEN 200 ELSE 100 END koszt_lekarza,
+                     count(*) FILTER (WHERE created_at >= TIMESTAMP '{D.OKRES2}') zamowienia_okres_2,
+                     count(*) FILTER (WHERE created_at >= TIMESTAMP '{D.OKRES2}' AND status IN ('completed', 'no_show')) oplacone_okres_2,
+                     sum(amount_paid - refund_amount - ({D.KOSZT_LEKARZA})) FILTER (WHERE created_at >= TIMESTAMP '{D.OKRES2}')::DOUBLE marza_okres_2
+              FROM czyste.orders WHERE specialization NOT IN ('internista', 'psychiatra') GROUP BY 1 ORDER BY 2""")
+    t["marza_na_wizycie_po_cenie_katalogowej"] = t.cena - t.koszt_lekarza
+    pokaz(t.round(0))
+    n_opl = int(t.oplacone_okres_2.sum())
+    r(f"   Razem okres 2: {int(t.zamowienia_okres_2.sum())} zamówień u tych specjalistów, {n_opl} z zapłatą, która zostaje; marża {zl(t.marza_okres_2.sum())}.")
+    r(f"   Scenariusz: każde 10 zł podwyżki ceny przy tej samej liczbie wizyt to {zl(10 * n_opl)} rocznie (górna granica; nie znamy")
+    r("   reakcji pacjentów na cenę, więc potrzebny test dwóch cen). Pediatra (95 zł) i psycholog (99 zł) mają cenę poniżej kosztu")
+    r("   lekarza 100 zł przy założeniu 33.")
+
+    naglowek("P15. ALARMY W CODZIENNYM RAPORCIE (uwaga z konsylium): ile kosztuje późne wykrycie awarii")
+    r(f"   Awaria Safari na iOS trwała w danych {dni} dni (17.03–30.09.2026) i kosztowała 628–695 pierwszych zamówień.")
+    r(f"   Wykrycie po 7 dniach ograniczyłoby stratę do {7 / dni:.1%} tej liczby, czyli do {utr_lo * 7 / dni:.0f}–{utr_hi * 7 / dni:.0f} zamówień.")
 
     with open(WYNIK, "w", encoding="utf-8") as f:
         f.write("\n".join(linie) + "\n")

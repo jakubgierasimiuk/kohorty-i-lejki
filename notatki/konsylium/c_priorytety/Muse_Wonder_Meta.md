@@ -1,0 +1,74 @@
+# Muse Wonder (Meta) — meta/muse-wonder
+
+# Konsylium: ranking dla konsultacji online opłacanych przez pacjenta
+
+## Kryterium kolejności
+
+Stosuję: **oczekiwana poprawa marży × pewność przyczynowości ÷ czas i koszt wdrożenia**, z premią za:
+
+1. zatrzymanie bieżącego odpływu pieniędzy,
+2. usunięcie blokady pomiarowej dla pozostałych decyzji,
+3. niedopuszczenie do zawierania kolejnych niekorzystnych zobowiązań,
+4. wartość informacji, gdy decyzja jest duża i niepewna.
+
+Kwoty poniżej są **marżą roczną przy okresie 2 jako bazie**, o ile nie zaznaczono inaczej. Nie sumują się — szczególnie B, D i F dotyczą tych samych pacjentów L4.
+
+## Ranking
+
+| # | Działanie i decyzja | Wartość po korekcie / pewność | Po czym poznamy efekt | Czas |
+|---|---|---|---|---|
+| **1** | **E. Naprawa zakładania konta w Safari/iPhone** | **75–95 tys. zł**, najwyższa relacja wartości do wysiłku; pewność wysoka co do istnienia awarii, średnia co do pełnej kwoty | Konwersja krok konta wraca z 46% w stronę 66% i znika różnica wobec innych przeglądarek; rosną opłacone pierwsze zamówienia, nie tylko kliknięcia w kolejnych krokach | diagnoza 1–2 dni, poprawka zwykle kilka dni |
+| **2** | **K. Naprawa raportu i rozliczeń testów** | bezpośrednio **0–38 tys. zł**; pośrednio warunek wiarygodności decyzji wartej znacznie więcej. Pewność istnienia błędów: całkowita | Raport bez duplikatów i kont testowych, przychód po zwrotach; uzgodnienie: czy 1 518 wizyt testowych z okresu 2 zostało opłaconych lekarzom. Jeśli tak — testy znikają z produkcji albo z rozliczeń | kontrola finansowa 1 dzień; raport 1–2 tyg. |
+| **3** | **B. TikTok L4 — wyłączyć, nie naprawiać przy włączonym wydatku** | **+11,9 do +30,8 tys. zł** przy pacjentach w pełni dodatkowych; do **+82,5 tys.** przy zerowej dodatkowości. Kierunek straty pewny: ujemny w obu regułach i obu horyzontach | Po wyłączeniu: brak nowych pacjentów z tego źródła przy niepogorszeniu łącznej liczby nowych pacjentów bardziej, niż wynika z dodatkowości; marża kohorty 90 dni przestaje być obciążana kampanią | 1 dzień |
+| **4** | **C. Google Ads na specjalistów — wstrzymać pozyskanie w obecnej formie** | **+19,4 do +31,5 tys. zł** przy pełnej dodatkowości; do **+53,2 tys.** przy zerowej. Pewność kierunku wysoka | Ponowne włączenie tylko, gdy koszt pozyskania ≤ marża pacjenta: dziś CAC 57,6–80,9 zł przy marży 32–37 zł, czyli trzeba cięcia o 40–60%. Pomiar kohorty 90 dni | decyzja tydzień; pomiar 4–8 tyg. |
+| **5** | **F. Meta L4 — ani nie wyłączać, ani nie skalować; test przyczynowy** | Decyzja waha się od **−27,8 do +163,3 tys. zł**. To największa niepewność finansowa na liście; sam test nie ma jeszcze wartości w zł, ma wartość uniknięcia błędnej decyzji | Test geograficzny: losowa połowa województw wyłączona 4–6 tyg.; z góry wybrany wskaźnik główny — dodatkowi nowi pacjenci i marża 90 dni na mieszkańca/na wydatek, nie sama atrybucja | start 1–2 tyg.; odczyt pozyskania 4–6 tyg., marża 90 dni później |
+| **6** | **A. Program zniżkowy u specjalistów — zmienić warunki dla nowych członków już teraz** | Realny punkt odniesienia **+14,7 tys. zł**, nie +31,4 tys.; patrz krytyka niżej. Pewność straty jednostkowej wysoka: 87,2 zł ceny wobec 100 zł kosztu | Marża na wizytę specjalistyczną członków ≥0 bez spadku sprzedaży programu i łącznej marży pacjenta większego niż odzyskana strata | 1–2 tyg.; pełny efekt po 12 mies. przez stare warunki |
+| **7** | **D. Zwroty po wizytach L4 — najpierw diagnoza przyczyny, potem naprawa; tylko dla ruchu, który zostaje (Meta)** | Po wyłączeniu TikToka przedział **+12,7 do +57,1 tys.** kurczy się i częściowo znika; nie wolno dodać go do B ani F. Pewność niska do diagnozy | Zwroty 17,4% → w stronę 5,3% **przy niezmienionej** liczbie odbytych, zasadnie opłaconych wizyt; obowiązkowy kod powodu zwrotu. Uwaga: celem nie jest odmowa zasadnych zwrotów ani nacisk na wystawianie L4 | treść/strona 1–2 tyg.; najpierw 1–2 tyg. ustalania przyczyn |
+| **8** | **J. Test przyczynowości programu zniżkowego** | Bezpośrednio 0 zł; koszt zniżek **3,3–12,2 tys. zł**. Chroni przed subsydiowaniem pacjentów, którzy i tak wracają | Losowy bezpłatny dostęp 90 dni vs kontrola: dodatkowe wizyty i marża na pacjenta po kosztach lekarzy, nie sam „powrót” | przygotowanie krótkie; obserwacja 90 dni |
+| **9** | **G. Poranne opóźnienia internisty — diagnoza i pilotaż obsady, nie od razu etaty** | **0–65 tys. zł brutto**, przed nieznanym kosztem obsady. Pewność problemu operacyjnego wysoka, pewność wartości finansowej niska | Odsetek startów >15 min po terminie z ~50% w stronę 5–7%; osobno: przepustowość na godzinę lekarza, oceny, powrót 90 dni, koszt godziny | diagnoza bez danych grafików niemożliwa; pilotaż po ich uzyskaniu |
+| **10** | **I. Rozjazd kliknięcie→sesja w Meta/TikTok** | Najpewniej bliżej **0 zł**; **52 tys.** to sufit przy założeniu, że cały rozjazd to porzucenia ładowania i odzyskują się po tej samej konwersji | Porównanie paneli reklamowych z analityką: czas ładowania strony wejścia wg urządzenia/sieci, odsetek sesji na kliknięcie wobec 0,92 w Google | sprawdzenie 1–2 dni |
+| **11** | **H. Sesje zalogowanych bez zakupu** | Domyślnie **0 zł**; 36–40 tys. (sufit 89 tys.) dopiero, gdyby test ręczny wykazał zepsutą ścieżkę | Test ręczny na żywym koncie powracającego pacjenta: czy da się kupić w ≤typowej liczbie kroków. Kilka faktów wskazuje na „sprawdzam konto”, nie awarię | 1 dzień |
+
+**Uwaga wykonawcza:** pozycje 10 i 11 są na końcu rankingu ważności, ale ich testy trwają 1–2 dni — wykonać je w pierwszym tygodniu równolegle, nie czekać na swoją kolej.
+
+## Najważniejsze błędy i słabe założenia w wycenach
+
+**E (Safari).** Założenie „utracony pierwszy zakup = utracony pacjent” zawyża kwotę, jeśli część osób wraca z komputera lub później. Zaniża ją, jeśli awaria zniechęca trwale. Prawidłowa wycena po naprawie to **przyrost** opłaconych pierwszych zamówień wobec kontrfaktycznego trendu innych przeglądarek, a nie samo domknięcie luki 66%→46%. Mimo to kierunek i rząd wielkości są najbardziej wiarygodne na liście: spadek od konkretnej daty, tylko jedna przeglądarka, wszystkie kanały, logowanie działa.
+
+**K (pomiar).** Trzy zastrzeżenia. (1) 37,95 tys. zł to 1 518 × 25 zł — trzeba uzgodnić z 2 071 zamówieniami testowymi z dwóch lat i sprawdzić, czy chodzi o internistów po 25 zł. (2) Jeśli lekarze już dostali te pieniądze, to koszt utopiony; oszczędność roczna istnieje tylko, gdy proceder trwa. (3) Sama naprawa raportu nie tworzy marży — tworzy ją dopiero zatrzymanie płatności za testy. Wartość pośrednia (decyzje kampanijne na czystych liczbach) jest realna, ale niewyceniona i nie należy jej doliczać.
+
+**B i C (wyłączenie vs naprawa).** Przy TikToku odpowiedź jest jednoznaczna: **wyłączać najpierw**. Wynik jest ujemny w obu regułach atrybucji i pogarsza się, a nie poprawia, między 90 a 180 dniami — nie ma więc „pacjenci dojrzeją” jako argumentu. Nawet najlepszy wariant naprawy zwrotów daje +3,0 tys. zł (reguła 1) lub −23,2 tys. zł (reguła 2): sufit naprawy jest poniżej zera w jednej regule i przy zerze w drugiej. Naprawianie przy włączonym wydatku oznacza dalsze kupowanie pacjentów na stracie w trakcie eksperymentu. Przy Google warunek naprawy (CAC −40–60%) to nie optymalizacja, tylko inny model pozyskania; do czasu jego udowodnienia na małym budżecie kampania powinna być wstrzymana. Zastrzeżenie: nie wiem, czy w „Google na specjalistów” siedzi ruch brandowy o innej ekonomice — jeśli tak, decyzja powinna dotyczyć segmentu niebrandowego, a nie konta w całości. Tego dane w briefie nie rozstrzygają.
+
+**F (Meta).** Rozstęp −27,8/+163,3 tys. zł oznacza, że dziś nie istnieje decyzja „wyłącz/włącz” oparta na danych — istnieje tylko decyzja o teście. Błędem byłoby też uśrednianie obu reguł atrybucji: reguła 1 jest wsparta zgodnością z kodami w 97% tam, gdzie kody istnieją, ale dla kampanii bez kodu prawda może leżeć poza przedziałem. Test geograficzny musi mieć z góry zdefiniowane: jednostkę losowania, okres, wskaźnik główny i regułę decyzji; inaczej po 6 tygodniach wrócimy do sporu o atrybucję. Koszt testu to utracona (być może dodatnia) marża w wyłączonej połowie — przy wyniku reguły 1 oznaczałoby to realny koszt rzędu połowy +27,8 tys. w skali testu; to akceptowalna cena za rozstrzygnięcie decyzji wartej do ~190 tys. zł rozstępu.
+
+**D (zwroty).** Górny scenariusz (+57,1 tys.) zakłada, że zwracana wizyta staje się opłacona przy koszcie lekarza już poniesionym — to czyste odzyskanie przychodu. Dolny zakłada zniknięcie popytu. Prawda zależy od nieznanej przyczyny: jeśli lekarze odmawiają L4 przy braku wskazań, „naprawa” przez komunikację zmniejszy konwersję (pacjenci nie dostaną tego, po co przyszli), a naprawa przez nacisk na lekarzy byłaby medycznie i prawnie niedopuszczalna. Dlatego D zaczyna się od instrumentacji powodu zwrotu, nie od zmiany treści reklamy. Kolejność w briefie jest tu odwrotna.
+
+**A (zniżki u specjalistów).** Scenariusz +31,4 tys. zakłada zerową elastyczność — wszyscy zostają po cenie katalogowej; to sufit księgowy, nie prognoza. Scenariusz +18,9 tys. zakłada, że znikną tylko wizyty stratne, czego mechanizm zmiany warunków nie potrafi wycelować. Scenariusz +14,7 tys. zakłada zniknięcie wizyt, ale nie liczy możliwej utraty opłat 89 zł od osób, które kupowały program głównie dla specjalistów, ani odwrotnie — oszczędności z wizyt internistycznych tych członków. Mimo to zmiana dla **nowych** członków jest uzasadniona już teraz: każdy miesiąc zwłoki dokłada roczne zobowiązania po cenie poniżej kosztu, a argument „to inwestycja w lojalność” jest dokładnie tym, czego J nie potwierdza przyczynowo.
+
+**J (program a powroty).** Utrzymywanie się przewagi powrotów **po wygaśnięciu** członkostwa to silny ślad selekcji: program kupują pacjenci z natury częstsi. Dodatkowo członkowie dostają średnio 104,6 zł zniżki przy opłacie 89 zł — sam program jako produkt jest więc „na minusie” o ~15,6 zł na członka, zanim policzymy marżę z ewentualnie dodatkowych wizyt. To nie dowodzi straty całościowej, ale przerzuca ciężar dowodu na zwolenników programu. Słabość proponowanego testu: bezpłatne 90 dni mierzy efekt **dostępu do zniżek**, nie efekt **sprzedaży programu za 89 zł na rok** (inna selekcja i zaangażowanie); zakres 487–1 823 pacjentów na grupę bez podanego MDE i poziomu bazowego to nie projekt, tylko przedział. Test powinien mieć z góry: wskaźnik główny = marża 90 dni na pacjenta, MDE i zasadę stopu.
+
+**G (opóźnienia).** Początek zjawiska (listopad 2025) pokrywa się ze startem kampanii Meta L4 (3.11.2025) — wzrost porannego popytu na L4 jest konkurencyjnym wyjaśnieniem wobec „spadku przepustowości” i zmienia receptę (zarządzanie popytem i grafikiem pod pik, niekoniecznie trwała obsada). Korelacja opóźnień z niższym powrotem nie dowodzi, że punktualność odzyska 65 tys. zł; bez grafików i kosztu godziny lekarza wycena jest brutto i nie da się z niej wyprowadzić decyzji.
+
+**I i H.** W obu pozycjach górne wyceny zakładają, że obserwowana „strata” w całości jest odzyskiwalnym popytem o standardowej konwersji. Dla I różnice w definicji kliknięcia między platformami (kliknięcia w link vs wszystkie kliknięcia, przeglądarki w aplikacjach, zgody na śledzenie) są wyjaśnieniem domyślnym. Dla H brak jakiegokolwiek zakupu w sesjach „zalogowany od wejścia” jest zgodny z wizytami kontowymi; zakup powracających i tak przechodzi przez logowanie w środku ścieżki.
+
+**Zastrzeżenie do liczb bazowych.** Wzrost nowych pacjentów o 52% przy spadku powrotu 90-dniowego z 23,9% do 17,4% jest w dużej mierze efektem składu: kampanie L4 to 29% nowych pacjentów okresu 2 z powrotem ~4%. Z podanych liczb nie wynika, o ile spadł powrót pacjentów **poza** kampaniami L4 — a to rozstrzyga, czy firma ma dodatkowy problem retencji, czy tylko problem mieszanki pozyskania. Tego rozkładu w briefie brakuje i jest to pierwsze pytanie analityczne po naprawie raportu.
+
+## Czego na liście brakuje
+
+1. **Rozkład spadku retencji poza kampaniami L4 i działanie retencyjne.** Jeśli powrót „pozostałych” też spada (poniżej, powiedzmy, poziomu okresu 1 o więcej niż wynika ze składu), żaden kandydat tego nie adresuje. Bez danych o wysyłkach newsletter/SMS nie da się zaprojektować kampanii retencyjnej — pierwszym działaniem jest więc uzyskanie tych danych i kohortowa diagnoza powrotów wg specjalizacji (pediatra i psychiatra mają naturalnie inną częstość niż internista).
+2. **Reguła stop-loss dla całego portfela kampanii.** III kwartał 2026: wydatki 2,08× rok do roku, marża −6,8% (bez opłat programowych −4,9%). Trzej kandydaci kampanijni to objawy; brakuje zasady: budżet rośnie tylko za kohortami z marżą 90 dni >0 w obu regułach atrybucji albo po teście przyczynowym. Bez tego zaoszczędzone na TikToku pieniądze wrócą do kolejnej niezweryfikowanej kampanii.
+3. **Ekonomika całego programu zniżkowego, nie tylko specjalistów.** Internista po zniżce 50% też może być blisko kosztu 25 zł — brief tego nie podaje, a to ta sama decyzja co A. Do tego odnowienia ~5% przy braku automatycznego odnowienia: test przypomnienia i ponownej oferty przed wygaśnięciem jest tanim kandydatem, którego nie ma — ale projektować go wolno dopiero po werdykcie J, czy program w ogóle dokłada wizyt.
+4. **Rejestracja powodu zwrotu i decyzji lekarza ws. L4 jako stała instrumentacja.** Dziś „powodu nie ma w danych” blokuje D i ocenę jakości kampanii L4. To wdrożenie kilkudniowe o wartości przekraczającej jednorazową analizę.
+5. **Monitoring regresji lejka po przeglądarkach/urządzeniach z alertem.** Awaria Safari trwała od 17.03.2026 i kosztowała ~650 pierwszych zamówień, zanim ją zauważono w analizie okresowej. Alert na odchylenie konwersji kroku konta wg przeglądarki to działanie zapobiegawcze tańsze niż jednorazowa naprawa E.
+6. **Powiązanie popytu L4 z poranną przepustowością.** Kampanie L4 generują poranny popyt; G bez tego kontekstu może skończyć się kupowaniem obsady pod popyt, który po decyzji F zniknie. Kolejność: F i G diagnozować razem.
+
+## Czego nie wiem na pewno
+
+- Dodatkowości pacjentów kampanii L4 (rozstrzyga tylko test F i historia naturalnych wahań popytu).
+- Która reguła atrybucji jest bliższa prawdy dla kampanii bez kodów.
+- Przyczyn zwrotów po wizytach L4 — a od nich zależy, czy D jest warte 13 czy 57 tys. zł i czy w ogóle jest etycznie dostępne.
+- Czy spadek retencji poza mieszanką L4 istnieje i jak jest duży.
+- Kosztu obsady porannej i elastyczności popytu na wizyty specjalistów po zmianie zniżek.
+- Czy lekarze byli opłacani za wizyty testowe (sprawdzalne w 1 dzień — i od tego zależy 38 tys. zł pozycji K).
+
+**Plan na pierwsze 2 tygodnie:** naprawa Safari (E) i kontrola rozliczeń testów (K) od dnia 1; wyłączenie TikToka (B) i wstrzymanie Google-specjaliści (C) w pierwszym tygodniu; projekt testu geograficznego Meta (F) i zmiana warunków programu dla nowych członków (A) równolegle; testy jednodniowe H i I przy okazji. To zatrzymuje pewny odpływ, zanim rozstrzygną się decyzje niepewne.

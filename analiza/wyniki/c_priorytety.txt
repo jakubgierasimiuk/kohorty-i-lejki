@@ -1,4 +1,4 @@
-C — LICZBY DO ODPOWIEDZI „CZY TO WZROST” I DO LISTY PRIORYTETÓW (2026-10-20 12:58), schemat `czyste`
+C — LICZBY DO ODPOWIEDZI „CZY TO WZROST” I DO LISTY PRIORYTETÓW (2026-10-20 13:30), schemat `czyste`
 Okres 1 = X 2024 – IX 2025, okres 2 = X 2025 – IX 2026. Z1K = przyjęta reguła źródła (pierwsze wejście, kod kampanii
 rozstrzyga), Z2 = sesja płatności. „Nowe kampanie” = meta_prosp_l4_szybko i tt_prosp_l4_15min (oba na L4, od 3.11.2025
 i 9.02.2026).
@@ -58,17 +58,66 @@ W3. WYNIK BIZNESU W OKRESACH KALENDARZOWYCH (zł)
    pacjentów (recenzja Codeksa).
 
 ==============================================================================================================
+W4. MARŻA PO KWARTAŁACH ROK DO ROKU, Z WYDATKAMI NA KAMPANIE OBOK (dopisek Kuby 2026-10-21; zł)
+==============================================================================================================
+   Te same składniki co W3, według kwartału kalendarzowego (czas polski). Prowizja według przyjętej reguły, w kwartale
+   pierwszego zamówienia pacjenta. „Przed kampaniami” = marża przed wydatkami na kampanie i prowizją.
+     kwartal  zamowienia  przychod  telemedigo  koszt_lekarza  przed_kampaniami  wydatki  prowizja    marza
+     2024-Q4        4919  454067.0     25276.0       237125.0          242218.0  87253.0    3625.0 151340.0
+     2025-Q1        6826  622234.0     35333.0       323375.0          334192.0 102565.0    4750.0 226877.0
+     2025-Q2        6655  595753.0     39249.0       313825.0          321177.0  90383.0    3750.0 227044.0
+     2025-Q3        6316  558212.0     56693.0       301375.0          313530.0  87431.0    3275.0 222824.0
+     2025-Q4        8105  704672.0     52243.0       380925.0          375990.0 113089.0    3525.0 259375.0
+     2026-Q1       10979  937934.0     60164.0       497875.0          500223.0 170625.0    5175.0 324423.0
+     2026-Q2       10226  838430.0     57583.0       451550.0          444463.0 184405.0    3500.0 256558.0
+     2026-Q3        9181  747306.0     49662.0       404475.0          392493.0 181555.0    3225.0 207713.0
+   Rok do roku (kwartał okresu 2 wobec tego samego kwartału rok wcześniej):
+     kwartal     marza  marza_rok_wczesniej  marza_zmiana_proc  przed_kampaniami_zmiana_proc   wydatki  wydatki_rok_wczesniej  wydatki_iloraz  marza_bez_telemedigo_zmiana_proc
+     2025-Q4 259375.37            151340.47              71.39                         55.23 113089.43               87252.53            1.30                             64.31
+     2026-Q1 324423.00            226877.32              42.99                         49.68 170625.40              102565.18            1.66                             37.96
+     2026-Q2 256558.10            227043.80              13.00                         38.39 184405.30               90383.10            2.04                              5.95
+     2026-Q3 207712.87            222823.66              -6.78                         25.19 181554.93               87431.44            2.08                             -4.86
+   Miesiące VII–IX, rok do roku:
+     miesiac  przed_kampaniami  wydatki  prowizja   marza
+     2025-07           96897.0  29040.0    1025.0 66832.0
+     2025-08           96709.0  28419.0    1100.0 67190.0
+     2025-09          119925.0  29973.0    1150.0 88802.0
+     2026-07          134942.0  60659.0     900.0 73384.0
+     2026-08          126245.0  58805.0    1125.0 66315.0
+     2026-09          131306.0  62092.0    1200.0 68014.0
+   III kwartał 2026 wobec III kwartału 2025: marża 207 713 zł wobec 222 824 zł (-6.8%), wydatki na kampanie 181 555 zł wobec 87 431 zł (×2.08).
+   Rozbicie zmiany marży III kwartału (-15 111 zł): marża przed kampaniami 78 963 zł, wydatki na kampanie -94 123 zł, prowizja 50 zł.
+   Bez opłat za TelemediGO (we wrześniu 2025 ruszyła ich sprzedaż w newsletterze: 225 zakupów w 23 dni) marża III kwartału
+   zmienia się o -4.9% rok do roku, więc spadek nie wynika z samego startu tej kampanii.
+
+==============================================================================================================
 P1. SAFARI NA iOS: ZAKŁADANIE KONTA OD 17.03.2026 (a5p_zdarzenia.txt, 5f)
 ==============================================================================================================
       n90  marza90  n180  marza180
      2990     64.6  2278      74.3
    po odjęciu tła: 628 pierwszych zamówień w 198 dniach, czyli 1158 rocznie; marża w 90 dniach 74 786 zł, w 180 dniach 86 043 zł rocznie
    bez odjęcia tła: 695 pierwszych zamówień w 198 dniach, czyli 1281 rocznie; marża w 90 dniach 82 765 zł, w 180 dniach 95 222 zł rocznie
+   III kwartał 2026 (92 dni), po odjęciu tła: 292 utraconych pierwszych zamówień; marża z dnia pierwszego zamówienia 14 141 zł, a z pierwszego zamówienia i dalszych zamówień w ciągu kwartału najwyżej 18 857 zł (spadek marży III kwartału rok do roku: 15 111 zł, W4). Przybliżenie: marża przed kosztem pozyskania.
+   III kwartał 2026 (92 dni), bez odjęcia tła: 323 utraconych pierwszych zamówień; marża z dnia pierwszego zamówienia 15 649 zł, a z pierwszego zamówienia i dalszych zamówień w ciągu kwartału najwyżej 20 869 zł (spadek marży III kwartału rok do roku: 15 111 zł, W4). Przybliżenie: marża przed kosztem pozyskania.
    Założenia: utracone pierwsze zamówienie = utracony nowy pacjent (odpadnięci nie kupują później częściej w tej samej
    przeglądarce, a5p 5e; inne urządzenia nieznane); marża jak u nowych pacjentów z pierwszą płatnością w Safari na iOS
    w okresie 2; bez kosztu pozyskania, bo wejście już zostało opłacone; skala problemu z 17.03–30.09.2026 utrzymuje się
    przez rok. Kwoty to marża rocznika odzyskanych pacjentów w 90 albo 180 dniach od pozyskania, a nie wpływy w całości
    w tym samym roku kalendarzowym (recenzja Codeksa).
+
+==============================================================================================================
+P1b. NAPRAWIĆ POMIAR (dopisek Kuby 2026-10-21): dashboard, kod TEST-QA, wynagrodzenie lekarzy za wizyty testowe
+==============================================================================================================
+   Dashboard dziś (a3_dashboard.txt): zamówienia +60,7% (25 269 → 40 613), przychód z konsultacji +50,3% (2,382 → 3,580 mln zł).
+   Po usunięciu duplikatów i kont testowych: zamówienia +55,7% (24 716 → 38 491); przychód po zwrotach +44,8%
+   (ZALOZENIA.md 21). Duplikaty: 604 zamówienia z 10–24.06.2026, 45 805 zł zapłat po zwrotach (ZALOZENIA.md 6).
+      okres  zamowienia_testowe  wizyty_odbyte  koszt_lekarza_wg_zasady_zl
+          1                 553            553                     13825.0
+          2                1518           1518                     37950.0
+   Jeśli lekarze dostają wynagrodzenie za wizyty testowe (zasada z zadania: 25 zł za odbytą wizytę u internisty),
+   zamknięcie testów na produkcji oszczędza 37 950 zł rocznie (okres 2); jeśli nie dostają, 0 zł.
+   Pozostała wartość jest pośrednia: decyzje o kampaniach warte dziesiątki tysięcy złotych (P3–P7) zależą od tego,
+   czy liczby w codziennym raporcie są poprawne; tej wartości nie liczymy w złotych.
 
 ==============================================================================================================
 P2. ZWROTY PO WIZYTACH L4 W NOWYCH KAMPANIACH — OBIETNICA REKLAMY (a5e_scenariusze.txt, E2a, E3, E3b)
@@ -151,3 +200,62 @@ P10. TELEMEDIGO: KOSZT TESTU Z LOSOWYM CZŁONKOSTWEM PRÓBNYM (c_telemedigo.txt,
    1823 pacjentów w grupie próbnej (c_telemedigo.txt, 4d): około 12 225 zł dodatkowego kosztu (nominalnie 12 333 zł) przy obecnym zachowaniu; więcej, jeśli członkostwo wywołuje dodatkowe wizyty.
    Członkostwo próbne zaczyna się dzień po pierwszym zamówieniu, więc pierwsze zamówienie jest bez zniżki z członkostwa
    próbnego (inne kody rabatowe nadal obowiązują).
+
+==============================================================================================================
+P11. KWOTY KAMPANII „NA ROK” A DNI DZIAŁANIA KAMPANII W OKRESIE 2 (uwaga z konsylium, sprawdzona)
+==============================================================================================================
+   Kwoty P2–P4 liczą nowych pacjentów i wydatki z całego okresu 2. Nowe kampanie działały w nim krócej niż rok, więc
+   te kwoty opisują dni działania kampanii, a nie pełny rok. Przeliczenie na pełny rok zakłada to samo tempo.
+                 kampania  dni_z_wydatkami         od        do_   wydatki  mnoznik_na_rok
+     meta_prosp_l4_szybko              332 2025-11-03 2026-09-30 163322.48            1.10
+        tt_prosp_l4_15min              234 2026-02-09 2026-09-30  82464.30            1.56
+   TikTok w przeliczeniu na pełny rok (×1.56): dziś -18 606 zł (przyjęta reguła) i -48 044 zł (sesja płatności) w 90 dniach; wyłączenie przy 100% dodatkowych +18 606 zł do +48 044 zł, przy 0% +128 630 zł.
+   Meta na L4 w przeliczeniu na pełny rok (×1.10): dziś 30 613 zł i -31 591 zł; rozpiętość decyzji od -30 613 zł do +179 556 zł.
+   Koszt testu Meta (wyłączenie w połowie kraju na 6 tygodni), gdy wszyscy pacjenci są dodatkowi: 1 606 zł w dniach działania, 1 766 zł na pełny rok.
+   Naprawa zwrotów L4 (P2) po wstrzymaniu TikToka dotyczy tylko kampanii Meta: wariant B–A 16 486–42 262 zł (przyjęta
+   reguła) i 9 745–24 273 zł (sesja płatności) w dniach działania; na pełny rok ×1.10: 18 125 zł–46 463 zł i 10 714 zł–26 686 zł.
+
+==============================================================================================================
+P12. WARTOŚĆ PUNKTU PROCENTOWEGO POWROTU (do pozycji o komunikacji po wizycie; scenariusz, ZALOZENIA.md 38)
+==============================================================================================================
+   24687 nowych pacjentów w okresie 2 × 1 punkt procentowy powrotu w 90 dniach × 95.6 zł = 23 601 zł marży
+   w 180 dniach rocznie. To różnica obserwacyjna między pacjentem z powrotem i bez niego, a nie zmierzony efekt wiadomości.
+   Bez pacjentów nowych kampanii (17 419 według przyjętej reguły): 16 653 zł rocznie na punkt procentowy.
+
+==============================================================================================================
+P13. KONTROLE ZARZUTÓW Z KONSYLIUM, KTÓRE DA SIĘ SPRAWDZIĆ W DANYCH
+==============================================================================================================
+      zamowienia_testowe  u_internisty  trwajace_1_minute
+                    2071          2071               2071
+   Wszystkie wizyty testowe są u internisty i trwają 1 minutę, więc stawka 25 zł jest właściwa. 2 071 to dwa lata,
+   1 518 to okres 2.
+   Marża na pacjenta w P1, P7 i E0 to marża PRZED kosztem pozyskania (ZALOZENIA.md 34 i 40), więc wydatków nie odejmujemy
+   dwa razy: odzyskany pacjent z Safari na iOS daje marżę przed reklamą (64,6 zł w 90 dniach), a koszt pozyskania
+   gs_generic_specjalisci odejmujemy od marży przed reklamą (32,4–36,6 zł).
+      okres  dlugosc_porannej_wizyty_internisty_min
+          1                                    8.53
+          2                                    8.51
+   Długość porannej wizyty u internisty się nie zmienia, więc „dłuższe wizyty” nie tłumaczą porannych opóźnień.
+
+==============================================================================================================
+P14. CENNIK SPECJALISTÓW (uwaga z konsylium): marża wizyty po cenie katalogowej i skala
+==============================================================================================================
+     specialization  cena  koszt_lekarza  zamowienia_okres_2  oplacone_okres_2  marza_okres_2  marza_na_wizycie_po_cenie_katalogowej
+           pediatra  95.0            100                1567              1490       -13257.0                                   -5.0
+          psycholog  99.0            100                 310               289        -1430.0                                   -1.0
+           neurolog 109.0            100                 455               434         2922.0                                    9.0
+         dermatolog 109.0            100                1758              1673         7175.0                                    9.0
+          kardiolog 109.0            100                 537               513         2677.0                                    9.0
+             urolog 109.0            100                 463               434         2106.0                                    9.0
+          ginekolog 119.0            100                1765              1655        22462.0                                   19.0
+       endokrynolog 119.0            100                 932               875        11812.0                                   19.0
+   Razem okres 2: 7787 zamówień u tych specjalistów, 7363 z zapłatą, która zostaje; marża 34 467 zł.
+   Scenariusz: każde 10 zł podwyżki ceny przy tej samej liczbie wizyt to 73 630 zł rocznie (górna granica; nie znamy
+   reakcji pacjentów na cenę, więc potrzebny test dwóch cen). Pediatra (95 zł) i psycholog (99 zł) mają cenę poniżej kosztu
+   lekarza 100 zł przy założeniu 33.
+
+==============================================================================================================
+P15. ALARMY W CODZIENNYM RAPORCIE (uwaga z konsylium): ile kosztuje późne wykrycie awarii
+==============================================================================================================
+   Awaria Safari na iOS trwała w danych 198 dni (17.03–30.09.2026) i kosztowała 628–695 pierwszych zamówień.
+   Wykrycie po 7 dniach ograniczyłoby stratę do 3.5% tej liczby, czyli do 22–25 zamówień.

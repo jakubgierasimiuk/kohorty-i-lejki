@@ -1,7 +1,5 @@
 # Brief dla konsylium: kolejność działań w biznesie konsultacji lekarskich online
 
-**Status: przygotowany 2026-10-20, NIE WYSŁANY. Wysyłka tylko po „tak” Kuby.**
-
 ## Cel
 
 Ułożyć listę działań od najważniejszego dla biznesu konsultacji lekarskich online, który pacjent opłaca sam. Każde działanie ma wynikać z danych i mieć trzy rzeczy: ile jest warte (w złotych marży na rok, z założeniami), po czym poznamy, że zadziałało, i ile zajmie wdrożenie. Prosimy o ocenę listy kandydatów niżej: kolejność, poprawność wycen i założeń, brakujące działania.
@@ -18,6 +16,8 @@ Ułożyć listę działań od najważniejszego dla biznesu konsultacji lekarskic
   - wynik kampanii zależy od reguły przypisania źródła pacjenta: według pierwszego wejścia (zgodna z kodami rabatowymi kampanii w 97%) i według sesji, w której pacjent zapłacił. Przy części kampanii znak wyniku jest różny w obu regułach;
   - nie wiadomo, ilu pacjentów nowych kampanii przyszłoby i bez nich.
 - Marża całego biznesu: 828 tys. zł w okresie 1 i 1 048 tys. zł w okresie 2 (+27%). Wydatki na kampanie wzrosły z 368 do 650 tys. zł.
+- Marża po kwartałach, rok do roku: IV kwartał 2025 +71%, I kwartał 2026 +43%, II kwartał 2026 +13%, III kwartał 2026 −6,8% (207,7 tys. zł wobec 222,8 tys. zł). Wydatki na kampanie w tych kwartałach były 1,30, 1,66, 2,04 i 2,08 raza wyższe niż rok wcześniej. Bez opłat za program zniżkowy III kwartał 2026 to −4,9%.
+- Codzienny raport firmy liczy dane na surowo: z 604 zdublowanymi zamówieniami (eksport z czerwca 2026), z 2 071 zamówieniami 22 kont testowych (kod rabatowy testowy, wizyty trwające 1 minutę) i z przychodem przed zwrotami. Pokazuje +61% zamówień i +50% przychodu z konsultacji; po oczyszczeniu to +56% zamówień i +45% przychodu po zwrotach.
 
 ## Kandydaci (kolejność przypadkowa, nie ranking)
 
@@ -32,6 +32,7 @@ Kwoty: zmiana marży na rok, okres 2 jako rok bazowy. „Reguła 1” = pierwsze
 - **G. Opóźnienia porannych wizyt u internisty.** Od listopada 2025 około połowa wizyt 6:00–11:59 zaczyna się ponad 15 minut po terminie, wobec 5–7% rok wcześniej; przy tym samym porannym ruchu opóźnień jest dużo więcej, więc spadła przepustowość. Spóźnione wizyty mają niższe oceny i niższy powrót. Wartość: scenariusz od 0 do 65 tys. zł rocznie, koszt dodatkowej obsady nieznany. Dane o grafikach lekarzy nie są dostępne.
 - **H. Pacjenci zalogowani od wejścia na stronę.** Takie sesje (22 tys. w dwa lata) nigdy nie kończą się zakupem; każdy zakup powracającego pacjenta ma krok logowania. Dane nie rozstrzygają, czy to wizyty „sprawdzam konto”, czy zepsuta ścieżka zakupu; kilka faktów wskazuje na pierwsze. Wartość: 0 zł albo około 36–40 tys. zł rocznie (wysoki scenariusz 89 tys. zł). Test ręczny: 1 dzień.
 - **I. Strata między kliknięciem reklamy a wejściem na stronę w Meta i TikToku.** Na kliknięcie przypada 0,72–0,82 sesji wobec 0,92 w Google. Wartość: 0 zł, jeśli to sposób liczenia kliknięć; do 52 tys. zł rocznie, jeśli ludzie porzucają ładowanie strony. Sprawdzenie w panelach reklamowych: 1–2 dni.
+- **K. Pomiar.** Naprawa codziennego raportu: bez duplikatów i kont testowych, przychód po zwrotach, wyjaśnienie i zamknięcie testów na produkcji, sprawdzenie, czy lekarze dostają wynagrodzenie za wizyty testowe. Wartość bezpośrednia: 37,95 tys. zł rocznie, jeśli lekarze dostają 25 zł za każdą z 1 518 wizyt testowych z okresu 2; 0 zł, jeśli nie. Pośrednio: poprawność liczb, na których opiera się ocena kohort i kampanii (bez wyceny w złotych). Wdrożenie: 1–2 tygodnie.
 - **J. Program zniżkowy a powroty.** Kupujący program przy pierwszym zamówieniu wracają w 90 dniach o 10–15 punktów procentowych częściej niż podobni pacjenci, ale po wygaśnięciu członkostwa przewaga w proporcji zostaje. Członkostwo dostaje średnio 104,6 zł zniżki przy opłacie 89 zł. Odnawia około 5% członków. Test z losowym, bezpłatnym dostępem do zniżek na 90 dni: 487–1 823 pacjentów na grupę, dodatkowy koszt 3,3–12,2 tys. zł zniżek, 90 dni obserwacji.
 
 ## Ograniczenia

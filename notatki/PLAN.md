@@ -21,7 +21,7 @@ Kolejność: **wstępna analiza → narzędzie → uzupełnienie analizy → wer
 | A4 | Definicje (razem) | zrobione: definicje przyjęte przez Kubę (`ZALOZENIA.md` 16–27, `analiza/a4_definicje.py`, `analiza/wyniki/a4_definicje.txt`), recenzja Codeksa (Sol) uwzględniona (`notatki/recenzje/a4_codex.md`) |
 | A5 | Pierwsze kohorty, lejek, po zakupie, zdarzenia | zrobione w całości: pozyskanie (`f240505`), retencja (`c5b17ea` … `f8fda6d`) i ekonomia kampanii (`d6f63e4` … `24ac35d`), wszystko przyjęte przez Kubę i scalone |
 | B | Narzędzie | startuje przed końcem A5 (decyzja Kuby 2026-10-19): szkielet, czyli układ, lejek, oś zdarzeń i jakość danych; kohorty po drugim zatrzymaniu sesji retencji |
-| C | Uzupełnienie analizy, priorytety, niewiadome | szkic gotowy, czeka na poranny przegląd Kuby (2026-10-21): `notatki/c_szkic.md` — analiza TelemediGO (`analiza/c_telemedigo.py`), propozycja odpowiedzi „czy to wzrost”, lista 10 priorytetów z wartością w marży, lista 16 niewiadomych (`analiza/c_priorytety.py`); recenzja Codeksa (Sol) w `notatki/recenzje/c_codex.md`; brief konsylium przygotowany, niewysłany (decyzja Kuby rano) |
+| C | Uzupełnienie analizy, priorytety, niewiadome | szkic przejrzany przez Kubę 2026-10-20 (kierunek przyjęty, cztery dopiski wprowadzone), konsylium zrobione (9 z 9, `notatki/konsylium/c_priorytety/synteza.md`); **ostateczna lista 12 priorytetów czeka na akceptację Kuby**: `notatki/c_szkic.md` — analiza TelemediGO (`analiza/c_telemedigo.py`), propozycja odpowiedzi „czy to wzrost”, lista 10 priorytetów z wartością w marży, lista 16 niewiadomych (`analiza/c_priorytety.py`); recenzja Codeksa (Sol) w `notatki/recenzje/c_codex.md`; brief konsylium przygotowany, niewysłany (decyzja Kuby rano) |
 | D | Weryfikacja, publikacja, mail | do zrobienia |
 
 ---
@@ -123,6 +123,7 @@ Przy każdej: warianty i to, ile każdy zmienia w liczbie nowych pacjentów, w p
   4. **Koszt porannej obsady internistów.** Bez niego nie wycenimy netto naprawy przepustowości poranka.
   5. **`gs_generic_specjalisci` traci w obu regułach** (marża 32 zł na pacjenta w 90 dniach przy koszcie pozyskania 56–78 zł). Kandydat do punktu C, z obiema drogami.
   6. **Rachunek w 90 i 180 dniach nie obejmuje marży po 180 dniach.** Dla kampanii z powracającymi pacjentami to zaniża wynik. W okresie 1 marża na pacjenta w 365 dniach wynosiła 83,6 zł wobec 66,6 zł w 90 dniach. Dla nowych kampanii na L4 różnica jest mała.
+- *(dopisane 2026-10-20 po przeglądzie szkicu C, decyzja Kuby, `DECYZJE.md`)* Szkic przyjęty co do kierunku. Dopiski: (1) w odpowiedzi „czy to wzrost” marża po kwartałach rok do roku z wydatkami na kampanie obok; jeśli potwierdzi się niższa marża w VII–IX 2026 przy ponad dwa razy wyższych wydatkach, to zdanie zamyka odpowiedź; (2) nowa pozycja „naprawić pomiar” (dashboard bez duplikatów i kont testowych, przychód po zwrotach, zamknięcie kodu TEST-QA, wynagrodzenie lekarzy za wizyty testowe) zaraz po Safari na iOS; (3) poranna przepustowość internistów przed testem zalogowanych i testem Meta; (4) runda konsylium na liście priorytetów, z kandydatem „pomiar” i faktem o marży w ostatnim kwartale w briefie. Po konsylium ostateczna lista do akceptacji Kuby, potem przekazanie odpowiedzi, priorytetów i niewiadomych sesji B.
 - Uzupełnienie narzędzia.
 
 **Stop — przegląd z Kubą.**
