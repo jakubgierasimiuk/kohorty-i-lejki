@@ -1,0 +1,116 @@
+{
+  "folder": "notatki\\konsylium\\d_weryfikacja",
+  "koszt_razem_usd": 2.1695,
+  "odpowiedzieli": [
+    "GPT Astra (Codex)",
+    "GPT Sol (Codex)",
+    "Grok (xAI)",
+    "Kimi (Moonshot)",
+    "Muse Wonder (Meta)",
+    "Qwen Max (Alibaba)"
+  ],
+  "uciete": [],
+  "bledy": [
+    "DeepSeek Flash (zastępstwo za GLM (Z.ai))",
+    "GLM (Z.ai)",
+    "Gemini 4 Argon (Google)"
+  ],
+  "wyniki": {
+    "Muse Wonder (Meta)": {
+      "finish_reason": "stop",
+      "ucieta": false,
+      "tokeny_rozumowania": 2349,
+      "prawdziwy_model": "meta/muse-wonder",
+      "dostawca": "Meta",
+      "koszt_usd": 0.58076,
+      "tokeny_wej": 100275,
+      "tokeny_wyj": 8983,
+      "sekundy": 93,
+      "plik": "Muse_Wonder_Meta.md"
+    },
+    "Kimi (Moonshot)": {
+      "finish_reason": "stop",
+      "ucieta": false,
+      "tokeny_rozumowania": 2325,
+      "prawdziwy_model": "moonshotai/kimi-k3",
+      "dostawca": "Relace",
+      "koszt_usd": 0.140232,
+      "tokeny_wej": 124880,
+      "tokeny_wyj": 8564,
+      "sekundy": 186,
+      "plik": "Kimi_Moonshot.md"
+    },
+    "GLM (Z.ai)": {
+      "finish_reason": "length",
+      "ucieta": true,
+      "tokeny_rozumowania": 24001,
+      "prawdziwy_model": "z-ai/glm-5.3",
+      "dostawca": "InferenceNet",
+      "koszt_usd": 0.114128,
+      "tokeny_wej": 112300,
+      "tokeny_wyj": 24000,
+      "sekundy": 279,
+      "blad": "Pusta odpowiedź: 0 znaków, ucięta przez limit tokenów (pewnie całość zjadło rozumowanie)"
+    },
+    "Gemini 4 Argon (Google)": {
+      "finish_reason": "length",
+      "ucieta": true,
+      "tokeny_rozumowania": 23997,
+      "prawdziwy_model": "google/gemini-4-argon",
+      "dostawca": "Google",
+      "koszt_usd": 0.469014,
+      "tokeny_wej": 114507,
+      "tokeny_wyj": 24000,
+      "sekundy": 289,
+      "blad": "Pusta odpowiedź: 0 znaków, ucięta przez limit tokenów (pewnie całość zjadło rozumowanie)"
+    },
+    "Qwen Max (Alibaba)": {
+      "finish_reason": "stop",
+      "ucieta": false,
+      "tokeny_rozumowania": 13010,
+      "prawdziwy_model": "qwen/qwen3.8-max-0902",
+      "dostawca": "Alibaba",
+      "koszt_usd": 0.341116,
+      "tokeny_wej": 118127,
+      "tokeny_wyj": 17477,
+      "sekundy": 312,
+      "plik": "Qwen_Max_Alibaba.md"
+    },
+    "DeepSeek Flash (zastępstwo za GLM (Z.ai))": {
+      "finish_reason": "length",
+      "ucieta": true,
+      "tokeny_rozumowania": 24000,
+      "prawdziwy_model": "deepseek/deepseek-v4.1-flash-1017",
+      "dostawca": "InferenceNet",
+      "koszt_usd": 0.0206932,
+      "tokeny_wej": 108665,
+      "tokeny_wyj": 24000,
+      "sekundy": 94,
+      "blad": "Pusta odpowiedź: 0 znaków, ucięta przez limit tokenów (pewnie całość zjadło rozumowanie)"
+    },
+    "GPT Astra (Codex)": {
+      "prawdziwy_model": "gpt-6-astra (Codex, wysiłek high)",
+      "koszt_usd": 0,
+      "sekundy": 481,
+      "plik": "GPT_Astra_Codex.md"
+    },
+    "GPT Sol (Codex)": {
+      "prawdziwy_model": "gpt-6.1-sol (Codex, wysiłek high)",
+      "koszt_usd": 0,
+      "sekundy": 500,
+      "plik": "GPT_Sol_Codex.md"
+    },
+    "Grok (xAI)": {
+      "finish_reason": "stop",
+      "ucieta": false,
+      "tokeny_rozumowania": 43174,
+      "prawdziwy_model": "x-ai/grok-4.7",
+      "dostawca": "xAI",
+      "koszt_usd": 0.503576,
+      "tokeny_wej": 105745,
+      "tokeny_wyj": 48969,
+      "sekundy": 608,
+      "plik": "Grok_xAI.md"
+    }
+  }
+}
