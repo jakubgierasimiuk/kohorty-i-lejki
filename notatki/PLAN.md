@@ -22,7 +22,7 @@ Kolejność: **wstępna analiza → narzędzie → uzupełnienie analizy → wer
 | A5 | Pierwsze kohorty, lejek, po zakupie, zdarzenia | zrobione w całości: pozyskanie (`f240505`), retencja (`c5b17ea` … `f8fda6d`) i ekonomia kampanii (`d6f63e4` … `24ac35d`), wszystko przyjęte przez Kubę i scalone |
 | B | Narzędzie | **zrobione co do treści, trzecia wersja przyjęta przez Kubę 2026-10-20** (`b76a7de` … `df4d23c`): wszystkie 9 zakładek, w tym ostateczne „czy to wzrost” z kartą TelemediGO, priorytety i niewiadome; kontrola 93 liczb, 0 różnic. Publikacja (próbna i właściwa) to ostatni, osobny krok przed wysłaniem, za zgodą Kuby |
 | C | Uzupełnienie analizy, priorytety, niewiadome | **zrobione, przyjęte przez Kubę 2026-10-20**: analiza TelemediGO, odpowiedź „czy to wzrost”, lista 12 priorytetów i 18 niewiadomych (`notatki/c_szkic.md`), konsylium 9 z 9, recenzja Codeksa (Sol); scalone (założenia 47–53, znaleziska); przeniesienie do narzędzia w sesji `local_0ea34a6a` (w toku) |
-| D | Weryfikacja, publikacja, mail | w toku: końcowa weryfikacja liczb Codeksem (Astra) zrobiona, liczby zgodne, uwagi wprowadzone (`notatki/recenzje/d_astra.md`); README dla Telemedi gotowe; zostają: przegląd zamówień testowych, narzędzie u Kuby, publikacja i mail (tylko za zgodą Kuby) |
+| D | Weryfikacja, publikacja, mail | w toku: weryfikacja Astrą zrobiona (`notatki/recenzje/d_astra.md`), README gotowe, konsylium końcowej weryfikacji zrobione (`notatki/konsylium/d_weryfikacja/synteza.md`); **poprawki po konsylium według listy Kuby (`notatki/d_poprawki.md`) robi nowa sesja prowadząca**, potem Codex przelicza nowe liczby; zostają: przegląd zamówień testowych, publikacja i mail (tylko za zgodą Kuby) |
 
 ---
 

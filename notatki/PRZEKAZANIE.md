@@ -2,7 +2,7 @@
 
 Zasada z `CLAUDE.md`, punkt 14: każda sesja czyta ten plik na starcie i aktualizuje go na końcu swojej pracy.
 
-**Ostatnia aktualizacja:** 2026-10-20, sesja prowadząca `local_ca1efb6a-0cb9-4abb-b08b-9d90f7e7de79`, po przyjęciu punktu C przez Kubę. Poprzednia sesja prowadząca prowadziła A1–A5 i uruchamiała sesje A4, A5 (retencja, pozyskanie, ekonomia) i B.
+**Ostatnia aktualizacja:** 2026-10-21, sesja prowadząca `local_ca1efb6a-0cb9-4abb-b08b-9d90f7e7de79` przy przekazaniu roli nowej sesji prowadzącej (decyzja Kuby: prawie 80% kontekstu). **Następny krok: poprawki po konsylium według `notatki/d_poprawki.md`.** Wcześniejsze sesje prowadzące: `local_06eb3146` (A1–A5) i `local_ca1efb6a` (C i D do konsylium).
 
 ## 1. Gdzie jesteśmy
 
@@ -20,6 +20,23 @@ Zasada z `CLAUDE.md`, punkt 14: każda sesja czyta ten plik na starcie i aktuali
 | C TelemediGO, „czy to wzrost”, priorytety, niewiadome | zrobione, przyjęte przez Kubę 2026-10-20, scalone (założenia 47–53); przeniesienie do narzędzia w sesji `local_0ea34a6a` | `bae2920` … (commit „C: lista priorytetów przyjęta…”) |
 
 Status wszystkich punktów: `notatki/PLAN.md`.
+
+**Stan na 2026-10-21 rano (dla nowej sesji prowadzącej):**
+- Punkty 0, A1–A5, B (trzy wersje narzędzia) i C są zrobione, przyjęte przez Kubę i scalone we wspólnych notatkach (założenia 1–54).
+- **D w toku.**
+  - Weryfikacja liczb Codeksem (model Astra) jest zrobiona: `notatki/recenzje/d_astra.md`.
+  - README dla Telemedi jest w głównym folderze. Adres narzędzia to jeszcze szablon do uzupełnienia w dniu publikacji.
+  - Konsylium końcowej weryfikacji jest zrobione: `notatki/konsylium/d_weryfikacja/synteza.md`. Błędu krytycznego nie ma.
+- **Teraz:** poprawki według listy Kuby w `notatki/d_poprawki.md`. Nowa sesja prowadząca sama decyduje, czy podzielić pracę na dwie sesje naraz (kod strony osobno, teksty i liczby osobno). Na końcu Codex (model Sol) przelicza nowe liczby. Publikacji nie robimy. Zatrzymanie u Kuby z gotowym pakietem.
+- **Pliki i skrypty:**
+  - punkt C: `analiza/c_telemedigo.py`, `analiza/c_priorytety.py`; teksty źródłowe dla strony: `notatki/c_szkic.md` (sekcje 1–4);
+  - strona: `narzedzie/`, eksport `python -I analiza/b_eksport.py` (uruchamia też `analiza/b2_eksport_c.py`, kontrola 93 liczb i zgodności każdej liczby z `c_szkic.md`);
+  - teksty zakładek do przeglądu: `python -I analiza/b2_teksty_strony.py` → `analiza/wyniki/b_teksty_strony.md`.
+- **Sesja narzędzia** `local_0ea34a6a-6b84-45c6-87b7-e953f33e3452` ma kontekst strony. Czeka na zbiorczą listę poprawek i do tego czasu nic nie zmienia. Można jej dać część dotyczącą kodu strony albo uruchomić nową sesję.
+- **Pułapki techniczne:**
+  - Pliki notatek mają końce linii CRLF.
+  - Dłuższe skrypty i wiadomości commitów z polskim tekstem zapisuj narzędziem do plików i uruchamiaj z pliku, bo heredoc w powłoce psuje cudzysłowy i `\n`.
+  - Skrypty uruchamiaj przez `python -I`, z `sys.stdout.reconfigure(errors="replace")` w main().
 
 **Stan na 2026-10-20 rano (dla nowej sesji prowadzącej):**
 - **A5 ekonomia kampanii:** zrobiona, przyjęta przez Kubę (dopisek: wynik po 180 dniach zawsze obok wyniku po 90 dniach) i scalona we wspólnych notatkach (założenia 39–43). Commity `d6f63e4` … `24ac35d`. **Punkt A5 jest zamknięty w całości.** Rola sesji prowadzącej i wspólne notatki przechodzą do nowej sesji prowadzącej (decyzja Kuby, `DECYZJE.md` 2026-10-20).

@@ -222,3 +222,9 @@ Scalone przez sesję prowadzącą z `notatki/b_narzedzie.md` (sekcje 12 i 13). P
 **Zlecenie Kuby:** „konsylium z Fable” w dwóch rolach naraz: weryfikator (spójność liczb, definicje, wnioski, pominięcia) i osoba, która zleciła zadanie. Opus i Fable dodatkowo przeszli narzędzie i repozytorium i przeliczyli liczby z bazy, tylko do odczytu. Brief: `notatki/konsylium/d_weryfikacja/brief.md` (składany skryptem `zbuduj_brief.py`, z tekstami zakładek z commitu `06ba9b8`).
 
 **Wynik** (`notatki/konsylium/d_weryfikacja/synteza.md`): błędu krytycznego nie ma, odpowiedź i główne liczby się potwierdziły. Lista 22 poprawek i drobnych uwag od najważniejszej czeka na decyzję Kuby, co robimy przed wysyłką. Koszt rundy 2,17 USD, 8 z 10 członków odpowiedziało.
+
+## 2026-10-21 — poprawki po konsylium robi nowa sesja prowadząca
+
+**Decyzja Kuby:** robimy całą listę poprawek z syntezy konsylium (`notatki/konsylium/d_weryfikacja/synteza.md`), z jego dwunastoma uwagami. Pełne brzmienie: `notatki/d_poprawki.md`. Każda nowa liczba przez nasz kod i kontrolę zgodności, na końcu Codex przelicza nowe liczby jeszcze raz. Publikacji jeszcze nie robimy. Sesja zatrzymuje się u Kuby z gotowym pakietem.
+
+**Nowa sesja prowadząca:** dotychczasowa sesja prowadząca (`local_ca1efb6a-0cb9-4abb-b08b-9d90f7e7de79`) ma prawie 80% kontekstu, więc według zasady z `CLAUDE.md` (punkt 14) przekazuje rolę nowej sesji. Nowa sesja sama decyduje, czy podzielić pracę na dwie sesje naraz (kod strony osobno, teksty i liczby osobno).
