@@ -2,7 +2,7 @@
 
 Zasada z `CLAUDE.md`, punkt 14: każda sesja czyta ten plik na starcie i aktualizuje go na końcu swojej pracy.
 
-**Ostatnia aktualizacja:** 2026-10-21 wieczorem, sesja prowadząca `local_791c102e-55e1-4a1b-bb12-d2b0200168ad` (poprawki po konsylium). **Pakiet poprawek przyjęty przez Kubę 2026-10-21 (z regułą testu Mety i usunięciem „nie mieści się w luce” z „Czy to wzrost”). Następny krok, każdy za zgodą Kuby: przegląd zamówień testowych, publikacja i mail.** Wcześniejsze sesje prowadzące: `local_06eb3146` (A1–A5), `local_ca1efb6a` (C i D do konsylium).
+**Ostatnia aktualizacja:** 2026-10-22 w nocy, sesja prowadząca `local_1bf06826-0432-47b9-8fb9-1cbc38ad58e1` (runda E: merytoryka, język, wygląd; zlecenie Kuby w `notatki/e_runda.md`). **Runda E zrobiona i czeka na przegląd Kuby. Następne kroki, każdy za zgodą Kuby: poprawki po przeglądzie, publikacja, mail.** Wcześniejsze sesje prowadzące: `local_791c102e` (D, poprawki po konsylium), `local_06eb3146` (A1–A5), `local_ca1efb6a` (C i D do konsylium).
 
 ## 1. Gdzie jesteśmy
 
@@ -21,6 +21,13 @@ Zasada z `CLAUDE.md`, punkt 14: każda sesja czyta ten plik na starcie i aktuali
 | D Poprawki po konsylium (lista Kuby `notatki/d_poprawki.md`) | zrobione i przyjęte przez Kubę 2026-10-21; recenzja Codeksa (Sol) uwzględniona (założenia 55–63) | `bfbc5cf`, `ebf37d5`, `b7b55ba`, `1bfa75f`, `3470f54` |
 
 Status wszystkich punktów: `notatki/PLAN.md`.
+
+**Stan na 2026-10-22 (runda E, przed przeglądem Kuby):**
+- **Zlecenie i wynik:** `notatki/e_runda.md` (słowa Kuby, podział pracy, kontrakt danych, wynik części 1 w punkcie 4, postęp i recenzja Codeksa w punkcie 5). Decyzje: `DECYZJE.md`, ostatni wpis; założenia 64–70; znaleziska z 2026-10-21 wieczorem.
+- **Kod:** `analiza/e_merytoryka.py` (część 1, raport `wyniki/e_merytoryka.txt` i `.json`); teksty strony w kształcie karty: `analiza/e_teksty.py` (sesja prowadząca) i `analiza/e_teksty_zakladki.py` (agent, przejrzany i poprawiony); oba uruchamia `python -I analiza/b_eksport.py`. Szkice-wzorce kontroli liczb: `notatki/e_teksty.md`, `notatki/e_teksty_zakladki.md` (ten drugi zamrożony, poprawiany ręcznie, generator tylko z `--nadpisz`). Zmiana tekstu = zmiana w kodzie i w szkicu.
+- **Strona:** nowy wygląd z sesji `local_61aff6c2` (commit `888ebca`, `notatki/e_wyglad.md`). Kontrola w przeglądarce: `python -I analiza/e_przegladarka.py --wyjscie <katalog>`. Teksty stron: `python -I analiza/b2_teksty_strony.py` → `analiza/wyniki/b_teksty_strony.md`.
+- **Stan kontroli:** 104 kontrole, 0 różnic; 80 nowych kart z pokryciem liczb; 9 zakładek przy 1366 i 375 px bez błędów; 296 odnośników działa.
+- **Zostaje:** przegląd Kuby; po nim publikacja (repozytorium publiczne, GitHub Pages, adres w README) i mail — każdy krok tylko za zgodą Kuby.
 
 **Stan na 2026-10-21 wieczorem (po poprawkach po konsylium):**
 - **Lista Kuby z `notatki/d_poprawki.md` jest zrobiona w całości.** Jak i dlaczego: `DECYZJE.md`, wpis „2026-10-21 — poprawki po konsylium: jak je zrobiliśmy”. Wyniki wątpliwości Kuby: `ZNALEZISKA.md`, sekcja z 2026-10-21.

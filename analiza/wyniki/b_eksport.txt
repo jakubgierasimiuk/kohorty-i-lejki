@@ -1,4 +1,4 @@
-B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 00:04, commit b42d659)
+B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 00:25, commit 888ebca)
 
 1. Pliki w narzedzie/dane_strony/ (bajty)
    calosc                             38,075
@@ -9,14 +9,14 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 00:04, commit b42d659)
    kanal                             177,555
    kampania                          249,718
    strona_wejscia                    265,403
-   podsumowanie                       24,062
+   podsumowanie                       24,073
    zdarzenia                          41,544
    jakosc                             15,638
    kohorty                         1,447,212
    po_zakupie                        308,435
-   wynik                              96,643
-   c                                 106,105
-   razem                           4,258,977
+   wynik                              96,654
+   c                                  90,468
+   razem                           4,243,362
 
 2. Kontrola: liczby z eksportu wobec notatek i wcześniejszych raportów
    co                                                                    eksport  oczekiwane  wynik

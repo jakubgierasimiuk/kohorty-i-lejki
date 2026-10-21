@@ -581,6 +581,7 @@ def priorytety(V, E, C):
     p10_n = V["p10_n"]
     p12 = V["p12"]
     wd = {nr: PR0[nr]["wdrozenie"] for nr in PR0}
+    wd[7] = wd[7].replace("dane o wysyłkach dni", "dane o wysyłkach kilka dni")   # brzmienie szkicu (c_szkic.md, pozycja 7)
 
     def pozycja(nr, tytul, wniosek, ile, ile_dop, pew, sekcje_widoczne, szczegoly, fr_dod=None, dodane=None):
         k0 = K0[nr]
@@ -709,7 +710,8 @@ def priorytety(V, E, C):
             f"Wariant zasad zwrotów (wizyty, które dziś kończą się zwrotem, zostają opłacone): {tz(zw[1])} i {tz(zw[3])}, "
             f"na pełny rok {tz(zw[6])} i {tz(zw[8])}."])]
         + stare_sekcje(k5, pomin=("Ile warta po wstrzymaniu TikToka (tylko Meta)", "Po czym poznamy", "Wdrożenie"),
-                       zamiany={"[Dd]olny wariant zakłada": "Wariant kreacji zakłada",
+                       zamiany={"zmniejszenie luki o połowę": "zmniejszenie tej różnicy o połowę",
+                                "[Dd]olny wariant zakłada": "Wariant kreacji zakłada",
                                 r"[Gg]órny wariant \(„wizyta zostaje opłacona”\)": "Wariant zasad zwrotów („wizyta zostaje opłacona”)"})))
 
     k6 = K0[6]
@@ -909,8 +911,9 @@ def niewiadome(V, E, C):
 
 
 def teksty_c(V, E, C):
-    """Nowe „Czy to wzrost”, „Priorytety” i „Czego nie wiemy”. C = dane w dotychczasowym kształcie (z b2_eksport_c).
-    Nowe klucze dopisujemy do dotychczasowych, żeby strona działała też przed przebudową rysowania.
+    """Nowe „Czy to wzrost”, „Priorytety” i „Czego nie wiemy”. C = dane w dotychczasowym kształcie (z b2_eksport_c),
+    z których przenosimy zdania. Na stronę idzie tylko nowy kształt: strona po przebudowie (sesja wyglądu, commit
+    888ebca) rysuje go bez dawnych pól, więc dawne teksty nie zostają w opublikowanych danych.
     Zwraca (C, bloki do kontroli)."""
     bloki = []
     wz, b = wzrost(V, E, C)
@@ -920,9 +923,7 @@ def teksty_c(V, E, C):
     nw, b = niewiadome(V, E, C)
     bloki += b
     C = dict(C)
-    C["wzrost"] = {**C["wzrost"], **wz}
-    C["priorytety"] = {**C["priorytety"], **pr}
-    C["niewiadome"] = {**C["niewiadome"], **nw}
+    C["wzrost"], C["priorytety"], C["niewiadome"] = wz, pr, nw
     return C, bloki
 
 

@@ -2270,7 +2270,7 @@ def eksport_c(kontrole, wz=None, mostek=None, wy=None, nag=None, koh=None, pz=No
     sz = sz + se
     # pola techniczne nie trafiają na stronę
     C["wzrost"].pop("_dodane", None)
-    C["wzrost"]["telemedigo"].pop("_dodane", None)
+    C["wzrost"].get("telemedigo", {}).pop("_dodane", None)
     for w in C["niewiadome"]["wiersze"]:
         w.pop("_dodane", None)
     for k in C["priorytety"]["karty"]:

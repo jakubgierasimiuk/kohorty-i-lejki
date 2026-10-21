@@ -265,3 +265,25 @@ Scalone przez sesję prowadzącą z `notatki/b_narzedzie.md` (sekcje 12 i 13). P
 - **„Wynik biznesu”:** akapit o Safari zaczyna się teraz od szacowanego kosztu awarii w III kwartale 2026 (14,6–18,3 tys. zł marży, osobno 4,1–4,5 tys. zł powrotów pacjentów utraconych wcześniej) i kończy zdaniem, że wyniku kwartału bez awarii nie mierzymy. Porównania z „luką” nie ma już nigdzie na stronie (`analiza/b2_eksport_c.py`, `notatki/d_teksty_strony.md`).
 - **Przegląd zamówień testowych (zastrzeżenie Kuby z A2, punkt D planu): nic się nie zmienia.** Reguła z założenia 7 (konto, które choć raz użyło kodu TEST-QA) jest kompletna i nie zabiera prawdziwych zamówień ani sesji; koszt lekarza za wizyty testowe dalej nie wchodzi do liczb (założenie 8), a wariant z kosztem zostaje niewiadomą 14 i częścią pozycji 2 listy priorytetów. Liczby A2 odtwarzają się co do sztuki. Skrypt `analiza/d_testy.py`, raport `analiza/wyniki/d_testy.txt`, opis: `ZNALEZISKA.md`, A2 punkt 2. Przegląd jest domknięty w założeniach, znaleziskach, planie i przekazaniu.
 - **Następny krok:** publikacja, osobno i za zgodą Kuby przy każdej akcji.
+
+## 2026-10-21 wieczorem — ostatnia runda przed publikacją: merytoryka, język, wygląd (punkt E)
+
+**Zlecenie Kuby (pełne brzmienie: `notatki/e_runda.md`, punkt 1):** trzy części w tej kolejności: merytoryka (10 wątpliwości do sprawdzenia kodem), język (nagłówek = wniosek, jedno zdanie, szczegóły zwinięte, jeden słownik), wygląd (granatowy pasek, białe karty, znaczniki stanu z ikoną i słowem, wykres lejka, znaczniki pewności). Na koniec Codex przelicza nowe liczby. Nic nie publikujemy; zatrzymanie u Kuby z gotową wersją.
+
+**Podział pracy (decyzja sesji prowadzącej, za zgodą Kuby na osobną sesję od wyglądu):**
+- sesja prowadząca: część 1 (`analiza/e_merytoryka.py`), teksty „Czy to wzrost”, „Priorytety”, „Czego nie wiemy” i nagłówka lejka (`analiza/e_teksty.py`, szkic `notatki/e_teksty.md`), README, notatki;
+- agent w tle tej sesji: karty pięciu pozostałych zakładek (`analiza/e_teksty_zakladki.py`, szkic `notatki/e_teksty_zakladki.md`);
+- sesja „E: nowy wygląd narzędzia” (`local_61aff6c2-0b67-4a4b-b735-4b3004d7b279`): pliki strony w `narzedzie/` (poza danymi), notatka `notatki/e_wyglad.md`;
+- interfejs: kontrakt danych w `notatki/e_runda.md`, punkt 3 (kształt karty i klucze w plikach danych).
+
+**Wynik części 1:** `notatki/e_runda.md`, punkt 4, i `ZNALEZISKA.md` (sekcja z 2026-10-21 wieczorem). Wszystkie wątpliwości Kuby potwierdziły się. Nowe w stosunku do jego przypuszczeń: lejek osób, które jeszcze nie kupowały, daje datę początku spadku (luty 2026) i pokazuje, że bez sesji nowych kampanii konwersja nowych osób nie spada; zdanie o przeglądarkach w aplikacjach podawało liczby wszystkich sesji jako liczby osób, które jeszcze nie kupowały; brak zamówień w „godzinie bez danych” niewiele mówi, bo zwykle są w niej około 2 zamówienia.
+
+**Decyzje w tekstach (założenia 64–69):** reguła przyjęta w opisie pacjentów i retencji, sesja płatności w szczegółach; na górze „Czy to wzrost” zamiast spadku marży III kwartału fakt odporny (marża przed kosztem kampanii +25%, wydatki 2,08 raza wyższe) i marża za cały rok (+27%); lejek domyślnie dla osób, które jeszcze nie kupowały; stawka pediatry jako założenie z zadania (niewiadoma 13 wypada, kolejne przesuwają się o jeden); pozycja 5 rozdzielona na nową kreację (10,7–18,1 tys. zł) i zmianę zasad zwrotów (26,7–46,5 tys. zł); pozycja 4 z kryterium jak w teście Mety; zdanie, dlaczego test Mety stoi na 9. miejscu; test TelemediGO „pokaże wpływ samej zniżki”, a koszt testu jest liczony przy niezmienionej liczbie wizyt.
+
+**Wygląd (sesja `local_61aff6c2`, commit `888ebca`; szczegóły `notatki/e_wyglad.md`):** wszystkie punkty części 3 listy Kuby. Wykres kroków lejka liczony w przeglądarce z danych lejka, domyślnie dla osób, które jeszcze nie kupowały, z wyróżnionym przejściem o największym względnym spadku (założenie 70). Filtry „Po zakupie” i „Wyniku biznesu” są w paskach swoich kart, bo każda karta ma inne filtry. Zdarzenia mają pole `krotko` do list i legend.
+
+**Recenzja Codeksa (Sol) nowych liczb:** 17 z 19 pozycji zgodnych, dwie różnice zaokrągleń poprawione; brzmienia poprawione według jego uwag (`notatki/e_runda.md`, punkt 5; `notatki/recenzje/e_codex.md`).
+
+**Kontrola liczb w zakładkach pomocnika:** szkic `notatki/e_teksty_zakladki.md` powstał z wyniku kodu, więc kontrola była dla tych zakładek pusta. Sesja prowadząca przeczytała teksty i zamroziła szkic jako wzorzec poprawiany ręcznie (generator tylko z flagą `--nadpisz`).
+
+**Integracja (sesja prowadząca, 2026-10-22):** eksport 104 kontrole, 0 różnic; nowe karty 80, każda liczba z pokryciem w szkicach; teksty strony odtworzone (`analiza/wyniki/b_teksty_strony.md`); przeglądarka: 9 zakładek przy 1366 i 375 px, 0 błędów w konsoli, bez przewijania w bok, 296 odnośników działa; zrzuty obejrzane („Czy to wzrost”, lejek z wykresem kroków, priorytety, „Wynik biznesu”, telefon). Dawne kształty tekstów „Czy to wzrost”, „Priorytetów” i „Czego nie wiemy” usunięte z danych strony. Dalej: przegląd Kuby; publikacja i mail tylko za jego zgodą.

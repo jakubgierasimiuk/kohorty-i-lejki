@@ -1324,10 +1324,11 @@ def main():
     pl, zam = nag["platnosci"], mostek["kroki"][2]["miary"]["zamowienia"]
     prz1 = mostek["kroki"][3]["miary"]["przychod"]["p1"]
     kontrole.append(("płatności w lejku = zamówienia razem w dwóch latach", sum(pl), zam["p1"] + zam["p2"]))
-    granica = (f"Płatności w lejku ({liczba(pl[0])} w okresie {O1_NAZWA} i {liczba(pl[1])} w okresie {O2_NAZWA}) i zamówienia "
+    granica = (f"Płatności w lejku ({liczba(pl[0])} rok wcześniej, {O1_NAZWA}, i {liczba(pl[1])} w ostatnich 12 miesiącach, "
+               f"{O2_NAZWA}) i zamówienia "
                f"({liczba(zam['p1'])} i {liczba(zam['p2'])}) różnią się o {liczba(abs(pl[0] - zam['p1']))} na granicy okresów, "
                f"bo sesję liczymy do dnia jej rozpoczęcia, a zamówienie do dnia płatności; przychód z konsultacji po zwrotach "
-               f"w okresie {O1_NAZWA} to {liczba(prz1, 2)} zł, więc zależnie od zaokrąglenia {liczba(int(prz1))} albo "
+               f"rok wcześniej to {liczba(prz1, 2)} zł, więc zależnie od zaokrąglenia {liczba(int(prz1))} albo "
                f"{liczba(int(prz1) + 1)} zł.")
     nag["granica"] = granica
     wy["granica"] = granica
