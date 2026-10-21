@@ -249,3 +249,11 @@ Scalone przez sesję prowadzącą z `notatki/b_narzedzie.md` (sekcje 12 i 13). P
 **Bez zmian na stronie:** `robots.txt` zostaje; indeksowanie blokuje znacznik `noindex`, a `robots.txt` pod podścieżką GitHub Pages nic nie daje (konsylium, drobne).
 
 **`CLAUDE.md`:** usunięty adres e-mail osoby rekrutującej (punkt 12 listy Kuby). Historii nie przepisujemy, więc adres zostaje we wcześniejszych commitach.
+
+## 2026-10-21 — Kuba przyjmuje pakiet poprawek po konsylium
+
+**Decyzja Kuby (słowa Kuby):** „Przejrzałem pakiet, przyjmuję go razem z regułą testu Mety. Jedna rzecz: w »Czy to wzrost« dwa razy stoi, że Safari »nie mieści się w luce«. Ktoś z Telemedi nie będzie wiedział, o jaką lukę chodzi. Zostaw kwotę Safari, rozkład spadku marży i zdanie, że wyniku kwartału bez awarii nie mierzymy. Samo »nie mieści się w luce« usuń w obu miejscach. Potem kontrola, commit i daj znać. Publikacji jeszcze nie robimy.”
+
+- **Reguła testu Mety przyjęta:** przy wyniku niejednoznacznym decyduje oszacowanie punktowe (poniżej progu wyłączamy, powyżej zostawiamy); świadomie przyjęta reguła decyzji, a nie rozstrzygnięcie statystyczne (założenie 59).
+- **Wykonane:** zdanie „Safari się w tej luce nie mieści” usunięte z dwóch miejsc w „Czy to wzrost” (akapit o Safari w III kwartale i rozkład spadku marży) w `notatki/c_szkic.md` i w `analiza/b2_eksport_c.py`. Kontrola `python -I analiza/b_eksport.py`: 102 z 102 zgodnych, 0 różnic; teksty zakładek odtworzone. W zakładce „Wynik biznesu” zdanie zostaje, bo luka jest tam zdefiniowana w poprzednim akapicie.
+- **Następne kroki, każdy za zgodą Kuby:** przegląd zamówień testowych, publikacja, mail.

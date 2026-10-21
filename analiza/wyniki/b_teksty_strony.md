@@ -1,6 +1,6 @@
 # Teksty strony narzędzia — wszystkie zakładki, tak jak widzi je czytelnik
 
-Wygenerowane 2026-10-21 20:43 skryptem `analiza/b2_teksty_strony.py` ze strony w `narzedzie/` (stan repozytorium 1bfa75f), otwartej w przeglądarce bez okna (Microsoft Edge), szerokość 1366 px. Każda zakładka przy ustawieniach domyślnych, bez klikania. Tabele dłuższe niż 40 wierszy są skrócone do 15 pierwszych i 5 ostatnich wierszy. Rozwijane sekcje są rozwinięte. Wykresy opisane nazwami serii. W komórkach tabel `<br>` oddziela linie, które strona pokazuje jedna pod drugą (zwykle: wartość w okresie B, pod spodem okres A i zmiana). Odnośniki do innych zakładek są oznaczone strzałką albo wypisane po „Zobacz w danych”.
+Wygenerowane 2026-10-21 21:40 skryptem `analiza/b2_teksty_strony.py` ze strony w `narzedzie/` (stan repozytorium 6015f4f), otwartej w przeglądarce bez okna (Microsoft Edge), szerokość 1366 px. Każda zakładka przy ustawieniach domyślnych, bez klikania. Tabele dłuższe niż 40 wierszy są skrócone do 15 pierwszych i 5 ostatnich wierszy. Rozwijane sekcje są rozwinięte. Wykresy opisane nazwami serii. W komórkach tabel `<br>` oddziela linie, które strona pokazuje jedna pod drugą (zwykle: wartość w okresie B, pod spodem okres A i zmiana). Odnośniki do innych zakładek są oznaczone strzałką albo wypisane po „Zobacz w danych”.
 
 **Nagłówek strony:** B2C: czy to wzrost? — Narzędzie do zadania rekrutacyjnego na stanowisko Head of B2C. Kohorty, lejki, zdarzenia i jakość danych w jednym miejscu.
 
@@ -95,7 +95,7 @@ Zobacz w danych: Priorytety: pozycja 12, test TelemediGO · Priorytety: pozycja 
 
 Pod koniec okresu wzrost przestał się przekładać na wynik: w III kwartale 2026 marża była o 6,8% niższa niż rok wcześniej (207,7 tys. zł wobec 222,8 tys. zł), choć wydatki na kampanie były 2,08 raza wyższe (181,6 tys. zł wobec 87,4 tys. zł).
 
-Szacowana marża utracona przez awarię zakładania konta w Safari na iOS w samym III kwartale 2026 to 14,6–18,3 tys. zł, zależnie od odjęcia tła i założonego tempa strat, a osobny scenariusz powrotów pacjentów utraconych od 17.03 do 30.06 daje 4,1–4,5 tys. zł. To kwota tego samego rzędu co cały spadek marży kwartału (15,1 tys. zł) i większa niż luka, która zostaje po odjęciu TelemediGO (5,0 tys. zł; zastrzeżenie 6), więc Safari się w tej luce nie mieści. Wyniku kwartału bez awarii nie mierzymy: to scenariusz przy założeniach pozycji 1.
+Szacowana marża utracona przez awarię zakładania konta w Safari na iOS w samym III kwartale 2026 to 14,6–18,3 tys. zł, zależnie od odjęcia tła i założonego tempa strat, a osobny scenariusz powrotów pacjentów utraconych od 17.03 do 30.06 daje 4,1–4,5 tys. zł. To kwota tego samego rzędu co cały spadek marży kwartału (15,1 tys. zł). Wyniku kwartału bez awarii nie mierzymy: to scenariusz przy założeniach pozycji 1.
 
 #### Wzrost marży słabnie z kwartału na kwartał, a wydatki na kampanie rosną coraz szybciej.
 
@@ -119,7 +119,7 @@ Marża spadła o 15,1 tys. zł. Według przyjętej reguły pacjenci nowych kampa
 - marża konsultacji +1,2 tys. zł: powtórnych zamówień jest więcej (3 140 wobec 2 879), ale każde zostawia mniej marży (32,81 zł wobec 35,86 zł);
 - prowizja bez zmian.
 
-Księgowo lukę, która zostaje po odjęciu TelemediGO (5,0 tys. zł), wyjaśnia wzrost wydatków kampanii działających w obu latach, częściowo skompensowany wzrostem marży konsultacji. Rozkład księgowy nie rozdziela wpływu Safari od innych zmian przychodu: awaria mogła obniżyć marżę konsultacji, która mimo to wzrosła o 1,2 tys. zł. Szacunek Safari (akapit wyżej i pozycja 1) jest większy niż ta luka, więc Safari się w niej nie mieści. Według sesji płatności podział się odwraca: nowe kampanie −25,2 tys. zł, reszta +10,1 tys. zł. Suma jest ta sama, a podział między nowe kampanie a resztę zależy od reguły źródła. Cały spadek przypada na wrzesień (−20,8 tys. zł); lipiec +6,6 tys. zł, sierpień −0,9 tys. zł.
+Księgowo lukę, która zostaje po odjęciu TelemediGO (5,0 tys. zł), wyjaśnia wzrost wydatków kampanii działających w obu latach, częściowo skompensowany wzrostem marży konsultacji. Rozkład księgowy nie rozdziela wpływu Safari od innych zmian przychodu: awaria mogła obniżyć marżę konsultacji, która mimo to wzrosła o 1,2 tys. zł. Według sesji płatności podział się odwraca: nowe kampanie −25,2 tys. zł, reszta +10,1 tys. zł. Suma jest ta sama, a podział między nowe kampanie a resztę zależy od reguły źródła. Cały spadek przypada na wrzesień (−20,8 tys. zł); lipiec +6,6 tys. zł, sierpień −0,9 tys. zł.
 
 #### Baza powracających pacjentów
 
@@ -1410,4 +1410,4 @@ Rzeczy, których te dane nie rozstrzygają. Przy każdej: dlaczego to ważne i j
 
 ---
 
-**Stopka strony:** Dane od 1.10.2024 do 30.09.2026. Liczby przeliczone 2026-10-21 20:43 skryptami analiza/b_eksport.py i analiza/b2_eksport_c.py (stan repozytorium 1bfa75f). Strona nie pobiera niczego z internetu.
+**Stopka strony:** Dane od 1.10.2024 do 30.09.2026. Liczby przeliczone 2026-10-21 21:40 skryptami analiza/b_eksport.py i analiza/b2_eksport_c.py (stan repozytorium 6015f4f). Strona nie pobiera niczego z internetu.

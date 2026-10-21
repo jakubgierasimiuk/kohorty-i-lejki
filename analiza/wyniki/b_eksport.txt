@@ -1,4 +1,4 @@
-B — EKSPORT DANYCH NARZĘDZIA (2026-10-21 20:43, commit 1bfa75f)
+B — EKSPORT DANYCH NARZĘDZIA (2026-10-21 21:40, commit 6015f4f)
 
 1. Pliki w narzedzie/dane_strony/ (bajty)
    calosc                             38,075
@@ -11,12 +11,12 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-21 20:43, commit 1bfa75f)
    strona_wejscia                    265,403
    podsumowanie                       14,081
    zdarzenia                          37,677
-   jakosc                              8,893
+   jakosc                              8,892
    kohorty                         1,442,248
    po_zakupie                        298,624
    wynik                              86,272
-   c                                  73,818
-   razem                           4,180,951
+   c                                  73,574
+   razem                           4,180,706
 
 2. Kontrola: liczby z eksportu wobec notatek i wcześniejszych raportów
    co                                                                    eksport  oczekiwane  wynik
@@ -120,7 +120,7 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-21 20:43, commit 1bfa75f)
    C: powrót 90 dni = eksport z bazy (%, pacjenci)                    23.9 17.4 12867 18924 23.9 17.4 12867 18924  zgodne
    C: zamówienia dashboardu i oczyszczone = mostek z bazy             25269 40613 24716 38491 25269 40613 24716 38491  zgodne
    C: marża po kwartałach = eksport z bazy (zł, 8 kwartałów)          151340 226877 227044 222824 259375 324423 256558 207713 151340 226877 227044 222824 259375 324423 256558 207713  zgodne
-   C: liczby w tekstach bez pokrycia w c_szkic.md (50 fragmentów, 1179 liczb)          0           0  zgodne
+   C: liczby w tekstach bez pokrycia w c_szkic.md (50 fragmentów, 1176 liczb)          0           0  zgodne
    D: liczby w tekstach innych zakładek bez pokrycia w d_teksty_strony.md (8 sekcji, 245 liczb)          0           0  zgodne
 
    Różnic: 0 z 102 kontroli.
@@ -145,7 +145,7 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-21 20:43, commit 1bfa75f)
 4. Kontrola ze szkicem (notatki/c_szkic.md): każda liczba w zdaniach strony stoi w tym samym fragmencie szkicu. Wiersze „d:” to teksty pozostałych zakładek wobec notatki notatki/d_teksty_strony.md.
 „Dodane” = liczby dopisane poza szkicem (liczebność przy odsetku, okres, kwoty w dniach działania), odczytane z raportów.
    fragment          liczb  bez pokrycia   dodane
-   wzrost              308  —              24, 24716, 3,2, 38491, 5,4, 6,5
+   wzrost              305  —              24, 24716, 3,2, 38491, 5,4, 6,5
    telemedigo           47  —              16231, 17419, 24687, 6784, 7268, 9307
    zasady               46  —              —
    nie_robimy           15  —              —

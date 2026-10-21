@@ -2,7 +2,7 @@
 
 Zasada z `CLAUDE.md`, punkt 14: każda sesja czyta ten plik na starcie i aktualizuje go na końcu swojej pracy.
 
-**Ostatnia aktualizacja:** 2026-10-21 wieczorem, sesja prowadząca `local_791c102e-55e1-4a1b-bb12-d2b0200168ad` (poprawki po konsylium). **Następny krok: przegląd pakietu przez Kubę, potem (każdy krok za jego zgodą) przegląd zamówień testowych, publikacja i mail.** Wcześniejsze sesje prowadzące: `local_06eb3146` (A1–A5), `local_ca1efb6a` (C i D do konsylium).
+**Ostatnia aktualizacja:** 2026-10-21 wieczorem, sesja prowadząca `local_791c102e-55e1-4a1b-bb12-d2b0200168ad` (poprawki po konsylium). **Pakiet poprawek przyjęty przez Kubę 2026-10-21 (z regułą testu Mety i usunięciem „nie mieści się w luce” z „Czy to wzrost”). Następny krok, każdy za zgodą Kuby: przegląd zamówień testowych, publikacja i mail.** Wcześniejsze sesje prowadzące: `local_06eb3146` (A1–A5), `local_ca1efb6a` (C i D do konsylium).
 
 ## 1. Gdzie jesteśmy
 
@@ -18,7 +18,7 @@ Zasada z `CLAUDE.md`, punkt 14: każda sesja czyta ten plik na starcie i aktuali
 | A5 — ekonomia kampanii | zrobione, przyjęte przez Kubę, scalone (założenia 39–43) | `d6f63e4` … `7d8a58f` |
 | B Narzędzie | trzecia wersja przyjęta przez Kubę 2026-10-20, scalone (założenia 44–46 i 54); publikacja to ostatni, osobny krok, za zgodą Kuby | `b76a7de` … `df4d23c` |
 | C TelemediGO, „czy to wzrost”, priorytety, niewiadome | zrobione, przyjęte przez Kubę 2026-10-20, scalone (założenia 47–53); przeniesienie do narzędzia w sesji `local_0ea34a6a` | `bae2920` … (commit „C: lista priorytetów przyjęta…”) |
-| D Poprawki po konsylium (lista Kuby `notatki/d_poprawki.md`) | zrobione 2026-10-21, czeka na przegląd Kuby; recenzja Codeksa (Sol) uwzględniona (założenia 55–63) | `bfbc5cf`, `ebf37d5`, `b7b55ba`, `1bfa75f`, `3470f54` |
+| D Poprawki po konsylium (lista Kuby `notatki/d_poprawki.md`) | zrobione i przyjęte przez Kubę 2026-10-21; recenzja Codeksa (Sol) uwzględniona (założenia 55–63) | `bfbc5cf`, `ebf37d5`, `b7b55ba`, `1bfa75f`, `3470f54` |
 
 Status wszystkich punktów: `notatki/PLAN.md`.
 
@@ -28,7 +28,7 @@ Status wszystkich punktów: `notatki/PLAN.md`.
 - **Teksty:** zakładki C za `notatki/c_szkic.md` (karta streszczenia, rozkład III kwartału, test Mety, niewiadome 19–22, razem 22), pozostałe zakładki za `notatki/d_teksty_strony.md`.
 - **Strona:** sesja narzędzia `local_0ea34a6a-6b84-45c6-87b7-e953f33e3452` zrobiła etap 1 (`bfbc5cf`) i etap 2 (`3470f54`: nowe liczby i brzmienia, poprawki po recenzji Codeksa). Kontrola `python -I analiza/b_eksport.py`: 102 kontrole, 0 różnic; 1 179 liczb w tekstach zakładek C i 245 liczb w pozostałych zakładkach, wszystkie z pokryciem w `c_szkic.md` i `d_teksty_strony.md`. Teksty zakładek: `analiza/wyniki/b_teksty_strony.md`. Szczegóły sesji narzędzia: `notatki/b_narzedzie.md`, sekcja 15.
 - **Recenzja Codeksa (Sol):** 34 z 35 liczb zgodnych, jeden błąd jednostki poprawiony, 11 uwag do brzmienia przyjętych (`notatki/recenzje/d2_codex.md`).
-- **Do decyzji Kuby przy przeglądzie:** reguła na niejednoznaczny wynik testu Mety (oszacowanie punktowe; inne warianty w `d_wynik.txt`, 3e).
+- **Decyzja Kuby (2026-10-21):** pakiet przyjęty razem z regułą testu Mety (oszacowanie punktowe); „nie mieści się w luce” usunięte z „Czy to wzrost” (`DECYZJE.md`, ostatni wpis).
 - **Zostaje (każdy krok za zgodą Kuby):** przegląd zamówień testowych (zastrzeżenie z A2), publikacja (repozytorium publiczne, GitHub Pages, adres w README) i mail do Telemedi. Z syntezy konsylium nie robiliśmy widoku „wczoraj i ostatnie 7 dni z alarmami” (nie było go na liście Kuby).
 
 **Stan na 2026-10-21 rano (dla nowej sesji prowadzącej):**

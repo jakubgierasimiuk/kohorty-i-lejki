@@ -530,8 +530,7 @@ def q3_teksty(V):
     t["luka"] = (f"Księgowo lukę, która zostaje po odjęciu TelemediGO ({tz(luka)}), wyjaśnia wzrost wydatków kampanii "
                  f"działających w obu latach, częściowo skompensowany wzrostem marży konsultacji. Rozkład księgowy nie "
                  f"rozdziela wpływu Safari od innych zmian przychodu: awaria mogła obniżyć marżę konsultacji, która mimo to "
-                 f"wzrosła o {t1(D['q3_reszta_z1k_konsultacje_marza_zmiana'])} tys. zł. Szacunek Safari (akapit wyżej i "
-                 f"pozycja 1) jest większy niż ta luka, więc Safari się w niej nie mieści. Według sesji płatności podział się "
+                 f"wzrosła o {t1(D['q3_reszta_z1k_konsultacje_marza_zmiana'])} tys. zł. Według sesji płatności podział się "
                  f"odwraca: nowe kampanie "
                  f"{tz(D['q3_nowe_z2_marza_2026'])}, reszta {tzn(D['q3_reszta_z2_zmiana'])}. Suma jest ta sama, a podział między "
                  f"nowe kampanie a resztę zależy od reguły źródła. Cały spadek przypada na wrzesień "
@@ -556,9 +555,8 @@ def q3_teksty(V):
                    f"{zakres(min(zaks) / 1000, max(zaks) / 1000, 1)} tys. zł, zależnie od odjęcia tła i założonego tempa strat, "
                    f"a osobny scenariusz powrotów pacjentów utraconych od {po_d} do {przed_q3.day}.{przed_q3:%m} daje "
                    f"{zakres(D['safari_powroty_q3_utraconych_przed_q3_od'] / 1000, D['safari_powroty_q3_utraconych_przed_q3_do'] / 1000, 1)} "
-                   f"tys. zł. To kwota tego samego rzędu co cały spadek marży kwartału ({tz(-D['q3_zmiana_marzy'])}) i większa "
-                   f"niż luka, która zostaje po odjęciu TelemediGO ({tz(luka)}; zastrzeżenie 6), więc Safari się w tej luce nie "
-                   f"mieści. Wyniku kwartału bez awarii nie mierzymy: to scenariusz przy założeniach pozycji 1.")
+                   f"tys. zł. To kwota tego samego rzędu co cały spadek marży kwartału ({tz(-D['q3_zmiana_marzy'])}). "
+                   f"Wyniku kwartału bez awarii nie mierzymy: to scenariusz przy założeniach pozycji 1.")
     t["safari_utr"] = (round(min(utr)), round(max(utr)))
     t["safari_p1"] = (f"W samym {kw_nazwa(ost)} szacowana marża utracona to około "
                       f"{zakres(min(zaks) / 1000, max(zaks) / 1000, 1)} tys. zł ({liczba(min(utr))}–{liczba(max(utr))} "
