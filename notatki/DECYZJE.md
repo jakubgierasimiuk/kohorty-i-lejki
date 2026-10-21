@@ -242,7 +242,9 @@ Scalone przez sesję prowadzącą z `notatki/b_narzedzie.md` (sekcje 12 i 13). P
 - spadek marży III kwartału — luka po odjęciu TelemediGO to wyższe wydatki kampanii działających w obu latach; Safari w niej się nie mieści i jest liczone jako strata zaksięgowana w kwartale (założenie 58);
 - test Mety — 4–6 tygodni nie odróżni wyniku od progu; obok progu 85% próg po naprawie zwrotów 70%; reguła na wynik niejednoznaczny ustalona z góry (założenie 59).
 
-**Reguła na wynik niejednoznaczny testu Mety (propozycja sesji prowadzącej, do zatwierdzenia przez Kubę przy przeglądzie pakietu):** decyduje oszacowanie punktowe, bo zysk z wyłączenia zmienia się liniowo z udziałem pacjentów dodatkowych. Inne warianty (status quo przy przedziale obejmującym próg, połowa budżetu, przedłużanie testu) są w `analiza/wyniki/d_wynik.txt`, 3e.
+**Reguła na wynik niejednoznaczny testu Mety (propozycja sesji prowadzącej, do zatwierdzenia przez Kubę przy przeglądzie pakietu):** decyduje oszacowanie punktowe (poniżej progu wyłączamy, powyżej zostawiamy). To świadomie przyjęta reguła decyzji przy dużej niepewności, a nie rozstrzygnięcie statystyczne (po recenzji Codeksa wycofaliśmy uzasadnienie „oczekiwaną marżą”, bo wymagałoby osobnego modelu). Inne warianty (status quo przy przedziale obejmującym próg, połowa budżetu, przedłużanie testu) są w `analiza/wyniki/d_wynik.txt`, 3e.
+
+**Recenzja Codeksa (Sol) nowych liczb:** 34 z 35 liczb zgodnych; jeden błąd jednostki (próg Mety w pacjentach dotyczy 332 dni działania, a nie roku) i 11 uwag do brzmienia zdań — wszystkie przyjęte i wprowadzone w szkicu, w tekstach strony i w notatkach. Szczegóły: `notatki/recenzje/d2_codex.md`.
 
 **Bez zmian na stronie:** `robots.txt` zostaje; indeksowanie blokuje znacznik `noindex`, a `robots.txt` pod podścieżką GitHub Pages nic nie daje (konsylium, drobne).
 
