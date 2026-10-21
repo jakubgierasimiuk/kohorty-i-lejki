@@ -44,6 +44,40 @@
   function $(id) { return document.getElementById(id); }
   function css(nazwa) { return getComputedStyle(document.documentElement).getPropertyValue(nazwa).trim(); }
   function akapity(cel, zdania) { wyczysc(cel); zdania.forEach(function (z) { cel.appendChild(el("p", { text: z })); }); }
+  var BK = window.BK;
+  // karta z danych (nowy kształt), a gdy jej nie ma: dotychczasowe zdania
+  // (elementy z klasą „zastap” to statyczne przypisy, które karta z danych zastępuje)
+  function zdaniaAlboKarta(art, miejsce, karta, zdania, wstawki) {
+    if (BK.czyKarta(karta)) {
+      BK.kartaW(art, miejsce, karta, { wstawki: wstawki });
+      Array.prototype.forEach.call(art.querySelectorAll(".zastap"), function (x) { x.hidden = true; });
+      return true;
+    }
+    if (zdania) akapity(miejsce, zdania);
+    return false;
+  }
+  // karta wstępu zakładki (np. jakość danych, zdarzenia): staje pod nagłówkiem zamiast akapitu wstępu
+  function wstepKarta(sekcja, karta) {
+    var s = $(sekcja);
+    if (!BK.czyKarta(karta) || s.querySelector(".karta-wstep")) return;
+    var w = s.querySelector(".wstep"), k = BK.karta(karta, { klasa: "karta-wstep" });
+    if (w) { w.hidden = true; w.parentNode.insertBefore(k, w.nextSibling); }
+    else s.insertBefore(k, s.querySelector("h2").nextSibling);
+  }
+  // zmiana w punktach procentowych jako etykieta ze strzałką; wyżej = lepiej, chyba że odwrotnie
+  function zmianaPkt(d, miejsca, odwrotnie) {
+    var m = miejsca === undefined ? 1 : miejsca, zero = Math.abs(d) < Math.pow(10, -m) / 2;
+    var lepiej = odwrotnie ? d < 0 : d > 0;
+    return BK.zmiana(zero ? liczba(0, m) : znak(d, m), zero ? "bez" : BK.kierunekZnaku(d), zero ? "neutralnie" : lepiej ? "dobrze" : "zle",
+      zero ? "Bez zmiany wobec okresu A" : (d > 0 ? "Wzrost" : "Spadek") + " o " + liczba(Math.abs(d), m) + " wobec okresu A");
+  }
+  // ikony i znaczniki zapisane w index.html jako miejsca do wypełnienia
+  function ikonyStatyczne() {
+    Array.prototype.forEach.call(document.querySelectorAll("[data-ikona]"), function (e) { e.parentNode.replaceChild(BK.ikona(e.dataset.ikona), e); });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-znacznik]"), function (e) {
+      e.parentNode.replaceChild(BK.znacznik({ tekst: e.textContent, stan: e.dataset.znacznik }), e);
+    });
+  }
 
   function etykieta(podz, w) {
     if (w === "__razem") return "Razem";
@@ -58,8 +92,8 @@
       ["przychod", "Przychód z konsultacji"], ["go", "TelemediGO"]];
     var o1 = P.meta.okresy[0].nazwa, o2 = P.meta.okresy[1].nazwa;
     wyczysc(tabela);
-    tabela.appendChild(el("caption", { class: "przypis", style: "text-align:left;caption-side:top;padding-bottom:6px",
-      text: "Wzrost: okres " + o2 + " wobec okresu " + o1 + ". Pod wzrostem: wartości w obu okresach." }));
+    tabela.appendChild(el("caption", { class: "przypis",
+      text: "Zmiana: ostatnie 12 miesięcy (" + o2 + ") wobec roku wcześniej (" + o1 + "). Pod zmianą: wartość rok wcześniej → wartość w ostatnich 12 miesiącach." }));
     var tr = el("tr", null, [el("th", { text: "Krok" })]);
     miary.forEach(function (m) { tr.appendChild(el("th", { text: m[1] })); });
     tabela.appendChild(el("thead", null, [tr]));
@@ -95,10 +129,11 @@
   ]);
   var POLA = ["s", "k1", "k2", "k3", "k4", "k5"];
   var O = P.meta.okresy;
+  // domyślnie osoby, które jeszcze nie kupowały (dla pozyskania liczą się one, a nie pacjenci powracający)
   var S = {
-    typ: "zwykla", pac: "wszyscy", podz: "przegladarka", krok: "k5s", wygl: 7,
+    typ: "zwykla", pac: "nie_kupowal", podz: "przegladarka", krok: "k5s", wygl: 7,
     a: [idxIso(O[0].od), idxIso(O[0].do)], b: [idxIso(O[1].od), idxIso(O[1].do)],
-    preset: "rok", wybrane: null, kolory: {}
+    preset: "rok", wybrane: null, kolory: {}, lw: "__razem"
   };
   var ladowane = {}, cache = {}, wykresLejka = null;
 
@@ -155,13 +190,14 @@
     q.set("typ", S.typ); q.set("pac", S.pac); q.set("podz", S.podz); q.set("krok", S.krok); q.set("wygl", S.wygl);
     q.set("a", isoIdx(S.a[0]) + "_" + isoIdx(S.a[1])); q.set("b", isoIdx(S.b[0]) + "_" + isoIdx(S.b[1]));
     if (S.wybrane) q.set("w", S.wybrane.join(","));
+    if (S.lw && S.lw !== "__razem") q.set("lw", S.lw);
     history.replaceState(null, "", "#lejek?" + q.toString());
   }
 
   function czytajAdres(q) {
     if (!q || !Array.from(q.keys()).length) return;
     // ustawienia, których nie ma w adresie, wracają do domyślnych (a nie zostają z poprzedniego widoku)
-    S.typ = "zwykla"; S.pac = "wszyscy"; S.podz = "przegladarka"; S.krok = "k5s"; S.wygl = 7; ustawPreset("rok");
+    S.typ = "zwykla"; S.pac = "nie_kupowal"; S.podz = "przegladarka"; S.krok = "k5s"; S.wygl = 7; ustawPreset("rok");
     if (q.get("typ")) S.typ = q.get("typ");
     if (q.get("pac")) S.pac = q.get("pac");
     if (q.get("podz")) S.podz = q.get("podz");
@@ -174,6 +210,8 @@
     if (S.preset === "wlasne" && S.a[0] === idxIso(O[0].od) && S.a[1] === idxIso(O[0].do) &&
         S.b[0] === idxIso(O[1].od) && S.b[1] === idxIso(O[1].do)) S.preset = "rok";
     S.wybrane = q.get("w") ? q.get("w").split(",").filter(Boolean) : null;
+    // wykres kroków: wartość z adresu, a gdy odnośnik wskazuje jedną wartość podziału — ta wartość
+    S.lw = q.get("lw") || (S.wybrane && S.wybrane.length === 1 ? S.wybrane[0] : "__razem");
     S.kolory = {};
   }
 
@@ -190,13 +228,21 @@
 
   function rysujNaglowekLejka() {
     var N = P.lejek_naglowek;
-    akapity($("lj-zdania"), N.zdania);
+    zdaniaAlboKarta($("lj-naglowek"), $("lj-zdania"), N.karta, N.zdania);
     var n = wyczysc($("lj-naprawy"));
-    N.naprawy.forEach(function (x) {
-      n.appendChild(el("div", { class: "naprawa" }, [el("h4", { text: x.tytul }), el("p", { text: x.tekst }),
-        el("a", { href: x.link, text: "Pokaż w lejku" })]));
-    });
-    akapity($("lj-osobne"), N.osobne);
+    if (N.naprawy_karty && N.naprawy_karty.length) {
+      N.naprawy_karty.forEach(function (k) { n.appendChild(BK.karta(k, { prefiks: "lj-" })); });
+    } else {
+      // dotychczasowy kształt: karty napraw w karcie nagłówka
+      $("lj-zdania").appendChild(el("div", { class: "naprawy" }, N.naprawy.map(function (x) {
+        return el("div", { class: "naprawa" }, [el("h4", { text: x.tytul }), el("p", { text: x.tekst }),
+          el("a", { href: x.link, text: "Pokaż w lejku" })]);
+      })));
+    }
+    if (BK.czyKarta(N.osobne_karta)) {
+      var o = wyczysc($("lj-osobne")), c = BK.karta(N.osobne_karta);
+      while (c.firstChild) o.appendChild(c.firstChild);
+    } else akapity($("lj-osobne"), N.osobne);
     $("lj-granica").textContent = N.granica || "";
   }
 
@@ -205,11 +251,11 @@
     ["calosc", "urzadzenie", "przegladarka", "system_przegladarka", "urzadzenie_przegladarka", "kanal", "kampania",
       "strona_wejscia"].forEach(function (p) { fp.appendChild(el("option", { value: p, text: ET.podzial[p] })); });
     var pr = $("f-preset");
-    pr.appendChild(el("option", { value: "rok", text: "Okres 2 wobec okresu 1 (rok do roku)" }));
+    pr.appendChild(el("option", { value: "rok", text: "Ostatnie 12 miesięcy wobec roku wcześniej" }));
     pr.appendChild(el("option", { value: "90", text: "Ostatnie 90 dni wobec poprzednich 90" }));
     pr.appendChild(el("option", { value: "30rr", text: "Ostatnie 30 dni wobec tych samych dni rok wcześniej" }));
     ZD.lista.forEach(function (z) {
-      pr.appendChild(el("option", { value: "zd:" + z.id, text: "60 dni przed i po: " + z.tytul + " (" + dataPL(idxIso(z.od)) + ")" }));
+      pr.appendChild(el("option", { value: "zd:" + z.id, text: "60 dni przed i po: " + (z.krotko || z.tytul) + " (" + dataPL(idxIso(z.od)) + ")" }));
     });
     pr.appendChild(el("option", { value: "wlasne", text: "Własne daty" }));
     var fk = $("f-krok");
@@ -220,9 +266,13 @@
       var i = $("f-" + k); i.min = P.meta.start; i.max = P.meta.koniec;
     });
 
-    $("f-typ").onchange = function () { S.typ = this.value; S.wybrane = null; S.kolory = {}; odswiezLejek(); };
+    $("f-typ").onchange = function () { S.typ = this.value; S.wybrane = null; S.kolory = {}; S.lw = "__razem"; odswiezLejek(); };
     $("f-pac").onchange = function () { S.pac = this.value; odswiezLejek(); };
-    $("f-podz").onchange = function () { S.podz = this.value; S.wybrane = null; S.kolory = {}; odswiezLejek(); };
+    $("f-podz").onchange = function () { S.podz = this.value; S.wybrane = null; S.kolory = {}; S.lw = "__razem"; odswiezLejek(); };
+    $("f-lw").onchange = function () {
+      S.lw = this.value;
+      wczytajPodzial(S.podz).then(function (dane) { rysujKrokiLejka(dane); zapiszAdres(); });
+    };
     $("f-preset").onchange = function () { if (this.value !== "wlasne") ustawPreset(this.value); else S.preset = "wlasne"; odswiezLejek(); };
     $("f-krok").onchange = function () { S.krok = this.value; odswiezLejek(true); };
     $("f-wygl").onchange = function () { S.wygl = +this.value; odswiezLejek(true); };
@@ -258,14 +308,92 @@
       ". Okres A: " + liczba(lA) + " z " + liczba(mA) + "." });
     td.appendChild(el("span", { class: "b", text: proc(pB) }));
     td.appendChild(el("span", { class: "n", text: " z " + liczba(mB) }));
-    var a = el("span", { class: "a", text: "A: " + proc(pA) + " z " + liczba(mA) + " " });
-    if (pA !== null && pB !== null) {
-      var d = pB - pA, zero = Math.abs(d) < 0.05;
-      a.appendChild(el("span", { class: "delta " + (zero ? "zero" : d > 0 ? "plus" : "minus"),
-        text: (zero ? "= " : d > 0 ? "▲" : "▼") + liczba(Math.abs(d), 1) }));
-    }
+    var a = el("span", { class: "a", text: "A: " + proc(pA) + " z " + liczba(mA) });
+    if (pA !== null && pB !== null) a.appendChild(zmianaPkt(pB - pA, 1));
     td.appendChild(a);
     return td;
+  }
+
+  // ------------------------------------------------------------ wykres kroków lejka (liczony z tych samych danych co tabela)
+  var KROKI_LEJKA = [
+    { pole: "s", nazwa: "Wejście na stronę" }, { pole: "k1", nazwa: ET.kroki.k1 }, { pole: "k2", nazwa: ET.kroki.k2 },
+    { pole: "k3", nazwa: ET.kroki.k3 }, { pole: "k4", nazwa: ET.kroki.k4 }, { pole: "k5", nazwa: ET.kroki.k5 }
+  ];
+  // nazwy okresów porównania; aD to forma po „wobec”
+  function nazwyOkresow() {
+    if (S.preset === "rok") return { b: "Ostatnie 12 miesięcy", a: "rok wcześniej", aD: "roku wcześniej" };
+    if (S.preset === "30rr") return { b: "Ostatnie 30 dni", a: "te same dni rok wcześniej", aD: "tych samych dni rok wcześniej" };
+    if (S.preset === "90") return { b: "Ostatnie 90 dni", a: "poprzednie 90 dni", aD: "poprzednich 90 dni" };
+    if (S.preset.indexOf("zd:") === 0) return { b: "Po zdarzeniu", a: "przed zdarzeniem", aD: "okresu przed zdarzeniem" };
+    return { b: "Okres B", a: "okres A", aD: "okresu A" };
+  }
+  function rysujKrokiLejka(dane) {
+    var lista = wartosci(dane).map(function (w) { return { w: w, n: suma(seria(dane, w).s, S.b) + suma(seria(dane, w).s, S.a) }; })
+      .filter(function (x) { return x.n > 0; }).sort(function (x, y) { return y.n - x.n; });
+    var sel = wyczysc($("f-lw"));
+    sel.appendChild(el("option", { value: "__razem", text: S.podz === "calosc" ? "Całość" : "Razem (wszystkie wartości)" }));
+    if (S.podz !== "calosc") lista.forEach(function (x) { sel.appendChild(el("option", { value: x.w, text: etykieta(S.podz, x.w) })); });
+    if (S.lw !== "__razem" && !lista.some(function (x) { return x.w === S.lw; })) S.lw = "__razem";
+    sel.value = S.lw;
+    sel.closest("label").hidden = S.podz === "calosc";
+
+    var sr = seria(dane, S.lw), nz = nazwyOkresow();
+    var kroki = [];
+    KROKI_LEJKA.forEach(function (k) {
+      var nB = suma(sr[k.pole], S.b), nA = suma(sr[k.pole], S.a);
+      if (k.pole !== "s" && nB + nA === 0) return;   // krok, którego ten typ sesji nie ma (np. zakup samego TelemediGO)
+      kroki.push({ k: k, nB: nB, nA: nA });
+    });
+    var s0 = kroki[0];
+    kroki.forEach(function (x, i) {
+      x.pB = s0.nB > 0 ? 100 * x.nB / s0.nB : null;
+      x.pA = s0.nA > 0 ? 100 * x.nA / s0.nA : null;
+      if (i > 0) {
+        var p = kroki[i - 1];
+        x.tB = p.nB > 0 ? 100 * x.nB / p.nB : null;
+        x.tA = p.nA > 0 ? 100 * x.nA / p.nA : null;
+        x.iloraz = x.tB !== null && x.tA ? x.tB / x.tA : null;
+      }
+    });
+    // najbardziej pogorszone przejście: największy względny spadek (ono najbardziej obniża odsetek sesji z płatnością)
+    var najgorsze = null;
+    kroki.forEach(function (x, i) {
+      if (i > 0 && x.iloraz !== null && x.tB < x.tA - 0.05 && (!najgorsze || x.iloraz < najgorsze.iloraz)) najgorsze = x;
+    });
+
+    var nazwaW = S.lw === "__razem" ? (S.podz === "calosc" ? "" : "razem") : etykieta(S.podz, S.lw);
+    $("lj-kroki-tytul").textContent = "Kroki lejka: " + nz.b.charAt(0).toLowerCase() + nz.b.slice(1) + " wobec " + nz.aD + (nazwaW ? ", " + nazwaW : "");
+    $("lj-kroki-opis").textContent = (S.typ === "zwykla" ? "Kto: " + (S.pac === "wszyscy" ? "wszyscy" : ET.pacjent[S.pac].toLowerCase()) + ". " : ET.typ[S.typ] + ". ") +
+      opisOkresow();
+    var cel = wyczysc($("lj-kroki"));
+    if (!s0.nB || !s0.nA) {
+      cel.appendChild(el("p", { class: "lejek-pusty", text: "W wybranych okresach nie ma sesji dla tego wyboru. Zmień filtry albo daty." }));
+    }
+    kroki.forEach(function (x, i) {
+      if (!s0.nB && !s0.nA) return;
+      if (i > 0) {
+        var gorsze = x === najgorsze;
+        var dalej = el("div", { class: "lk-dalej" }, [
+          el("span", null, ["Przechodzi dalej: ", el("strong", { text: proc(x.tB) })]),
+          el("span", { class: "przypis", text: nz.a + ": " + proc(x.tA) }),
+          x.tB !== null && x.tA !== null ? zmianaPkt(x.tB - x.tA, 1) : null,
+          gorsze ? BK.znacznik({ tekst: "Największy spadek", stan: "zle" }) : null]);
+        cel.appendChild(el("div", { class: "lk-przejscie" + (gorsze ? " lk-najgorsze" : ""), role: "listitem" }, [
+          el("div", { class: "lk-strzalka" }, [BK.ikona("spadek")]), dalej]));
+      }
+      var tor = el("div", { class: "lk-tor", title: x.k.nazwa + ": " + proc(x.pB) + " sesji (" + liczba(x.nB) + " z " + liczba(s0.nB) + "), " +
+        nz.a + " " + proc(x.pA) + " (" + liczba(x.nA) + " z " + liczba(s0.nA) + ")" }, [
+        el("div", { class: "lk-pasek", style: "width:" + Math.max(0, Math.min(100, x.pB || 0)) + "%" }),
+        x.pA !== null ? el("div", { class: "lk-kreska", style: "left:" + Math.max(0, Math.min(100, x.pA)) + "%" }) : null]);
+      cel.appendChild(el("div", { class: "lk-krok", role: "listitem" }, [
+        el("div", { class: "lk-nazwa" }, [x.k.nazwa, el("span", { class: "lk-n", text: liczba(x.nB) + " sesji" })]),
+        tor,
+        el("div", { class: "lk-wart" }, [el("span", { class: "lk-b", text: proc(x.pB) }),
+          el("span", { class: "lk-a", text: nz.a + ": " + proc(x.pA) })])]));
+    });
+    var lg = wyczysc($("lj-kroki-legenda"));
+    lg.appendChild(el("span", { class: "lg" }, [el("span", { class: "lg-pasek" }), nz.b + ": odsetek sesji, które doszły do kroku"]));
+    lg.appendChild(el("span", { class: "lg" }, [el("span", { class: "lg-kreska" }), "Ten sam odsetek: " + nz.a]));
   }
 
   function rysujTabeleLejka(dane) {
@@ -338,7 +466,8 @@
   function rysujZdarzeniaNaWykresie(u, zdarzenia) {
     var ctx = u.ctx, top = u.bbox.top, h = u.bbox.height, dpr = window.devicePixelRatio || 1;
     ctx.save();
-    ctx.strokeStyle = css("--ink-2"); ctx.fillStyle = css("--ink-2"); ctx.lineWidth = 1 * dpr;
+    ctx.strokeStyle = css("--muted"); ctx.fillStyle = css("--ink-2"); ctx.lineWidth = 1 * dpr;
+    ctx.globalAlpha = 0.7; ctx.setLineDash([3 * dpr, 3 * dpr]);
     ctx.font = (11 * dpr) + "px system-ui"; ctx.textAlign = "center";
     zdarzenia.forEach(function (z) {
       var x = u.valToPos((START + idxIso(z.od) * DZIEN) / 1000, "x", true);
@@ -416,7 +545,7 @@
     wykresLejka = new uPlot(opts, data, cel);
     var leg = wyczysc($("lj-zdarzenia-legenda"));
     zd.forEach(function (z) {
-      leg.appendChild(el("li", null, [el("a", { href: "#zdarzenia?z=" + z.id, text: dataPL(idxIso(z.od)) + ": " + z.tytul })]));
+      leg.appendChild(el("li", null, [el("a", { href: "#zdarzenia?z=" + z.id, text: dataPL(idxIso(z.od)) + ": " + (z.krotko || z.tytul) })]));
     });
   }
 
@@ -425,7 +554,7 @@
     var cel = $("lj-wykres");
     cel.style.opacity = "0.5";
     wczytajPodzial(S.podz).then(function (dane) {
-      if (!tylkoWykres || tabelaTez) rysujTabeleLejka(dane);
+      if (!tylkoWykres || tabelaTez) { rysujTabeleLejka(dane); rysujKrokiLejka(dane); }
       rysujWykresLejka(dane);
       cel.style.opacity = "1";
       zapiszAdres();
@@ -556,7 +685,8 @@
           el("td", { text: dataPL(d) }), el("td", { text: ET.podzial[r[ix.podzial]] || r[ix.podzial] }),
           el("td", { text: etykieta(r[ix.podzial], r[ix.wartosc]) }), el("td", { text: NAZWA_PRZEJSCIA[r[ix.przejscie]] || r[ix.przejscie] }),
           el("td", { text: f(r[ix.przed]) }), el("td", { text: f(r[ix.po]) }),
-          el("td", { class: "delta " + (r[ix.zmiana] >= 0 ? "plus" : "minus"), text: znak(r[ix.zmiana], 1) + (ruch ? "" : " pkt proc.") }),
+          el("td", null, [BK.zmiana(znak(r[ix.zmiana], 1) + (ruch ? "" : " pkt proc."), BK.kierunekZnaku(r[ix.zmiana]),
+            ruch ? "neutralnie" : r[ix.zmiana] >= 0 ? "dobrze" : "zle")]),
           el("td", { text: r[ix.dni_przed] + " / " + r[ix.dni_po] }),
           el("td", { text: r[ix.zamowienia_na_30_dni] === null ? "—" : znak(r[ix.zamowienia_na_30_dni], 1) }),
           el("td", null, [el("a", { href: "#lejek?" + q.toString(), text: "w lejku" })])]));
@@ -567,9 +697,14 @@
   // ------------------------------------------------------------ jakość danych
   var wykresDup = null;
   function rysujJakosc() {
+    // karty z danych: D.jakosc.karty.* (kontrakt, notatki/e_runda.md 3.5), a gdy ich nie ma — dotychczasowe zdania
+    var KJ = JK.karty || {};
+    wstepKarta("v-jakosc", JK.karta);
     mostek($("jk-mostek"));
-    akapity($("jk-dup-zdania"), JK.duplikaty.zdania);
-    akapity($("jk-testy-zdania"), JK.testy.zdania);
+    zdaniaAlboKarta($("jk-karta-mostek"), $("jk-mostek-zdania"), KJ.mostek, null,
+      { mostek: function () { return $("jk-mostek").closest(".tabela-ramka"); } });
+    zdaniaAlboKarta($("jk-karta-dup"), $("jk-dup-zdania"), KJ.duplikaty || JK.duplikaty.karta, JK.duplikaty.zdania);
+    zdaniaAlboKarta($("jk-karta-testy"), $("jk-testy-zdania"), KJ.testy || JK.testy.karta, JK.testy.zdania);
     var kw = wyczysc($("jk-testy-kw")), mx = Math.max.apply(null, JK.testy.kwartaly.map(function (k) { return k.n; }));
     kw.appendChild(el("span", { class: "przypis", text: "Kwartał" }));
     kw.appendChild(el("span", { class: "przypis", text: "Zamówienia testowe" }));
@@ -578,9 +713,13 @@
       kw.appendChild(el("div", { class: "slupek-wiersz" }, [el("div", { class: "slupek", style: "width:" + (70 * k.n / mx) + "%" }),
         el("span", { text: liczba(k.n) })]));
     });
-    $("jk-godzina").textContent = JK.godzina.zdanie;
-    var dr = wyczysc($("jk-drobne")); JK.drobne.forEach(function (z) { dr.appendChild(el("li", { text: z })); });
-    var cz = wyczysc($("jk-czyste")); JK.czyste.forEach(function (z) { cz.appendChild(el("li", { text: z })); });
+    zdaniaAlboKarta($("jk-karta-godzina"), $("jk-godzina"), KJ.godzina || JK.godzina.karta, [JK.godzina.zdanie]);
+    [["drobne", KJ.drobne || JK.karta_drobne, JK.drobne], ["czyste", KJ.czyste || JK.karta_czyste, JK.czyste]].forEach(function (x) {
+      if (BK.czyKarta(x[1])) { BK.kartaW($("jk-karta-" + x[0]), $("jk-" + x[0]), x[1]); return; }
+      var ul = el("ul", { class: "punkty" });
+      x[2].forEach(function (z) { ul.appendChild(el("li", { text: z })); });
+      wyczysc($("jk-" + x[0])).appendChild(ul);
+    });
     rysujWykresDup();
   }
 
@@ -631,7 +770,7 @@
       }, 60);
     }
     if (widok === "zdarzenia") {
-      if (!narysowane.zdarzenia) { rysujFiltryZdarzen(); rysujListeZdarzen(); rysujWykryte(); narysowane.zdarzenia = true; }
+      if (!narysowane.zdarzenia) { wstepKarta("v-zdarzenia", ZD.karta); rysujFiltryZdarzen(); rysujListeZdarzen(); rysujWykryte(); narysowane.zdarzenia = true; }
       rysujOs();
       if (q.get("z")) setTimeout(function () { pokazZdarzenie(q.get("z")); }, 50);
     }
@@ -664,7 +803,8 @@
     liczba: liczba, proc: proc, znak: znak, dataPL: dataPL, isoIdx: isoIdx, idxIso: idxIso, ogranicz: ogranicz,
     el: el, wyczysc: wyczysc, $: $, css: css, akapity: akapity, osieWykresu: osieWykresu, krocz: krocz,
     zdarzeniaNumerowane: zdarzeniaNumerowane, rysujZdarzeniaNaWykresie: rysujZdarzeniaNaWykresie, wczytaj: wczytaj,
-    mostek: mostek };
+    mostek: mostek, BK: BK, zdaniaAlboKarta: zdaniaAlboKarta, zmianaPkt: zmianaPkt, wstepKarta: wstepKarta };
+  ikonyStatyczne();
 
   var czasResize = null;
   window.addEventListener("resize", function () { clearTimeout(czasResize); czasResize = setTimeout(przerysujWykresy, 200); });

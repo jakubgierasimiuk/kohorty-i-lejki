@@ -21,12 +21,12 @@
   }
   function opcjePresetow(sel) {
     var B = b();
-    [["rok", "Okres 2 wobec okresu 1 (rok do roku)"], ["90", "Ostatnie 90 dni wobec poprzednich 90"],
+    [["rok", "Ostatnie 12 miesięcy wobec roku wcześniej"], ["90", "Ostatnie 90 dni wobec poprzednich 90"],
       ["30rr", "Ostatnie 30 dni wobec tych samych dni rok wcześniej"]].forEach(function (o) {
       sel.appendChild(B.el("option", { value: o[0], text: o[1] }));
     });
     B.ZD.lista.forEach(function (z) {
-      sel.appendChild(B.el("option", { value: "zd:" + z.id, text: "60 dni przed i po: " + z.tytul + " (" + B.dataPL(B.idxIso(z.od)) + ")" }));
+      sel.appendChild(B.el("option", { value: "zd:" + z.id, text: "60 dni przed i po: " + (z.krotko || z.tytul) + " (" + B.dataPL(B.idxIso(z.od)) + ")" }));
     });
     sel.appendChild(B.el("option", { value: "wlasne", text: "Własne daty" }));
   }
@@ -80,12 +80,8 @@
     var f = function (v) { return v === null || !isFinite(v) ? "—" : B.liczba(v, m) + (j === "%" ? "%" : j ? " " + j : ""); };
     td.appendChild(B.el("span", { class: "b", text: f(pB) }));
     td.appendChild(B.el("span", { class: "n", text: nB !== null ? " z " + B.liczba(nB) : "" }));
-    var a = B.el("span", { class: "a", text: "A: " + f(pA) + (nA !== null ? " z " + B.liczba(nA) : "") + " " });
-    if (pA !== null && pB !== null && isFinite(pA) && isFinite(pB)) {
-      var d = pB - pA, zero = Math.abs(d) < Math.pow(10, -m) / 2, lepiej = odwrotnie ? d < 0 : d > 0;
-      a.appendChild(B.el("span", { class: "delta " + (zero ? "zero" : lepiej ? "plus" : "minus"),
-        text: (zero ? "= " : d > 0 ? "▲" : "▼") + B.liczba(Math.abs(d), m) }));
-    }
+    var a = B.el("span", { class: "a", text: "A: " + f(pA) + (nA !== null ? " z " + B.liczba(nA) : "") });
+    if (pA !== null && pB !== null && isFinite(pA) && isFinite(pB)) a.appendChild(B.zmianaPkt(pB - pA, m, odwrotnie));
     td.appendChild(a);
     return td;
   }
@@ -233,7 +229,7 @@
       var naz = KS_GRAN !== "mies" ? B.dataPL(r.g.od) : B.RZYM[d.getUTCMonth()] + " " + d.getUTCFullYear();
       var tr = B.el("tr", null, [B.el("td", { text: naz }), B.el("td", { text: B.liczba(r.n) }),
         B.el("td", { class: "macierz-zd", text: r.zd.map(function (z) { return z.nr; }).join(", "),
-          title: r.zd.map(function (z) { return z.nr + ". " + z.tytul; }).join("\n") })]);
+          title: r.zd.map(function (z) { return z.nr + ". " + (z.krotko || z.tytul); }).join("\n") })]);
       r.p.forEach(function (v, k) {
         if (v === null) { tr.appendChild(B.el("td", { class: "macierz-pusta", text: "·", title: "Kohorta nie ma jeszcze pełnego okna " + OKNA_MACIERZY[k] + " dni" })); return; }
         var z = mn[k], u = z[1] > z[0] ? Math.max(0, Math.min(1, (v - z[0]) / (z[1] - z[0]))) : 0.5, st_ = Math.min(RAMPA.length - 1, Math.floor(u * RAMPA.length));
@@ -364,6 +360,7 @@
 
   function filtryK() {
     var B = b(), box = B.wyczysc(B.$("ko-filtry"));
+    box.appendChild(B.el("p", { class: "filtry-tytul", text: "Filtry: tabela, wykres, macierz i krzywa powrotu" }));
     var odswiez = function () { rysujK(); };
     box.appendChild(wybor("ko-regula", "Reguła źródła", [["Z1K", "Przyjęta: pierwsze wejście, kod kampanii rozstrzyga"],
       ["Z2", "Sesja płatności"]], KS.regula, function (v) {
@@ -490,7 +487,7 @@
       }
       B.wczytaj("kohorty", "kohorty").then(function (dane) {
         if (!K) { K = dane; przygotujK(); }
-        if (!gotoweK) { B.akapity(B.$("ko-zdania"), K.zdania); gotoweK = true; }
+        if (!gotoweK) { B.zdaniaAlboKarta(B.$("ko-naglowek"), B.$("ko-zdania"), K.karta, K.zdania); gotoweK = true; }
         czytajAdresK(q);
         filtryK();
         filtryMacierzy();
@@ -679,6 +676,7 @@
     var B = b(), G = PZ.godziny, t = B.wyczysc(B.$("pz-godziny"));
     B.$("pz-godziny-tytul").textContent = G.tytul;
     B.$("pz-godziny-przypis").textContent = G.przypis;
+    B.zdaniaAlboKarta(B.$("pz-karta-godziny"), B.$("pz-godziny-zdania"), (PZ.karty || {}).godziny, null);
     var tr = B.el("tr");
     G.kolumny.forEach(function (k) { tr.appendChild(B.el("th", { text: k })); });
     t.appendChild(B.el("thead", null, [tr]));
@@ -697,14 +695,17 @@
       B.wczytaj("po_zakupie", "po_zakupie").then(function (dane) {
         PZ = dane;
         if (!gotoweP) {
-          B.akapity(B.$("pz-zdania"), PZ.zdania_punktualnosc);
-          B.akapity(B.$("pz-ruch-zdania"), PZ.zdania_ruch);
+          // karty z danych: D.po_zakupie.karty.* (kontrakt, notatki/e_runda.md 3.5), a gdy ich nie ma — dotychczasowe zdania
+          var KP = PZ.karty || {};
+          B.zdaniaAlboKarta(B.$("pz-karta-punktualnosc"), B.$("pz-zdania"), KP.punktualnosc || PZ.karta_punktualnosc, PZ.zdania_punktualnosc);
+          B.zdaniaAlboKarta(B.$("pz-karta-ruch"), B.$("pz-ruch-zdania"), KP.ruch || PZ.karta_ruch, PZ.zdania_ruch);
+          B.zdaniaAlboKarta(B.$("pz-karta-powrot"), B.$("pz-powrot-zdania"), KP.powrot, null);
           rysujGodziny();
           var fr = B.wyczysc(B.$("pz-ruch-filtry"));
           fr.appendChild(wybor("pz-ruch-grupa", "Pacjenci", [["wszyscy", "Wszyscy"], ["pozostale", "Spoza nowych kampanii"]], RUCH_GRUPA,
             function (v) { RUCH_GRUPA = v; rysujRuch(); }));
-          B.akapity(B.$("zw-zdania"), PZ.zdania_zwroty);
-          B.akapity(B.$("oc-zdania"), PZ.zdania_oceny);
+          B.zdaniaAlboKarta(B.$("pz-karta-zwroty"), B.$("zw-zdania"), KP.zwroty || PZ.karta_zwroty, PZ.zdania_zwroty);
+          B.zdaniaAlboKarta(B.$("pz-karta-oceny"), B.$("oc-zdania"), KP.oceny || PZ.karta_oceny, PZ.zdania_oceny);
           filtryP(); gotoweP = true;
         }
         rysujPunktualnosc(); rysujRuch(); rysujZwroty(); rysujOceny(); rysujPowrotOpoznienie();
@@ -770,15 +771,15 @@
       ["Prowizja afiliacyjna", "pr"], ["Marża", "marza"]];
     t.appendChild(B.el("thead", null, [B.el("tr", null, kol.map(function (k) { return B.el("th", { text: k[0] + (k[1] && k[1] !== "zam" && k[1] !== "nowi" ? " (zł)" : "") }); }))]));
     var tb = B.el("tbody");
-    var O = B.O, okr = [{ nazwa: "Okres " + O[0].nazwa, od: B.idxIso(O[0].od), do: B.idxIso(O[0].do) },
-      { nazwa: "Okres " + O[1].nazwa, od: B.idxIso(O[1].od), do: B.idxIso(O[1].do) }];
+    var O = B.O, okr = [{ nazwa: "Rok wcześniej (" + O[0].nazwa + ")", od: B.idxIso(O[0].od), do: B.idxIso(O[0].do) },
+      { nazwa: "Ostatnie 12 miesięcy (" + O[1].nazwa + ")", od: B.idxIso(O[1].od), do: B.idxIso(O[1].do) }];
     var s1 = skladowe(okr[0]), s2 = skladowe(okr[1]);
     okr.forEach(function (o, j) {
       var s = j ? s2 : s1;
       tb.appendChild(B.el("tr", { class: "podsuma" }, kol.map(function (k) { return B.el("td", { text: k[1] ? B.liczba(s[k[1]]) : o.nazwa }); })));
     });
     tb.appendChild(B.el("tr", { class: "podsuma" }, kol.map(function (k) {
-      return B.el("td", { text: k[1] ? (s1[k[1]] ? B.znak(100 * (s2[k[1]] / s1[k[1]] - 1), 1) + "%" : "—") : "Zmiana okres 2 wobec 1" });
+      return B.el("td", { text: k[1] ? (s1[k[1]] ? B.znak(100 * (s2[k[1]] / s1[k[1]] - 1), 1) + "%" : "—") : "Zmiana rok do roku" });
     })));
     rysujKwartaly();
     okresy("mies").forEach(function (g) {
@@ -810,8 +811,9 @@
         var a = sA[kk[1]], bb = sB[kk[1]], zm = a ? 100 * (bb / a - 1) : null, zl = kk[1] !== "nowi";
         var lepiej = kk[1] === "kamp" || kk[1] === "kl" ? zm < 0 : zm > 0;
         tr.appendChild(B.el("td", null, [B.el("span", { class: "b", text: B.liczba(bb) + (zl ? " zł" : "") }),
-          B.el("span", { class: "a", text: "A: " + B.liczba(a) + (zl ? " zł" : "") + " " }, [B.el("span", {
-            class: "delta " + (lepiej ? "plus" : "minus"), text: (zm >= 0 ? "▲" : "▼") + B.liczba(Math.abs(zm), 1) + "%" })])]));
+          B.el("span", { class: "a", text: "A: " + B.liczba(a) + (zl ? " zł" : "") }, [
+            B.BK.zmiana(B.znak(zm, 1) + "%", B.BK.kierunekZnaku(zm), lepiej ? "dobrze" : "zle",
+              (zm >= 0 ? "Wzrost" : "Spadek") + " o " + B.liczba(Math.abs(zm), 1) + "% rok do roku")])]));
       });
       tb.appendChild(tr);
       i = k + 1;
@@ -846,13 +848,13 @@
           tr.appendChild(B.el("td", null, [B.el("span", { class: "b", text: B.liczba(r.cac, 1) + " zł" }),
             B.el("span", { class: "a", text: B.liczba(r.nowi) + " pac." })]));
           tr.appendChild(B.el("td", { title: "Przedział warunkowy " + B.liczba(r.od, 1) + "–" + B.liczba(r.do, 1) + " zł. Powrót: " + B.liczba(r.powrot, 1) + "%." },
-            [B.el("span", { class: "b delta " + (r.wynik >= 0 ? "plus" : "minus"), text: zl(r.wynik) }),
+            [B.el("span", { class: "b" + (r.wynik < 0 ? " ujemne" : ""), text: zl(r.wynik) }),
               B.el("span", { class: "a", text: "marża " + B.liczba(r.marza, 1) + " zł − koszt " + B.liczba(r.cac, 1) + " zł" })]));
         });
       });
       var niepewne = (znaki.Z1K0 !== undefined && znaki.Z20 !== undefined && znaki.Z1K0 !== znaki.Z20) ||
         (znaki.Z1K1 !== undefined && znaki.Z21 !== undefined && znaki.Z1K1 !== znaki.Z21);
-      tr.appendChild(B.el("td", { text: niepewne ? "niepewny: znak zależy od reguły" : "" }));
+      tr.appendChild(B.el("td", null, [niepewne ? B.BK.znacznik({ tekst: "Niepewny: znak zależy od reguły", stan: "uwaga" }) : null]));
       tb.appendChild(tr);
     });
     t.appendChild(tb);
@@ -864,16 +866,16 @@
       B.wczytaj("wynik", "wynik").then(function (dane) {
         WY = dane;
         if (!gotoweW) {
-          B.akapity(B.$("wy-zdania"), WY.zdania);
+          B.zdaniaAlboKarta(B.$("wy-karta"), B.$("wy-zdania"), WY.karta, WY.zdania);
           B.$("wy-granica").textContent = WY.granica || "";
-          B.akapity(B.$("ek-zdania"), WY.ekonomia.zdania);
+          B.zdaniaAlboKarta(B.$("ek-karta"), B.$("ek-zdania"), WY.ekonomia.karta, WY.ekonomia.zdania);
           var f = B.wyczysc(B.$("wy-filtry"));
           f.appendChild(wybor("wy-krok", "Grupowanie", [["mies", "miesiące"], ["tydz", "tygodnie"], ["dzien", "dni"]], WS.krok,
             function (v) { WS.krok = v; rysujWynik(); }));
           var fe = B.wyczysc(B.$("ek-filtry"));
           fe.appendChild(wybor("ek-poziom", "Poziom", [["grupa", "Grupy kampanii"], ["kampania", "Kampanie"], ["kanal", "Kanały"]], WS.poziom,
             function (v) { WS.poziom = v; rysujEkonomie(); }));
-          fe.appendChild(wybor("ek-okres", "Okres", [["2", "Okres " + B.O[1].nazwa], ["1", "Okres " + B.O[0].nazwa]], String(WS.okres),
+          fe.appendChild(wybor("ek-okres", "Okres", [["2", "Ostatnie 12 miesięcy (" + B.O[1].nazwa + ")"], ["1", "Rok wcześniej (" + B.O[0].nazwa + ")"]], String(WS.okres),
             function (v) { WS.okres = +v; rysujEkonomie(); }));
           gotoweW = true;
         }

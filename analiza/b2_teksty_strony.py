@@ -30,7 +30,7 @@ SZEROKOSC, WYSOKOSC = 1366, 900
 
 # zakładka → element, który musi mieć treść, zanim zaczniemy czytać (dane wczytują się po wejściu na zakładkę)
 GOTOWE = {
-    "wzrost": "#wz-puenta p", "kohorty": "#ko-tabela tbody tr", "lejek": "#lj-tabela tbody tr",
+    "wzrost": "#wz-nowy .karta, #wz-puenta p", "kohorty": "#ko-tabela tbody tr", "lejek": "#lj-tabela tbody tr",
     "po-zakupie": "#pz-tabela tbody tr", "zdarzenia": "#zd-lista article", "wynik": "#ek-tabela tbody tr",
     "jakosc": "#jk-mostek tbody tr", "priorytety": "#pr-karty article", "niewiadome": "#nw-tabela tbody tr",
 }
@@ -141,6 +141,53 @@ CZYTNIK = r"""
     if (e.classList.contains('priorytet-meta') || (e.classList.contains('meta') && e.closest('.zdarzenie'))) {
       akapit('*' + [...e.children].map(x => T(x.innerText)).filter(Boolean).join(' · ') + '*'); return;
     }
+    // runda E: nagłówek karty ze znacznikiem (i etykietą), werdykt, kafelki, decyzje, pasek priorytetu, kroki lejka
+    if (e.classList.contains('karta-tytul')) {
+      const et = e.querySelector('.karta-etykieta > span:first-child'), zn = e.querySelector('.znacznik'), h = e.querySelector('h3, h4');
+      akapit('### ' + (et ? T(et.innerText) + ': ' : '') + T(h ? h.innerText : '') + (zn ? ' — znacznik „' + T(zn.innerText) + '”' : '')); return;
+    }
+    if (e.classList.contains('werdykt-gora')) {
+      const zn = e.querySelector('.znacznik');
+      akapit('**Werdykt' + (zn ? ' (znacznik „' + T(zn.innerText) + '”)' : '') + ':** ' + T(e.querySelector('.werdykt-tekst').innerText));
+      const d = e.querySelector('.werdykt-dopisek'); if (d) akapit(T(d.innerText));
+      return;
+    }
+    if (e.classList.contains('kafelki')) {
+      [...e.querySelectorAll('.kafelek')].forEach(k => {
+        const q = c => { const x = k.querySelector(c); return x ? T(x.innerText) : ''; };
+        out.push('- **' + q('.kafelek-liczba') + '**' + (q('.zm') ? ' [' + q('.zm') + ']' : '') + ' ' + q('.kafelek-podpis') + (q('.kafelek-dopisek') ? ' — ' + q('.kafelek-dopisek') : ''));
+      });
+      out.push(''); return;
+    }
+    if (tag === 'OL' && e.classList.contains('decyzje')) {
+      [...e.children].forEach((li, i) => {
+        const t = li.querySelector('.decyzja-tekst'), d = li.querySelector('.dopisek');
+        const a = t.querySelector('a');
+        out.push((i + 1) + '. ' + T(a ? a.innerText : t.firstChild.textContent) + (d ? ' (' + T(d.innerText) + ')' : ''));
+      });
+      out.push(''); return;
+    }
+    if (tag === 'UL' && e.classList.contains('linki')) {
+      const li = [...e.children];
+      akapit(T(li[0].innerText) + ' ' + li.slice(1).map(x => T(x.innerText)).join('; ') + ' *(odnośniki)*'); return;
+    }
+    if (e.classList.contains('pasek-priorytetu')) {
+      akapit('*' + [...e.children].map(x => { const c = [...x.children].map(y => T(y.innerText)).filter(Boolean);
+        return c[0] + ': ' + c.slice(1).join(' — '); }).join(' · ') + '*');
+      return;
+    }
+    if (e.classList.contains('lejek-kroki')) {
+      out.push('| Krok | Sesje (B) | Odsetek sesji (B) | Porównanie | Przejście do kroku |', '| --- | --- | --- | --- | --- |');
+      let przejscie = '';
+      [...e.children].forEach(c => {
+        if (c.classList.contains('lk-przejscie')) { przejscie = T(c.innerText); return; }
+        if (!c.classList.contains('lk-krok')) { akapit(T(c.innerText)); return; }
+        const nazwa = T(c.querySelector('.lk-nazwa').firstChild.textContent), q = x => T(c.querySelector(x).innerText);
+        out.push('| ' + [nazwa, q('.lk-n'), q('.lk-b'), q('.lk-a'), przejscie].join(' | ') + ' |');
+        przejscie = '';
+      });
+      out.push(''); return;
+    }
     if (e.classList.contains('slupki-poziome')) {
       const ch = [...e.children].map(x => T(x.innerText));
       out.push('| ' + ch[0] + ' | ' + ch[1] + ' |', '| --- | --- |');
@@ -189,6 +236,9 @@ def serwer():
 
 def main():
     sys.stdout.reconfigure(errors="replace")
+    global WYNIK
+    if "--wyjscie" in sys.argv:   # np. do kontroli w katalogu tymczasowym, bez nadpisywania wyniku w analiza/wyniki/
+        WYNIK = sys.argv[sys.argv.index("--wyjscie") + 1]
     try:
         commit = subprocess.run(["git", "-C", KATALOG, "rev-parse", "--short", "HEAD"], capture_output=True,
                                 text=True, timeout=10).stdout.strip()

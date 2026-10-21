@@ -1,0 +1,244 @@
+/* Rysowanie kart tekstowych w ogólnym kształcie z kontraktu danych (notatki/e_runda.md, punkt 3), ikony SVG,
+   znaczniki stanu i pewności oraz etykiety zmiany rok do roku. Ten plik nie wpisuje żadnych liczb ani wniosków:
+   wszystkie teksty przychodzą z danych (dane_strony/*.js), a stąd idą na stronę jako zwykły tekst (bez HTML).
+   Udostępnia window.BK; korzystają z niego app.js, widoki.js i widoki_c.js. */
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+
+  function el(tag, attrs, dzieci) {
+    var e = document.createElement(tag);
+    if (attrs) for (var k in attrs) {
+      if (attrs[k] === null || attrs[k] === undefined) continue;
+      if (k === "text") e.textContent = attrs[k];
+      else if (k === "class") e.className = attrs[k];
+      else e.setAttribute(k, attrs[k]);
+    }
+    (dzieci || []).forEach(function (d) { if (d !== null && d !== undefined && d !== false) e.appendChild(typeof d === "string" ? document.createTextNode(d) : d); });
+    return e;
+  }
+
+  // ------------------------------------------------------------ ikony (linie 2 px na siatce 24 × 24)
+  var IKONY = {
+    dobrze: [["circle", { cx: 12, cy: 12, r: 9 }], ["path", { d: "M8 12.4l2.7 2.7L16.2 9.4" }]],
+    zle: [["circle", { cx: 12, cy: 12, r: 9 }], ["path", { d: "M9.2 9.2l5.6 5.6M14.8 9.2l-5.6 5.6" }]],
+    uwaga: [["path", { d: "M12 3.8l9 15.6H3z", "stroke-linejoin": "round" }], ["path", { d: "M12 10v4.2M12 16.9v.1" }]],
+    neutralnie: [["circle", { cx: 12, cy: 12, r: 9 }], ["path", { d: "M8 12h8" }]],
+    wysoka: [["circle", { cx: 12, cy: 12, r: 9 }], ["path", { d: "M8 12.4l2.7 2.7L16.2 9.4" }]],
+    srednia: [["circle", { cx: 12, cy: 12, r: 9 }], ["path", { d: "M12 3v18a9 9 0 0 0 0-18z", fill: "currentColor", stroke: "none" }]],
+    niska: [["circle", { cx: 12, cy: 12, r: 9 }], ["path", { d: "M12 7.6v5.4M12 16.2v.1" }]],
+    test: [["path", { d: "M9 3.5h6M10 3.5v5.8L4.9 18.2a1.6 1.6 0 0 0 1.4 2.3h11.4a1.6 1.6 0 0 0 1.4-2.3L14 9.3V3.5", "stroke-linejoin": "round" }],
+      ["path", { d: "M7.3 14.5h9.4" }]],
+    info: [["circle", { cx: 12, cy: 12, r: 9 }], ["path", { d: "M12 11v5.4M12 7.8v.1" }]],
+    wzrost: [["path", { d: "M12 19V5.5M6.5 11L12 5.5 17.5 11" }]],
+    spadek: [["path", { d: "M12 5v13.5M6.5 13L12 18.5 17.5 13" }]],
+    bez: [["path", { d: "M5 12h13.5M13 6.5l5.5 5.5-5.5 5.5" }]]
+  };
+  function ikona(nazwa, etykieta) {
+    var svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("class", "ikona");
+    svg.setAttribute("fill", "none");
+    svg.setAttribute("stroke", "currentColor");
+    svg.setAttribute("stroke-width", "2");
+    svg.setAttribute("stroke-linecap", "round");
+    if (etykieta) { svg.setAttribute("role", "img"); svg.setAttribute("aria-label", etykieta); }
+    else svg.setAttribute("aria-hidden", "true");
+    (IKONY[nazwa] || IKONY.neutralnie).forEach(function (cz) {
+      var e = document.createElementNS(NS, cz[0]);
+      for (var k in cz[1]) e.setAttribute(k, cz[1][k]);
+      svg.appendChild(e);
+    });
+    return svg;
+  }
+
+  var STANY = { dobrze: 1, zle: 1, uwaga: 1, neutralnie: 1 };
+  function stan(s) { return STANY[s] ? s : "neutralnie"; }
+
+  // znacznik stanu: {tekst, stan} → kolor zawsze z ikoną i słowem
+  function znacznik(z, duzy) {
+    if (!z || !z.tekst) return null;
+    var s = stan(z.stan);
+    return el("span", { class: "znacznik st-" + s + (duzy ? " znacznik-duzy" : "") }, [ikona(s), el("span", { text: z.tekst })]);
+  }
+
+  // pewność w priorytetach: {poziom: wysoka|srednia|niska|test, tekst, dopisek}
+  var POZIOMY = { wysoka: "Wysoka", srednia: "Średnia", niska: "Niska", test: "Test" };
+  function pewnosc(p) {
+    if (!p) return null;
+    var poz = POZIOMY[p.poziom] ? p.poziom : null;
+    var z = el("span", { class: "znacznik " + (poz ? "pw-" + poz : "st-neutralnie") }, [ikona(poz || "neutralnie"),
+      el("span", { text: p.tekst || (poz ? POZIOMY[poz] : "") })]);
+    return z;
+  }
+  // dotychczasowy kształt pewności to jeden napis, np. „wysoka: awaria widoczna w danych” albo „— (to jest test)”
+  function pewnoscZNapisu(t) {
+    if (!t) return null;
+    if (typeof t === "object") return t;
+    var s = String(t).trim(), m = s.match(/^(wysoka|średnia|niska)\b[:,]?\s*(.*)$/i);
+    if (m) {
+      var poz = m[1].toLowerCase() === "wysoka" ? "wysoka" : m[1].toLowerCase() === "niska" ? "niska" : "srednia";
+      return { poziom: poz, tekst: POZIOMY[poz], dopisek: m[2] };
+    }
+    if (/test/i.test(s)) return { poziom: "test", tekst: "Test", dopisek: s.replace(/^[—–-]\s*/, "").replace(/^\((.*)\)$/, "$1") };
+    return { poziom: null, tekst: s };
+  }
+
+  // etykieta zmiany rok do roku: strzałka według kierunku, kolor i słowo (dla czytników ekranu) według stanu
+  var SLOWO = { dobrze: "lepiej", zle: "gorzej", uwaga: "uwaga", neutralnie: "" };
+  function zmiana(tekst, kierunek, s, tytul) {
+    s = stan(s);
+    var kier = kierunek === "wzrost" || kierunek === "spadek" ? kierunek : "bez";
+    return el("span", { class: "zm zm-" + s, title: tytul || null }, [ikona(kier), el("span", { text: tekst }),
+      SLOWO[s] && tekst !== SLOWO[s] ? el("span", { class: "sr", text: " (" + SLOWO[s] + ")" }) : null]);
+  }
+  function kierunekZnaku(d) { return d > 0 ? "wzrost" : d < 0 ? "spadek" : "bez"; }
+
+  // ------------------------------------------------------------ bloki treści
+  function tekstKomorki(k) {
+    if (k === null || k === undefined) return "—";
+    if (typeof k !== "object") return String(k);
+    return k.tekst;
+  }
+  function komorkaDzieci(k) {
+    if (k === null || k === undefined || typeof k !== "object") return [k === null || k === undefined ? "—" : String(k)];
+    var out = [];
+    if (k.zmiana) out.push(zmiana(k.tekst, k.zmiana, k.stan));
+    else if (k.stan && k.stan !== "neutralnie") out.push(znacznik({ tekst: k.tekst, stan: k.stan }));
+    else out.push(String(k.tekst));
+    if (k.pod) out.push(el("span", { class: "pod", text: k.pod }));
+    return out;
+  }
+  function komorka(k, tag) { return el(tag || "td", null, komorkaDzieci(k)); }
+  function tabela(b) {
+    var t = el("table", { class: "tabela" });
+    if (b.tytul) t.appendChild(el("caption", { text: b.tytul }));
+    if (b.kolumny && b.kolumny.length) {
+      var hr = el("tr");
+      b.kolumny.forEach(function (k) { hr.appendChild(el("th", { text: k })); });
+      t.appendChild(el("thead", null, [hr]));
+    }
+    var tb = el("tbody");
+    (b.wiersze || []).forEach(function (w) {
+      var tr = el("tr", w.podsuma ? { class: "podsuma" } : null);
+      if (w.opis !== undefined) tr.appendChild(el("td", { text: w.opis }));
+      (w.komorki || []).forEach(function (k) { tr.appendChild(komorka(k)); });
+      tb.appendChild(tr);
+    });
+    t.appendChild(tb);
+    return el("div", { class: "tabela-ramka" }, [t]);
+  }
+  function kafelek(b) {
+    return el("div", { class: "kafelek" }, [
+      el("div", { class: "kafelek-gora" }, [el("span", { class: "kafelek-liczba", text: b.liczba }),
+        b.zmiana || (b.stan && b.stan !== "neutralnie") ? zmiana(SLOWO[stan(b.stan)] || (b.zmiana === "wzrost" ? "wzrost" : b.zmiana === "spadek" ? "spadek" : "bez zmian"), b.zmiana || "bez", b.stan) : null]),
+      b.podpis ? el("span", { class: "kafelek-podpis", text: b.podpis }) : null,
+      b.dopisek ? el("span", { class: "kafelek-dopisek", text: b.dopisek }) : null]);
+  }
+  function kafelki(lista) { return el("div", { class: "kafelki" }, lista.map(kafelek)); }
+
+  function blok(b) {
+    if (!b) return null;
+    if (typeof b === "string") return el("p", { text: b });
+    switch (b.typ) {
+      case "akapit": return el("p", { text: b.tekst });
+      case "punkty": return el("ul", { class: "punkty" }, (b.punkty || []).map(function (p) { return el("li", { text: p }); }));
+      case "numerowane": return el("ol", { class: "punkty" }, (b.punkty || []).map(function (p) { return el("li", { text: p }); }));
+      case "podtytul": return el("h4", { class: "podtytul-karty", text: b.tekst });
+      case "liczba": return kafelki([b]);
+      case "tabela": return tabela(b);
+      default: return b.tekst ? el("p", { text: b.tekst }) : null;
+    }
+  }
+  // lista bloków; kolejne bloki „liczba” stają w jednym rzędzie kafelków
+  function bloki(lista, cel) {
+    cel = cel || document.createDocumentFragment();
+    var rzad = null;
+    (lista || []).forEach(function (b) {
+      if (b && b.typ === "liczba") {
+        if (!rzad) { rzad = []; }
+        rzad.push(b);
+        return;
+      }
+      if (rzad) { cel.appendChild(kafelki(rzad)); rzad = null; }
+      var e = blok(b);
+      if (e) cel.appendChild(e);
+    });
+    if (rzad) cel.appendChild(kafelki(rzad));
+    return cel;
+  }
+
+  function linki(lista, etykieta) {
+    if (!lista || !lista.length) return null;
+    var ul = el("ul", { class: "linki" }, [el("li", { class: "linki-etykieta", text: etykieta || "Zobacz w danych:" })]);
+    lista.forEach(function (l) { ul.appendChild(el("li", null, [el("a", { href: l.href, text: l.tekst })])); });
+    return ul;
+  }
+  function szczegoly(lista, zrodlo, tytul) {
+    if ((!lista || !lista.length) && !zrodlo) return null;
+    var d = el("details", { class: "szczegoly" }, [el("summary", { text: tytul || "Szczegóły" })]);
+    var w = el("div", { class: "szczegoly-tresc" });
+    bloki(lista, w);
+    if (zrodlo) w.appendChild(el("p", { class: "zrodlo", text: "Skąd liczby: " + zrodlo }));
+    d.appendChild(w);
+    return d;
+  }
+  function zastrzezenie(t) {
+    if (!t) return null;
+    return el("p", { class: "zastrzezenie" }, [ikona("info"), el("span", null, [el("strong", { text: "Zastrzeżenie: " }), t])]);
+  }
+
+  // części karty: nagłówek (tytuł i znacznik), góra (wniosek, treść, wstawka, zastrzeżenie, odnośniki), dół (szczegóły)
+  function czesci(k, wstawki) {
+    var gora = document.createDocumentFragment();
+    if (k.wniosek) gora.appendChild(el("p", { class: "wniosek", text: k.wniosek }));
+    if (k.tresc && k.tresc.length) gora.appendChild(bloki(k.tresc, el("div", { class: "tresc" })));
+    if (k.wstaw && wstawki && wstawki[k.wstaw]) { var w = wstawki[k.wstaw](); if (w) gora.appendChild(w); }
+    var z = zastrzezenie(k.zastrzezenie);
+    if (z) gora.appendChild(z);
+    var l = linki(k.linki);
+    if (l) gora.appendChild(l);
+    return { gora: gora, dol: szczegoly(k.szczegoly, k.zrodlo) };
+  }
+  // nagłówek: tytuł-wniosek ze znacznikiem; gdy karta ma krótką etykietę (np. „Więcej pacjentów”), etykieta i znacznik
+  // stoją w wierszu nad tytułem
+  function naglowek(k, tag) {
+    if (k.etykieta) return el("div", { class: "karta-tytul karta-tytul-etykieta" }, [
+      el("div", { class: "karta-etykieta" }, [el("span", { text: k.etykieta }), znacznik(k.znacznik)]),
+      el(tag || "h3", { text: k.tytul })]);
+    return el("div", { class: "karta-tytul" }, [el(tag || "h3", { text: k.tytul }), znacznik(k.znacznik)]);
+  }
+  // cała karta jako nowy element
+  function karta(k, opcje) {
+    opcje = opcje || {};
+    var a = el("article", { class: "karta" + (opcje.klasa ? " " + opcje.klasa : ""), id: k.id ? (opcje.prefiks || "k-") + k.id : null });
+    if (k.tytul) a.appendChild(naglowek(k));
+    var c = czesci(k, opcje.wstawki);
+    a.appendChild(c.gora);
+    if (c.dol) a.appendChild(c.dol);
+    return a;
+  }
+  // karta wpisana w istniejącą kartę strony (z filtrami, wykresem albo tabelą): tytuł zastępuje dotychczasowy nagłówek,
+  // wniosek i treść idą w miejsce dotychczasowych zdań, a „Szczegóły” na koniec karty
+  function kartaW(art, miejsce, k, opcje) {
+    opcje = opcje || {};
+    if (!art || !k) return false;
+    if (k.tytul) {
+      var h = art.querySelector(".karta-tytul") || art.querySelector("h3");
+      var n = naglowek(k);
+      if (h) h.parentNode.replaceChild(n, h); else art.insertBefore(n, art.firstChild);
+    }
+    Array.prototype.forEach.call(art.querySelectorAll(":scope > .karta-dol"), function (x) { x.parentNode.removeChild(x); });
+    var c = czesci(k, opcje.wstawki);
+    while (miejsce.firstChild) miejsce.removeChild(miejsce.firstChild);
+    miejsce.appendChild(c.gora);
+    if (c.dol) { c.dol.classList.add("karta-dol"); art.appendChild(c.dol); }
+    return true;
+  }
+  function czyKarta(k) { return !!(k && typeof k === "object" && !Array.isArray(k) && (k.tytul || k.wniosek || k.tresc)); }
+
+  window.BK = { el: el, ikona: ikona, znacznik: znacznik, pewnosc: pewnosc, pewnoscZNapisu: pewnoscZNapisu,
+    zmiana: zmiana, kierunekZnaku: kierunekZnaku, bloki: bloki, tabela: tabela, kafelek: kafelek, kafelki: kafelki,
+    linki: linki, szczegoly: szczegoly, zastrzezenie: zastrzezenie, karta: karta, kartaW: kartaW, czyKarta: czyKarta,
+    tekstKomorki: tekstKomorki, komorkaDzieci: komorkaDzieci, POZIOMY: POZIOMY };
+})();

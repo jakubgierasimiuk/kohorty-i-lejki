@@ -11,165 +11,194 @@
 </head>
 <body>
 <header class="naglowek">
-  <div class="naglowek-tytul">
-    <h1>B2C: czy to wzrost?</h1>
-    <p class="podtytul">Narzędzie do zadania rekrutacyjnego na stanowisko Head of B2C. Kohorty, lejki, zdarzenia i jakość danych w jednym miejscu.</p>
+  <div class="naglowek-wnetrze">
+    <div class="naglowek-gora">
+      <div class="naglowek-tytul">
+        <h1>B2C: czy to wzrost?</h1>
+        <p class="podtytul">Narzędzie do zadania rekrutacyjnego na stanowisko Head of B2C</p>
+      </div>
+      <p class="syntetyczne" role="note"><span data-ikona="info"></span><span>Dane są syntetyczne, wygenerowane na potrzeby zadania. Nie opisują prawdziwych pacjentów ani wyników firmy.</span></p>
+    </div>
+    <nav class="zakladki" aria-label="Sekcje">
+      <a href="#wzrost" data-widok="wzrost">Czy to wzrost</a>
+      <a href="#kohorty" data-widok="kohorty">Kohorty</a>
+      <a href="#lejek" data-widok="lejek">Lejek</a>
+      <a href="#po-zakupie" data-widok="po-zakupie">Po zakupie</a>
+      <a href="#zdarzenia" data-widok="zdarzenia">Zdarzenia</a>
+      <a href="#wynik" data-widok="wynik">Wynik biznesu</a>
+      <a href="#jakosc" data-widok="jakosc">Jakość danych</a>
+      <a href="#priorytety" data-widok="priorytety">Priorytety</a>
+      <a href="#niewiadome" data-widok="niewiadome">Czego nie wiemy</a>
+    </nav>
   </div>
-  <p class="syntetyczne" role="note">Dane są syntetyczne, wygenerowane na potrzeby zadania. Nie opisują prawdziwych pacjentów ani wyników firmy.</p>
-  <nav class="zakladki" aria-label="Sekcje">
-    <a href="#wzrost" data-widok="wzrost">Czy to wzrost</a>
-    <a href="#kohorty" data-widok="kohorty">Kohorty</a>
-    <a href="#lejek" data-widok="lejek">Lejek</a>
-    <a href="#po-zakupie" data-widok="po-zakupie">Po zakupie</a>
-    <a href="#zdarzenia" data-widok="zdarzenia">Zdarzenia</a>
-    <a href="#wynik" data-widok="wynik">Wynik biznesu</a>
-    <a href="#jakosc" data-widok="jakosc">Jakość danych</a>
-    <a href="#priorytety" data-widok="priorytety">Priorytety</a>
-    <a href="#niewiadome" data-widok="niewiadome">Czego nie wiemy</a>
-  </nav>
 </header>
 
 <main>
   <!-- CZY TO WZROST -->
   <section id="v-wzrost" class="widok" hidden>
-    <h2>Czy to, co widać na dashboardzie, jest wzrostem?</h2>
-    <p class="wstep">Wzrost to dwie rzeczy naraz: więcej pacjentów i lepsza retencja. Sprawdzamy oba warunki osobno, na danych oczyszczonych, porównując okres 2 (ostatnie 12 miesięcy) z okresem 1 (poprzednie 12 miesięcy).</p>
-    <article class="karta puenta skrot">
-      <h3>W skrócie</h3>
-      <p class="puenta-werdykt" id="wz-skrot-odpowiedz"></p>
-      <div class="skrot-siatka">
-        <div>
-          <h4 class="podtytul-karty">Trzy liczby</h4>
-          <ul class="punkty" id="wz-skrot-liczby"></ul>
+    <h2 id="wz-tytul">Czy to, co widać na dashboardzie, jest wzrostem?</h2>
+    <p class="wstep" id="wz-wstep">Wzrost to dwie rzeczy naraz: więcej pacjentów i lepsza retencja. Sprawdzamy oba warunki osobno, na danych oczyszczonych, i porównujemy ostatnie 12 miesięcy z rokiem wcześniej.</p>
+
+    <!-- nowy kształt danych (D.C.wzrost.werdykt jako obiekt): rysuje widoki_c.js -->
+    <div id="wz-nowy" hidden></div>
+
+    <!-- dotychczasowy kształt danych -->
+    <div id="wz-stary">
+      <article class="karta werdykt skrot">
+        <h3>W skrócie</h3>
+        <p class="werdykt-tekst" id="wz-skrot-odpowiedz"></p>
+        <div class="skrot-siatka">
+          <div>
+            <h4 class="podtytul-karty">Trzy liczby</h4>
+            <ul class="punkty" id="wz-skrot-liczby"></ul>
+          </div>
+          <div>
+            <h4 class="podtytul-karty">Decyzje na pierwszy tydzień</h4>
+            <ul class="punkty" id="wz-skrot-decyzje"></ul>
+          </div>
         </div>
-        <div>
-          <h4 class="podtytul-karty">Trzy decyzje na pierwszy tydzień</h4>
-          <ul class="punkty" id="wz-skrot-decyzje"></ul>
-        </div>
-      </div>
-      <p class="skrot-kwota"><strong>Jedna kwota:</strong> <span id="wz-skrot-kwota"></span></p>
-    </article>
-    <article class="karta">
-      <h3>Dlaczego nie</h3>
-      <div id="wz-puenta"></div>
-    </article>
-    <div class="karty-dwie">
-      <article class="karta">
-        <h3>Więcej pacjentów: tak</h3>
-        <p class="liczba-glowna" id="wz-pacjenci-liczba"></p>
-        <p class="przypis" id="wz-pacjenci-podpis"></p>
-        <ul class="punkty" id="wz-pacjenci-punkty"></ul>
+        <p class="skrot-kwota"><strong>Jedna kwota:</strong> <span id="wz-skrot-kwota"></span></p>
       </article>
       <article class="karta">
-        <h3>Lepsza retencja: nie</h3>
-        <p class="liczba-glowna" id="wz-retencja-liczba"></p>
-        <p class="przypis" id="wz-retencja-podpis"></p>
-        <div class="tabela-ramka"><table class="tabela" id="wz-retencja-tabela"></table></div>
-        <ul class="punkty" id="wz-retencja-punkty"></ul>
+        <h3>Dlaczego nie</h3>
+        <div id="wz-puenta"></div>
+      </article>
+      <div class="karty-dwie">
+        <article class="karta">
+          <div class="karta-tytul"><h3>Więcej pacjentów</h3><span data-znacznik="dobrze">Tak</span></div>
+          <p class="liczba-glowna" id="wz-pacjenci-liczba"></p>
+          <p class="przypis" id="wz-pacjenci-podpis"></p>
+          <ul class="punkty" id="wz-pacjenci-punkty"></ul>
+        </article>
+        <article class="karta">
+          <div class="karta-tytul"><h3>Lepsza retencja</h3><span data-znacznik="zle">Nie</span></div>
+          <p class="liczba-glowna" id="wz-retencja-liczba"></p>
+          <p class="przypis" id="wz-retencja-podpis"></p>
+          <div class="tabela-ramka"><table class="tabela" id="wz-retencja-tabela"></table></div>
+          <ul class="punkty" id="wz-retencja-punkty"></ul>
+        </article>
+      </div>
+      <article class="karta">
+        <h3 id="wz-go-tytul"></h3>
+        <p class="zdanie-glowne" id="wz-go-puenta"></p>
+        <div class="tabela-ramka"><table class="tabela" id="wz-go-tabela"></table></div>
+        <ul class="punkty" id="wz-go-punkty"></ul>
+        <p class="linki-danych" id="wz-go-linki"></p>
+        <p class="przypis" id="wz-go-zrodlo"></p>
+      </article>
+      <article class="karta">
+        <h3>Wynik pod koniec okresu</h3>
+        <p class="zdanie-glowne" id="wz-zamkniecie"></p>
+        <p id="wz-safari"></p>
+        <h4 class="podtytul-karty" id="wz-kwartaly-naglowek"></h4>
+        <div class="tabela-ramka"><table class="tabela" id="wz-kwartaly"></table></div>
+        <ul class="punkty" id="wz-kwartaly-punkty"></ul>
+        <h4 class="podtytul-karty" id="wz-rozklad-tytul"></h4>
+        <p id="wz-rozklad-wstep"></p>
+        <ul class="punkty" id="wz-rozklad-punkty"></ul>
+        <p id="wz-rozklad-luka"></p>
+        <h4 class="podtytul-karty">Baza powracających pacjentów</h4>
+        <p id="wz-baza"></p>
+      </article>
+      <article class="karta">
+        <h3>Najważniejsze zastrzeżenia</h3>
+        <ol class="lista-zastrzezen" id="wz-zastrzezenia"></ol>
+      </article>
+      <article class="karta">
+        <h3>Dashboard a dane oczyszczone</h3>
+        <p id="wz-dashboard-zdanie"></p>
+        <div class="tabela-ramka"><table class="tabela" id="wz-mostek"></table></div>
+      </article>
+      <article class="karta karta-cicha">
+        <p class="linki-danych" id="wz-linki"></p>
+        <p>Co z tego robimy, od najważniejszej pozycji i z wartością w marży: <a href="#priorytety">lista priorytetów</a>. Czego dane nie rozstrzygają i jakim testem to domknąć: <a href="#niewiadome">czego nie wiemy</a>.</p>
       </article>
     </div>
-    <article class="karta">
-      <h3 id="wz-go-tytul"></h3>
-      <p class="zdanie-glowne" id="wz-go-puenta"></p>
-      <div class="tabela-ramka"><table class="tabela" id="wz-go-tabela"></table></div>
-      <ul class="punkty" id="wz-go-punkty"></ul>
-      <p class="linki-danych" id="wz-go-linki"></p>
-      <p class="przypis" id="wz-go-zrodlo"></p>
-    </article>
-    <article class="karta">
-      <h3>Wynik pod koniec okresu</h3>
-      <p class="zdanie-glowne" id="wz-zamkniecie"></p>
-      <p id="wz-safari"></p>
-      <h4 class="podtytul-karty" id="wz-kwartaly-naglowek"></h4>
-      <div class="tabela-ramka"><table class="tabela" id="wz-kwartaly"></table></div>
-      <ul class="punkty" id="wz-kwartaly-punkty"></ul>
-      <h4 class="podtytul-karty" id="wz-rozklad-tytul"></h4>
-      <p id="wz-rozklad-wstep"></p>
-      <ul class="punkty" id="wz-rozklad-punkty"></ul>
-      <p id="wz-rozklad-luka"></p>
-      <h4 class="podtytul-karty">Baza powracających pacjentów</h4>
-      <p id="wz-baza"></p>
-    </article>
-    <article class="karta">
-      <h3>Najważniejsze zastrzeżenia</h3>
-      <ol class="lista-zastrzezen" id="wz-zastrzezenia"></ol>
-    </article>
-    <article class="karta">
-      <h3>Dashboard a dane oczyszczone</h3>
-      <p id="wz-dashboard-zdanie"></p>
-      <div class="tabela-ramka"><table class="tabela" id="wz-mostek"></table></div>
-    </article>
-    <article class="karta karta-cicha">
-      <h3>Co dalej</h3>
-      <p class="linki-danych" id="wz-linki"></p>
-      <p>Co z tego robimy: <a href="#priorytety">lista priorytetów</a>, od najważniejszej pozycji, z wartością w marży. Czego dane nie rozstrzygają i jakim testem to domknąć: <a href="#niewiadome">czego nie wiemy</a>.</p>
-    </article>
     <p class="przypis" id="wz-zrodlo"></p>
   </section>
 
   <!-- KOHORTY -->
   <section id="v-kohorty" class="widok" hidden>
     <h2>Kohorty dzienne nowych pacjentów</h2>
-    <div class="karta karta-naglowek"><div id="ko-zdania"></div></div>
+    <article class="karta karta-naglowek" id="ko-naglowek"><div id="ko-zdania"></div></article>
     <form class="filtry" id="ko-filtry" onsubmit="return false"></form>
-    <div class="karta">
+    <article class="karta">
       <div class="naglowek-karty">
         <h3>Kohorty w podziale</h3>
-        <p class="przypis" id="ko-okresy-opis"></p>
       </div>
-      <p class="przypis">Kohorta to nowi pacjenci z tego samego dnia pierwszego zakupu. Powrót to kolejne zamówienie, które nie zostało anulowane, w ciągu N dni. Marża na pacjenta to przychód z konsultacji po zwrotach i TelemediGO minus koszt lekarza, przed kosztem pozyskania. Liczymy tylko kohorty z pełnym oknem; okres A obcinamy do tej samej długości co dojrzała część okresu B (przy porównaniu rok do roku to te same dni kalendarzowe). W każdej komórce: wartość w okresie B i liczba pacjentów, pod spodem okres A i zmiana.</p>
+      <p class="przypis" id="ko-okresy-opis"></p>
+      <p class="przypis">W komórce: wartość w okresie B i liczba pacjentów, pod spodem okres A i zmiana. Zaznacz wiersze, które mają się pojawić na wykresie.</p>
       <div class="tabela-ramka"><table class="tabela tabela-lejek" id="ko-tabela"></table></div>
-    </div>
-    <div class="karta">
+      <details class="jak-liczymy"><summary>Jak liczymy</summary><div class="szczegoly-tresc">
+        <p>Kohorta to nowi pacjenci z tego samego dnia pierwszego zakupu. Powrót to kolejne zamówienie, które nie zostało anulowane, w ciągu N dni. Marża na pacjenta to przychód z konsultacji po zwrotach i z TelemediGO minus koszt lekarza, przed kosztem pozyskania.</p>
+        <p>Liczymy tylko kohorty z pełnym oknem. Okres A obcinamy do tej samej długości co dojrzała część okresu B, więc przy porównaniu rok do roku to te same dni kalendarzowe.</p>
+      </div></details>
+    </article>
+    <article class="karta">
       <div class="naglowek-karty">
         <h3 id="ko-wykres-tytul">Dzień po dniu</h3>
         <div class="filtry-wykresu" id="ko-filtry-wykresu"></div>
       </div>
-      <p class="przypis">Oś pozioma to dzień pierwszego zakupu (dzień kohorty). Szare pola to okresy A i B, pionowe linie to zdarzenia z zakładki Zdarzenia. Powrót i marża kończą się na ostatniej kohorcie z pełnym oknem. Legenda pod kursorem pokazuje wartość i liczbę pacjentów.</p>
+      <p class="przypis">Oś pozioma to dzień pierwszego zakupu. Szare pola to okresy A i B, pionowe linie to zdarzenia z osi zdarzeń. Wartość i liczbę pacjentów pokazuje legenda pod kursorem.</p>
       <div id="ko-wykres" class="wykres"></div>
-    </div>
-    <div class="karta">
+      <details class="jak-liczymy"><summary>Jak czytać</summary><div class="szczegoly-tresc">
+        <p>Powrót i marża kończą się na ostatniej kohorcie z pełnym oknem. Przeciągnij po wykresie, żeby przybliżyć, kliknij dwukrotnie, żeby wrócić.</p>
+      </div></details>
+    </article>
+    <article class="karta">
       <div class="naglowek-karty">
         <h3>Macierz kohort: powrót według dni od pierwszego zakupu</h3>
         <div class="filtry-wykresu" id="ko-macierz-filtry"></div>
       </div>
-      <p class="przypis">Wiersz to kohorta (nowi pacjenci z tego samego dnia, tygodnia albo miesiąca pierwszego zakupu; domyślnie dzień), kolumna to okno: odsetek pacjentów kohorty, którzy wrócili w ciągu tylu dni. Kohorty dzienne są małe, więc ich wartości skaczą bardziej niż tygodniowe. Kolor: ciemniej znaczy wyżej, skala osobno w każdej kolumnie, od 5. do 95. percentyla wartości. Kropka oznacza kohortę bez pełnego okna. Kolumna „Zdarzenia” podaje numery zdarzeń z osi, które wypadają w tej kohorcie. Te same filtry co wyżej, bez podziału na serie.</p>
+      <p class="przypis">Wiersz to kohorta, kolumna to okno: odsetek pacjentów kohorty, którzy wrócili w ciągu tylu dni. Ciemniej znaczy wyżej. Kropka oznacza kohortę bez pełnego okna.</p>
       <div class="tabela-ramka macierz-ramka"><table class="tabela macierz" id="ko-macierz"></table></div>
-    </div>
-    <div class="karta">
+      <details class="jak-liczymy"><summary>Jak czytać</summary><div class="szczegoly-tresc">
+        <p>Kohorta to nowi pacjenci z tego samego dnia, tygodnia albo miesiąca pierwszego zakupu; domyślnie dzień. Kohorty dzienne są małe, więc ich wartości skaczą bardziej niż tygodniowe.</p>
+        <p>Skala koloru jest osobna w każdej kolumnie, od 5. do 95. percentyla wartości. Kolumna „Zdarzenia” podaje numery zdarzeń z osi, które wypadają w tej kohorcie. Filtry są te same co wyżej, bez podziału na serie.</p>
+      </div></details>
+    </article>
+    <article class="karta">
       <h3>Krzywa powrotu według dnia od pierwszego zakupu: okres A i okres B</h3>
-      <p class="przypis">Dla każdego dnia od pierwszego zakupu: odsetek pacjentów, którzy do tego dnia wrócili. Na każdy dzień bierzemy tylko kohorty, które ten dzień już osiągnęły, a okres A obcinamy tak samo jak w tabeli. Legenda pod kursorem pokazuje liczbę pacjentów i poziom B jako odsetek poziomu A.</p>
+      <p class="przypis">Dla każdego dnia od pierwszego zakupu: odsetek pacjentów, którzy do tego dnia wrócili. Legenda pod kursorem pokazuje liczbę pacjentów i poziom B jako odsetek poziomu A.</p>
       <div id="ko-krzywa" class="wykres"></div>
       <p class="przypis" id="ko-krzywa-opis"></p>
-    </div>
-    <p class="przypis">Jak liczymy: nowy pacjent to konto z pierwszym opłaconym zamówieniem, bez względu na status. Źródło pozyskania według przyjętej reguły (pierwsze wejście pacjenta, także anonimowe sesje jego przeglądarek, a kod kampanii na pierwszym zamówieniu rozstrzyga) albo według sesji płatności. Urządzenie i przeglądarka z sesji płatności. Pierwsza usługa: internista według celu wizyty, pediatra, psychiatra, inny specjalista. Opóźnienie i pora z pierwszej wizyty. Źródło danych: <code>analiza/definicje.py</code>, <code>analiza/a5r_kohorty.py</code>, eksport <code>analiza/b_eksport.py</code>.</p>
+      <details class="jak-liczymy"><summary>Jak liczymy</summary><div class="szczegoly-tresc">
+        <p>Na każdy dzień bierzemy tylko kohorty, które ten dzień już osiągnęły, a okres A obcinamy tak samo jak w tabeli.</p>
+      </div></details>
+    </article>
+    <details class="jak-liczymy"><summary>Jak liczymy w tej zakładce</summary><div class="szczegoly-tresc">
+      <p>Nowy pacjent to konto z pierwszym opłaconym zamówieniem, bez względu na status. Źródło pozyskania według przyjętej reguły (pierwsze wejście pacjenta, także anonimowe sesje jego przeglądarek, a kod kampanii na pierwszym zamówieniu rozstrzyga) albo według sesji płatności.</p>
+      <p>Urządzenie i przeglądarka z sesji płatności. Pierwsza usługa: internista według celu wizyty, pediatra, psychiatra, inny specjalista. Opóźnienie i pora z pierwszej wizyty.</p>
+      <p>Źródło danych: <code>analiza/definicje.py</code>, <code>analiza/a5r_kohorty.py</code>, eksport <code>analiza/b_eksport.py</code>.</p>
+    </div></details>
   </section>
 
   <!-- LEJEK -->
   <section id="v-lejek" class="widok" hidden>
     <h2>Lejek: od wejścia na stronę do płatności</h2>
-    <div class="karta karta-naglowek">
+    <article class="karta karta-naglowek" id="lj-naglowek">
       <div id="lj-zdania"></div>
-      <div class="naprawy" id="lj-naprawy"></div>
       <details class="osobne">
         <summary>Sesje poza lejkiem głównym</summary>
-        <div id="lj-osobne"></div>
+        <div class="szczegoly-tresc" id="lj-osobne"></div>
       </details>
-    </div>
+    </article>
+    <div class="naprawy" id="lj-naprawy"></div>
 
     <form class="filtry" id="lj-filtry" onsubmit="return false">
+      <p class="filtry-tytul">Filtry: kroki lejka, tabela i wykres dzień po dniu</p>
+      <label>Kto
+        <select id="f-pac">
+          <option value="nie_kupowal">Jeszcze nie kupowali</option>
+          <option value="kupowal_wczesniej">Kupowali wcześniej</option>
+          <option value="wszyscy">Wszyscy</option>
+        </select>
+      </label>
       <label>Typ sesji
         <select id="f-typ">
           <option value="zwykla">Sesje zwykłe (lejek)</option>
           <option value="zalogowana_od_wejscia">Zalogowane od wejścia</option>
           <option value="samo_telemedigo">Zakup samego TelemediGO</option>
-        </select>
-      </label>
-      <label>Kto
-        <select id="f-pac">
-          <option value="wszyscy">Wszyscy</option>
-          <option value="nie_kupowal">Jeszcze nie kupowali</option>
-          <option value="kupowal_wczesniej">Kupowali wcześniej</option>
         </select>
       </label>
       <label>Podział
@@ -188,16 +217,30 @@
       </fieldset>
     </form>
 
-    <div class="karta">
+    <article class="karta" id="lj-kroki-karta">
+      <div class="naglowek-karty">
+        <h3 id="lj-kroki-tytul">Kroki lejka</h3>
+        <div class="filtry-wykresu"><label>Pokaż dla <select id="f-lw"></select></label></div>
+      </div>
+      <p class="przypis" id="lj-kroki-opis"></p>
+      <div id="lj-kroki" class="lejek-kroki" role="list"></div>
+      <div class="lejek-legenda" id="lj-kroki-legenda"></div>
+      <details class="jak-liczymy"><summary>Jak czytać</summary><div class="szczegoly-tresc">
+        <p>Pasek to odsetek sesji, które doszły do kroku. Pionowa kreska to ten sam odsetek w okresie porównania. Między krokami: jaka część sesji z poprzedniego kroku przechodzi dalej.</p>
+        <p>Wyróżnione przejście ma największy względny spadek wobec okresu porównania, więc najbardziej obniża odsetek sesji zakończonych płatnością. Liczby sesji przy krokach są z okresu B.</p>
+      </div></details>
+    </article>
+
+    <article class="karta">
       <div class="naglowek-karty">
         <h3>Kroki lejka w podziale</h3>
-        <p class="przypis" id="lj-okresy-opis"></p>
       </div>
-      <p class="przypis">W każdej komórce: odsetek w okresie B i liczba sesji, od której liczymy odsetek. Pod spodem ten sam odsetek w okresie A i zmiana w punktach procentowych. Zaznacz wiersze, które mają się pojawić na wykresie.</p>
+      <p class="przypis" id="lj-okresy-opis"></p>
+      <p class="przypis">W komórce: odsetek w okresie B i liczba sesji, od której go liczymy. Pod spodem ten sam odsetek w okresie A i zmiana w punktach procentowych. Zaznacz wiersze, które mają się pojawić na wykresie.</p>
       <div class="tabela-ramka"><table class="tabela tabela-lejek" id="lj-tabela"></table></div>
-    </div>
+    </article>
 
-    <div class="karta">
+    <article class="karta">
       <div class="naglowek-karty">
         <h3 id="lj-wykres-tytul">Dzień po dniu</h3>
         <div class="filtry-wykresu">
@@ -213,64 +256,79 @@
           </label>
         </div>
       </div>
-      <p class="przypis">Szare pola to okresy A i B. Pionowe linie to zdarzenia z zakładki Zdarzenia. Przeciągnij po wykresie, żeby przybliżyć, kliknij dwukrotnie, żeby wrócić. Wartość pod kursorem pokazuje legenda pod wykresem, z liczbą sesji, od której liczymy odsetek.</p>
+      <p class="przypis">Szare pola to okresy A i B, pionowe linie to zdarzenia z osi zdarzeń. Wartość pod kursorem i liczbę sesji pokazuje legenda pod wykresem.</p>
       <div id="lj-wykres" class="wykres"></div>
       <ol class="lista-zdarzen-wykres" id="lj-zdarzenia-legenda"></ol>
-    </div>
-    <p class="przypis">Jak liczymy: lejek główny obejmuje sesje zwykłe, czyli bez konta na wejściu albo z kontem, które pojawia się dopiero na kroku logowania. Sesje zalogowane od wejścia i zakupy samego TelemediGO są osobnymi typami sesji. „Jeszcze nie kupowali” to osoby bez zakupu przed początkiem sesji, także na koncie, na które logowały się w tej samej przeglądarce. Dzień sesji liczymy w czasie polskim. <span id="lj-granica"></span> Źródło danych: <code>analiza/a5p_lejek.py</code>, eksport <code>analiza/b_eksport.py</code>.</p>
+    </article>
+    <details class="jak-liczymy"><summary>Jak liczymy w tej zakładce</summary><div class="szczegoly-tresc">
+      <p>Lejek główny obejmuje sesje zwykłe, czyli bez konta na wejściu albo z kontem, które pojawia się dopiero na kroku logowania. Sesje zalogowane od wejścia i zakupy samego TelemediGO są osobnymi typami sesji.</p>
+      <p>„Jeszcze nie kupowali” to osoby bez zakupu przed początkiem sesji, także na koncie, na które logowały się w tej samej przeglądarce. Dzień sesji liczymy w czasie polskim.</p>
+      <p><span id="lj-granica"></span></p>
+      <p>Źródło danych: <code>analiza/a5p_lejek.py</code>, eksport <code>analiza/b_eksport.py</code>.</p>
+    </div></details>
   </section>
 
   <!-- PO ZAKUPIE -->
   <section id="v-po-zakupie" class="widok" hidden>
     <h2>Po zakupie: przebieg wizyty</h2>
-    <article class="karta">
+    <article class="karta" id="pz-karta-punktualnosc">
       <h3>Punktualność wizyt według pory i specjalizacji</h3>
       <div id="pz-zdania"></div>
       <form class="filtry" id="pz-filtry" onsubmit="return false"></form>
-      <p class="przypis">Opóźnienie to faktyczny start wizyty minus umówiony termin, tylko wizyty odbyte. Dzień i pora według terminu. Wykres: odsetek wizyt spóźnionych w wybranej specjalizacji, osobno dla każdej pory, z liczbą wizyt w legendzie.</p>
+      <p class="przypis">Wykres: odsetek wizyt spóźnionych w wybranej specjalizacji, osobno dla każdej pory, z liczbą wizyt w legendzie.</p>
       <div id="pz-wykres" class="wykres"></div>
       <div class="tabela-ramka"><table class="tabela tabela-lejek" id="pz-tabela"></table></div>
+      <details class="jak-liczymy"><summary>Jak liczymy</summary><div class="szczegoly-tresc">
+        <p>Opóźnienie to faktyczny start wizyty minus umówiony termin, tylko wizyty odbyte. Dzień i pora według terminu.</p>
+      </div></details>
     </article>
-    <article class="karta">
+    <article class="karta" id="pz-karta-godziny">
       <h3>Opóźnienia według godziny terminu</h3>
+      <div id="pz-godziny-zdania"></div>
       <p class="przypis" id="pz-godziny-tytul"></p>
       <div class="tabela-ramka"><table class="tabela tabela-lejek" id="pz-godziny"></table></div>
-      <p class="przypis" id="pz-godziny-przypis"></p>
+      <p class="przypis zastap" id="pz-godziny-przypis"></p>
     </article>
-    <article class="karta">
+    <article class="karta" id="pz-karta-ruch">
       <h3>Opóźnienia przy tym samym porannym ruchu</h3>
       <div id="pz-ruch-zdania"></div>
       <form class="filtry" id="pz-ruch-filtry" onsubmit="return false"></form>
-      <p class="przypis">Ruch poranny w dniu to wszystkie nieanulowane wizyty u internisty z terminem 6:00–11:59 tego dnia. Dni grupujemy według tego ruchu i w każdej grupie porównujemy odsetek porannych wizyt spóźnionych ponad 15 minut w obu okresach.</p>
       <div class="tabela-ramka"><table class="tabela tabela-lejek" id="pz-ruch"></table></div>
+      <details class="jak-liczymy"><summary>Jak liczymy</summary><div class="szczegoly-tresc">
+        <p>Ruch poranny w dniu to wszystkie nieanulowane wizyty u internisty z terminem 6:00–11:59 tego dnia. Dni grupujemy według tego ruchu i w każdej grupie porównujemy odsetek porannych wizyt spóźnionych ponad 15 minut w obu okresach.</p>
+      </div></details>
     </article>
-    <article class="karta">
+    <article class="karta" id="pz-karta-powrot">
       <h3>Powrót według opóźnienia pierwszej wizyty</h3>
-      <p class="przypis">Rano spada powrót po wizytach spóźnionych, nie po punktualnych. Tabela liczy powrót w 90 dniach na tych samych dniach kalendarzowych, tylko kohorty z pełnym oknem.</p>
+      <div id="pz-powrot-zdania"></div>
+      <p class="przypis">Powrót w 90 dniach na tych samych dniach kalendarzowych, tylko kohorty z pełnym oknem.</p>
       <form class="filtry" id="pz-powrot-filtry" onsubmit="return false"></form>
       <div class="tabela-ramka"><table class="tabela tabela-lejek" id="pz-powrot"></table></div>
     </article>
-    <article class="karta">
+    <article class="karta" id="pz-karta-zwroty">
       <h3>Zwroty, anulacje i wizyty nieodebrane</h3>
       <div id="zw-zdania"></div>
       <form class="filtry" id="zw-filtry" onsubmit="return false"></form>
-      <p class="przypis">Wykres: odsetek odbytych wizyt, za które pacjent dostał zwrot po wizycie, według celu wizyty i dnia płatności. Tabela: okres B to ostatnie 12 miesięcy, okres A to poprzednie 12.</p>
+      <p class="przypis">Wykres: odsetek odbytych wizyt, za które pacjent dostał zwrot po wizycie, według celu wizyty i dnia płatności. Tabela: ostatnie 12 miesięcy (okres B) wobec roku wcześniej (okres A).</p>
       <div id="zw-wykres" class="wykres"></div>
       <div class="tabela-ramka"><table class="tabela tabela-lejek" id="zw-tabela"></table></div>
     </article>
-    <article class="karta">
+    <article class="karta" id="pz-karta-oceny">
       <h3>Oceny według opóźnienia wizyty</h3>
       <div id="oc-zdania"></div>
       <form class="filtry" id="oc-filtry" onsubmit="return false"></form>
       <div class="tabela-ramka"><table class="tabela tabela-lejek" id="oc-tabela"></table></div>
     </article>
-    <p class="przypis">Nowe kampanie na L4 to pacjenci z kampanii <code>meta_prosp_l4_szybko</code> i <code>tt_prosp_l4_15min</code> według przyjętej reguły źródła. Źródło danych: <code>analiza/a5r_punktualnosc.py</code>, <code>analiza/a5r_po_zakupie.py</code>, eksport <code>analiza/b_eksport.py</code>.</p>
+    <details class="jak-liczymy"><summary>Jak liczymy w tej zakładce</summary><div class="szczegoly-tresc">
+      <p>Nowe kampanie na L4 to pacjenci z kampanii <code>meta_prosp_l4_szybko</code> i <code>tt_prosp_l4_15min</code> według przyjętej reguły źródła.</p>
+      <p>Źródło danych: <code>analiza/a5r_punktualnosc.py</code>, <code>analiza/a5r_po_zakupie.py</code>, eksport <code>analiza/b_eksport.py</code>.</p>
+    </div></details>
   </section>
 
   <!-- ZDARZENIA -->
   <section id="v-zdarzenia" class="widok" hidden>
     <h2>Oś zdarzeń: co się stało i kiedy</h2>
-    <p class="wstep">Zdarzenia znalezione w danych, bo listy zmian w produkcie i kalendarza kampanii nie mamy. Przy każdym: data, co się zmieniło, o ile i skąd to wiemy. Tory: lejek (pozyskanie), retencja (kohorty), obsługa pacjenta (przebieg wizyt) i jakość danych.</p>
+    <p class="wstep">Zdarzenia znalezione w danych, bo listy zmian w produkcie i kalendarza kampanii nie mamy. Przy każdym: data, co się zmieniło, o ile i skąd to wiemy.</p>
     <div class="filtry" id="zd-filtry"></div>
     <div class="karta"><div id="zd-os" class="os-zdarzen"></div></div>
     <div id="zd-lista" class="lista-zdarzen"></div>
@@ -285,84 +343,98 @@
   <!-- WYNIK BIZNESU -->
   <section id="v-wynik" class="widok" hidden>
     <h2>Wynik biznesu: przychód, marża i ekonomia kampanii</h2>
-    <article class="karta">
+    <article class="karta" id="wy-karta">
       <h3>Przychód i marża w czasie</h3>
       <div id="wy-zdania"></div>
       <form class="filtry" id="wy-filtry" onsubmit="return false"></form>
       <div id="wy-wykres" class="wykres"></div>
       <h4 class="podtytul-karty">Kwartały rok do roku</h4>
       <div class="tabela-ramka"><table class="tabela tabela-lejek" id="wy-kwartaly"></table></div>
-      <h4 class="podtytul-karty">Miesiące i sumy okresów</h4>
+      <h4 class="podtytul-karty">Miesiące i sumy obu lat</h4>
       <div class="tabela-ramka"><table class="tabela" id="wy-tabela"></table></div>
     </article>
-    <article class="karta">
+    <article class="karta" id="ek-karta">
       <h3>Ekonomia kampanii: koszt pozyskania i wynik na pacjenta</h3>
       <div id="ek-zdania"></div>
       <form class="filtry" id="ek-filtry" onsubmit="return false"></form>
-      <p class="przypis">Wynik na pacjenta to marża na pacjenta w 90 albo 180 dniach minus koszt pozyskania (wydatki na kampanię albo prowizja afiliacyjna na nowego pacjenta). Koszt pozyskania liczymy osobno dla każdego okna: z kohort z pełnym oknem i z wydatków z tych samych dni, więc po 180 dniach to inne kohorty i inny koszt niż po 90 dniach. Obie reguły źródła stoją obok siebie. Pod kosztem: liczba pacjentów; pod wynikiem: marża minus koszt. Przedział warunkowy po najechaniu na wynik.</p>
+      <p class="przypis">Wynik na pacjenta to marża na pacjenta w 90 albo 180 dniach minus koszt pozyskania. Pod kosztem: liczba pacjentów; pod wynikiem: marża minus koszt. Przedział warunkowy pokazuje się po najechaniu na wynik.</p>
       <div class="tabela-ramka"><table class="tabela tabela-lejek" id="ek-tabela"></table></div>
+      <details class="jak-liczymy"><summary>Jak liczymy</summary><div class="szczegoly-tresc">
+        <p>Koszt pozyskania to wydatki na kampanię albo prowizja afiliacyjna na nowego pacjenta. Liczymy go osobno dla każdego okna: z kohort z pełnym oknem i z wydatków z tych samych dni, więc po 180 dniach to inne kohorty i inny koszt niż po 90 dniach.</p>
+        <p>Obie reguły źródła stoją obok siebie: przyjęta reguła (pierwsze wejście pacjenta) i sesja płatności.</p>
+      </div></details>
     </article>
-    <p class="przypis"><span id="wy-granica"></span> Źródło danych: <code>analiza/definicje.py</code> (koszt lekarza, marża), <code>analiza/a5e_ekonomia.py</code> (ekonomia kampanii), eksport <code>analiza/b_eksport.py</code>.</p>
+    <details class="jak-liczymy"><summary>Jak liczymy w tej zakładce</summary><div class="szczegoly-tresc">
+      <p><span id="wy-granica"></span></p>
+      <p>Źródło danych: <code>analiza/definicje.py</code> (koszt lekarza, marża), <code>analiza/a5e_ekonomia.py</code> (ekonomia kampanii), eksport <code>analiza/b_eksport.py</code>.</p>
+    </div></details>
   </section>
 
   <!-- JAKOŚĆ DANYCH -->
   <section id="v-jakosc" class="widok" hidden>
     <h2>Jakość danych</h2>
-    <p class="wstep">Danych nikt wcześniej nie czyścił. Poniżej: jak dashboard ma się do danych oczyszczonych, co usunęliśmy i dlaczego, drobne niespójności oraz to, co sprawdziliśmy i jest czyste.</p>
-    <article class="karta">
+    <p class="wstep">Danych nikt wcześniej nie czyścił. Tu jest to, jak dashboard ma się do danych oczyszczonych, co usunęliśmy i dlaczego, drobne niespójności oraz to, co sprawdziliśmy i jest czyste.</p>
+    <article class="karta" id="jk-karta-mostek">
       <h3>Od dashboardu do danych oczyszczonych</h3>
-      <p class="przypis">Dashboard liczy dane na surowo: z duplikatami zamówień, z zamówieniami testowymi i z przychodem przed zwrotami. Każdy wiersz mostka zmienia jedną rzecz.</p>
+      <div id="jk-mostek-zdania"></div>
+      <p class="przypis zastap">Dashboard liczy dane na surowo: z duplikatami zamówień, z zamówieniami testowymi i z przychodem przed zwrotami. Każdy wiersz mostka zmienia jedną rzecz.</p>
       <div class="tabela-ramka"><table class="tabela" id="jk-mostek"></table></div>
     </article>
-    <article class="karta">
+    <article class="karta" id="jk-karta-dup">
       <h3>Duplikaty zamówień</h3>
       <div id="jk-dup-zdania"></div>
       <div id="jk-dup-wykres" class="wykres"></div>
     </article>
-    <article class="karta">
+    <article class="karta" id="jk-karta-testy">
       <h3>Zamówienia testowe</h3>
       <div id="jk-testy-zdania"></div>
       <div id="jk-testy-kw" class="slupki-poziome"></div>
     </article>
-    <article class="karta">
+    <article class="karta" id="jk-karta-godzina">
       <h3>Godzina bez danych</h3>
-      <p id="jk-godzina"></p>
+      <div id="jk-godzina"></div>
     </article>
-    <article class="karta">
+    <article class="karta" id="jk-karta-drobne">
       <h3>Drobne niespójności</h3>
-      <ul id="jk-drobne"></ul>
+      <div id="jk-drobne"></div>
     </article>
-    <article class="karta">
+    <article class="karta" id="jk-karta-czyste">
       <h3>Sprawdzone i czyste</h3>
-      <ul id="jk-czyste"></ul>
+      <div id="jk-czyste"></div>
     </article>
-    <p class="przypis">Źródło: <code>analiza/a2_jakosc.py</code>, <code>analiza/a2_czyste.py</code>, <code>analiza/a3_dashboard.py</code>; liczby na tej stronie liczy <code>analiza/b_eksport.py</code>.</p>
+    <details class="jak-liczymy"><summary>Skąd liczby w tej zakładce</summary><div class="szczegoly-tresc">
+      <p>Źródło: <code>analiza/a2_jakosc.py</code>, <code>analiza/a2_czyste.py</code>, <code>analiza/a3_dashboard.py</code>; liczby na tej stronie liczy <code>analiza/b_eksport.py</code>.</p>
+    </div></details>
   </section>
 
   <!-- PRIORYTETY -->
   <section id="v-priorytety" class="widok" hidden>
-    <h2>Priorytety: co robimy po kolei</h2>
+    <h2 id="pr-tytul">Priorytety: co robimy po kolei</h2>
     <p class="wstep" id="pr-wstep"></p>
-    <article class="karta">
+    <article class="karta" id="pr-przeglad-karta">
       <h3>Przegląd</h3>
       <div class="tabela-ramka"><table class="tabela tabela-tekst" id="pr-przeglad"></table></div>
     </article>
-    <article class="karta">
-      <h3>Zasady listy</h3>
-      <ul class="punkty" id="pr-zasady"></ul>
-      <p class="przypis" id="pr-definicje"></p>
-    </article>
+    <div id="pr-zasady-miejsce">
+      <article class="karta">
+        <h3>Zasady listy</h3>
+        <ul class="punkty" id="pr-zasady"></ul>
+        <p class="przypis" id="pr-definicje"></p>
+      </article>
+    </div>
     <div class="lista-priorytetow" id="pr-karty"></div>
-    <article class="karta karta-cicha">
-      <h3>Czego proponujemy teraz nie robić</h3>
-      <ul class="punkty" id="pr-nie-robimy"></ul>
-    </article>
+    <div id="pr-nie-robimy-miejsce">
+      <article class="karta karta-cicha">
+        <h3>Czego proponujemy teraz nie robić</h3>
+        <ul class="punkty" id="pr-nie-robimy"></ul>
+      </article>
+    </div>
     <p class="przypis" id="pr-zrodlo"></p>
   </section>
 
   <!-- CZEGO NIE WIEMY -->
   <section id="v-niewiadome" class="widok" hidden>
-    <h2>Czego z tych danych nie wiemy</h2>
+    <h2 id="nw-tytul">Czego z tych danych nie wiemy</h2>
     <p class="wstep" id="nw-wstep"></p>
     <div class="karta"><div class="tabela-ramka"><table class="tabela tabela-tekst" id="nw-tabela"></table></div></div>
     <p class="przypis" id="nw-zrodlo"></p>
@@ -378,6 +450,7 @@
 <script src="dane_strony/zdarzenia.js"></script>
 <script src="dane_strony/jakosc.js"></script>
 <script src="dane_strony/c.js"></script>
+<script src="karty.js"></script>
 <script src="widoki.js"></script>
 <script src="widoki_c.js"></script>
 <script src="app.js"></script>

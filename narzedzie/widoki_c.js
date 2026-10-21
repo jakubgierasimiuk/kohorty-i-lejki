@@ -1,12 +1,14 @@
 /* Widoki z wynikiem punktu C: „Czy to wzrost”, „Priorytety”, „Czego nie wiemy”.
    Dane z dane_strony/c.js (tworzy je analiza/b2_eksport_c.py, uruchamiany też przez analiza/b_eksport.py).
    Ten plik nie wpisuje żadnych liczb: wszystkie zdania i wartości w tabelach przychodzą gotowe z eksportu.
-   Pomocnicze funkcje (el, $, mostek) udostępnia app.js jako window.B. */
+   Rysuje nowy kształt danych z kontraktu (notatki/e_runda.md, punkt 3), a gdy go nie ma — dotychczasowy.
+   Pomocnicze funkcje (el, $, mostek) udostępnia app.js jako window.B, karty i znaczniki karty.js jako window.BK. */
 (function () {
   "use strict";
   var BW = window.BW = window.BW || {};
   var C = window.D.C;
   var b = function () { return window.B; };
+  var BK = window.BK;
 
   function lista(cel, punkty) {
     var B = b();
@@ -17,11 +19,8 @@
   function linkiDanych(cel, linki) {
     var B = b();
     B.wyczysc(cel);
-    cel.appendChild(B.el("span", { class: "linki-etykieta", text: "Zobacz w danych: " }));
-    linki.forEach(function (l, i) {
-      if (i) cel.appendChild(document.createTextNode(" · "));
-      cel.appendChild(B.el("a", { href: l.href, text: l.tekst }));
-    });
+    var l = BK.linki(linki);
+    if (l) cel.appendChild(l);
     return cel;
   }
   function wiersz(komorki, naglowek) {
@@ -39,11 +38,49 @@
     e.classList.add("podswietlone");
     setTimeout(function () { e.scrollIntoView({ behavior: "smooth", block: "start" }); }, 30);
   }
+  function wstawki() {
+    var B = b();
+    return { mostek: function () { var t = B.el("table", { class: "tabela" }); B.mostek(t); return B.el("div", { class: "tabela-ramka" }, [t]); } };
+  }
 
   // ------------------------------------------------------------ CZY TO WZROST
   var gotoweWz = false;
-  function rysujWzrost() {
-    var B = b(), el = B.el, $ = B.$, W = C.wzrost, O = B.O;
+  function nowyKsztaltWzrostu(W) { return W && W.werdykt && typeof W.werdykt === "object" && Array.isArray(W.karty); }
+
+  function rysujWzrostNowy(W) {
+    var B = b(), el = B.el, $ = B.$;
+    $("wz-stary").hidden = true;
+    var n = B.wyczysc($("wz-nowy"));
+    n.hidden = false;
+    if (W.tytul) $("wz-tytul").textContent = W.tytul;
+    if (W.wstep) $("wz-wstep").textContent = W.wstep;
+
+    var art = el("article", { class: "karta werdykt", id: "wz-werdykt" }, [
+      el("div", { class: "werdykt-gora" }, [BK.znacznik(W.werdykt.znacznik, true), el("div", null, [
+        el("p", { class: "werdykt-tekst", text: W.werdykt.tekst }),
+        W.werdykt.dopisek ? el("p", { class: "werdykt-dopisek", text: W.werdykt.dopisek }) : null])])]);
+    if (W.kafelki && W.kafelki.length) art.appendChild(BK.kafelki(W.kafelki));
+    if (W.decyzje && W.decyzje.punkty && W.decyzje.punkty.length) {
+      art.appendChild(el("h3", { class: "decyzje-tytul", text: W.decyzje.tytul || "" }));
+      art.appendChild(el("ol", { class: "decyzje" }, W.decyzje.punkty.map(function (d, i) {
+        var nr = String(d.nr || i + 1);
+        return el("li", null, [
+          d.href ? el("a", { class: "nr", href: d.href, text: nr, "aria-hidden": "true", tabindex: "-1" }) : el("span", { class: "nr", text: nr }),
+          el("span", { class: "decyzja-tekst" }, [d.href ? el("a", { href: d.href, text: d.tekst }) : d.tekst,
+            d.dopisek ? el("span", { class: "dopisek", text: d.dopisek }) : null])]);
+      })));
+    }
+    n.appendChild(art);
+
+    var karty = W.karty || [], ws = wstawki();
+    var obok = karty.slice(0, 2), reszta = karty.slice(2);
+    if (obok.length) n.appendChild(el("div", { class: "karty-dwie" }, obok.map(function (k) { return BK.karta(k, { prefiks: "wz-", wstawki: ws }); })));
+    reszta.forEach(function (k) { n.appendChild(BK.karta(k, { prefiks: "wz-", wstawki: ws })); });
+    $("wz-zrodlo").textContent = W.zrodlo || "";
+  }
+
+  function rysujWzrostStary(W) {
+    var B = b(), el = B.el, $ = B.$, O = B.O;
     var S = W.skrot;
     $("wz-skrot-odpowiedz").textContent = S.odpowiedz;
     lista($("wz-skrot-liczby"), S.liczby);
@@ -59,11 +96,12 @@
     $("wz-retencja-liczba").textContent = W.retencja.liczba;
     $("wz-retencja-podpis").textContent = W.retencja.podpis;
     var t = B.wyczysc($("wz-retencja-tabela"));
-    t.appendChild(el("thead", null, [wiersz(["Powrót w ciągu", "Okres 1 (" + O[0].nazwa + ")", "Okres 2 (" + O[1].nazwa + ")", "Zmiana"], true)]));
+    t.appendChild(el("thead", null, [wiersz(["Powrót w ciągu", "Rok wcześniej (" + O[0].nazwa + ")", "Ostatnie 12 miesięcy (" + O[1].nazwa + ")", "Zmiana"], true)]));
     var tb = el("tbody");
     W.retencja.okna.forEach(function (o) {
+      var lepiej = o.p2 >= o.p1;
       tb.appendChild(wiersz([o.dni + " dni", o.tekst1, o.tekst2,
-        { attrs: { class: "delta " + (o.p2 >= o.p1 ? "plus" : "minus"), text: o.zmiana } }]));
+        { attrs: null, dzieci: [BK.zmiana(o.zmiana, BK.kierunekZnaku(o.p2 - o.p1), lepiej ? "dobrze" : "zle")] }]));
     });
     t.appendChild(tb);
     lista($("wz-retencja-punkty"), W.retencja.punkty);
@@ -92,7 +130,7 @@
       "Rok wcześniej", "Wydatki: ile razy więcej"], true)]));
     var kb = el("tbody");
     W.kwartaly.wiersze.forEach(function (r) {
-      kb.appendChild(wiersz([r.kw, r.m2, r.m1, { attrs: { class: "delta " + (r.minus ? "minus" : "plus"), text: r.zm } },
+      kb.appendChild(wiersz([r.kw, r.m2, r.m1, { attrs: null, dzieci: [BK.zmiana(r.zm, r.minus ? "spadek" : "wzrost", r.minus ? "zle" : "dobrze")] },
         r.w2, r.w1, r.il]));
     });
     k.appendChild(kb);
@@ -111,15 +149,41 @@
     linkiDanych($("wz-linki"), W.linki);
     $("wz-zrodlo").textContent = W.zrodlo;
   }
+  function rysujWzrost() {
+    var W = C.wzrost;
+    if (nowyKsztaltWzrostu(W)) rysujWzrostNowy(W); else rysujWzrostStary(W);
+  }
   BW.wzrost = { pokaz: function () { if (!gotoweWz) { rysujWzrost(); gotoweWz = true; } } };
 
   // ------------------------------------------------------------ PRIORYTETY
   var gotowePr = false;
+  // kwota: w nowym kształcie krótka kwota i dopisek osobno, w dotychczasowym jeden napis
+  function kwota(ile, dopisek) {
+    var B = b();
+    return [B.el("span", { class: "kwota", text: ile }), dopisek ? B.el("span", { class: "kwota-dopisek", text: dopisek }) : null];
+  }
+  function pewnoscKom(p) {
+    var B = b(), x = BK.pewnoscZNapisu(p);
+    if (!x) return ["—"];
+    return [BK.pewnosc(x), x.dopisek ? B.el("span", { class: "pewnosc-dopisek", text: x.dopisek }) : null];
+  }
+  function pasek(p) {
+    var B = b(), el = B.el;
+    return el("div", { class: "pasek-priorytetu" }, [
+      el("div", null, [el("span", { class: "pasek-etykieta", text: "Ile warte rocznie (marża)" })].concat(kwota(p.ile, p.ile_dopisek))),
+      el("div", null, [el("span", { class: "pasek-etykieta", text: "Pewność" })].concat(pewnoscKom(p.pewnosc))),
+      el("div", null, [el("span", { class: "pasek-etykieta", text: "Wdrożenie" }), el("span", { class: "pasek-wartosc", text: p.wdrozenie })])]);
+  }
   function rysujPriorytety() {
     var B = b(), el = B.el, $ = B.$, P = C.priorytety;
+    if (P.tytul) $("pr-tytul").textContent = P.tytul;
     $("pr-wstep").textContent = P.wstep;
-    lista($("pr-zasady"), P.zasady);
-    $("pr-definicje").textContent = P.definicje;
+    if (BK.czyKarta(P.zasady)) {
+      B.wyczysc($("pr-zasady-miejsce")).appendChild(BK.karta(P.zasady, { prefiks: "pr-" }));
+    } else {
+      lista($("pr-zasady"), P.zasady);
+      $("pr-definicje").textContent = P.definicje || "";
+    }
 
     var t = B.wyczysc($("pr-przeglad"));
     var etyk = ["Nr", "Co robimy", "Ile warte rocznie (marża)", "Pewność", "Wdrożenie"];
@@ -128,9 +192,10 @@
     P.przeglad.forEach(function (r) {
       var href = "#priorytety?p=" + r.nr;
       tb.appendChild(wiersz([
-        { attrs: { class: "nr-kom", "data-etykieta": etyk[0] }, dzieci: [el("a", { href: href, class: "nr", text: String(r.nr) })] },
+        { attrs: { class: "nr-kom", "data-etykieta": etyk[0] }, dzieci: [el("a", { href: href, class: "nr", text: String(r.nr), "aria-label": "Pozycja " + r.nr }) ] },
         { attrs: { "data-etykieta": etyk[1] }, dzieci: [el("a", { href: href, text: r.co })] },
-        { attrs: { "data-etykieta": etyk[2], text: r.ile } }, { attrs: { "data-etykieta": etyk[3], text: r.pewnosc } },
+        { attrs: { "data-etykieta": etyk[2] }, dzieci: kwota(r.ile, r.ile_dopisek) },
+        { attrs: { "data-etykieta": etyk[3] }, dzieci: pewnoscKom(r.pewnosc) },
         { attrs: { "data-etykieta": etyk[4], text: r.wdrozenie } }]));
     });
     t.appendChild(tb);
@@ -139,41 +204,50 @@
     P.przeglad.forEach(function (r) { przeg[r.nr] = r; });
     var kont = B.wyczysc($("pr-karty"));
     P.karty.forEach(function (k) {
-      var r = przeg[k.nr];
+      var r = przeg[k.nr] || {};
+      var p = k.pasek || { ile: r.ile, ile_dopisek: r.ile_dopisek, pewnosc: r.pewnosc, wdrozenie: r.wdrozenie };
       var art = el("article", { class: "karta priorytet", id: "pr-" + k.nr }, [
         el("div", { class: "priorytet-naglowek" }, [el("span", { class: "nr", text: String(k.nr) }), el("h3", { text: k.tytul })]),
-        el("p", { class: "priorytet-meta" }, [
-          el("span", null, [el("span", { class: "przypis", text: "Ile warte rocznie: " }), r.ile]),
-          el("span", null, [el("span", { class: "przypis", text: "Pewność: " }), r.pewnosc]),
-          el("span", null, [el("span", { class: "przypis", text: "Wdrożenie: " }), r.wdrozenie])])
+        k.wniosek ? el("p", { class: "wniosek", text: k.wniosek }) : null,
+        pasek(p)
       ]);
-      var dl = el("dl", { class: "sekcje" });
-      k.sekcje.forEach(function (s) {
-        dl.appendChild(el("dt", { text: s.tytul }));
-        var dd = el("dd");
-        if (s.punkty.length === 1) dd.appendChild(el("p", { text: s.punkty[0] }));
-        else dd.appendChild(lista(el("ul"), s.punkty));
-        dl.appendChild(dd);
-      });
-      art.appendChild(dl);
+      if (k.sekcje && k.sekcje.length) {
+        var dl = el("dl", { class: "sekcje" });
+        k.sekcje.forEach(function (s) {
+          dl.appendChild(el("dt", { text: s.tytul }));
+          var dd = el("dd");
+          if (s.punkty.length === 1) dd.appendChild(el("p", { text: s.punkty[0] }));
+          else dd.appendChild(lista(el("ul"), s.punkty));
+          dl.appendChild(dd);
+        });
+        art.appendChild(dl);
+      }
       if (k.tabela) art.appendChild(tabelaKarty(k.tabela));
-      art.appendChild(linkiDanych(el("p", { class: "linki-danych" }), k.linki));
-      art.appendChild(el("p", { class: "przypis", text: "Skąd liczby: " + k.zrodlo }));
-      art.appendChild(el("p", { class: "przypis" }, [el("a", { href: "#priorytety", text: "↑ Wróć do przeglądu" })]));
+      if (k.tresc && k.tresc.length) art.appendChild(BK.bloki(k.tresc, el("div", { class: "tresc" })));
+      if (k.zastrzezenie) art.appendChild(BK.zastrzezenie(k.zastrzezenie));
+      var l = BK.linki(k.linki);
+      if (l) art.appendChild(l);
+      if (k.szczegoly && k.szczegoly.length) art.appendChild(BK.szczegoly(k.szczegoly, k.zrodlo));
+      else if (k.zrodlo) art.appendChild(el("p", { class: "zrodlo", text: "Skąd liczby: " + k.zrodlo }));
+      art.appendChild(el("p", { class: "wroc" }, [el("a", { href: "#priorytety", text: "Wróć do przeglądu" })]));
       kont.appendChild(art);
     });
-    lista($("pr-nie-robimy"), P.nie_robimy);
+    if (BK.czyKarta(P.nie_robimy)) {
+      B.wyczysc($("pr-nie-robimy-miejsce")).appendChild(BK.karta(P.nie_robimy, { prefiks: "pr-", klasa: "karta-cicha" }));
+    } else lista($("pr-nie-robimy"), P.nie_robimy);
     $("pr-zrodlo").textContent = P.zrodlo;
   }
   function tabelaKarty(T) {
     var B = b(), el = B.el;
     var t = el("table", { class: "tabela tabela-lejek tabela-kampanii" });
-    t.appendChild(el("caption", { class: "przypis", text: T.tytul }));
+    t.appendChild(el("caption", { text: T.tytul }));
     t.appendChild(el("thead", null, [wiersz([""].concat(T.kolumny), true)]));
     var tb = el("tbody");
     T.wiersze.forEach(function (w) {
       var kom = [w.opis];
       w.komorki.forEach(function (c) {
+        // komórka w kształcie z kontraktu (tekst albo {tekst, zmiana, stan, pod}) albo dotychczasowa {w, rok, minus}
+        if (typeof c !== "object" || c === null || c.tekst !== undefined) { kom.push({ attrs: null, dzieci: BK.komorkaDzieci(c) }); return; }
         var dz = [el("span", { class: "b" + (c.minus ? " ujemne" : ""), text: c.w })];
         if (c.rok) dz.push(el("span", { class: "a", text: "pełny rok: " + c.rok }));
         kom.push({ attrs: null, dzieci: dz });
@@ -194,6 +268,7 @@
   var gotoweNw = false;
   function rysujNiewiadome() {
     var B = b(), el = B.el, $ = B.$, N = C.niewiadome;
+    if (N.tytul) $("nw-tytul").textContent = N.tytul;
     $("nw-wstep").textContent = N.wstep;
     var t = B.wyczysc($("nw-tabela"));
     var etyk = ["Nr", "Czego nie wiemy", "Dlaczego to ważne", "Test albo brakujące dane", "Pozycja listy priorytetów"];
