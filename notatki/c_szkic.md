@@ -338,7 +338,7 @@ Raport: `analiza/wyniki/c_telemedigo.txt`. Każde członkostwo kosztuje 89 zł i
   - **Ryzyko:** obsada lekarzy jest wspólna dla całego kraju. Wyłączenie zmniejsza obciążenie internistów, więc w województwach kontrolnych może przybyć wolnych terminów, zakupów i powrotów. Zawyża to spadek (więcej „dodatkowych”), a efekt w retencji przenosi się na województwa kontrolne. Do tego województwo konta to nie miejsce wyświetlenia reklamy, więc część reklam przecieka między województwami.
   - **Koszt testu**, jeśli wszyscy pacjenci są dodatkowi (przyjęta reguła): najwyżej około 1,1–1,2 tys. zł utraconej marży przy 4 tygodniach i 1,6–1,8 tys. zł przy 6 tygodniach; po naprawie zwrotów A 2,5 i 3,8 tys. zł (tempo III kwartału 2026). Według sesji płatności test daje zysk (`d_wynik.txt`, punkt 3d). Uzupełnienie: badanie przyrostu konwersji w panelu Meta.
 - **Po czym poznamy:** spadek wszystkich nowych pacjentów w województwach bez reklamy wobec par, w liczbie pacjentów i jako udział pacjentów przypisanych Meta; decyzja według reguły wyżej.
-- **Wdrożenie:** tydzień przygotowania i 4–6 tygodni testu. Wynik może się nie przenieść z jesieni na lato.
+- **Wdrożenie:** tydzień przygotowania i 4–6 tygodni testu. Test rusza w drugim tygodniu, równolegle z diagnozą poranka (pozycja 6), bo oba można prowadzić w tych samych województwach. Wynik może się nie przenieść z jesieni na lato.
 
 ### Pozycja 10. Cennik specjalistów i warunki TelemediGO u specjalistów
 

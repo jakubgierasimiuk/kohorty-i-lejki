@@ -228,3 +228,22 @@ Scalone przez sesję prowadzącą z `notatki/b_narzedzie.md` (sekcje 12 i 13). P
 **Decyzja Kuby:** robimy całą listę poprawek z syntezy konsylium (`notatki/konsylium/d_weryfikacja/synteza.md`), z jego dwunastoma uwagami. Pełne brzmienie: `notatki/d_poprawki.md`. Każda nowa liczba przez nasz kod i kontrolę zgodności, na końcu Codex przelicza nowe liczby jeszcze raz. Publikacji jeszcze nie robimy. Sesja zatrzymuje się u Kuby z gotowym pakietem.
 
 **Nowa sesja prowadząca:** dotychczasowa sesja prowadząca (`local_ca1efb6a-0cb9-4abb-b08b-9d90f7e7de79`) ma prawie 80% kontekstu, więc według zasady z `CLAUDE.md` (punkt 14) przekazuje rolę nowej sesji. Nowa sesja sama decyduje, czy podzielić pracę na dwie sesje naraz (kod strony osobno, teksty i liczby osobno).
+
+## 2026-10-21 — poprawki po konsylium: jak je zrobiliśmy
+
+**Podział pracy (decyzja sesji prowadzącej `local_791c102e-55e1-4a1b-bb12-d2b0200168ad`, zgodnie z decyzją Kuby, że sama wybiera):** dwie sesje naraz. Kod strony zrobiła sesja narzędzia (`local_0ea34a6a-6b84-45c6-87b7-e953f33e3452`), bo zna ten kod, a poprawki wyświetlania nie czekały na nowe liczby. Teksty, liczby i notatki zrobiła sesja prowadząca. Wątpliwości Kuby policzyli trzej agenci w tle, każdy we własnym, nowym skrypcie (`analiza/d_retencja.py`, `d_kampanie.py`, `d_wynik.py`). Każdy wynik sesja prowadząca sprawdziła w raporcie, zanim wpisała zdanie. Interfejs między sesjami: `notatki/c_szkic.md` (teksty zakładek C, kontrola zgodności), `notatki/d_teksty_strony.md` (pozostałe zakładki) i raporty `analiza/wyniki/d_*.txt` z plikami `d_*.json`.
+
+**Wątpliwości Kuby — wynik (szczegóły: `ZNALEZISKA.md`, sekcja z 2026-10-21):**
+- opóźnienia po godzinach — potwierdzone: jeden blok 5:00–12:59, południe i noc to jego brzegi;
+- poranek — opóźnienie od pierwszej wizyty dnia, bez narastania; odczytanie „spadła przepustowość” zawężone do stałego przesunięcia od początku dnia, przyczyna otwarta;
+- przeglądarki w aplikacjach poza Metą i TikTokiem — nie płacą tak samo w ruchu osób, które znają stronę, więc nie uogólniamy; nowa niewiadoma 19;
+- TikTok po 180 dniach — liczony tylko z wczesnych kohort; cały rocznik w przybliżeniu ujemny w obu regułach, więc pewność co do znaku zostaje (z opisem, skąd liczba);
+- pediatra i psychiatra — „bez istotnej zmiany” (założenie 56);
+- spadek marży III kwartału — luka po odjęciu TelemediGO to wyższe wydatki kampanii działających w obu latach; Safari w niej się nie mieści i jest liczone jako strata zaksięgowana w kwartale (założenie 58);
+- test Mety — 4–6 tygodni nie odróżni wyniku od progu; obok progu 85% próg po naprawie zwrotów 70%; reguła na wynik niejednoznaczny ustalona z góry (założenie 59).
+
+**Reguła na wynik niejednoznaczny testu Mety (propozycja sesji prowadzącej, do zatwierdzenia przez Kubę przy przeglądzie pakietu):** decyduje oszacowanie punktowe, bo zysk z wyłączenia zmienia się liniowo z udziałem pacjentów dodatkowych. Inne warianty (status quo przy przedziale obejmującym próg, połowa budżetu, przedłużanie testu) są w `analiza/wyniki/d_wynik.txt`, 3e.
+
+**Bez zmian na stronie:** `robots.txt` zostaje; indeksowanie blokuje znacznik `noindex`, a `robots.txt` pod podścieżką GitHub Pages nic nie daje (konsylium, drobne).
+
+**`CLAUDE.md`:** usunięty adres e-mail osoby rekrutującej (punkt 12 listy Kuby). Historii nie przepisujemy, więc adres zostaje we wcześniejszych commitach.
