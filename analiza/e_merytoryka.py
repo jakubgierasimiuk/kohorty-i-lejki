@@ -350,7 +350,8 @@ def main():
     sp = pw.groupby(["kw", "spec"]).discount_type.value_counts(normalize=True).unstack().fillna(0).mul(100).round(1)
     r("   Udział rodzajów zniżki w obrębie specjalizacji (%):")
     pokaz(sp.reset_index())
-    J.update({"pw_mix_spec_znizka": mix_b, "pw_wewnatrz_spec_znizka": wew_b})
+    J.update({"pw_mix_spec_znizka": mix_b, "pw_wewnatrz_spec_znizka": wew_b,
+              "pw_inni_go_m26": float(mb2.get("inni/go", np.nan)), "pw_inni_go_n26": int(n2_.get("inni/go", 0))})
 
     # =================================================================================================================
     # 4. LEJEK OSÓB, KTÓRE JESZCZE NIE KUPOWAŁY
