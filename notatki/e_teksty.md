@@ -10,7 +10,7 @@ Słownik w całym tekście: „ostatnie 12 miesięcy” = X 2025 – IX 2026, �
 
 Znacznik: Nie.
 Pacjentów przybywa, ale wracają rzadziej. Wydatki na kampanie rosną dużo szybciej niż marża, którą biznes zarabia przed ich kosztem.
-Dopisek: Za cały rok marża po wszystkich kosztach wzrosła o 27%: z 828 do 1 048 tys. zł.
+Dopisek: Za cały rok marża po koszcie lekarza, kampaniach i prowizji wzrosła o 27%: z 828 do 1 048 tys. zł.
 
 ### wzrost/kafelki
 
@@ -30,12 +30,12 @@ Etykieta: Więcej pacjentów. Znacznik: Tak.
 Tytuł: Pacjentów przybywa, ale głównie z dwóch nowych kampanii na L4
 Wniosek: Nowych pacjentów jest o 52% więcej niż rok wcześniej, a bez kampanii Meta i TikTok na L4 tylko o 7%.
 - 24 687 nowych pacjentów w ostatnich 12 miesiącach wobec 16 231 rok wcześniej.
-- Bez pacjentów dwóch nowych kampanii na L4: 17 419. Te kampanie dały 29% nowych pacjentów, a ich pacjent zostawia w 90 dniach 36 zł marży wobec 66 zł pozostałych.
+- Bez pacjentów dwóch nowych kampanii na L4: 17 419. Te kampanie dały 29% nowych pacjentów, a ich pacjent zostawia w 90 dniach 36 zł marży przed kosztem pozyskania wobec 66 zł pozostałych.
 - Z kanałów bezpłatnych (wejścia bezpośrednie, bezpłatna wyszukiwarka, program poleceń) przybyło 12%: z 7 069 do 7 924.
 Zastrzeżenie: Nie wiemy, ilu pacjentów nowych kampanii przyszłoby i bez nich. Sprawdzi to test z wyłączeniem reklamy w części kraju (pozycja 9 listy priorytetów).
 Szczegóły:
 - Dokładnie: +52,1% wszystkich nowych pacjentów, +7,3% bez nowych kampanii, +12,1% z kanałów bezpłatnych. Pacjenci nowych kampanii: 7 268 z 24 687 (29%), marża w 90 dniach 36,3 zł wobec 66,0 zł.
-- Pacjent nowej kampanii to według przyjętej reguły ten, który pierwszy raz wszedł z jej reklamy albo zapłacił z jej kodem rabatowym. Według drugiej reguły (sesja płatności) pacjentów bez nowych kampanii jest 19 500, czyli +20,1%. Różnica to 2 081 pacjentów, którzy weszli z reklamy nowej kampanii (92% z nich) albo zapłacili z jej kodem (73%), a płatność zrobili w innej sesji, najczęściej po wejściu bezpośrednim albo z wyszukiwarki. Wracają tak rzadko jak pozostali pacjenci nowych kampanii, więc w opisie pacjentów i retencji trzymamy się reguły przyjętej. W ekonomii kampanii pokazujemy obie.
+- Pacjent nowej kampanii to według przyjętej reguły ten, który pierwszy raz wszedł z jej reklamy albo zapłacił z jej kodem rabatowym. Według drugiej reguły (sesja płatności) pacjentów bez nowych kampanii jest 19 500, czyli +20,1%. Różnica to 2 081 pacjentów, których przyjęta reguła przypisuje nowym kampaniom, a sesja płatności innym kanałom: 1 918 weszło pierwszy raz z reklamy nowej kampanii, a zapłaciło w innej sesji (najczęściej po wejściu bezpośrednim albo z wyszukiwarki), a 163 weszło z innego kanału, ale zapłaciło z kodem nowej kampanii. Wracają tak rzadko jak pozostali pacjenci nowych kampanii. Bez nich obie reguły dają ten sam przyrost pacjentów, ten sam powrót i tę samą marżę, więc w opisie pacjentów i retencji trzymamy się reguły przyjętej. W ekonomii kampanii pokazujemy obie.
 
 ### wzrost/retencja
 
@@ -49,11 +49,11 @@ Tabela: powrót w ciągu 30, 60, 90 i 180 dni, rok wcześniej i w ostatnich 12 m
 Zastrzeżenie: To opis, a nie przyczyna. Nie wiemy, czy ci sami pacjenci zachowują się dziś gorzej, czy zmieniło się to, kto do nas trafia.
 Szczegóły:
 - Kolejne zamówienia na pacjenta w 90 dniach: 0,234 wobec 0,334, czyli o 29,8% mniej; bez pacjentów nowych kampanii 0,300.
-- Druga reguła (sesja płatności) daje bez nowych kampanii powrót 20,4% i marżę 63,3 zł. Cała różnica to 1 383 pacjentów nowych kampanii (z pełnym oknem 90 dni), których ta reguła przypisuje starym kanałom, bo zapłacili w innej sesji niż ta, w której weszli z reklamy. Wracają w 4,3%. Bez nich obie reguły dają 22,0% i 66,0 zł, a udział nowych kampanii w spadku powrotu wynosi w obu 71% (według sesji płatności bez tej poprawki 46%).
+- Druga reguła (sesja płatności) daje bez nowych kampanii powrót 20,4% i marżę 63,3 zł. Cała różnica to 1 383 pacjentów nowych kampanii (z pełnym oknem 90 dni), których ta reguła przypisuje innym kanałom: 1 279 weszło z reklamy nowej kampanii, a zapłaciło w innej sesji, a 104 zapłaciło z kodem nowej kampanii po wejściu z innego kanału. Wracają w 4,3%. Bez nich obie reguły dają 22,0% i 66,0 zł, a udział nowych kampanii w spadku powrotu wynosi w obu 71% (według sesji płatności bez tej poprawki 46%).
 - „Około 71% spadku” to rozkład opisowy: udział pacjentów nowych kampanii (25,9% kohort) razy różnica powrotu między nimi a resztą. Nie mówi, co by się stało bez tych kampanii.
 - Według pierwszej usługi (zdanie z c_szkic.md, sekcja 1b, z drugą regułą wyjaśnioną tak samo): pierwsze L4 u internisty według sesji płatności spada do 11,0%, ale to ta sama grupa: do 2 969 pacjentów reguły przyjętej dochodzi 1 145 pacjentów nowych kampanii z pierwszym L4.
 - Liczba osób, które wróciły w 90 dniach, rośnie: 3 289 wobec 3 076 (+6,9%).
-- Spadek w kanałach działających w obu latach zbiega się z porannymi opóźnieniami u internistów, ale ich nie dowodzi (Czego nie wiemy, punkt 4).
+- Część spadku w kanałach działających w obu latach może wiązać się z porannymi opóźnieniami u internistów: po spóźnionej pierwszej wizycie pacjenci wracają rzadziej. Dane tego nie rozstrzygają (Czego nie wiemy, punkt 4).
 
 ### wzrost/telemedigo
 
@@ -70,14 +70,14 @@ Szczegóły (nowe zdania; reszta jak w c_szkic.md, sekcja 2):
 
 Tytuł: Wydatki na kampanie rosną szybciej niż marża, którą biznes zarabia przed ich kosztem
 Wniosek: W III kwartale 2026 marża przed kosztem kampanii wzrosła o 25%, a wydatki na kampanie były ponad dwa razy wyższe niż rok wcześniej.
-Tabela kwartałów (zmiana rok do roku): marża przed kosztem kampanii +55,2%, +49,7%, +38,4%, +25,2% (376,0, 500,2, 444,5, 392,5 tys. zł); wydatki na kampanie ×1,30, ×1,66, ×2,04, ×2,08 (113,1, 170,6, 184,4, 181,6 tys. zł); marża po wszystkich kosztach +71,4%, +43,0%, +13,0%, −6,8% (259,4, 324,4, 256,6, 207,7 tys. zł).
-- Za cały rok marża po wszystkich kosztach wzrosła o 26,6%: z 828 do 1 048 tys. zł. Marża przed kosztem kampanii wzrosła o 41,5%, a wydatki na kampanie o 76,7%.
-- Spadek marży w III kwartale 2026 (−6,8%) nie jest pewny. Rok wcześniej we wrześniu jednorazowo ruszyła sprzedaż TelemediGO w newsletterze: 225 zakupów w 23 dni. Bez tej nadwyżki marża III kwartału 2026 jest o 1,1% wyższa niż rok wcześniej.
+Tabela kwartałów (zmiana rok do roku): marża przed kosztem kampanii +55,2%, +49,7%, +38,4%, +25,2% (376,0, 500,2, 444,5, 392,5 tys. zł); wydatki na kampanie ×1,30, ×1,66, ×2,04, ×2,08 (113,1, 170,6, 184,4, 181,6 tys. zł); marża po kosztach kampanii +71,4%, +43,0%, +13,0%, −6,8% (259,4, 324,4, 256,6, 207,7 tys. zł).
+- Za cały rok marża po koszcie lekarza, kampaniach i prowizji wzrosła o 26,6%: z 828 do 1 048 tys. zł. Marża przed kosztem kampanii wzrosła o 41,5%, a wydatki na kampanie o 76,7%.
+- W III kwartale 2026 marża była o 6,8% niższa niż rok wcześniej, ale ten spadek zależy od jednorazowego zdarzenia: rok wcześniej we wrześniu ruszyła sprzedaż TelemediGO w newsletterze (225 zakupów w 23 dni). Po odjęciu szacowanej nadwyżki tego startu wychodzi wzrost o 1,1%.
 - Awaria zakładania konta w Safari na iPhone'ach kosztowała w samym III kwartale 2026 szacunkowo 14,6–18,3 tys. zł marży.
 Zastrzeżenie: Wyniku kwartału bez awarii Safari nie mierzymy; to scenariusz z pozycji 1 listy priorytetów.
 Szczegóły:
 - Warianty III kwartału: bez nadwyżki startu sprzedaży w newsletterze (196 z 225 zakupów ponad zwykłe tempo 29 na 23 dni, 17,4 tys. zł) +1,1%; bez całej sprzedaży w newsletterze w obu latach −2,3%; bez wszystkich opłat za TelemediGO −4,9%. Marża przed kosztem kampanii bez nadwyżki startu rośnie o 32,6%.
-- Baza powracających pacjentów (marża z pacjentów pozyskanych w poprzednich kwartałach): w III kwartale 2026 106,2 tys. zł wobec 115,2 tys. zł rok wcześniej. Rok wcześniej zawierała jednorazowy start sprzedaży w newsletterze; bez tej nadwyżki to 97,8 tys. zł, więc w 2026 baza dała o 8,6% więcej (bez całej sprzedaży w newsletterze w obu latach o 1,0% więcej). Liczy przy tym prawie trzy razy więcej pacjentów (35 032 wobec 12 794), więc marża na jednego pacjenta bazy jest dużo niższa: baza jest starsza, a nowsze roczniki wracają rzadziej (opis, bez rozdzielenia tych dwóch rzeczy).
+- Baza powracających pacjentów (marża z pacjentów pozyskanych w poprzednich kwartałach): w III kwartale 2026 106,2 tys. zł wobec 115,2 tys. zł rok wcześniej. Rok wcześniej zawierała jednorazowy start sprzedaży w newsletterze; po odjęciu części nadwyżki przypadającej na bazę (210 z 225 zakupów) to 99,0 tys. zł, więc w 2026 baza dała o 7,3% więcej (bez całej sprzedaży w newsletterze w obu latach o 1,0% więcej). Wszystkich pacjentów pozyskanych w poprzednich kwartałach jest prawie trzy razy więcej (35 032 wobec 12 794), ale tych, którzy w kwartale coś kupili, tylko o 15% więcej (1 735 wobec 1 503). Baza jest starsza, a nowsze roczniki wracają rzadziej; tych dwóch rzeczy dane nie rozdzielają.
 - Rozkład spadku III kwartału na pacjentów nowych kampanii i resztę biznesu (rozkład księgowy = przypisanie składników marży grupom pacjentów, a nie zmierzony wpływ): zdania z c_szkic.md, sekcja 1c, i d_teksty_strony.md.
 
 ### wzrost/dashboard
@@ -142,7 +142,7 @@ Pasek: +19 do +32 tys. zł (rocznie, nawet gdy każdy jej pacjent przyszedł tyl
 Dlaczego: Wizyta u specjalisty po cenie katalogowej zostawia ponad koszt lekarza tylko 9–19 zł, więc kampania nie ma z czego pokryć kosztu pozyskania (pozycja 10).
 Co robimy: Wstrzymać. Wrócić po zmianie cennika albo gdy koszt pozyskania nie przekracza marży pacjenta w 90 dniach w obu regułach.
 Po czym poznamy: Liczymy wszystkich nowych pacjentów z pierwszą wizytą u specjalisty, ze wszystkich kanałów (w ostatnich 12 miesiącach średnio 66 tygodniowo), i marżę całego biznesu po wydatkach, wobec tych samych tygodni rok wcześniej, tak jak w teście Mety. Pauza się opłaca, dopóki nowych pacjentów u specjalistów ubywa mniej niż około 31 tygodniowo; kampania przypisuje sobie 13–18 tygodniowo.
-Szczegóły (nowe): Próg = wydatki kampanii w ostatnich 12 miesiącach (53,2 tys. zł) podzielone przez marżę jej pacjenta w 90 dniach (32,4 zł według przyjętej reguły, 32,9 zł według sesji płatności): 1 641 albo 1 616 pacjentów rocznie. Kampania przypisuje sobie 923 albo 657 nowych pacjentów rocznie. Wszystkich nowych pacjentów z pierwszą wizytą u specjalisty (bez internisty, pediatry i psychiatry) było 3 427 w ostatnich 12 miesiącach i 2 971 rok wcześniej.
+Szczegóły (nowe): Próg = wydatki kampanii w ostatnich 12 miesiącach (53,2 tys. zł) podzielone przez marżę jej pacjenta w 90 dniach (32,4 zł według przyjętej reguły, 32,9 zł według sesji płatności, bez zaokrąglenia): 1 640 albo 1 614 pacjentów rocznie. Kampania przypisuje sobie 923 albo 657 nowych pacjentów rocznie. Wszystkich nowych pacjentów z pierwszą wizytą u specjalisty (bez internisty, pediatry i psychiatry) było 3 427 w ostatnich 12 miesiącach i 2 971 rok wcześniej.
 
 ### priorytety/5
 
@@ -243,10 +243,10 @@ Test: losowy, bezpłatny dostęp do zniżek (pozycja 12).
 
 ### lejek/naglowek
 
-Tytuł: Od lutego 2026 płaci coraz mniej nowych osób, bo przybywa ruchu z nowych kampanii na L4
+Tytuł: Od lutego 2026 nowe osoby płacą rzadziej; poza sesjami z nowych kampanii na L4 konwersja się nie zmieniła
 Wniosek: Wśród osób, które jeszcze nie kupowały, płaci 9,3% sesji, a rok wcześniej płaciło 11,2%.
 - Od października 2025 do stycznia 2026 konwersja była o 0,2–0,8 punktu procentowego niższa niż rok wcześniej. W lutym i marcu 2026 o 1,5–1,6 punktu, a od kwietnia 2026 o 2,3–3,1 punktu. W lutym 2026 ruszył TikTok na L4, a sesje nowych kampanii przekroczyły 30% ruchu nowych osób (31,8%); od kwietnia to 42–47%.
-- Sesje nowych kampanii płacą w 5,5%, mniej więcej o połowę rzadziej niż pozostałe. Bez nich konwersja nowych osób nie spada: 11,4% wobec 11,2% rok wcześniej.
+- Sesje nowych kampanii płacą w 5,5%, mniej więcej o połowę rzadziej niż pozostałe. Liczba płatności nowych osób rośnie (z 16 232 do 24 686), spada ich odsetek. Bez sesji nowych kampanii konwersja nie spada: 11,4% wobec 11,2% rok wcześniej.
 - Dwie rzeczy na stronie trzeba naprawić niezależnie od struktury ruchu: zakładanie konta w Safari na iPhone'ach od 17 marca 2026 i niższą konwersję przeglądarek w aplikacjach w ruchu osób, które znają już stronę (karty niżej).
 Zastrzeżenie: Niższa konwersja całości nie znaczy, że nowe kampanie nie przynoszą pacjentów; nie wiemy, ilu ich pacjentów przyszłoby i bez nich.
 Szczegóły:

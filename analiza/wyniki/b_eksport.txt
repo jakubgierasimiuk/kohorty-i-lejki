@@ -1,4 +1,4 @@
-B — EKSPORT DANYCH NARZĘDZIA (2026-10-21 22:01, commit 849e12c)
+B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 00:04, commit b42d659)
 
 1. Pliki w narzedzie/dane_strony/ (bajty)
    calosc                             38,075
@@ -9,14 +9,14 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-21 22:01, commit 849e12c)
    kanal                             177,555
    kampania                          249,718
    strona_wejscia                    265,403
-   podsumowanie                       14,081
-   zdarzenia                          37,677
-   jakosc                              8,892
-   kohorty                         1,442,248
-   po_zakupie                        298,624
-   wynik                              86,158
-   c                                  73,574
-   razem                           4,180,592
+   podsumowanie                       24,062
+   zdarzenia                          41,544
+   jakosc                             15,638
+   kohorty                         1,447,212
+   po_zakupie                        308,435
+   wynik                              96,643
+   c                                 106,105
+   razem                           4,258,977
 
 2. Kontrola: liczby z eksportu wobec notatek i wcześniejszych raportów
    co                                                                    eksport  oczekiwane  wynik
@@ -122,24 +122,26 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-21 22:01, commit 849e12c)
    C: marża po kwartałach = eksport z bazy (zł, 8 kwartałów)          151340 226877 227044 222824 259375 324423 256558 207713 151340 226877 227044 222824 259375 324423 256558 207713  zgodne
    C: liczby w tekstach bez pokrycia w c_szkic.md (50 fragmentów, 1176 liczb)          0           0  zgodne
    D: liczby w tekstach innych zakładek bez pokrycia w d_teksty_strony.md (8 sekcji, 243 liczb)          0           0  zgodne
+   E: liczby w nowych tekstach „Czy to wzrost”, „Priorytety”, „Czego nie wiemy” bez pokrycia w notatkach (45 kart, 1258 liczb)          0           0  zgodne
+   E: liczby w nowych kartach zakładek bez pokrycia w notatkach (35 kart, 1248 liczb)          0           0  zgodne
 
-   Różnic: 0 z 102 kontroli.
+   Różnic: 0 z 104 kontroli.
 
 3. Zdarzenia na osi czasu
-   2025-05-17  jakosc   Godzina bez danych
-   2025-09-08  lejek    Start sprzedaży TelemediGO w newsletterze (crm_go_upsell)
-   2025-10-30  retencja Marża na pacjenta w 30 dniach spada stopniami
-   2025-11-03  lejek    Start kampanii Meta na L4 (meta_prosp_l4_szybko)
-   2025-11-03  retencja Rośnie udział pacjentów nowych kampanii na L4 wśród nowych pacjentów
-   2025-11-13  obsluga  Więcej pierwszych zamówień zwracanych po wizycie
-   2025-11-24  obsluga  Poranne wizyty u internisty zaczynają się z opóźnieniem
-   2026-01-01  lejek    Remarketing Meta słabnie, bo zmienia się pula odbiorców
-   2026-02-09  lejek    Start kampanii TikTok na L4 (tt_prosp_l4_15min)
-   2026-02-10  retencja Powrót nowych pacjentów w 30 dniach spada
-   2026-03-02  retencja Powrót w 90 dniach w kampaniach działających w obu latach: brak wyraźnego skoku
-   2026-03-17  lejek    Safari na iOS: gwałtownie spada skuteczność zakładania nowego konta
-   2026-05-22  lejek    Google Ads na markę: spada konwersja sesji do płatności
-   2026-06-10  jakosc   Duplikaty zamówień w eksporcie
+   2025-05-17  jakosc   Jednej godziny prawie nie ma w danych, ale wyników to nie zmienia
+   2025-09-08  lejek    Newsletter zaczyna sprzedawać samo TelemediGO, a pierwsze tygodnie dają jednorazowy skok sprzedaży
+   2025-10-30  retencja Marża nowego pacjenta w pierwszych 30 dniach spada w trzech krokach, głównie przez skład pacjentów
+   2025-11-03  lejek    Rusza kampania Meta na L4; jej sesje płacą rzadziej niż sesje z wyszukiwarki
+   2025-11-03  retencja Coraz więcej nowych pacjentów przychodzi z kampanii na L4, a ci pacjenci prawie nie wracają
+   2025-11-13  obsluga  Coraz więcej pierwszych zamówień kończy się zwrotem po odbytej wizycie
+   2025-11-24  obsluga  Poranne wizyty u internisty coraz częściej zaczynają się ponad 15 minut po terminie
+   2026-01-01  lejek    Remarketing Meta słabnie, bo wraca do innych osób niż wcześniej
+   2026-02-09  lejek    Rusza kampania TikTok na L4; jej sesje płacą rzadziej niż sesje z wyszukiwarki i kampanii Meta na L4
+   2026-02-10  retencja Powrót nowych pacjentów w 30 dniach spada skokowo, głównie przez skład pacjentów
+   2026-03-02  retencja W kampaniach działających w obu latach powrót też spada, ale bez wyraźnego skoku
+   2026-03-17  lejek    Awaria: w Safari na iPhone'ach i iPadach dużo rzadziej udaje się założyć nowe konto
+   2026-05-22  lejek    W kampanii Google Ads na markę mniej sesji kończy się płatnością, a przyczyny w danych nie widać
+   2026-06-10  jakosc   W czerwcu 2026 eksport zapisał część zamówień dwa razy; zostawiamy jedną kopię
    Zmiany wykryte automatycznie (tabela pod osią): 245
 
 4. Kontrola ze szkicem (notatki/c_szkic.md): każda liczba w zdaniach strony stoi w tym samym fragmencie szkicu. Wiersze „d:” to teksty pozostałych zakładek wobec notatki notatki/d_teksty_strony.md.
@@ -203,3 +205,83 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-21 22:01, commit 849e12c)
    d:Rozkład spadku     49  —              —
    d:Google Ads na      30  —              —
    d:Kampania `crm_     10  —              —
+   e:wzrost/werdykt      3  —              —
+   e:wzrost/kafelki      9  —              —
+   e:wzrost/decyzje      7  —              —
+   e:wzrost/pacjenci     30  —              —
+   e:wzrost/retencja    103  —              3,2, 5,4, 6,5
+   e:wzrost/telemedigo     70  —              16231, 17419, 24687, 6784, 7268, 9307
+   e:wzrost/wynik      106  —              —
+   e:wzrost/dashboard     37  —              24716, 38491
+   e:wzrost/wstep        4  —              —
+   e:priorytety/1       74  —              2278, 2990, 4678
+   e:priorytety/2       57  —              24716, 25269, 40613
+   e:priorytety/3       72  —              1,56, 9
+   e:priorytety/4       61  —              —
+   e:priorytety/5       64  —              5080
+   e:priorytety/6      127  —              23,6, 2844, 572, 9979
+   e:priorytety/7       38  —              12867, 14031
+   e:priorytety/8       14  —              —
+   e:priorytety/9       77  —              —
+   e:priorytety/10      43  —              —
+   e:priorytety/11      17  —              1434, 23776
+   e:priorytety/12      33  —              1140, 20,0, 34,7, 62, 858
+   e:priorytety/zasady     74  —              —
+   e:priorytety/nie_robimy     16  —              18
+   e:priorytety/wstep      0  —              —
+   e:niewiadome/1       18  —              —
+   e:niewiadome/2        0  —              —
+   e:niewiadome/3        9  —              —
+   e:niewiadome/4       11  —              —
+   e:niewiadome/5        4  —              —
+   e:niewiadome/6        8  —              —
+   e:niewiadome/7        1  —              —
+   e:niewiadome/8        2  —              —
+   e:niewiadome/9        6  —              —
+   e:niewiadome/10       0  —              —
+   e:niewiadome/11       2  —              —
+   e:niewiadome/12       2  —              —
+   e:niewiadome/14       2  —              —
+   e:niewiadome/15       2  —              —
+   e:niewiadome/16       4  —              —
+   e:niewiadome/17       3  —              —
+   e:niewiadome/18       3  —              —
+   e:niewiadome/19       2  —              —
+   e:niewiadome/20       9  —              —
+   e:niewiadome/21      10  —              —
+   e:niewiadome/22      24  —              —
+   e:lejek/naglowek    116  —              0,20, 0,25, 0,34, 0,76, 1,51, 1,57, 10,1, 10,39, 10,76, 10,88, 11,02, 11,05, 11,08, 11,09, 11,10, 11,14, 11,21, 11,23, 11,30, 11,42, 11,50, 11,56, 18,4, 2,34, 2,64, 2,72, 2,74, 24,2, 3,14, 36,7, 42,1, 45,4, 45,9, 46,6, 46,9, 47,1, 8,11, 8,28, 8,37, 8,39, 8,44, 8,87, 9,72, 9,99
+   e:lejek/safari       41  —              —
+   e:lejek/przegladarki     41  —              —
+   e:lejek/osobne       28  —              19
+   z:kohorty           103  —              —
+   z:po_zakupie/punktualnos     45  —              —
+   z:po_zakupie/godziny     69  —              —
+   z:po_zakupie/ruch     40  —              —
+   z:po_zakupie/powrot     42  —              —
+   z:po_zakupie/zwroty     22  —              —
+   z:po_zakupie/oceny     22  —              —
+   z:wynik             148  —              —
+   z:wynik/ekonomia     36  —              —
+   z:jakosc              2  —              —
+   z:jakosc/mostek      14  —              —
+   z:jakosc/duplikaty     12  —              —
+   z:jakosc/testy       18  —              —
+   z:jakosc/godzina     13  —              —
+   z:jakosc/drobne       4  —              —
+   z:jakosc/czyste      24  —              —
+   z:zdarzenia           5  —              —
+   z:zdarzenie/luka_godzina     15  —              —
+   z:zdarzenie/start_go_ups     31  —              —
+   z:zdarzenie/marza30_spad     29  —              —
+   z:zdarzenie/start_meta_l     33  —              —
+   z:zdarzenie/udzial_nowyc     48  —              —
+   z:zdarzenie/zwroty_pierw     21  —              —
+   z:zdarzenie/opoznienia_r     32  —              —
+   z:zdarzenie/remarketing_     36  —              —
+   z:zdarzenie/start_tiktok     32  —              —
+   z:zdarzenie/powrot30_spa     35  —              —
+   z:zdarzenie/powrot90_sta     12  —              —
+   z:zdarzenie/safari_ios     34  —              —
+   z:zdarzenie/marka_konwer     29  —              —
+   z:zdarzenie/duplikaty     16  —              —

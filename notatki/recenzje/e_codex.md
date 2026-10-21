@@ -1,0 +1,40 @@
+**Większość liczb się zgadza.** Różnice dotyczą zaokrągleń w punktach 14 i 17. Ważniejsze poprawki dotyczą interpretacji: korekta TelemediGO jest scenariuszem, a dane o lejku nie dowodzą przyczynowości.
+
+Przeliczyłem wyniki własnymi zapytaniami, przez `python -I`, z bazą otwartą `read_only=True`. Nie uruchamiałem `e_merytoryka.py`. Nie zmieniłem plików. W tabeli strzałki oznaczają porównania okresów wskazanych w pytaniu; kwoty są w złotych.
+
+| Nr | Nasza wartość | Twoja wartość | Status | Uwaga |
+|---|---|---|---|---|
+| 1 | X: 1 383; powrót 4,34%; odwrotna grupa: 0 | X: **1 383; 4,3384%; odwrotna: 0** | zgodne | Podział odtworzony niezależnie. |
+| 2 | Z1K: 14 031; 21,99%; 65,97 zł; Z2: 15 414; 20,41%; 63,34 zł | Z1K: **14 031; 21,9942%; 65,9749 zł**; Z2: **15 414; 20,4100%; 63,3423 zł** | zgodne | Cała różnica wynika z X, ale podane marże są **przed kosztem pozyskania**. |
+| 3 | X: 2 081; reklama 92,2%; kod 72,9%; L4 82,9%; bez nowych: 17 419 i 19 500 | **2 081; 92,1672%; 72,8976%; 82,9409%**; bez nowych **17 419 i 19 500**, wobec **16 231** | zgodne | Wzrost bez nowych wynosi odpowiednio 7,3% i 20,1%. |
+| 4 | Powrót 23,91% → 17,38%; wkład nowych: 71% / 46% / 71% | **23,9061% → 17,3800%; 70,7027% / 46,4287% / 70,7027%** | zgodne | To rozkład arytmetyczny spadku, a nie oszacowany wpływ przyczynowy kampanii. |
+| 5 | 222 824 → 207 713 zł; −6,8% | **222 823,66 → 207 712,87 zł; −6,7815%** | zgodne | Spadek marży według przyjętej definicji jest jednoznaczny. |
+| 6 | Zakupy osobne: 225 → 108; rocznie 461; nadwyżka 196 × 89 = 17 440 zł | **225 → 108; 461; 1,2630 dziennie; 29,0493 na 23 dni; nadwyżka 195,9507 zakupów = 17 439,61 zł** | zgodne | Wszystkie 225 zakupów nastąpiło od 8 września; zapis z zaokrąglonym 196 wymaga „około”, bo dokładnie 196 × 89 = 17 444 zł. |
+| 7 | Po korekcie 205 384 zł i +1,1%; bez osobnych −2,3%; bez wszystkich opłat −4,9% | **205 384,05 zł; +1,1339%; −2,3165%; −4,8635%** | zgodne | Pierwszy wynik zależy od założonego zwykłego tempa sprzedaży. |
+| 8 | Przed kampaniami 313 530 → 392 493 zł; +25,2%; po korekcie +32,6%; wydatki 87 431 → 181 555 zł | **313 530,10 → 392 492,80 zł; +25,1850%; +32,5584%; wydatki 87 431,44 → 181 554,93 zł, ×2,0765** | zgodne | Marża przed kampaniami nie zawiera również potrącenia prowizji afiliacyjnej. |
+| 9 | Rocznie: marża 828 085 → 1 048 069 zł; przed kampaniami 1 211 118 → 1 713 169 zł; wydatki 367 632 → 649 675 zł | **828 085,25 → 1 048 069,34 zł; 1 211 117,50 → 1 713 169,40 zł; 367 632,25 → 649 675,06 zł** | zgodne | Zmiany po zaokrągleniu wynoszą +26,6%, +41,5% i +76,7%. |
+| 10 | Przed kampaniami: +55,2%; +49,7%; +38,4%; +25,2%; wydatki ×1,30; ×1,66; ×2,04; ×2,08; marża +71,4%; +43,0%; +13,0%; −6,8% | **+55,2279%; +49,6812%; +38,3859%; +25,1850%**; wydatki **×1,2961; ×1,6636; ×2,0403; ×2,0765**; marża **+71,3853%; +42,9949%; +12,9994%; −6,7815%** | zgodne | Wszystkie cztery porównania kwartalne się zgadzają. |
+| 11 | Baza: 115 235 → 106 171 zł; osobne 210/97 zakupów; po korekcie 97 796 zł i +8,6%; bez osobnych +1,0% | **115 235,20 → 106 171,20 zł**; osobne **210/97**, czyli **18 690/8 633 zł**; po korekcie **97 795,59 zł i +8,5644%**; bez osobnych **+1,0285%** | zgodne | Wynik +8,6% zakłada przypisanie całej nadwyżki startu do bazy powracających. |
+| 12 | 2 879 → 3 140; 35,86 → 32,81 zł; GO 34,3% → 41,6%; struktura −2,71 zł; wewnątrz −0,35 zł; specjalista GO −5,59 zł, 418 | **2 879 → 3 140; 35,8613 → 32,8096 zł**; GO **34,3175% → 41,5605%**; marża GO **11,4016 → 11,0107 zł**, bez zniżki **48,8867 → 48,7786 zł**; rozkład **−2,7062/−0,3455 zł**; specjalista GO **−5,5885 zł, 418** | zgodne | Zmiana struktury rodzajów zniżki odpowiada za około 88,7% spadku. |
+| 13 | Nowe osoby 11,21% → 9,31%; sesje 144 813 → 265 264; wszystkie 16,04% → 13,72%; wcześniejsi kupujący 91,51% → 89,86% | **11,2089% → 9,3062%; 144 813 → 265 264**; wszystkie **16,0411% → 13,7158%**; wcześniejsi kupujący **91,5121% → 89,8639%** | zgodne | „Wszystkie” oznacza tutaj wszystkie **sesje zwykłe**. |
+| 14 | X–I: −0,20 do −0,75 punktu; II–III: −1,57 i −1,51; IV–IX: −2,34 do −3,13; udział nowych 31,8% i 42,1–47,1% | X–I: **−0,20 do −0,76 punktu procentowego**; II–III: **−1,57 i −1,51**; IV–IX: **−2,34 do −3,14**; udziały **zgodne** | różnica | Kod odejmuje wcześniej zaokrąglone konwersje, co zmienia wynik grudnia i września o 0,01 punktu procentowego. |
+| 15 | Bez nowych 11,21% → 11,42%; nowe 5,49% | **11,2089% → 11,4161%; nowe 5,4911%** | zgodne | To porównanie sesji, nie unikalnych osób. |
+| 16 | Niekupujący: aplikacje 3,8–6,6%, Chrome/Safari 9,9–12,2%; wcześniejsze zakresy dotyczą wszystkich | **3,8299–6,5632% wobec 9,8851–12,1509%**; wszystkie zwykłe: **4,8222–7,1608% wobec 16,1457–18,1001%** | zgodne | Zakresy obejmują pojedyncze przeglądarki i oba okresy. |
+| 17 | Wydatki 53 158 zł; marża 32,4/32,9 zł; progi 1 641/1 616; przypisani 923/657; specjaliści 2 971/3 427 | **53 157,65 zł; 32,4115/32,9370 zł; progi 1 640,08/1 613,92**, czyli po zaokrągleniu **1 640/1 614**; pozostałe liczby **zgodne** | różnica | Progi zawyżono przez dzielenie przez marże zaokrąglone do jednego miejsca po przecinku. |
+| 18 | Powtórne: gs_brand 37,1%; meta_rmkt_koszyk 24,1% | **37,1399% i 24,1169%** | zgodne | Mianowniki wynoszą odpowiednio 4 825 i 1 642 zamówienia. |
+| 19 | Badana godzina: 0; mediana: 2 | **0; mediana 2** | zgodne | Mediana obejmuje wszystkie 15 dni, także zerowe. |
+
+**Ocena zdań a–f**
+
+- **a — uzasadnione.** Warto doprecyzować „spada odsetek nowych pacjentów wracających w 90 dni”, ponieważ liczba powracających może jednocześnie rosnąć.
+- **b — mylące.** Propozycja: „Marża III kwartału 2026 spadła o 6,8% rok do roku. Po pomniejszeniu wyniku III kwartału 2025 o szacowaną nadwyżkę startu TelemediGO porównanie daje wzrost o 1,1%.”
+- **c — zasadniczo uzasadnione jako opis rachunkowy.** Precyzyjniej: „Około 89% spadku marży na powtórne zamówienie przypada na zmianę struktury rodzajów zniżki, przede wszystkim wzrost udziału TelemediGO.”
+- **d — nieuzasadnione w obecnym brzmieniu.** Spada odsetek sesji kończących się płatnością, a nie liczba płatności nowych osób: ta wzrosła z 16 232 do 24 686 między okresami. Propozycja: „Od lutego 2026 konwersja sesji osób, które jeszcze nie kupowały, jest wyraźnie niższa niż rok wcześniej. Towarzyszy temu rosnący udział sesji nowych kampanii na L4, które mają niższą konwersję.” Sam rachunek nie uzasadnia przyczynowego „bo”.
+- **e — częściowo nieprawdziwe.** Z 2 081 pacjentów **1 918** weszło pierwszy raz z reklamy nowej kampanii. Pozostałych **163** przypisano przez kod; zapłacili w tej samej sesji co pierwsze wejście. Po wyłączeniu X zgadzają się agregaty „bez nowych”, ale nadal **4 190 pacjentów** ma różne konkretne źródła według obu reguł.
+- **f — warunkowo uzasadnione.** Wzrost o 8,6% wymaga przyjętej korekty. Cała historyczna baza wzrosła **2,74 raza: z 12 794 do 35 032 pacjentów**. Liczba jej pacjentów z zamówieniem lub zakupem TelemediGO w kwartale wzrosła jednak tylko **o 15,4%: z 1 503 do 1 735**. Te dwa mianowniki trzeba wyraźnie rozróżnić.
+
+**Dodatkowe problemy w kodzie i tekstach**
+
+1. [e_merytoryka.py:299](</C:/Users/K/Desktop/Zadanie - TM/analiza/e_merytoryka.py:299>) odejmuje od marży powracających **całą** nadwyżkę startu obliczoną dla biznesu. Nie wyznacza osobnej nadwyżki dla tej grupy. Wynik +8,6% wymaga ujawnienia tego dodatkowego założenia.
+2. [e_teksty.py:441](</C:/Users/K/Desktop/Zadanie - TM/analiza/e_teksty.py:441>) używa określenia „marża po wszystkich kosztach”. Model obejmuje tylko wymienione koszty. Poprawniej: „marża po kosztach uwzględnionych w analizie”.
+3. [e_teksty.py:295](</C:/Users/K/Desktop/Zadanie - TM/analiza/e_teksty.py:295>) nazywa wynik pacjenta po prostu „marżą”, choć nie odjęto kosztu pozyskania. W całym tekście warto konsekwentnie stosować „marża przed kosztem pozyskania”.

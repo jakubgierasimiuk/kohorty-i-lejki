@@ -166,7 +166,17 @@ def main():
       f"{proc(((~c2.nowa_z1k) & (~c2.nowa_z2)).sum() / c1n - 1)} wobec okresu 1.")
     J.update({"p_o1": c1n, "p_bez_z1k": int((~c2.nowa_z1k).sum()), "p_bez_z2": int((~c2.nowa_z2).sum()),
               "p_X_caly": len(xc), "p_Y_caly": len(yc), "p_X_caly_kod_proc": 100 * xc.kod_nowej.mean(),
-              "p_X_caly_wejscie_proc": 100 * xc.pierwsze_wejscie_nowa.mean()})
+              "p_X_caly_wejscie_proc": 100 * xc.pierwsze_wejscie_nowa.mean(),
+              "p_X_caly_wejscie_n": int(xc.pierwsze_wejscie_nowa.sum()), "p_X_caly_tylko_kod_n": int((~xc.pierwsze_wejscie_nowa).sum())})
+    rozne_kanal = int((c2.kanal.fillna("brak") != c2.kanal_z2.fillna("brak")).sum())
+    rozne_kamp = int((c2.kampania.fillna("brak") != c2.kampania_z2.fillna("brak")).sum())
+    r(f"   Pacjenci okresu 2 z innym źródłem według obu reguł: inny kanał {rozne_kanal}, inna kampania {rozne_kamp} "
+      f"(z {len(c2)}).")
+    J.update({"p_rozne_kanal": rozne_kanal, "p_rozne_kampania": rozne_kamp})
+    xo = o2[o2.grupa.str.startswith("X")]
+    J.update({"r_X_wejscie_n": int(xo.pierwsze_wejscie_nowa.sum()), "r_X_tylko_kod_n": int((~xo.pierwsze_wejscie_nowa).sum())})
+    r(f"   Grupa X: z pierwszym wejściem z reklamy nowej kampanii {J['p_X_caly_wejscie_n']} (kohorty z pełnym oknem "
+      f"{J['r_X_wejscie_n']}), pozostali, przypisani przez sam kod kampanii, {J['p_X_caly_tylko_kod_n']} ({J['r_X_tylko_kod_n']}).")
 
     # rozkład spadku powrotu na nowe i stare kampanie po przeniesieniu grupy X do nowych kampanii
     r("\n   Rozkład spadku powrotu (23,9% → 17,4%) na nowe kampanie i resztę: wkład nowych = udział nowych × (powrót reszty −")
@@ -300,8 +310,16 @@ def main():
       f"({proc(J['baza_2026'] / (J['baza_2025'] - nadwyzka * 89) - 1)}); bez całej sprzedaży osobnej: "
       f"{zl(J['baza_2025'] - J['baza_2025_osobno_zl'])} wobec {zl(J['baza_2026'] - J['baza_2026_osobno_zl'])} "
       f"({proc((J['baza_2026'] - J['baza_2026_osobno_zl']) / (J['baza_2025'] - J['baza_2025_osobno_zl']) - 1)}).")
-    J["baza_2025_bez_nadwyzki"] = J["baza_2025"] - nadwyzka * 89
+    # nadwyżkę startu przypisujemy bazie proporcjonalnie do jej udziału w zakupach osobnych III kw. 2025 (recenzja Codeksa)
+    udz_bazy = J["baza_2025_osobno"] / len(os25)
+    J["baza_2025_bez_nadwyzki"] = J["baza_2025"] - nadwyzka * 89 * udz_bazy
     J["baza_zmiana_bez_nadwyzki_proc"] = 100 * (J["baza_2026"] / J["baza_2025_bez_nadwyzki"] - 1)
+    J["baza_zmiana_bez_osobnych_proc"] = 100 * ((J["baza_2026"] - J["baza_2026_osobno_zl"]) / (J["baza_2025"] - J["baza_2025_osobno_zl"]) - 1)
+    r(f"   Wariant z nadwyżką przypisaną bazie proporcjonalnie ({J['baza_2025_osobno']} z {len(os25)} zakupów osobnych to baza): "
+      f"{zl(J['baza_2025_bez_nadwyzki'])} wobec {zl(J['baza_2026'])} ({proc(J['baza_2026'] / J['baza_2025_bez_nadwyzki'] - 1)}).")
+    for kwx, df in ((Q3_25, a3), (Q3_26, b3)):
+        baza = df[(df.typ.isin(["konsultacja", "telemedigo"])) & (df.kw_koh < pd.Timestamp(kwx))]
+        J[f"baza_{kwx[:4]}_aktywni"] = int(baza.user_id.nunique())
 
     # =================================================================================================================
     # 3. MARŻA NA POWTÓRNE ZAMÓWIENIE RESZTY BIZNESU: ZNIŻKA TELEMEDIGO
@@ -383,9 +401,10 @@ def main():
     z2 = z[z.pacjent == "nie_kupowal"].copy()
     z2["mies"] = z2.dzien.dt.strftime("%Y-%m")
     m = z2.groupby("mies")[kroki].sum().reset_index()
-    m["konwersja"] = (100 * m.k5 / m.sesje).round(2)
-    m["rok_wczesniej"] = m.konwersja.shift(12)
-    m["zmiana_rr_pkt"] = (m.konwersja - m.rok_wczesniej).round(2)
+    kd = 100 * m.k5 / m.sesje   # różnicę liczymy z liczb niezaokrąglonych (recenzja Codeksa)
+    m["konwersja"] = kd.round(2)
+    m["rok_wczesniej"] = kd.shift(12).round(2)
+    m["zmiana_rr_pkt"] = (kd - kd.shift(12)).round(2)
     for i, k in enumerate(["k1", "k2", "k3", "k4", "k5"]):
         m[f"p_{k}"] = (100 * m[k] / m[kroki[i]]).round(1)
     r("\n   Osoby, które jeszcze nie kupowały, miesiąc po miesiącu:")
@@ -483,8 +502,11 @@ def main():
     wyd2 = float(zd[(zd.typ == "wydatki") & (zd.kampania_wyd == "gs_generic_specjalisci") & (zd.ts >= "2025-10-01")].wydatki.sum())
     nowi_rok = {"Z1K": int(c2[(c2.kampania == "gs_generic_specjalisci")].shape[0]),
                 "Z2": int(c2[(c2.kampania_z2 == "gs_generic_specjalisci")].shape[0])}
+    import b2_eksport_c as B2   # marża na pacjenta bez zaokrąglenia (c_priorytety.txt, P7; recenzja Codeksa)
+    p7d = B2.wartosci(B2.Zrodla())["p7_dokladnie"]
+    K = K[K.okno_dni.isin(["90", "180"])]
     for _, w in K.iterrows():
-        prog = wyd2 / w.marza_na_pac
+        prog = wyd2 / p7d[(w.regula, str(w.okno_dni))][0]
         r(f"   {w.regula}, {w.okno_dni} dni: marża na pacjenta {w.marza_na_pac:.1f} zł; próg {prog:.0f} pacjentów rocznie "
           f"({prog / 52.14:.1f} tygodniowo); kampania przypisuje sobie {nowi_rok[w.regula]} rocznie ({nowi_rok[w.regula] / 52.14:.1f} tygodniowo).")
         J[f"gs_spec_prog_{w.regula}_{w.okno_dni}"] = prog
