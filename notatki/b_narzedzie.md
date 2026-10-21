@@ -326,3 +326,36 @@ Do tego dopisek Kuby z przeglądu ekonomii kampanii (`notatki/a5_ekonomia.md`, s
 **Sprawdzone:** przeglądarka bez okna (Edge przez Playwright, tylko 127.0.0.1): odnośnik z osi zdarzeń, z karty Safari i z karty pozycji 1 przewija do tabeli lejka (karta 140 px od góry, pod nagłówkiem). Na 375 px żadna z 9 zakładek nie przewija się w bok. W konsoli nie ma błędów. Teksty strony odtworzone w `analiza/wyniki/b_teksty_strony.md`.
 
 **Do szkicu (plik sesji prowadzącej):** pozycja 6, średnie ocen „2,92 wobec 4,45 (469 i 3 446 ocen)”. Teraz są na stronie jako liczby dopisane poza szkicem.
+
+## 15. Poprawki po konsylium, etap 2: nowe liczby (2026-10-21)
+
+**Zlecenie:** sesja prowadząca `local_791c102e`, commit `ebf37d5`. Teksty zakładek „Czy to wzrost”, „Priorytety” i „Czego nie wiemy” idą za `notatki/c_szkic.md`, pozostałe za `notatki/d_teksty_strony.md`. W trakcie pracy sesja prowadząca dodała commit `1bfa75f` (poprawki brzmienia po recenzji Codeksa). Strona ma brzmienia z tego commitu.
+
+**Skąd liczby:** wszystkie nowe liczby czyta `analiza/b2_eksport_c.py` z plików sesji prowadzącej: `d_retencja.json`, `d_kampanie.json`, `d_wynik.json` (klucz → wartość) oraz z raportów `d_*.txt`, `a5p_lejek.txt` i `a5p_zdarzenia.txt` (wyrażenia regularne, jak dotąd). Niczego nie liczę po swojej stronie poza prostymi działaniami na odczytanych liczbach (zakres, najmniejsza i największa wartość, przeliczenie 6 tygodni testu na 4, liczba pacjentów tygodniowo z dziennej).
+
+**Co zmienione na stronie:**
+1. **„Czy to wzrost”:**
+   - nowa karta „W skrócie” na górze: odpowiedź, trzy liczby, trzy decyzje na pierwszy tydzień (odnośniki do pozycji 1, 3 i 2) i jedna kwota. Dotychczasowe dwa akapity są pod nią w karcie „Dlaczego nie”;
+   - retencja: kolejne zamówienia na pacjenta w 90 dniach, marża poza nowymi kampaniami w obu regułach, powrót według pierwszej usługi z 95% przedziałami (e-recepta, inny specjalista, pediatra, psychiatra, L4 w obu regułach);
+   - Safari w III kwartale: kwota utracona 14,6–18,3 tys. zł i osobny scenariusz powrotów 4,1–4,5 tys. zł, większa niż luka 5,0 tys. zł;
+   - karta wyniku pod koniec okresu: rozkład spadku III kwartału 2026 i akapit o bazie powracających;
+   - zastrzeżenie 4 z obiema regułami (29% i 21%), karta TelemediGO z nowym zdaniem o odsetku kupujących.
+2. **„Priorytety”:** przegląd (pozycje 3, 6 i 9), zasady listy (tempo ostatniego półrocza, „każda kwota to osobny scenariusz”, kolejność jako waga), pozycje 1, 2, 3, 5, 6 i 9 według szkicu. Pozycja 9 ma dwie nowe części: „Czego ten test nie rozstrzygnie” i „Reguła na wynik niejednoznaczny, ustalona z góry”. Nowy punkt „czego nie robimy” o przeglądarkach w aplikacjach.
+3. **„Czego nie wiemy”:** 22 pozycje zamiast 18, nowe brzmienie pozycji 1, 4, 20 i 21.
+4. **„Lejek”:** zdanie o tym, że rozkład zależy od podziału, nowe zdanie wprowadzające przed kartami napraw, nowa karta o przeglądarkach w aplikacjach (dawne liczby zostały w niej jako opis całego ruchu osób, które jeszcze nie kupowały), zdanie o kontach bez zakupu w części „Sesje poza lejkiem głównym”.
+5. **„Kohorty”:** zdanie o wieku, płci i województwie pod nagłówkiem.
+6. **„Po zakupie”:** pierwsze zdanie o porannym bloku od 5:00 do 12:59 (z godziną 13:00 i pozostałymi lekarzami rano), zdanie o wizytach z najwcześniejszym porannym terminem dnia zamiast „spadła poranna przepustowość”, nowa tabela opóźnień według godziny terminu (0–23, internista i pozostali lekarze, oba okresy, z liczbą wizyt; godziny 5–12 wyróżnione). Godziny pozostałych lekarzy czyta eksport z tabeli w `d_retencja.txt`, punkt 1, bo w JSON ich nie ma.
+7. **„Wynik biznesu”:** trzy akapity przy marży po kwartałach: rozkład spadku III kwartału, Safari w tej luce się nie mieści, baza powracających.
+8. **„Zdarzenia”:** nowe zdarzenie 22.05.2026 (Google Ads na markę, spada konwersja sesji do płatności) i w zdarzeniu sprzedaży TelemediGO w newsletterze zdanie o 326 dniach z sesjami wobec 388 dni kalendarzowych. Zdarzenie porannych opóźnień bez „spadła poranna przepustowość”.
+
+**Kontrola liczb:**
+- `python -I analiza/b_eksport.py`: 102 kontrole, 0 różnic. Nowe kontrole: rozkład zmiany konwersji według przeglądarki z danych lejka wobec `a5p_lejek.txt` (−3,00 i +0,67 punktu) oraz dni z sesjami kampanii `crm_go_upsell` wobec `a5p_zdarzenia.txt` (326).
+- Kontrola ze szkicem: 1 179 liczb w 50 fragmentach, 0 bez pokrycia.
+- Nowa kontrola tym samym sposobem dla pozostałych zakładek wobec sekcji `###` w `d_teksty_strony.md`: 245 liczb w 8 sekcjach, 0 bez pokrycia. Liczby dopisane poza notatkami (liczebność przy odsetku) są w raporcie jako „dodane”.
+
+**Sprawdzone w przeglądarce bez okna** (Edge przez Playwright, tylko 127.0.0.1): karta „W skrócie” ma 3 liczby i 3 odnośniki, odnośnik do pozycji 3 podświetla i przewija kartę pod nagłówek. Pozycja 9 ma wszystkie 8 części. Tabela godzin ma 24 wiersze. Nowe zdarzenie jest na osi jako 13. z 14. Na 375 px żadna z 9 zakładek nie przewija się w bok. W konsoli nie ma błędów. Teksty strony odtworzone w `analiza/wyniki/b_teksty_strony.md`.
+
+**Świadome odstępstwa od notatek:**
+- w pozycji 1 nie ma zdania o wcześniejszej kwocie „14–21 tys. zł”, bo na stronie tej kwoty już nie ma;
+- odesłanie „są w `d_wynik.txt`, 3e” brzmi na stronie „opisuje raport analiza/wyniki/d_wynik.txt, punkt 3e”;
+- w karcie przeglądarek doszło zdanie „Dla porównania cały ruch osób, które jeszcze nie kupowały…” z dawnymi liczbami (notatka na to pozwala).

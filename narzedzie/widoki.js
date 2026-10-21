@@ -674,6 +674,23 @@
     fc.appendChild(wybor("oc-grupa", "Pacjenci", grupy, PS.ocGrupa, function (v) { PS.ocGrupa = v; rysujOceny(); }));
   }
 
+  // opóźnienia według godziny terminu: gotowa tabela z eksportu (analiza/b2_eksport_c.py, teksty_d)
+  function rysujGodziny() {
+    var B = b(), G = PZ.godziny, t = B.wyczysc(B.$("pz-godziny"));
+    B.$("pz-godziny-tytul").textContent = G.tytul;
+    B.$("pz-godziny-przypis").textContent = G.przypis;
+    var tr = B.el("tr");
+    G.kolumny.forEach(function (k) { tr.appendChild(B.el("th", { text: k })); });
+    t.appendChild(B.el("thead", null, [tr]));
+    var tb = B.el("tbody");
+    G.wiersze.forEach(function (w) {
+      var r = B.el("tr", w.blok ? { class: "wiersz-blok" } : null, [B.el("td", { text: w.opis })]);
+      w.komorki.forEach(function (k) { r.appendChild(B.el("td", { text: k })); });
+      tb.appendChild(r);
+    });
+    t.appendChild(tb);
+  }
+
   BW["po-zakupie"] = {
     pokaz: function () {
       var B = b();
@@ -682,6 +699,7 @@
         if (!gotoweP) {
           B.akapity(B.$("pz-zdania"), PZ.zdania_punktualnosc);
           B.akapity(B.$("pz-ruch-zdania"), PZ.zdania_ruch);
+          rysujGodziny();
           var fr = B.wyczysc(B.$("pz-ruch-filtry"));
           fr.appendChild(wybor("pz-ruch-grupa", "Pacjenci", [["wszyscy", "Wszyscy"], ["pozostale", "Spoza nowych kampanii"]], RUCH_GRUPA,
             function (v) { RUCH_GRUPA = v; rysujRuch(); }));

@@ -44,7 +44,12 @@
   var gotoweWz = false;
   function rysujWzrost() {
     var B = b(), el = B.el, $ = B.$, W = C.wzrost, O = B.O;
-    $("wz-werdykt").textContent = W.werdykt;
+    var S = W.skrot;
+    $("wz-skrot-odpowiedz").textContent = S.odpowiedz;
+    lista($("wz-skrot-liczby"), S.liczby);
+    var dz = B.wyczysc($("wz-skrot-decyzje"));
+    S.decyzje.forEach(function (d) { dz.appendChild(el("li", null, [el("a", { href: d.href, text: d.tekst })])); });
+    $("wz-skrot-kwota").textContent = S.kwota;
     B.akapity($("wz-puenta"), W.puenta);
 
     $("wz-pacjenci-liczba").textContent = W.pacjenci.liczba;
@@ -92,6 +97,11 @@
     });
     k.appendChild(kb);
     lista($("wz-kwartaly-punkty"), W.kwartaly.punkty);
+    $("wz-rozklad-tytul").textContent = W.kwartaly.rozklad_tytul;
+    $("wz-rozklad-wstep").textContent = W.kwartaly.rozklad_wstep;
+    lista($("wz-rozklad-punkty"), W.kwartaly.rozklad_punkty);
+    $("wz-rozklad-luka").textContent = W.kwartaly.luka;
+    $("wz-baza").textContent = W.kwartaly.baza;
 
     var z = B.wyczysc($("wz-zastrzezenia"));
     W.zastrzezenia.forEach(function (x) { z.appendChild(el("li", null, [el("strong", { text: x.tytul }), " " + x.tekst])); });

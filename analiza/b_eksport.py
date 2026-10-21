@@ -231,7 +231,7 @@ def eksport_lejka(d, kontrole):
     return rozmiary
 
 
-def naglowek_lejka(d, zd, kontrole):
+def naglowek_lejka(d, zd, kontrole, td, V2):
     """Zdania nagłówka lejka (dopisek Kuby: nie gubić Safari na iOS ani przeglądarek w aplikacjach)."""
     c = d[(d["podzial"] == "calosc") & (d["typ"] == "zwykla")]
     a1, a2 = suma(c, *O1), suma(c, *O2)
@@ -321,8 +321,12 @@ def naglowek_lejka(d, zd, kontrole):
         f"Facebook i TikTok wzrósł z {proc(ua1)} do {proc(ua2)} sesji. Sama zmiana struktury ruchu według "
         f"przeglądarki daje {liczba(struktura, 2)} {pp(struktura, 2).split(' ', 1)[1]}, a zmiana konwersji w obrębie "
         f"przeglądarek {'+' if w_obrebie >= 0 else '−'}{pp(w_obrebie, 2)}.",
-        "To jednak nie jest tylko „inny ruch”. Dwie rzeczy trzeba naprawić na stronie:",
+        td["lejek_rozklad"],
+        td["lejek_naprawy"],
     ]
+    # ten sam rozkład według przeglądarki w raporcie a5p_lejek.txt (sekcja 4), z którego idzie zdanie o podziałach
+    kontrole += [("lejek: rozkład według przeglądarki, struktura i konwersja (pp) = a5p_lejek.txt",
+                  f"{struktura:.2f} / {w_obrebie:.2f}", "{:.2f} / {:.2f}".format(*V2["rozklad_lejka"]["przegladarka"]))]
     naprawy = [
         {"tytul": f"Safari na iPhone'ach i iPadach: od {data(dz)} gwałtownie spada skuteczność zakładania nowego konta",
          "tekst": f"Konta dalej powstają, ale rzadziej. Krok konta po wyborze terminu u osób, które jeszcze nie kupowały, "
@@ -334,8 +338,10 @@ def naglowek_lejka(d, zd, kontrole):
                   f"czyli {liczba(utr_tlo / dni_po * 30)}–{liczba(utr / dni_po * 30)} na 30 dni.",
          "link": f"#lejek?pac=nie_kupowal&podz=system_przegladarka&krok=k3&a={przed[0]}_{przed[1]}"
                  f"&b={po60[0]}_{po60[1]}&w=iOS%20Safari"},
-        {"tytul": "Przeglądarki wbudowane w aplikacje tracą pacjentów na każdym kroku",
-         "tekst": f"W obu okresach płacą w {zakres(ka['k5s'].min(), ka['k5s'].max(), 1)} sesji, a Chrome i Safari "
+        {"tytul": td["przegl_tytul"],
+         "tekst": td["przegl_tekst"] + " Dla porównania cały ruch osób, które jeszcze nie kupowały (wszystkie kampanie "
+                  f"razem): przeglądarki w aplikacjach płacą w obu okresach w {zakres(ka['k5s'].min(), ka['k5s'].max(), 1)} "
+                  f"sesji, a Chrome i Safari "
                   f"w {zakres(kc['k5s'].min(), kc['k5s'].max(), 1)}. Usługę wybiera "
                   f"{zakres(ka['k1'].min(), ka['k1'].max())} sesji (Chrome i Safari "
                   f"{zakres(kc['k1'].min(), kc['k1'].max())}), termin {zakres(ka['k2'].min(), ka['k2'].max())} tych, "
@@ -352,6 +358,7 @@ def naglowek_lejka(d, zd, kontrole):
         f"bo dane nie rozstrzygają, czy to wizyty „sprawdzam konto”, czy zepsuta ścieżka zakupu.",
         f"Zakupy samego TelemediGO: {liczba(t1['sesje'])} w okresie {O1_NAZWA} i {liczba(t2['sesje'])} w okresie "
         f"{O2_NAZWA}. Mają tylko kroki płatności i płacą zawsze.",
+        td["konta"],
     ]
     return {"zdania": zdania, "naprawy": naprawy, "osobne": osobne, "safari": safari,
             "konw": [k1, k2], "sesje": [int(a1["sesje"]), int(a2["sesje"])], "platnosci": [int(a1["k5"]), int(a2["k5"])]}
@@ -609,7 +616,7 @@ def jakosc(con, kontrole):
 
 # ---------------------------------------------------------------- 4. zdarzenia
 
-def zdarzenia(con, d, zd, lejek_nag, jak, kontrole):
+def zdarzenia(con, d, zd, lejek_nag, jak, kontrole, td, V2, Z2):
     lista = []
     dzs = lambda x: data(dt.date.fromisoformat(str(x)[:10]))  # noqa: E731
     s = lejek_nag["safari"]
@@ -677,6 +684,15 @@ def zdarzenia(con, d, zd, lejek_nag, jak, kontrole):
     zw = suma(g[g["typ"] == "zwykla"])
     wszystkie = tg["sesje"] + zal["sesje"] + zw["sesje"]
     kontrole.append(("sprzedaż TelemediGO: zakupy samego TelemediGO", int(tg["k5"]), 686))
+    # dni z sesjami a dni kalendarzowe (a5p_zdarzenia.txt, sekcja 6: kolumna dni = liczba różnych dni z sesjami)
+    dni_go = int(g[g["sesje"] > 0]["dzien"].nunique())
+    dni_kal = (KONIEC - od_go).days + 1
+    kontrole.append(("sprzedaż TelemediGO: dni z sesjami = a5p_zdarzenia.txt (sekcja 6)", dni_go,
+                     Z2.r("a5p_zdarzenia.txt", r"crm_go_upsell\s+\d{4}-\d\d-\d\d\s+{N}")))
+    dni_tekst = (f" Sesje z tej kampanii są w {liczba(dni_go)} dniach, a od pierwszego dnia ({data(od_go)}) do końca danych "
+                 f"({data(KONIEC)}) mija {liczba(dni_kal)} dni kalendarzowych, bo newsletter nie wychodzi codziennie. Kampanie "
+                 f"płatne mają sesje każdego dnia, więc u nich obie liczby są równe (Meta na L4: "
+                 f"{liczba(V2['dni']['meta_prosp_l4_szybko'])} dni).")
     lista.append({
         "id": "start_go_upsell", "obszar": "lejek", "od": od_go.isoformat(), "rodzaj": "start kampanii",
         "tytul": "Start sprzedaży TelemediGO w newsletterze (crm_go_upsell)",
@@ -684,7 +700,7 @@ def zdarzenia(con, d, zd, lejek_nag, jak, kontrole):
               "samego TelemediGO, bez konsultacji.",
         "ile": f"{ile(tg['k5'], 'zakup')} samego TelemediGO do {data(KONIEC)}, czyli {proc(100 * tg['k5'] / wszystkie, 0)} "
                f"z {liczba(wszystkie)} wejść z tej kampanii. Pozostałe {liczba(zal['sesje'])} wejść to sesje zalogowane "
-               f"od wejścia, bez zakupu.",
+               f"od wejścia, bez zakupu." + dni_tekst,
         "skad": "Pierwszy dzień z sesjami z tym kodem kampanii. Źródło: analiza/a5p_lejek.py, sekcja 1; "
                 "notatki/a5_pozyskanie.md, punkt 2.4.",
         "link": "#lejek?pac=wszyscy&podz=kampania&krok=sesje&typ=samo_telemedigo&w=crm_go_upsell"})
@@ -745,6 +761,8 @@ def zdarzenia(con, d, zd, lejek_nag, jak, kontrole):
                 f"płatności na sesję ({proc(det['przed'])} → {proc(det['po'])}), ale zmiana narasta od {data(od_2026)}. "
                 f"Źródło: analiza/a5p_zdarzenia.py, sekcje 5h i 5i; notatki/a5_pozyskanie.md, punkt 2.5.",
         "link": "#lejek?pac=nie_kupowal&podz=kampania&krok=k5&w=meta_rmkt_koszyk"})
+
+    lista.append(td["zdarzenie_marka"])
 
     du = jak["duplikaty"]
     lista.append({
@@ -904,7 +922,7 @@ def tablice_dzienne(df, klucze, kol_dnia, miary):
     return wyn
 
 
-def po_zakupie(con, kontrole):
+def po_zakupie(con, kontrole, td):
     con.execute(f"""
       CREATE TEMP TABLE b_wiz AS
       SELECT z.order_id, z.nr, z.created_at::DATE dz, z.scheduled_at::DATE dt, z.status, z.visit_purpose cel, z.rating,
@@ -931,8 +949,8 @@ def po_zakupie(con, kontrole):
     reszta["o"] = [1 if d < OKRES2 else 2 for d in reszta["dt"]]
     ro = reszta.groupby("o")[["n", "p15"]].sum()
     zdania_p = [
-        f"Opóźnienia rosną tylko u internisty rano. Wizyty z terminem 6:00–11:59, które zaczęły się ponad 15 minut po "
-        f"terminie, u pacjentów spoza nowych kampanii: {zakres(przed.min(), przed.max(), 1)} miesięcznie do X 2025, "
+        td["po_blok"],
+        f"Wizyty z terminem 6:00–11:59, które zaczęły się ponad 15 minut po terminie, u pacjentów spoza nowych kampanii: {zakres(przed.min(), przed.max(), 1)} miesięcznie do X 2025, "
         f"{proc(mies.loc['2025-11', 'proc'])} w XI 2025 ({ile(mies.loc['2025-11', 'n'], 'wizyta')}), "
         f"{proc(mies.loc['2025-12', 'proc'])} w XII 2025, {proc(mies.loc['2026-01', 'proc'])} w I 2026 i "
         f"{zakres(po.min(), po.max(), 1)} od II do IX 2026.",
@@ -987,9 +1005,7 @@ def po_zakupie(con, kontrole):
         f"ruchu {', '.join(proc(v) for v in tc.loc[1, 'proc'])} w okresie {O1_NAZWA} i "
         f"{', '.join(proc(v) for v in tc.loc[2, 'proc'])} w okresie {O2_NAZWA}. Mediana ruchu porannego to "
         f"{liczba(med.loc[1])} wizyt na dzień w okresie {O1_NAZWA} i {liczba(med.loc[2])} w okresie {O2_NAZWA}.",
-        "Odczytanie: spadła poranna przepustowość, a nie tylko przybyło pacjentów. Możliwe przyczyny to mniejsza obsada "
-        "rano, inna organizacja zapisów albo lekarze zajęci pacjentami spoza B2C. Której z nich, z tych danych nie da się "
-        "ustalić, bo nie ma w nich grafików lekarzy.",
+        td["po_poranek"],
     ]
     ruch_tab = [{k: (v.item() if hasattr(v, "item") else v) for k, v in r.items()} for r in rt.astype({"przedzial": str}).to_dict("records")]
 
@@ -1043,14 +1059,15 @@ def po_zakupie(con, kontrole):
         f"Ocenę wystawia {proc(100 * oc.ocenione.sum() / oc.odbyte.sum(), 0)} pacjentów po odbytej wizycie.",
     ]
     oceny = [{k: (v.item() if hasattr(v, "item") else v) for k, v in r.items() if k != "sr"} for r in oc.to_dict("records")]
-    return {"punktualnosc": punkt, "zwroty": zwroty, "oceny": oceny, "ruch": ruch_tab, "zdania_ruch": zdania_ruch,
+    return {"godziny": td["po_godziny"],
+            "punktualnosc": punkt, "zwroty": zwroty, "oceny": oceny, "ruch": ruch_tab, "zdania_ruch": zdania_ruch,
             "zdania_punktualnosc": zdania_p, "zdania_zwroty": zdania_z, "zdania_oceny": zdania_o,
             "start": START.isoformat(), "dni": (KONIEC - START).days + 1}
 
 
 # ---------------------------------------------------------------- 7. wynik biznesu
 
-def wynik(con, kontrole, mostek):
+def wynik(con, kontrole, mostek, td):
     dni = (KONIEC - START).days + 1
 
     def dzienne(sql, kolumny):
@@ -1156,6 +1173,9 @@ def wynik(con, kontrole, mostek):
         f"Marża po koszcie lekarza, kampaniach i prowizji afiliacyjnej: {zl(r2[5])} w okresie {O2_NAZWA} wobec "
         f"{zl(r1[5])} w okresie {O1_NAZWA}, czyli {zm(r1[5], r2[5])}. Ta suma ukrywa, jak zmienia się marża w kolejnych kwartałach.",
         zdanie_kw,
+        td["wynik_rozklad"],
+        td["wynik_safari"],
+        td["wynik_baza"],
         f"{ruch('Przychód z konsultacji po zwrotach', r1[0], r2[0])}, {ruch('TelemediGO', r1[1], r2[1])}. "
         f"{ruch('Koszt lekarza', r1[2], r2[2])}, {ruch('wydatki na kampanie', r1[3], r2[3], True)}, "
         f"{ruch('prowizja afiliacyjna', r1[4], r2[4])}.",
@@ -1253,7 +1273,8 @@ def zdarzenia_retencji(zdz, pac, kontrole):
                   "tytul": "Poranne wizyty u internisty zaczynają się z opóźnieniem",
                   "co": "Rośnie odsetek wizyt u internisty z terminem 6:00–11:59, które zaczynają się ponad 15 minut po "
                         "terminie, także u pacjentów spoza nowych kampanii. Przy tym samym porannym ruchu opóźnień jest teraz "
-                        "dużo więcej niż rok wcześniej, więc spadła poranna przepustowość (bez przesądzania przyczyny).",
+                        "dużo więcej niż rok wcześniej, a już wizyty z najwcześniejszym porannym terminem dnia są często "
+                        "spóźnione (bez przesądzania przyczyny).",
                   "ile": " → ".join(f"{proc(r['poziom'])} od {d(r['od'])} ({ile(r['n'], 'wizyta')})" for _, r in o.iterrows()) + ".",
                   "skad": zrodlo + "Seria: wizyty u internisty rano, pacjenci spoza nowych kampanii. " + kandydaci,
                   "link": "#po-zakupie"})
@@ -1281,15 +1302,19 @@ def main():
                       sorted(d.loc[d["podzial"] == "urzadzenie_przegladarka", "wartosc"].unique()))
 
     rozmiary = eksport_lejka(d, kontrole)
-    nag = naglowek_lejka(d, zd, kontrole)
+    # odczyty z raportów sesji prowadzącej (c_*, d_*) i nowe brzmienia pozostałych zakładek (notatki/d_teksty_strony.md)
+    Z2 = B2.Zrodla()
+    V2 = B2.wartosci(Z2)
+    td = B2.teksty_d(V2)
+    nag = naglowek_lejka(d, zd, kontrole, td, V2)
 
     con = D.polacz()
     mostek, jak = jakosc(con, kontrole)
     wz = czy_wzrost(con, mostek, kontrole)
-    zdz = zdarzenia(con, d, zd, nag, jak, kontrole)
+    zdz = zdarzenia(con, d, zd, nag, jak, kontrole, td, V2, Z2)
     pac, koh, koh_zdania = kohorty(con, kontrole)
-    pz = po_zakupie(con, kontrole)
-    wy = wynik(con, kontrole, mostek)
+    pz = po_zakupie(con, kontrole, td)
+    wy = wynik(con, kontrole, mostek, td)
     wy["ekonomia"] = ekonomia_kampanii(kontrole)
     zdarzenia_retencji(zdz, pac, kontrole)
     con.close()
@@ -1304,8 +1329,10 @@ def main():
                f"{liczba(int(prz1) + 1)} zł.")
     nag["granica"] = granica
     wy["granica"] = granica
-    _, szkic, _ = B2.eksport_c(kontrole, wz=wz, mostek=mostek, wy=wy, nag=nag, koh=koh, pz=pz)
-    koh["zdania"] = koh_zdania
+    go = next(z for z in zdz["lista"] if z["id"] == "start_go_upsell")
+    _, szkic, _ = B2.eksport_c(kontrole, wz=wz, mostek=mostek, wy=wy, nag=nag, koh=koh, pz=pz, Z=Z2, V=V2,
+                               d_dodatkowe={"Kampania `crm_go_upsell`": ([go["ile"].split(" Sesje z tej kampanii")[1]], [])})
+    koh["zdania"] = koh_zdania + [td["kohorty_demo"]]
 
     try:
         commit = subprocess.run(["git", "-C", KATALOG, "rev-parse", "--short", "HEAD"], capture_output=True,

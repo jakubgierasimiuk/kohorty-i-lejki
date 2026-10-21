@@ -1,4 +1,4 @@
-B — EKSPORT DANYCH NARZĘDZIA (2026-10-21 19:47, commit efdd8e2)
+B — EKSPORT DANYCH NARZĘDZIA (2026-10-21 20:43, commit 1bfa75f)
 
 1. Pliki w narzedzie/dane_strony/ (bajty)
    calosc                             38,075
@@ -9,14 +9,14 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-21 19:47, commit efdd8e2)
    kanal                             177,555
    kampania                          249,718
    strona_wejscia                    265,403
-   podsumowanie                       11,472
-   zdarzenia                          36,006
+   podsumowanie                       14,081
+   zdarzenia                          37,677
    jakosc                              8,893
-   kohorty                         1,441,124
-   po_zakupie                        294,096
-   wynik                              84,100
-   c                                  57,185
-   razem                           4,152,214
+   kohorty                         1,442,248
+   po_zakupie                        298,624
+   wynik                              86,272
+   c                                  73,818
+   razem                           4,180,951
 
 2. Kontrola: liczby z eksportu wobec notatek i wcześniejszych raportów
    co                                                                    eksport  oczekiwane  wynik
@@ -36,6 +36,7 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-21 19:47, commit efdd8e2)
    Safari na iOS, krok konta do końca danych (%)                            45.6        45.6  zgodne
    Safari na iOS: utracone pierwsze zamówienia do końca danych               695         695  zgodne
    Safari na iOS: to samo po odjęciu tła                                     628         628  zgodne
+   lejek: rozkład według przeglądarki, struktura i konwersja (pp) = a5p_lejek.txt -3.00 / 0.67 -3.00 / 0.67  zgodne
    mostek: różnice wobec siatki A3 (komórki)                                   0           0  zgodne
    duplikaty: liczba kopii                                                   604         604  zgodne
    testy: konta                                                             22.0          22  zgodne
@@ -54,6 +55,7 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-21 19:47, commit efdd8e2)
    pacjenci w porównaniu 90 dni, okres 1                                 12867.0       12867  zgodne
    pacjenci w porównaniu 90 dni, okres 2                                 18924.0       18924  zgodne
    sprzedaż TelemediGO: zakupy samego TelemediGO                             686         686  zgodne
+   sprzedaż TelemediGO: dni z sesjami = a5p_zdarzenia.txt (sekcja 6)         326       326.0  zgodne
    remarketing: płatność na sesję IV kw. 2025 (%)                           28.2        28.2  zgodne
    remarketing: udział w aplikacjach IV kw. 2025 (%)                        13.3        13.3  zgodne
    kohorty: powrót 30 dni, okres 1 (%) / pacjenci                     11.0 / 14984 11.0 / 14984  zgodne
@@ -118,9 +120,10 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-21 19:47, commit efdd8e2)
    C: powrót 90 dni = eksport z bazy (%, pacjenci)                    23.9 17.4 12867 18924 23.9 17.4 12867 18924  zgodne
    C: zamówienia dashboardu i oczyszczone = mostek z bazy             25269 40613 24716 38491 25269 40613 24716 38491  zgodne
    C: marża po kwartałach = eksport z bazy (zł, 8 kwartałów)          151340 226877 227044 222824 259375 324423 256558 207713 151340 226877 227044 222824 259375 324423 256558 207713  zgodne
-   C: liczby w tekstach bez pokrycia w c_szkic.md (46 fragmentów, 792 liczb)          0           0  zgodne
+   C: liczby w tekstach bez pokrycia w c_szkic.md (50 fragmentów, 1179 liczb)          0           0  zgodne
+   D: liczby w tekstach innych zakładek bez pokrycia w d_teksty_strony.md (8 sekcji, 245 liczb)          0           0  zgodne
 
-   Różnic: 0 z 99 kontroli.
+   Różnic: 0 z 102 kontroli.
 
 3. Zdarzenia na osi czasu
    2025-05-17  jakosc   Godzina bez danych
@@ -135,44 +138,45 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-21 19:47, commit efdd8e2)
    2026-02-10  retencja Powrót nowych pacjentów w 30 dniach spada
    2026-03-02  retencja Powrót w 90 dniach w kampaniach działających w obu latach: brak wyraźnego skoku
    2026-03-17  lejek    Safari na iOS: gwałtownie spada skuteczność zakładania nowego konta
+   2026-05-22  lejek    Google Ads na markę: spada konwersja sesji do płatności
    2026-06-10  jakosc   Duplikaty zamówień w eksporcie
    Zmiany wykryte automatycznie (tabela pod osią): 245
 
-4. Kontrola ze szkicem (notatki/c_szkic.md): każda liczba w zdaniach strony stoi w tym samym fragmencie szkicu.
+4. Kontrola ze szkicem (notatki/c_szkic.md): każda liczba w zdaniach strony stoi w tym samym fragmencie szkicu. Wiersze „d:” to teksty pozostałych zakładek wobec notatki notatki/d_teksty_strony.md.
 „Dodane” = liczby dopisane poza szkicem (liczebność przy odsetku, okres, kwoty w dniach działania), odczytane z raportów.
    fragment          liczb  bez pokrycia   dodane
-   wzrost              197  —              06, 2325, 24, 24716, 2549, 2639, 2797, 3,2, 3206, 3570, 38491, 5,2, 5,4, 6,5
-   telemedigo           45  —              16231, 17419, 24687, 6784, 7268, 9307
-   zasady               19  —              —
-   nie_robimy            4  —              —
+   wzrost              308  —              24, 24716, 3,2, 38491, 5,4, 6,5
+   telemedigo           47  —              16231, 17419, 24687, 6784, 7268, 9307
+   zasady               46  —              —
+   nie_robimy           15  —              —
    przeglad:1            6  —              —
    przeglad:2            2  —              —
-   przeglad:3            8  —              —
+   przeglad:3           10  —              —
    przeglad:4            4  —              —
    przeglad:5            5  —              —
-   przeglad:6            2  —              —
+   przeglad:6            3  —              —
    przeglad:7            2  —              —
    przeglad:8            5  —              —
-   przeglad:9            7  —              —
+   przeglad:9           10  —              —
    przeglad:10           4  —              —
    przeglad:11           2  —              —
    przeglad:12           2  —              —
-   pozycja:1            61  —              2278, 2990, 4678
-   pozycja:2            40  —              24716, 25269, 40613
-   pozycja:3            50  —              02, 1,56, 1265, 2026, 299, 9
+   pozycja:1            69  —              2278, 2990, 4678
+   pozycja:2            53  —              24716, 25269, 40613
+   pozycja:3            69  —              1,56, 9
    pozycja:4            37  —              —
-   pozycja:5            29  —              16,5, 24,3, 332, 42,3, 5080, 9,7
-   pozycja:6            50  —              2,92, 23,6, 2844, 3446, 4,45, 469, 572, 9979
+   pozycja:5            50  —              16,5, 24,3, 332, 42,3, 5080, 9,7
+   pozycja:6           123  —              23,6, 2844, 572, 9979
    pozycja:7            30  —              12867, 14031
    pozycja:8             8  —              —
-   pozycja:9            26  —              —
+   pozycja:9            69  —              —
    pozycja:10           31  —              —
    pozycja:11           14  —              1434, 23776
    pozycja:12           24  —              1, 1140, 20,0, 34,7, 62, 858
-   niewiadoma:1         15  —              —
+   niewiadoma:1         18  —              —
    niewiadoma:2          0  —              —
    niewiadoma:3          9  —              —
-   niewiadoma:4          7  —              —
+   niewiadoma:4         11  —              —
    niewiadoma:5          4  —              —
    niewiadoma:6          8  —              —
    niewiadoma:7          1  —              —
@@ -187,3 +191,15 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-21 19:47, commit efdd8e2)
    niewiadoma:16         6  —              —
    niewiadoma:17         3  —              —
    niewiadoma:18         3  —              —
+   niewiadoma:19         3  —              —
+   niewiadoma:20         9  —              —
+   niewiadoma:21        10  —              —
+   niewiadoma:22        24  —              —
+   d:Rozkład zmiany      9  —              —
+   d:Przeglądarki w     23  —              —
+   d:Konta bez zaku     16  —              20620, 31780
+   d:Wiek, płeć i w     38  —              —
+   d:Opóźnienia po      68  —              —
+   d:Rozkład spadku     51  —              —
+   d:Google Ads na      30  —              —
+   d:Kampania `crm_     10  —              —

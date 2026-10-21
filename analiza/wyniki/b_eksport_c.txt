@@ -1,6 +1,6 @@
-B2 — EKSPORT PUNKTU C NA STRONĘ (2026-10-21 19:47)
+B2 — EKSPORT PUNKTU C NA STRONĘ (2026-10-21 20:41)
 
-1. Plik: narzedzie/dane_strony/c.js (57,185 bajtów). Odczytów z raportów: 117.
+1. Plik: narzedzie/dane_strony/c.js (73,818 bajtów). Odczytów z raportów: 171.
 
 2. Kontrole krzyżowe
    co                                                                                              eksport               oczekiwane  wynik
@@ -29,45 +29,46 @@ B2 — EKSPORT PUNKTU C NA STRONĘ (2026-10-21 19:47)
    C: zwroty L4 nowych kampanii: a5r_po_zakupie = a5e_scenariusze (wizyty odbyte)                     5895                     5895  zgodne
    C: zamówienia testowe w P1b (okres 1 + 2) = P13                                                    2071                     2071  zgodne
    C: wizyty testowe u internisty i trwające 1 minutę = wszystkie                                2071 2071                2071 2071  zgodne
-   C: liczby w tekstach bez pokrycia w c_szkic.md (46 fragmentów, 792 liczb)                             0                        0  zgodne
+   C: liczby w tekstach bez pokrycia w c_szkic.md (50 fragmentów, 1179 liczb)                            0                        0  zgodne
+   D: liczby w tekstach innych zakładek bez pokrycia w d_teksty_strony.md (7 sekcji, 235 liczb)                        0                        0  zgodne
 
-   Różnic: 0 z 26 kontroli.
+   Różnic: 0 z 27 kontroli.
 
-3. Kontrola ze szkicem (notatki/c_szkic.md): każda liczba w zdaniach strony stoi w tym samym fragmencie szkicu.
+3. Kontrola ze szkicem (notatki/c_szkic.md): każda liczba w zdaniach strony stoi w tym samym fragmencie szkicu. Wiersze „d:” to teksty pozostałych zakładek wobec notatki notatki/d_teksty_strony.md.
 „Dodane” = liczby dopisane poza szkicem (liczebność przy odsetku, okres, kwoty w dniach działania), odczytane z raportów.
    fragment          liczb  bez pokrycia   dodane
-   wzrost              197  —              06, 2325, 24, 24716, 2549, 2639, 2797, 3,2, 3206, 3570, 38491, 5,2, 5,4, 6,5
-   telemedigo           45  —              16231, 17419, 24687, 6784, 7268, 9307
-   zasady               19  —              —
-   nie_robimy            4  —              —
+   wzrost              308  —              24, 24716, 3,2, 38491, 5,4, 6,5
+   telemedigo           47  —              16231, 17419, 24687, 6784, 7268, 9307
+   zasady               46  —              —
+   nie_robimy           15  —              —
    przeglad:1            6  —              —
    przeglad:2            2  —              —
-   przeglad:3            8  —              —
+   przeglad:3           10  —              —
    przeglad:4            4  —              —
    przeglad:5            5  —              —
-   przeglad:6            2  —              —
+   przeglad:6            3  —              —
    przeglad:7            2  —              —
    przeglad:8            5  —              —
-   przeglad:9            7  —              —
+   przeglad:9           10  —              —
    przeglad:10           4  —              —
    przeglad:11           2  —              —
    przeglad:12           2  —              —
-   pozycja:1            61  —              2278, 2990, 4678
-   pozycja:2            40  —              24716, 25269, 40613
-   pozycja:3            50  —              02, 1,56, 1265, 2026, 299, 9
+   pozycja:1            69  —              2278, 2990, 4678
+   pozycja:2            53  —              24716, 25269, 40613
+   pozycja:3            69  —              1,56, 9
    pozycja:4            37  —              —
-   pozycja:5            29  —              16,5, 24,3, 332, 42,3, 5080, 9,7
-   pozycja:6            50  —              2,92, 23,6, 2844, 3446, 4,45, 469, 572, 9979
+   pozycja:5            50  —              16,5, 24,3, 332, 42,3, 5080, 9,7
+   pozycja:6           123  —              23,6, 2844, 572, 9979
    pozycja:7            30  —              12867, 14031
    pozycja:8             8  —              —
-   pozycja:9            26  —              —
+   pozycja:9            69  —              —
    pozycja:10           31  —              —
    pozycja:11           14  —              1434, 23776
    pozycja:12           24  —              1, 1140, 20,0, 34,7, 62, 858
-   niewiadoma:1         15  —              —
+   niewiadoma:1         18  —              —
    niewiadoma:2          0  —              —
    niewiadoma:3          9  —              —
-   niewiadoma:4          7  —              —
+   niewiadoma:4         11  —              —
    niewiadoma:5          4  —              —
    niewiadoma:6          8  —              —
    niewiadoma:7          1  —              —
@@ -82,6 +83,17 @@ B2 — EKSPORT PUNKTU C NA STRONĘ (2026-10-21 19:47)
    niewiadoma:16         6  —              —
    niewiadoma:17         3  —              —
    niewiadoma:18         3  —              —
+   niewiadoma:19         3  —              —
+   niewiadoma:20         9  —              —
+   niewiadoma:21        10  —              —
+   niewiadoma:22        24  —              —
+   d:Rozkład zmiany      9  —              —
+   d:Przeglądarki w     23  —              —
+   d:Konta bez zaku     16  —              20620, 31780
+   d:Wiek, płeć i w     38  —              —
+   d:Opóźnienia po      68  —              —
+   d:Rozkład spadku     51  —              —
+   d:Google Ads na      30  —              —
 
 4. Odczyty z raportów (plik, miejsce, wartość)
    c_priorytety.txt         W1.                                      tabela 2 wierszy
@@ -199,5 +211,59 @@ B2 — EKSPORT PUNKTU C NA STRONĘ (2026-10-21 19:47)
    a5r_po_zakupie.txt       5c.                                      (3.48, 3.16, 20.42, 18.84)
    a2_jakosc.txt            3c.                                      tabela 9 wierszy
    a5p_sezon.txt            1. NOWI PACJENCI                         tabela 24 wierszy
+   d_retencja.json          klucz → wartość                          2508 kluczy razem
+   d_kampanie.json          klucz → wartość                          3838 kluczy razem
+   d_wynik.json             klucz → wartość                          4011 kluczy razem
+   d_kampanie.txt           1e.                                      (29330.0, 1010.0, 1053.87, 0.96, 3.44, 3.59, -0.15, -0.51, 0.21)
+   d_kampanie.txt           1e.                                      (1772.0, 250.0, 466.23, 0.54, 14.11, 26.31, -12.2, -14.28, -10.13)
+   d_kampanie.txt           1e.                                      (2357.0, 409.0, 529.44, 0.77, 17.35, 22.46, -5.11, -6.69, -3.52)
+   d_kampanie.txt           1e.                                      (4261.0, 893.0, 1082.24, 0.83, 20.96, 25.4, -4.44, -5.64, -3.24)
+   d_wynik.txt                                                       (5059.0, 191167.6, 163322.5, 27845.1, 85.4, 4322.1)
+   d_wynik.txt                                                       (5059.0, 233429.8, 163322.5, 70107.3, 70.0, 3539.6)
+   d_wynik.txt                                                       (3594.0, 134587.6, 163322.5, -28734.9, 121.4, 4361.3)
+   d_wynik.txt                                                       (225.0, 107.0, 20025.0, 9523.0, 0.0, 0.0, 20025.0, 9523.0, -10502.0)
+   d_wynik.txt                                                       (2879.0, 3140.0, 35.86, 32.81)
+   d_wynik.txt                                                       (172193.3, 26101.6, 115235.2, -90706.4, 313530.1, 222823.7, 2357.0, 12794.0, 36.8, 51.7)
+   d_wynik.txt                                                       (254047.8, 32273.8, 106171.2, -184779.9, 392492.8, 207712.9, 2625.0, 35032.0, 27.1, 51.1)
+   d_wynik.txt                                                       (8.0,)
+   d_kampanie.txt           5a.                                      (598.0, 21186.0, 11054.0, 8728.0, 5954.0, 5011.0, 4492.0, 35.43, 52.18, 78.96, 68.22, 84.16, 89.64, 21.2)
+   d_kampanie.txt           5a.                                      (132.0, 5152.0, 2531.0, 2020.0, 1234.0, 1021.0, 918.0, 39.03, 49.13, 79.81, 61.09, 82.74, 89.91, 17.82)
+   d_kampanie.txt           5b.                                      (-174.4, -39.6, -125.2, -28.5)
+   d_kampanie.txt           1e.                                      (46091.0, 2762.0, 2573.5, 1.07, 5.99, 5.58, 0.41, -0.02, 0.84)
+   d_kampanie.txt           1e.                                      (28160.0, 1351.0, 1283.37, 1.05, 4.8, 4.56, 0.24, -0.37, 0.85)
+   d_kampanie.txt           1b.                                      (46091.0, 2762.0, 5.99, 14901.0, 832.0, 5.58, 0.41, -0.03, 0.83)
+   d_kampanie.txt           1b.                                      (28160.0, 1351.0, 4.8, 5310.0, 242.0, 4.56, 0.24, -0.4, 0.83)
+   a5p_lejek.txt            4. ZMIANA KONWERSJI                      (16.04, 13.72, -2.33, -3.0, 0.67)
+   a5p_lejek.txt            4. ZMIANA KONWERSJI                      (16.04, 13.72, -2.33, -2.44, 0.11)
+   a5p_lejek.txt            4. ZMIANA KONWERSJI                      (16.04, 13.72, -2.33, -0.45, -1.87)
+   a5p_lejek.txt            4. ZMIANA KONWERSJI                      (16.04, 13.72, -2.33, -0.44, -1.89)
+   d_retencja.txt           5e.                                      (10.0, 12867.0, 14031.0, 23.91, 21.99, 21.98, -1.91, -1.93)
+   d_retencja.txt           5e.                                      (10.0, 12867.0, 15414.0, 23.91, 20.41, 20.56, -3.5, -3.34)
+   d_retencja.txt           1.pozostali_lekarze — wszyscy: według go (176.0, 204.0, 2.3, 3.9, 1.1, 0.5, 2.8, 4.3, 2.4, 3.5, 1.6)
+   d_retencja.txt           1.pozostali_lekarze — wszyscy: według go (66.0, 91.0, 3.0, 2.2, 0.0, 2.2, 3.2, 2.8, 2.6, 1.2, -0.8)
+   d_retencja.txt           1.pozostali_lekarze — wszyscy: według go (60.0, 51.0, 1.7, 0.0, 1.7, 0.0, 3.6, 3.4, 3.4, 3.0, -1.7)
+   d_retencja.txt           1.pozostali_lekarze — wszyscy: według go (53.0, 59.0, 1.9, 1.7, 0.0, 0.0, 2.9, 4.4, 2.4, 3.9, -0.2)
+   d_retencja.txt           1.pozostali_lekarze — wszyscy: według go (49.0, 77.0, 2.0, 0.0, 2.0, 0.0, 3.9, 2.5, 2.8, 2.4, -2.0)
+   d_retencja.txt           1.pozostali_lekarze — wszyscy: według go (84.0, 113.0, 3.6, 1.8, 0.0, 0.0, 4.2, 2.7, 3.5, 2.4, -1.8)
+   d_retencja.txt           1.pozostali_lekarze — wszyscy: według go (139.0, 246.0, 0.7, 3.3, 0.7, 0.4, 2.6, 3.6, 2.2, 3.2, 2.5)
+   d_retencja.txt           1.pozostali_lekarze — wszyscy: według go (312.0, 423.0, 3.2, 2.8, 0.6, 1.4, 3.8, 3.4, 3.1, 2.5, -0.4)
+   d_retencja.txt           1.pozostali_lekarze — wszyscy: według go (367.0, 545.0, 4.4, 3.3, 1.9, 0.6, 3.8, 3.5, 2.4, 2.7, -1.1)
+   d_retencja.txt           1.pozostali_lekarze — wszyscy: według go (376.0, 574.0, 2.9, 2.4, 0.8, 0.7, 3.3, 3.4, 2.3, 2.8, -0.5)
+   d_retencja.txt           1.pozostali_lekarze — wszyscy: według go (382.0, 495.0, 1.8, 3.4, 0.8, 0.8, 3.5, 3.8, 2.9, 3.1, 1.6)
+   d_retencja.txt           1.pozostali_lekarze — wszyscy: według go (373.0, 474.0, 2.4, 3.2, 0.8, 0.8, 3.3, 3.4, 2.8, 2.6, 0.8)
+   d_retencja.txt           1.pozostali_lekarze — wszyscy: według go (312.0, 426.0, 3.5, 3.5, 0.6, 0.9, 3.2, 3.4, 2.0, 2.8, -0.0)
+   d_retencja.txt           1.pozostali_lekarze — wszyscy: według go (296.0, 420.0, 2.4, 1.9, 0.3, 0.5, 3.2, 3.4, 2.6, 2.8, -0.5)
+   d_retencja.txt           1.pozostali_lekarze — wszyscy: według go (300.0, 410.0, 2.3, 2.7, 0.0, 0.7, 3.3, 3.5, 3.0, 3.1, 0.3)
+   d_retencja.txt           1.pozostali_lekarze — wszyscy: według go (305.0, 410.0, 2.6, 2.9, 1.3, 1.0, 3.4, 3.6, 2.5, 2.9, 0.3)
+   d_retencja.txt           1.pozostali_lekarze — wszyscy: według go (328.0, 393.0, 2.4, 2.5, 1.5, 0.0, 3.4, 3.5, 2.5, 3.4, 0.1)
+   d_retencja.txt           1.pozostali_lekarze — wszyscy: według go (365.0, 455.0, 2.5, 2.0, 1.4, 0.2, 3.8, 3.0, 3.0, 2.6, -0.5)
+   d_retencja.txt           1.pozostali_lekarze — wszyscy: według go (389.0, 584.0, 2.1, 3.4, 0.8, 1.4, 3.0, 3.6, 2.5, 2.7, 1.4)
+   d_retencja.txt           1.pozostali_lekarze — wszyscy: według go (440.0, 572.0, 2.3, 3.3, 0.7, 0.7, 3.4, 3.5, 2.8, 2.8, 1.0)
+   d_retencja.txt           1.pozostali_lekarze — wszyscy: według go (436.0, 588.0, 1.6, 2.0, 0.7, 0.3, 3.3, 3.2, 2.9, 2.8, 0.4)
+   d_retencja.txt           1.pozostali_lekarze — wszyscy: według go (371.0, 544.0, 2.7, 2.8, 0.5, 0.4, 3.3, 3.3, 2.8, 2.6, 0.1)
+   d_retencja.txt           1.pozostali_lekarze — wszyscy: według go (331.0, 458.0, 3.0, 2.8, 0.9, 0.9, 3.6, 3.3, 3.0, 2.4, -0.2)
+   d_retencja.txt           1.pozostali_lekarze — wszyscy: według go (230.0, 320.0, 2.2, 2.2, 0.4, 1.2, 3.1, 3.5, 2.6, 2.4, 0.0)
+   d_kampanie.txt           6b.                                      (169.0, 10.0)
+   d_kampanie.txt           5b.                                      (-1.32,)
    a5e_ekonomia.txt                                                  (30825.0, 21050.0, 14875.0)
    a5r_kohorty.txt          7.                                       tabela 2 wierszy

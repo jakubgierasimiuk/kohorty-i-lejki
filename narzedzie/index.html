@@ -34,8 +34,23 @@
   <section id="v-wzrost" class="widok" hidden>
     <h2>Czy to, co widać na dashboardzie, jest wzrostem?</h2>
     <p class="wstep">Wzrost to dwie rzeczy naraz: więcej pacjentów i lepsza retencja. Sprawdzamy oba warunki osobno, na danych oczyszczonych, porównując okres 2 (ostatnie 12 miesięcy) z okresem 1 (poprzednie 12 miesięcy).</p>
-    <article class="karta puenta">
-      <p class="puenta-werdykt" id="wz-werdykt"></p>
+    <article class="karta puenta skrot">
+      <h3>W skrócie</h3>
+      <p class="puenta-werdykt" id="wz-skrot-odpowiedz"></p>
+      <div class="skrot-siatka">
+        <div>
+          <h4 class="podtytul-karty">Trzy liczby</h4>
+          <ul class="punkty" id="wz-skrot-liczby"></ul>
+        </div>
+        <div>
+          <h4 class="podtytul-karty">Trzy decyzje na pierwszy tydzień</h4>
+          <ul class="punkty" id="wz-skrot-decyzje"></ul>
+        </div>
+      </div>
+      <p class="skrot-kwota"><strong>Jedna kwota:</strong> <span id="wz-skrot-kwota"></span></p>
+    </article>
+    <article class="karta">
+      <h3>Dlaczego nie</h3>
       <div id="wz-puenta"></div>
     </article>
     <div class="karty-dwie">
@@ -68,6 +83,12 @@
       <h4 class="podtytul-karty" id="wz-kwartaly-naglowek"></h4>
       <div class="tabela-ramka"><table class="tabela" id="wz-kwartaly"></table></div>
       <ul class="punkty" id="wz-kwartaly-punkty"></ul>
+      <h4 class="podtytul-karty" id="wz-rozklad-tytul"></h4>
+      <p id="wz-rozklad-wstep"></p>
+      <ul class="punkty" id="wz-rozklad-punkty"></ul>
+      <p id="wz-rozklad-luka"></p>
+      <h4 class="podtytul-karty">Baza powracających pacjentów</h4>
+      <p id="wz-baza"></p>
     </article>
     <article class="karta">
       <h3>Najważniejsze zastrzeżenia</h3>
@@ -209,6 +230,12 @@
       <p class="przypis">Opóźnienie to faktyczny start wizyty minus umówiony termin, tylko wizyty odbyte. Dzień i pora według terminu. Wykres: odsetek wizyt spóźnionych w wybranej specjalizacji, osobno dla każdej pory, z liczbą wizyt w legendzie.</p>
       <div id="pz-wykres" class="wykres"></div>
       <div class="tabela-ramka"><table class="tabela tabela-lejek" id="pz-tabela"></table></div>
+    </article>
+    <article class="karta">
+      <h3>Opóźnienia według godziny terminu</h3>
+      <p class="przypis" id="pz-godziny-tytul"></p>
+      <div class="tabela-ramka"><table class="tabela tabela-lejek" id="pz-godziny"></table></div>
+      <p class="przypis" id="pz-godziny-przypis"></p>
     </article>
     <article class="karta">
       <h3>Opóźnienia przy tym samym porannym ruchu</h3>
