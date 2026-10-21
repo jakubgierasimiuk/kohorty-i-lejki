@@ -51,6 +51,7 @@ Pełny raport: `analiza/wyniki/a2_jakosc.txt`, kod: `analiza/a2_jakosc.py`. Na r
    - Liczba testów rośnie z 35 w czwartym kwartale 2024 do 370–410 na kwartał w 2026. W pierwszym roku dashboardu jest ich 553, w drugim 1 518. Zawyżają więc wzrost zamówień.
    - W analityce mają 2 093 sesje z kompletem kroków lejka (2 071 z zamówieniem i 22 sesje założenia konta). Zawyżają też lejek.
    - Pieniądze: 27 591 zł zapłat i 25 810 zł zwrotów, czyli 1 781 zł przychodu. Według zasady z zadania (25 zł za każdą odbytą wizytę u internisty, także zwróconą) dałoby to 51 775 zł kosztu lekarza. Czy lekarz naprawdę dostał wynagrodzenie za jednominutowy test, z danych nie wiemy.
+   - **Przegląd w punkcie D (2026-10-21, `analiza/d_testy.py` → `analiza/wyniki/d_testy.txt`): nic się nie zmienia.** Liczby z A2 odtwarzają się co do sztuki (22 konta, 553 i 1 518 zamówień, 290 bez kodu, 2 093 sesje, 51 775 zł). Reguła jest kompletna: poza 22 kontami nie ma ani jednej wizyty trwającej 1 albo 2 minuty, kodu z „TEST” albo „QA” ani zapłaty 0 zł; konto z największą liczbą zamówień poza testami ma ich 18, a konto testowe średnio 94,1. Wyłączenie nie zabiera prawdziwych danych: wszystkie zamówienia kont testowych to jednominutowy czat z internistą, a 22 przeglądarki testowe nie były używane przez żadne inne konto. Wszystkie sesje testowe to wejścia bezpośrednie, więc nie zawyżały sesji kampanii płatnych. W schemacie `czyste` nie ma żadnego zamówienia, konta, sesji ani zakupu TelemediGO kont testowych.
 
 ### Do wspólnej dyskusji
 

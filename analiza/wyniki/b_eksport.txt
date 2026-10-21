@@ -1,4 +1,4 @@
-B — EKSPORT DANYCH NARZĘDZIA (2026-10-21 21:40, commit 6015f4f)
+B — EKSPORT DANYCH NARZĘDZIA (2026-10-21 22:01, commit 849e12c)
 
 1. Pliki w narzedzie/dane_strony/ (bajty)
    calosc                             38,075
@@ -14,9 +14,9 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-21 21:40, commit 6015f4f)
    jakosc                              8,892
    kohorty                         1,442,248
    po_zakupie                        298,624
-   wynik                              86,272
+   wynik                              86,158
    c                                  73,574
-   razem                           4,180,706
+   razem                           4,180,592
 
 2. Kontrola: liczby z eksportu wobec notatek i wcześniejszych raportów
    co                                                                    eksport  oczekiwane  wynik
@@ -121,7 +121,7 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-21 21:40, commit 6015f4f)
    C: zamówienia dashboardu i oczyszczone = mostek z bazy             25269 40613 24716 38491 25269 40613 24716 38491  zgodne
    C: marża po kwartałach = eksport z bazy (zł, 8 kwartałów)          151340 226877 227044 222824 259375 324423 256558 207713 151340 226877 227044 222824 259375 324423 256558 207713  zgodne
    C: liczby w tekstach bez pokrycia w c_szkic.md (50 fragmentów, 1176 liczb)          0           0  zgodne
-   D: liczby w tekstach innych zakładek bez pokrycia w d_teksty_strony.md (8 sekcji, 245 liczb)          0           0  zgodne
+   D: liczby w tekstach innych zakładek bez pokrycia w d_teksty_strony.md (8 sekcji, 243 liczb)          0           0  zgodne
 
    Różnic: 0 z 102 kontroli.
 
@@ -200,6 +200,6 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-21 21:40, commit 6015f4f)
    d:Konta bez zaku     16  —              20620, 31780
    d:Wiek, płeć i w     38  —              —
    d:Opóźnienia po      68  —              —
-   d:Rozkład spadku     51  —              —
+   d:Rozkład spadku     49  —              —
    d:Google Ads na      30  —              —
    d:Kampania `crm_     10  —              —

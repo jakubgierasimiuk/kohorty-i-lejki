@@ -257,3 +257,11 @@ Scalone przez sesję prowadzącą z `notatki/b_narzedzie.md` (sekcje 12 i 13). P
 - **Reguła testu Mety przyjęta:** przy wyniku niejednoznacznym decyduje oszacowanie punktowe (poniżej progu wyłączamy, powyżej zostawiamy); świadomie przyjęta reguła decyzji, a nie rozstrzygnięcie statystyczne (założenie 59).
 - **Wykonane:** zdanie „Safari się w tej luce nie mieści” usunięte z dwóch miejsc w „Czy to wzrost” (akapit o Safari w III kwartale i rozkład spadku marży) w `notatki/c_szkic.md` i w `analiza/b2_eksport_c.py`. Kontrola `python -I analiza/b_eksport.py`: 102 z 102 zgodnych, 0 różnic; teksty zakładek odtworzone. W zakładce „Wynik biznesu” zdanie zostaje, bo luka jest tam zdefiniowana w poprzednim akapicie.
 - **Następne kroki, każdy za zgodą Kuby:** przegląd zamówień testowych, publikacja, mail.
+
+## 2026-10-21 — „Wynik biznesu” bez „luki” i przegląd zamówień testowych
+
+**Prośba Kuby (słowa Kuby):** „W »Wyniku biznesu« też to przeredaguj. Zamiast zaczynać akapit od tego, że Safari się w luce nie mieści, napisz po prostu, ile szacunkowo kosztowała awaria w III kwartale i że wyniku kwartału bez awarii nie mierzymy. Potem krótki przegląd zamówień testowych, tak jak umawialiśmy się na początku: czy nic się nie zmieniło w tym, jak je traktujemy, i czy to jest domknięte w notatkach. Publikację robimy po tym, osobno.”
+
+- **„Wynik biznesu”:** akapit o Safari zaczyna się teraz od szacowanego kosztu awarii w III kwartale 2026 (14,6–18,3 tys. zł marży, osobno 4,1–4,5 tys. zł powrotów pacjentów utraconych wcześniej) i kończy zdaniem, że wyniku kwartału bez awarii nie mierzymy. Porównania z „luką” nie ma już nigdzie na stronie (`analiza/b2_eksport_c.py`, `notatki/d_teksty_strony.md`).
+- **Przegląd zamówień testowych (zastrzeżenie Kuby z A2, punkt D planu): nic się nie zmienia.** Reguła z założenia 7 (konto, które choć raz użyło kodu TEST-QA) jest kompletna i nie zabiera prawdziwych zamówień ani sesji; koszt lekarza za wizyty testowe dalej nie wchodzi do liczb (założenie 8), a wariant z kosztem zostaje niewiadomą 14 i częścią pozycji 2 listy priorytetów. Liczby A2 odtwarzają się co do sztuki. Skrypt `analiza/d_testy.py`, raport `analiza/wyniki/d_testy.txt`, opis: `ZNALEZISKA.md`, A2 punkt 2. Przegląd jest domknięty w założeniach, znaleziskach, planie i przekazaniu.
+- **Następny krok:** publikacja, osobno i za zgodą Kuby przy każdej akcji.

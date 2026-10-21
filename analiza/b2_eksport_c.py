@@ -566,13 +566,12 @@ def q3_teksty(V):
                       f"tys. zł. To kwota tego samego rzędu co spadek marży rok do roku ({tz(-D['q3_zmiana_marzy'])}); wyniku "
                       f"kwartału bez awarii nie mierzymy.")
     t["safari_zaks"] = (min(zaks), max(zaks))
-    t["safari_wynik"] = (f"Safari na iOS nie mieści się w tej luce. Szacowana marża utracona przez awarię w samym {kw_nazwa(ost)} "
-                         f"to {zakres(min(zaks) / 1000, max(zaks) / 1000, 1)} tys. zł ({liczba(min(utr))}–{liczba(max(utr))} "
+    t["safari_wynik"] = (f"Awaria zakładania konta w Safari na iOS kosztowała w samym {kw_nazwa(ost)} szacunkowo "
+                         f"{zakres(min(zaks) / 1000, max(zaks) / 1000, 1)} tys. zł marży ({liczba(min(utr))}–{liczba(max(utr))} "
                          f"utracone pierwsze zamówienia z ich powrotami w tym samym kwartale, zależnie od odjęcia tła i założonego "
-                         f"tempa strat), a osobny scenariusz powrotów pacjentów utraconych od {po_d} do {przed_q3.day}.{przed_q3:%m} "
-                         f"daje {zakres(D['safari_powroty_q3_utraconych_przed_q3_od'] / 1000, D['safari_powroty_q3_utraconych_przed_q3_do'] / 1000, 1)} "
-                         f"tys. zł. To kwota tego samego rzędu co cały spadek kwartału ({tz(-D['q3_zmiana_marzy'])}) i większa niż "
-                         f"luka {tz(luka)}. Wyniku kwartału bez awarii nie mierzymy: to rachunek przy założeniach pozycji 1 listy "
+                         f"tempa strat). Osobny scenariusz powrotów pacjentów utraconych od {po_d} do {przed_q3.day}.{przed_q3:%m} "
+                         f"daje jeszcze {zakres(D['safari_powroty_q3_utraconych_przed_q3_od'] / 1000, D['safari_powroty_q3_utraconych_przed_q3_do'] / 1000, 1)} "
+                         f"tys. zł. Wyniku kwartału bez awarii nie mierzymy: to rachunek przy założeniach pozycji 1 listy "
                          f"priorytetów.")
     t["wynik_rozklad"] = (
         f"Rozkład spadku {kw_nazwa(ost).replace('kwartale', 'kwartału')} (opis księgowy, nie zmierzony wpływ). " + t["wstep"][:-1]

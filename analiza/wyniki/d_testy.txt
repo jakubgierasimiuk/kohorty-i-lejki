@@ -1,0 +1,97 @@
+D — PRZEGLĄD ZAMÓWIEŃ TESTOWYCH PRZED PUBLIKACJĄ (schematy `surowe` i `czyste`, tylko odczyt)
+Reguła z A2 (ZALOZENIA.md 7): konto testowe = konto, które choć raz użyło kodu TEST-QA. Zamówienia liczone
+bez zdublowanych kopii z czerwca 2026 (DISTINCT na surowych wierszach). Okres według dnia płatności.
+
+==============================================================================================================
+1. CZY REGUŁA JEST TA SAMA: konta testowe w schemacie `czyste` a konta z kodem TEST-QA w danych surowych
+==============================================================================================================
+   konta z TEST-QA: 22; czyste.konta_testowe: 22; różnica w jedną stronę: 0, w drugą: 0
+
+==============================================================================================================
+2. PROFIL ZAMÓWIEŃ KONT TESTOWYCH (czy wśród nich są zamówienia wyglądające na prawdziwe)
+==============================================================================================================
+ okres  zamowienia  z_kodem_test_qa  bez_kodu  z_innym_kodem  nie_internista  czas_inny_niz_1_min  odbyte  inny_status  zaplacono_zl  zwroty_zl  z_ocena
+     1         553              478        75              0               0                    0     478           75        7153.0     6675.0        0
+     2        1518             1303       215              0               0                    0    1303          215       20438.0    19135.0        0
+
+   Cel wizyty, tryb i metoda płatności zamówień testowych (oba okresy):
+visit_purpose consultation_mode payment_method   n
+  konsultacja              chat           blik 630
+  konsultacja              chat           card 571
+  konsultacja              chat       transfer 264
+           l4              chat           blik 149
+    e_recepta              chat           blik 131
+    e_recepta              chat           card 120
+           l4              chat           card 115
+    e_recepta              chat       transfer  55
+           l4              chat       transfer  36
+
+   Liczba zamówień na konto testowe (min, mediana, maks) i zakres dat:
+ min_n  med_n  max_n            pierwsze            ostatnie
+    48   92.5    148 2024-10-21 10:55:24 2026-09-30 17:05:43
+
+==============================================================================================================
+3. CZY SĄ TESTY POZA REGUŁĄ (kompletność): podpisy testu w zamówieniach pozostałych kont
+==============================================================================================================
+ wizyty_1_min  kod_test_lub_qa  zaplata_0_zl  wizyty_do_2_min
+            0                0             0                0
+
+   Rozkład czasu wizyty odbytych w pozostałych kontach (najkrótsze wartości):
+ duration_min    n
+            3 2077
+            4 1899
+            5 2977
+            6 4191
+            7 5194
+            8 6239
+
+   Konta z największą liczbą zamówień poza kontami testowymi (czy któreś wygląda na test):
+ user_id  zamowienia  specjalizacje  sr_czas_min  z_kodem
+  111758          18              3          9.2        0
+  105575          17              2         11.1        0
+  102162          17              4         10.2        0
+  111144          17              6         11.9        0
+  117862          17              4         11.4        0
+
+   Ile zamówień ma przeciętne konto testowe, a ile konto z największą liczbą zamówień poza testami:
+ sr_na_konto_testowe  maks_poza_testami
+                94.1                 18
+
+==============================================================================================================
+4. CZY WYŁĄCZENIE NIE ZABIERA PRAWDZIWYCH SESJI: przeglądarki kont testowych a inne konta
+==============================================================================================================
+ przegladarki_testowe  wspolne_z_innym_kontem  sesje_tych_przegladarek  w_tym_anonimowe
+                   22                       0                     2093                0
+
+   Źródło wejścia sesji kont testowych (czy testy wchodzą z kampanii płatnych i zawyżają ich sesje):
+                zrodlo  sesje
+(wejście bezpośrednie)   2093
+
+==============================================================================================================
+5. CZY `czyste` JEST WOLNE OD TESTÓW
+==============================================================================================================
+ zamowienia  konta  sesje_zalogowane  sesje_przegladarek_testowych  telemedigo  zamowienia_z_kodem_test_qa  wizyty_1_min
+          0      0                 0                             0           0                           0             0
+
+==============================================================================================================
+6. KOSZT LEKARZA ZA WIZYTY TESTOWE (zasada z zadania: 25 zł za odbytą wizytę u internisty)
+==============================================================================================================
+ okres  wizyty_odbyte  koszt_zl
+     1            553     13825
+     2           1518     37950
+   razem: 51 775 zł
+   Przyjęte w A2 (ZALOZENIA.md 8): kosztu lekarza za wizyty testowe nie liczymy; wariant z kosztem jest niewiadomą 14
+   i częścią pozycji 2 listy priorytetów (sprawdzenie w dziale rozliczeń).
+
+==============================================================================================================
+7. TESTÓW PRZYBYWA: zamówienia testowe w kwartałach
+==============================================================================================================
+kwartal_od  zamowienia_testowe  aktywne_konta_testowe
+   2024-10                  35                      6
+   2025-01                  94                     10
+   2025-04                 170                     16
+   2025-07                 254                     20
+   2025-10                 330                     20
+   2026-01                 370                     22
+   2026-04                 410                     22
+   2026-07                 408                     22

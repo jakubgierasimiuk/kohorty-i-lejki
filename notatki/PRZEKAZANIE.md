@@ -29,7 +29,9 @@ Status wszystkich punktów: `notatki/PLAN.md`.
 - **Strona:** sesja narzędzia `local_0ea34a6a-6b84-45c6-87b7-e953f33e3452` zrobiła etap 1 (`bfbc5cf`) i etap 2 (`3470f54`: nowe liczby i brzmienia, poprawki po recenzji Codeksa). Kontrola `python -I analiza/b_eksport.py`: 102 kontrole, 0 różnic; 1 179 liczb w tekstach zakładek C i 245 liczb w pozostałych zakładkach, wszystkie z pokryciem w `c_szkic.md` i `d_teksty_strony.md`. Teksty zakładek: `analiza/wyniki/b_teksty_strony.md`. Szczegóły sesji narzędzia: `notatki/b_narzedzie.md`, sekcja 15.
 - **Recenzja Codeksa (Sol):** 34 z 35 liczb zgodnych, jeden błąd jednostki poprawiony, 11 uwag do brzmienia przyjętych (`notatki/recenzje/d2_codex.md`).
 - **Decyzja Kuby (2026-10-21):** pakiet przyjęty razem z regułą testu Mety (oszacowanie punktowe); „nie mieści się w luce” usunięte z „Czy to wzrost” (`DECYZJE.md`, ostatni wpis).
-- **Zostaje (każdy krok za zgodą Kuby):** przegląd zamówień testowych (zastrzeżenie z A2), publikacja (repozytorium publiczne, GitHub Pages, adres w README) i mail do Telemedi. Z syntezy konsylium nie robiliśmy widoku „wczoraj i ostatnie 7 dni z alarmami” (nie było go na liście Kuby).
+- **Przegląd zamówień testowych (zastrzeżenie z A2) zrobiony 2026-10-21:** reguła i traktowanie bez zmian (`analiza/d_testy.py` → `analiza/wyniki/d_testy.txt`; `ZNALEZISKA.md` A2 punkt 2; `DECYZJE.md`, ostatni wpis).
+- **Akapit o Safari w „Wyniku biznesu”** przeredagowany na prośbę Kuby: zaczyna się od szacowanego kosztu awarii w III kwartale, bez porównania z „luką”.
+- **Zostaje (każdy krok za zgodą Kuby):** publikacja (repozytorium publiczne, GitHub Pages, adres w README) i mail do Telemedi. Z syntezy konsylium nie robiliśmy widoku „wczoraj i ostatnie 7 dni z alarmami” (nie było go na liście Kuby).
 
 **Stan na 2026-10-21 rano (dla nowej sesji prowadzącej):**
 - Punkty 0, A1–A5, B (trzy wersje narzędzia) i C są zrobione, przyjęte przez Kubę i scalone we wspólnych notatkach (założenia 1–54).
@@ -120,4 +122,4 @@ Zakres: `PLAN.md`, sekcja A5, z dopiskami po A4. Najważniejsze dla sesji, któr
 - **A5:** jak w punkcie 4.
 - **C:** lista niewiadomych jest w `notatki/c_szkic.md`, sekcja 4 (16 pozycji). Możliwe uzupełnienie po przeglądzie (sugestia Codeksa): lepsza kontrola samoselekcji TelemediGO — dopasowanie pacjentów z wejściem z `crm_go_upsell` według stażu i historii zamówień.
 - **B:** propozycje wpisów z `notatki/b_narzedzie.md` scala sesja prowadząca po zakończeniu przeglądu w sesji B (jej raport przekaże poprzednia sesja prowadząca).
-- **D:** dokładny przegląd zamówień testowych jeszcze raz (zastrzeżenie Kuby).
+- **D:** dokładny przegląd zamówień testowych jeszcze raz (zastrzeżenie Kuby) — zrobione 2026-10-21, bez zmian.
