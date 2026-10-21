@@ -1,0 +1,300 @@
+E — MERYTORYKA: WĄTPLIWOŚCI KUBY (2026-10-21 23:25), schemat `czyste`
+Okres 1 = rok wcześniej (1.10.2024–30.09.2025), okres 2 = ostatnie 12 miesięcy (1.10.2025–30.09.2026), czas polski.
+Z1K = przyjęta reguła źródła (pierwsze wejście, kod kampanii rozstrzyga), Z2 = sesja płatności.
+Nowe kampanie = meta_prosp_l4_szybko i tt_prosp_l4_15min.
+
+======================================================================================================================
+1. RETENCJA „BEZ NOWYCH KAMPANII”: SKĄD RÓŻNICA MIĘDZY REGUŁAMI (kohorty z pełnym oknem 90 dni, te same dni)
+======================================================================================================================
+   Okres 1: 12867 pacjentów, powrót w 90 dniach 23.91%, marża w 90 dniach 66.60 zł, kolejne zamówienia 0.334 [c_szkic: 23,9%, 66,6 zł, 0,334]. W okresie 1 nie ma nowych kampanii (0 według Z1K, 0 według Z2).
+   Okres 2 według grup (kod_nowej = kod L4SZYBKO20 albo TIKTOK25 na pierwszym zamówieniu, %; pierwsze_wejscie_nowa =
+   pierwsze wejście z reklamy nowej kampanii, %; l4 = pierwsza wizyta to L4 u internisty, %):
+                                   grupa  pacjenci  powrot90  marza90  kolejne90  kod_nowej  pierwsze_wejscie_nowa    l4
+                 A: stara w obu regułach     14031     21.99    65.97      0.300       0.00                   0.00 21.16
+                  N: nowa w obu regułach      3510      4.07    36.13      0.046      70.74                 100.00 83.50
+     X: nowa według Z1K, stara według Z2      1383      4.34    36.63      0.046      72.74                  92.48 82.79
+   bez nowych według Z1K (A + Y): 14031 pacjentów, powrót 21.99%, marża 65.97 zł, kolejne zamówienia 0.300
+   bez nowych według Z2 (A + X): 15414 pacjentów, powrót 20.41%, marża 63.34 zł, kolejne zamówienia 0.277
+   tylko A (stara w obu regułach): 14031 pacjentów, powrót 21.99%, marża 65.97 zł, kolejne zamówienia 0.300
+   Różnica powrotu między regułami: 1.58 punktu. Grupa X (1383 pacjentów, powrót 4.34%) obniża powrót Z2 względem A o 1.58 punktu; grupa Y (0 pacjentów) zmienia powrót Z1K względem A o +0.00 punktu.
+   Część różnicy między regułami, którą daje grupa X: 100% (reszta to grupa Y).
+   Grupa X: kanał sesji płatności (% grupy):
+                      kanal  proc
+               bezposrednie  41.6
+     wyszukiwarka_bezplatna  23.5
+           google_ads_marka  21.6
+           meta_remarketing  13.3
+
+   Cały okres (nowi pacjenci): okres 1 16231; okres 2 bez nowych według Z1K 17419 (+7.3%), według Z2 19500 (+20.1%).
+   Grupa X w całym okresie 2: 2081 pacjentów (72.9% z kodem nowej kampanii, 92.2% z pierwszym wejściem z reklamy nowej kampanii, 82.9% z pierwszym L4); grupa Y: 0.
+   Bez grupy X według Z2 (A): 17419 pacjentów, +7.3% wobec okresu 1.
+
+   Rozkład spadku powrotu (23,9% → 17,4%) na nowe kampanie i resztę: wkład nowych = udział nowych × (powrót reszty −
+   powrót nowych) w okresie 2; wkład reszty = powrót reszty okresu 1 − okresu 2. Wariant „Z2 + X”: Z2, w którym grupa X
+   wraca do nowych kampanii.
+   Z1K: udział nowych 25.9%, powrót reszty 21.99%, wkład nowych 4.61 pkt, reszty 1.91 pkt, udział nowych w spadku 71%
+   Z2: udział nowych 18.5%, powrót reszty 20.41%, wkład nowych 3.03 pkt, reszty 3.50 pkt, udział nowych w spadku 46%
+   Z2 + X do nowych: udział nowych 25.9%, powrót reszty 21.99%, wkład nowych 4.61 pkt, reszty 1.91 pkt, udział nowych w spadku 71%
+
+======================================================================================================================
+2. MARŻA III KWARTAŁU 2026 WOBEC III KWARTAŁU 2025 BEZ JEDNORAZOWEGO STARTU SPRZEDAŻY TELEMEDIGO W NEWSLETTERZE
+======================================================================================================================
+   Kontrola: marża III kw. 2025 222 824 zł, III kw. 2026 207 713 zł [c_priorytety.txt W4: 222 824 i 207 713 zł], zmiana -6.8%.
+   TelemediGO kupione osobno (newsletter): III kw. 2025 225 zakupów (20 025 zł), w 23 dniach od 2025-09-08; III kw. 2026 108 (9 612 zł). Tempo w ostatnich 12 miesiącach: 461 zakupów, 1.26 dziennie, czyli 29 na 23 dni.
+   Jednorazowa nadwyżka startu ponad zwykłe tempo: 196 zakupów × 89 zł = 17 440 zł.
+   Wariant 1 — III kw. 2025 bez nadwyżki startu (zwykłe tempo zostaje): 205 384 zł wobec 207 713 zł: +1.1%.
+   Wariant 2 — oba kwartały bez całej sprzedaży osobnej w newsletterze: 202 799 zł wobec 198 101 zł: -2.3%.
+   Wariant 3 — bez wszystkich opłat TelemediGO (jak dotąd w c_priorytety.txt): 166 131 zł wobec 158 051 zł: -4.9%.
+   Marża przed kampaniami (przychód po zwrotach + TelemediGO − koszt lekarza): 313 530 zł → 392 493 zł (+25.2%); bez nadwyżki startu 296 090 zł → 392 493 zł (+32.6%). Wydatki na kampanie 87 431 zł → 181 555 zł (× 2.08).
+   Cały rok: marża 828 085 zł → 1 048 069 zł (+26.6%); przed kampaniami 1 211 118 zł → 1 713 169 zł (+41.5%); wydatki 367 632 zł → 649 675 zł (+76.7%, × 1.77); prowizja 15 400 zł → 15 425 zł.
+   Kwartały rok do roku (marża przed kampaniami, wydatki):
+             kw    przed  wydatki    marza  przed_rr  wydatki_rr  marza_rr
+     2024-10-01 242218.0  87253.0 151340.0       NaN         NaN       NaN
+     2025-01-01 334192.0 102565.0 226877.0       NaN         NaN       NaN
+     2025-04-01 321177.0  90383.0 227044.0       NaN         NaN       NaN
+     2025-07-01 313530.0  87431.0 222824.0       NaN         NaN       NaN
+     2025-10-01 375990.0 113089.0 259375.0      55.0        30.0      71.0
+     2026-01-01 500223.0 170625.0 324423.0      50.0        66.0      43.0
+     2026-04-01 444463.0 184405.0 256558.0      38.0       104.0      13.0
+     2026-07-01 392493.0 181555.0 207713.0      25.0       108.0      -7.0
+
+   Baza powracających w III kwartałach (marża zamówień i TelemediGO pacjentów pozyskanych w poprzednich kwartałach):
+   2025-Q3: baza 115 235 zł, w tym TelemediGO osobno 210 zakupów (18 690 zł); pacjentów bazy z zamówieniem albo zakupem w kwartale 1503.
+   2026-Q3: baza 106 171 zł, w tym TelemediGO osobno 97 zakupów (8 633 zł); pacjentów bazy z zamówieniem albo zakupem w kwartale 1735.
+   Baza III kw. 2025 bez nadwyżki startu: 97 796 zł wobec 106 171 zł w 2026 (+8.6%); bez całej sprzedaży osobnej: 96 545 zł wobec 97 538 zł (+1.0%).
+
+======================================================================================================================
+3. MARŻA NA POWTÓRNE ZAMÓWIENIE RESZTY BIZNESU (Z1K, III KWARTAŁ): ILE TO WIĘCEJ WIZYT ZE ZNIŻKĄ TELEMEDIGO
+======================================================================================================================
+   Kontrola: 2879 → 3140 zamówień, marża na zamówienie 35.86 → 32.81 zł [d_wynik: 2 879 → 3 140, 35,86 → 32,81 zł].
+             kw discount_type    n     m   cena  przychod  koszt  udzial
+     2025-07-01            go  988 11.40 103.34     59.73  48.33   34.32
+     2025-07-01          none 1845 48.89 103.10     96.77  47.89   64.08
+     2025-07-01         promo   46 38.78 101.13     81.17  42.39    1.60
+     2026-07-01            go 1305 11.01 103.91     61.26  50.25   41.56
+     2026-07-01          none 1789 48.78 104.93     99.20  50.42   56.97
+     2026-07-01         promo   46 30.17 105.65     78.00  47.83    1.46
+   Zmiana marży na zamówienie -3.05 zł = struktura zniżek -2.71 zł + zmiana w obrębie rodzaju zniżki -0.35 zł (rozkład symetryczny, suma -3.05).
+     go: udział 34.3% → 41.6%, marża 11.40 → 11.01 zł; wkład struktury 0.81 zł, wkład marży -0.15 zł
+     none: udział 64.1% → 57.0%, marża 48.89 → 48.78 zł; wkład struktury -3.47 zł, wkład marży -0.07 zł
+     promo: udział 1.6% → 1.5%, marża 38.78 → 30.17 zł; wkład struktury -0.05 zł, wkład marży -0.13 zł
+   Podział na specjalizację (internista / inni) × rodzaj zniżki:
+             kw              kom    n      m
+     2025-07-01          inni/go  281  -6.45
+     2025-07-01        inni/none  525  21.78
+     2025-07-01       inni/promo   12  13.83
+     2025-07-01    internista/go  707  18.50
+     2025-07-01  internista/none 1320  59.67
+     2025-07-01 internista/promo   34  47.59
+     2026-07-01          inni/go  418  -5.59
+     2026-07-01        inni/none  541  21.16
+     2026-07-01       inni/promo   13 -13.85
+     2026-07-01    internista/go  887  18.83
+     2026-07-01  internista/none 1248  60.75
+     2026-07-01 internista/promo   33  47.52
+   Ten sam rozkład w komórkach specjalizacja × zniżka: struktura -3.48 zł, w obrębie komórek 0.43 zł.
+   Udział rodzajów zniżki w obrębie specjalizacji (%):
+             kw       spec   go  none  promo
+     2025-07-01       inni 34.4  64.2    1.5
+     2025-07-01 internista 34.3  64.0    1.6
+     2026-07-01       inni 43.0  55.7    1.3
+     2026-07-01 internista 40.9  57.6    1.5
+
+======================================================================================================================
+4. LEJEK OSÓB, KTÓRE JESZCZE NIE KUPOWAŁY (sesje zwykłe, dzień sesji w czasie polskim)
+======================================================================================================================
+   Rok do roku (p_kN = odsetek przechodzących z poprzedniego kroku):
+               pacjent  okres  sesje      k1      k2      k3      k4      k5  konwersja  p_k1  p_k2  p_k3  p_k4  p_k5
+     kupowal_wczesniej      1   9272  9272.0  9272.0  9272.0  8800.0  8485.0      91.51 100.0 100.0 100.0  94.9  96.4
+     kupowal_wczesniej      2  15361 15361.0 15361.0 15361.0 14422.0 13804.0      89.86 100.0 100.0 100.0  93.9  95.7
+           nie_kupowal      1 144813 48753.0 32890.0 21826.0 18203.0 16232.0      11.21  33.7  67.5  66.4  83.4  89.2
+           nie_kupowal      2 265264 81294.0 53527.0 33525.0 27824.0 24686.0       9.31  30.6  65.8  62.6  83.0  88.7
+               wszyscy      1 154085 58025.0 42162.0 31098.0 27003.0 24717.0      16.04  37.7  72.7  73.8  86.8  91.5
+               wszyscy      2 280625 96655.0 68888.0 48886.0 42246.0 38490.0      13.72  34.4  71.3  71.0  86.4  91.1
+
+   Osoby, które jeszcze nie kupowały, miesiąc po miesiącu:
+        mies  sesje     k1     k2     k3     k4     k5  konwersja  rok_wczesniej  zmiana_rr_pkt  p_k1  p_k2  p_k3  p_k4  p_k5
+     2024-10  11375 3828.0 2586.0 1726.0 1434.0 1285.0      11.30            NaN            NaN  33.7  67.6  66.7  83.1  89.6
+     2024-11  12256 4087.0 2809.0 1880.0 1573.0 1400.0      11.42            NaN            NaN  33.3  68.7  66.9  83.7  89.0
+     2024-12  13472 4571.0 3054.0 1989.0 1666.0 1501.0      11.14            NaN            NaN  33.9  66.8  65.1  83.8  90.1
+     2025-01  14699 4918.0 3322.0 2192.0 1843.0 1628.0      11.08            NaN            NaN  33.5  67.5  66.0  84.1  88.3
+     2025-02  13490 4616.0 3069.0 2058.0 1741.0 1560.0      11.56            NaN            NaN  34.2  66.5  67.1  84.6  89.6
+     2025-03  14259 4879.0 3335.0 2185.0 1798.0 1601.0      11.23            NaN            NaN  34.2  68.4  65.5  82.3  89.0
+     2025-04  12878 4325.0 2873.0 1916.0 1592.0 1430.0      11.10            NaN            NaN  33.6  66.4  66.7  83.1  89.8
+     2025-05  11290 3817.0 2572.0 1696.0 1421.0 1266.0      11.21            NaN            NaN  33.8  67.4  65.9  83.8  89.1
+     2025-06  10190 3365.0 2303.0 1523.0 1265.0 1123.0      11.02            NaN            NaN  33.0  68.4  66.1  83.1  88.8
+     2025-07  10070 3409.0 2315.0 1554.0 1271.0 1116.0      11.08            NaN            NaN  33.9  67.9  67.1  81.8  87.8
+     2025-08   9986 3282.0 2180.0 1437.0 1205.0 1074.0      10.76            NaN            NaN  32.9  66.4  65.9  83.9  89.1
+     2025-09  10848 3656.0 2472.0 1670.0 1394.0 1248.0      11.50            NaN            NaN  33.7  67.6  67.6  83.5  89.5
+     2025-10  12507 4224.0 2885.0 1877.0 1557.0 1382.0      11.05          11.30          -0.25  33.8  68.3  65.1  83.0  88.8
+     2025-11  15263 5112.0 3478.0 2295.0 1895.0 1692.0      11.09          11.42          -0.33  33.5  68.0  66.0  82.6  89.3
+     2025-12  18189 5892.0 3955.0 2593.0 2148.0 1889.0      10.39          11.14          -0.75  32.4  67.1  65.6  82.8  87.9
+     2026-01  22273 7292.0 4840.0 3194.0 2713.0 2423.0      10.88          11.08          -0.20  32.7  66.4  66.0  84.9  89.3
+     2026-02  23056 7381.0 4869.0 3163.0 2598.0 2304.0       9.99          11.56          -1.57  32.0  66.0  65.0  82.1  88.7
+     2026-03  27574 8555.0 5696.0 3583.0 2998.0 2681.0       9.72          11.23          -1.51  31.0  66.6  62.9  83.7  89.4
+     2026-04  26903 7868.0 5134.0 3057.0 2549.0 2256.0       8.39          11.10          -2.71  29.2  65.3  59.5  83.4  88.5
+     2026-05  24795 7389.0 4838.0 3000.0 2484.0 2199.0       8.87          11.21          -2.34  29.8  65.5  62.0  82.8  88.5
+     2026-06  23848 6909.0 4467.0 2692.0 2239.0 1974.0       8.28          11.02          -2.74  29.0  64.7  60.3  83.2  88.2
+     2026-07  23195 6751.0 4396.0 2692.0 2239.0 1958.0       8.44          11.08          -2.64  29.1  65.1  61.2  83.2  87.4
+     2026-08  23264 6706.0 4330.0 2606.0 2117.0 1887.0       8.11          10.76          -2.65  28.8  64.6  60.2  81.2  89.1
+     2026-09  24397 7215.0 4639.0 2773.0 2287.0 2041.0       8.37          11.50          -3.13  29.6  64.3  59.8  82.5  89.2
+
+   Osoby, które jeszcze nie kupowały, według przeglądarki (w aplikacji = Instagram, Facebook, TikTok):
+        mies  udzial_sesji_w_aplikacji  konw_w_aplikacji  udzial_sesji_zwykla  konw_zwykla
+     2024-10                      11.6              4.38                 88.4        12.21
+     2024-11                      10.4              3.30                 89.6        12.37
+     2024-12                      10.4              3.87                 89.6        11.98
+     2025-01                      10.2              3.46                 89.8        11.94
+     2025-02                       9.8              3.79                 90.2        12.41
+     2025-03                      11.1              3.48                 88.9        12.19
+     2025-04                      10.5              4.29                 89.5        11.90
+     2025-05                      11.7              3.93                 88.3        12.18
+     2025-06                      13.2              4.69                 86.8        11.98
+     2025-07                      12.8              3.81                 87.2        12.15
+     2025-08                      12.7              3.22                 87.3        11.85
+     2025-09                      11.7              4.96                 88.3        12.37
+     2025-10                      10.8              4.14                 89.2        11.89
+     2025-11                      17.3              5.66                 82.7        12.22
+     2025-12                      23.3              6.42                 76.7        11.59
+     2026-01                      27.0              6.38                 73.0        12.55
+     2026-02                      33.1              6.64                 66.9        11.65
+     2026-03                      37.7              6.67                 62.3        11.57
+     2026-04                      43.0              6.13                 57.0        10.09
+     2026-05                      46.1              6.50                 53.9        10.89
+     2026-06                      46.4              6.16                 53.6        10.11
+     2026-07                      46.9              6.40                 53.1        10.24
+     2026-08                      47.0              5.97                 53.0        10.00
+     2026-09                      46.0              6.29                 54.0        10.14
+      okres         grp  sesje      k5  konw  udzial
+          1 w_aplikacji  16240   637.0  3.92    11.2
+          1      zwykla 128573 15595.0 12.13    88.8
+          2 w_aplikacji  99363  6249.0  6.29    37.5
+          2      zwykla 165901 18437.0 11.11    62.5
+
+   Osoby, które jeszcze nie kupowały, według kampanii (nowe kampanie na L4 a pozostałe):
+        mies  udzial_sesji_nowe_kampanie  konw_nowe_kampanie  udzial_sesji_pozostale  konw_pozostale
+     2024-10                         NaN                 NaN                   100.0           11.30
+     2024-11                         NaN                 NaN                   100.0           11.42
+     2024-12                         NaN                 NaN                   100.0           11.14
+     2025-01                         NaN                 NaN                   100.0           11.08
+     2025-02                         NaN                 NaN                   100.0           11.56
+     2025-03                         NaN                 NaN                   100.0           11.23
+     2025-04                         NaN                 NaN                   100.0           11.10
+     2025-05                         NaN                 NaN                   100.0           11.21
+     2025-06                         NaN                 NaN                   100.0           11.02
+     2025-07                         NaN                 NaN                   100.0           11.08
+     2025-08                         NaN                 NaN                   100.0           10.76
+     2025-09                         NaN                 NaN                   100.0           11.50
+     2025-10                         NaN                 NaN                   100.0           11.05
+     2025-11                        10.1                6.16                    89.9           11.64
+     2025-12                        18.4                5.38                    81.6           11.52
+     2026-01                        24.2                6.18                    75.8           12.38
+     2026-02                        31.8                5.96                    68.2           11.88
+     2026-03                        36.7                5.99                    63.3           11.89
+     2026-04                        42.1                5.11                    57.9           10.76
+     2026-05                        45.4                5.65                    54.6           11.55
+     2026-06                        46.6                5.40                    53.4           10.79
+     2026-07                        46.9                5.34                    53.1           11.18
+     2026-08                        47.1                5.22                    52.9           10.68
+     2026-09                        45.9                5.07                    54.1           11.16
+      okres           grp  sesje      k5  konw  udzial
+          1     pozostale 144813 16232.0 11.21   100.0
+          2 nowe_kampanie  94462  5187.0  5.49    35.6
+          2     pozostale 170802 19499.0 11.42    64.4
+
+   Konwersja sesji do płatności według przeglądarki, oba okresy (sprawdzenie zdania „4,8–7,2% wobec 16,1–18,1%”):
+   nie_kupowal:
+       wartosc  okres  sesje      k1      k5  konw  wybor_uslugi
+        Chrome      1  69541 24650.0  8433.0 12.13          35.4
+        Chrome      2  88809 30448.0 10252.0 11.54          34.3
+      Facebook      1   6788  1283.0   275.0  4.05          18.9
+      Facebook      2  28487  7057.0  1851.0  6.50          24.8
+     Instagram      1   9452  1745.0   362.0  3.83          18.5
+     Instagram      2  39417  9823.0  2587.0  6.56          24.9
+        Safari      1  32475 11662.0  3946.0 12.15          35.9
+        Safari      2  43095 15067.0  4260.0  9.89          35.0
+        TikTok      2  31459  7251.0  1811.0  5.76          23.0
+   wszyscy:
+       wartosc  okres  sesje      k1      k5  konw  wybor_uslugi
+        Chrome      1  74456 29565.0 12924.0 17.36          39.7
+        Chrome      2  96867 38506.0 17533.0 18.10          39.8
+      Facebook      1   6873  1368.0   349.0  5.08          19.9
+      Facebook      2  28676  7246.0  1993.0  6.95          25.3
+     Instagram      1   9560  1853.0   461.0  4.82          19.4
+     Instagram      2  39744 10150.0  2846.0  7.16          25.5
+        Safari      1  34705 13892.0  5986.0 17.25          40.0
+        Safari      2  46737 18709.0  7546.0 16.15          40.0
+        TikTok      2  31535  7327.0  1860.0  5.90          23.2
+
+   Rozkład zmiany konwersji osób, które jeszcze nie kupowały, według kampanii: struktura -1.43 pkt, w obrębie kampanii -0.47 pkt (nowe kampanie bez okresu 1 dostają konwersję z okresu 2).
+   Bez sesji nowych kampanii: 11.21% (144813 sesji) → 11.42% (170802).
+   Bez sesji nowych kampanii, miesiąc po miesiącu:
+        mies  sesje     k5  konwersja  zmiana_rr_pkt
+     2024-10  11375 1285.0      11.30            NaN
+     2024-11  12256 1400.0      11.42            NaN
+     2024-12  13472 1501.0      11.14            NaN
+     2025-01  14699 1628.0      11.08            NaN
+     2025-02  13490 1560.0      11.56            NaN
+     2025-03  14259 1601.0      11.23            NaN
+     2025-04  12878 1430.0      11.10            NaN
+     2025-05  11290 1266.0      11.21            NaN
+     2025-06  10190 1123.0      11.02            NaN
+     2025-07  10070 1116.0      11.08            NaN
+     2025-08   9986 1074.0      10.76            NaN
+     2025-09  10848 1248.0      11.50            NaN
+     2025-10  12507 1382.0      11.05          -0.25
+     2025-11  13722 1597.0      11.64           0.22
+     2025-12  14841 1709.0      11.52           0.38
+     2026-01  16884 2090.0      12.38           1.30
+     2026-02  15720 1867.0      11.88           0.32
+     2026-03  17451 2075.0      11.89           0.66
+     2026-04  15589 1678.0      10.76          -0.34
+     2026-05  13532 1563.0      11.55           0.34
+     2026-06  12728 1373.0      10.79          -0.23
+     2026-07  12319 1377.0      11.18           0.10
+     2026-08  12310 1315.0      10.68          -0.08
+     2026-09  13199 1473.0      11.16          -0.34
+
+======================================================================================================================
+5. DROBNE SPRAWDZENIA DO TEKSTÓW
+======================================================================================================================
+5a. Zamówienia opłacone w sesjach z kampanii na markę i z remarketingu: udział zamówień powtórnych (nr > 1).
+      okres         kampania  zamowienia  powtorne  udzial_powtornych
+          1         gs_brand        3495      1118               32.0
+          2         gs_brand        4825      1792               37.1
+          1 meta_rmkt_koszyk        1141       260               22.8
+          2 meta_rmkt_koszyk        1642       396               24.1
+
+5b. gs_generic_specjalisci, okres 2: przy jakiej liczbie utraconych nowych pacjentów pauza przestaje się opłacać
+    (wydatki okresu 2 / marża na pacjenta przed kosztem pozyskania; a5e_kampanie.csv, poziom kampanii).
+   Z1K, 90 dni: marża na pacjenta 32.4 zł; próg 1641 pacjentów rocznie (31.5 tygodniowo); kampania przypisuje sobie 923 rocznie (17.7 tygodniowo).
+   Z2, 90 dni: marża na pacjenta 32.9 zł; próg 1616 pacjentów rocznie (31.0 tygodniowo); kampania przypisuje sobie 657 rocznie (12.6 tygodniowo).
+   Z1K, 180 dni: marża na pacjenta 36.6 zł; próg 1452 pacjentów rocznie (27.9 tygodniowo); kampania przypisuje sobie 923 rocznie (17.7 tygodniowo).
+   Z2, 180 dni: marża na pacjenta 35.0 zł; próg 1519 pacjentów rocznie (29.1 tygodniowo); kampania przypisuje sobie 657 rocznie (12.6 tygodniowo).
+   Z1K, pelny_rok dni: marża na pacjenta nan zł; próg nan pacjentów rocznie (nan tygodniowo); kampania przypisuje sobie 923 rocznie (17.7 tygodniowo).
+   Z2, pelny_rok dni: marża na pacjenta nan zł; próg nan pacjentów rocznie (nan tygodniowo); kampania przypisuje sobie 657 rocznie (12.6 tygodniowo).
+   Wszyscy nowi pacjenci z pierwszą wizytą u specjalisty (bez internisty, pediatry i psychiatry): okres 1 2971, okres 2 3427 (65.7 tygodniowo).
+
+5c. Kroki lejka osób, które jeszcze nie kupowały: przeglądarki w aplikacjach (Instagram, Facebook, TikTok) a Chrome i Safari
+       wartosc  okres  sesje  usluga  termin_z_uslugi  konto_z_terminu  platnosc_z_sesji
+        Chrome      1  69541    35.4             68.6             66.8             12.13
+        Chrome      2  88809    34.3             68.2             66.3             11.54
+      Facebook      1   6788    18.9             53.9             56.2              4.05
+      Facebook      2  28487    24.8             60.4             59.5              6.50
+     Instagram      1   9452    18.5             55.9             56.0              3.83
+     Instagram      2  39417    24.9             60.6             60.0              6.56
+        Safari      1  32475    35.9             68.1             66.9             12.15
+        Safari      2  43095    35.0             67.7             56.7              9.89
+        TikTok      2  31459    23.0             60.1             59.0              5.76
+               grp  okres  sesje  usluga  termin_z_uslugi  konto_z_terminu  platnosc_z_sesji
+     chrome_safari      1 102016    35.6             68.4             66.8             12.13
+     chrome_safari      2 131904    34.5             68.0             63.1             11.00
+       w_aplikacji      1  16240    18.6             55.0             56.1              3.92
+       w_aplikacji      2  99363    24.3             60.4             59.6              6.29
+
+5d. Pozycja 7: a5r_po_zakupie.txt, 5c — powrót w 90 dniach pacjentów kampanii działających w obu latach, okres 2:
+    3,16% (pierwszy powrót w 24 godziny po wejściu z newslettera albo SMS-a) + 18,84% (pozostałe powroty) = 22,0%
+    (14 031 pacjentów). To podział jednej grupy według drogi powrotu: 3,16 / 22,0 = 14% powrotów idzie po wejściu z CRM.
+    Wartość punktu procentowego powrotu (95,6 zł) to różnica marży w dniach 1–180 (a5_retencja.md, krok 5).
+
+5e. Zamówienia opłacone 13:00–13:59 w dniach 10–24.05.2025 (system transakcyjny): 2, 2, 3, 1, 1, 6, 3, 5, 1, 8, 3, 1, 3, 2; dni bez zamówienia w tej godzinie: 1; mediana z dniami zerowymi: 2.
