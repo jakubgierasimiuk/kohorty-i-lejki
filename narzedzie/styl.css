@@ -113,6 +113,7 @@ main { max-width: 1320px; margin: 0 auto; padding: 16px 24px 48px; }
   padding: 16px 18px;
   margin: 12px 0;
 }
+.karta { scroll-margin-top: 140px; }   /* przewijanie z odnośników nie chowa karty pod przyklejonym nagłówkiem */
 .karta-cicha { background: transparent; }
 .karty-dwie { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 12px; }
 .karty-dwie .karta { margin: 0; }
@@ -269,7 +270,7 @@ select, input[type="date"] {
   .zdarzenie dl { grid-template-columns: 1fr; }
   .sekcje { grid-template-columns: minmax(0, 1fr); }
   .sekcje dt { margin-top: 4px; }
-  .priorytet { scroll-margin-top: 12px; }
+  .priorytet, .karta { scroll-margin-top: 12px; }
   .puenta-werdykt { font-size: 18px; }
   .tabela-tekst thead { display: none; }
   .tabela-tekst tr { display: block; padding: 10px 0; border-bottom: 1px solid var(--grid); }

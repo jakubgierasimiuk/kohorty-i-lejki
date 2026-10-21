@@ -295,3 +295,34 @@ Do tego dopisek Kuby z przeglądu ekonomii kampanii (`notatki/a5_ekonomia.md`, s
 **Decyzja Kuby (2026-10-20, po przeglądzie poprawek, słowa Kuby):** „Przyjmuję trzecią wersję, przekaż to sesji prowadzącej. Publikacji na razie nie robimy. To będzie ostatni krok przed wysłaniem, osobno.”
 
 - **Propozycja do `DECYZJE.md`, `PLAN.md` i `PRZEKAZANIE.md`:** trzecia wersja narzędzia przyjęta przez Kubę 2026-10-20 (commit `f584585`); punkt B zamknięty co do treści. Publikacja (próbna i właściwa) to ostatni, osobny krok przed wysłaniem, za zgodą Kuby przy każdej akcji.
+
+## 14. Poprawki po konsylium, etap 1 (2026-10-21)
+
+**Zlecenie:** sesja prowadząca `local_791c102e`, według listy Kuby (`notatki/d_poprawki.md`) i syntezy konsylium (`notatki/konsylium/d_weryfikacja/synteza.md`). Etap 1 to poprawki bez nowych liczb.
+
+**Co zmienione na stronie:**
+1. **„Po zakupie”, oceny:** średnia ocena wyświetla się bez znaku procentu (`widoki.js`, funkcja `komorka`: pusta jednostka znaczyła „%”).
+2. **Oś zdarzeń:** napis odnośnika nazywa zakładkę docelową („Pokaż w lejku”, „Pokaż w kohortach”, „Pokaż w zakładce »Po zakupie«”, „Zobacz w jakości danych”). Sprawdzone przy wszystkich 13 zdarzeniach.
+3. **„Wynik biznesu”, ekonomia kampanii:** koszt pozyskania ma osobną kolumnę dla 90 i dla 180 dni. Pod wynikiem stoi „marża − koszt” z tego samego okna. **Sprawdzenie Kuby („czy nie dotyczy wszystkich wierszy z kosztem”):** dotyczyło wszystkich wierszy z wydatkami na kampanie. W `a5e_kampanie.csv` 38 z 38 par grupa albo kampania z wydatkami ma inny koszt po 180 dniach niż po 90 dniach (różnica od 0,1 do 11,8 zł na pacjenta). Taki sam koszt w obu oknach mają tylko afiliacja (25 zł) i kanały bezpłatne (0 zł). Poziom kanałów ma tylko okno 90 dni. Same dane były poprawne: w każdym ze 166 wierszy wynik = marża − koszt z tego samego okna (różnica najwyżej 0,1 zł z zaokrągleń). Błąd był tylko w tym, który koszt strona pokazywała.
+4. **Brzmienie po weryfikacji Astrą** w trzech miejscach z drugiej wersji:
+   - nagłówek „Kohort”: „około 46–71% spadku powrotu w 90 dniach, zależnie od reguły źródła” (liczby z `a5r_struktura.txt` przez tę samą funkcję co w „Czy to wzrost”);
+   - karta w „Lejku” i zdarzenie 12: „gwałtownie spada skuteczność zakładania nowego konta (konta dalej powstają, ale rzadziej)”;
+   - w zdarzeniu 12 także „spadek jest w głównych kanałach (TikTok ma za małą próbę do oceny)”.
+5. **Powrót w 180 dniach:** zmiana liczona z liczb niezaokrąglonych, z tych samych danych pacjent po pacjencie co w „Kohortach”: −5,2 punktu (27,47% − 22,24%) zamiast −5,3. Dotyczy wszystkich czterech okien w tabeli „Czy to wzrost”. W 30, 60 i 90 dniach wynik się nie zmienił.
+6. **Pozycja 6:** średnie ocen 2,92 wobec 4,45 przy 469 i 3 446 ocenach (wcześniej 2,9 wobec 4,5 przy 1 550 i 11 007 wizytach). Liczby z danych zakładki „Po zakupie”. Średnie podaję z dwoma miejscami, jak w tabeli ocen. Dokładna średnia przy punktualnych to 4,4475, więc „4,5” brało się z podwójnego zaokrąglenia (4,4475 → 4,45 → 4,5).
+7. **Zdarzenia 8 i 10:** w 8 zamiast „w 2026” stoi „od 1.01.2026 do 30.09.2026” (także w polu „skąd”). W 10 jest data startu TikToka (9.02.2026) i zdanie, że metoda wskazała dzień później.
+8. **Safari:** okno nazwane przy każdej parze liczb: w „Lejku” i w zdarzeniu 12 „w 60 dniach przed awarią (16.01–16.03.2026) … w 60 dniach po niej (17.03–15.05.2026)”, w pozycji 1 „(od 1.10.2025 do 16.03.2026)” i „(od 17.03 do 30.09.2026)”.
+9. **„Kohorty”:**
+   - macierz kohort ma opcję dzienną, pierwszą na liście i domyślną (730 kohort; obok tygodniowe i miesięczne). Skala koloru od 5. do 95. percentyla w kolumnie, żeby małe kohorty dzienne nie spłaszczały skali;
+   - pod krzywą powrotu jest zdanie liczone z danych dla bieżących filtrów: dzień 30 to 22 646 pacjentów okresu B, a dzień 180 to już tylko 12 591, z najstarszych kohort. Wyższe wartości późnych dni nie są więc nadrabianiem.
+10. **Odnośniki do lejka z ustawieniami** (z osi zdarzeń, z kart napraw w „Lejku”, z kart priorytetów) przewijają do tabeli lejka. Karta zatrzymuje się pod przyklejonym nagłówkiem strony.
+11. **„Jak liczymy”** w „Lejku” i na dole „Wyniku biznesu”: jedno zdanie z danych o płatnościach w lejku (24 717 i 38 490) wobec zamówień (24 716 i 38 491), które różnią się o 1 na granicy okresów. W tym samym zdaniu przychód okresu 1: 2 230 266,50 zł, więc 2 230 266 albo 2 230 267 zł zależnie od zaokrąglenia. Doszła kontrola: suma płatności w lejku = suma zamówień (63 207).
+12. `robots.txt` bez zmian.
+
+**Przy okazji:** w „Czy to wzrost” zastrzeżenie 1 ma nowe brzmienie szkicu: „Nowi pacjenci prawie się nie zmieniają (+51,9% na surowo, +52,1% po oczyszczeniu), a TelemediGO wcale (+40,3%)”. Liczba z danych surowych pochodzi z `a3_dashboard.txt`.
+
+**Kontrola liczb:** `python -I analiza/b_eksport.py`: 99 kontroli, 0 różnic. Kontrola ze szkicem (stan `c_szkic.md` w folderze w chwili przebiegu, przed commitem sesji prowadzącej): 792 liczby w 46 fragmentach, 0 bez pokrycia. Nowe kontrole: powrót w 30, 60, 90 i 180 dniach z danych kohort strony wobec raportów (odsetki i liczby pacjentów), oceny wobec `a5r_po_zakupie.txt` (3a), płatności w lejku wobec zamówień.
+
+**Sprawdzone:** przeglądarka bez okna (Edge przez Playwright, tylko 127.0.0.1): odnośnik z osi zdarzeń, z karty Safari i z karty pozycji 1 przewija do tabeli lejka (karta 140 px od góry, pod nagłówkiem). Na 375 px żadna z 9 zakładek nie przewija się w bok. W konsoli nie ma błędów. Teksty strony odtworzone w `analiza/wyniki/b_teksty_strony.md`.
+
+**Do szkicu (plik sesji prowadzącej):** pozycja 6, średnie ocen „2,92 wobec 4,45 (469 i 3 446 ocen)”. Teraz są na stronie jako liczby dopisane poza szkicem.

@@ -195,6 +195,17 @@ class Zrodla:
         raise ValueError(f"{plik}: brak tabeli {kolumny} (od {od!r})")
 
 
+RX_ROZKLAD_Z1K = r"^\s+kampania\s+12\s+12867\s+18924\s+{N}\s+{N}\s+{N}\s+{N}\s+{N}\s+{N}\s+{N}\s+{N}\s+{N}"
+RX_ROZKLAD_Z2 = r"\(Z2\)\s+kampania\s+12867\s+18924\s+{N}\s+{N}\s+{N}\s+{N}\s+{N}\s+{N}\s+{N}"
+
+
+def udzial_nowych_w_spadku(Z=None):
+    """Udział nowych kampanii w spadku powrotu w 90 dniach (%): przyjęta reguła i sesja płatności (a5r_struktura.txt)."""
+    Z = Z or Zrodla()
+    r1, r2 = Z.r("a5r_struktura.txt", RX_ROZKLAD_Z1K), Z.r("a5r_struktura.txt", RX_ROZKLAD_Z2)
+    return 100 * r1[5] / r1[4], 100 * r2[3] / r2[2]
+
+
 def wczytaj_js(nazwa, klucz):
     """Odczyt pliku danych strony (window.D...) zapisanego przez b_eksport.py."""
     with open(os.path.join(DANE, nazwa), encoding="utf-8") as f:
@@ -234,8 +245,8 @@ def wartosci(Z):
     l4 = Z.tabela("a5r_struktura.txt", ["grupa", "n_o1", "n_o2"], od="3d.").set_index("grupa").loc["4_pozostale_kanaly"]
     V["l4_pozostale"] = (int(l4["n_o1"]), int(l4["n_o2"]), float(l4["o1"]), float(l4["o2"]))
     # rozkład spadku na nowe i stare kampanie, obie reguły
-    V["rozklad_z1k"] = Z.r("a5r_struktura.txt", r"^\s+kampania\s+12\s+12867\s+18924\s+{N}\s+{N}\s+{N}\s+{N}\s+{N}\s+{N}\s+{N}\s+{N}\s+{N}")
-    V["rozklad_z2"] = Z.r("a5r_struktura.txt", r"\(Z2\)\s+kampania\s+12867\s+18924\s+{N}\s+{N}\s+{N}\s+{N}\s+{N}\s+{N}\s+{N}")
+    V["rozklad_z1k"] = Z.r("a5r_struktura.txt", RX_ROZKLAD_Z1K)
+    V["rozklad_z2"] = Z.r("a5r_struktura.txt", RX_ROZKLAD_Z2)
     # W3: wynik biznesu w okresach
     w3 = Z.tabela(CP, ["pozycja", "okres_1", "okres_2"], od="W3.").set_index("pozycja")
     V["w3"] = w3
@@ -262,6 +273,7 @@ def wartosci(Z):
     V["safari_krok"] = Z.r("a5p_zdarzenia.txt", r"^\s+nowi\s+{N}\s+{N}\s+{N}\s+{N}\s+{N}\s+{N}", od="5f.")
     V["safari_konta"] = Z.r("a5p_zdarzenia.txt", r"^\s+True\s+{N}\s+{N}", od="5d.")
     # P1b: pomiar
+    V["dash_surowo"] = Z.r("a3_dashboard.txt", r"wszystko surowo\s+{N}%\s+{N}%\s+{N}%\s+{N}%")   # nowi, zam., przychód, GO
     V["dash_zam"] = Z.r(CP, r"zamówienia {N}% \({N} → {N}\), przychód z konsultacji {N}% \({N} → {N} mln zł\)", od="P1b.")
     V["czyste_zam"] = Z.r(CP, r"zamówienia {N}% \({N} → {N}\); przychód po zwrotach {N}%", od="P1b.")
     V["dup"] = Z.r(CP, r"Duplikaty: {N} zamówienia z", od="P1b.")
@@ -391,6 +403,26 @@ def wartosci(Z):
     return V
 
 
+def powroty_dokladne(koh):
+    """Powrót w 30, 60, 90 i 180 dniach na tych samych dniach kalendarzowych, liczony z danych pacjent po pacjencie
+    (narzedzie/dane_strony/kohorty.js), tak jak zakładka „Kohorty”: {okno: (p1, p2, n1, n2)}."""
+    koniec, start, okres2 = dt.date(2026, 9, 30), dt.date(2024, 10, 1), dt.date(2025, 10, 1)
+    out = {}
+    for o in (30, 60, 90, 180):
+        g2 = koniec - dt.timedelta(days=o)
+        g1 = dt.date(g2.year - 1, g2.month, g2.day)
+        i1, i2, i0 = (g1 - start).days, (g2 - start).days, (okres2 - start).days
+        n = {1: 0, 2: 0}
+        r = {1: 0, 2: 0}
+        for d, x in zip(koh["d"], koh["r"]):
+            k = 1 if d <= i1 else 2 if i0 <= d <= i2 else 0
+            if k:
+                n[k] += 1
+                r[k] += 0 <= x <= o
+        out[o] = (100 * r[1] / n[1], 100 * r[2] / n[2], n[1], n[2])
+    return out
+
+
 # ---------------------------------------------------------------- pomocnicze do tekstów
 
 class Dodane:
@@ -468,10 +500,12 @@ def czy_wzrost(V):
     okna = [{"dni": o, "p1": W[f"p{o}_o1"], "n1": int(W[f"n{o}_o1"]), "p2": W[f"p{o}_o2"], "n2": int(W[f"n{o}_o2"])}
             for o in (30, 60, 90)]
     okna.append({"dni": 180, "p1": p180_1, "n1": int(n180_1), "p2": p180_2, "n2": int(n180_2)})
+    dok = V["powroty_dokladne"]
     for o in okna:
         o["tekst1"] = f"{proc(o['p1'])} ({liczba(o['n1'])} pacjentów)"
         o["tekst2"] = f"{proc(o['p2'])} ({liczba(o['n2'])} pacjentów)"
-        o["zmiana"] = ex(f"{zn(o['p2'] - o['p1'])} pkt proc.")
+        p1d, p2d = dok[o["dni"]][:2]
+        o["zmiana"] = ex(f"{zn(p2d - p1d)} pkt proc.")   # różnica z liczb niezaokrąglonych
     l4 = V["l4_pozostale"]
     us, pw = V["uslugi_bez"], V["powracajacy"]
     retencja = [
@@ -506,8 +540,9 @@ def czy_wzrost(V):
          "tekst": f"Zawiera {liczba(V['dup'])} zdublowane zamówienia z {ex(V['dup_daty'])}, {liczba(V['testy_razem'][0])} zamówień kont "
                   f"testowych i przychód przed zwrotami. Po oczyszczeniu zamówienia rosną o {proc(cz[0])} "
                   f"({ex(liczba(cz[1]))} → {ex(liczba(cz[2]))}) zamiast {proc(round(dz[0]), 0)}, a przychód z konsultacji "
-                  f"po zwrotach o {proc(cz[3])} zamiast {proc(round(dz[3]), 0)}. Nowi pacjenci "
-                  f"({zn(round(wz[0]), 0)}%) i TelemediGO się nie zmieniają."},
+                  f"po zwrotach o {proc(cz[3])} zamiast {proc(round(dz[3]), 0)}. Nowi pacjenci prawie się nie zmieniają "
+                  f"({zn(V['dash_surowo'][0])}% na surowo, {zn(wz[0])}% po oczyszczeniu), a TelemediGO wcale "
+                  f"({zn(V['dash_surowo'][3])}%)."},
         {"tytul": "Start od zera.",
          "tekst": f"W okresie 1 nie było bazy pacjentów z poprzedniego roku. W okresie 2 pacjenci pozyskani w okresie 1 "
                   f"złożyli {liczba(w3.loc['zam_powt_o1', 'okres_2'])} zamówień powtórnych, które dały "
@@ -718,9 +753,9 @@ def priorytety(V, linki_lejka):
             f"Od {data(d_saf)} w Safari na iPhone'ach i iPadach gwałtownie spada skuteczność zakładania nowego konta "
             f"(konta dalej powstają, ale rzadziej: {liczba(V['safari_konta'][1])} zamiast {liczba(V['safari_konta'][0])} "
             f"w 60 dniach).",
-            f"Krok konta po wyborze terminu u osób, które jeszcze nie kupowały, spada z {proc(sk[0])} do {proc(sk[1])} i nie "
-            f"wraca (od {ex(przed_od)} do {ex(przed_do)} wobec {ex(po_od)}–{ex(po_do)}; po awarii {ex(liczba(sk[2]))} sesji "
-            f"z wyborem terminu).",
+            f"Krok konta po wyborze terminu u osób, które jeszcze nie kupowały, spada z {proc(sk[0])} (od {ex(przed_od)} "
+            f"do {ex(przed_do)}) do {proc(sk[1])} (od {ex(po_od)} do {ex(po_do)}, {ex(liczba(sk[2]))} sesji z wyborem "
+            f"terminu) i nie wraca.",
             "Logowanie do istniejących kont działa. Inne przeglądarki tego nie mają, a spadek jest w głównych kanałach; "
             "TikTok ma za małą próbę do oceny.",
         ]),
@@ -967,6 +1002,7 @@ def priorytety(V, linki_lejka):
     od_lut = rano.loc["2026-02":"2026-09", kol]
     przed = rano.loc["2024-10":"2025-10", kol]
     oc = V["oceny"]
+    oce = V["oceny_dokladne"]   # koszyk → (średnia ocena, liczba ocen), z danych zakładki „Po zakupie”
     dl = V["dlugosc"]
     rp = V["rano_powrot"]  # n_o1, n_o2, udzial_o1, udzial_o2, o1, o2
     mies_tekst = lambda m: f"{proc(rano.loc[m, kol])} w {MIESIACE_MSC[int(m[5:]) - 1]}"  # noqa: E731
@@ -982,9 +1018,9 @@ def priorytety(V, linki_lejka):
             f"({ex(liczba(V['ruch'][1]))} przedziałów ruchu, {ex(liczba(V['ruch'][2]))} wizyt).",
             f"Długość porannej wizyty się nie zmieniła ({liczba(dl.loc[1].iloc[0], 1)} minuty w obu okresach), więc dłuższe "
             f"wizyty tego nie tłumaczą.",
-            f"Wizyty spóźnione ponad 30 minut mają średnią ocenę {liczba(oc.loc['d_ponad_30_min', 'sr_ocena'], 1)} wobec "
-            f"{liczba(oc.loc['a_do_5_min', 'sr_ocena'], 1)} przy punktualnych (okres 2, pacjenci spoza nowych kampanii, "
-            f"{ex(liczba(oc.loc['d_ponad_30_min', 'n']))} i {ex(liczba(oc.loc['a_do_5_min', 'n']))} wizyt). Rano spada "
+            f"Wizyty spóźnione ponad 30 minut mają średnią ocenę {ex(liczba(oce['d_ponad_30_min'][0], 2))} wobec "
+            f"{ex(liczba(oce['a_do_5_min'][0], 2))} przy punktualnych (okres 2, internista, pacjenci spoza nowych kampanii, "
+            f"{ex(liczba(oce['d_ponad_30_min'][1]))} i {ex(liczba(oce['a_do_5_min'][1]))} ocen). Rano spada "
             f"powrót po wizytach spóźnionych.",
         ]),
         ("Dlaczego wysoko", [
@@ -1539,6 +1575,20 @@ def kontrole_krzyzowe(V, kontrole, wz=None, mostek=None, wy=None):
          " ".join(str(round(x * 365 / V["dni"][me])) for x in V["p11_zwroty"][:4]),
          " ".join(str(round(x)) for x in V["p11_zwroty"][5:])),
     ]
+    # dokładne odsetki powrotu (dane kohort strony) po zaokrągleniu = raporty, liczba pacjentów = raporty
+    dok = V["powroty_dokladne"]
+    W = V["pow_wszyscy"]
+    for o in (30, 60, 90):
+        kontrole.append((f"C: powrót {o} dni z danych kohort strony = c_priorytety W2 (%, pacjenci)",
+                         f"{round(dok[o][0], 1)} {round(dok[o][1], 1)} {dok[o][2]} {dok[o][3]}",
+                         f"{W[f'p{o}_o1']} {W[f'p{o}_o2']} {int(W[f'n{o}_o1'])} {int(W[f'n{o}_o2'])}"))
+    kontrole.append(("C: powrót 180 dni z danych kohort strony = a5r_kohorty (%, pacjenci)",
+                     f"{round(dok[180][0], 1)} {round(dok[180][1], 1)} {dok[180][2]} {dok[180][3]}",
+                     f"{V['p180'][2]} {V['p180'][3]} {int(V['p180'][0])} {int(V['p180'][1])}"))
+    oc, ocd, odb = V["oceny"], V["oceny_dokladne"], V["oceny_dokladne_odbyte"]
+    kontrole.append(("C: oceny internista okres 2 (wizyty, średnia 2 miejsca) = a5r_po_zakupie 3a",
+                     " ".join(f"{odb[k]} {ocd[k][0]:.2f}" for k in ("a_do_5_min", "d_ponad_30_min")),
+                     " ".join(f"{int(oc.loc[k, 'n'])} {oc.loc[k, 'sr_ocena']:.2f}" for k in ("a_do_5_min", "d_ponad_30_min"))))
     # gs_generic_specjalisci: c_priorytety.txt wobec a5e_kampanie.csv
     ek = V["ek"]
     kontrole.append(("C: gs_generic_specjalisci marża na pacjenta, c_priorytety = a5e_kampanie.csv",
@@ -1592,10 +1642,18 @@ def kontrole_krzyzowe(V, kontrole, wz=None, mostek=None, wy=None):
 
 # ---------------------------------------------------------------- główna funkcja
 
-def eksport_c(kontrole, wz=None, mostek=None, wy=None, nag=None):
-    """Zapisuje narzedzie/dane_strony/c.js, dopisuje kontrole do listy, zwraca (dane, wynik kontroli szkicu, źródła)."""
+def eksport_c(kontrole, wz=None, mostek=None, wy=None, nag=None, koh=None, pz=None):
+    """Zapisuje narzedzie/dane_strony/c.js, dopisuje kontrole do listy, zwraca (dane, wynik kontroli szkicu, źródła).
+    koh i pz to dane zakładek „Kohorty” i „Po zakupie”; bez nich (uruchomienie samodzielne) czyta je z plików strony."""
     Z = Zrodla()
     V = wartosci(Z)
+    koh = koh if koh is not None else wczytaj_js("kohorty.js", ".kohorty")
+    pz = pz if pz is not None else wczytaj_js("po_zakupie.js", ".po_zakupie")
+    V["powroty_dokladne"] = powroty_dokladne(koh)
+    V["oceny_dokladne"] = {r["koszyk"]: (r["suma"] / r["ocenione"], r["ocenione"]) for r in pz["oceny"]
+                           if r["okres"] == 2 and r["spec"] == "internista" and not r["nowa"]}
+    V["oceny_dokladne_odbyte"] = {r["koszyk"]: r["odbyte"] for r in pz["oceny"]
+                                  if r["okres"] == 2 and r["spec"] == "internista" and not r["nowa"]}
     if nag is None:
         nag = wczytaj_js("podsumowanie.js", ".P")["lejek_naglowek"]
     linki_lejka = {"safari": nag["naprawy"][0]["link"]}

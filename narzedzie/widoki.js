@@ -76,8 +76,8 @@
   function krocz(arr, w) { return b().krocz(arr, w); }
   function suma(arr, z) { var t = 0; if (!z) return 0; for (var i = z[0]; i <= z[1]; i++) t += arr[i]; return t; }
   function komorka(pB, nB, pA, nA, jedn, miejsca, odwrotnie) {
-    var B = b(), td = B.el("td"), j = jedn || "%", m = miejsca === undefined ? 1 : miejsca;
-    var f = function (v) { return v === null || !isFinite(v) ? "—" : B.liczba(v, m) + (j === "%" ? "%" : " " + j); };
+    var B = b(), td = B.el("td"), j = jedn === undefined ? "%" : jedn, m = miejsca === undefined ? 1 : miejsca;
+    var f = function (v) { return v === null || !isFinite(v) ? "—" : B.liczba(v, m) + (j === "%" ? "%" : j ? " " + j : ""); };
     td.appendChild(B.el("span", { class: "b", text: f(pB) }));
     td.appendChild(B.el("span", { class: "n", text: nB !== null ? " z " + B.liczba(nB) : "" }));
     var a = B.el("span", { class: "a", text: "A: " + f(pA) + (nA !== null ? " z " + B.liczba(nA) : "") + " " });
@@ -188,14 +188,14 @@
     return out;
   }
 
-  var OKNA_MACIERZY = [7, 14, 30, 60, 90, 180], KS_GRAN = "tydz", wykresKrz = null;
+  var OKNA_MACIERZY = [7, 14, 30, 60, 90, 180], KS_GRAN = "dzien", wykresKrz = null;
   var RAMPA = ["#cde2fb", "#b7d3f6", "#9ec5f4", "#86b6ef", "#6da7ec", "#5598e7", "#3987e5", "#2a78d6", "#256abf", "#1c5cab", "#184f95", "#104281"];
 
   function grupyKohort(gran) {
     var B = b(), N = B.NDNI, gr = [], cur = null;
     for (var i = 0; i < N; i++) {
       var d = new Date(B.START + i * B.DZIEN);
-      var kl = gran === "tydz" ? i - ((d.getUTCDay() + 6) % 7) : d.getUTCFullYear() * 100 + d.getUTCMonth();
+      var kl = gran === "dzien" ? i : gran === "tydz" ? i - ((d.getUTCDay() + 6) % 7) : d.getUTCFullYear() * 100 + d.getUTCMonth();
       if (!cur || cur.kl !== kl) { cur = { kl: kl, od: i, do: i }; gr.push(cur); } else cur.do = i;
     }
     return gr;
@@ -217,24 +217,26 @@
         zd: zd.filter(function (z) { var di = B.idxIso(z.od); return di >= g.od && di <= g.do; }) };
     });
     var mn = OKNA_MACIERZY.map(function (w, k) {
-      var v = wiersze.map(function (r) { return r.p[k]; }).filter(function (x) { return x !== null; });
-      return v.length ? [Math.min.apply(null, v), Math.max.apply(null, v)] : [0, 1];
+      var v = wiersze.map(function (r) { return r.p[k]; }).filter(function (x) { return x !== null; }).sort(function (a, c) { return a - c; });
+      if (!v.length) return [0, 1];
+      var q = function (u) { return v[Math.min(v.length - 1, Math.max(0, Math.round(u * (v.length - 1))))]; };
+      return [q(0.05), q(0.95)];
     });
     var t = B.wyczysc(B.$("ko-macierz"));
-    var hr = B.el("tr", null, [B.el("th", { text: KS_GRAN === "tydz" ? "Kohorta (tydzień od)" : "Kohorta (miesiąc)" }),
+    var hr = B.el("tr", null, [B.el("th", { text: KS_GRAN === "dzien" ? "Kohorta (dzień)" : KS_GRAN === "tydz" ? "Kohorta (tydzień od)" : "Kohorta (miesiąc)" }),
       B.el("th", { text: "Nowi pacjenci" }), B.el("th", { text: "Zdarzenia" })]);
     OKNA_MACIERZY.forEach(function (w) { hr.appendChild(B.el("th", { text: w + " dni" })); });
     t.appendChild(B.el("thead", null, [hr]));
     var tb = B.el("tbody");
     wiersze.forEach(function (r) {
       var d = new Date(B.START + r.g.od * B.DZIEN);
-      var naz = KS_GRAN === "tydz" ? B.dataPL(r.g.od) : B.RZYM[d.getUTCMonth()] + " " + d.getUTCFullYear();
+      var naz = KS_GRAN !== "mies" ? B.dataPL(r.g.od) : B.RZYM[d.getUTCMonth()] + " " + d.getUTCFullYear();
       var tr = B.el("tr", null, [B.el("td", { text: naz }), B.el("td", { text: B.liczba(r.n) }),
         B.el("td", { class: "macierz-zd", text: r.zd.map(function (z) { return z.nr; }).join(", "),
           title: r.zd.map(function (z) { return z.nr + ". " + z.tytul; }).join("\n") })]);
       r.p.forEach(function (v, k) {
         if (v === null) { tr.appendChild(B.el("td", { class: "macierz-pusta", text: "·", title: "Kohorta nie ma jeszcze pełnego okna " + OKNA_MACIERZY[k] + " dni" })); return; }
-        var z = mn[k], u = z[1] > z[0] ? (v - z[0]) / (z[1] - z[0]) : 0.5, st_ = Math.min(RAMPA.length - 1, Math.floor(u * RAMPA.length));
+        var z = mn[k], u = z[1] > z[0] ? Math.max(0, Math.min(1, (v - z[0]) / (z[1] - z[0]))) : 0.5, st_ = Math.min(RAMPA.length - 1, Math.floor(u * RAMPA.length));
         tr.appendChild(B.el("td", { class: "macierz-kom", style: "background:" + RAMPA[st_] + ";color:" + (st_ >= 7 ? "#fff" : "#0b0b0b"),
           text: B.liczba(v, 1), title: naz + ": powrót w " + OKNA_MACIERZY[k] + " dniach " + B.proc(v) + " z " + B.liczba(r.n) + " pacjentów" }));
       });
@@ -258,6 +260,11 @@
     }
     var cel = B.wyczysc(B.$("ko-krzywa")), m = B.css("--muted"), g = B.css("--grid");
     var mx = Math.max.apply(null, yA.concat(yB).filter(function (v) { return v !== null; }).concat([1]));
+    var dW = 30, dP = 0;
+    for (var q = D; q >= 1; q--) if (nB[q - 1] > 0) { dP = q; break; }
+    B.$("ko-krzywa-opis").textContent = dP && nB[dW - 1] ? "Każdy punkt krzywej liczymy z innych pacjentów: dzień N bierze tylko kohorty, " +
+      "które ten dzień już osiągnęły. W okresie B dzień " + dW + " to " + B.liczba(nB[dW - 1]) + " pacjentów, a dzień " + dP + " już tylko " +
+      B.liczba(nB[dP - 1]) + ", z najstarszych kohort. Wyższe wartości późnych dni nie znaczą więc, że młodsze kohorty nadrabiają." : "";
     if (wykresKrz) wykresKrz.destroy();
     wykresKrz = new uPlot({
       width: Math.max(320, cel.clientWidth), height: 300,
@@ -471,7 +478,7 @@
 
   function filtryMacierzy() {
     var B = b(), f = B.wyczysc(B.$("ko-macierz-filtry"));
-    f.appendChild(wybor("ko-gran", "Kohorty", [["tydz", "tygodniowe"], ["mies", "miesięczne"]], KS_GRAN,
+    f.appendChild(wybor("ko-gran", "Kohorty", [["dzien", "dzienne"], ["tydz", "tygodniowe"], ["mies", "miesięczne"]], KS_GRAN,
       function (v) { KS_GRAN = v; rysujMacierz(); }));
   }
 
@@ -805,7 +812,7 @@
       B.el("th", { text: "Sesja płatności", colspan: 4, style: "text-align:center" }), B.el("th", { text: "" })]);
     var h2 = B.el("tr", null, [B.el("th", { text: "" })]);
     [0, 1].forEach(function () {
-      ["Nowi pacjenci", "Koszt pozyskania na pacjenta", "Wynik na pacjenta, 90 dni", "Wynik na pacjenta, 180 dni"].forEach(function (x) { h2.appendChild(B.el("th", { text: x })); });
+      ["Koszt pozyskania, 90 dni", "Wynik na pacjenta, 90 dni", "Koszt pozyskania, 180 dni", "Wynik na pacjenta, 180 dni"].forEach(function (x) { h2.appendChild(B.el("th", { text: x })); });
     });
     h2.appendChild(B.el("th", { text: "Ocena" }));
     t.appendChild(B.el("thead", null, [h1, h2]));
@@ -815,15 +822,14 @@
     klucze.forEach(function (k) {
       var tr = B.el("tr", null, [B.el("td", { text: et(k) })]), znaki = {};
       ["Z1K", "Z2"].forEach(function (reg) {
-        var r90 = znajdz(k, reg, 90), r180 = znajdz(k, reg, 180);
-        tr.appendChild(B.el("td", { text: r90 ? B.liczba(r90.nowi) : "—" }));
-        tr.appendChild(B.el("td", { text: r90 ? B.liczba(r90.cac, 1) + " zł" : "—" }));
-        [r90, r180].forEach(function (r, j) {
-          if (!r) { tr.appendChild(B.el("td", { text: "—" })); return; }
+        [znajdz(k, reg, 90), znajdz(k, reg, 180)].forEach(function (r, j) {
+          if (!r) { tr.appendChild(B.el("td", { text: "—" })); tr.appendChild(B.el("td", { text: "—" })); return; }
           znaki[reg + j] = r.wynik >= 0;
-          tr.appendChild(B.el("td", { class: "", title: "Przedział warunkowy " + B.liczba(r.od, 1) + "–" + B.liczba(r.do, 1) + " zł. Powrót: " + B.liczba(r.powrot, 1) + "%." },
+          tr.appendChild(B.el("td", null, [B.el("span", { class: "b", text: B.liczba(r.cac, 1) + " zł" }),
+            B.el("span", { class: "a", text: B.liczba(r.nowi) + " pac." })]));
+          tr.appendChild(B.el("td", { title: "Przedział warunkowy " + B.liczba(r.od, 1) + "–" + B.liczba(r.do, 1) + " zł. Powrót: " + B.liczba(r.powrot, 1) + "%." },
             [B.el("span", { class: "b delta " + (r.wynik >= 0 ? "plus" : "minus"), text: zl(r.wynik) }),
-              B.el("span", { class: "a", text: "marża " + B.liczba(r.marza, 1) + " zł, " + B.liczba(r.nowi) + " pac." })]));
+              B.el("span", { class: "a", text: "marża " + B.liczba(r.marza, 1) + " zł − koszt " + B.liczba(r.cac, 1) + " zł" })]));
         });
       });
       var niepewne = (znaki.Z1K0 !== undefined && znaki.Z20 !== undefined && znaki.Z1K0 !== znaki.Z20) ||
@@ -841,6 +847,7 @@
         WY = dane;
         if (!gotoweW) {
           B.akapity(B.$("wy-zdania"), WY.zdania);
+          B.$("wy-granica").textContent = WY.granica || "";
           B.akapity(B.$("ek-zdania"), WY.ekonomia.zdania);
           var f = B.wyczysc(B.$("wy-filtry"));
           f.appendChild(wybor("wy-krok", "Grupowanie", [["mies", "miesiące"], ["tydz", "tygodnie"], ["dzien", "dni"]], WS.krok,

@@ -1,4 +1,4 @@
-B — EKSPORT DANYCH NARZĘDZIA (2026-10-20 15:07, commit cfa8c57)
+B — EKSPORT DANYCH NARZĘDZIA (2026-10-21 19:47, commit efdd8e2)
 
 1. Pliki w narzedzie/dane_strony/ (bajty)
    calosc                             38,075
@@ -9,14 +9,14 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-20 15:07, commit cfa8c57)
    kanal                             177,555
    kampania                          249,718
    strona_wejscia                    265,403
-   podsumowanie                       10,824
-   zdarzenia                          35,755
-   jakosc                              8,887
-   kohorty                         1,441,101
+   podsumowanie                       11,472
+   zdarzenia                          36,006
+   jakosc                              8,893
+   kohorty                         1,441,124
    po_zakupie                        294,096
-   wynik                              83,682
-   c                                  57,127
-   razem                           4,150,810
+   wynik                              84,100
+   c                                  57,185
+   razem                           4,152,214
 
 2. Kontrola: liczby z eksportu wobec notatek i wcześniejszych raportów
    co                                                                    eksport  oczekiwane  wynik
@@ -86,6 +86,7 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-20 15:07, commit cfa8c57)
    wynik: marża III kw. 2026 / III kw. 2025 (zł)                      207713 / 222824 207713 / 222824  zgodne
    ekonomia: nowe kampanie, wynik na pacjenta 90 dni Z1K / Z2 (zł)    3.6 / -9.4  3.6 / -9.4  zgodne
    zdarzenia: powrót 90 dni stare kampanie przed / po 2.03.2026 (%)   23.3 / 20.9 23.3 / 20.9  zgodne
+   płatności w lejku = zamówienia razem w dwóch latach                     63207       63207  zgodne
    C: wzrost nowych pacjentów z liczb W1 = zmiana w raporcie (%)            52.1        52.1  zgodne
    C: bez nowych kampanii Z1K / Z2 (%)                                7.3 / 20.1  7.3 / 20.1  zgodne
    C: kanały bezpłatne (%)                                                  12.1        12.1  zgodne
@@ -100,6 +101,11 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-20 15:07, commit cfa8c57)
    C: TikTok wyłączenie 100% po 180 dniach i Meta po 180 dniach na pełny rok (zł) 21008 50446 32852 -30205 21008 50446 32852 -30205  zgodne
    C: próg decyzji Meta 90 / 180 dni, liczony = raport (%)            85.4 / 84.5 85.4 / 84.5  zgodne
    C: naprawa zwrotów samej Meta na pełny rok (zł)                    18125 46463 10714 26686 18125 46463 10714 26686  zgodne
+   C: powrót 30 dni z danych kohort strony = c_priorytety W2 (%, pacjenci) 11.0 7.8 14984 22646 11.0 7.8 14984 22646  zgodne
+   C: powrót 60 dni z danych kohort strony = c_priorytety W2 (%, pacjenci) 19.1 13.7 13941 20823 19.1 13.7 13941 20823  zgodne
+   C: powrót 90 dni z danych kohort strony = c_priorytety W2 (%, pacjenci) 23.9 17.4 12867 18924 23.9 17.4 12867 18924  zgodne
+   C: powrót 180 dni z danych kohort strony = a5r_kohorty (%, pacjenci) 27.5 22.2 9125 12591 27.5 22.2 9125 12591  zgodne
+   C: oceny internista okres 2 (wizyty, średnia 2 miejsca) = a5r_po_zakupie 3a 11007 4.45 1550 2.92 11007 4.45 1550 2.92  zgodne
    C: gs_generic_specjalisci marża na pacjenta, c_priorytety = a5e_kampanie.csv 32.4 36.6 32.9 35.0 32.4 36.6 32.9 35.0  zgodne
    C: spadek marży III kwartału w P1 = W4 (zł)                             15111       15111  zgodne
    C: marża III kwartału z tabeli kwartałów = tabela rok do roku (zł) 207713 / 222824 207713 / 222824  zgodne
@@ -112,9 +118,9 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-20 15:07, commit cfa8c57)
    C: powrót 90 dni = eksport z bazy (%, pacjenci)                    23.9 17.4 12867 18924 23.9 17.4 12867 18924  zgodne
    C: zamówienia dashboardu i oczyszczone = mostek z bazy             25269 40613 24716 38491 25269 40613 24716 38491  zgodne
    C: marża po kwartałach = eksport z bazy (zł, 8 kwartałów)          151340 226877 227044 222824 259375 324423 256558 207713 151340 226877 227044 222824 259375 324423 256558 207713  zgodne
-   C: liczby w tekstach bez pokrycia w c_szkic.md (46 fragmentów, 790 liczb)          0           0  zgodne
+   C: liczby w tekstach bez pokrycia w c_szkic.md (46 fragmentów, 792 liczb)          0           0  zgodne
 
-   Różnic: 0 z 93 kontroli.
+   Różnic: 0 z 99 kontroli.
 
 3. Zdarzenia na osi czasu
    2025-05-17  jakosc   Godzina bez danych
@@ -128,14 +134,14 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-20 15:07, commit cfa8c57)
    2026-02-09  lejek    Start kampanii TikTok na L4 (tt_prosp_l4_15min)
    2026-02-10  retencja Powrót nowych pacjentów w 30 dniach spada
    2026-03-02  retencja Powrót w 90 dniach w kampaniach działających w obu latach: brak wyraźnego skoku
-   2026-03-17  lejek    Safari na iOS: przestaje działać zakładanie konta
+   2026-03-17  lejek    Safari na iOS: gwałtownie spada skuteczność zakładania nowego konta
    2026-06-10  jakosc   Duplikaty zamówień w eksporcie
    Zmiany wykryte automatycznie (tabela pod osią): 245
 
 4. Kontrola ze szkicem (notatki/c_szkic.md): każda liczba w zdaniach strony stoi w tym samym fragmencie szkicu.
 „Dodane” = liczby dopisane poza szkicem (liczebność przy odsetku, okres, kwoty w dniach działania), odczytane z raportów.
    fragment          liczb  bez pokrycia   dodane
-   wzrost              195  —              06, 10, 2325, 24, 24716, 2549, 2639, 2797, 3,2, 3206, 3570, 38491, 5,3, 5,4, 6,5
+   wzrost              197  —              06, 2325, 24, 24716, 2549, 2639, 2797, 3,2, 3206, 3570, 38491, 5,2, 5,4, 6,5
    telemedigo           45  —              16231, 17419, 24687, 6784, 7268, 9307
    zasady               19  —              —
    nie_robimy            4  —              —
@@ -151,19 +157,19 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-20 15:07, commit cfa8c57)
    przeglad:10           4  —              —
    przeglad:11           2  —              —
    przeglad:12           2  —              —
-   pozycja:1            61  —              10, 2025, 2278, 2990, 4678
+   pozycja:1            61  —              2278, 2990, 4678
    pozycja:2            40  —              24716, 25269, 40613
    pozycja:3            50  —              02, 1,56, 1265, 2026, 299, 9
    pozycja:4            37  —              —
    pozycja:5            29  —              16,5, 24,3, 332, 42,3, 5080, 9,7
-   pozycja:6            50  —              11007, 1550, 23,6, 2844, 572, 9979
+   pozycja:6            50  —              2,92, 23,6, 2844, 3446, 4,45, 469, 572, 9979
    pozycja:7            30  —              12867, 14031
    pozycja:8             8  —              —
    pozycja:9            26  —              —
    pozycja:10           31  —              —
    pozycja:11           14  —              1434, 23776
    pozycja:12           24  —              1, 1140, 20,0, 34,7, 62, 858
-   niewiadoma:1         15  —              180, 32,9, 84,5, 85,4, 90
+   niewiadoma:1         15  —              —
    niewiadoma:2          0  —              —
    niewiadoma:3          9  —              —
    niewiadoma:4          7  —              —

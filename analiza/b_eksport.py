@@ -302,6 +302,7 @@ def naglowek_lejka(d, zd, kontrole):
         "po60": [po60[0].isoformat(), po60[1].isoformat()],
         "przed_proc": st(s_przed), "po60_proc": st(s_po60), "po_proc": st(s_po),
         "przed_k2": int(s_przed["k2"]), "po60_k2": int(s_po60["k2"]),
+        "przed_od": str(przed[0]), "przed_do": str(przed[1]), "po60_od": str(po60[0]), "po60_do": str(po60[1]),
         "reszta_przed_proc": st(r_przed), "reszta_po60_proc": st(r_po60),
         "utracone_od": round(utr_tlo), "utracone_do": round(utr), "dni_po": dni_po,
         "na30_od": utr_tlo / dni_po * 30, "na30_do": utr / dni_po * 30,
@@ -323,10 +324,11 @@ def naglowek_lejka(d, zd, kontrole):
         "To jednak nie jest tylko „inny ruch”. Dwie rzeczy trzeba naprawić na stronie:",
     ]
     naprawy = [
-        {"tytul": f"Safari na iPhone'ach i iPadach: od {data(dz)} nie działa zakładanie konta",
-         "tekst": f"Krok konta po wyborze terminu u osób, które jeszcze nie kupowały, spadł z {proc(st(s_przed))} "
-                  f"({ile(s_przed['k2'], 'sesja')} z wyborem terminu, {data(przed[0])}–{data(przed[1])}) do "
-                  f"{proc(st(s_po60))} ({ile(s_po60['k2'], 'sesja')}, {data(po60[0])}–{data(po60[1])}). "
+        {"tytul": f"Safari na iPhone'ach i iPadach: od {data(dz)} gwałtownie spada skuteczność zakładania nowego konta",
+         "tekst": f"Konta dalej powstają, ale rzadziej. Krok konta po wyborze terminu u osób, które jeszcze nie kupowały, "
+                  f"spadł z {proc(st(s_przed))} w 60 dniach przed awarią ({data(przed[0])}–{data(przed[1])}, "
+                  f"{ile(s_przed['k2'], 'sesja')} z wyborem terminu) do {proc(st(s_po60))} w 60 dniach po niej "
+                  f"({data(po60[0])}–{data(po60[1])}, {ile(s_po60['k2'], 'sesja')}). "
                   f"Pozostałe przeglądarki w tych samych dniach: {proc(st(r_przed))} i {proc(st(r_po60))}. "
                   f"Szacunek: {liczba(utr_tlo)}–{liczba(utr)} utraconych pierwszych zamówień do {data(KONIEC)}, "
                   f"czyli {liczba(utr_tlo / dni_po * 30)}–{liczba(utr / dni_po * 30)} na 30 dni.",
@@ -352,7 +354,7 @@ def naglowek_lejka(d, zd, kontrole):
         f"{O2_NAZWA}. Mają tylko kroki płatności i płacą zawsze.",
     ]
     return {"zdania": zdania, "naprawy": naprawy, "osobne": osobne, "safari": safari,
-            "konw": [k1, k2], "sesje": [int(a1["sesje"]), int(a2["sesje"])]}
+            "konw": [k1, k2], "sesje": [int(a1["sesje"]), int(a2["sesje"])], "platnosci": [int(a1["k5"]), int(a2["k5"])]}
 
 
 # ---------------------------------------------------------------- 2. czy to wzrost (wstępne)
@@ -609,20 +611,23 @@ def jakosc(con, kontrole):
 
 def zdarzenia(con, d, zd, lejek_nag, jak, kontrole):
     lista = []
+    dzs = lambda x: data(dt.date.fromisoformat(str(x)[:10]))  # noqa: E731
     s = lejek_nag["safari"]
     lista.append({
         "id": "safari_ios", "obszar": "lejek", "od": s["data"], "rodzaj": "awaria",
-        "tytul": "Safari na iOS: przestaje działać zakładanie konta",
+        "tytul": "Safari na iOS: gwałtownie spada skuteczność zakładania nowego konta",
         "co": "U osób, które jeszcze nie kupowały, krok logowania albo zakładania konta po wyborze terminu spada "
-              "w Safari na iPhone'ach i iPadach i zostaje niski do końca danych. Psuje się zakładanie nowego konta, "
-              "a logowanie do istniejącego działa.",
-        "ile": f"Z {proc(s['przed_proc'])} ({ile(s['przed_k2'], 'sesja')} z wyborem terminu w 60 dniach przed) do "
-               f"{proc(s['po60_proc'])} ({ile(s['po60_k2'], 'sesja')} w 60 dniach po). Pozostałe przeglądarki: "
+              "w Safari na iPhone'ach i iPadach i zostaje niski do końca danych. Gwałtownie spada skuteczność "
+              "zakładania nowego konta (konta dalej powstają, ale rzadziej), a logowanie do istniejącego działa.",
+        "ile": f"Z {proc(s['przed_proc'])} w 60 dniach przed awarią ({dzs(s['przed_od'])}–{dzs(s['przed_do'])}, "
+               f"{ile(s['przed_k2'], 'sesja')} z wyborem terminu) do {proc(s['po60_proc'])} w 60 dniach po niej "
+               f"({dzs(s['po60_od'])}–{dzs(s['po60_do'])}, {ile(s['po60_k2'], 'sesja')}). Pozostałe przeglądarki: "
                f"{proc(s['reszta_przed_proc'])} i {proc(s['reszta_po60_proc'])}. Szacunek: {liczba(s['utracone_od'])}–"
                f"{liczba(s['utracone_do'])} utraconych pierwszych zamówień w {liczba(s['dni_po'])} dniach do "
                f"{data(KONIEC)}, czyli {liczba(s['na30_od'])}–{liczba(s['na30_do'])} na 30 dni.",
         "skad": "Metoda wykrywania zmian w seriach dziennych (podział binarny) wskazała ten dzień. Sprawdzenie na bazie: "
-                "spadek jest w każdym kanale, więc to nie zmiana struktury ruchu. Przyczyny w danych nie widać. "
+                "spadek jest w głównych kanałach (TikTok ma za małą próbę do oceny), więc to nie zmiana struktury ruchu. "
+                "Przyczyny w danych nie widać. "
                 "Źródło: analiza/a5p_zdarzenia.py, sekcja 5; notatki/a5_pozyskanie.md, punkt 2.1.",
         "link": lejek_nag["naprawy"][0]["link"]})
 
@@ -717,12 +722,13 @@ def zdarzenia(con, d, zd, lejek_nag, jak, kontrole):
       SELECT p.zrodlo, CASE WHEN dzien_pl < DATE '{D.OKRES2}' THEN 1 WHEN dzien_pl >= DATE '2026-01-01' THEN 3 ELSE 2 END o,
              count(*) sesje, 100 * avg(k5) konw
       FROM rm JOIN pierw p USING (visitor_id) GROUP BY 1, 2""").df()
+    od_2026 = dt.date(2026, 1, 1)   # granica okresu porównania w zapytaniu wyżej
     zz = lambda z, o: zrodla[(zrodla["zrodlo"] == z) & (zrodla["o"] == o)].iloc[0]  # noqa: E731
     det = zd[(zd["podzial"] == "kampania") & (zd["wartosc"] == "meta_rmkt_koszyk") & (zd["przejscie"] == "sesja_do_platn")].iloc[0]
     kontrole += [("remarketing: płatność na sesję IV kw. 2025 (%)", round(q4["konw"], 1), 28.2),
                  ("remarketing: udział w aplikacjach IV kw. 2025 (%)", round(q4["w_apl"], 1), 13.3)]
     lista.append({
-        "id": "remarketing_meta", "obszar": "lejek", "od": "2026-01-01", "rodzaj": "zmiana stopniowa",
+        "id": "remarketing_meta", "obszar": "lejek", "od": od_2026.isoformat(), "rodzaj": "zmiana stopniowa",
         "tytul": "Remarketing Meta słabnie, bo zmienia się pula odbiorców",
         "co": "Remarketing wraca coraz częściej do osób, które pierwszy raz przyszły z Meta i TikToka, a rzadziej do osób "
               "z wyszukiwarki. Te osoby płacą rzadziej. W obrębie źródła pierwszej wizyty konwersja stoi.",
@@ -733,10 +739,10 @@ def zdarzenia(con, d, zd, lejek_nag, jak, kontrole):
                f". Udział przeglądarek w aplikacjach w tym ruchu rośnie z {proc(q4['w_apl'])} do "
                f"{zakres(q26['w_apl'].min(), q26['w_apl'].max(), 1)}. Osoby, które pierwszy raz przyszły z Google "
                f"albo Bing: {proc(zz('google_bing', 1)['konw'])} w okresie {O1_NAZWA} i {proc(zz('google_bing', 3)['konw'])} "
-               f"w 2026; z Meta (pozyskanie): {proc(zz('meta_pozyskanie', 1)['konw'])} i "
+               f"od {data(od_2026)} do {data(KONIEC)}; z Meta (pozyskanie): {proc(zz('meta_pozyskanie', 1)['konw'])} i "
                f"{proc(zz('meta_pozyskanie', 3)['konw'])}.",
         "skad": f"Metoda wykrywania zmian wskazała {data(dt.date.fromisoformat(det['data']))} jako dzień zmiany poziomu "
-                f"płatności na sesję ({proc(det['przed'])} → {proc(det['po'])}), ale zmiana narasta od początku 2026. "
+                f"płatności na sesję ({proc(det['przed'])} → {proc(det['po'])}), ale zmiana narasta od {data(od_2026)}. "
                 f"Źródło: analiza/a5p_zdarzenia.py, sekcje 5h i 5i; notatki/a5_pozyskanie.md, punkt 2.5.",
         "link": "#lejek?pac=nie_kupowal&podz=kampania&krok=k5&w=meta_rmkt_koszyk"})
 
@@ -863,15 +869,17 @@ def kohorty(con, kontrole):
         zd.append(f"w {n} dniach {proc(b)} ({ile(lb, 'pacjent')}) wobec {proc(a)} ({ile(la, 'pacjent')})")
     m90 = stopy_z_pacjentow(p, 90, "m90")
     m180 = stopy_z_pacjentow(p, 180, "m180")
+    udzial_nowych = B2.udzial_nowych_w_spadku()   # a5r_struktura.txt: przyjęta reguła, sesja płatności
     zdania = [
         "Powrót nowych pacjentów spada w każdym oknie. Okres " + O2_NAZWA + " wobec " + O1_NAZWA +
         ", te same dni kalendarzowe, tylko kohorty z pełnym oknem: " + "; ".join(zd) + ".",
         f"Marża na pacjenta przed kosztem pozyskania (przychód z konsultacji po zwrotach, TelemediGO, minus koszt "
         f"lekarza): w 90 dniach {liczba(m90[1], 1)} zł wobec {liczba(m90[0], 1)} zł, w 180 dniach "
         f"{liczba(m180[1], 1)} zł wobec {liczba(m180[0], 1)} zł.",
-        "Większość spadku powrotów wiąże się z pacjentami dwóch nowych kampanii na L4, ale w kampaniach działających "
-        "w obu latach też jest spadek, którego sprawdzone cechy nie tłumaczą. Podział zależy od reguły źródła, "
-        "dlatego obie reguły są do wyboru w filtrach.",
+        f"Obecność pacjentów dwóch nowych kampanii na L4 odpowiada opisowo za około "
+        f"{zakres(min(udzial_nowych), max(udzial_nowych), 0)} spadku powrotu w 90 dniach, zależnie od reguły źródła, "
+        f"ale w kampaniach działających w obu latach też jest spadek, którego sprawdzone cechy nie tłumaczą. Dlatego obie "
+        f"reguły są do wyboru w filtrach.",
     ]
     return p, dane, zdania
 
@@ -1207,10 +1215,12 @@ def zdarzenia_retencji(zdz, pac, kontrole):
                   "skad": zrodlo + kandydaci,
                   "link": "#kohorty?miara=udzial&podz=grupa&wygl=28"})
     p30 = seria("powrot30_wszyscy")
+    start_tt = dt.date.fromisoformat([z for z in lista if z["id"] == "start_tiktok"][0]["od"])
     lista.append({"id": "powrot30_spada", "obszar": "retencja", "od": p30.loc[2, "od"], "rodzaj": "zmiana zachowania kohort",
                   "tytul": "Powrót nowych pacjentów w 30 dniach spada",
-                  "co": "Powrót w 30 dniach całej kohorty spada skokowo w dniu startu kampanii TikTok na L4. To głównie skład "
-                        "pacjentów (rosnący udział nowych kampanii), co pokazuje krok 3 analizy retencji.",
+                  "co": f"Powrót w 30 dniach całej kohorty spada skokowo zaraz po starcie kampanii TikTok na L4 "
+                        f"({data(start_tt)}); metoda wskazała dzień później. To głównie skład pacjentów (rosnący udział "
+                        f"nowych kampanii), co pokazuje krok 3 analizy retencji.",
                   "ile": f"{proc(p30.loc[1, 'poziom'])} ({ile(p30.loc[1, 'n'], 'pacjent')}, {d(p30.loc[1, 'od'])}–{d(p30.loc[1, 'do'])}) "
                          f"→ {proc(p30.loc[2, 'poziom'])} ({ile(p30.loc[2, 'n'], 'pacjent')}, {d(p30.loc[2, 'od'])}–{d(p30.loc[2, 'do'])}). "
                          f"Wcześniejszy kandydat {d(p30.loc[1, 'od'])}: {proc(p30.loc[0, 'poziom'])} → {proc(p30.loc[1, 'poziom'])}; "
@@ -1283,7 +1293,18 @@ def main():
     wy["ekonomia"] = ekonomia_kampanii(kontrole)
     zdarzenia_retencji(zdz, pac, kontrole)
     con.close()
-    _, szkic, _ = B2.eksport_c(kontrole, wz=wz, mostek=mostek, wy=wy, nag=nag)
+    # zdanie o granicy okresów: płatności w lejku a zamówienia, zaokrąglenie przychodu (Jak liczymy)
+    pl, zam = nag["platnosci"], mostek["kroki"][2]["miary"]["zamowienia"]
+    prz1 = mostek["kroki"][3]["miary"]["przychod"]["p1"]
+    kontrole.append(("płatności w lejku = zamówienia razem w dwóch latach", sum(pl), zam["p1"] + zam["p2"]))
+    granica = (f"Płatności w lejku ({liczba(pl[0])} w okresie {O1_NAZWA} i {liczba(pl[1])} w okresie {O2_NAZWA}) i zamówienia "
+               f"({liczba(zam['p1'])} i {liczba(zam['p2'])}) różnią się o {liczba(abs(pl[0] - zam['p1']))} na granicy okresów, "
+               f"bo sesję liczymy do dnia jej rozpoczęcia, a zamówienie do dnia płatności; przychód z konsultacji po zwrotach "
+               f"w okresie {O1_NAZWA} to {liczba(prz1, 2)} zł, więc zależnie od zaokrąglenia {liczba(int(prz1))} albo "
+               f"{liczba(int(prz1) + 1)} zł.")
+    nag["granica"] = granica
+    wy["granica"] = granica
+    _, szkic, _ = B2.eksport_c(kontrole, wz=wz, mostek=mostek, wy=wy, nag=nag, koh=koh, pz=pz)
     koh["zdania"] = koh_zdania
 
     try:

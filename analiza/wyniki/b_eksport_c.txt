@@ -1,6 +1,6 @@
-B2 — EKSPORT PUNKTU C NA STRONĘ (2026-10-20 15:07)
+B2 — EKSPORT PUNKTU C NA STRONĘ (2026-10-21 19:47)
 
-1. Plik: narzedzie/dane_strony/c.js (57,127 bajtów). Odczytów z raportów: 116.
+1. Plik: narzedzie/dane_strony/c.js (57,185 bajtów). Odczytów z raportów: 117.
 
 2. Kontrole krzyżowe
    co                                                                                              eksport               oczekiwane  wynik
@@ -18,20 +18,25 @@ B2 — EKSPORT PUNKTU C NA STRONĘ (2026-10-20 15:07)
    C: TikTok wyłączenie 100% po 180 dniach i Meta po 180 dniach na pełny rok (zł) 21008 50446 32852 -30205 21008 50446 32852 -30205  zgodne
    C: próg decyzji Meta 90 / 180 dni, liczony = raport (%)                                     85.4 / 84.5              85.4 / 84.5  zgodne
    C: naprawa zwrotów samej Meta na pełny rok (zł)                                 18125 46463 10714 26686  18125 46463 10714 26686  zgodne
+   C: powrót 30 dni z danych kohort strony = c_priorytety W2 (%, pacjenci)            11.0 7.8 14984 22646     11.0 7.8 14984 22646  zgodne
+   C: powrót 60 dni z danych kohort strony = c_priorytety W2 (%, pacjenci)           19.1 13.7 13941 20823    19.1 13.7 13941 20823  zgodne
+   C: powrót 90 dni z danych kohort strony = c_priorytety W2 (%, pacjenci)           23.9 17.4 12867 18924    23.9 17.4 12867 18924  zgodne
+   C: powrót 180 dni z danych kohort strony = a5r_kohorty (%, pacjenci)               27.5 22.2 9125 12591     27.5 22.2 9125 12591  zgodne
+   C: oceny internista okres 2 (wizyty, średnia 2 miejsca) = a5r_po_zakupie 3a        11007 4.45 1550 2.92     11007 4.45 1550 2.92  zgodne
    C: gs_generic_specjalisci marża na pacjenta, c_priorytety = a5e_kampanie.csv        32.4 36.6 32.9 35.0      32.4 36.6 32.9 35.0  zgodne
    C: spadek marży III kwartału w P1 = W4 (zł)                                                       15111                    15111  zgodne
    C: marża III kwartału z tabeli kwartałów = tabela rok do roku (zł)                      207713 / 222824          207713 / 222824  zgodne
    C: zwroty L4 nowych kampanii: a5r_po_zakupie = a5e_scenariusze (wizyty odbyte)                     5895                     5895  zgodne
    C: zamówienia testowe w P1b (okres 1 + 2) = P13                                                    2071                     2071  zgodne
    C: wizyty testowe u internisty i trwające 1 minutę = wszystkie                                2071 2071                2071 2071  zgodne
-   C: liczby w tekstach bez pokrycia w c_szkic.md (46 fragmentów, 790 liczb)                             0                        0  zgodne
+   C: liczby w tekstach bez pokrycia w c_szkic.md (46 fragmentów, 792 liczb)                             0                        0  zgodne
 
-   Różnic: 0 z 21 kontroli.
+   Różnic: 0 z 26 kontroli.
 
 3. Kontrola ze szkicem (notatki/c_szkic.md): każda liczba w zdaniach strony stoi w tym samym fragmencie szkicu.
 „Dodane” = liczby dopisane poza szkicem (liczebność przy odsetku, okres, kwoty w dniach działania), odczytane z raportów.
    fragment          liczb  bez pokrycia   dodane
-   wzrost              195  —              06, 10, 2325, 24, 24716, 2549, 2639, 2797, 3,2, 3206, 3570, 38491, 5,3, 5,4, 6,5
+   wzrost              197  —              06, 2325, 24, 24716, 2549, 2639, 2797, 3,2, 3206, 3570, 38491, 5,2, 5,4, 6,5
    telemedigo           45  —              16231, 17419, 24687, 6784, 7268, 9307
    zasady               19  —              —
    nie_robimy            4  —              —
@@ -47,19 +52,19 @@ B2 — EKSPORT PUNKTU C NA STRONĘ (2026-10-20 15:07)
    przeglad:10           4  —              —
    przeglad:11           2  —              —
    przeglad:12           2  —              —
-   pozycja:1            61  —              10, 2025, 2278, 2990, 4678
+   pozycja:1            61  —              2278, 2990, 4678
    pozycja:2            40  —              24716, 25269, 40613
    pozycja:3            50  —              02, 1,56, 1265, 2026, 299, 9
    pozycja:4            37  —              —
    pozycja:5            29  —              16,5, 24,3, 332, 42,3, 5080, 9,7
-   pozycja:6            50  —              11007, 1550, 23,6, 2844, 572, 9979
+   pozycja:6            50  —              2,92, 23,6, 2844, 3446, 4,45, 469, 572, 9979
    pozycja:7            30  —              12867, 14031
    pozycja:8             8  —              —
    pozycja:9            26  —              —
    pozycja:10           31  —              —
    pozycja:11           14  —              1434, 23776
    pozycja:12           24  —              1, 1140, 20,0, 34,7, 62, 858
-   niewiadoma:1         15  —              180, 32,9, 84,5, 85,4, 90
+   niewiadoma:1         15  —              —
    niewiadoma:2          0  —              —
    niewiadoma:3          9  —              —
    niewiadoma:4          7  —              —
@@ -108,6 +113,7 @@ B2 — EKSPORT PUNKTU C NA STRONĘ (2026-10-20 15:07)
    c_priorytety.txt         P1.                                      (323.0, 15649.0, 20869.0, 15111.0)
    a5p_zdarzenia.txt        5f.                                      (66.1, 45.6, 4678.0, 72.3, 695.0, 105.3)
    a5p_zdarzenia.txt        5d.                                      (1082.0, 668.0)
+   a3_dashboard.txt                                                  (51.92, 60.72, 50.3, 40.31)
    c_priorytety.txt         P1b.                                     (60.7, 25269.0, 40613.0, 50.3, 2.382, 3.58)
    c_priorytety.txt         P1b.                                     (55.7, 24716.0, 38491.0, 44.8)
    c_priorytety.txt         P1b.                                     (604.0,)

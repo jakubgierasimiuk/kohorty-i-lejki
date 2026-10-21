@@ -197,6 +197,7 @@
         el("a", { href: x.link, text: "Pokaż w lejku" })]));
     });
     akapity($("lj-osobne"), N.osobne);
+    $("lj-granica").textContent = N.granica || "";
   }
 
   function przygotujFiltry() {
@@ -499,13 +500,20 @@
       var dl = el("dl", null, [el("dt", { text: "Co się zmieniło" }), el("dd", { text: z.co })]);
       if (z.ile) { dl.appendChild(el("dt", { text: "O ile" })); dl.appendChild(el("dd", { text: z.ile })); }
       dl.appendChild(el("dt", { text: "Skąd wiemy" })); dl.appendChild(el("dd", { text: z.skad }));
-      var link = z.link && z.link.indexOf("#lejek") === 0 ? el("a", { href: z.link, text: "Pokaż w lejku" })
-        : z.link ? el("a", { href: z.link, text: "Zobacz w jakości danych" }) : null;
+      var link = z.link ? el("a", { href: z.link, text: napisOdnosnika(z.link) }) : null;
       l.appendChild(el("article", { class: "karta zdarzenie", id: "zd-" + z.id }, [
         el("div", { class: "meta" }, [el("span", { class: "data", text: z.nr + ". " + dataPL(idxIso(z.od)) + (z.do ? "–" + dataPL(idxIso(z.do)) : "") }),
           el("span", { class: "obszar", text: ET.obszary[z.obszar] }), el("span", { text: z.rodzaj })]),
         el("h3", { text: z.tytul }), dl, link ? el("p", null, [link]) : null]));
     });
+  }
+
+  // napis odnośnika według zakładki, do której prowadzi
+  var NAPISY_ODNOSNIKOW = { lejek: "Pokaż w lejku", kohorty: "Pokaż w kohortach", "po-zakupie": "Pokaż w zakładce „Po zakupie”",
+    wynik: "Pokaż w wyniku biznesu", jakosc: "Zobacz w jakości danych", zdarzenia: "Pokaż na osi zdarzeń", priorytety: "Pokaż w priorytetach" };
+  function napisOdnosnika(href) {
+    var cel = href.slice(1).split("?")[0];
+    return NAPISY_ODNOSNIKOW[cel] || "Pokaż";
   }
 
   function pokazZdarzenie(id) {
@@ -618,6 +626,9 @@
       if (!narysowane.lejek) { rysujNaglowekLejka(); przygotujFiltry(); narysowane.lejek = true; }
       czytajAdres(q);
       odswiezLejek();
+      if (q && Array.from(q.keys()).length) setTimeout(function () {
+        $("lj-tabela").closest(".karta").scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 60);
     }
     if (widok === "zdarzenia") {
       if (!narysowane.zdarzenia) { rysujFiltryZdarzen(); rysujListeZdarzen(); rysujWykryte(); narysowane.zdarzenia = true; }

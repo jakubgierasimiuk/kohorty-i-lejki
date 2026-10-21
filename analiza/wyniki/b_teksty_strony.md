@@ -1,6 +1,6 @@
 # Teksty strony narzędzia — wszystkie zakładki, tak jak widzi je czytelnik
 
-Wygenerowane 2026-10-20 21:38 skryptem `analiza/b2_teksty_strony.py` ze strony w `narzedzie/` (stan repozytorium 1c874ef), otwartej w przeglądarce bez okna (Microsoft Edge), szerokość 1366 px. Każda zakładka przy ustawieniach domyślnych, bez klikania. Tabele dłuższe niż 40 wierszy są skrócone do 15 pierwszych i 5 ostatnich wierszy. Rozwijane sekcje są rozwinięte. Wykresy opisane nazwami serii. W komórkach tabel `<br>` oddziela linie, które strona pokazuje jedna pod drugą (zwykle: wartość w okresie B, pod spodem okres A i zmiana). Odnośniki do innych zakładek są oznaczone strzałką albo wypisane po „Zobacz w danych”.
+Wygenerowane 2026-10-21 19:48 skryptem `analiza/b2_teksty_strony.py` ze strony w `narzedzie/` (stan repozytorium efdd8e2), otwartej w przeglądarce bez okna (Microsoft Edge), szerokość 1366 px. Każda zakładka przy ustawieniach domyślnych, bez klikania. Tabele dłuższe niż 40 wierszy są skrócone do 15 pierwszych i 5 ostatnich wierszy. Rozwijane sekcje są rozwinięte. Wykresy opisane nazwami serii. W komórkach tabel `<br>` oddziela linie, które strona pokazuje jedna pod drugą (zwykle: wartość w okresie B, pod spodem okres A i zmiana). Odnośniki do innych zakładek są oznaczone strzałką albo wypisane po „Zobacz w danych”.
 
 **Nagłówek strony:** B2C: czy to wzrost? — Narzędzie do zadania rekrutacyjnego na stanowisko Head of B2C. Kohorty, lejki, zdarzenia i jakość danych w jednym miejscu.
 
@@ -42,7 +42,7 @@ Obecność pacjentów dwóch nowych kampanii na L4 odpowiada opisowo za około 4
 | 30 dni | 11,0% (14 984 pacjentów) | 7,8% (22 646 pacjentów) | −3,2 pkt proc. |
 | 60 dni | 19,1% (13 941 pacjentów) | 13,7% (20 823 pacjentów) | −5,4 pkt proc. |
 | 90 dni | 23,9% (12 867 pacjentów) | 17,4% (18 924 pacjentów) | −6,5 pkt proc. |
-| 180 dni | 27,5% (9 125 pacjentów) | 22,2% (12 591 pacjentów) | −5,3 pkt proc. |
+| 180 dni | 27,5% (9 125 pacjentów) | 22,2% (12 591 pacjentów) | −5,2 pkt proc. |
 
 - Powrót to kolejne zamówienie, które nie zostało anulowane. Liczymy go na tych samych dniach kalendarzowych i tylko w kohortach z pełnym oknem obserwacji.
 - Marża na pacjenta w 90 dniach przed kosztem pozyskania: 58,3 zł wobec 66,6 zł, czyli −8,3 zł.
@@ -93,7 +93,7 @@ Szacowana skala problemu z zakładaniem konta w Safari na iOS w III kwartale 202
 
 ### Najważniejsze zastrzeżenia
 
-1. Dashboard liczy dane na surowo. Zawiera 604 zdublowane zamówienia z 10–24.06.2026, 2 071 zamówień kont testowych i przychód przed zwrotami. Po oczyszczeniu zamówienia rosną o 55,7% (24 716 → 38 491) zamiast 61%, a przychód z konsultacji po zwrotach o 44,8% zamiast 50%. Nowi pacjenci (+52%) i TelemediGO się nie zmieniają.
+1. Dashboard liczy dane na surowo. Zawiera 604 zdublowane zamówienia z 10–24.06.2026, 2 071 zamówień kont testowych i przychód przed zwrotami. Po oczyszczeniu zamówienia rosną o 55,7% (24 716 → 38 491) zamiast 61%, a przychód z konsultacji po zwrotach o 44,8% zamiast 50%. Nowi pacjenci prawie się nie zmieniają (+51,9% na surowo, +52,1% po oczyszczeniu), a TelemediGO wcale (+40,3%).
 2. Start od zera. W okresie 1 nie było bazy pacjentów z poprzedniego roku. W okresie 2 pacjenci pozyskani w okresie 1 złożyli 5 289 zamówień powtórnych, które dały 153 tys. zł marży konsultacji. Sumy roczne z definicji faworyzują więc drugi rok.
 3. Wynik biznesu rośnie wolniej niż sprzedaż. Marża po koszcie lekarza, kampaniach i prowizji wynosi 828 tys. zł w okresie 1 i 1 048 tys. zł w okresie 2, czyli +26,6%. Po odjęciu marży powtórnych konsultacji pacjentów pozyskanych w okresie 1 to +8,1%, a po odjęciu także ich opłat za TelemediGO (41,5 tys. zł) +3,1%. To rozbicie księgowe, a nie wynik biznesu, który startuje od zera: nie modeluje zmian wydatków ani zachowania pacjentów. Wydatki na kampanie rosną o 77% (z 368 do 650 tys. zł).
 4. Struktura pacjentów się zmieniła. Pacjenci nowych kampanii to 29% nowych pacjentów okresu 2 według przyjętej reguły (7 268 z 24 687). Zostawiają 36,3 zł marży w 90 dniach wobec 66,0 zł pozostałych.
@@ -130,7 +130,7 @@ Powrót nowych pacjentów spada w każdym oknie. Okres X 2025 – IX 2026 wobec 
 
 Marża na pacjenta przed kosztem pozyskania (przychód z konsultacji po zwrotach, TelemediGO, minus koszt lekarza): w 90 dniach 58,3 zł wobec 66,6 zł, w 180 dniach 67,7 zł wobec 75,5 zł.
 
-Większość spadku powrotów wiąże się z pacjentami dwóch nowych kampanii na L4, ale w kampaniach działających w obu latach też jest spadek, którego sprawdzone cechy nie tłumaczą. Podział zależy od reguły źródła, dlatego obie reguły są do wyboru w filtrach.
+Obecność pacjentów dwóch nowych kampanii na L4 odpowiada opisowo za około 46–71% spadku powrotu w 90 dniach, zależnie od reguły źródła, ale w kampaniach działających w obu latach też jest spadek, którego sprawdzone cechy nie tłumaczą. Dlatego obie reguły są do wyboru w filtrach.
 
 *Filtry (ustawienia domyślne):*
 - Reguła źródła: Przyjęta: pierwsze wejście, kod kampanii rozstrzyga (do wyboru: Przyjęta: pierwsze wejście, kod kampanii rozstrzyga / Sesja płatności)
@@ -176,39 +176,41 @@ Większość spadku powrotów wiąże się z pacjentami dwóch nowych kampanii n
 ### Macierz kohort: powrót według dni od pierwszego zakupu
 
 *Filtry (ustawienia domyślne):*
-- Kohorty: tygodniowe (do wyboru: tygodniowe / miesięczne)
+- Kohorty: dzienne (do wyboru: dzienne / tygodniowe / miesięczne)
 
-*Wiersz to kohorta (nowi pacjenci z tego samego tygodnia albo miesiąca pierwszego zakupu), kolumna to okno: odsetek pacjentów kohorty, którzy wrócili w ciągu tylu dni. Kolor: ciemniej znaczy wyżej, skala osobno w każdej kolumnie. Kropka oznacza kohortę bez pełnego okna. Kolumna „Zdarzenia” podaje numery zdarzeń z osi, które wypadają w tej kohorcie. Te same filtry co wyżej, bez podziału na serie.*
+*Wiersz to kohorta (nowi pacjenci z tego samego dnia, tygodnia albo miesiąca pierwszego zakupu; domyślnie dzień), kolumna to okno: odsetek pacjentów kohorty, którzy wrócili w ciągu tylu dni. Kohorty dzienne są małe, więc ich wartości skaczą bardziej niż tygodniowe. Kolor: ciemniej znaczy wyżej, skala osobno w każdej kolumnie, od 5. do 95. percentyla wartości. Kropka oznacza kohortę bez pełnego okna. Kolumna „Zdarzenia” podaje numery zdarzeń z osi, które wypadają w tej kohorcie. Te same filtry co wyżej, bez podziału na serie.*
 
-| Kohorta (tydzień od) | Nowi pacjenci | Zdarzenia | 7 dni | 14 dni | 30 dni | 60 dni | 90 dni | 180 dni |
+| Kohorta (dzień) | Nowi pacjenci | Zdarzenia | 7 dni | 14 dni | 30 dni | 60 dni | 90 dni | 180 dni |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1.10.2024 | 198 |  | 3,5 | 6,1 | 10,6 | 15,7 | 21,7 | 23,7 |
-| 7.10.2024 | 296 |  | 1,7 | 6,1 | 12,2 | 20,3 | 25,0 | 28,0 |
-| 14.10.2024 | 291 |  | 1,7 | 4,8 | 9,6 | 18,6 | 23,4 | 27,1 |
-| 21.10.2024 | 309 |  | 1,0 | 3,2 | 7,4 | 14,6 | 16,5 | 21,4 |
-| 28.10.2024 | 281 |  | 0,7 | 5,3 | 12,1 | 19,2 | 24,9 | 27,8 |
-| 4.11.2024 | 352 |  | 2,3 | 6,8 | 12,2 | 21,6 | 26,4 | 30,4 |
-| 11.11.2024 | 320 |  | 1,3 | 3,4 | 8,1 | 16,6 | 22,5 | 25,9 |
-| 18.11.2024 | 344 |  | 1,5 | 6,7 | 11,6 | 20,3 | 24,4 | 27,3 |
-| 25.11.2024 | 338 |  | 2,1 | 7,4 | 12,1 | 21,0 | 24,0 | 27,8 |
-| 2.12.2024 | 361 |  | 1,4 | 5,0 | 9,7 | 18,3 | 23,5 | 26,6 |
-| 9.12.2024 | 353 |  | 2,8 | 6,5 | 15,0 | 21,5 | 24,9 | 28,3 |
-| 16.12.2024 | 375 |  | 0,8 | 5,6 | 11,7 | 18,9 | 24,5 | 27,7 |
-| 23.12.2024 | 275 |  | 4,0 | 8,4 | 13,8 | 22,5 | 28,7 | 29,8 |
-| 30.12.2024 | 327 |  | 2,1 | 5,5 | 13,1 | 22,6 | 28,4 | 32,7 |
-| 6.01.2025 | 360 |  | 1,9 | 5,8 | 10,8 | 19,4 | 25,6 | 28,3 |
-| … pominięto 85 wierszy, tabela ma ich 105 … |  |  |  |  |  |  |  |  |
-| 31.08.2026 | 462 |  | 1,1 | 4,1 | · | · | · | · |
-| 7.09.2026 | 434 |  | 1,2 | 2,8 | · | · | · | · |
-| 14.09.2026 | 478 |  | 1,5 | · | · | · | · | · |
-| 21.09.2026 | 492 |  | · | · | · | · | · | · |
-| 28.09.2026 | 245 |  | · | · | · | · | · | · |
+| 1.10.2024 | 32 |  | 6,3 | 6,3 | 12,5 | 15,6 | 25,0 | 34,4 |
+| 2.10.2024 | 28 |  | 3,6 | 7,1 | 7,1 | 17,9 | 32,1 | 32,1 |
+| 3.10.2024 | 39 |  | 0,0 | 2,6 | 5,1 | 10,3 | 15,4 | 15,4 |
+| 4.10.2024 | 35 |  | 2,9 | 5,7 | 14,3 | 14,3 | 17,1 | 17,1 |
+| 5.10.2024 | 39 |  | 5,1 | 10,3 | 12,8 | 17,9 | 23,1 | 25,6 |
+| 6.10.2024 | 25 |  | 4,0 | 4,0 | 12,0 | 20,0 | 20,0 | 20,0 |
+| 7.10.2024 | 49 |  | 0,0 | 6,1 | 8,2 | 12,2 | 14,3 | 18,4 |
+| 8.10.2024 | 42 |  | 0,0 | 4,8 | 11,9 | 19,0 | 31,0 | 35,7 |
+| 9.10.2024 | 44 |  | 0,0 | 4,5 | 11,4 | 22,7 | 22,7 | 25,0 |
+| 10.10.2024 | 41 |  | 2,4 | 4,9 | 17,1 | 26,8 | 36,6 | 39,0 |
+| 11.10.2024 | 42 |  | 2,4 | 9,5 | 14,3 | 16,7 | 21,4 | 23,8 |
+| 12.10.2024 | 42 |  | 7,1 | 9,5 | 19,0 | 28,6 | 31,0 | 33,3 |
+| 13.10.2024 | 36 |  | 0,0 | 2,8 | 2,8 | 16,7 | 19,4 | 22,2 |
+| 14.10.2024 | 42 |  | 4,8 | 9,5 | 16,7 | 23,8 | 28,6 | 31,0 |
+| 15.10.2024 | 42 |  | 4,8 | 7,1 | 14,3 | 28,6 | 33,3 | 35,7 |
+| … pominięto 710 wierszy, tabela ma ich 730 … |  |  |  |  |  |  |  |  |
+| 26.09.2026 | 73 |  | · | · | · | · | · | · |
+| 27.09.2026 | 58 |  | · | · | · | · | · | · |
+| 28.09.2026 | 92 |  | · | · | · | · | · | · |
+| 29.09.2026 | 86 |  | · | · | · | · | · | · |
+| 30.09.2026 | 67 |  | · | · | · | · | · | · |
 
 ### Krzywa powrotu według dnia od pierwszego zakupu: okres A i okres B
 
 *Dla każdego dnia od pierwszego zakupu: odsetek pacjentów, którzy do tego dnia wrócili. Na każdy dzień bierzemy tylko kohorty, które ten dzień już osiągnęły, a okres A obcinamy tak samo jak w tabeli. Legenda pod kursorem pokazuje liczbę pacjentów i poziom B jako odsetek poziomu A.*
 
 *[Wykres] serie: Okres A (1.10.2024–30.09.2025); Okres B (1.10.2025–30.09.2026)*
+
+*Każdy punkt krzywej liczymy z innych pacjentów: dzień N bierze tylko kohorty, które ten dzień już osiągnęły. W okresie B dzień 30 to 22 646 pacjentów, a dzień 180 już tylko 12 591, z najstarszych kohort. Wyższe wartości późnych dni nie znaczą więc, że młodsze kohorty nadrabiają.*
 
 *Jak liczymy: nowy pacjent to konto z pierwszym opłaconym zamówieniem, bez względu na status. Źródło pozyskania według przyjętej reguły (pierwsze wejście pacjenta, także anonimowe sesje jego przeglądarek, a kod kampanii na pierwszym zamówieniu rozstrzyga) albo według sesji płatności. Urządzenie i przeglądarka z sesji płatności. Pierwsza usługa: internista według celu wizyty, pediatra, psychiatra, inny specjalista. Opóźnienie i pora z pierwszej wizyty. Źródło danych: analiza/definicje.py, analiza/a5r_kohorty.py, eksport analiza/b_eksport.py.*
 
@@ -222,9 +224,9 @@ Rachunkowo prawie cały spadek to zmiana ruchu. Udział przeglądarek wbudowanyc
 
 To jednak nie jest tylko „inny ruch”. Dwie rzeczy trzeba naprawić na stronie:
 
-#### Safari na iPhone'ach i iPadach: od 17.03.2026 nie działa zakładanie konta
+#### Safari na iPhone'ach i iPadach: od 17.03.2026 gwałtownie spada skuteczność zakładania nowego konta
 
-Krok konta po wyborze terminu u osób, które jeszcze nie kupowały, spadł z 66,2% (1 763 sesje z wyborem terminu, 16.01.2026–16.03.2026) do 45,1% (1 553 sesje, 17.03.2026–15.05.2026). Pozostałe przeglądarki w tych samych dniach: 64,8% i 63,4%. Szacunek: 628–695 utraconych pierwszych zamówień do 30.09.2026, czyli 95–105 na 30 dni.
+Konta dalej powstają, ale rzadziej. Krok konta po wyborze terminu u osób, które jeszcze nie kupowały, spadł z 66,2% w 60 dniach przed awarią (16.01.2026–16.03.2026, 1 763 sesje z wyborem terminu) do 45,1% w 60 dniach po niej (17.03.2026–15.05.2026, 1 553 sesje). Pozostałe przeglądarki w tych samych dniach: 64,8% i 63,4%. Szacunek: 628–695 utraconych pierwszych zamówień do 30.09.2026, czyli 95–105 na 30 dni.
 
 → Pokaż w lejku *(odnośnik)*
 
@@ -288,10 +290,10 @@ Zakupy samego TelemediGO: 225 w okresie X 2024 – IX 2025 i 461 w okresie X 202
 9. 9.02.2026: Start kampanii TikTok na L4 (tt_prosp_l4_15min)
 10. 10.02.2026: Powrót nowych pacjentów w 30 dniach spada
 11. 2.03.2026: Powrót w 90 dniach w kampaniach działających w obu latach: brak wyraźnego skoku
-12. 17.03.2026: Safari na iOS: przestaje działać zakładanie konta
+12. 17.03.2026: Safari na iOS: gwałtownie spada skuteczność zakładania nowego konta
 13. 10.06.2026: Duplikaty zamówień w eksporcie
 
-*Jak liczymy: lejek główny obejmuje sesje zwykłe, czyli bez konta na wejściu albo z kontem, które pojawia się dopiero na kroku logowania. Sesje zalogowane od wejścia i zakupy samego TelemediGO są osobnymi typami sesji. „Jeszcze nie kupowali” to osoby bez zakupu przed początkiem sesji, także na koncie, na które logowały się w tej samej przeglądarce. Dzień sesji liczymy w czasie polskim. Źródło danych: analiza/a5p_lejek.py, eksport analiza/b_eksport.py.*
+*Jak liczymy: lejek główny obejmuje sesje zwykłe, czyli bez konta na wejściu albo z kontem, które pojawia się dopiero na kroku logowania. Sesje zalogowane od wejścia i zakupy samego TelemediGO są osobnymi typami sesji. „Jeszcze nie kupowali” to osoby bez zakupu przed początkiem sesji, także na koncie, na które logowały się w tej samej przeglądarce. Dzień sesji liczymy w czasie polskim. Płatności w lejku (24 717 w okresie X 2024 – IX 2025 i 38 490 w okresie X 2025 – IX 2026) i zamówienia (24 716 i 38 491) różnią się o 1 na granicy okresów, bo sesję liczymy do dnia jej rozpoczęcia, a zamówienie do dnia płatności; przychód z konsultacji po zwrotach w okresie X 2024 – IX 2025 to 2 230 266,50 zł, więc zależnie od zaokrąglenia 2 230 266 albo 2 230 267 zł. Źródło danych: analiza/a5p_lejek.py, eksport analiza/b_eksport.py.*
 
 # Zakładka 4: Po zakupie (`#po-zakupie`)
 
@@ -408,10 +410,10 @@ Spóźnione wizyty są gorzej oceniane, w obu okresach tak samo. U internisty, p
 
 | Opóźnienie wizyty | Odsetek ocenionych | Średnia ocena (1–5) | Oceny 1–2 |
 | --- | --- | --- | --- |
-| Do 5 minut po terminie | 31,3% z 11 007<br>A: 31,9% z 10 534 ▼0,6 | 4,45% z 3 446<br>A: 4,47% z 3 361 ▼0,02 | 1,1% z 3 446<br>A: 1,2% z 3 361 ▼0,2 |
-| Ponad 5 do 15 minut | 30,8% z 6 198<br>A: 33,4% z 5 394 ▼2,6 | 4,38% z 1 909<br>A: 4,37% z 1 802 ▲0,01 | 1,5% z 1 909<br>A: 1,7% z 1 802 ▼0,3 |
-| Ponad 15 do 30 minut | 31,7% z 1 786<br>A: 30,3% z 492 ▲1,4 | 3,69% z 566<br>A: 3,82% z 149 ▼0,13 | 8,7% z 566<br>A: 6,7% z 149 ▲1,9 |
-| Ponad 30 minut | 30,3% z 1 550<br>A: 33,3% z 132 ▼3,1 | 2,92% z 469<br>A: 2,95% z 44 ▼0,03 | 31,8% z 469<br>A: 31,8% z 44 = 0,0 |
+| Do 5 minut po terminie | 31,3% z 11 007<br>A: 31,9% z 10 534 ▼0,6 | 4,45 z 3 446<br>A: 4,47 z 3 361 ▼0,02 | 1,1% z 3 446<br>A: 1,2% z 3 361 ▼0,2 |
+| Ponad 5 do 15 minut | 30,8% z 6 198<br>A: 33,4% z 5 394 ▼2,6 | 4,38 z 1 909<br>A: 4,37 z 1 802 ▲0,01 | 1,5% z 1 909<br>A: 1,7% z 1 802 ▼0,3 |
+| Ponad 15 do 30 minut | 31,7% z 1 786<br>A: 30,3% z 492 ▲1,4 | 3,69 z 566<br>A: 3,82 z 149 ▼0,13 | 8,7% z 566<br>A: 6,7% z 149 ▲1,9 |
+| Ponad 30 minut | 30,3% z 1 550<br>A: 33,3% z 132 ▼3,1 | 2,92 z 469<br>A: 2,95 z 44 ▼0,03 | 31,8% z 469<br>A: 31,8% z 44 = 0,0 |
 
 *Nowe kampanie na L4 to pacjenci z kampanii meta_prosp_l4_szybko i tt_prosp_l4_15min według przyjętej reguły źródła. Źródło danych: analiza/a5r_punktualnosc.py, analiza/a5r_po_zakupie.py, eksport analiza/b_eksport.py.*
 
@@ -469,7 +471,7 @@ Marża nowego pacjenta w pierwszych 30 dniach (przed kosztem pozyskania) spada t
 **Skąd wiemy:**
 Źródło: analiza/a5r_zdarzenia.py (podział binarny serii dziennych, próg |z| ≥ 4), notatki/a5_retencja.md, krok 5. Daty to kandydaci zmian, nie potwierdzone zdarzenia.
 
-Zobacz w jakości danych
+Pokaż w kohortach
 
 *4. 3.11.2025 · Lejek · start kampanii*
 
@@ -499,7 +501,7 @@ Udział w nowych pacjentach: 0,0% od 1.10.2024 do 2.11.2025 (17 676 pacjentów),
 **Skąd wiemy:**
 Źródło: analiza/a5r_zdarzenia.py (podział binarny serii dziennych, próg |z| ≥ 4), notatki/a5_retencja.md, krok 5. Daty to kandydaci zmian, nie potwierdzone zdarzenia.
 
-Zobacz w jakości danych
+Pokaż w kohortach
 
 *6. 13.11.2025 · Obsługa pacjenta · zmiana obsługi pacjenta*
 
@@ -514,7 +516,7 @@ Rośnie odsetek pierwszych zamówień, za które pacjent dostaje zwrot po odbyte
 **Skąd wiemy:**
 Źródło: analiza/a5r_zdarzenia.py (podział binarny serii dziennych, próg |z| ≥ 4), notatki/a5_retencja.md, krok 5. Daty to kandydaci zmian, nie potwierdzone zdarzenia.
 
-Zobacz w jakości danych
+Pokaż w zakładce „Po zakupie”
 
 *7. 24.11.2025 · Obsługa pacjenta · zmiana obsługi pacjenta*
 
@@ -529,7 +531,7 @@ Rośnie odsetek wizyt u internisty z terminem 6:00–11:59, które zaczynają si
 **Skąd wiemy:**
 Źródło: analiza/a5r_zdarzenia.py (podział binarny serii dziennych, próg |z| ≥ 4), notatki/a5_retencja.md, krok 5. Seria: wizyty u internisty rano, pacjenci spoza nowych kampanii. Daty to kandydaci zmian, nie potwierdzone zdarzenia.
 
-Zobacz w jakości danych
+Pokaż w zakładce „Po zakupie”
 
 *8. 1.01.2026 · Lejek · zmiana stopniowa*
 
@@ -539,10 +541,10 @@ Zobacz w jakości danych
 Remarketing wraca coraz częściej do osób, które pierwszy raz przyszły z Meta i TikToka, a rzadziej do osób z wyszukiwarki. Te osoby płacą rzadziej. W obrębie źródła pierwszej wizyty konwersja stoi.
 
 **O ile:**
-Płatność na sesję u osób, które jeszcze nie kupowały: 28,2% w IV kwartale 2025 (1 011 sesji), 18,9% w II kwartale 2026 (1 603 sesje) i 19,1% w III kwartale 2026 (1 534 sesje). Udział przeglądarek w aplikacjach w tym ruchu rośnie z 13,3% do 22,1–23,4%. Osoby, które pierwszy raz przyszły z Google albo Bing: 27,9% w okresie X 2024 – IX 2025 i 26,7% w 2026; z Meta (pozyskanie): 11,5% i 13,2%.
+Płatność na sesję u osób, które jeszcze nie kupowały: 28,2% w IV kwartale 2025 (1 011 sesji), 18,9% w II kwartale 2026 (1 603 sesje) i 19,1% w III kwartale 2026 (1 534 sesje). Udział przeglądarek w aplikacjach w tym ruchu rośnie z 13,3% do 22,1–23,4%. Osoby, które pierwszy raz przyszły z Google albo Bing: 27,9% w okresie X 2024 – IX 2025 i 26,7% od 1.01.2026 do 30.09.2026; z Meta (pozyskanie): 11,5% i 13,2%.
 
 **Skąd wiemy:**
-Metoda wykrywania zmian wskazała 20.03.2026 jako dzień zmiany poziomu płatności na sesję (27,3% → 19,1%), ale zmiana narasta od początku 2026. Źródło: analiza/a5p_zdarzenia.py, sekcje 5h i 5i; notatki/a5_pozyskanie.md, punkt 2.5.
+Metoda wykrywania zmian wskazała 20.03.2026 jako dzień zmiany poziomu płatności na sesję (27,3% → 19,1%), ale zmiana narasta od 1.01.2026. Źródło: analiza/a5p_zdarzenia.py, sekcje 5h i 5i; notatki/a5_pozyskanie.md, punkt 2.5.
 
 Pokaż w lejku
 
@@ -566,7 +568,7 @@ Pokaż w lejku
 ### Powrót nowych pacjentów w 30 dniach spada
 
 **Co się zmieniło:**
-Powrót w 30 dniach całej kohorty spada skokowo w dniu startu kampanii TikTok na L4. To głównie skład pacjentów (rosnący udział nowych kampanii), co pokazuje krok 3 analizy retencji.
+Powrót w 30 dniach całej kohorty spada skokowo zaraz po starcie kampanii TikTok na L4 (9.02.2026); metoda wskazała dzień później. To głównie skład pacjentów (rosnący udział nowych kampanii), co pokazuje krok 3 analizy retencji.
 
 **O ile:**
 9,7% (12 514 pacjentów, 5.06.2025–9.02.2026) → 6,9% (14 536 pacjentów, 10.02.2026–31.08.2026). Wcześniejszy kandydat 5.06.2025: 11,4% → 9,7%; wypada w pierwszym roku, więc może być porą roku.
@@ -574,7 +576,7 @@ Powrót w 30 dniach całej kohorty spada skokowo w dniu startu kampanii TikTok n
 **Skąd wiemy:**
 Źródło: analiza/a5r_zdarzenia.py (podział binarny serii dziennych, próg |z| ≥ 4), notatki/a5_retencja.md, krok 5. Daty to kandydaci zmian, nie potwierdzone zdarzenia.
 
-Zobacz w jakości danych
+Pokaż w kohortach
 
 *11. 2.03.2026 · Retencja · kandydat poniżej progu*
 
@@ -589,20 +591,20 @@ W kampaniach obecnych w obu latach powrót też spada, ale metoda nie znalazła 
 **Skąd wiemy:**
 Źródło: analiza/a5r_zdarzenia.py (podział binarny serii dziennych, próg |z| ≥ 4), notatki/a5_retencja.md, krok 5. Luty 2026 nie pasuje do prostej hipotezy przeciążenia (opóźnienia już wysokie, powrót bez spadku), to trop eksploracyjny.
 
-Zobacz w jakości danych
+Pokaż w kohortach
 
 *12. 17.03.2026 · Lejek · awaria*
 
-### Safari na iOS: przestaje działać zakładanie konta
+### Safari na iOS: gwałtownie spada skuteczność zakładania nowego konta
 
 **Co się zmieniło:**
-U osób, które jeszcze nie kupowały, krok logowania albo zakładania konta po wyborze terminu spada w Safari na iPhone'ach i iPadach i zostaje niski do końca danych. Psuje się zakładanie nowego konta, a logowanie do istniejącego działa.
+U osób, które jeszcze nie kupowały, krok logowania albo zakładania konta po wyborze terminu spada w Safari na iPhone'ach i iPadach i zostaje niski do końca danych. Gwałtownie spada skuteczność zakładania nowego konta (konta dalej powstają, ale rzadziej), a logowanie do istniejącego działa.
 
 **O ile:**
-Z 66,2% (1 763 sesje z wyborem terminu w 60 dniach przed) do 45,1% (1 553 sesje w 60 dniach po). Pozostałe przeglądarki: 64,8% i 63,4%. Szacunek: 628–695 utraconych pierwszych zamówień w 198 dniach do 30.09.2026, czyli 95–105 na 30 dni.
+Z 66,2% w 60 dniach przed awarią (16.01.2026–16.03.2026, 1 763 sesje z wyborem terminu) do 45,1% w 60 dniach po niej (17.03.2026–15.05.2026, 1 553 sesje). Pozostałe przeglądarki: 64,8% i 63,4%. Szacunek: 628–695 utraconych pierwszych zamówień w 198 dniach do 30.09.2026, czyli 95–105 na 30 dni.
 
 **Skąd wiemy:**
-Metoda wykrywania zmian w seriach dziennych (podział binarny) wskazała ten dzień. Sprawdzenie na bazie: spadek jest w każdym kanale, więc to nie zmiana struktury ruchu. Przyczyny w danych nie widać. Źródło: analiza/a5p_zdarzenia.py, sekcja 5; notatki/a5_pozyskanie.md, punkt 2.1.
+Metoda wykrywania zmian w seriach dziennych (podział binarny) wskazała ten dzień. Sprawdzenie na bazie: spadek jest w głównych kanałach (TikTok ma za małą próbę do oceny), więc to nie zmiana struktury ruchu. Przyczyny w danych nie widać. Źródło: analiza/a5p_zdarzenia.py, sekcja 5; notatki/a5_pozyskanie.md, punkt 2.1.
 
 Pokaż w lejku
 
@@ -724,16 +726,16 @@ Obok wyniku po 90 dniach pokazujemy wynik po 180 dniach: pacjenci kampanii na L4
 - Poziom: Grupy kampanii (do wyboru: Grupy kampanii / Kampanie / Kanały)
 - Okres: Okres X 2025 – IX 2026 (do wyboru: Okres X 2025 – IX 2026 / Okres X 2024 – IX 2025)
 
-*Wynik na pacjenta to marża na pacjenta w 90 albo 180 dniach minus koszt pozyskania (wydatki na kampanię albo prowizja afiliacyjna na nowego pacjenta). Obie reguły źródła stoją obok siebie. Liczymy kohorty z pełnym oknem, a wydatki z tych samych dni. Pod wynikiem: marża, liczba pacjentów i przedział warunkowy.*
+*Wynik na pacjenta to marża na pacjenta w 90 albo 180 dniach minus koszt pozyskania (wydatki na kampanię albo prowizja afiliacyjna na nowego pacjenta). Koszt pozyskania liczymy osobno dla każdego okna: z kohort z pełnym oknem i z wydatków z tych samych dni, więc po 180 dniach to inne kohorty i inny koszt niż po 90 dniach. Obie reguły źródła stoją obok siebie. Pod kosztem: liczba pacjentów; pod wynikiem: marża minus koszt. Przedział warunkowy po najechaniu na wynik.*
 
-| Grupa | Przyjęta reguła źródła — Nowi pacjenci | Przyjęta reguła źródła — Koszt pozyskania na pacjenta | Przyjęta reguła źródła — Wynik na pacjenta, 90 dni | Przyjęta reguła źródła — Wynik na pacjenta, 180 dni | Sesja płatności — Nowi pacjenci | Sesja płatności — Koszt pozyskania na pacjenta | Sesja płatności — Wynik na pacjenta, 90 dni | Sesja płatności — Wynik na pacjenta, 180 dni | Ocena |
+| Grupa | Przyjęta reguła źródła — Koszt pozyskania, 90 dni | Przyjęta reguła źródła — Wynik na pacjenta, 90 dni | Przyjęta reguła źródła — Koszt pozyskania, 180 dni | Przyjęta reguła źródła — Wynik na pacjenta, 180 dni | Sesja płatności — Koszt pozyskania, 90 dni | Sesja płatności — Wynik na pacjenta, 90 dni | Sesja płatności — Koszt pozyskania, 180 dni | Sesja płatności — Wynik na pacjenta, 180 dni | Ocena |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Nowe kampanie na L4 (Meta i TikTok) | 4 893 | 32,7 zł | +3,6 zł<br>marża 36,3 zł, 4 893 pac. | +7,0 zł<br>marża 37,3 zł, 2 352 pac. | 3 510 | 45,6 zł | −9,4 zł<br>marża 36,1 zł, 3 510 pac. | −5,2 zł<br>marża 36,9 zł, 1 693 pac. | niepewny: znak zależy od reguły |
-| Pozostałe kampanie płatne | 7 076 | 44,2 zł | +20,0 zł<br>marża 64,2 zł, 7 076 pac. | +29,7 zł<br>marża 72,3 zł, 5 130 pac. | 7 141 | 43,8 zł | +18,7 zł<br>marża 62,4 zł, 7 141 pac. | +27,5 zł<br>marża 71,0 zł, 5 029 pac. |  |
-| Afiliacja (ranking lekarzy) | 489 | 25,0 zł | +32,2 zł<br>marża 57,2 zł, 489 pac. | +37,0 zł<br>marża 62,0 zł, 352 pac. | 319 | 25,0 zł | +30,8 zł<br>marża 55,8 zł, 319 pac. | +35,6 zł<br>marża 60,6 zł, 229 pac. |  |
-| Kanały bezpłatne | 6 466 | 0,0 zł | +68,6 zł<br>marża 68,6 zł, 6 466 pac. | +78,1 zł<br>marża 78,1 zł, 4 757 pac. | 7 954 | 0,0 zł | +64,5 zł<br>marża 64,5 zł, 7 954 pac. | +74,2 zł<br>marża 74,2 zł, 5 640 pac. |  |
+| Nowe kampanie na L4 (Meta i TikTok) | 32,7 zł<br>4 893 pac. | +3,6 zł<br>marża 36,3 zł − koszt 32,7 zł | 30,3 zł<br>2 352 pac. | +7,0 zł<br>marża 37,3 zł − koszt 30,3 zł | 45,6 zł<br>3 510 pac. | −9,4 zł<br>marża 36,1 zł − koszt 45,6 zł | 42,1 zł<br>1 693 pac. | −5,2 zł<br>marża 36,9 zł − koszt 42,1 zł | niepewny: znak zależy od reguły |
+| Pozostałe kampanie płatne | 44,2 zł<br>7 076 pac. | +20,0 zł<br>marża 64,2 zł − koszt 44,2 zł | 42,6 zł<br>5 130 pac. | +29,7 zł<br>marża 72,3 zł − koszt 42,6 zł | 43,8 zł<br>7 141 pac. | +18,7 zł<br>marża 62,4 zł − koszt 43,8 zł | 43,5 zł<br>5 029 pac. | +27,5 zł<br>marża 71,0 zł − koszt 43,5 zł |  |
+| Afiliacja (ranking lekarzy) | 25,0 zł<br>489 pac. | +32,2 zł<br>marża 57,2 zł − koszt 25,0 zł | 25,0 zł<br>352 pac. | +37,0 zł<br>marża 62,0 zł − koszt 25,0 zł | 25,0 zł<br>319 pac. | +30,8 zł<br>marża 55,8 zł − koszt 25,0 zł | 25,0 zł<br>229 pac. | +35,6 zł<br>marża 60,6 zł − koszt 25,0 zł |  |
+| Kanały bezpłatne | 0,0 zł<br>6 466 pac. | +68,6 zł<br>marża 68,6 zł − koszt 0,0 zł | 0,0 zł<br>4 757 pac. | +78,1 zł<br>marża 78,1 zł − koszt 0,0 zł | 0,0 zł<br>7 954 pac. | +64,5 zł<br>marża 64,5 zł − koszt 0,0 zł | 0,0 zł<br>5 640 pac. | +74,2 zł<br>marża 74,2 zł − koszt 0,0 zł |  |
 
-*Źródło danych: analiza/definicje.py (koszt lekarza, marża), analiza/a5e_ekonomia.py (ekonomia kampanii), eksport analiza/b_eksport.py.*
+*Płatności w lejku (24 717 w okresie X 2024 – IX 2025 i 38 490 w okresie X 2025 – IX 2026) i zamówienia (24 716 i 38 491) różnią się o 1 na granicy okresów, bo sesję liczymy do dnia jej rozpoczęcia, a zamówienie do dnia płatności; przychód z konsultacji po zwrotach w okresie X 2024 – IX 2025 to 2 230 266,50 zł, więc zależnie od zaokrąglenia 2 230 266 albo 2 230 267 zł. Źródło danych: analiza/definicje.py (koszt lekarza, marża), analiza/a5e_ekonomia.py (ekonomia kampanii), eksport analiza/b_eksport.py.*
 
 # Zakładka 7: Jakość danych (`#jakosc`)
 
@@ -844,7 +846,7 @@ Lista od najważniejszej pozycji. Przy każdej: co widać w danych, ile jest war
 
 **Z danych:**
 - Od 17.03.2026 w Safari na iPhone'ach i iPadach gwałtownie spada skuteczność zakładania nowego konta (konta dalej powstają, ale rzadziej: 668 zamiast 1 082 w 60 dniach).
-- Krok konta po wyborze terminu u osób, które jeszcze nie kupowały, spada z 66,1% do 45,6% i nie wraca (od 1.10.2025 do 16.03.2026 wobec 17.03–30.09.2026; po awarii 4 678 sesji z wyborem terminu).
+- Krok konta po wyborze terminu u osób, które jeszcze nie kupowały, spada z 66,1% (od 1.10.2025 do 16.03.2026) do 45,6% (od 17.03 do 30.09.2026, 4 678 sesji z wyborem terminu) i nie wraca.
 - Logowanie do istniejących kont działa. Inne przeglądarki tego nie mają, a spadek jest w głównych kanałach; TikTok ma za małą próbę do oceny.
 
 **Ile warta:**
@@ -1026,7 +1028,7 @@ Zobacz w danych: Po zakupie: zwroty po wizycie według celu wizyty · Zdarzenie 
 - Od listopada 2025 poranne opóźnienia u internisty rosną z miesiąca na miesiąc. Odsetek wizyt z terminem 6:00–11:59, które zaczynają się ponad 15 minut po terminie, wynosi 15,6% w listopadzie 2025 (572 wizyty), 29,7% w grudniu i 41,8% w styczniu 2026, a od lutego do września 2026 około połowy (48,4–52,6% miesięcznie). Od października 2024 do października 2025 było to 4,7–6,9% miesięcznie (wszyscy pacjenci).
 - Przy tym samym porannym ruchu opóźnień jest o 26,4 punktu procentowego więcej (5 przedziałów ruchu, 9 979 wizyt).
 - Długość porannej wizyty się nie zmieniła (8,5 minuty w obu okresach), więc dłuższe wizyty tego nie tłumaczą.
-- Wizyty spóźnione ponad 30 minut mają średnią ocenę 2,9 wobec 4,5 przy punktualnych (okres 2, pacjenci spoza nowych kampanii, 1 550 i 11 007 wizyt). Rano spada powrót po wizytach spóźnionych.
+- Wizyty spóźnione ponad 30 minut mają średnią ocenę 2,92 wobec 4,45 przy punktualnych (okres 2, internista, pacjenci spoza nowych kampanii, 469 i 3 446 ocen). Rano spada powrót po wizytach spóźnionych.
 
 **Dlaczego wysoko:**
 To jedna z konkretnych hipotez poprawy retencji pacjentów z kanałów działających w obu latach (obok komunikacji po wizycie i zniżek), a pierwszy krok, diagnoza, jest tani.
@@ -1283,4 +1285,4 @@ Rzeczy, których te dane nie rozstrzygają. Przy każdej: dlaczego to ważne i j
 
 ---
 
-**Stopka strony:** Dane od 1.10.2024 do 30.09.2026. Liczby przeliczone 2026-10-20 15:07 skryptami analiza/b_eksport.py i analiza/b2_eksport_c.py (stan repozytorium cfa8c57). Strona nie pobiera niczego z internetu.
+**Stopka strony:** Dane od 1.10.2024 do 30.09.2026. Liczby przeliczone 2026-10-21 19:47 skryptami analiza/b_eksport.py i analiza/b2_eksport_c.py (stan repozytorium efdd8e2). Strona nie pobiera niczego z internetu.
