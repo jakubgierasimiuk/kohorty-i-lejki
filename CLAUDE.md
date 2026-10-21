@@ -2,7 +2,7 @@
 
 Ten projekt to rozwiązanie zadania rekrutacyjnego na stanowisko **Head of B2C w Telemedi**. Pracuje w nim Jakub (Kuba) Gierasimiuk razem z Claude Code. Wszystko, co tu powstaje, ma być do pokazania Telemedi — dlatego w tym projekcie nie ma i nie może być niczego spoza zadania.
 
-**Termin wysyłki: środa 21 października 2026.** Rozwiązanie odsyłamy mailem na m.kurysz@telemedi.com (tą samą drogą, którą przyszło zadanie).
+**Termin wysyłki: środa 21 października 2026.** Rozwiązanie odsyłamy mailem osobie rekrutującej, na adres, z którego przyszło zadanie (tą samą drogą).
 
 ---
 

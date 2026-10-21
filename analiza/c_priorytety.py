@@ -150,7 +150,7 @@ def main():
     r("   To rozbicie księgowe, a nie wynik biznesu, który startuje od zera: nie modeluje zmian wydatków ani zachowania")
     r("   pacjentów (recenzja Codeksa).")
 
-    naglowek("W4. MARŻA PO KWARTAŁACH ROK DO ROKU, Z WYDATKAMI NA KAMPANIE OBOK (dopisek Kuby 2026-10-21; zł)")
+    naglowek("W4. MARŻA PO KWARTAŁACH ROK DO ROKU, Z WYDATKAMI NA KAMPANIE OBOK (dopisek Kuby 2026-10-20; zł)")
     r("   Te same składniki co W3, według kwartału kalendarzowego (czas polski). Prowizja według przyjętej reguły, w kwartale")
     r("   pierwszego zamówienia pacjenta. „Przed kampaniami” = marża przed wydatkami na kampanie i prowizją.")
     kw = q(f"""
@@ -239,7 +239,7 @@ def main():
     r("   przez rok. Kwoty to marża rocznika odzyskanych pacjentów w 90 albo 180 dniach od pozyskania, a nie wpływy w całości")
     r("   w tym samym roku kalendarzowym (recenzja Codeksa).")
 
-    naglowek("P1b. NAPRAWIĆ POMIAR (dopisek Kuby 2026-10-21): dashboard, kod TEST-QA, wynagrodzenie lekarzy za wizyty testowe")
+    naglowek("P1b. NAPRAWIĆ POMIAR (dopisek Kuby 2026-10-20): dashboard, kod TEST-QA, wynagrodzenie lekarzy za wizyty testowe")
     z_raportu("a3_dashboard.txt", "25,269 > 40,613 +60.7%", None)
     z_raportu("a3_dashboard.txt", "24,716 > 38,491 +55.7%", None)
     z_raportu("a3_dashboard.txt", "2.382 > 3.580 mln +50.3%", None)

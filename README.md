@@ -10,7 +10,7 @@ Rozwiązanie zadania rekrutacyjnego na stanowisko Head of B2C. Dane to dwa lata 
 
 - **Więcej pacjentów: tak.**
   - Pacjentów z pierwszym zakupem jest o 52,1% więcej: 24 687 w roku X 2025 – IX 2026 wobec 16 231 rok wcześniej.
-  - Prawie jedna trzecia z nich (29%) przyszła z dwóch nowych kampanii na zwolnienie lekarskie (L4) w Meta i TikToku.
+  - Prawie jedna trzecia z nich (29%, czyli 7 268 osób, według przyjętej reguły przypisania źródła) przyszła z dwóch nowych kampanii na zwolnienie lekarskie (L4) w Meta i TikToku. Według reguły porównawczej (sesja płatności) to 21% (5 187 osób).
   - Poza tymi kampaniami nowych pacjentów przybyło o 7–20%, zależnie od reguły przypisania źródła.
 - **Lepsza retencja: nie.**
   - Powrót w 90 dniach spadł z 23,9% do 17,4%, liczony na tych samych dniach kalendarzowych.
@@ -18,7 +18,23 @@ Rozwiązanie zadania rekrutacyjnego na stanowisko Head of B2C. Dane to dwa lata 
   - Bez pacjentów nowych kampanii retencja też jest niższa: powrót w 90 dniach 22,0% albo 20,4%, zależnie od reguły przypisania.
   - Liczba osób, które wróciły w 90 dniach, rośnie (3 289 wobec 3 076). Spada odsetek, a nie liczba powracających.
 - **Wynik:** w III kwartale 2026 marża była o 6,8% niższa niż rok wcześniej, choć wydatki na kampanie były 2,08 raza wyższe.
-- **Dashboard liczy dane na surowo.** Zawiera 604 zdublowane zamówienia, zamówienia 22 kont testowych i przychód przed zwrotami. Po oczyszczeniu zamówienia rosną o 55,7% zamiast 61%, a przychód z konsultacji po zwrotach o 44,8% zamiast 50%.
+- **Dashboard liczy dane na surowo.** Zawiera 604 zdublowane zamówienia, zamówienia 22 kont testowych i przychód przed zwrotami. Po oczyszczeniu zamówienia rosną o 55,7% zamiast 61%, a przychód z konsultacji po zwrotach o 44,8% zamiast 50%. Nowi pacjenci prawie się nie zmieniają (+51,9% na surowo, +52,1% po oczyszczeniu), a sprzedaż TelemediGO wcale (+40,3%).
+
+## Co robimy w pierwszym tygodniu
+
+1. Naprawiamy zakładanie konta w Safari na iPhone'ach i iPadach (od 17.03.2026 konta powstają tam rzadziej): to największa pewna strata.
+2. Wstrzymujemy kampanię TikTok na L4 i kampanię Google Ads na specjalistów jako pauzy, które da się cofnąć w jeden dzień: obie tracą w każdym wariancie rachunku.
+3. Czyścimy codzienny raport (bez duplikatów, bez kont testowych, przychód po zwrotach) i sprawdzamy, czy lekarze dostają wynagrodzenie za wizyty testowe.
+4. Robimy jednodniowe sprawdzenia: ręczny zakup po zalogowaniu, kliknięcia w panelach Meta i TikToka wobec sesji, co obiecują reklamy L4.
+5. Zaczynamy diagnozę porannych opóźnień u internistów i przygotowujemy test kampanii Meta na L4 w parach województw.
+
+## Jak używać narzędzia na co dzień
+
+- **Kohorty:** kohorty dzienne z ostatnich dni, w podziale na źródło i pierwszą usługę. Najpierw powrót w 30 dniach u kohort, które mają już pełne okno, potem marża na pacjenta.
+- **Lejek:** każdy krok dzień po dniu według przeglądarki i kampanii. Spadek jednego kroku w jednej przeglądarce to sygnał awarii, tak jak w Safari 17.03.2026.
+- **Po zakupie:** punktualność porannych wizyt u internisty i zwroty po wizycie według kampanii.
+- **Wynik biznesu:** marża po kosztach kampanii w czasie i wynik na pacjenta każdej kampanii według obu reguł przypisania źródła.
+- **Zdarzenia:** czy zmiana, którą widać w kohortach albo w lejku, ma już datę i opis.
 
 Pełna odpowiedź z zastrzeżeniami, lista 12 priorytetów (wartość w marży, sposób pomiaru, czas wdrożenia) i lista niewiadomych z testami są w narzędziu, w zakładkach „Czy to wzrost”, „Priorytety” i „Czego nie wiemy”. Ta sama treść jest w `notatki/c_szkic.md`.
 
@@ -45,7 +61,7 @@ Pełna odpowiedź z zastrzeżeniami, lista 12 priorytetów (wartość w marży, 
 | `analiza/wyniki/` | raporty i zestawienia z każdego kroku; każda liczba w notatkach i w narzędziu pochodzi z tych plików |
 | `notatki/` | ślad pracy: założenia (`ZALOZENIA.md`), znaleziska w danych (`ZNALEZISKA.md`), decyzje (`DECYZJE.md`), plan (`PLAN.md`) i notatki z kolejnych kroków |
 | `notatki/recenzje/` | niezależne recenzje drugiego modelu AI: polecenia, odpowiedzi i to, co poprawiliśmy |
-| `notatki/konsylium/` | ocena listy priorytetów przez kilka modeli AI różnych firm i jej wynik |
+| `notatki/konsylium/` | ocena listy priorytetów i końcowa weryfikacja całego rozwiązania przez kilka modeli AI różnych firm, z wynikiem |
 | `bezpieczenstwo/` | kontrola paczki z danymi przed rozpakowaniem i raporty z niej |
 
 Surowych danych, paczki i bazy danych nie ma w repozytorium.
@@ -55,7 +71,7 @@ Surowych danych, paczki i bazy danych nie ma w repozytorium.
 1. Python 3.13 z pakietami `duckdb` 1.5.5, `pandas` 2.3.3 i `pyarrow`.
 2. Rozpakowane pliki CSV z zadania w folderze `dane/`.
 3. Z głównego folderu repozytorium uruchom kolejno skrypty z tabeli w `analiza/README.md`, zawsze przez `python -I`. Pierwsze dwa budują bazę: `python -I analiza/a1_baza.py`, potem `python -I analiza/a2_czyste.py`. Każdy następny skrypt tylko czyta bazę i zapisuje raport do `analiza/wyniki/`.
-4. Dane strony narzędzia odtwarza `python -I analiza/b_eksport.py`. Skrypt sprawdza liczby na stronie z raportami i notatkami.
+4. Dane strony narzędzia odtwarza `python -I analiza/b_eksport.py`. Uruchamia on też `analiza/b2_eksport_c.py`, który składa teksty zakładek „Czy to wzrost”, „Priorytety” i „Czego nie wiemy” z liczb w raportach. Oba sprawdzają liczby na stronie z raportami i notatkami.
 5. Podgląd strony lokalnie: `python -m http.server 8765` uruchomione w folderze `narzedzie/`, potem http://127.0.0.1:8765/.
 
 ## Jak pracowaliśmy

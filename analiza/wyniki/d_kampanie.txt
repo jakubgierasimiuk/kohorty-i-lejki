@@ -1,0 +1,577 @@
+D — KAMPANIE: SZEŚĆ SPRAWDZEŃ PO KONSYLIUM (2026-10-21 19:56), schemat `czyste`
+Okres 1 = 1.10.2024–30.09.2025, okres 2 = 1.10.2025–30.09.2026 (czas polski). Z1K = przyjęta reguła źródła (pierwsze
+wejście, kod kampanii rozstrzyga), Z2 = sesja płatności. Nowe kampanie = meta_prosp_l4_szybko (Meta na L4, od 3.11.2025)
+i tt_prosp_l4_15min (TikTok na L4, od 9.02.2026). Przeglądarki wbudowane w aplikacje = Instagram, Facebook, TikTok.
+Przedziały 95%: różnica odsetków metodą Newcombe'a (Wilson); wynik na pacjenta jak w a5e_ekonomia.py (warunkowy,
+tylko z rozrzutu marży). Werdykt „za mała próba”, gdy sesji w przeglądarkach wbudowanych jest mniej niż 300.
+
+Kontrola tabeli sesji: sesje = 457464, unikalne = 457464, platnosci = 63893, zwykle = 434710
+
+==============================================================================================================
+1. PRZEGLĄDARKI WBUDOWANE W APLIKACJE A ZWYKŁE, W TEJ SAMEJ KAMPANII, TAKŻE POZA NOWYMI KAMPANIAMI NA L4
+==============================================================================================================
+1a. Odtworzenie obecnego wniosku (a5e_scenariusze.txt, E2c): wszystkie sesje kampanii w okresie 2 (wszystkie typy),
+    pierwsze zamówienie pacjenta zapłacone w tej samej sesji / sesje.
+                 kampania przegladarka  sesje  pierwsze_zamowienia  konwersja_proc
+     meta_prosp_l4_szybko    wbudowana  46091               2762.0            5.99
+     meta_prosp_l4_szybko       zwykla  14901                832.0            5.58
+        tt_prosp_l4_15min    wbudowana  28160               1351.0            4.80
+        tt_prosp_l4_15min       zwykla   5310                242.0            4.56
+
+1b. Ta sama porównywarka metodą lejka z a5p_lejek.py: sesje zwykłe, sesja do płatności (k5 / sesje), wszystkie kampanie
+    z choć jedną sesją zwykłą w przeglądarce wbudowanej, okres 1 i okres 2. Grupa porównawcza: wszystkie zwykłe
+    przeglądarki tej samej kampanii (V1). roznica_pkt = wbudowana − zwykła w punktach procentowych, od/do = 95%.
+                      kampania  okres  sesje_wbud  platn_wbud  proc_wbud  sesje_zwykle  platn_zwykle  proc_zwykle  roznica_pkt     od     do              werdykt
+                  bezposrednie      1         712         143      20.08         21406          7513        35.10       -15.01 -17.87 -11.85             rzadziej
+                  bezposrednie      2        4261         893      20.96         27491         10377        37.75       -16.79 -18.12 -15.42             rzadziej
+              crm_reactivation      1          16           7      43.75           974           575        59.03       -15.28 -36.16   8.00        za mała próba
+              crm_reactivation      2         104          24      23.08          1631           924        56.65       -33.58 -41.02 -24.29        za mała próba
+     crm_recepta_przypomnienie      1          12           7      58.33           498           321        64.46        -6.12 -32.82  16.63        za mała próba
+     crm_recepta_przypomnienie      2          40          11      27.50           876           526        60.05       -32.55 -44.38 -16.86        za mała próba
+         crm_sms_przypomnienie      1           9           3      33.33           464           273        58.84       -25.50 -47.23   6.07        za mała próba
+         crm_sms_przypomnienie      2          41           8      19.51           814           456        56.02       -36.51 -46.38 -21.61        za mała próba
+                google_organic      1         396          67      16.92         37953          4969        13.09         3.83   0.44   7.85             częściej
+                google_organic      2        2391         424      17.73         45042          6388        14.18         3.55   2.04   5.17             częściej
+                      gs_brand      1         394          72      18.27         11684          3423        29.30       -11.02 -14.62  -6.83             rzadziej
+                      gs_brand      2        2357         409      17.35         14813          4416        29.81       -12.46 -14.11 -10.72             rzadziej
+      gs_generic_lekarz_online      1           8           8     100.00         15194          1835        12.08        87.92  55.48  88.43        za mała próba
+      gs_generic_lekarz_online      2          30          30     100.00         15989          2227        13.93        86.07  74.71  86.60        za mała próba
+          meta_prosp_l4_szybko      2       46091        2762       5.99         14901           832         5.58         0.41  -0.03   0.83 bez istotnej różnicy
+      meta_prosp_lekarz_online      1       14622         473       3.23          7670           282         3.68        -0.44  -0.96   0.06 bez istotnej różnicy
+      meta_prosp_lekarz_online      2       14708         537       3.65          7977           280         3.51         0.14  -0.38   0.64 bez istotnej różnicy
+              meta_rmkt_koszyk      1         264          30      11.36          3096          1111        35.89       -24.52 -28.22 -19.82        za mała próba
+              meta_rmkt_koszyk      2        1772         250      14.11          4327          1392        32.17       -18.06 -20.15 -15.88             rzadziej
+             tt_prosp_l4_15min      2       28160        1351       4.80          5310           242         4.56         0.24  -0.40   0.83 bez istotnej różnicy
+
+1c. To samo z grupą porównawczą V2: zwykłe przeglądarki na telefonie i tablecie (jak przeglądarki wbudowane), bez
+    Safari na iOS od 2026-03-17 (awaria zakładania konta obniża zwykłe przeglądarki w okresie 2).
+                      kampania  okres  sesje_wbud  platn_wbud  proc_wbud  sesje_zwykle  platn_zwykle  proc_zwykle  roznica_pkt     od     do              werdykt
+                  bezposrednie      1         712         143      20.08         15255          5400        35.40       -15.31 -18.20 -12.12             rzadziej
+                  bezposrednie      2        4261         893      20.96         16442          6260        38.07       -17.12 -18.52 -15.67             rzadziej
+              crm_reactivation      1          16           7      43.75           708           413        58.33       -14.58 -35.54   8.78        za mała próba
+              crm_reactivation      2         104          24      23.08           996           572        57.43       -34.35 -42.03 -24.87        za mała próba
+     crm_recepta_przypomnienie      1          12           7      58.33           368           225        61.14        -2.81 -29.63  20.10        za mała próba
+     crm_recepta_przypomnienie      2          40          11      27.50           512           302        58.98       -31.48 -43.62 -15.55        za mała próba
+         crm_sms_przypomnienie      1           9           3      33.33           330           191        57.88       -24.55 -46.45   7.16        za mała próba
+         crm_sms_przypomnienie      2          41           8      19.51           462           247        53.46       -33.95 -44.26 -18.75        za mała próba
+                google_organic      1         396          67      16.92         26936          3543        13.15         3.77   0.37   7.79             częściej
+                google_organic      2        2391         424      17.73         27088          3932        14.52         3.22   1.68   4.85             częściej
+                      gs_brand      1         394          72      18.27          8331          2403        28.84       -10.57 -14.21  -6.34             rzadziej
+                      gs_brand      2        2357         409      17.35          8904          2678        30.08       -12.72 -14.48 -10.88             rzadziej
+      gs_generic_lekarz_online      1           8           8     100.00         10844          1329        12.26        87.74  55.30  88.35        za mała próba
+      gs_generic_lekarz_online      2          30          30     100.00          9545          1397        14.64        85.36  73.99  86.06        za mała próba
+          meta_prosp_l4_szybko      2       46091        2762       5.99          9795           566         5.78         0.21  -0.31   0.71 bez istotnej różnicy
+      meta_prosp_lekarz_online      1       14622         473       3.23          6804           237         3.48        -0.25  -0.79   0.26 bez istotnej różnicy
+      meta_prosp_lekarz_online      2       14708         537       3.65          5932           231         3.89        -0.24  -0.84   0.32 bez istotnej różnicy
+              meta_rmkt_koszyk      1         264          30      11.36          2181           775        35.53       -24.17 -28.04 -19.35        za mała próba
+              meta_rmkt_koszyk      2        1772         250      14.11          2604           857        32.91       -18.80 -21.20 -16.34             rzadziej
+             tt_prosp_l4_15min      2       28160        1351       4.80          2784           138         4.96        -0.16  -1.06   0.63 bez istotnej różnicy
+
+1d. Kroki lejka (konwersja kroku wobec poprzedniego, %) w kampaniach z co najmniej 300 sesjami w przeglądarkach
+    wbudowanych, V1. usl = wybór usługi / sesje, term = termin / usługa, log = konto / termin, wpl = wejście na
+    płatność / konto, pl = płatność / wejście na płatność; _wb = wbudowana, _zw = zwykła.
+                     kampania  okres  usl_wb  usl_zw  term_wb  term_zw  log_wb  log_zw  wpl_wb  wpl_zw  pl_wb  pl_zw
+                 bezposrednie      1    36.8    61.2     84.4     84.4    76.5    79.1    91.7    91.0   92.3   94.4
+                 bezposrednie      2    45.0    63.3     88.2     86.1    65.3    79.6    87.1    91.7   92.8   94.9
+               google_organic      1    38.6    31.6     84.3     70.6    65.9    72.7    87.1    87.6   90.5   92.3
+               google_organic      2    42.1    32.7     85.8     72.7    63.8    72.0    84.4    89.3   91.2   93.0
+                     gs_brand      1    40.1    57.8     86.7     81.8    65.0    75.2    84.3    88.6   96.0   92.9
+                     gs_brand      2    41.6    58.0     86.5     83.1    63.2    74.4    83.4    89.1   91.5   93.3
+         meta_prosp_l4_szybko      2    24.6    24.3     55.8     56.1    60.1    57.6    81.7    80.5   89.0   88.1
+     meta_prosp_lekarz_online      1    17.3    17.3     50.1     52.6    55.2    55.2    77.9    84.2   86.8   87.0
+     meta_prosp_lekarz_online      2    17.4    17.8     52.0     50.3    56.5    56.8    80.8    79.8   88.6   86.4
+             meta_rmkt_koszyk      2    40.7    62.9     85.9     92.2    62.0    70.2    78.1    86.9   83.3   90.9
+            tt_prosp_l4_15min      2    21.2    21.1     54.7     54.1    59.0    55.2    81.1    82.6   86.2   87.7
+
+1e. Zbiorczo: różnica wbudowana − zwykła w obrębie tej samej kampanii, okresu i typu odwiedzającego (jeszcze nie
+    kupowali / kupowali wcześniej), ważona sesjami w przeglądarkach wbudowanych (standaryzacja bezpośrednia).
+    oczekiwane_platn = ile płatności dałyby sesje w przeglądarkach wbudowanych, gdyby płaciły jak zwykłe w tej samej
+    warstwie; iloraz = faktyczne / oczekiwane. Warstwy bez sesji zwykłych pomijamy (pominiete_wbud). Przedział z
+    przybliżenia normalnego (suma wariancji warstw).
+
+   V1:
+                                                          grupa okres  sesje_wbud  platn_wbud  oczekiwane_platn  iloraz  proc_wbud  proc_oczekiwany  roznica_pkt     od     do  pominiete_wbud              werdykt
+                                 poza nowymi kampaniami (razem)     1       16433         810           1048.34    0.77       4.93             6.38        -1.45  -1.93  -0.97               0             rzadziej
+                                 poza nowymi kampaniami (razem)     2       25704        2586           3014.95    0.86      10.06            11.73        -1.67  -2.10  -1.24               0             rzadziej
+                                 poza nowymi kampaniami (razem)   oba       42137        3396           4063.29    0.84       8.06             9.64        -1.58  -1.91  -1.26               0             rzadziej
+                  Meta lekarz online (meta_prosp_lekarz_online)     1       14622         473            537.60    0.88       3.23             3.68        -0.44  -0.95   0.07               0 bez istotnej różnicy
+                  Meta lekarz online (meta_prosp_lekarz_online)     2       14708         537            516.26    1.04       3.65             3.51         0.14  -0.36   0.65               0 bez istotnej różnicy
+                  Meta lekarz online (meta_prosp_lekarz_online)   oba       29330        1010           1053.87    0.96       3.44             3.59        -0.15  -0.51   0.21               0 bez istotnej różnicy
+                            remarketing Meta (meta_rmkt_koszyk)     1         264          30             81.51    0.37      11.36            30.88       -19.51 -23.53 -15.50               0        za mała próba
+                            remarketing Meta (meta_rmkt_koszyk)     2        1772         250            466.23    0.54      14.11            26.31       -12.20 -14.28 -10.13               0             rzadziej
+                            remarketing Meta (meta_rmkt_koszyk)   oba        2036         280            547.75    0.51      13.75            26.90       -13.15 -15.03 -11.27               0             rzadziej
+                                    Google Ads marka (gs_brand)     1         394          72            105.37    0.68      18.27            26.74        -8.47 -11.77  -5.17               0             rzadziej
+                                    Google Ads marka (gs_brand)     2        2357         409            529.44    0.77      17.35            22.46        -5.11  -6.69  -3.52               0             rzadziej
+                                    Google Ads marka (gs_brand)   oba        2751         481            634.81    0.76      17.48            23.08        -5.59  -7.03  -4.15               0             rzadziej
+                                           wejścia bezpośrednie     1         712         143            224.89    0.64      20.08            31.59       -11.50 -13.57  -9.43               0             rzadziej
+                                           wejścia bezpośrednie     2        4261         893           1082.24    0.83      20.96            25.40        -4.44  -5.64  -3.24               0             rzadziej
+                                           wejścia bezpośrednie   oba        4973        1036           1307.13    0.79      20.83            26.28        -5.45  -6.52  -4.38               0             rzadziej
+                             Google bezpłatnie (google_organic)     1         396          67             68.49    0.98      16.92            17.30        -0.38  -3.02   2.27               0 bez istotnej różnicy
+                             Google bezpłatnie (google_organic)     2        2391         424            284.87    1.49      17.73            11.91         5.82   4.39   7.25               0             częściej
+                             Google bezpłatnie (google_organic)   oba        2787         491            353.36    1.39      17.62            12.68         4.94   3.66   6.22               0             częściej
+                                         newsletter i SMS (crm)     1          37          17             22.48    0.76      45.95            60.75       -14.80 -30.71   1.12               0        za mała próba
+                                         newsletter i SMS (crm)     2         185          43            105.90    0.41      23.24            57.25       -34.00 -40.31 -27.69               0        za mała próba
+                                         newsletter i SMS (crm)   oba         222          60            128.38    0.47      27.03            57.83       -30.80 -36.69 -24.91               0        za mała próba
+                           poza nowymi i bez Meta lekarz online     1        1811         337            510.74    0.66      18.61            28.20        -9.59 -10.99  -8.19               0             rzadziej
+                           poza nowymi i bez Meta lekarz online     2       10996        2049           2498.68    0.82      18.63            22.72        -4.09  -4.83  -3.35               0             rzadziej
+                           poza nowymi i bez Meta lekarz online   oba       12807        2386           3009.42    0.79      18.63            23.50        -4.87  -5.54  -4.20               0             rzadziej
+     poza nowymi i bez Meta lekarz online, jeszcze nie kupowali     1        1618         164            332.27    0.49      10.14            20.54       -10.40 -11.92  -8.88               0             rzadziej
+     poza nowymi i bez Meta lekarz online, jeszcze nie kupowali     2       10404        1599           1985.78    0.81      15.37            19.09        -3.72  -4.49  -2.94               0             rzadziej
+     poza nowymi i bez Meta lekarz online, jeszcze nie kupowali   oba       12022        1763           2318.04    0.76      14.66            19.28        -4.62  -5.32  -3.91               0             rzadziej
+       poza nowymi i bez Meta lekarz online, kupowali wcześniej     1         193         173            178.48    0.97      89.64            92.47        -2.84  -5.89   0.21               0        za mała próba
+       poza nowymi i bez Meta lekarz online, kupowali wcześniej     2         592         450            512.90    0.88      76.01            86.64       -10.63 -12.60  -8.65               0             rzadziej
+       poza nowymi i bez Meta lekarz online, kupowali wcześniej   oba         785         623            691.38    0.90      79.36            88.07        -8.71 -10.38  -7.05               0             rzadziej
+                              poza nowymi, jeszcze nie kupowali     1       16240         637            869.87    0.73       3.92             5.36        -1.43  -1.92  -0.95               0             rzadziej
+                              poza nowymi, jeszcze nie kupowali     2       25112        2136           2502.04    0.85       8.51             9.96        -1.46  -1.89  -1.02               0             rzadziej
+                              poza nowymi, jeszcze nie kupowali   oba       41352        2773           3371.91    0.82       6.71             8.15        -1.45  -1.77  -1.12               0             rzadziej
+                                               nowe: Meta na L4     2       46091        2762           2573.50    1.07       5.99             5.58         0.41  -0.02   0.84               0 bez istotnej różnicy
+                                               nowe: Meta na L4   oba       46091        2762           2573.50    1.07       5.99             5.58         0.41  -0.02   0.84               0 bez istotnej różnicy
+                                             nowe: TikTok na L4     2       28160        1351           1283.37    1.05       4.80             4.56         0.24  -0.37   0.85               0 bez istotnej różnicy
+                                             nowe: TikTok na L4   oba       28160        1351           1283.37    1.05       4.80             4.56         0.24  -0.37   0.85               0 bez istotnej różnicy
+
+   V2:
+                                                          grupa okres  sesje_wbud  platn_wbud  oczekiwane_platn  iloraz  proc_wbud  proc_oczekiwany  roznica_pkt     od     do  pominiete_wbud              werdykt
+                                 poza nowymi kampaniami (razem)     1       16433         810           1018.07    0.80       4.93             6.20        -1.27  -1.76  -0.78               0             rzadziej
+                                 poza nowymi kampaniami (razem)     2       25704        2586           3136.62    0.82      10.06            12.20        -2.14  -2.62  -1.67               0             rzadziej
+                                 poza nowymi kampaniami (razem)   oba       42137        3396           4154.70    0.82       8.06             9.86        -1.80  -2.15  -1.45               0             rzadziej
+                  Meta lekarz online (meta_prosp_lekarz_online)     1       14622         473            509.32    0.93       3.23             3.48        -0.25  -0.77   0.27               0 bez istotnej różnicy
+                  Meta lekarz online (meta_prosp_lekarz_online)     2       14708         537            572.75    0.94       3.65             3.89        -0.24  -0.82   0.34               0 bez istotnej różnicy
+                  Meta lekarz online (meta_prosp_lekarz_online)   oba       29330        1010           1082.07    0.93       3.44             3.69        -0.25  -0.64   0.14               0 bez istotnej różnicy
+                            remarketing Meta (meta_rmkt_koszyk)     1         264          30             79.96    0.38      11.36            30.29       -18.93 -23.08 -14.77               0        za mała próba
+                            remarketing Meta (meta_rmkt_koszyk)     2        1772         250            479.78    0.52      14.11            27.08       -12.97 -15.33 -10.61               0             rzadziej
+                            remarketing Meta (meta_rmkt_koszyk)   oba        2036         280            559.74    0.50      13.75            27.49       -13.74 -15.86 -11.62               0             rzadziej
+                                    Google Ads marka (gs_brand)     1         394          72            103.68    0.69      18.27            26.31        -8.04 -11.37  -4.71               0             rzadziej
+                                    Google Ads marka (gs_brand)     2        2357         409            541.25    0.76      17.35            22.96        -5.61  -7.29  -3.93               0             rzadziej
+                                    Google Ads marka (gs_brand)   oba        2751         481            644.93    0.75      17.48            23.44        -5.96  -7.48  -4.44               0             rzadziej
+                                           wejścia bezpośrednie     1         712         143            226.80    0.63      20.08            31.85       -11.77 -13.87  -9.67               0             rzadziej
+                                           wejścia bezpośrednie     2        4261         893           1115.01    0.80      20.96            26.17        -5.21  -6.49  -3.93               0             rzadziej
+                                           wejścia bezpośrednie   oba        4973        1036           1341.81    0.77      20.83            26.98        -6.15  -7.29  -5.01               0             rzadziej
+                             Google bezpłatnie (google_organic)     1         396          67             68.43    0.98      16.92            17.28        -0.36  -3.01   2.29               0 bez istotnej różnicy
+                             Google bezpłatnie (google_organic)     2        2391         424            292.60    1.45      17.73            12.24         5.50   4.05   6.94               0             częściej
+                             Google bezpłatnie (google_organic)   oba        2787         491            361.03    1.36      17.62            12.95         4.66   3.37   5.96               0             częściej
+                                         newsletter i SMS (crm)     1          37          17             21.88    0.78      45.95            59.13       -13.19 -29.16   2.79               0        za mała próba
+                                         newsletter i SMS (crm)     2         185          43            105.24    0.41      23.24            56.89       -33.64 -40.10 -27.18               0        za mała próba
+                                         newsletter i SMS (crm)   oba         222          60            127.12    0.47      27.03            57.26       -30.23 -36.24 -24.23               0        za mała próba
+                           poza nowymi i bez Meta lekarz online     1        1811         337            508.75    0.66      18.61            28.09        -9.48 -10.90  -8.06               0             rzadziej
+                           poza nowymi i bez Meta lekarz online     2       10996        2049           2563.88    0.80      18.63            23.32        -4.68  -5.48  -3.89               0             rzadziej
+                           poza nowymi i bez Meta lekarz online   oba       12807        2386           3072.63    0.78      18.63            23.99        -5.36  -6.07  -4.65               0             rzadziej
+     poza nowymi i bez Meta lekarz online, jeszcze nie kupowali     1        1618         164            330.87    0.50      10.14            20.45       -10.31 -11.86  -8.77               0             rzadziej
+     poza nowymi i bez Meta lekarz online, jeszcze nie kupowali     2       10404        1599           2051.63    0.78      15.37            19.72        -4.35  -5.18  -3.52               0             rzadziej
+     poza nowymi i bez Meta lekarz online, jeszcze nie kupowali   oba       12022        1763           2382.51    0.74      14.66            19.82        -5.15  -5.90  -4.40               0             rzadziej
+       poza nowymi i bez Meta lekarz online, kupowali wcześniej     1         193         173            177.88    0.97      89.64            92.17        -2.53  -5.59   0.53               0        za mała próba
+       poza nowymi i bez Meta lekarz online, kupowali wcześniej     2         592         450            512.24    0.88      76.01            86.53       -10.51 -12.53  -8.49               0             rzadziej
+       poza nowymi i bez Meta lekarz online, kupowali wcześniej   oba         785         623            690.12    0.90      79.36            87.91        -8.55 -10.25  -6.85               0             rzadziej
+                              poza nowymi, jeszcze nie kupowali     1       16240         637            840.19    0.76       3.92             5.17        -1.25  -1.75  -0.76               0             rzadziej
+                              poza nowymi, jeszcze nie kupowali     2       25112        2136           2624.38    0.81       8.51            10.45        -1.94  -2.43  -1.46               0             rzadziej
+                              poza nowymi, jeszcze nie kupowali   oba       41352        2773           3464.58    0.80       6.71             8.38        -1.67  -2.02  -1.32               0             rzadziej
+                                               nowe: Meta na L4     2       46091        2762           2663.35    1.04       5.99             5.78         0.21  -0.30   0.72               0 bez istotnej różnicy
+                                               nowe: Meta na L4   oba       46091        2762           2663.35    1.04       5.99             5.78         0.21  -0.30   0.72               0 bez istotnej różnicy
+                                             nowe: TikTok na L4     2       28160        1351           1395.86    0.97       4.80             4.96        -0.16  -1.00   0.68               0 bez istotnej różnicy
+                                             nowe: TikTok na L4   oba       28160        1351           1395.86    0.97       4.80             4.96        -0.16  -1.00   0.68               0 bez istotnej różnicy
+
+1f. Według przeglądarki wbudowanej, poza nowymi kampaniami, oba okresy razem (warstwy jak w 1e)
+     wariant przegladarka  okres  sesje_wbud  platn_wbud  oczekiwane_platn  iloraz  proc_wbud  proc_oczekiwany  roznica_pkt    od    do  pominiete_wbud  werdykt
+          V1    Instagram      1        9560         461            609.04    0.76       4.82             6.37        -1.55 -2.08 -1.01               0 rzadziej
+          V1    Instagram      2       12979        1224           1377.07    0.89       9.43            10.61        -1.18 -1.71 -0.65               0 rzadziej
+          V1     Facebook      1        6873         349            439.31    0.79       5.08             6.39        -1.31 -1.91 -0.71               0 rzadziej
+          V1     Facebook      2        9350         853            944.29    0.90       9.12            10.10        -0.98 -1.58 -0.37               0 rzadziej
+          V1       TikTok      2        3375         509            693.59    0.73      15.08            20.55        -5.47 -6.67 -4.26               0 rzadziej
+          V2    Instagram      1        9560         461            591.54    0.78       4.82             6.19        -1.37 -1.91 -0.82               0 rzadziej
+          V2    Instagram      2       12979        1224           1435.74    0.85       9.43            11.06        -1.63 -2.20 -1.06               0 rzadziej
+          V2     Facebook      1        6873         349            426.53    0.82       5.08             6.21        -1.13 -1.74 -0.52               0 rzadziej
+          V2     Facebook      2        9350         853            986.60    0.86       9.12            10.55        -1.43 -2.07 -0.79               0 rzadziej
+          V2       TikTok      2        3375         509            714.28    0.71      15.08            21.16        -6.08 -7.32 -4.84               0 rzadziej
+   Uwaga: gs_generic_lekarz_online ma 38 sesji w przeglądarkach wbudowanych, z czego 38 z kontem
+   pacjenta i 38 z zamówieniem (zalogowani pacjenci), stąd 100% w 1b; werdykt „za mała próba”.
+
+==============================================================================================================
+2. WYNIK NA PACJENTA PO 180 DNIACH: Z JAKICH KOHORT I Z JAKIM KOSZTEM POZYSKANIA (TikTok na L4, Meta na L4)
+==============================================================================================================
+   Okna jak w a5e_ekonomia.py: 90 dni = kohorty 1.10.2025–2.07.2026, 180 dni = kohorty 1.10.2025–3.04.2026. Koszt
+   pozyskania w danym oknie = wydatki kampanii z dni kohort okna / nowi pacjenci z tych dni (ZALOZENIA.md 39).
+                 kampania regula                                       co kohorty_od kohorty_do  pacjenci  wydatki_zl  koszt_pozysk  marza  wynik  wynik_od  wynik_do
+     meta_prosp_l4_szybko    Z1K                 180 dni: wczesne kohorty 2025-11-03 2026-04-03      2053     61645.0          30.0   38.2    8.2       6.4       9.9
+     meta_prosp_l4_szybko    Z1K          90 dni: te same wczesne kohorty 2025-11-03 2026-04-03      2053     61645.0          30.0   37.8    7.8       6.0       9.5
+     meta_prosp_l4_szybko    Z1K 90 dni: wszystkie kohorty z pełnym oknem 2025-11-03 2026-07-02      3628    113677.3          31.3   37.8    6.5       5.2       7.7
+     meta_prosp_l4_szybko    Z1K  cały rocznik okresu 2 (koszt bez marży) 2025-11-03 2026-09-30      5059    163322.5          32.3    NaN    NaN       NaN       NaN
+     meta_prosp_l4_szybko     Z2                 180 dni: wczesne kohorty 2025-11-03 2026-04-03      1465     61645.0          42.1   37.8   -4.3      -6.4      -2.2
+     meta_prosp_l4_szybko     Z2          90 dni: te same wczesne kohorty 2025-11-03 2026-04-03      1465     61645.0          42.1   37.4   -4.7      -6.8      -2.5
+     meta_prosp_l4_szybko     Z2 90 dni: wszystkie kohorty z pełnym oknem 2025-11-03 2026-07-02      2589    113677.3          43.9   37.4   -6.5      -8.0      -4.9
+     meta_prosp_l4_szybko     Z2  cały rocznik okresu 2 (koszt bez marży) 2025-11-03 2026-09-30      3594    163322.5          45.4    NaN    NaN       NaN       NaN
+        tt_prosp_l4_15min    Z1K                 180 dni: wczesne kohorty 2026-02-10 2026-04-03       299      9680.2          32.4   31.2   -1.1      -5.3       3.0
+        tt_prosp_l4_15min    Z1K          90 dni: te same wczesne kohorty 2026-02-10 2026-04-03       299      9680.2          32.4   31.2   -1.1      -5.3       3.0
+        tt_prosp_l4_15min    Z1K 90 dni: wszystkie kohorty z pełnym oknem 2026-02-10 2026-07-02      1265     46219.9          36.5   31.9   -4.6      -6.6      -2.6
+        tt_prosp_l4_15min    Z1K  cały rocznik okresu 2 (koszt bez marży) 2026-02-10 2026-09-30      2209     82464.3          37.3    NaN    NaN       NaN       NaN
+        tt_prosp_l4_15min     Z2                 180 dni: wczesne kohorty 2026-02-10 2026-04-03       228      9680.2          42.5   31.5  -11.0     -15.5      -6.5
+        tt_prosp_l4_15min     Z2          90 dni: te same wczesne kohorty 2026-02-10 2026-04-03       228      9680.2          42.5   31.5  -11.0     -15.5      -6.5
+        tt_prosp_l4_15min     Z2 90 dni: wszystkie kohorty z pełnym oknem 2026-02-10 2026-07-02       921     46219.9          50.2   32.4  -17.8     -19.9     -15.6
+        tt_prosp_l4_15min     Z2  cały rocznik okresu 2 (koszt bez marży) 2026-02-10 2026-09-30      1593     82464.3          51.8    NaN    NaN       NaN       NaN
+
+2b. Przybliżenie wyniku po 180 dniach dla całego rocznika: marża w 90 dniach wszystkich kohort z pełnym oknem 90 dni
+    + przyrost marży z dni 91–180 zmierzony na wczesnych kohortach − koszt pozyskania całego rocznika okresu 2.
+    Założenie: późniejsze kohorty dorabiają w dniach 91–180 tyle samo co wczesne. Przedział z sumy wariancji obu
+    składników (bez kowariancji; wczesne kohorty są częścią kohort 90-dniowych), przy stałym koszcie pozyskania.
+                 kampania regula  marza90_wszystkie  pacjenci_90  przyrost_90_180_wczesne  pacjenci_180  marza180_przyblizona  koszt_rocznika  wynik180_rocznik     od     do  koszt_kohort_90  wynik180_przy_koszcie_kohort_90
+     meta_prosp_l4_szybko    Z1K              37.79         3628                     0.40          2053                 38.19           32.28              5.90   4.59   7.21            31.33                             6.85
+     meta_prosp_l4_szybko     Z2              37.45         2589                     0.38          1465                 37.82           45.44             -7.62  -9.20  -6.04            43.91                            -6.08
+        tt_prosp_l4_15min    Z1K              31.93         1265                     0.00           299                 31.93           37.33             -5.40  -7.37  -3.43            36.54                            -4.61
+        tt_prosp_l4_15min     Z2              32.43          921                     0.00           228                 32.43           51.77            -19.34 -21.49 -17.18            50.18                           -17.75
+
+2c. Kohorty miesięczne (Z1K): nowi pacjenci, wydatki z tego miesiąca, koszt pozyskania, marża w 90 i 180 dniach
+    (tylko kohorty z pełnym oknem; miesiąc częściowo w oknie = średnia z dni w oknie).
+                 kampania miesiac  nowi  wydatki_zl  koszt_pozysk  pacjenci_90  marza_90  pacjenci_180  marza_180  powrot90_proc
+     meta_prosp_l4_szybko 2025-11   121        3300          27.3          121      34.3           121       34.3            5.8
+     meta_prosp_l4_szybko 2025-12   279        7734          27.7          279      36.7           279       37.4            4.3
+     meta_prosp_l4_szybko 2026-01   445       13375          30.1          445      39.6           445       40.4            4.9
+     meta_prosp_l4_szybko 2026-02   551       16385          29.7          551      40.2           551       40.3            5.4
+     meta_prosp_l4_szybko 2026-03   619       19092          30.8          619      35.9           619       36.2            3.7
+     meta_prosp_l4_szybko 2026-04   511       17641          34.5          511      38.5            38       32.9            4.3
+     meta_prosp_l4_szybko 2026-05   565       17982          31.8          565      37.1             0        NaN            3.2
+     meta_prosp_l4_szybko 2026-06   505       16873          33.4          505      37.6             0        NaN            5.5
+     meta_prosp_l4_szybko 2026-07   481       17092          35.5           32      35.1             0        NaN            3.1
+     meta_prosp_l4_szybko 2026-08   467       16438          35.2            0       NaN             0        NaN            NaN
+     meta_prosp_l4_szybko 2026-09   515       17409          33.8            0       NaN             0        NaN            NaN
+        tt_prosp_l4_15min 2026-02    59        1689          28.6           59      33.8            59       33.8            5.1
+        tt_prosp_l4_15min 2026-03   207        7084          34.2          207      33.4           207       33.4            3.4
+        tt_prosp_l4_15min 2026-04   314       12066          38.4          314      28.6            33       13.2            3.2
+        tt_prosp_l4_15min 2026-05   345       12143          35.2          345      33.6             0        NaN            3.5
+        tt_prosp_l4_15min 2026-06   313       12496          39.9          313      31.5             0        NaN            2.6
+        tt_prosp_l4_15min 2026-07   318       12746          40.1           27      38.9             0        NaN            0.0
+        tt_prosp_l4_15min 2026-08   318       12102          38.1            0       NaN             0        NaN            NaN
+        tt_prosp_l4_15min 2026-09   335       12138          36.2            0       NaN             0        NaN            NaN
+
+==============================================================================================================
+3. TEMPO WYDATKÓW I POZYSKANIA W OSTATNIM PÓŁROCZU (1.04–30.09.2026) A KWOTY „NA PEŁNY ROK” (c_priorytety.txt, P11)
+==============================================================================================================
+   P11: kwota z dni działania kampanii w okresie 2 × 365 / dni działania (dni z wydatkami). Kwota z dni działania =
+   nowi pacjenci okresu 2 × marża na pacjenta (90 albo 180 dni, kohorty z pełnym oknem) − wydatki okresu 2
+   (a5e_scenariusze.txt, E0). W tempie półrocza: ten sam wzór na nowych pacjentach i wydatkach z 1.04–30.09.2026,
+   × 365 / dni z wydatkami w półroczu, przy tej samej marży na pacjenta.
+                 kampania regula  dni_dzialania  dni_polrocza  wydatki_dziennie_caly  wydatki_dziennie_polrocze  wydatki_iloraz  nowi_dziennie_caly  nowi_dziennie_polrocze  nowi_iloraz  koszt_pozysk_caly  koszt_pozysk_polrocze
+     meta_prosp_l4_szybko    Z1K            332           183                491.935                    565.223           1.149              15.238                  16.634        1.092             32.284                 33.980
+     meta_prosp_l4_szybko     Z2            332           183                491.935                    565.223           1.149              10.825                  11.760        1.086             45.443                 48.065
+        tt_prosp_l4_15min    Z1K            234           183                352.412                    402.685           1.143               9.440                  10.617        1.125             37.331                 37.927
+        tt_prosp_l4_15min     Z2            234           183                352.412                    402.685           1.143               6.808                   7.563        1.111             51.767                 53.245
+
+3b. Kwoty: z dni działania, na pełny rok według P11 i na pełny rok w tempie półrocza (zł); zmiana_proc = różnica
+    tempa półrocza wobec P11. Wiersz _marza_kohort_polrocza: marża w 90 dniach kohort 1.04–2.07.2026 zamiast średniej
+    okresu 2 (sprawdzenie wrażliwości). prog_decyzji = udział pacjentów dodatkowych, przy którym wyłączenie przestaje
+    się opłacać (wydatki / marża rocznika), w procentach.
+                 kampania regula                             pozycja  dni_dzialania  pelny_rok_P11  pelny_rok_tempo_polrocza  zmiana_proc
+     meta_prosp_l4_szybko    Z1K                       wynik_dzis_90        27845.1        30612.8                   23116.2        -24.5
+     meta_prosp_l4_szybko    Z1K                      wynik_dzis_180        29881.8        32852.0                   25560.4        -22.2
+     meta_prosp_l4_szybko    Z1K                    wylacz_50proc_90        67738.7        74471.7                   91595.0         23.0
+     meta_prosp_l4_szybko    Z1K                wylacz_0proc_wydatki       163322.5       179556.3                  206306.3         14.9
+     meta_prosp_l4_szybko    Z1K                   marza_rocznika_90       191167.6       210169.2                  229422.5          9.2
+     meta_prosp_l4_szybko    Z1K wynik_dzis_90_marza_kohort_polrocza            NaN        30612.8                   22373.0        -26.9
+     meta_prosp_l4_szybko    Z1K                prog_decyzji_90_proc            NaN           85.4                      89.9          NaN
+     meta_prosp_l4_szybko     Z2                       wynik_dzis_90       -28734.9       -31591.1                  -45571.1         44.3
+     meta_prosp_l4_szybko     Z2                      wynik_dzis_180       -27474.2       -30205.1                  -44065.5         45.9
+     meta_prosp_l4_szybko     Z2                    wylacz_50proc_90        96028.7       105573.7                  125938.7         19.3
+     meta_prosp_l4_szybko     Z2                wylacz_0proc_wydatki       163322.5       179556.3                  206306.3         14.9
+     meta_prosp_l4_szybko     Z2                   marza_rocznika_90       134587.6       147965.3                  160735.2          8.6
+     meta_prosp_l4_szybko     Z2 wynik_dzis_90_marza_kohort_polrocza            NaN       -31591.1                  -45994.7         45.6
+     meta_prosp_l4_szybko     Z2                prog_decyzji_90_proc            NaN          121.4                     128.4          NaN
+        tt_prosp_l4_15min    Z1K                       wynik_dzis_90       -11928.2       -18606.0                  -23234.3         24.9
+        tt_prosp_l4_15min    Z1K                      wynik_dzis_180       -13468.1       -21008.0                  -25935.9         23.5
+        tt_prosp_l4_15min    Z1K                    wylacz_50proc_90        47196.3        73618.1                   85107.1         15.6
+        tt_prosp_l4_15min    Z1K                wylacz_0proc_wydatki        82464.3       128630.2                  146980.0         14.3
+        tt_prosp_l4_15min    Z1K                   marza_rocznika_90        70536.1       110024.2                  123745.7         12.5
+        tt_prosp_l4_15min    Z1K wynik_dzis_90_marza_kohort_polrocza            NaN       -18606.0                  -24829.8         33.5
+        tt_prosp_l4_15min     Z2                       wynik_dzis_90       -30800.8       -48043.9                  -57454.6         19.6
+        tt_prosp_l4_15min     Z2                      wynik_dzis_180       -32340.7       -50446.0                  -60123.1         19.2
+        tt_prosp_l4_15min     Z2                    wylacz_50proc_90        56632.5        88337.1                  102217.3         15.7
+        tt_prosp_l4_15min     Z2                wylacz_0proc_wydatki        82464.3       128630.2                  146980.0         14.3
+        tt_prosp_l4_15min     Z2                   marza_rocznika_90        51663.5        80586.3                   89525.4         11.1
+        tt_prosp_l4_15min     Z2 wynik_dzis_90_marza_kohort_polrocza            NaN       -48043.9                  -58163.3         21.1
+
+==============================================================================================================
+4. KOSZT KLIKNIĘCIA W GOOGLE ADS (wydatki / kliknięcia) I KOSZT NA PIERWSZE ZAMÓWIENIE
+==============================================================================================================
+4a. Okres 1 wobec okresu 2: kliknięcia, wydatki, koszt kliknięcia (zł), współczynnik klikalności (kliknięcia / wyświetlenia, %)
+                     kampania  klikniecia_o1  klikniecia_o2  wydatki_o1  wydatki_o2  koszt_klikniecia_o1  koszt_klikniecia_o2  ctr_proc_o1  ctr_proc_o2  koszt_klikniecia_zmiana_proc
+             google_ads_razem        62770.0        71245.0   303650.18   332460.82                4.838                4.666        7.276        7.655                        -3.536
+                     gs_brand        13894.0        19828.0    14033.08    23612.21                1.010                1.191       21.969       22.148                        17.905
+          gs_generic_erecepta        13445.0        13942.0    79154.11    97584.91                5.887                6.999        6.491        6.466                        18.890
+                gs_generic_l4        11652.0        11987.0    70485.50    69489.67                6.049                5.797        6.919        6.963                        -4.168
+     gs_generic_lekarz_online        16435.0        17346.0    92819.75    88616.38                5.648                5.109        5.962        5.962                        -9.543
+             gs_generic_razem        48876.0        51417.0   289617.10   308848.61                5.926                6.007        6.114        6.112                         1.370
+       gs_generic_specjalisci         7344.0         8142.0    47157.74    53157.65                6.421                6.529        4.954        5.010                         1.675
+
+4b. Koszt kliknięcia miesięcznie (zł), z kliknięciami gs_brand obok
+     miesiac  gs_brand  gs_generic_erecepta  gs_generic_l4  gs_generic_lekarz_online  gs_generic_specjalisci  klikniecia_gs_brand  google_ads_razem
+     2024-10     0.925                4.966          5.648                     5.254                   6.528                  909             4.597
+     2024-11     0.993                5.286          5.441                     5.136                   6.957                 1047             4.602
+     2024-12     0.974                5.358          5.493                     5.443                   6.776                 1231             4.599
+     2025-01     0.977                5.649          5.532                     5.569                   6.664                 1274             4.736
+     2025-02     0.995                5.951          5.702                     5.445                   6.610                 1320             4.696
+     2025-03     1.023                5.615          6.179                     5.635                   6.514                 1467             4.724
+     2025-04     1.001                5.826          6.372                     5.906                   6.206                 1309             4.878
+     2025-05     0.998                5.831          6.326                     5.853                   6.213                 1184             4.818
+     2025-06     1.017                6.487          6.505                     5.893                   6.244                 1054             5.018
+     2025-07     1.062                6.578          6.618                     6.171                   6.239                 1017             5.222
+     2025-08     1.095                6.478          6.794                     6.090                   5.974                  974             5.217
+     2025-09     1.069                6.858          6.770                     5.547                   6.092                 1108             5.120
+     2025-10     1.058                6.665          6.565                     5.327                   6.079                 1262             4.930
+     2025-11     1.062                6.795          6.612                     5.176                   5.938                 1383             4.839
+     2025-12     1.140                7.239          6.158                     5.182                   6.290                 1624             4.843
+     2026-01     1.128                7.465          5.948                     4.922                   6.257                 1927             4.663
+     2026-02     1.167                6.730          5.805                     5.009                   6.391                 1807             4.530
+     2026-03     1.169                6.837          5.714                     4.956                   6.622                 2033             4.564
+     2026-04     1.221                6.539          5.332                     4.613                   6.715                 1860             4.348
+     2026-05     1.231                6.434          5.352                     4.742                   6.809                 1819             4.277
+     2026-06     1.257                6.902          5.253                     5.123                   6.984                 1564             4.598
+     2026-07     1.238                7.534          5.475                     5.350                   6.771                 1481             4.835
+     2026-08     1.293                7.328          5.334                     5.547                   6.762                 1440             4.836
+     2026-09     1.307                7.599          5.522                     5.596                   6.738                 1628             4.849
+
+4c. Koszt kliknięcia w kwartałach i rok do roku (zł)
+     kwartal  gs_brand  gs_generic_erecepta  gs_generic_l4  gs_generic_lekarz_online  gs_generic_specjalisci  gs_brand_rr_proc
+      2024Q4     0.966                5.208          5.522                     5.280                   6.755               NaN
+      2025Q1     0.999                5.734          5.797                     5.551                   6.596               NaN
+      2025Q2     1.005                6.023          6.397                     5.884                   6.220               NaN
+      2025Q3     1.075                6.646          6.729                     5.930                   6.107               NaN
+      2025Q4     1.091                6.906          6.424                     5.222                   6.102              12.9
+      2026Q1     1.155                7.009          5.824                     4.961                   6.431              15.5
+      2026Q2     1.235                6.617          5.315                     4.812                   6.837              22.9
+      2026Q3     1.280                7.487          5.445                     5.501                   6.757              19.1
+
+4d. Koszt na pierwsze zamówienie (nowego pacjenta) w kampaniach Google Ads: wydatki / nowi pacjenci tych samych dni,
+    obie reguły źródła, w okresach i kwartałach (dzień pacjenta = dzień pierwszej płatności)
+                     kampania  okres  wydatki  nowi_Z1K  koszt_Z1K  nowi_Z2  koszt_Z2
+                     gs_brand      1 14033.08      1864       7.53     2377      5.90
+                     gs_brand      2 23612.21      2084      11.33     3033      7.79
+          gs_generic_erecepta      1 79154.11      1560      50.74     1116     70.93
+          gs_generic_erecepta      2 97584.91      1578      61.84     1126     86.67
+                gs_generic_l4      1 70485.50      1351      52.17      948     74.35
+                gs_generic_l4      2 69489.67      1323      52.52      911     76.28
+     gs_generic_lekarz_online      1 92819.75      1816      51.11     1263     73.49
+     gs_generic_lekarz_online      2 88616.38      1773      49.98     1272     69.67
+       gs_generic_specjalisci      1 47157.74       813      58.00      577     81.73
+       gs_generic_specjalisci      2 53157.65       923      57.59      657     80.91
+
+    gs_brand w kwartałach:
+     kwartal  wydatki  klikniecia  koszt_klikniecia  nowi_Z1K  koszt_Z1K  nowi_Z2  koszt_Z2
+      2024Q4  3078.91        3187              0.97       494       6.23      628      4.90
+      2025Q1  4058.43        4061              1.00       588       6.90      730      5.56
+      2025Q2  3564.89        3547              1.01       433       8.23      557      6.40
+      2025Q3  3330.85        3099              1.07       349       9.54      462      7.21
+      2025Q4  4655.78        4269              1.09       526       8.85      674      6.91
+      2026Q1  6659.10        5767              1.15       726       9.17      961      6.93
+      2026Q2  6474.85        5243              1.23       453      14.29      761      8.51
+      2026Q3  5822.48        4549              1.28       379      15.36      637      9.14
+
+==============================================================================================================
+5. GOOGLE ADS NA MARKĘ (gs_brand): SPADEK KONWERSJI SESJA DO PŁATNOŚCI OD 22.05.2026
+==============================================================================================================
+   Sesje zwykłe osób, które jeszcze nie kupowały (jak w a5p_zdarzenia.py), kampania gs_brand. Okna (dzień sesji):
+     A_przed_caly: 2024-10-01 – 2026-05-21
+     B_po_awarii_safari: 2026-03-17 – 2026-05-21
+     C_okres2_przed_awaria: 2025-10-01 – 2026-03-16
+     D_po_spadku: 2026-05-22 – 2026-09-30
+     A0_rok_wczesniej_przed: 2024-10-01 – 2025-05-21
+     B0_rok_wczesniej_17_03_21_05: 2025-03-17 – 2025-05-21
+     D0_rok_wczesniej_22_05_30_09: 2025-05-22 – 2025-09-30
+   A = odcinek przed zmianą w wykrywaniu (a5p_zdarzenia.csv: 598 dni), D = odcinek po (132 dni).
+
+5a. Lejek w oknach (konwersje w %)
+                             okno  dni  sesje      k1     k2     k3     k4     k5  sesje_dziennie  usluga  termin  logowanie  wejscie_platn  platnosc  sesja_do_platn
+                     A_przed_caly  598  21186 11054.0 8728.0 5954.0 5011.0 4492.0           35.43   52.18   78.96      68.22          84.16     89.64           21.20
+               B_po_awarii_safari   66   3131  1589.0 1296.0  837.0  701.0  634.0           47.44   50.75   81.56      64.58          83.75     90.44           20.25
+            C_okres2_przed_awaria  167   7095  3666.0 2882.0 1987.0 1667.0 1481.0           42.49   51.67   78.61      68.95          83.90     88.84           20.87
+                      D_po_spadku  132   5152  2531.0 2020.0 1234.0 1021.0  918.0           39.03   49.13   79.81      61.09          82.74     89.91           17.82
+           A0_rok_wczesniej_przed  233   7704  4086.0 3195.0 2200.0 1866.0 1701.0           33.06   53.04   78.19      68.86          84.82     91.16           22.08
+     B0_rok_wczesniej_17_03_21_05   66   2159  1114.0  861.0  603.0  508.0  460.0           32.71   51.60   77.29      70.03          84.25     90.55           21.31
+     D0_rok_wczesniej_22_05_30_09  132   3256  1713.0 1355.0  930.0  777.0  676.0           24.67   52.61   79.10      68.63          83.55     87.00           20.76
+
+5b. Różnice sesji do płatności (punkty procentowe, 95%) i różnica różnic wobec tych samych dat rok wcześniej
+                                                                                                            porownanie  roznica_pkt    od    do
+                                                                                            D_po_spadku − A_przed_caly        -3.38 -4.55 -2.18
+                                                                                      D_po_spadku − B_po_awarii_safari        -2.43 -4.20 -0.69
+                                                                                   D_po_spadku − C_okres2_przed_awaria        -3.06 -4.46 -1.64
+                                                                            B_po_awarii_safari − C_okres2_przed_awaria        -0.62 -2.30  1.09
+                                                                 D0_rok_wczesniej_22_05_30_09 − A0_rok_wczesniej_przed        -1.32 -2.97  0.38
+                                                           D0_rok_wczesniej_22_05_30_09 − B0_rok_wczesniej_17_03_21_05        -0.54 -2.78  1.66
+     różnica różnic (D_po_spadku − B_po_awarii_safari) − (D0_rok_wczesniej_22_05_30_09 − B0_rok_wczesniej_17_03_21_05)        -1.89 -4.71  0.94
+                 różnica różnic (D_po_spadku − A_przed_caly) − (D0_rok_wczesniej_22_05_30_09 − A0_rok_wczesniej_przed)        -2.07 -4.11 -0.02
+   Zamówienia w oknie D wobec poziomu A: -174.4 (na 30 dni -39.6); wobec poziomu B: -125.2 (na 30 dni -28.5). Okno D ma 132 dni.
+
+5c. Podgrupy: sesja do płatności (%) w oknach B, A i D, różnica D − B (95%). Bez Safari na iOS = cały okres bez tej
+    przeglądarki. Ostatnie wiersze: pacjenci, którzy już kupowali (powracający), dla porównania.
+                                     podgrupa  sesje_B  proc_B  sesje_A  proc_A  sesje_D  proc_D  D_minus_B     od    do  rok_wczesniej_D0_minus_B0    od0   do0
+                               wszyscy (nowi)     3131   20.25    21186   21.20     5152   17.82      -2.43  -4.20 -0.69                      -0.54  -2.78  1.66
+                            bez Safari na iOS     2552   21.08    16764   21.39     4250   18.85      -2.23  -4.22 -0.28                      -0.42  -2.96  2.08
+                          tylko Safari na iOS      579   16.58     4422   20.51      902   12.97      -3.61  -7.44  0.05                      -0.97  -5.73  3.61
+                            urządzenie mobile     2327   19.81    14918   20.62     3913   17.02      -2.79  -4.81 -0.81                      -0.53  -3.20  2.09
+                           urządzenie desktop      730   21.51     5654   22.64     1096   21.35      -0.16  -4.05  3.63                      -1.05  -5.39  3.18
+                            urządzenie tablet       74   21.62      614   22.15      143   12.59      -9.03 -20.59  1.12                       4.40  -8.78 16.47
+                       przeglądarki wbudowane      564   16.49     1531   14.89     1138   15.03      -1.46  -5.29  2.12                       3.74  -6.63 12.17
+                     zwykłe bez Safari na iOS     1988   22.38    15233   22.04     3112   20.24      -2.14  -4.47  0.15                      -0.49  -3.11  2.08
+             powracający (kupowali wcześniej)      358  100.00     2251  100.00      659  100.00       0.00  -0.58  1.06                       0.00  -0.70  1.36
+                powracający bez Safari na iOS      295  100.00     1794  100.00      530  100.00       0.00  -0.72  1.29                       0.00  -0.86  1.86
+                             strona wejścia /     2048   17.48    14561   19.53     3218   15.48      -2.01  -4.10  0.04                      -1.23  -3.87  1.36
+                strona wejścia /lekarz-online      444   16.22     3822   16.41      683   14.79      -1.43  -5.89  2.82                       1.49  -3.02  5.78
+                        strona wejścia /konto      186   67.20     1079   65.89      262   64.89      -2.32 -11.02  6.63                      -7.60 -18.74  4.35
+         strona wejścia /zwolnienie-l4-online      363   16.53      974   17.35      814   14.50      -2.03  -6.77  2.29                       4.21 -12.32 17.87
+               strona wejścia /recepta-online       58   17.24      459   16.56       96   17.71       0.47 -12.82 12.12                       8.25  -4.11 18.54
+                  strona wejścia /specjalisci       10   20.00      143   17.48       36   13.89      -6.11 -38.06 14.47                      -7.84 -29.27 11.54
+                    strona wejścia /polecenie        7   71.43       57   42.11       25   24.00     -47.43 -71.31 -6.93                     -26.98 -57.60 11.94
+        strona wejścia /specjalisci/ginekolog        3   33.33       23   34.78        5   40.00       6.67 -47.23 52.52                      33.33 -49.46 70.00
+       strona wejścia /specjalisci/dermatolog        3    0.00       25    8.00        2    0.00       0.00 -56.15 65.76                      25.00 -56.94 69.94
+       strona wejścia /specjalisci/psychiatra        5    0.00       21    4.76        3   33.33      33.33 -17.92 79.23                      25.00 -28.08 69.94
+     strona wejścia /specjalisci/endokrynolog        3   33.33       11   27.27        4    0.00     -33.33 -79.23 22.69                     -50.00 -90.55 19.26
+        strona wejścia /specjalisci/kardiolog        1    0.00       11   18.18        4    0.00       0.00 -79.35 48.99                      25.00 -56.94 69.94
+
+5d. Rozkład zmiany sesji do płatności (D wobec A i D wobec B, punkty procentowe) na strukturę i konwersję w grupach
+    (jak a5p_lejek.py, sekcja 4); osoby, które jeszcze nie kupowały
+                 podzial              przed  zmiana_pkt  efekt_struktury_pkt  efekt_konwersji_pkt
+              urzadzenie       A_przed_caly       -3.38                -0.11                -3.27
+              urzadzenie B_po_awarii_safari       -2.43                -0.03                -2.40
+     system_przegladarka       A_przed_caly       -3.38                -0.90                -2.49
+     system_przegladarka B_po_awarii_safari       -2.43                -0.24                -2.19
+          strona_wejscia       A_przed_caly       -3.38                -0.03                -3.36
+          strona_wejscia B_po_awarii_safari       -2.43                -0.29                -2.14
+               wbudowana       A_przed_caly       -3.38                -1.01                -2.37
+               wbudowana B_po_awarii_safari       -2.43                -0.19                -2.24
+
+5e. Tydzień po tygodniu (poniedziałki) od 2.03 do 28.09: sesja do płatności gs_brand w 2026 i w tych samych tygodniach 2025
+    (osoby, które jeszcze nie kupowały; tydzień 2025 = ten sam tydzień przesunięty o 52 tygodnie)
+        tydzien  sesje   k5  proc_2026  proc_2026_bez_safari_ios  sesje_2025  k5_2025  proc_2025
+     2026-03-02    381 88.0       23.1                      22.0         294     62.0       21.1
+     2026-03-09    325 70.0       21.5                      23.2         260     63.0       24.2
+     2026-03-16    358 75.0       20.9                      21.1         246     56.0       22.8
+     2026-03-23    361 72.0       19.9                      21.1         254     53.0       20.9
+     2026-03-30    325 64.0       19.7                      20.8         239     61.0       25.5
+     2026-04-06    325 63.0       19.4                      20.6         260     48.0       18.5
+     2026-04-13    354 76.0       21.5                      21.7         244     54.0       22.1
+     2026-04-20    349 66.0       18.9                      21.2         225     47.0       20.9
+     2026-04-27    291 55.0       18.9                      20.6         185     35.0       18.9
+     2026-05-04    305 65.0       21.3                      22.7         207     39.0       18.8
+     2026-05-11    322 62.0       19.3                      19.4         218     41.0       18.8
+     2026-05-18    338 68.0       20.1                      19.4         168     45.0       26.8
+     2026-05-25    333 67.0       20.1                      21.2         207     46.0       22.2
+     2026-06-01    267 44.0       16.5                      16.6         179     42.0       23.5
+     2026-06-08    296 47.0       15.9                      18.3         166     34.0       20.5
+     2026-06-15    268 35.0       13.1                      14.6         186     38.0       20.4
+     2026-06-22    273 48.0       17.6                      17.7         175     27.0       15.4
+     2026-06-29    280 59.0       21.1                      21.3         171     36.0       21.1
+     2026-07-06    248 52.0       21.0                      22.5         160     29.0       18.1
+     2026-07-13    257 36.0       14.0                      14.4         148     27.0       18.2
+     2026-07-20    246 45.0       18.3                      19.8         174     41.0       23.6
+     2026-07-27    266 57.0       21.4                      21.9         167     39.0       23.4
+     2026-08-03    227 40.0       17.6                      17.3         142     32.0       22.5
+     2026-08-10    247 54.0       21.9                      23.7         143     24.0       16.8
+     2026-08-17    249 46.0       18.5                      20.8         173     33.0       19.1
+     2026-08-24    259 40.0       15.4                      16.2         172     40.0       23.3
+     2026-08-31    286 48.0       16.8                      18.4         173     34.0       19.7
+     2026-09-07    299 53.0       17.7                      18.0         188     39.0       20.7
+     2026-09-14    304 46.0       15.1                      16.0         179     42.0       23.5
+     2026-09-21    284 57.0       20.1                      22.3         205     42.0       20.5
+     2026-09-28    131 24.0       18.3                      17.2         189     40.0       21.2
+
+5f. Lejek gs_brand bez Safari na iOS w oknach (konwersje kroków w %, osoby, które jeszcze nie kupowały)
+                             okno  sesje     k5  usluga  termin  logowanie  wejscie_platn  platnosc  sesja_do_platn
+                     A_przed_caly  16764 3585.0   51.98   79.23      68.54          84.34     89.83           21.39
+               B_po_awarii_safari   2552  538.0   50.24   82.06      67.49          84.51     89.67           21.08
+            C_okres2_przed_awaria   5627 1169.0   51.31   78.32      69.31          84.05     88.76           20.77
+                      D_po_spadku   4250  801.0   47.84   79.73      65.27          83.18     91.02           18.85
+           A0_rok_wczesniej_przed   6025 1332.0   52.90   78.60      68.30          84.63     91.99           22.11
+     B0_rok_wczesniej_17_03_21_05   1706  371.0   51.64   76.96      70.50          84.10     92.29           21.75
+     D0_rok_wczesniej_22_05_30_09   2560  546.0   53.05   79.97      68.51          84.14     87.22           21.33
+
+5g. Czy spadek jest tylko w gs_brand: kanały w oknach B i D (bez Safari na iOS, osoby, które jeszcze nie kupowały),
+    sesja do płatności i krok konta (k3 / k2) w %, różnica D − B (95%) i ta sama różnica rok wcześniej (D0 − B0)
+                      kanal  sesje_B  proc_B  sesje_D  proc_D  D_minus_B    od    do  rok_wczesniej_D0_minus_B0  konto_B  konto_D  konto_D_minus_B  konto_od  konto_do
+          afiliacja_ranking      767    6.78     1270    8.90       2.12 -0.35  4.43                      -0.83    54.33    66.67            12.34      1.80     22.76
+               bezposrednie     4383   20.26     7005   20.37       0.11 -1.42  1.62                       1.44    67.26    65.98            -1.28     -4.04      1.51
+           google_ads_marka     2552   21.08     4250   18.85      -2.23 -4.22 -0.28                      -0.42    67.49    65.27            -2.22     -5.85      1.46
+          google_ads_ogolne     6738    9.16    11386    8.92      -0.23 -1.11  0.62                       0.11    64.73    65.54             0.81     -2.51      4.16
+            meta_pozyskanie    17089    5.51    31728    5.41      -0.10 -0.53  0.31                      -0.22    59.84    59.80            -0.04     -2.61      2.54
+           meta_remarketing     1015   19.80     1912   18.88      -0.92 -3.99  2.04                       0.87    63.19    64.57             1.38     -4.04      6.89
+            program_polecen      388   17.27      675   17.63       0.36 -4.52  4.96                      -0.94    67.20    73.63             6.43     -3.57     16.73
+                     tiktok     9593    4.71    20483    4.82       0.11 -0.41  0.62                        NaN    58.39    59.26             0.86     -2.61      4.37
+     wyszukiwarka_bezplatna     7277    9.43    11334    9.49       0.07 -0.80  0.92                      -0.32    64.74    63.94            -0.80     -3.93      2.37
+
+5h. Ruch i koszt w oknach: kliknięcia i wydatki gs_brand, wszystkie sesje gs_brand (wszystkie typy), sesje na kliknięcie
+                             okno  klikniecia  koszt_klikniecia  sesje_wszystkie  sesje_na_klik  udzial_sesji_nowych_proc
+                     A_przed_caly       26993             1.078            24921          0.923                    85.013
+               B_po_awarii_safari        4030             1.213             3726          0.925                    84.031
+            C_okres2_przed_awaria        9069             1.124             8381          0.924                    84.656
+                      D_po_spadku        6729             1.269             6214          0.923                    82.910
+           A0_rok_wczesniej_przed        9361             0.988             8645          0.924                    89.115
+     B0_rok_wczesniej_17_03_21_05        2793             1.012             2598          0.930                    83.102
+     D0_rok_wczesniej_22_05_30_09        4533             1.055             4169          0.920                    78.100
+
+==============================================================================================================
+6. KOD RABATOWY NA PIERWSZYM ZAMÓWIENIU PACJENTÓW NOWYCH KAMPANII (okres 2)
+==============================================================================================================
+   Pierwsze zamówienia nowych pacjentów okresu 2 przypisanych do kampanii daną regułą. Zniżka = cena katalogowa − zapłata
+   (ZALOZENIA.md 14). Zniżka efektywna = tylko wizyty odbyte bez zwrotu i nieodebrane (completed, no_show), bo przy
+   anulowanej i zwróconej wizycie pacjent dostaje całą zapłatę z powrotem (ZALOZENIA.md 47). Powrót w 90 dniach i marża
+   w 90 dniach: kohorty do 2.07.2026. Na pełny rok: × 365 / dni działania kampanii (P11). Kody pokazujemy jako nazwę
+   i liczbę użyć.
+
+6a. Z kodem rabatowym (discount_type = promo) i bez, obie reguły (kwoty w zł)
+                 kampania regula  z_kodem  pierwsze_zam  udzial_proc  znizka_srednia  znizka_razem  znizka_efekt_razem  znizka_efekt_rok  zwrot_po_wizycie_proc  zwrot_wsrod_odbytych_proc  odbyte  pacjenci_90  powrot90_proc  marza90
+     meta_prosp_l4_szybko    Z1K     True          3680        72.74           19.54       71910.0             58400.0          64204.82                  14.48                      15.55    3427         2649           4.15    32.49
+     meta_prosp_l4_szybko    Z1K    False          1379        27.26            2.31        3187.3              2920.3           3210.57                  14.29                      15.21    1295          979           5.41    52.11
+     meta_prosp_l4_szybko     Z2     True          2585        71.93           19.55       50530.0             40760.0          44811.45                  15.09                      16.17    2412         1880           4.20    31.98
+     meta_prosp_l4_szybko     Z2    False          1009        28.07            2.34        2364.5              2186.5           2403.83                  14.27                      15.21     947          709           5.64    51.94
+        tt_prosp_l4_15min    Z1K     True          1724        78.04           24.49       42215.0             34885.0          54414.64                  13.34                      14.22    1617          988           3.24    26.73
+        tt_prosp_l4_15min    Z1K    False           485        21.96            2.98        1443.0              1087.0           1695.53                  14.02                      14.66     464          277           2.89    50.47
+        tt_prosp_l4_15min     Z2     True          1241        77.90           24.40       30275.0             25030.0          39042.52                  13.38                      14.27    1163          712           2.81    27.22
+        tt_prosp_l4_15min     Z2    False           352        22.10            3.09        1087.0               731.0           1140.24                  13.07                      13.61     338          209           1.91    50.19
+
+6b. Kody na pierwszym zamówieniu (nazwa, liczba użyć, średnia zniżka w zł)
+                 kampania regula        kod  uzycia_na_pierwszym_zamowieniu  znizka_zl
+     meta_prosp_l4_szybko    Z1K L4SZYBKO20                            3511       20.0
+     meta_prosp_l4_szybko    Z1K    START10                             169       10.0
+     meta_prosp_l4_szybko     Z2 L4SZYBKO20                            2468       20.0
+     meta_prosp_l4_szybko     Z2    START10                             117       10.0
+        tt_prosp_l4_15min    Z1K   TIKTOK25                            1665       25.0
+        tt_prosp_l4_15min    Z1K    START10                              59       10.0
+        tt_prosp_l4_15min     Z2   TIKTOK25                            1191       25.0
+        tt_prosp_l4_15min     Z2    START10                              50       10.0
+
+6c. Pozostałe zniżki na pierwszym zamówieniu (discount_type), obie reguły
+                 kampania regula discount_type  pierwsze_zam
+     meta_prosp_l4_szybko    Z1K            go            75
+     meta_prosp_l4_szybko    Z1K          none          1304
+     meta_prosp_l4_szybko    Z1K         promo          3680
+     meta_prosp_l4_szybko     Z2            go            56
+     meta_prosp_l4_szybko     Z2          none           953
+     meta_prosp_l4_szybko     Z2         promo          2585
+        tt_prosp_l4_15min    Z1K            go            33
+        tt_prosp_l4_15min    Z1K          none           452
+        tt_prosp_l4_15min    Z1K         promo          1724
+        tt_prosp_l4_15min     Z2            go            25
+        tt_prosp_l4_15min     Z2          none           327
+        tt_prosp_l4_15min     Z2         promo          1241
+
+6d. Wszystkie zamówienia z kodami kampanii w okresie 2 (także kolejne zamówienia, bez względu na regułę źródła)
+            kod  zamowienia  pierwsze  kolejne  znizka_zl  znizka_razem  znizka_efekt  dni_dzialania  znizka_razem_rok  znizka_efekt_rok  zamowienia_rok
+     L4SZYBKO20        3511      3511        0       20.0       70220.0       57080.0            332           77199.7           62753.6          3860.0
+       TIKTOK25        1665      1665        0       25.0       41625.0       34375.0            234           64927.9           53619.1          2597.1
+
+6e. Różnica z kodem − bez kodu (punkty procentowe, 95%): zwrot po wizycie na pierwszym zamówieniu i powrót w 90 dniach.
+    Porównanie obserwacyjne: pacjenci z kodem i bez kodu różnią się nie tylko kodem.
+                 kampania regula  zwrot_roznica_pkt  zwrot_od  zwrot_do  powrot90_roznica_pkt  powrot_od  powrot_do  pacjenci_90_z_kodem  pacjenci_90_bez_kodu
+     meta_prosp_l4_szybko    Z1K               0.20     -2.04      2.30                 -1.26      -3.01       0.24                 2649                   979
+     meta_prosp_l4_szybko     Z2               0.82     -1.84      3.29                 -1.44      -3.55       0.34                 1880                   709
+        tt_prosp_l4_15min    Z1K              -0.68     -4.38      2.60                  0.35      -2.51       2.27                  988                   277
+        tt_prosp_l4_15min     Z2               0.31     -4.00      4.02                  0.90      -2.17       2.79                  712                   209
+
+6f. Scenariusz bez kodu kampanii (L4SZYBKO20 albo TIKTOK25); reakcji konwersji na brak kodu nie znamy. Pacjent, który
+    kupiłby i bez kodu, płaci więcej o zniżkę efektywną; pacjent, który bez kodu by nie kupił, traci dziś przynoszoną marżę
+    w 90 dniach (marza90 z kodem, przed kosztem pozyskania; wydatki na reklamę bez zmian). Dwa warianty: bez żadnej zniżki
+    i z przejściem na stały kod START10 dla nowych pacjentów (10 zł). Próg = udział utraconych pierwszych zamówień z kodem,
+    przy którym rezygnacja z kodu przestaje się opłacać: zniżka / (zniżka + marza90). Na pełny rok × 365 / dni działania.
+                 kampania regula        kod              wariant  pierwsze_z_kodem_okres2  pierwsze_z_kodem_rok  oszczednosc_na_pac  marza90_z_kodem  pacjenci_90  oszczednosc_rok_bez_utraty  prog_utraty_proc
+     meta_prosp_l4_szybko    Z1K L4SZYBKO20           bez zniżki                     3511               3859.98               16.26            32.05         2531                    62753.61             33.65
+     meta_prosp_l4_szybko    Z1K L4SZYBKO20 START10 zamiast kodu                     3511               3859.98                8.13            32.05         2531                    31376.81             20.23
+     meta_prosp_l4_szybko     Z2 L4SZYBKO20           bez zniżki                     2468               2713.31               16.13            31.49         1797                    43756.02             33.87
+     meta_prosp_l4_szybko     Z2 L4SZYBKO20 START10 zamiast kodu                     2468               2713.31                8.06            31.49         1797                    21878.01             20.39
+        tt_prosp_l4_15min    Z1K   TIKTOK25           bez zniżki                     1665               2597.12               20.65            26.13          958                    53619.12             44.14
+        tt_prosp_l4_15min    Z1K   TIKTOK25 START10 zamiast kodu                     1665               2597.12               12.39            26.13          958                    32171.47             32.16
+        tt_prosp_l4_15min     Z2   TIKTOK25           bez zniżki                     1191               1857.76               20.65            26.53          686                    38371.79             43.78
+        tt_prosp_l4_15min     Z2   TIKTOK25 START10 zamiast kodu                     1191               1857.76               12.39            26.53          686                    23023.08             31.84

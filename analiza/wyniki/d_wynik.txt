@@ -1,0 +1,325 @@
+D — WYNIK BIZNESU, BAZA POWRACAJĄCYCH, TEST META NA L4, PORANNA OBSADA (2026-10-21 20:00), schemat `czyste`
+Okres 1 = 1.10.2024–30.09.2025, okres 2 = 1.10.2025–30.09.2026, czas polski. Z1K = przyjęta reguła źródła (pierwsze
+wejście, kod kampanii rozstrzyga), Z2 = sesja płatności. „Nowe kampanie” = meta_prosp_l4_szybko i tt_prosp_l4_15min.
+Marża biznesu = przychód z konsultacji po zwrotach + TelemediGO − koszt lekarza − wydatki na kampanie − prowizja
+(jak c_priorytety.py, W4). „Przed kampaniami” = przed wydatkami i prowizją. Kwoty w zł. Rozkład księgowy opisuje, z czego
+składa się zmiana; nie jest zmierzonym wpływem żadnej decyzji.
+
+======================================================================================================================
+1. SPADEK MARŻY III KWARTAŁU 2026 (VII–IX) WOBEC III KWARTAŁU 2025 — ROZKŁAD OD NOWA
+======================================================================================================================
+   Kontrola: sumy po kwartałach zgadzają się co do grosza z SQL c_priorytety.py (W4) dla wszystkich 8 kwartałów.
+   III kwartał 2025: marża 222 824 zł; III kwartał 2026: 207 713 zł; zmiana -15 111 zł (-6,8%).
+
+1a. Składniki (cały biznes). wkład = wpływ zmiany składnika na zmianę marży (koszty ze znakiem minus).
+              pozycja  III_kw_2025  III_kw_2026   zmiana  wklad_w_zmiane_marzy
+           zamowienia       6316.0       9181.0   2865.0                   NaN
+             przychod     558212.0     747306.0 189094.0              189094.0
+           telemedigo      56693.0      49662.0  -7031.0               -7031.0
+        koszt_lekarza     301375.0     404475.0 103100.0             -103100.0
+     przed_kampaniami     313530.0     392493.0  78963.0               78963.0
+              wydatki      87431.0     181555.0  94123.0              -94123.0
+             prowizja       3275.0       3225.0    -50.0                  50.0
+                marza     222824.0     207713.0 -15111.0              -15111.0
+   Wydatki według kampanii (wkład = −zmiana wydatków):
+                     kampania  III_kw_2025  III_kw_2026  wklad_w_zmiane_marzy  nowa_kampania
+         meta_prosp_l4_szybko          0.0      50940.0              -50940.0           True
+            tt_prosp_l4_15min          0.0      36986.0              -36986.0           True
+          gs_generic_erecepta      21280.0      24379.0               -3099.0          False
+                     gs_brand       3331.0       5822.0               -2492.0          False
+             meta_rmkt_koszyk       1283.0       3271.0               -1988.0          False
+       gs_generic_specjalisci      11341.0      13189.0               -1847.0          False
+     meta_prosp_lekarz_online      12971.0      14048.0               -1078.0          False
+     gs_generic_lekarz_online      21225.0      20300.0                 925.0          False
+                gs_generic_l4      16001.0      12621.0                3380.0          False
+   Wydatki kampanii działających w obu latach: 87 431 zł wobec 93 630 zł (6 198 zł); nowe kampanie: 0 zł wobec 87 925 zł.
+
+1b. Pacjenci nowych kampanii a reszta biznesu. Pacjentom przypisane są ich zamówienia, opłaty TelemediGO, koszt lekarza
+    i prowizja; grupie „nowe” wydatki dwóch nowych kampanii, reszcie wydatki pozostałych kampanii. pacjenci = osoby
+    z co najmniej jednym zamówieniem w kwartale.
+     regula         grupa kwartal  pacjenci  zamowienia  przychod  telemedigo  koszt_lekarza  przed_kampaniami  wydatki  prowizja    marza
+        Z1K nowe kampanie 2025-Q3         0         0.0       0.0         0.0            0.0               0.0      0.0       0.0      0.0
+        Z1K nowe kampanie 2026-Q3      2497      2589.0  169610.0      4183.0        84800.0           88993.0  87925.0       0.0   1067.0
+        Z1K        reszta 2025-Q3      4893      6316.0  558212.0     56693.0       301375.0          313530.0  87431.0    3275.0 222824.0
+        Z1K        reszta 2026-Q3      5122      6592.0  577696.0     45479.0       319675.0          303500.0  93630.0    3225.0 206645.0
+         Z2 nowe kampanie 2025-Q3         0         0.0       0.0         0.0            0.0               0.0      0.0       0.0      0.0
+         Z2 nowe kampanie 2026-Q3      1768      1835.0  121324.0      2848.0        61450.0           62722.0  87925.0       0.0 -25204.0
+         Z2        reszta 2025-Q3      4893      6316.0  558212.0     56693.0       301375.0          313530.0  87431.0    3275.0 222824.0
+         Z2        reszta 2026-Q3      5851      7346.0  625982.0     46814.0       343025.0          329771.0  93630.0    3225.0 232917.0
+   Z1K: nowe kampanie 88 993 zł marży przed kampaniami (2589 zamówień, 2497 pacjentów) przy 87 925 zł wydatków, czyli 1 067 zł po wydatkach;
+        reszta 206 645 zł po wydatkach wobec 222 824 zł (-16 178 zł); w tym opłaty TelemediGO 56 693 zł → 45 479 zł (-11 214 zł);
+        po odjęciu zmiany TelemediGO zostaje -4 964 zł.
+   Z2: nowe kampanie 62 722 zł marży przed kampaniami (1835 zamówień, 1768 pacjentów) przy 87 925 zł wydatków, czyli -25 204 zł po wydatkach;
+        reszta 232 917 zł po wydatkach wobec 222 824 zł (10 093 zł); w tym opłaty TelemediGO 56 693 zł → 46 814 zł (-9 879 zł);
+        po odjęciu zmiany TelemediGO zostaje 19 972 zł.
+   Sprawdzenie twierdzenia z syntezy recenzentów (Z1K): „89,0 tys. zł marży przy 87,9 tys. zł wydatków; reszta 206,6 wobec
+   222,8 tys. zł; około 11,2 tys. zł to niższe opłaty TelemediGO; zostaje około 5 tys. zł” — porównanie z liczbami powyżej
+   (Z1K): 89,0 tys. zł, 87,9 tys. zł, 206,6 tys. zł wobec 222,8 tys. zł, -11,2 tys. zł, -5,0 tys. zł.
+
+1c. Reszta biznesu: z czego składa się zmiana (te same pozycje w obu kwartałach; suma = zmiana marży reszty).
+    konsultacje = przychód po zwrotach − koszt lekarza; rocznik = okres pierwszego zamówienia pacjenta.
+   Reszta biznesu według Z1K:
+                                           pozycja  liczba_2025  liczba_2026  przychod_2025  przychod_2026  koszt_lek_2025  koszt_lek_2026  marza_2025  marza_2026   zmiana
+                  konsultacje: pierwsze zamówienia       3437.0       3452.0       316917.0       316699.0        163325.0        161700.0    153592.0    154999.0   1407.0
+           konsultacje: powtórne, rocznik okresu 1       2879.0        548.0       241295.0        41409.0        138050.0         28200.0    103245.0     13209.0 -90036.0
+           konsultacje: powtórne, rocznik okresu 2          0.0       2592.0            0.0       219588.0             0.0        129775.0         0.0     89813.0  89813.0
+     TelemediGO przy kasie z pierwszym zamówieniem        209.0        193.0        18601.0        17177.0             0.0             0.0     18601.0     17177.0  -1424.0
+      TelemediGO przy kasie z kolejnym zamówieniem        203.0        211.0        18067.0        18779.0             0.0             0.0     18067.0     18779.0    712.0
+         TelemediGO kupione osobno (crm_go_upsell)        225.0        107.0        20025.0         9523.0             0.0             0.0     20025.0      9523.0 -10502.0
+                               wydatki na kampanie          NaN          NaN            NaN            NaN             NaN             NaN    -87431.0    -93630.0  -6198.0
+                              prowizja afiliacyjna        131.0        129.0            NaN            NaN             NaN             NaN     -3275.0     -3225.0     50.0
+   Z1K, pierwsze zamówienia reszty: 3437 → 3452 zamówień, marża na zamówienie 44.69 → 44.90 zł; efekt liczby 670 zł, efekt marży na zamówienie 736 zł.
+   Z1K, powtórne zamówienia reszty: 2879 → 3140 zamówień, marża na zamówienie 35.86 → 32.81 zł; efekt liczby 9 360 zł, efekt marży na zamówienie -9 583 zł.
+   Reszta biznesu według Z2:
+                                           pozycja  liczba_2025  liczba_2026  przychod_2025  przychod_2026  koszt_lek_2025  koszt_lek_2026  marza_2025  marza_2026   zmiana
+                  konsultacje: pierwsze zamówienia       3437.0       4165.0       316917.0       361780.0        163325.0        183825.0    153592.0    177955.0  24363.0
+           konsultacje: powtórne, rocznik okresu 1       2879.0        548.0       241295.0        41409.0        138050.0         28200.0    103245.0     13209.0 -90036.0
+           konsultacje: powtórne, rocznik okresu 2          0.0       2633.0            0.0       222793.0             0.0        131000.0         0.0     91793.0  91793.0
+     TelemediGO przy kasie z pierwszym zamówieniem        209.0        206.0        18601.0        18334.0             0.0             0.0     18601.0     18334.0   -267.0
+      TelemediGO przy kasie z kolejnym zamówieniem        203.0        212.0        18067.0        18868.0             0.0             0.0     18067.0     18868.0    801.0
+         TelemediGO kupione osobno (crm_go_upsell)        225.0        108.0        20025.0         9612.0             0.0             0.0     20025.0      9612.0 -10413.0
+                               wydatki na kampanie          NaN          NaN            NaN            NaN             NaN             NaN    -87431.0    -93630.0  -6198.0
+                              prowizja afiliacyjna        131.0        129.0            NaN            NaN             NaN             NaN     -3275.0     -3225.0     50.0
+   Z2, pierwsze zamówienia reszty: 3437 → 4165 zamówień, marża na zamówienie 44.69 → 42.73 zł; efekt liczby 32 533 zł, efekt marży na zamówienie -8 170 zł.
+   Z2, powtórne zamówienia reszty: 2879 → 3181 zamówień, marża na zamówienie 35.86 → 33.01 zł; efekt liczby 10 830 zł, efekt marży na zamówienie -9 073 zł.
+
+1d. Cały biznes: pierwsze zamówienia a powtórne i rocznik pacjenta (marża przed kampaniami; pozyskanie = wydatki
+    i prowizja). Pierwsze = pierwsze zamówienie i TelemediGO kupione z nim; powtórne = kolejne zamówienia i pozostałe
+    TelemediGO. W III kwartale 2025 wszyscy pacjenci są z rocznika okresu 1.
+                             pozycja  marza_2025-Q3  marza_2026-Q3  zamowienia_2025-Q3  zamowienia_2026-Q3  zmiana_marzy
+                 pierwsze, rocznik 1       172193.0            0.0              3437.0                 0.0     -172193.0
+                 pierwsze, rocznik 2            0.0       254048.0                 0.0              5886.0      254048.0
+                 powtórne, rocznik 1       141337.0        18104.0              2879.0               548.0     -123233.0
+                 powtórne, rocznik 2            0.0       120341.0                 0.0              2747.0      120341.0
+     pozyskanie (wydatki i prowizja)       -90706.0      -184780.0                 0.0                 0.0      -94073.0
+   Zmiana marży = pierwsze zamówienia 81 854 zł + powtórne rocznika okresu 1 -123 233 zł + powtórne rocznika okresu 2 120 341 zł + pozyskanie -94 073 zł.
+   W III kwartale 2026 powtórne zamówienia składają się z dwóch roczników; rok wcześniej był tylko rocznik okresu 1.
+
+1e. Osobno lipiec, sierpień, wrzesień (Z1K; reszta = bez pacjentów i wydatków nowych kampanii)
+     miesiac  marza_2025  marza_2026   zmiana  nowe_przed_kampaniami_2026  nowe_wydatki_2026  reszta_2025  reszta_2026  reszta_zmiana  reszta_telemedigo_zmiana  w_tym_go_osobno_2025  w_tym_go_osobno_2026  reszta_wydatki_zmiana  reszta_konsultacje_zmiana  reszta_luka_bez_telemedigo
+          07     66832.0     73384.0   6552.0                     29404.0            29838.0      66832.0      73818.0         6986.0                    4717.0                   0.0                3382.0                 1781.0                     3925.0                      2269.0
+          08     67190.0     66315.0   -875.0                     28478.0            28540.0      67190.0      66377.0         -813.0                    3382.0                   0.0                3382.0                 1846.0                    -2324.0                     -4195.0
+          09     88802.0     68014.0 -20787.0                     31111.0            29548.0      88802.0      66451.0       -22351.0                  -19313.0               20025.0                2759.0                 2571.0                     -417.0                     -3038.0
+   reszta_konsultacje_zmiana = zmiana (przychód po zwrotach − koszt lekarza) reszty; reszta_wydatki_zmiana = zmiana wydatków
+   pozostałych kampanii (wzrost obniża marżę). w_tym_go_osobno = TelemediGO kupione osobno (sesje crm_go_upsell).
+   TelemediGO według typu zakupu i miesiąca (wszyscy pacjenci):
+        mies  liczba_kasa_kolejne  liczba_kasa_pierwsze  liczba_osobno  zl_kasa_kolejne  zl_kasa_pierwsze  zl_osobno
+     2025-07                   66                    68              0           5874.0            6052.0        0.0
+     2025-08                   66                    67              0           5874.0            5963.0        0.0
+     2025-09                   71                    74            225           6319.0            6586.0    20025.0
+     2026-07                   77                    93             39           6853.0            8277.0     3471.0
+     2026-08                   75                    70             38           6675.0            6230.0     3382.0
+     2026-09                   60                    75             31           5340.0            6675.0     2759.0
+
+1g. Podsumowanie części 1 (opis księgowy, nie zmierzony wpływ):
+   - Cała zmiana marży III kwartału: -15 111 zł. Według miesięcy: lipiec 6 552 zł, sierpień -875 zł, wrzesień -20 787 zł.
+   - Według przyjętej reguły (Z1K): pacjenci nowych kampanii 1 067 zł po wydatkach; reszta biznesu -16 178 zł, z czego TelemediGO -11 214 zł, wydatki pozostałych kampanii -6 198 zł, marża konsultacji 1 184 zł (pierwsze 1 407 zł, powtórne -223 zł), prowizja 50 zł.
+   - Według sesji płatności (Z2): pacjenci nowych kampanii -25 204 zł po wydatkach; reszta 10 093 zł (po odjęciu TelemediGO 19 972 zł). Podział między nowe
+     kampanie a resztę zależy więc od reguły źródła; suma jest ta sama.
+
+======================================================================================================================
+1f. SAFARI NA iOS: SKĄD „14–21 TYS. ZŁ W III KWARTALE” (c_priorytety.py, P1) I CO Z TEGO TRAFIA DO SAMEGO KWARTAŁU
+======================================================================================================================
+   Utracone pierwsze zamówienia = (k3/k2 przed − k3/k2 po) × sesje z wyborem terminu po × k5/k3 po; przed = 1.10.2025–16.03.2026;
+   osoby, które jeszcze nie kupowały; „po odjęciu tła” odejmuje równoległą zmianę w pozostałych przeglądarkach (a5p 5f).
+   17.03–30.09.2026 (198 dni): 694.9 bez odjęcia tła, 628.4 po odjęciu (odtworzone 695 i 628).
+   Sam III kwartał (1.07–30.09.2026, 92 dni), ten sam wzór: 289.3 bez odjęcia tła, 257.7 po odjęciu (k3/k2 45,8% wobec 66,1% przed; 2028 sesji z wyborem terminu).
+   Marża pacjenta z pierwszą płatnością w Safari na iOS (okres 2, 2985 pacjentów z kohort do 01.07.2026): dzień 0 48.46 zł, do 91. dnia 64.62 zł (przed kosztem pozyskania).
+   Rachunek c_priorytety.py, P1: utracone w 198 dniach / 198 × 92 dni × marża; dolny koniec = po odjęciu tła × marża dnia 0,
+   górny = bez odjęcia tła × marża do 91. dnia:
+                          wariant  utracone_w_kwartale  marza_dnia_0  marza_do_91_dni_rocznik  zaksiegowane_w_kwartale  w_tym_powroty_w_kwartale
+                   po odjęciu tła                291.8       14140.8                  18857.4                  16544.4                    2403.6
+                  bez odjęcia tła                322.9       15649.4                  20869.3                  18309.5                    2660.0
+      III kwartał, po odjęciu tła                257.7       12487.4                  16652.5                  14609.9                    2122.5
+     III kwartał, bez odjęcia tła                289.3       14019.9                  18696.2                  16402.9                    2383.0
+   utracone_w_kwartale × marza_dnia_0 i × marza_do_91_dni_rocznik to dwa końce zakresu z P1 (14 141 i 20 869 zł).
+   zaksiegowane_w_kwartale = pierwsze zamówienia utracone w dniach 1.07–30.09 (równe tempo) × marża narastająco do 30.09:
+   pacjent utracony 25.09 ma w kwartale tylko 5 dni na powrót, więc dostaje M(5), a nie M(91). Suma = tempo × Σ M(k), k = 0..91.
+   Obok (nie w zakresie P1): powtórne zamówienia w III kwartale pacjentów utraconych 17.03–30.06: 4 062 zł–4 495 zł
+   (marża narastająco z 2103 pacjentów z kohort do 17.03.2026, dni 0–197).
+
+======================================================================================================================
+2. UDZIAŁ MARŻY Z ZAMÓWIEŃ PACJENTÓW POZYSKANYCH W POPRZEDNICH KWARTAŁACH („BAZA”) W KAŻDYM KWARTALE
+======================================================================================================================
+   pierwsze = pierwsze zamówienia i TelemediGO kupione z nimi; ten_sam_kw = kolejne zamówienia i TelemediGO pacjentów
+   pozyskanych w tym samym kwartale; baza = zamówienia i TelemediGO pacjentów pozyskanych w poprzednich kwartałach;
+   pozyskanie = wydatki i prowizja. Kwoty to marża przed kampaniami (pozyskanie ze znakiem minus). Dane zaczynają się
+   1.10.2024, więc w IV kwartale 2024 bazy nie ma z definicji.
+     kwartal  pierwsze  ten_sam_kw     baza  pozyskanie  przed_kampaniami    marza  zamowienia_bazy  pacjenci_w_bazie  udzial_bazy_w_przed_proc  udzial_bazy_w_marzy_proc
+     2024-Q4  207683.1     34534.9      0.0    -90877.5          242218.0 151340.5                0                 0                       0.0                       0.0
+     2025-Q1  237950.7     43142.3  53099.5   -107315.2          334192.5 226877.3             1157              4186                      15.9                      23.4
+     2025-Q2  193125.9     33897.1  94153.9    -94133.1          321176.9 227043.8             2139              8975                      29.3                      41.5
+     2025-Q3  172193.3     26101.6 115235.2    -90706.4          313530.1 222823.7             2357             12794                      36.8                      51.7
+     2025-Q4  243533.9     37286.8  95169.1   -116614.4          375989.8 259375.4             2397             16231                      25.3                      36.7
+     2026-Q1  343626.9     51376.2 105220.3   -175800.4          500223.4 324423.0             2558             21195                      21.0                      32.4
+     2026-Q2  280060.1     31889.4 132513.9   -187905.3          444463.4 256558.1             3125             28603                      29.8                      51.7
+     2026-Q3  254047.8     32273.8 106171.2   -184779.9          392492.8 207712.9             2625             35032                      27.1                      51.1
+   Rok do roku: przyrost_bazy = o ile więcej marży dała baza niż rok wcześniej; marza_bez_bazy = marża bez bazy (pierwsze
+   zamówienia, powroty z tego samego kwartału, minus pozyskanie).
+     kwartal  marza_zmiana_proc  baza_rok_wczesniej     baza  przyrost_bazy  przyrost_bazy_w_zmianie_marzy_proc  marza_bez_bazy_rok_wczesniej  marza_bez_bazy  marza_bez_bazy_zmiana_proc
+     2025-Q4               71.4                 0.0  95169.1        95169.1                                88.1                      151340.5        164206.3                         8.5
+     2026-Q1               43.0             53099.5 105220.3        52120.8                                53.4                      173777.8        219202.7                        26.1
+     2026-Q2               13.0             94153.9 132513.9        38360.0                               130.0                      132889.9        124044.2                        -6.7
+     2026-Q3               -6.8            115235.2 106171.2        -9064.0                                60.0                      107588.5        101541.7                        -5.6
+   Odczyt: w IV kwartale 2024 i I kwartale 2025 baza była mała (start danych od zera), więc wzrost rok do roku w IV kwartale
+   2025 i I kwartale 2026 zawiera przyrost samej bazy. W III kwartale 2025 baza była już duża, więc porównanie III kwartałów
+   jest najmniej zniekształcone startem od zera (zostaje różnica w wieku bazy: rocznik okresu 1 starzeje się).
+
+======================================================================================================================
+3. TEST META NA L4 W PARACH WOJEWÓDZTW: CZY 4–6 TYGODNI ODRÓŻNI WYNIK OD PROGU 85%
+======================================================================================================================
+3a. Próg decyzji = udział pacjentów dodatkowych, przy którym wyłączenie przestaje się opłacać = wydatki / marża rocznika
+    przypisanych pacjentów (przed kosztem pozyskania). Wydatki i pacjenci z dni działania kampanii w okresie 2 (332 dni).
+    Naprawa zwrotów A i B jak w a5e_scenariusze.py, E2a (odtworzone: 42 262 / 16 486 zł Z1K, 24 273 / 9 745 zł Z2).
+    prog_pacjentow = ilu pacjentów musiałoby zniknąć po wyłączeniu, żeby utracona marża zrównała się z oszczędnością.
+     regula  horyzont_dni               wariant  nowi_rok  marza_rocznika  wydatki    wynik  prog_proc  prog_pacjentow
+        Z1K            90                  dziś      5059        191167.6 163322.5  27845.1       85.4          4322.1
+        Z1K            90 po naprawie zwrotów A      5059        233429.8 163322.5  70107.3       70.0          3539.6
+        Z1K            90 po naprawie zwrotów B      5059        207653.4 163322.5  44331.0       78.7          3979.0
+        Z1K           180                  dziś      5059        193204.3 163322.5  29881.8       84.5          4276.6
+        Z1K           180 po naprawie zwrotów A      5059        235466.4 163322.5  72144.0       69.4          3509.0
+        Z1K           180 po naprawie zwrotów B      5059        209690.1 163322.5  46367.6       77.9          3940.3
+         Z2            90                  dziś      3594        134587.6 163322.5 -28734.9      121.4          4361.3
+         Z2            90 po naprawie zwrotów A      3594        158860.3 163322.5  -4462.2      102.8          3695.0
+         Z2            90 po naprawie zwrotów B      3594        144332.4 163322.5 -18990.1      113.2          4066.9
+         Z2           180                  dziś      3594        135848.3 163322.5 -27474.2      120.2          4320.9
+         Z2           180 po naprawie zwrotów A      3594        160121.0 163322.5  -3201.5      102.0          3665.9
+         Z2           180 po naprawie zwrotów B      3594        145593.1 163322.5 -17729.4      112.2          4031.7
+    Próg powyżej 100% (sesja płatności) znaczy, że wyłączenie opłaca się nawet wtedy, gdy wszyscy przypisani są dodatkowi.
+    Próg w liczbie pacjentów prawie nie zależy od reguły; reguła zmienia tylko mianownik udziału.
+
+3b. Nowi pacjenci okresu 2 według województwa (czyste.users.region) i pary dobrane wielkością i trendem
+    (najmniejsza suma kwadratów odległości po standaryzacji: log liczby nowych pacjentów i log ilorazu II/I półrocza).
+    Tygodnie pełne: 51 tygodni od 06.10.2025. rozproszenie_tygodniowe = wariancja reszt wobec udziału
+    województwa × tygodnia w kraju, podzielona przez oczekiwaną (1 = szum jak w rozkładzie Poissona).
+             wojewodztwo  nowi_okres2  tygodniowo  meta_z1k_tygodniowo  meta_z2_tygodniowo  udzial_meta_z1k_proc  trend_II_do_I_polrocza  rozproszenie_tygodniowe  para
+            dolnoslaskie         1790       34.53                 7.12                5.22                 20.45                    1.00                     0.84     1
+                 lodzkie         1569       30.35                 6.47                4.45                 21.29                    0.97                     0.88     1
+      kujawsko-pomorskie         1341       25.86                 5.47                3.94                 20.88                    0.97                     0.89     2
+               lubelskie         1318       25.43                 5.20                3.71                 20.33                    1.01                     0.81     2
+     warminsko-mazurskie          965       18.65                 4.14                3.00                 21.97                    1.05                     1.29     3
+                lubuskie          626       11.98                 2.41                1.63                 19.97                    1.09                     1.37     3
+           wielkopolskie         2330       44.92                 9.47                6.65                 21.12                    0.95                     1.16     4
+             malopolskie         2206       42.65                 9.08                6.63                 21.21                    1.01                     0.79     4
+             mazowieckie         3665       70.29                14.29                9.92                 20.16                    1.00                     0.93     5
+                 slaskie         2889       55.63                11.00                7.86                 19.63                    1.05                     0.92     5
+          swietokrzyskie          734       14.12                 2.65                1.82                 18.53                    0.83                     1.11     6
+                opolskie          664       12.73                 2.82                2.08                 21.99                    0.87                     0.95     6
+            podkarpackie         1349       26.04                 5.22                3.76                 19.94                    0.91                     0.76     7
+               podlaskie          736       14.18                 3.08                2.33                 21.47                    0.91                     1.44     7
+               pomorskie         1466       28.20                 5.80                4.04                 20.40                    1.07                     0.98     8
+      zachodniopomorskie         1039       20.06                 3.88                2.71                 19.25                    1.12                     0.88     8
+
+3c. Testy pozorne (bez interwencji) na danych okresu 2. Pary stałe; w każdej parze jedno województwo „wyłączone”, we
+    wszystkich 256 możliwych przypisaniach; okno testu przesuwane co 7 dni; okres odniesienia = 8 tygodni tuż przed
+    oknem (wiersz z 16 tygodniami to sprawdzenie wrażliwości). Spadek D = oczekiwani w województwach wyłączonych − faktyczni;
+    oczekiwani = kontrole w oknie × iloraz wyłączonych do kontroli z okresu odniesienia; estymator „par” liczy iloraz w każdej
+    parze osobno, „zb” na sumach 8 województw. Bez interwencji D powinno wynosić 0, a jego rozrzut to szum testu.
+    Udział dodatkowych = D / A_teraz, A_teraz = pacjenci, których kampania przypisałaby województwom wyłączonym w oknie
+    w tempie III kwartału 2026 (połowa kraju: 55.7 pacjentów tygodniowo według Z1K, 39.0 według Z2).
+    blad = odchylenie standardowe D / A_teraz (wszystkie okna); blad_od_marca = tylko okna od 1.03.2026 (obie kampanie
+    w pełnej skali); blad_D_przez_A_okna = rozrzut D / A z faktycznym A w oknie (okna od 1.03.2026).
+    mde = najmniejszy wykrywalny efekt (moc 80%, alfa 5%, dwustronnie) = 2,80 × blad. P_ponizej_progu_gdy_100 = szansa, że
+    test pokaże udział poniżej progu 85,4%, gdy naprawdę wszyscy są dodatkowi; P_powyzej_progu_gdy_70 = odwrotnie przy 70%.
+       miara  tygodnie  odniesienie_tyg estymator regula  okna  okna_od_marca  A_teraz  srednie_D  D_sd  D_sd_od_marca  D_sd_poisson  blad_proc  blad_od_marca_proc  blad_D_przez_A_okna_proc  mde_proc  P_ponizej_progu_gdy_100  P_powyzej_progu_gdy_70
+     wszyscy         4                8       par    Z1K    41             27    222.6        5.8  57.9           51.6          55.0       26.0                23.2                      21.4      72.8                     28.7                    27.7
+     wszyscy         4                8       par     Z2    41             27    156.1        5.8  57.9           51.6          55.0       37.1                33.0                      30.2     103.9                     34.7                    33.9
+     wszyscy         4                8        zb    Z1K    41             27    222.6        0.5  54.3           49.0          55.0       24.4                22.0                      20.5      68.4                     27.5                    26.4
+     wszyscy         4                8        zb     Z2    41             27    156.1        0.5  54.3           49.0          55.0       34.8                31.4                      28.9      97.5                     33.7                    32.9
+     wszyscy         6                8       par    Z1K    39             25    333.9        9.0  72.3           65.6          73.1       21.6                19.6                      18.4      60.6                     25.0                    23.8
+     wszyscy         6                8       par     Z2    39             25    234.2        9.0  72.3           65.6          73.1       30.9                28.0                      25.8      86.5                     31.8                    30.9
+     wszyscy         6                8        zb    Z1K    39             25    333.9        0.7  67.2           61.3          73.1       20.1                18.4                      17.3      56.3                     23.4                    22.2
+     wszyscy         6                8        zb     Z2    39             25    234.2        0.7  67.2           61.3          73.1       28.7                26.2                      24.3      80.3                     30.5                    29.6
+     wszyscy         8                8       par    Z1K    37             23    445.3       11.6  86.1           79.1          90.7       19.3                17.8                      16.6      54.2                     22.5                    21.3
+     wszyscy         8                8       par     Z2    37             23    312.3       11.6  86.1           79.1          90.7       27.6                25.3                      23.2      77.2                     29.8                    28.8
+     wszyscy         8                8        zb    Z1K    37             23    445.3        0.9  78.3           72.3          90.7       17.6                16.2                      15.3      49.2                     20.3                    19.1
+     wszyscy         8                8        zb     Z2    37             23    312.3        0.9  78.3           72.3          90.7       25.1                23.2                      21.5      70.2                     28.0                    26.9
+     wszyscy        12                8       par    Z1K    33             19    667.9       18.6 117.6          110.5         125.1       17.6                16.5                      15.5      49.3                     20.3                    19.1
+     wszyscy        12                8       par     Z2    33             19    468.4       18.6 117.6          110.5         125.1       25.1                23.6                      21.5      70.3                     28.0                    27.0
+     wszyscy        12                8        zb    Z1K    33             19    667.9        1.6 106.4           98.4         125.1       15.9                14.7                      13.8      44.6                     18.0                    16.7
+     wszyscy        12                8        zb     Z2    33             19    468.4        1.6 106.4           98.4         125.1       22.7                21.0                      19.3      63.6                     26.0                    24.9
+     wszyscy         6               16       par    Z1K    31             25    333.9        5.1  61.9           56.9          64.2       18.5                17.0                      16.1      52.0                     21.6                    20.3
+     wszyscy         6               16       par     Z2    31             25    234.2        5.1  61.9           56.9          64.2       26.4                24.3                      22.6      74.1                     29.0                    28.0
+     wszyscy         6               16        zb    Z1K    31             25    333.9        0.5  59.2           54.7          64.2       17.7                16.4                      15.6      49.7                     20.5                    19.3
+     wszyscy         6               16        zb     Z2    31             25    234.2        0.5  59.2           54.7          64.2       25.3                23.4                      21.8      70.9                     28.2                    27.1
+          L4         4                8       par    Z1K    41             27    222.6        5.4  37.2           34.6          36.4       16.7                15.5                      14.6      46.9                     19.1                    17.9
+          L4         4                8       par     Z2    41             27    156.1        5.4  37.2           34.6          36.4       23.9                22.2                      20.4      66.8                     27.0                    25.9
+          L4         4                8        zb    Z1K    41             27    222.6        0.6  34.7           32.1          36.4       15.6                14.4                      13.6      43.7                     17.4                    16.2
+          L4         4                8        zb     Z2    41             27    156.1        0.6  34.7           32.1          36.4       22.2                20.5                      19.1      62.3                     25.6                    24.4
+          L4         6                8       par    Z1K    39             25    333.9        8.5  49.3           45.5          48.8       14.8                13.6                      12.7      41.4                     16.1                    14.9
+          L4         6                8       par     Z2    39             25    234.2        8.5  49.3           45.5          48.8       21.1                19.4                      17.8      59.0                     24.4                    23.2
+          L4         6                8        zb    Z1K    39             25    333.9        0.9  46.2           41.7          48.8       13.8                12.5                      11.8      38.7                     14.6                    13.3
+          L4         6                8        zb     Z2    39             25    234.2        0.9  46.2           41.7          48.8       19.7                17.8                      16.5      55.2                     23.0                    21.7
+          L4         8                8       par    Z1K    37             23    445.3       12.5  63.4           57.9          61.2       14.2                13.0                      12.1      39.9                     15.3                    14.0
+          L4         8                8       par     Z2    37             23    312.3       12.5  63.4           57.9          61.2       20.3                18.5                      17.0      56.9                     23.6                    22.4
+          L4         8                8        zb    Z1K    37             23    445.3        1.3  59.5           53.1          61.2       13.4                11.9                      11.3      37.4                     13.7                    12.5
+          L4         8                8        zb     Z2    37             23    312.3        1.3  59.5           53.1          61.2       19.1                17.0                      15.8      53.4                     22.2                    20.9
+          L4        12                8       par    Z1K    33             19    667.9       23.6  96.6           85.6          86.5       14.5                12.8                      11.9      40.5                     15.6                    14.4
+          L4        12                8       par     Z2    33             19    468.4       23.6  96.6           85.6          86.5       20.6                18.3                      16.6      57.8                     24.0                    22.8
+          L4        12                8        zb    Z1K    33             19    667.9        2.6  90.2           76.9          86.5       13.5                11.5                      10.8      37.8                     14.0                    12.7
+          L4        12                8        zb     Z2    33             19    468.4        2.6  90.2           76.9          86.5       19.3                16.4                      15.1      53.9                     22.4                    21.2
+          L4         6               16       par    Z1K    31             25    333.9        6.9  49.7           45.1          44.2       14.9                13.5                      12.8      41.7                     16.4                    15.1
+          L4         6               16       par     Z2    31             25    234.2        6.9  49.7           45.1          44.2       21.2                19.2                      17.8      59.5                     24.6                    23.4
+          L4         6               16        zb    Z1K    31             25    333.9        0.8  47.5           43.2          44.2       14.2                12.9                      12.3      39.9                     15.3                    14.0
+          L4         6               16        zb     Z2    31             25    234.2        0.8  47.5           43.2          44.2       20.3                18.4                      17.2      56.9                     23.6                    22.4
+    D_sd_poisson = średni błąd estymatora „zb” przy samym szumie Poissona (dolna granica); D_sd = zmierzony w testach pozornych.
+    Lepszy z dwóch estymatorów, wszyscy nowi pacjenci, Z1K: błąd udziału 24.4 punktu procentowego przy 4 tygodniach, 20.1 przy 6, 17.6 przy 8 i 15.9 przy 12 (okna od marca: 22.0, 18.4, 16.2, 14.7).
+    Najmniejszy wykrywalny efekt: 68 punktów przy 4 tygodniach i 56 przy 6. Odróżnienie 100% od 85,4% (14,6 punktu) albo 85,4% od 70% (15,4 punktu)
+    wymaga błędu około 5,2 punktu. Przy spadku błędu jak 1/√tygodni to około 89 tygodni testu w tym układzie (ekstrapolacja z 6 tygodni; dłuższe okna pozorne pokazują, czy błąd naprawdę tak spada).
+    4 tygodni: najmniejszy wykrywalny efekt 68 punktów; odróżni 100% od 85,4%: nie; odróżni 85,4% od 70%: nie; przy 100% dodatkowych wynik poniżej progu w 27% testów, przy 70% powyżej progu w 26%.
+    6 tygodni: najmniejszy wykrywalny efekt 56 punktów; odróżni 100% od 85,4%: nie; odróżni 85,4% od 70%: nie; przy 100% dodatkowych wynik poniżej progu w 23% testów, przy 70% powyżej progu w 22%.
+    Sama miara „nowi pacjenci z pierwszym L4” (zakłada, że kampania nie zmienia liczby pacjentów z innymi usługami) daje błąd 13.8 punktu przy 6 tygodniach, nadal za dużo. Szum jest prawie czysto
+    poissonowski (D_sd ≈ D_sd_poisson), więc lepszy dobór par go nie usunie; pomaga tylko więcej pacjentów w teście.
+
+3d. Koszt testu = utracona marża − oszczędzone wydatki w województwach wyłączonych (połowa ruchu), gdy wszyscy przypisani
+    są dodatkowi (najgorszy przypadek; przy udziale równym progowi koszt = 0, poniżej progu test daje zysk). Ujemna kwota =
+    zysk. Marża na pacjenta w 90 dniach z kohort 1.10.2025–2.07.2026 (Z1K 37,8 zł, Z2 37,4 zł), także dla pacjentów III kwartału.
+    Tempo III kwartału 2026 (92 dni): 1463 pacjentów (Z1K), 1026 (Z2), wydatki 50 940 zł.
+     regula  tygodnie  jak_c_priorytety_dni_dzialania  jak_c_priorytety_pelny_rok  tempo_III_kw_2026  tempo_III_kw_po_naprawie_A
+        Z1K         4                          1071.0                      1177.0              661.0                      2521.0
+        Z1K         6                          1606.0                      1766.0              991.0                      3781.0
+         Z2         4                         -1105.0                     -1215.0            -1905.0                      -850.0
+         Z2         6                         -1658.0                     -1823.0            -2857.0                     -1276.0
+
+3e. Reguła na wynik niejednoznaczny (do ustalenia z góry przez właściciela; warianty, bez rozstrzygnięcia):
+    A. Status quo: jeśli 95% przedział udziału obejmuje próg, kampania zostaje bez zmian. Chroni przed utratą pacjentów,
+       ale utrzymuje wydatek, który może być stratą (przy 0% dodatkowych 163 322 zł w dniach działania).
+    B. Domyślnie wyłączamy (decyzja odwracalna): przy wyniku niejednoznacznym kampania zostaje wyłączona i wraca, jeśli
+       pozyskanie spadnie. Najgorszy koszt błędu (100% dodatkowych, Z1K, 90 dni) to 27 845 zł w dniach działania;
+       według sesji płatności wyłączenie opłaca się w każdym wariancie.
+    C. Przedłużenie ustalone z góry: punkty kontrolne co 2 tygodnie, decyzja, gdy przedział wykluczy próg, najdłużej N tygodni
+       (według 3c około 89 tygodni, żeby odróżnić 100% od 85%); po N tygodniach wariant A albo B.
+    D. Mniejszy budżet zamiast zero-jedynkowo: przy wyniku niejednoznacznym połowa budżetu i dalszy pomiar.
+    E. Decyzja na wartości oczekiwanej: działanie z większą oczekiwaną marżą przy rozkładzie udziału z testu; uwzględnia
+       asymetrię strat (wyłączenie przy 100% dodatkowych traci 27 845 zł, utrzymanie przy 0% traci 163 322 zł).
+    Ryzyka projektu: (1) wspólna, ogólnopolska obsada lekarzy — wyłączenie zmniejsza obciążenie internistów, więc w
+    województwach kontrolnych może przybyć wolnych terminów, zakupów i powrotów; to zawyża spadek D (więcej „dodatkowych”),
+    a wynik w retencji przenosi się na kontrole; (2) województwo konta (users.region) to nie miejsce wyświetlenia reklamy,
+    więc część reklam „przecieka” między województwami i zaniża D; (3) wydatków nie ma w podziale na województwa, więc
+    oszczędność w województwach wyłączonych trzeba wziąć z panelu Mety; (4) zakup bywa do 7 dni po wejściu, więc brzegi
+    okna przesuwają kilka procent pacjentów.
+
+======================================================================================================================
+4. POZYCJA 6 (PORANNA OBSADA INTERNISTÓW): SKĄD ZAKRES 0–65,2 TYS. ZŁ I JAKIE SĄ WARIANTY
+======================================================================================================================
+   Wartość powrotu = marża dni 1–180 pacjenta, który wrócił w 90 dniach (98.9 zł, 3830 pacjentów okresu 1),
+   minus marża tego, który nie wrócił (3.3 zł, 12401) = 95.6 zł (różnica obserwacyjna, ZALOZENIA.md 38).
+   Scenariusz = spadek powrotu w 90 dniach (punkty procentowe) × pacjenci okresu 2 starych kampanii × 95,6 zł, marża w 180 dniach
+   na rok. Spadki z a5r_zdarzenia.txt (a5r_struktura sekcja 5 i a5r_punktualnosc 1g).
+     regula                                                                                wariant  spadek_pkt  pacjenci_starych  powrotow_mniej  marza_180_dni_rocznie
+        Z1K                                                                            brak efektu        0.00             17419            0.00                   0.00
+        Z1K najwęższy: punktualność tylko porannych pierwszych wizyt u internisty (komórka z porą)        0.76             17419          131.92               12611.08
+        Z1K               pomocniczo: punktualność porannych pierwszych wizyt u wszystkich lekarzy        0.70             17419          121.21               11587.88
+        Z1K        wąski: zmiana rozkładu opóźnień pierwszej wizyty, wszystkie pory i lekarze (1g)        0.76             17419          132.38               12655.95
+        Z1K                                      szeroki: cały spadek powrotu w starych kampaniach        1.91             17419          332.70               31806.40
+         Z2                                                                            brak efektu        0.00             19500            0.00                   0.00
+         Z2 najwęższy: punktualność tylko porannych pierwszych wizyt u internisty (komórka z porą)        0.68             19500          131.99               12618.31
+         Z2               pomocniczo: punktualność porannych pierwszych wizyt u wszystkich lekarzy        0.64             19500          124.41               11893.91
+         Z2        wąski: zmiana rozkładu opóźnień pierwszej wizyty, wszystkie pory i lekarze (1g)        0.64             19500          124.80               11930.88
+         Z2                                      szeroki: cały spadek powrotu w starych kampaniach        3.50             19500          682.50               65247.00
+   Wąski i szeroki odtwarzają a5e_scenariusze.txt, C (11 931–12 656 i 31 806–65 247 zł). Zakres „0–65,2 tys. zł” w P8 to
+   od wariantu „brak efektu” do szerokiego wariantu według sesji płatności. Szeroki przypisuje opóźnieniom cały spadek powrotu
+   w starych kampaniach (także części niezwiązane z wizytą), więc nie jest górną granicą skutku obsady. Wąski obejmuje
+   opóźnienia o każdej porze i u każdego lekarza; obsada poranna mogłaby zmienić tylko część poranną (wariant najwęższy).
+   Wszystkie warianty zakładają, że opóźnienie obniża powrót (zależność obserwacyjna) i że powrót jest wart 95,6 zł.
+   Koszt dodatkowej obsady nie jest w danych, więc wartości netto nie da się policzyć.

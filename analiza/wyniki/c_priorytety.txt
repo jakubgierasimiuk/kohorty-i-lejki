@@ -1,4 +1,4 @@
-C — LICZBY DO ODPOWIEDZI „CZY TO WZROST” I DO LISTY PRIORYTETÓW (2026-10-20 14:32), schemat `czyste`
+C — LICZBY DO ODPOWIEDZI „CZY TO WZROST” I DO LISTY PRIORYTETÓW (2026-10-21 20:09), schemat `czyste`
 Okres 1 = X 2024 – IX 2025, okres 2 = X 2025 – IX 2026. Z1K = przyjęta reguła źródła (pierwsze wejście, kod kampanii
 rozstrzyga), Z2 = sesja płatności. „Nowe kampanie” = meta_prosp_l4_szybko i tt_prosp_l4_15min (oba na L4, od 3.11.2025
 i 9.02.2026).
@@ -29,13 +29,13 @@ W2. LEPSZA RETENCJA: powrót w 30/60/90 dniach na tych samych dniach kalendarzow
    Liczba pacjentów, którzy wrócili w 90 dniach (kohorty do 2025-07-02 i do 2026-07-02, uwaga Astry): 3076 wobec 3289 (+6.9%), czyli więcej powracających osób przy niższym odsetku.
    Powrót w 90 dniach według pierwszej usługi, bez pacjentów nowych kampanii (przyjęta reguła), te same dni:
                      usluga  p90_o1  p90_o2  n90_o1  n90_o2
+     internista_konsultacja    23.3    21.5    2157    2292
+           inny_specjalista    25.2    20.6    2325    2549
        internista_e_recepta    33.4    29.9    3206    3570
                  psychiatra    22.5    24.6     550     605
-                   pediatra    22.3    26.3     673     711
               internista_l4    14.6    13.8    2795    2969
      internista_skierowanie    20.2    19.0    1161    1335
-           inny_specjalista    25.2    20.6    2325    2549
-     internista_konsultacja    23.3    21.5    2157    2292
+                   pediatra    22.3    26.3     673     711
    Marża na pacjenta w 90 dniach (przed kosztem pozyskania, ZALOZENIA.md 34), te same dni kalendarzowe:
       okres  pacjenci  marza_wszyscy  marza_bez_nowych_z1k  marza_bez_nowych_z2
           1     12867           66.6                  66.6                 66.6
@@ -50,7 +50,7 @@ W3. WYNIK BIZNESU W OKRESACH KALENDARZOWYCH (zł)
       przychod_konsultacji 2230266.0 3228342.0  998076.0         45.0
              koszt_lekarza 1175700.0 1734825.0  559125.0         48.0
           marza_pierwszych  730408.0 1024348.0  293940.0         40.0
-     marza_powt_kohorty_o1  324159.0  152960.0 -171198.0        -53.0
+     marza_powt_kohorty_o1  324159.0  152961.0 -171198.0        -53.0
      marza_powt_kohorty_o2       NaN  316209.0       NaN          NaN
               zam_pierwsze   16231.0   24687.0    8456.0         52.0
                zam_powt_o1    8485.0    5289.0   -3196.0        -38.0
@@ -68,7 +68,7 @@ W3. WYNIK BIZNESU W OKRESACH KALENDARZOWYCH (zł)
    pacjentów (recenzja Codeksa).
 
 ==============================================================================================================
-W4. MARŻA PO KWARTAŁACH ROK DO ROKU, Z WYDATKAMI NA KAMPANIE OBOK (dopisek Kuby 2026-10-21; zł)
+W4. MARŻA PO KWARTAŁACH ROK DO ROKU, Z WYDATKAMI NA KAMPANIE OBOK (dopisek Kuby 2026-10-20; zł)
 ==============================================================================================================
    Te same składniki co W3, według kwartału kalendarzowego (czas polski). Prowizja według przyjętej reguły, w kwartale
    pierwszego zamówienia pacjenta. „Przed kampaniami” = marża przed wydatkami na kampanie i prowizją.
@@ -116,7 +116,7 @@ P1. SAFARI NA iOS: ZAKŁADANIE KONTA OD 17.03.2026 (a5p_zdarzenia.txt, 5f)
    w tym samym roku kalendarzowym (recenzja Codeksa).
 
 ==============================================================================================================
-P1b. NAPRAWIĆ POMIAR (dopisek Kuby 2026-10-21): dashboard, kod TEST-QA, wynagrodzenie lekarzy za wizyty testowe
+P1b. NAPRAWIĆ POMIAR (dopisek Kuby 2026-10-20): dashboard, kod TEST-QA, wynagrodzenie lekarzy za wizyty testowe
 ==============================================================================================================
    Dashboard dziś (a3_dashboard.txt): zamówienia +60,7% (25 269 → 40 613), przychód z konsultacji +50,3% (2,382 → 3,580 mln zł).
    Po usunięciu duplikatów i kont testowych: zamówienia +55,7% (24 716 → 38 491); przychód po zwrotach +44,8%
@@ -259,10 +259,10 @@ P14. CENNIK SPECJALISTÓW (uwaga z konsylium): marża wizyty po cenie katalogowe
      specialization  cena  koszt_lekarza  zamowienia_okres_2  oplacone_okres_2  marza_okres_2  marza_na_wizycie_po_cenie_katalogowej
            pediatra  95.0            100                1567              1490       -13257.0                                   -5.0
           psycholog  99.0            100                 310               289        -1430.0                                   -1.0
+             urolog 109.0            100                 463               434         2106.0                                    9.0
+           neurolog 109.0            100                 455               434         2922.0                                    9.0
          dermatolog 109.0            100                1758              1673         7175.0                                    9.0
           kardiolog 109.0            100                 537               513         2677.0                                    9.0
-           neurolog 109.0            100                 455               434         2922.0                                    9.0
-             urolog 109.0            100                 463               434         2106.0                                    9.0
        endokrynolog 119.0            100                 932               875        11812.0                                   19.0
           ginekolog 119.0            100                1765              1655        22462.0                                   19.0
    Razem okres 2: 7787 zamówień u tych specjalistów, 7363 z zapłatą, która zostaje; marża 34 467 zł.

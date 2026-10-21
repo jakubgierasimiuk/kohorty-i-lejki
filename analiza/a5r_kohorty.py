@@ -149,10 +149,10 @@ def main():
                    e AS (SELECT * FROM ek WHERE user_id IN (SELECT user_id FROM k) AND dni BETWEEN {lo} AND {hi})
               SELECT {m} miesiac, {o} okres, (SELECT count(*) FROM k) n,
                      round(1.0 * count(*) FILTER (WHERE zamowienie AND nieanul AND NOT pierwsze) / nullif((SELECT count(*) FROM k), 0), 3) zam_na_pac,
-                     round(sum(przychod) / nullif((SELECT count(*) FROM k), 0), 1) przychod_na_pac,
-                     round(sum(go) / nullif((SELECT count(*) FROM k), 0), 1) go_na_pac,
-                     round(sum(koszt_lekarza) / nullif((SELECT count(*) FROM k), 0), 1) koszt_lek_na_pac,
-                     round(sum(marza) / nullif((SELECT count(*) FROM k), 0), 1) marza_na_pac
+                     round(coalesce(sum(przychod), 0) / nullif((SELECT count(*) FROM k), 0), 1) przychod_na_pac,
+                     round(coalesce(sum(go), 0) / nullif((SELECT count(*) FROM k), 0), 1) go_na_pac,
+                     round(coalesce(sum(koszt_lekarza), 0) / nullif((SELECT count(*) FROM k), 0), 1) koszt_lek_na_pac,
+                     round(coalesce(sum(marza), 0) / nullif((SELECT count(*) FROM k), 0), 1) marza_na_pac
               FROM e"""))
     t3 = pd.concat(mies)
     p3 = t3.pivot(index="miesiac", columns="okres")

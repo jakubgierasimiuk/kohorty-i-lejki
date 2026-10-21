@@ -22,7 +22,7 @@ Wszystkie skrypty tylko czytają schemat `czyste` i uruchamia się je z główne
 **W skrócie:**
 - **Tracimy pacjentów w dwóch miejscach, które trzeba naprawić na stronie.**
   - Przeglądarki wbudowane w aplikacje (Instagram, Facebook, TikTok) tracą pacjentów na każdym kroku lejka. Płacą w 5–7% sesji, a Chrome i Safari w 16–18%.
-  - W Safari na iPhone'ach i iPadach od 17.03.2026 nie działa zakładanie konta. Kosztuje to około 95–105 pierwszych zamówień na 30 dni (sekcja 2).
+  - W Safari na iPhone'ach i iPadach od 17.03.2026 gwałtownie spada skuteczność zakładania nowego konta (konta dalej powstają, ale rzadziej; brzmienie poprawione 2026-10-21 po konsylium). Kosztuje to około 95–105 pierwszych zamówień na 30 dni (sekcja 2).
 - Konwersja sesji do płatności spadła z 16,0% w okresie 1 (X 2024 – IX 2025) do 13,7% w okresie 2 (X 2025 – IX 2026).
 - Rachunkowo prawie cały ten spadek to większy udział ruchu z przeglądarek wbudowanych w aplikacje: z 10,7% do 35,6% sesji, głównie z reklam Meta i TikToka.
 - To nie jest tylko „inny ruch”. Ten ruch płaci 2–4 razy rzadziej i traci na każdym kroku lejka, także na zakładaniu konta, a nie tylko na pierwszym kroku. Część tej różnicy da się naprawić na stronie, zanim zaczniemy ciąć budżet (zasada „najpierw napraw, potem wyłączaj”). Ile, pokaże dopiero test (sekcja 5, punkt 4).
@@ -76,7 +76,7 @@ Metoda (`a5p_zdarzenia.py`):
 
 **Lista zdarzeń** (od najważniejszego dla lejka):
 
-1. **17.03.2026 (wtorek): w Safari na iOS przestaje działać zakładanie konta.** Sprawdzenie: `a5p_zdarzenia.txt`, sekcja 5a–5f.
+1. **17.03.2026 (wtorek): w Safari na iOS gwałtownie spada skuteczność zakładania nowego konta** (brzmienie poprawione 2026-10-21 po konsylium; wcześniej „przestaje działać”). Sprawdzenie: `a5p_zdarzenia.txt`, sekcja 5a–5f.
    - Krok konta po wyborze terminu, u osób, które jeszcze nie kupowały, spada z 66,2% (16.01–16.03.2026) do 45,1% (17.03–15.05.2026) i zostaje na 45,6% do 30.09.2026.
    - Inne przeglądarki tego nie mają. Wszystkie poza Safari na iOS razem spadają z 64,8% do 63,4%. W tym przeglądarki poza iOS i Mac z 64,8% do 63,8%, inne przeglądarki na iOS z 64,4% do 61,2%, Safari na komputerach Mac z 66,4% do 64,0%.
    - Spadek widać w każdym kanale poza TikTokiem, gdzie próba jest za mała (9 i 26 sesji z wyborem terminu). Na przykład wejścia bezpośrednie spadają z 68,0% do 46,4%, ogólne kampanie Google Ads z 65,3% do 39,8%, Meta (pozyskanie) z 65,1% do 42,4%. To nie jest zmiana struktury ruchu.
