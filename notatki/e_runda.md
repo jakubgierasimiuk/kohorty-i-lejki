@@ -149,6 +149,23 @@ Bez zmian kształtu: `{"tytul", "wstep", "wiersze": [{"nr", "co", "dlaczego", "t
 
 W każdym miejscu, w którym strona dziś rysuje listę zdań z danych (`zdania` w `podsumowanie.js`, `kohorty.js`, `po_zakupie.js`, `wynik.js`, `jakosc.js`; karty napraw `naprawy` w lejku), eksport doda obiekt `karta` (pierwsze zdania zakładki) albo listę `karty` (np. `naprawy_karty` w lejku). Strona rysuje kartę, gdy jest, a w przeciwnym razie dotychczasowe zdania. Zdarzenia na osi zostają w dotychczasowym kształcie (`tytul`, `co`, `ile`, `skad` itd.).
 
+**Dokładne klucze (uzupełnienie, 2026-10-21 wieczorem):**
+
+| Plik danych | Klucz | Co zastępuje na stronie |
+|---|---|---|
+| `podsumowanie.js` | `D.P.lejek_naglowek.karta` | `lj-zdania` (nagłówek lejka) |
+| `podsumowanie.js` | `D.P.lejek_naglowek.naprawy_karty` (lista kart) | `lj-naprawy` |
+| `podsumowanie.js` | `D.P.lejek_naglowek.osobne_karta` | treść „Sesje poza lejkiem głównym” |
+| `kohorty.js` | `D.kohorty.karta` | `ko-zdania` |
+| `po_zakupie.js` | `D.po_zakupie.karty.punktualnosc`, `.godziny`, `.ruch`, `.powrot`, `.zwroty`, `.oceny` | zdania i przypisy w sześciu kartach zakładki (tytuł karty = `tytul` karty z danych; tabele i wykresy zostają pod treścią karty) |
+| `wynik.js` | `D.wynik.karta`, `D.wynik.ekonomia.karta` | `wy-zdania`, `ek-zdania` |
+| `jakosc.js` | `D.jakosc.karty.mostek`, `.duplikaty`, `.testy`, `.godzina`, `.drobne`, `.czyste`, `D.jakosc.karta` (wstęp) | zdania kart zakładki |
+| `zdarzenia.js` | `D.zdarzenia.karta` (wstęp, opcjonalnie) | akapit wstępu |
+
+Gdy karta z danych ma `tytul`, zastępuje on statyczny nagłówek `<h3>` tej karty. Wykresy, filtry i tabele liczone w przeglądarce stoją pod treścią karty, a nad jej „Szczegółami”.
+
+**Uzupełnienia kształtu „Czy to wzrost”:** kafelek może mieć `dopisek` (krótki, szary tekst pod podpisem), a `werdykt` może mieć `dopisek` (jedno zdanie pod kafelkami, np. o wyniku za cały rok). Punkt decyzji ma `dopisek` (np. „pozycja 1 · do 83 tys. zł rocznie”).
+
 ## 4. Część 1 — wynik sprawdzenia (skrypt `analiza/e_merytoryka.py` → `analiza/wyniki/e_merytoryka.txt` i `.json`)
 
 1. **Reguły w retencji „bez nowych kampanii”: potwierdzone w całości.** Cała różnica między regułami to jedna grupa: 1 383 pacjentów (kohorty z pełnym oknem 90 dni; 2 081 w całych ostatnich 12 miesiącach), których przyjęta reguła przypisuje nowym kampaniom na L4, a sesja płatności starym kanałom. 92% z nich weszło pierwszy raz z reklamy nowej kampanii, 73% zapłaciło z kodem tej kampanii, 83% zaczęło od L4. Płacili w sesji z wejścia bezpośredniego (42%), z bezpłatnej wyszukiwarki (24%), z Google Ads na markę (22%) i z remarketingu Meta (13%). Wracają w 90 dniach w 4,3%, tak jak pozostali pacjenci nowych kampanii (4,1%). Grupy odwrotnej (stara według przyjętej reguły, nowa według sesji płatności) nie ma. Bez tej grupy sesja płatności daje dokładnie to samo co reguła przyjęta: powrót 22,0% (a nie 20,4%), marża 66,0 zł (a nie 63,3 zł), pacjentów +7,3% (a nie +20,1%), udział nowych kampanii w spadku powrotu 71% (a nie 46%). Wniosek: w retencji i przyroście pacjentów zostaje reguła przyjęta, druga idzie do szczegółów z jednym zdaniem wyjaśnienia; w ekonomii kampanii obie zostają.

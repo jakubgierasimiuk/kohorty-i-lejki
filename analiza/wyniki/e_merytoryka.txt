@@ -1,4 +1,4 @@
-E — MERYTORYKA: WĄTPLIWOŚCI KUBY (2026-10-21 23:25), schemat `czyste`
+E — MERYTORYKA: WĄTPLIWOŚCI KUBY (2026-10-21 23:28), schemat `czyste`
 Okres 1 = rok wcześniej (1.10.2024–30.09.2025), okres 2 = ostatnie 12 miesięcy (1.10.2025–30.09.2026), czas polski.
 Z1K = przyjęta reguła źródła (pierwsze wejście, kod kampanii rozstrzyga), Z2 = sesja płatności.
 Nowe kampanie = meta_prosp_l4_szybko i tt_prosp_l4_15min.

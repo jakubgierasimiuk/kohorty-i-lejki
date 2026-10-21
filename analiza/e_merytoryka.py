@@ -282,6 +282,10 @@ def main():
     kw["wydatki_rr"] = (kw.wydatki / kw.wydatki.shift(4) - 1).mul(100).round(1)
     kw["marza_rr"] = (kw.marza / kw.marza.shift(4) - 1).mul(100).round(1)
     pokaz(kw.round(0))
+    kw["przed_rr_dokl"] = 100 * (kw.przed / kw.przed.shift(4) - 1)
+    kw["wydatki_razy"] = kw.wydatki / kw.wydatki.shift(4)
+    kw["marza_rr_dokl"] = 100 * (kw.marza / kw.marza.shift(4) - 1)
+    J["kwartaly"] = kw.dropna().to_dict(orient="records")
     # baza powracających (pacjenci pozyskani w poprzednich kwartałach) w III kwartałach
     r("\n   Baza powracających w III kwartałach (marża zamówień i TelemediGO pacjentów pozyskanych w poprzednich kwartałach):")
     for kwx, df in ((Q3_25, a3), (Q3_26, b3)):

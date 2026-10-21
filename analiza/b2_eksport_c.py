@@ -2261,6 +2261,13 @@ def eksport_c(kontrole, wz=None, mostek=None, wy=None, nag=None, koh=None, pz=No
     kontrole.append((f"D: liczby w tekstach innych zakładek bez pokrycia w d_teksty_strony.md ({len(sd)} sekcji, "
                      f"{sum(x[1] for x in sd)} liczb)", sum(len(x[2]) for x in sd), 0))
     sz = sz + sd
+    # E: „Czy to wzrost”, „Priorytety” i „Czego nie wiemy” w nowym kształcie karty (analiza/e_teksty.py)
+    import e_teksty as ET
+    C, bloki_e = ET.teksty_c(V, ET.wczytaj_e(), C)
+    se = ET.kontrola(bloki_e)
+    kontrole.append((f"E: liczby w nowych tekstach „Czy to wzrost”, „Priorytety”, „Czego nie wiemy” bez pokrycia w "
+                     f"notatkach ({len(se)} kart, {sum(x[1] for x in se)} liczb)", sum(len(x[2]) for x in se), 0))
+    sz = sz + se
     # pola techniczne nie trafiają na stronę
     C["wzrost"].pop("_dodane", None)
     C["wzrost"]["telemedigo"].pop("_dodane", None)

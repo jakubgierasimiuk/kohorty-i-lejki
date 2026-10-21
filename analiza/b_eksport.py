@@ -25,6 +25,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import definicje as D  # noqa: E402
 import a5r_punktualnosc as RP  # noqa: E402  (KOSZYK, PORA, NOWE: definicje części retencji, ZALOZENIA 37)
 import a5r_struktura as RS  # noqa: E402  (USLUGA, ZNIZKA: cechy pierwszego zakupu, ZALOZENIA 35)
+import e_teksty as ET  # noqa: E402  (runda E: nowe karty tekstowe)
+import e_teksty_zakladki as EZ  # noqa: E402
 import b2_eksport_c as B2  # noqa: E402  (wynik punktu C: czy to wzrost, priorytety, czego nie wiemy)
 
 KATALOG = D.KATALOG
@@ -1333,6 +1335,13 @@ def main():
     _, szkic, _ = B2.eksport_c(kontrole, wz=wz, mostek=mostek, wy=wy, nag=nag, koh=koh, pz=pz, Z=Z2, V=V2,
                                d_dodatkowe={"Kampania `crm_go_upsell`": ([go["ile"].split(" Sesje z tej kampanii")[1]], [])})
     koh["zdania"] = koh_zdania + [td["kohorty_demo"]]
+    # E: karty tekstowe w nowym kształcie (notatki/e_runda.md, punkt 3): nagłówek lejka i pozostałe zakładki
+    E = ET.wczytaj_e()
+    sz_e = ET.karty_lejka(nag, V2, E) + EZ.dodaj_karty(kontrole, V=V2, Z=Z2, E=E, wz=wz, mostek=mostek, nag=nag, jak=jak,
+                                                       zdz=zdz, koh=koh, pz=pz, wy=wy)
+    kontrole.append((f"E: liczby w nowych kartach zakładek bez pokrycia w notatkach ({len(sz_e)} kart, "
+                     f"{sum(x[1] for x in sz_e)} liczb)", sum(len(x[2]) for x in sz_e), 0))
+    szkic = szkic + sz_e
 
     try:
         commit = subprocess.run(["git", "-C", KATALOG, "rev-parse", "--short", "HEAD"], capture_output=True,
