@@ -181,4 +181,16 @@ Gdy karta z danych ma `tytul`, zastępuje on statyczny nagłówek `<h3>` tej kar
 
 ## 5. Postęp
 
-- Część 1 policzona (punkt 4). Część 2 w toku.
+- Część 1 policzona (punkt 4), commit `98a5028`.
+- Część 2: teksty „Czy to wzrost”, „Priorytety”, „Czego nie wiemy” i nagłówka lejka napisała sesja prowadząca (`analiza/e_teksty.py`, szkic `notatki/e_teksty.md` pisany ręcznie przed kodem). Karty pięciu pozostałych zakładek napisał agent w tle (`analiza/e_teksty_zakladki.py`). Jego szkic `notatki/e_teksty_zakladki.md` powstał z wyniku kodu, więc kontrola liczb dla tych zakładek była pusta. Sesja prowadząca przeczytała wszystkie jego teksty, poprawiła je i zamroziła notatkę: od 2026-10-22 jest wzorcem poprawianym ręcznie, a generator nadpisze ją tylko z flagą `--nadpisz`. Kontrola wyłapała potem każdą liczbę zmienioną po recenzji Codeksa, więc znowu działa.
+- README przepisane (odpowiedź w skrócie według części 1, słownik, zdanie o słowniku danych).
+- Eksport: 104 kontrole, 0 różnic; nowe karty: 45 kart w „Czy to wzrost”, „Priorytetach” i „Czego nie wiemy” oraz 35 kart w pozostałych zakładkach, każda liczba z pokryciem w notatkach.
+
+**Recenzja Codeksa (Sol) nowych liczb** (`notatki/recenzje/e_codex_polecenie.md` → `e_codex.md`): 17 z 19 pozycji zgodnych co do liczby; dwie różnice to zaokrąglenia.
+- Przyjęte: zmiana konwersji rok do roku liczona z liczb niezaokrąglonych (grudzień −0,76 zamiast −0,75 punktu, wrzesień −3,14 zamiast −3,13); próg pauzy Google Ads na specjalistów z marży bez zaokrąglenia (1 640 i 1 614 zamiast 1 641 i 1 616; „około 31 tygodniowo” bez zmian).
+- Przyjęte (brzmienie): III kwartał opisany jako „marża była o 6,8% niższa, ale spadek zależy od jednorazowego zdarzenia; po odjęciu szacowanej nadwyżki wychodzi +1,1%” zamiast „spadek nie jest pewny”; tytuł lejka bez „bo”, z faktem, że liczba płatności nowych osób rośnie, a spada ich odsetek; grupa różniąca reguły opisana dokładnie (1 918 weszło z reklamy i zapłaciło w innej sesji, 163 zapłaciło z kodem po wejściu z innego kanału), a „obie reguły dają to samo” zawężone do liczb zbiorczych; baza powracających: nadwyżka startu przypisana bazie proporcjonalnie (210 z 225 zakupów), więc +7,3% zamiast +8,6%, i obok liczba pacjentów bazy, którzy w kwartale coś kupili (+15%), a nie tylko cała baza (×2,7); „marża po wszystkich kosztach” zastąpiona nazwą kosztów, które odejmujemy (koszt lekarza, kampanie, prowizja); „marża przed kosztem pozyskania” przy marży pacjenta.
+- Liczba 4 190 pacjentów z różnymi kampaniami według obu reguł (poza omawianą grupą) powtórzona naszym kodem: 6 271 razem z grupą 2 081.
+- Bez zmian: zdania a (werdykt) i c (marża powtórnych zamówień) Codex uznał za uzasadnione.
+- Przy okazji (uwaga agenta): zdanie „spadek w kanałach działających w obu latach zbiega się z porannymi opóźnieniami” zastąpione ostrożniejszym („może wiązać się…, po spóźnionej pierwszej wizycie pacjenci wracają rzadziej; dane tego nie rozstrzygają”), bo czasowo pasuje słabo.
+
+- Część 3 (wygląd): w toku w sesji „E: nowy wygląd narzędzia”. Po jej zakończeniu: sprawdzenie integracji w przeglądarce (komputer i telefon), odtworzenie tekstów strony (`analiza/b2_teksty_strony.py`), notatki wspólne, zatrzymanie u Kuby.
