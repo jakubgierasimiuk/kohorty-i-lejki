@@ -1,6 +1,6 @@
-B2 — EKSPORT PUNKTU C NA STRONĘ (2026-10-21 20:41)
+B2 — EKSPORT PUNKTU C NA STRONĘ (2026-10-22 11:27)
 
-1. Plik: narzedzie/dane_strony/c.js (73,818 bajtów). Odczytów z raportów: 171.
+1. Plik: narzedzie/dane_strony/c.js (96,429 bajtów). Odczytów z raportów: 171.
 
 2. Kontrole krzyżowe
    co                                                                                              eksport               oczekiwane  wynik
@@ -29,17 +29,18 @@ B2 — EKSPORT PUNKTU C NA STRONĘ (2026-10-21 20:41)
    C: zwroty L4 nowych kampanii: a5r_po_zakupie = a5e_scenariusze (wizyty odbyte)                     5895                     5895  zgodne
    C: zamówienia testowe w P1b (okres 1 + 2) = P13                                                    2071                     2071  zgodne
    C: wizyty testowe u internisty i trwające 1 minutę = wszystkie                                2071 2071                2071 2071  zgodne
-   C: liczby w tekstach bez pokrycia w c_szkic.md (50 fragmentów, 1179 liczb)                            0                        0  zgodne
-   D: liczby w tekstach innych zakładek bez pokrycia w d_teksty_strony.md (7 sekcji, 235 liczb)                        0                        0  zgodne
+   C: liczby w tekstach bez pokrycia w c_szkic.md (50 fragmentów, 1176 liczb)                            0                        0  zgodne
+   D: liczby w tekstach innych zakładek bez pokrycia w d_teksty_strony.md (7 sekcji, 237 liczb)                        0                        0  zgodne
+   E: liczby w nowych tekstach „Czy to wzrost”, „Priorytety”, „Czego nie wiemy” bez pokrycia w notatkach (45 kart, 1292 liczb)                        0                        0  zgodne
 
-   Różnic: 0 z 27 kontroli.
+   Różnic: 0 z 28 kontroli.
 
 3. Kontrola ze szkicem (notatki/c_szkic.md): każda liczba w zdaniach strony stoi w tym samym fragmencie szkicu. Wiersze „d:” to teksty pozostałych zakładek wobec notatki notatki/d_teksty_strony.md.
 „Dodane” = liczby dopisane poza szkicem (liczebność przy odsetku, okres, kwoty w dniach działania), odczytane z raportów.
    fragment          liczb  bez pokrycia   dodane
-   wzrost              308  —              24, 24716, 3,2, 38491, 5,4, 6,5
+   wzrost              305  —              24, 24716, 3,2, 38491, 5,4, 6,5
    telemedigo           47  —              16231, 17419, 24687, 6784, 7268, 9307
-   zasady               46  —              —
+   zasady               47  —              —
    nie_robimy           15  —              —
    przeglad:1            6  —              —
    przeglad:2            2  —              —
@@ -55,10 +56,10 @@ B2 — EKSPORT PUNKTU C NA STRONĘ (2026-10-21 20:41)
    przeglad:12           2  —              —
    pozycja:1            69  —              2278, 2990, 4678
    pozycja:2            53  —              24716, 25269, 40613
-   pozycja:3            69  —              1,56, 9
-   pozycja:4            37  —              —
+   pozycja:3            67  —              1,56, 9
+   pozycja:4            34  —              —
    pozycja:5            50  —              16,5, 24,3, 332, 42,3, 5080, 9,7
-   pozycja:6           123  —              23,6, 2844, 572, 9979
+   pozycja:6           127  —              23,6, 2844, 572, 9979
    pozycja:7            30  —              12867, 14031
    pozycja:8             8  —              —
    pozycja:9            69  —              —
@@ -91,9 +92,54 @@ B2 — EKSPORT PUNKTU C NA STRONĘ (2026-10-21 20:41)
    d:Przeglądarki w     23  —              —
    d:Konta bez zaku     16  —              20620, 31780
    d:Wiek, płeć i w     38  —              —
-   d:Opóźnienia po      68  —              —
-   d:Rozkład spadku     51  —              —
+   d:Opóźnienia po      72  —              —
+   d:Rozkład spadku     49  —              —
    d:Google Ads na      30  —              —
+   e:wzrost/werdykt      3  —              —
+   e:wzrost/kafelki      9  —              —
+   e:wzrost/decyzje     12  —              —
+   e:wzrost/pacjenci     30  —              —
+   e:wzrost/retencja    109  —              3,2, 5,4, 6,5
+   e:wzrost/telemedigo     73  —              16231, 17419, 24687, 6784, 7268, 9307
+   e:wzrost/wynik      112  —              —
+   e:wzrost/dashboard     37  —              24716, 38491
+   e:wzrost/wstep        4  —              —
+   e:priorytety/1       74  —              2278, 2990, 4678
+   e:priorytety/2       57  —              24716, 25269, 40613
+   e:priorytety/3       78  —              1,56, 9
+   e:priorytety/4       58  —              —
+   e:priorytety/5       67  —              5080
+   e:priorytety/6      131  —              23,6, 2844, 9979
+   e:priorytety/7       41  —              12867, 14031
+   e:priorytety/8       14  —              —
+   e:priorytety/9       80  —              —
+   e:priorytety/10      46  —              —
+   e:priorytety/11      18  —              1434, 23776
+   e:priorytety/12      31  —              1140, 20,0, 34,7, 62, 858
+   e:priorytety/zasady     77  —              —
+   e:priorytety/nie_robimy     16  —              18
+   e:priorytety/wstep      0  —              —
+   e:niewiadome/1       11  —              —
+   e:niewiadome/2        0  —              —
+   e:niewiadome/3        9  —              —
+   e:niewiadome/4       11  —              —
+   e:niewiadome/5        4  —              —
+   e:niewiadome/6        8  —              —
+   e:niewiadome/7        1  —              —
+   e:niewiadome/8        2  —              —
+   e:niewiadome/9        6  —              —
+   e:niewiadome/10       0  —              —
+   e:niewiadome/11       2  —              —
+   e:niewiadome/12       2  —              —
+   e:niewiadome/14       2  —              —
+   e:niewiadome/15       2  —              —
+   e:niewiadome/16       4  —              —
+   e:niewiadome/17       3  —              —
+   e:niewiadome/18       3  —              —
+   e:niewiadome/19       2  —              —
+   e:niewiadome/20       9  —              —
+   e:niewiadome/21      10  —              —
+   e:niewiadome/22      24  —              —
 
 4. Odczyty z raportów (plik, miejsce, wartość)
    c_priorytety.txt         W1.                                      tabela 2 wierszy

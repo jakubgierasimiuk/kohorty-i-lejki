@@ -197,6 +197,9 @@ CZYTNIK = r"""
     }
     if (tag === 'A' && !e.closest('p, li, td')) { akapit('→ ' + T(e.innerText) + ' *(odnośnik)*'); return; }
     if (/^H[1-4]$/.test(tag)) { const t = T(e.innerText); if (t) akapit('#'.repeat(+tag[1]) + ' ' + t); return; }
+    if (tag === 'P' && e.classList.contains('zastrzezenie') && e.querySelector('.zastrzezenie-tekst')) {
+      akapit('**Zastrzeżenie.** ' + T(e.querySelector('.zastrzezenie-tekst').innerText)); return;
+    }
     if (tag === 'P') { const t = T(e.innerText); if (t) akapit(e.classList.contains('przypis') ? '*' + t + '*' : t); return; }
     if (tag === 'UL' || tag === 'OL') { lista(e); return; }
     if (tag === 'TABLE') { tabela(e); return; }

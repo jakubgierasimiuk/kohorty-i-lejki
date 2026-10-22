@@ -75,13 +75,15 @@
   }
   function krocz(arr, w) { return b().krocz(arr, w); }
   function suma(arr, z) { var t = 0; if (!z) return 0; for (var i = z[0]; i <= z[1]; i++) t += arr[i]; return t; }
-  function komorka(pB, nB, pA, nA, jedn, miejsca, odwrotnie) {
+  // o (opcjonalnie): {pref: napis przed wartością porównania, wobec: podpowiedź etykiety, neutralnie: etykieta bez oceny}
+  function komorka(pB, nB, pA, nA, jedn, miejsca, odwrotnie, o) {
+    o = o || {};
     var B = b(), td = B.el("td"), j = jedn === undefined ? "%" : jedn, m = miejsca === undefined ? 1 : miejsca;
     var f = function (v) { return v === null || !isFinite(v) ? "—" : B.liczba(v, m) + (j === "%" ? "%" : j ? " " + j : ""); };
     td.appendChild(B.el("span", { class: "b", text: f(pB) }));
     td.appendChild(B.el("span", { class: "n", text: nB !== null ? " z " + B.liczba(nB) : "" }));
-    var a = B.el("span", { class: "a", text: "A: " + f(pA) + (nA !== null ? " z " + B.liczba(nA) : "") });
-    if (pA !== null && pB !== null && isFinite(pA) && isFinite(pB)) a.appendChild(B.zmianaPkt(pB - pA, m, odwrotnie));
+    var a = B.el("span", { class: "a", text: (o.pref || "A: ") + f(pA) + (nA !== null ? " z " + B.liczba(nA) : "") });
+    if (pA !== null && pB !== null && isFinite(pA) && isFinite(pB)) a.appendChild(B.zmianaPkt(pB - pA, m, odwrotnie, o));
     td.appendChild(a);
     return td;
   }
@@ -362,8 +364,8 @@
     var B = b(), box = B.wyczysc(B.$("ko-filtry"));
     box.appendChild(B.el("p", { class: "filtry-tytul", text: "Filtry: tabela, wykres, macierz i krzywa powrotu" }));
     var odswiez = function () { rysujK(); };
-    box.appendChild(wybor("ko-regula", "Reguła źródła", [["Z1K", "Przyjęta: pierwsze wejście, kod kampanii rozstrzyga"],
-      ["Z2", "Sesja płatności"]], KS.regula, function (v) {
+    box.appendChild(wybor("ko-regula", "Przypisanie źródła", [["Z1K", "Według pierwszego wejścia"],
+      ["Z2", "Według sesji z płatnością"]], KS.regula, function (v) {
       KS.regula = v; KS.wybrane = null; KS.kolory = {}; filtryK(); odswiez();
     }));
     WYMIARY.forEach(function (w) {
@@ -502,6 +504,8 @@
     zwGrupa: "wszyscy", zwZam: "wszystkie", zwWygl: 28, ocSpec: "internista", ocGrupa: "pozostale",
     opWizyta: "internista_rano", opGrupa: "pozostale" };
   var wykresP = null, wykresZ = null, gotoweP = false;
+  // w „Po zakupie” i „Wyniku biznesu” nie wybiera się dat, więc porównanie nazywamy słowami, a nie literami A i B
+  var RR = { pref: "rok wcześniej: ", wobec: "wobec roku wcześniej" };
   var PORY = ["a_rano_6_11", "b_poludnie_12_15", "c_wieczor_16_23", "d_noc_0_5"];
   var CELE = ["l4", "e_recepta", "konsultacja", "skierowanie"];
   var KOSZYKI = ["a_do_5_min", "b_5_15_min", "c_15_30_min", "d_ponad_30_min", "brak_wizyty"];
@@ -531,7 +535,7 @@
     // tabela: specjalizacja × pora, okres 1 wobec okresu 2
     var t = B.wyczysc(B.$("pz-tabela")), o1 = zakresOkresu(1), o2 = zakresOkresu(2);
     t.appendChild(B.el("thead", null, [B.el("tr", null, [B.el("th", { text: "Specjalizacja" }), B.el("th", { text: "Pora terminu" }),
-      B.el("th", { text: "Spóźnione " + (PS.prog === "p15" ? "ponad 15" : "ponad 30") + " minut: okres B = " + B.O[1].nazwa + " (A = " + B.O[0].nazwa + ")" })])]));
+      B.el("th", { text: "Spóźnione " + (PS.prog === "p15" ? "ponad 15" : "ponad 30") + " minut: ostatnie 12 miesięcy (" + B.O[1].nazwa + "), pod spodem rok wcześniej" })])]));
     var tb = B.el("tbody");
     ["internista", "pediatra", "psychiatra", "inny"].forEach(function (sp) {
       PORY.forEach(function (pora) {
@@ -540,7 +544,7 @@
         if (nA + nB === 0) return;
         tb.appendChild(B.el("tr", sp === PS.spec ? { class: "zaznaczony", style: "--kolor:" + B.css("--accent") } : null,
           [B.el("td", { text: ET.spec[sp] }), B.el("td", { text: ET.pora[pora] }),
-            komorka(nB ? 100 * suma(s[PS.prog], o2) / nB : null, nB, nA ? 100 * suma(s[PS.prog], o1) / nA : null, nA, "%", 1, true)]));
+            komorka(nB ? 100 * suma(s[PS.prog], o2) / nB : null, nB, nA ? 100 * suma(s[PS.prog], o1) / nA : null, nA, "%", 1, true, RR)]));
       });
     });
     t.appendChild(tb);
@@ -552,16 +556,16 @@
     var przedz = [];
     PZ.ruch.forEach(function (r) { if (przedz.indexOf(r.przedzial) < 0) przedz.push(r.przedzial); });
     t.appendChild(B.el("thead", null, [B.el("tr", null, [B.el("th", { text: "Poranne wizyty u internisty w dniu" }),
-      B.el("th", { text: "Spóźnione ponad 15 minut: B = " + B.O[1].nazwa + " (A = " + B.O[0].nazwa + ")" }),
-      B.el("th", { text: "Dni B (A)" })])]));
+      B.el("th", { text: "Spóźnione ponad 15 minut: ostatnie 12 miesięcy (" + B.O[1].nazwa + "), pod spodem rok wcześniej" }),
+      B.el("th", { text: "Dni z takim ruchem" })])]));
     var tb = B.el("tbody");
     przedz.forEach(function (pz) {
       var o = {};
       PZ.ruch.forEach(function (r) { if (r.przedzial === pz) o[r.okres] = r; });
       var f = function (r) { if (!r) return [null, null]; var od = stare ? r.odbyte_stare : r.odbyte, sp = stare ? r.spoznione_stare : r.spoznione; return [od ? 100 * sp / od : null, od]; };
       var a = f(o[1]), bb = f(o[2]);
-      tb.appendChild(B.el("tr", null, [B.el("td", { text: pz }), komorka(bb[0], bb[1], a[0], a[1], "%", 1, true),
-        B.el("td", null, [B.el("span", { class: "b", text: o[2] ? B.liczba(o[2].dni) : "—" }), B.el("span", { class: "a", text: "A: " + (o[1] ? B.liczba(o[1].dni) : "—") })])]));
+      tb.appendChild(B.el("tr", null, [B.el("td", { text: pz }), komorka(bb[0], bb[1], a[0], a[1], "%", 1, true, RR),
+        B.el("td", null, [B.el("span", { class: "b", text: o[2] ? B.liczba(o[2].dni) : "—" }), B.el("span", { class: "a", text: "rok wcześniej: " + (o[1] ? B.liczba(o[1].dni) : "—") })])]));
     });
     t.appendChild(tb);
   }
@@ -586,12 +590,13 @@
       if (d >= b0 && d <= bk) { s.eB++; if (wr) s.rB++; }
     }
     t.appendChild(B.el("thead", null, [B.el("tr", null, [B.el("th", { text: "Opóźnienie pierwszej wizyty" }),
-      B.el("th", { text: "Powrót w 90 dniach: B = kohorty " + B.dataPL(b0) + "–" + B.dataPL(bk) + " (A = " + B.dataPL(a0) + "–" + B.dataPL(ak) + ")" })])]));
+      B.el("th", { text: "Powrót w 90 dniach: kohorty " + B.dataPL(b0) + "–" + B.dataPL(bk) + ", pod spodem te same dni rok wcześniej (" + B.dataPL(a0) + "–" + B.dataPL(ak) + ")" })])]));
     var tb = B.el("tbody");
     KOSZYKI.forEach(function (k) {
       var s = st[k];
       tb.appendChild(B.el("tr", null, [B.el("td", { text: B.ET.koszyk[k] }),
-        komorka(s.eB ? 100 * s.rB / s.eB : null, s.eB, s.eA ? 100 * s.rA / s.eA : null, s.eA)]));
+        komorka(s.eB ? 100 * s.rB / s.eB : null, s.eB, s.eA ? 100 * s.rA / s.eA : null, s.eA, "%", 1, false,
+          { pref: RR.pref, wobec: RR.wobec, neutralnie: true })]));
     });
     t.appendChild(tb);
   }
@@ -614,12 +619,12 @@
     wykresZ = wykres(B.$("zw-wykres"), serie, { procent: true, jednostka: "%", zdarzenia: true, a: zakresOkresu(1), b: zakresOkresu(2) });
     var t = B.wyczysc(B.$("zw-tabela")), o1 = zakresOkresu(1), o2 = zakresOkresu(2);
     t.appendChild(B.el("thead", null, [B.el("tr", null, ["Cel wizyty", "Zwrot po odbytej wizycie", "Anulowane przed wizytą",
-      "Pacjent nie odebrał", "Zwrócone zapłaty B (A)", "Koszt lekarza za zwrócone B (A)"].map(function (h) { return B.el("th", { text: h }); }))]));
+      "Pacjent nie odebrał", "Zwrócone zapłaty", "Koszt lekarza za zwrócone wizyty"].map(function (h) { return B.el("th", { text: h }); }))]));
     var tb = B.el("tbody");
     CELE.concat([null]).forEach(function (cel) {
       var s = zsumuj(PZ.zwroty, warunek(cel), ["wszystkie", "anul", "nieodebr", "odbyte", "zwrocone", "zw_zl", "kl_zw"]);
-      var f = function (licz, mian) { var a = suma(s[mian], o1), bb = suma(s[mian], o2); return komorka(bb ? 100 * suma(s[licz], o2) / bb : null, bb, a ? 100 * suma(s[licz], o1) / a : null, a, "%", 1, true); };
-      var zl = function (p) { return B.el("td", null, [B.el("span", { class: "b", text: B.liczba(suma(s[p], o2)) + " zł" }), B.el("span", { class: "a", text: "A: " + B.liczba(suma(s[p], o1)) + " zł" })]); };
+      var f = function (licz, mian) { var a = suma(s[mian], o1), bb = suma(s[mian], o2); return komorka(bb ? 100 * suma(s[licz], o2) / bb : null, bb, a ? 100 * suma(s[licz], o1) / a : null, a, "%", 1, true, RR); };
+      var zl = function (p) { return B.el("td", null, [B.el("span", { class: "b", text: B.liczba(suma(s[p], o2)) + " zł" }), B.el("span", { class: "a", text: "rok wcześniej: " + B.liczba(suma(s[p], o1)) + " zł" })]); };
       tb.appendChild(B.el("tr", cel ? null : { class: "podsuma" }, [B.el("td", { text: cel ? ET.cel[cel] : "Razem" }),
         f("zwrocone", "odbyte"), f("anul", "wszystkie"), f("nieodebr", "wszystkie"), zl("zw_zl"), zl("kl_zw")]));
     });
@@ -641,9 +646,9 @@
     Object.keys(st).forEach(function (k) {
       var a = st[k][1], bb = st[k][2];
       tb.appendChild(B.el("tr", null, [B.el("td", { text: B.ET.koszyk[k] }),
-        komorka(bb.o ? 100 * bb.oc / bb.o : null, bb.o, a.o ? 100 * a.oc / a.o : null, a.o),
-        komorka(bb.oc ? bb.s / bb.oc : null, bb.oc, a.oc ? a.s / a.oc : null, a.oc, "", 2),
-        komorka(bb.oc ? 100 * bb.ni / bb.oc : null, bb.oc, a.oc ? 100 * a.ni / a.oc : null, a.oc, "%", 1, true)]));
+        komorka(bb.o ? 100 * bb.oc / bb.o : null, bb.o, a.o ? 100 * a.oc / a.o : null, a.o, "%", 1, false, RR),
+        komorka(bb.oc ? bb.s / bb.oc : null, bb.oc, a.oc ? a.s / a.oc : null, a.oc, "", 2, false, RR),
+        komorka(bb.oc ? 100 * bb.ni / bb.oc : null, bb.oc, a.oc ? 100 * a.ni / a.oc : null, a.oc, "%", 1, true, RR)]));
     });
     t.appendChild(tb);
   }
@@ -659,7 +664,7 @@
     var fo = B.wyczysc(B.$("pz-powrot-filtry"));
     fo.appendChild(wybor("pz-op-wizyta", "Pierwsza wizyta", [["internista_rano", "Internista rano (6–11)"], ["internista", "Internista, każda pora"], ["wszystkie", "Wszystkie"]],
       PS.opWizyta, function (v) { PS.opWizyta = v; rysujPowrotOpoznienie(); }));
-    fo.appendChild(wybor("pz-op-grupa", "Pacjenci (reguła przyjęta)", grupy, PS.opGrupa, function (v) { PS.opGrupa = v; rysujPowrotOpoznienie(); }));
+    fo.appendChild(wybor("pz-op-grupa", "Pacjenci (według pierwszego wejścia)", grupy, PS.opGrupa, function (v) { PS.opGrupa = v; rysujPowrotOpoznienie(); }));
     var fz = B.wyczysc(B.$("zw-filtry"));
     fz.appendChild(wybor("zw-grupa", "Pacjenci", [["wszyscy", "Wszyscy"], ["nowe", "Nowe kampanie na L4"], ["pozostale", "Spoza nowych kampanii"]],
       PS.zwGrupa, function (v) { PS.zwGrupa = v; rysujZwroty(); }));
@@ -697,6 +702,7 @@
         if (!gotoweP) {
           // karty z danych: D.po_zakupie.karty.* (kontrakt, notatki/e_runda.md 3.5), a gdy ich nie ma — dotychczasowe zdania
           var KP = PZ.karty || {};
+          if (PZ.karty) B.$("pz-jak-liczymy").hidden = true;   // definicje i źródła są wtedy w szczegółach kart z danych
           B.zdaniaAlboKarta(B.$("pz-karta-punktualnosc"), B.$("pz-zdania"), KP.punktualnosc || PZ.karta_punktualnosc, PZ.zdania_punktualnosc);
           B.zdaniaAlboKarta(B.$("pz-karta-ruch"), B.$("pz-ruch-zdania"), KP.ruch || PZ.karta_ruch, PZ.zdania_ruch);
           B.zdaniaAlboKarta(B.$("pz-karta-powrot"), B.$("pz-powrot-zdania"), KP.powrot, null);
@@ -795,7 +801,7 @@
     var B = b(), t = B.wyczysc(B.$("wy-kwartaly")), O = B.O, i2 = B.idxIso(O[1].od), N = B.NDNI;
     var kol = [["Marża", "marza"], ["Wydatki na kampanie", "kamp"], ["Przychód: konsultacje po zwrotach i TelemediGO", "przgo"],
       ["Koszt lekarza", "kl"], ["Nowi pacjenci", "nowi"]];
-    t.appendChild(B.el("thead", null, [B.el("tr", null, [B.el("th", { text: "Kwartał (B) wobec tego samego kwartału rok wcześniej (A)" })]
+    t.appendChild(B.el("thead", null, [B.el("tr", null, [B.el("th", { text: "Kwartał wobec tego samego kwartału rok wcześniej" })]
       .concat(kol.map(function (k) { return B.el("th", { text: k[0] }); })))]));
     var tb = B.el("tbody");
     var i = i2;
@@ -811,7 +817,7 @@
         var a = sA[kk[1]], bb = sB[kk[1]], zm = a ? 100 * (bb / a - 1) : null, zl = kk[1] !== "nowi";
         var lepiej = kk[1] === "kamp" || kk[1] === "kl" ? zm < 0 : zm > 0;
         tr.appendChild(B.el("td", null, [B.el("span", { class: "b", text: B.liczba(bb) + (zl ? " zł" : "") }),
-          B.el("span", { class: "a", text: "A: " + B.liczba(a) + (zl ? " zł" : "") }, [
+          B.el("span", { class: "a", text: "rok wcześniej: " + B.liczba(a) + (zl ? " zł" : "") }, [
             B.BK.zmiana(B.znak(zm, 1) + "%", B.BK.kierunekZnaku(zm), lepiej ? "dobrze" : "zle",
               (zm >= 0 ? "Wzrost" : "Spadek") + " o " + B.liczba(Math.abs(zm), 1) + "% rok do roku")])]));
       });
@@ -828,8 +834,8 @@
     var znajdz = function (k, reg, okno) { return w.filter(function (r) { return r.klucz === k && r.regula === reg && r.okno === okno; })[0]; };
     var t = B.wyczysc(B.$("ek-tabela"));
     var h1 = B.el("tr", null, [B.el("th", { text: WS.poziom === "grupa" ? "Grupa" : WS.poziom === "kanal" ? "Kanał" : "Kampania" }),
-      B.el("th", { text: "Przyjęta reguła źródła", colspan: 4, style: "text-align:center" }),
-      B.el("th", { text: "Sesja płatności", colspan: 4, style: "text-align:center" }), B.el("th", { text: "" })]);
+      B.el("th", { text: "Według pierwszego wejścia", colspan: 4, style: "text-align:center" }),
+      B.el("th", { text: "Według sesji z płatnością", colspan: 4, style: "text-align:center" }), B.el("th", { text: "" })]);
     var h2 = B.el("tr", null, [B.el("th", { text: "" })]);
     [0, 1].forEach(function () {
       ["Koszt pozyskania, 90 dni", "Wynik na pacjenta, 90 dni", "Koszt pozyskania, 180 dni", "Wynik na pacjenta, 180 dni"].forEach(function (x) { h2.appendChild(B.el("th", { text: x })); });
@@ -854,7 +860,7 @@
       });
       var niepewne = (znaki.Z1K0 !== undefined && znaki.Z20 !== undefined && znaki.Z1K0 !== znaki.Z20) ||
         (znaki.Z1K1 !== undefined && znaki.Z21 !== undefined && znaki.Z1K1 !== znaki.Z21);
-      tr.appendChild(B.el("td", null, [niepewne ? B.BK.znacznik({ tekst: "Niepewny: znak zależy od reguły", stan: "uwaga" }) : null]));
+      tr.appendChild(B.el("td", null, [niepewne ? B.BK.znacznik({ tekst: "Niepewny: znak zależy od przypisania źródła", stan: "uwaga" }) : null]));
       tb.appendChild(tr);
     });
     t.appendChild(tb);

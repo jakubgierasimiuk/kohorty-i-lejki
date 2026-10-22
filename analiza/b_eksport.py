@@ -1327,11 +1327,11 @@ def main():
     granica = (f"Płatności w lejku ({liczba(pl[0])} rok wcześniej, {O1_NAZWA}, i {liczba(pl[1])} w ostatnich 12 miesiącach, "
                f"{O2_NAZWA}) i zamówienia "
                f"({liczba(zam['p1'])} i {liczba(zam['p2'])}) różnią się o {liczba(abs(pl[0] - zam['p1']))} na granicy okresów, "
-               f"bo sesję liczymy do dnia jej rozpoczęcia, a zamówienie do dnia płatności; przychód z konsultacji po zwrotach "
-               f"rok wcześniej to {liczba(prz1, 2)} zł, więc zależnie od zaokrąglenia {liczba(int(prz1))} albo "
-               f"{liczba(int(prz1) + 1)} zł.")
+               f"bo sesję liczymy do dnia jej rozpoczęcia, a zamówienie do dnia płatności.")
+    # druga lista Kuby, punkt 11: zaokrąglenie przychodu do grosza nie pasuje do „Jak liczymy” lejka; zostaje w wyniku
     nag["granica"] = granica
-    wy["granica"] = granica
+    wy["granica"] = (granica + f" Przychód z konsultacji po zwrotach rok wcześniej to {liczba(prz1, 2)} zł, więc zależnie od "
+                     f"zaokrąglenia {liczba(int(prz1))} albo {liczba(int(prz1) + 1)} zł.")
     go = next(z for z in zdz["lista"] if z["id"] == "start_go_upsell")
     _, szkic, _ = B2.eksport_c(kontrole, wz=wz, mostek=mostek, wy=wy, nag=nag, koh=koh, pz=pz, Z=Z2, V=V2,
                                d_dodatkowe={"Kampania `crm_go_upsell`": ([go["ile"].split(" Sesje z tej kampanii")[1]], [])})

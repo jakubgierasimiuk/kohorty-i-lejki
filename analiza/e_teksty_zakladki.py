@@ -124,36 +124,40 @@ def karta_kohorty(koh, wz, V, E, Z):
         wniosek=f"W ciągu 90 dni od pierwszego zakupu wraca {proc(o90['p2'], 0)} nowych pacjentów, a rok wcześniej "
                 f"wracało {proc(o90['p1'], 0)}.",
         tresc=[
-            akapit(f"Marża na pacjenta w 90 dniach, przed kosztem pozyskania, spadła z {liczba(m90[1], 1)} zł do "
-                   f"{liczba(m90[2], 1)} zł."),
+            akapit(f"Marża na pacjenta w 90 dniach, przed kosztem pozyskania, spadła z {liczba(m90[1], 0)} do "
+                   f"{liczba(m90[2], 0)} zł."),
             akapit(f"Około {proc(u1k, 0)} spadku powrotu przypada na zmianę składu pacjentów. Pacjenci dwóch nowych kampanii "
-                   f"na L4 (Meta i TikTok) wracają w 90 dniach tylko w {proc(nz['p90_o2'])}, a jest ich coraz więcej."),
-            akapit(f"Bez nich powrót też spada, z {proc(bez1['p90_o1'])} do {proc(bez1['p90_o2'])}. Wiek, płeć, wielkość "
-                   f"miejscowości i województwo tego spadku nie tłumaczą."),
+                   f"na L4 (Meta i TikTok) wracają w 90 dniach tylko w {proc(nz['p90_o2'], 0)}, a jest ich coraz więcej."),
+            akapit(f"Bez nich powrót też spada, z {proc(bez1['p90_o1'], 0)} do {proc(bez1['p90_o2'], 0)}. Wiek, płeć, "
+                   f"wielkość miejscowości i województwo tego spadku nie tłumaczą."),
         ],
-        zastrzezenie="Część spadku w kampaniach działających w obu latach może wiązać się z porannymi opóźnieniami u "
-                     "internistów: po spóźnionej pierwszej wizycie pacjenci wracają rzadziej. Dane tego nie rozstrzygają "
-                     "(Czego nie wiemy, punkt 4).",
+        zastrzezenie="Podział spadku opisuje skład pacjentów i nie wskazuje przyczyny: nie mówi, jak wracaliby pacjenci "
+                     "nowych kampanii, gdyby przyszli innym kanałem.",
         szczegoly=[
             tabela(["Powrót w ciągu", "Ostatnie 12 miesięcy", "Rok wcześniej", "Zmiana"], wiersze,
                    tytul="Powrót nowych pacjentów: odsetek pacjentów, którzy złożyli kolejne zamówienie (nieanulowane)"),
             akapit(f"Powrót w 90 dniach w ostatnich 12 miesiącach: pacjenci nowych kampanii {proc(nz['p90_o2'])} z "
-                   f"{zile(nz['n90_o2'], 'pacjent')}, pozostali {proc(bez1['p90_o2'])} z {zile(bez1['n90_o2'], 'pacjent')}."),
-            akapit(f"Marża na pacjenta w 180 dniach: {liczba(p180[6], 1)} zł wobec {liczba(p180[5], 1)} zł rok wcześniej."),
+                   f"{zile(nz['n90_o2'], 'pacjent')}, pozostali {proc(bez1['p90_o2'])} z {zile(bez1['n90_o2'], 'pacjent')} "
+                   f"(rok wcześniej {proc(bez1['p90_o1'])})."),
+            akapit(f"Marża na pacjenta w 90 dniach: {liczba(m90[2], 1)} zł wobec {liczba(m90[1], 1)} zł rok wcześniej; w 180 "
+                   f"dniach {liczba(p180[6], 1)} zł wobec {liczba(p180[5], 1)} zł."),
             akapit(f"Porównujemy te same dni kalendarzowe w obu latach i tylko kohorty z pełnym oknem. W oknie 90 dni to "
-                   f"pierwsze zakupy od {data(O2[0])} do {data(g2)} i od {data(O1[0])} do {data(g1)}, a nie pełne roczniki."),
+                   f"pierwsze zakupy od {data(O2[0])} do {data(g2)} i od {data(O1[0])} do {data(g1)}."),
             akapit("Podział spadku liczymy opisowo, czyli bez mierzenia wpływu: część przypisana nowym kampaniom to ich udział "
                    "w nowych pacjentach razy różnica powrotu między pozostałymi pacjentami a nimi, a reszta to spadek powrotu "
-                   "pozostałych pacjentów. Nie mówi to, jak wracaliby pacjenci nowych kampanii, gdyby przyszli innym kanałem."),
-            akapit(f"Według drugiej reguły źródła, czyli sesji płatności, bez nowych kampanii powrót spada do "
-                   f"{proc(bez2['p90_o2'])} ({ile(bez2['n90_o2'], 'pacjent')}), marża na pacjenta w 90 dniach do "
+                   "pozostałych pacjentów."),
+            akapit(f"Źródło pacjenta liczymy według pierwszego wejścia. Według sesji z płatnością bez nowych kampanii powrót "
+                   f"spada do {proc(bez2['p90_o2'])} ({ile(bez2['n90_o2'], 'pacjent')}), marża na pacjenta w 90 dniach do "
                    f"{liczba(V['m90_bez_z2'], 1)} zł, a na nowe kampanie przypada około {proc(u2, 0)} spadku. Cała różnica "
-                   f"między regułami to jedna grupa: sesja płatności przypisuje innym kanałom {liczba(E['r_X_n'])} pacjentów "
-                   f"nowych kampanii na L4 z tych kohort ({liczba(E['p_X_caly'])} w całych ostatnich 12 miesiącach). "
-                   f"{liczba(E['r_X_wejscie_n'])} z nich weszło pierwszy raz z reklamy nowej kampanii, a zapłaciło w innej "
-                   f"sesji, a {liczba(E['r_X_tylko_kod_n'])} weszło z innego kanału, ale zapłaciło z kodem nowej kampanii. "
-                   f"Bez nich obie reguły dają ten sam powrót i tę samą marżę. Dlatego w opisie trzymamy się przyjętej "
-                   f"reguły, a w filtrach można wybrać obie."),
+                   f"między podziałami to jedna grupa: według sesji z płatnością do innych kanałów trafia "
+                   f"{liczba(E['r_X_n'])} pacjentów nowych kampanii na L4 z tych kohort ({liczba(E['p_X_caly'])} w całych "
+                   f"ostatnich 12 miesiącach). {liczba(E['r_X_wejscie_n'])} z nich weszło pierwszy raz z reklamy nowej "
+                   f"kampanii, a zapłaciło w innej sesji, a {liczba(E['r_X_tylko_kod_n'])} weszło z innego kanału, ale "
+                   f"zapłaciło z kodem nowej kampanii. Bez nich oba podziały dają ten sam powrót i tę samą marżę. Dlatego "
+                   f"opis liczymy według pierwszego wejścia, a w filtrach można wybrać oba podziały."),
+            akapit("Część spadku w kampaniach działających w obu latach może wiązać się z porannymi opóźnieniami u "
+                   "internistów: po spóźnionej pierwszej wizycie pacjenci wracają rzadziej. Dane tego nie rozstrzygają "
+                   "(Czego nie wiemy, punkt 4)."),
             akapit(okresy(demo).replace("pozostałych w obu okresach", "pozostałych w obu latach")),
         ],
         zrodlo="analiza/a5r_kohorty.py → analiza/wyniki/a5r_kohorty.txt; analiza/wyniki/a5r_struktura.txt; "
@@ -206,6 +210,10 @@ def karty_po_zakupie(pz, wz, V, E, Z):
     inn, inp = grupa("internista", bez_pory="a_rano_6_11", nowa=False)
     pr = lambda k: D["op_pozostali_lekarze_wszyscy_rano_6_11_" + k]  # noqa: E731
     assert D["op_pozostali_lekarze_wszyscy_rano_6_11_ponad15_zmiana_od"] < 0 < D["op_pozostali_lekarze_wszyscy_rano_6_11_ponad15_zmiana_do"]
+    assert round(pr("ponad15_proc_okres1")) == round(pr("ponad15_proc_okres2")), "„około tyle samo w obu latach”"
+    # ta sama seria co w pozycji 6 listy priorytetów i w zdarzeniu na osi (a5r_punktualnosc.txt, 2b): jedna wersja liczb
+    rs = V["rano"]["int_rano_ponad15_spoza_nowych"]
+    assert all(round(mp[m], 1) == rs[m] for m in mp), "seria poranna z danych strony = a5r_punktualnosc.txt (2b)"
     K["punktualnosc"] = karta(
         "Od lutego 2026 około połowy porannych wizyt u internisty zaczyna się ponad 15 minut po terminie",
         wniosek=f"W ostatnich 12 miesiącach ponad 15 minut po terminie zaczęło się {proc(r2, 0)} porannych wizyt u "
@@ -214,9 +222,9 @@ def karty_po_zakupie(pz, wz, V, E, Z):
             akapit(f"Do października 2025 było to {B2.zakres(min(przed), max(przed), 0, '%')} wizyt miesięcznie. Od listopada "
                    f"2025 odsetek rośnie z miesiąca na miesiąc, a od lutego 2026 stoi na poziomie "
                    f"{B2.zakres(min(po), max(po), 0, '%')}."),
-            akapit(f"U pozostałych lekarzy rano bez istotnej zmiany: {proc(pr('ponad15_proc_okres2'))} wobec "
-                   f"{proc(pr('ponad15_proc_okres1'))} rok wcześniej. U internisty w innych porach odsetek rośnie dużo mniej, "
-                   f"głównie na brzegach porannego bloku (karta niżej)."),
+            akapit(f"U pozostałych lekarzy rano bez istotnej zmiany: około {proc(pr('ponad15_proc_okres2'), 0)} w obu latach. "
+                   f"U internisty w innych porach odsetek rośnie dużo mniej, głównie na brzegach porannego bloku (karta "
+                   f"niżej)."),
         ],
         zastrzezenie="Przyczyny opóźnień w danych nie widać, bo nie mamy grafików ani identyfikatorów lekarzy (Czego nie "
                      "wiemy, punkt 4).",
@@ -235,7 +243,8 @@ def karty_po_zakupie(pz, wz, V, E, Z):
                    f"{zile(pr('wizyty_okres1'), 'wizyta')} rok wcześniej; przedział różnicy obejmuje zero."),
             akapit("Długość wizyty i czas od zapłaty do terminu się nie zmieniają."),
             akapit("Opóźnienie to faktyczny start wizyty minus umówiony termin. Liczymy tylko wizyty odbyte, a dzień i porę "
-                   "według terminu."),
+                   "według terminu. Pacjenci nowych kampanii na L4 to pacjenci kampanii meta_prosp_l4_szybko i "
+                   "tt_prosp_l4_15min według pierwszego wejścia; „spoza nowych kampanii” to wszyscy pozostali."),
         ],
         zrodlo="analiza/a5r_punktualnosc.py → analiza/wyniki/a5r_punktualnosc.txt; analiza/wyniki/d_retencja.txt "
                "(punkt 1); eksport analiza/b_eksport.py.")
@@ -249,12 +258,14 @@ def karty_po_zakupie(pz, wz, V, E, Z):
     para = lambda h: (f"{proc(op(f'godz{h:02d}_ponad15_proc_okres2'))} z {zile(op(f'godz{h:02d}_wizyty_okres2'), 'wizyta')}, "  # noqa: E731
                       f"rok wcześniej {proc(op(f'godz{h:02d}_ponad15_proc_okres1'))} z {liczba(op(f'godz{h:02d}_wizyty_okres1'))}")
     poza, pol, noc = "poza_5_13_czyli_0_4_i_14_23_", "poludnie_bez_12_czyli_13_15_", "noc_bez_5_czyli_0_4_"
+    assert abs(op(poza + "ponad15_proc_okres2") - op(poza + "ponad15_proc_okres1")) < 0.5, "„poza blokiem tyle samo”"
     K["godziny"] = karta(
-        "Opóźnienia u internisty skupiają się w jednym porannym bloku od 5:00 do 12:59",
+        "Opóźnienia u internisty skupiają się w jednym porannym bloku od 5:00 do 13:59",
         wniosek=f"Od 6:00 do 10:59 ponad 15 minut po terminie zaczyna się {B2.zakres(min(p2), max(p2), 0, '%')} wizyt u "
-                f"internisty, a poza godzinami 5:00–13:59 tyle samo co rok wcześniej.",
+                f"internisty, a poza blokiem 5:00–13:59 prawie tyle samo co rok wcześniej.",
         tresc=[
-            akapit("Wzrost w porach „południe” i „noc” z karty wyżej to głównie brzegi tego bloku: godziny 12:00 i 5:00."),
+            akapit("Najmocniej rośnie od 6:00 do 11:59. Wzrost w porach „południe” i „noc” z karty wyżej to głównie brzegi "
+                   "bloku: godziny 12:00 i 5:00, a o 13:00 już niewiele."),
             akapit("U pozostałych lekarzy żadna godzina wyraźnie nie odstaje."),
         ],
         szczegoly=[
@@ -296,8 +307,8 @@ def karty_po_zakupie(pz, wz, V, E, Z):
                    f"{proc(rp2, 0)}. To bardziej pasuje do stałego przesunięcia od początku dnia (późniejszy start względem "
                    f"grafiku albo inna organizacja zapisów) niż do kolejki, która narasta w ciągu poranka."),
         ],
-        zastrzezenie="To odczytanie, a nie pomiar: najwcześniejszy termin liczymy dla całej sieci, a nie dla pojedynczego "
-                     "lekarza, bo w danych nie ma identyfikatorów lekarzy ani grafików (Czego nie wiemy, punkt 4).",
+        zastrzezenie="To nasze odczytanie danych. Najwcześniejszy termin dnia liczymy dla całej sieci, bo w danych nie ma "
+                     "identyfikatorów lekarzy ani grafików (Czego nie wiemy, punkt 4).",
         szczegoly=[
             akapit(f"Porównanie obejmuje {liczba(len(wsp))} przedziałów ruchu obecnych w obu latach "
                    f"({ile(sum(waga.values()), 'wizyta')}); różnica to {pp(rozn)}. Na przykład w dni z 17–20 porannymi "
@@ -333,7 +344,9 @@ def karty_po_zakupie(pz, wz, V, E, Z):
         wniosek=f"W ostatnich 12 miesiącach po porannej wizycie u internisty zaczętej ponad 30 minut po terminie wraca w 90 "
                 f"dniach {proc(pw['d_ponad_30_min'][5], 0)} pacjentów, a po wizycie punktualnej {proc(pw['a_do_5_min'][5], 0)}.",
         tresc=[akapit("Powrót spada z każdym przedziałem opóźnienia. Spóźnionych pierwszych wizyt rano jest dziś dużo więcej "
-                      "niż rok wcześniej (karty wyżej).")],
+                      "niż rok wcześniej (karty wyżej)."),
+               akapit("Tabela pokazuje też rok wcześniej, ale wtedy spóźnionych pierwszych wizyt rano było mało, więc tych "
+                      "porównań nie oceniamy.")],
         zastrzezenie="To porównanie obserwacyjne: pacjenci spóźnionych wizyt mogą różnić się od pozostałych także czymś, "
                      "czego w danych nie widać.",
         szczegoly=[
@@ -343,9 +356,9 @@ def karty_po_zakupie(pz, wz, V, E, Z):
                     f"ponad 30 minut: {proc(pw['d_ponad_30_min'][5])} z {zile(pw['d_ponad_30_min'][1], 'pacjent')};",
                     f"brak wizyty (anulowana albo nieodebrana): {proc(pw['brak_wizyty'][5])} z "
                     f"{zile(pw['brak_wizyty'][1], 'pacjent')}."]),
-            akapit(f"Wniosek opieramy na ostatnich 12 miesiącach. Rok wcześniej spóźnionych pierwszych wizyt rano było mało "
-                   f"({ile(pw['c_15_30_min'][0], 'pacjent')} przy 15–30 minutach i {ile(pw['d_ponad_30_min'][0], 'pacjent')} "
-                   f"powyżej 30 minut), więc porównania z rokiem wcześniej w tych wierszach nie interpretujemy."),
+            akapit(f"Wniosek opieramy na ostatnich 12 miesiącach. Rok wcześniej pacjentów ze spóźnioną pierwszą wizytą rano "
+                   f"było {liczba(pw['c_15_30_min'][0])} przy 15–30 minutach i {liczba(pw['d_ponad_30_min'][0])} powyżej 30 "
+                   f"minut."),
             akapit(f"Pierwsza wizyta u internisty z terminem 6:00–11:59, pacjenci spoza nowych kampanii według przyjętej "
                    f"reguły źródła. Powrót w 90 dniach na tych samych dniach kalendarzowych, tylko kohorty z pełnym oknem: "
                    f"od {data(O2[0])} do {data(g2)} i rok wcześniej od {data(O1[0])} do {data(g1)}."),
@@ -365,6 +378,9 @@ def karty_po_zakupie(pz, wz, V, E, Z):
     l4s = (zw_suma("l4", False, 2), zw_suma("l4", False, 2, "odbyte"))
     l41 = (zw_suma("l4", None, 1), zw_suma("l4", None, 1, "odbyte"))
     nowe2 = (zw_suma(None, True, 2), zw_suma(None, True, 2, "zw_zl"), zw_suma(None, True, 2, "kl_zw"))
+    # te same zbiory policzone niezależnie na bazie (analiza/e_poprawki.py, punkt 2) i w pozycji 5 (a5e_scenariusze.txt)
+    assert (nowe2[0], l4n[0], l4n[1]) == (E["zw_nowe_wszystkie"], E["zw_nowe_l4"], E["zw_nowe_l4_odbyte"])
+    assert l4n[0] == V["e2a"][1] and l4n[1] == V["e2a"][0]
     K["zwroty"] = karta(
         "Zwroty po wizycie skupiają się w L4 z nowych kampanii",
         wniosek=f"W ostatnich 12 miesiącach zwrot po odbytej wizycie dostaje {proc(100 * l4n[0] / l4n[1], 0)} wizyt L4 "
@@ -381,10 +397,10 @@ def karty_po_zakupie(pz, wz, V, E, Z):
             akapit(f"Ostatnie 12 miesięcy: {proc(100 * l4n[0] / l4n[1])} z {zile(l4n[1], 'wizyta')} L4 pacjentów nowych "
                    f"kampanii i {proc(100 * l4s[0] / l4s[1])} z {zile(l4s[1], 'wizyta')} L4 pozostałych pacjentów. Rok "
                    f"wcześniej: {proc(100 * l41[0] / l41[1])} z {zile(l41[1], 'wizyta')} L4."),
-            akapit(f"Zwroty po wizycie u pacjentów nowych kampanii w ostatnich 12 miesiącach: {ile(nowe2[0], 'wizyta')}, "
-                   f"{zl(nowe2[1])} zwróconych zapłat i {zl(nowe2[2])} kosztu lekarza."),
-            akapit("Wykres: odsetek odbytych wizyt, za które pacjent dostał zwrot po wizycie, według celu wizyty i dnia "
-                   "płatności. Pacjenci nowych kampanii według przyjętej reguły źródła."),
+            akapit(f"Zwroty po wizycie u pacjentów nowych kampanii w ostatnich 12 miesiącach: {ile(nowe2[0], 'wizyta')} we "
+                   f"wszystkich celach wizyty, z tego {liczba(l4n[0])} przy wizytach L4 (te liczy pozycja 5 listy "
+                   f"priorytetów), {zl(nowe2[1])} zwróconych zapłat i {zl(nowe2[2])} kosztu lekarza."),
+            akapit("Odsetek zwrotów liczymy wśród odbytych wizyt, według dnia płatności."),
         ],
         zrodlo="analiza/a5r_po_zakupie.py → analiza/wyniki/a5r_po_zakupie.txt (2b); eksport analiza/b_eksport.py.")
 
@@ -409,8 +425,7 @@ def karty_po_zakupie(pz, wz, V, E, Z):
                 f"{liczba(sr('d_ponad_30_min', 2), 2)}, a wizyta punktualna {liczba(sr('a_do_5_min', 2), 2)} (skala 1–5).",
         tresc=[akapit(f"Po takim opóźnieniu {proc(nis('d_ponad_30_min', 2), 0)} ocen to 1 albo 2, a po wizycie punktualnej "
                       f"{proc(nis('a_do_5_min', 2), 0)}.")],
-        zastrzezenie=f"Ocenę dostaje tylko {proc(oc_proc, 0)} odbytych wizyt, więc oceny pokazują kierunek, a nie zdanie "
-                     f"wszystkich pacjentów.",
+        zastrzezenie=f"Ocenę dostaje tylko {proc(oc_proc, 0)} odbytych wizyt, więc oceny pokazują tylko kierunek.",
         szczegoly=[
             akapit(f"Internista, pacjenci spoza nowych kampanii, ostatnie 12 miesięcy: przy opóźnieniu ponad 30 minut średnia "
                    f"{liczba(sr('d_ponad_30_min', 2), 2)} z {zile(oc[('d_ponad_30_min', 2)][1], 'ocena')}, przy wizycie "
@@ -452,28 +467,25 @@ def karta_wynik(wy, V, E, Z):
     safari = zacz(wy["zdania"], "Awaria zakładania konta w Safari")
     przychody = zacz(wy["zdania"], "Przychód z konsultacji po zwrotach")
     jak_liczymy = zacz(wy["zdania"], "Koszt lekarza liczymy")
+    assert E["rok_wyd_zmiana_proc"] > E["rok_przed_zmiana_proc"] > E["rok_marza_zmiana_proc"] > 0 and q3["wydatki_razy"] > 2
+    assert all(a["przed_rr_dokl"] > b["przed_rr_dokl"] and a["wydatki_razy"] < b["wydatki_razy"] for a, b in zip(kw, kw[1:]))
     k = karta(
-        "Wydatki na kampanie rosną szybciej niż marża, którą biznes zarabia przed ich kosztem",
+        "Za cały rok marża rośnie, ale wydatki na kampanie rosną szybciej niż marża zarabiana przed ich kosztem",
         wniosek=f"W ostatnich 12 miesiącach marża przed kosztem kampanii wzrosła o {proc(E['rok_przed_zmiana_proc'], 0)}, a "
                 f"wydatki na kampanie o {proc(E['rok_wyd_zmiana_proc'], 0)}.",
         tresc=[
-            akapit(f"Po koszcie lekarza, kampaniach i prowizji marża i tak wzrosła o {proc(E['rok_marza_zmiana_proc'])}: z "
-                   f"{tz(E['rok_marza_1'], 0)} do {tz(E['rok_marza_2'], 0)}."),
-            akapit(f"Wzrost marży przed kosztem kampanii słabnie z kwartału na kwartał, a wydatki rosną coraz szybciej. W III "
-                   f"kwartale {rok} marża przed kosztem kampanii była o "
-                   f"{proc(q3['przed_rr_dokl'], 0)} wyższa niż rok wcześniej, a wydatki na kampanie "
-                   f"{liczba(q3['wydatki_razy'], 1)} raza wyższe."),
-            akapit(f"Marża na powtórne zamówienie spadła w III kwartale {rok} z {liczba(E['pw_m25'], 2)} zł do "
-                   f"{liczba(E['pw_m26'], 2)} zł, głównie dlatego, że rośnie udział wizyt ze zniżką TelemediGO: z "
-                   f"{proc(E['pw_go_udzial_25'], 0)} do {proc(E['pw_go_udzial_26'], 0)} powtórnych zamówień. Wizyta ze zniżką "
-                   f"zostawia około {liczba(E['pw_go_m26'], 0)} zł marży, a bez zniżki około {liczba(E['pw_none_m26'], 0)} zł. "
-                   f"To spina się z bilansem programu: opłata {B2.OPLATA_GO} zł za TelemediGO nie pokrywa zniżek, które "
-                   f"dostają jego członkowie (zakładka „Czy to wzrost”)."),
+            akapit(f"Po koszcie lekarza, kampaniach i prowizji marża i tak wzrosła o {proc(E['rok_marza_zmiana_proc'], 0)}."),
+            akapit(f"Rok do roku marża przed kosztem kampanii rośnie z każdym kwartałem wolniej, a wydatki szybciej. W III "
+                   f"kwartale {rok} wydatki na kampanie były ponad dwa razy wyższe niż rok wcześniej."),
+            akapit(f"Powtórne zamówienie zostawia mniej marży niż rok wcześniej, bo rośnie udział wizyt ze zniżką TelemediGO: "
+                   f"z {proc(E['pw_go_udzial_25'], 0)} do {proc(E['pw_go_udzial_26'], 0)} powtórnych zamówień. To spina się z "
+                   f"bilansem programu: opłata za TelemediGO nie pokrywa zniżek, które dostają jego członkowie (zakładka „Czy "
+                   f"to wzrost”)."),
         ],
-        zastrzezenie=f"W III kwartale {rok} marża była o {proc(abs(E['q3_zmiana_proc']))} niższa niż rok wcześniej, ale "
-                     f"ten spadek zależy od jednorazowego zdarzenia: we wrześniu {rok - 1} ruszyła sprzedaż TelemediGO w "
-                     f"newsletterze. Po odjęciu szacowanej nadwyżki tego startu wychodzi wzrost o "
-                     f"{proc(E['q3_w1_zmiana_proc'])}.",
+        zastrzezenie=f"Spadek marży w III kwartale {rok}, o {proc(abs(E['q3_zmiana_proc']), 0)} rok do roku, zależy od "
+                     f"jednorazowego zdarzenia: we wrześniu {rok - 1} ruszyła sprzedaż TelemediGO w newsletterze. Po odjęciu "
+                     f"jednorazowej nadwyżki tego startu marża kwartału jest o {proc(E['q3_w1_zmiana_proc'], 0)} wyższa niż "
+                     f"rok wcześniej.",
         szczegoly=[
             tabela(["Kwartał", "Marża przed kosztem kampanii", "Wydatki na kampanie wobec roku wcześniej",
                     "Marża po kosztach kampanii"], wiersze, tytul="Kwartały rok do roku"),
@@ -490,7 +502,7 @@ def karta_wynik(wy, V, E, Z):
                    f"czyli {tz(E['newsletter_nadwyzka_zl'])}. Bez niej marża III kwartału {rok} jest o "
                    f"{proc(E['q3_w1_zmiana_proc'])} wyższa niż rok wcześniej, a bez całej sprzedaży w newsletterze w obu "
                    f"latach o {proc(abs(E['q3_w2_zmiana_proc']))} niższa. Marża przed kosztem kampanii rośnie wtedy o "
-                   f"{proc(E['q3_przed_bez_nadwyzki_zmiana_proc'])}, a nie o {proc(E['q3_przed_zmiana_proc'])}."),
+                   f"{proc(E['q3_przed_bez_nadwyzki_zmiana_proc'])} (bez tej korekty o {proc(E['q3_przed_zmiana_proc'])})."),
             akapit(f"Cały spadek III kwartału {rok} przypada na wrzesień ({tz(D['q3_miesiac_09_zmiana_marzy'])}); lipiec "
                    f"{tzn(D['q3_miesiac_07_zmiana_marzy'])}, sierpień {tzn(D['q3_miesiac_08_zmiana_marzy'])}."),
             podtytul(f"Marża na powtórne zamówienie w III kwartale {rok}"),
@@ -504,7 +516,7 @@ def karta_wynik(wy, V, E, Z):
                    f"({liczba(spec_go, 2)} zł)."),
             podtytul(f"Rozkład księgowy spadku III kwartału {rok}"),
             akapit("Rozkład księgowy dzieli różnicę marży między kwartałami na składniki. Pokazuje, gdzie w rachunku jest "
-                   "różnica, a nie co ją spowodowało."),
+                   "różnica; jej przyczyny nie wskazuje."),
             akapit(f"Marża spadła o {tz(-D['q3_zmiana_marzy'])}. Według przyjętej reguły źródła pacjenci nowych kampanii "
                    f"zostawili {tz(D['q3_nowe_z1k_przed_kampaniami_2026'])} marży przed kosztem kampanii przy "
                    f"{tz(D['q3_nowe_z1k_wydatki_2026'])} wydatków, czyli wyszli prawie na zero "
@@ -565,13 +577,13 @@ def karta_ekonomia(ek, V, E):
     w2 = lambda k, o: (E[f"powtorne_{k}_{o}_proc"], E[f"powtorne_{k}_{o}_zam"])  # noqa: E731
     k = karta(
         "Kampania TikTok na L4 nie zwraca kosztu pozyskania pacjenta",
-        wniosek=f"Po odjęciu kosztu pozyskania TikTok na L4 traci w 90 dniach {liczba(-tt['Z1K'], 1)} zł na pacjencie według "
-                f"przyjętej reguły źródła i {liczba(-tt['Z2'], 1)} zł według sesji płatności.",
+        wniosek=f"Po odjęciu kosztu pozyskania TikTok na L4 traci w 90 dniach około {liczba(-tt['Z1K'], 0)} zł na pacjencie "
+                f"według pierwszego wejścia i około {liczba(-tt['Z2'], 0)} zł według sesji z płatnością.",
         tresc=[
-            akapit(f"Obie nowe kampanie na L4 razem wychodzą blisko zera: {zlz(g[('Z1K', 90)])} na pacjenta w 90 dniach "
-                   f"według przyjętej reguły i {zlz(g[('Z2', 90)])} według sesji płatności. Znak zależy od reguły. Test z "
-                   f"wyłączeniem reklamy Meta na L4 w części kraju zmierzy przyrost pacjentów niezależnie od reguły (pozycja 9 "
-                   f"listy priorytetów)."),
+            akapit(f"Obie nowe kampanie na L4 razem wychodzą blisko zera: około {zlz(g[('Z1K', 90)], 0)} na pacjenta w 90 "
+                   f"dniach według pierwszego wejścia i około {zlz(g[('Z2', 90)], 0)} według sesji z płatnością. Znak zależy "
+                   f"od reguły. Test z wyłączeniem reklamy Meta na L4 w części kraju zmierzy przyrost pacjentów niezależnie od "
+                   f"reguły (pozycja 9 listy priorytetów)."),
             akapit("Pozostałe kampanie płatne, afiliacja i kanały bezpłatne mają wynik dodatni w obu regułach (tabela niżej)."),
         ],
         zastrzezenie=f"Wynik Google Ads na markę i remarketingu Meta jest liczony ostrożnie: rachunek kosztu pozyskania "
@@ -579,15 +591,18 @@ def karta_ekonomia(ek, V, E):
                      f"{proc(w2('meta_rmkt_koszyk', 2)[0], 0)} zamówień w sesjach tych kampanii to zamówienia powtórne, których marży "
                      f"tym kampaniom nie przypisujemy.",
         szczegoly=[
-            akapit(f"Po 180 dniach nowe kampanie na L4 dają {zlz(g[('Z1K', 180)])} na pacjenta według przyjętej reguły i "
-                   f"{zlz(g[('Z2', 180)])} według sesji płatności."),
-            akapit(f"Przyjęta reguła przypisuje pacjenta do pierwszego wejścia, a kod kampanii na pierwszym zamówieniu "
-                   f"rozstrzyga; druga reguła przypisuje go do sesji, w której zapłacił. W nowych kampaniach różnica między "
-                   f"nimi to jedna grupa: sesja płatności przypisuje innym kanałom {liczba(E['p_X_caly'])} pacjentów nowych "
-                   f"kampanii na L4 z ostatnich 12 miesięcy. {liczba(E['p_X_caly_wejscie_n'])} z nich weszło pierwszy raz z "
-                   f"reklamy nowej kampanii, a zapłaciło w innej sesji, a {liczba(E['p_X_caly_tylko_kod_n'])} weszło z innego "
-                   f"kanału, ale zapłaciło z kodem nowej kampanii. W ekonomii kampanii pokazujemy obie reguły, bo od nich "
-                   f"zależy, której kampanii przypisujemy koszt pozyskania."),
+            akapit(f"W 90 dniach: TikTok na L4 {zlz(tt['Z1K'])} i {zlz(tt['Z2'])} na pacjenta, obie nowe kampanie razem "
+                   f"{zlz(g[('Z1K', 90)])} i {zlz(g[('Z2', 90)])}. Po 180 dniach nowe kampanie na L4 dają "
+                   f"{zlz(g[('Z1K', 180)])} na pacjenta według pierwszego wejścia i {zlz(g[('Z2', 180)])} według sesji z "
+                   f"płatnością."),
+            akapit(f"Według pierwszego wejścia pacjent należy do kanału, z którego pierwszy raz wszedł na stronę, a kod "
+                   f"kampanii na pierwszym zamówieniu rozstrzyga; według sesji z płatnością należy do kanału sesji, w której "
+                   f"zapłacił. W nowych kampaniach różnica między tymi podziałami to jedna grupa: według sesji z płatnością "
+                   f"do innych kanałów trafia {liczba(E['p_X_caly'])} pacjentów nowych kampanii na L4 z ostatnich 12 "
+                   f"miesięcy. {liczba(E['p_X_caly_wejscie_n'])} z nich weszło pierwszy raz z reklamy nowej kampanii, a "
+                   f"zapłaciło w innej sesji, a {liczba(E['p_X_caly_tylko_kod_n'])} weszło z innego kanału, ale zapłaciło z "
+                   f"kodem nowej kampanii. W ekonomii kampanii pokazujemy oba podziały, bo od nich zależy, której kampanii "
+                   f"przypisujemy koszt pozyskania."),
             akapit(f"Zamówienia powtórne w sesjach kampanii w ostatnich 12 miesiącach: Google Ads na markę "
                    f"{proc(w2('gs_brand', 2)[0])} z {zile(w2('gs_brand', 2)[1], 'zamowienie')}, remarketing Meta "
                    f"{proc(w2('meta_rmkt_koszyk', 2)[0])} z {zile(w2('meta_rmkt_koszyk', 2)[1], 'zamowienie')}. Rok wcześniej "
@@ -650,8 +665,8 @@ def karty_jakosc(jak, mostek, V, E):
             akapit(f"W tych dniach to od {proc(min(udz), 0)} do {proc(max(udz), 0)} zamówień dziennie, a dzień przed i dzień "
                    f"po nie ma ani jednej kopii."),
             akapit(f"Wszystkie kopie są w ostatnich 12 miesiącach i dodają do nich {zl(zap)} zapłat ({zl(net)} po odjęciu "
-                   f"zwrotów). W analityce każde z tych zamówień ma jeden krok płatności, więc to wygląda na błąd eksportu, a "
-                   f"nie na podwójne płatności."),
+                   f"zwrotów). W analityce każde z tych zamówień ma jeden krok płatności, więc to wygląda na błąd eksportu: "
+                   f"pacjent zapłacił raz."),
         ],
         szczegoly=[akapit("Kopia to druga, identyczna linia tego samego zamówienia, tuż pod pierwszą w pliku zamówień. "
                           "Wykres pokazuje dzień po dniu zamówienia bez kopii i kopie.")],
@@ -669,11 +684,14 @@ def karty_jakosc(jak, mostek, V, E):
         wniosek=f"Zamówienia testowe to {ile(V['testy_razem'][0], 'zamowienie')} z {liczba(V['testy_konta'])} kont; "
                 f"wyłączamy je ze wszystkich liczb.",
         tresc=[akapit(t_kod), akapit(zacz(te["zdania"], "Drugi, niezależny podpis")), akapit(okresy(t_przyb))],
-        zastrzezenie=f"Nie wiemy, czy lekarze dostawali wynagrodzenie za te wizyty; gdyby tak, kosztowałoby to "
-                     f"{zl(V['testy_koszt_2lata'])} (Czego nie wiemy, punkt 14).",
+        zastrzezenie=f"Nie wiemy, czy lekarze dostawali wynagrodzenie za te wizyty. Gdyby tak, kosztowałoby to około "
+                     f"{liczba(V['testy_koszt_2lata'] / 1000, 0)} tys. zł w dwóch latach, w tym około "
+                     f"{liczba(V['testy_koszt2'] / 1000, 0)} tys. zł w ostatnich 12 miesiącach (Czego nie wiemy, punkt 14).",
         szczegoly=[akapit(t_pien),
                    akapit(f"Koszt liczymy po stawce internisty z zadania ({B2.KOSZT_INTERNISTY} zł), bo wszystkie wizyty "
-                          f"testowe są u internisty ({liczba(V['testy_razem'][1])} z {liczba(V['testy_razem'][0])}).")],
+                          f"testowe są u internisty ({liczba(V['testy_razem'][1])} z {liczba(V['testy_razem'][0])}): "
+                          f"{zl(V['testy_koszt_2lata'])} w dwóch latach i {zl(V['testy_koszt2'])} w ostatnich 12 "
+                          f"miesiącach.")],
         zrodlo="analiza/a2_jakosc.py → analiza/wyniki/a2_jakosc.txt (2e); analiza/wyniki/c_priorytety.txt (P1b, P13).")
 
     # godzina bez danych
@@ -710,10 +728,13 @@ def zdarzenia_teksty(zdz, nag, jak, V, E):
     """Teksty zdarzeń na osi (tytuł jako wniosek, krótka nazwa do list i legend, słownik, numery niewiadomych).
     Zmienia zdz["lista"] w miejscu. Zwraca kartę wstępu zakładki."""
     L = {z["id"]: z for z in zdz["lista"]}
-    metoda = ("Metoda wykrywania zmian dzieli serię dzienną na odcinki o różnym poziomie (podział binarny); zmianę "
-              "uznajemy, gdy różnica poziomów wynosi co najmniej 4 błędy standardowe (|z| ≥ 4). Daty to kandydaci zmian, nie "
-              "potwierdzone zdarzenia. ")
+    # opis metody stoi raz, w szczegółach wstępu zakładki; przy zdarzeniu tylko krótkie odesłanie
+    metoda_opis = ("Metoda wykrywania zmian dzieli serię dzienną na odcinki o różnym poziomie (podział binarny); zmianę "
+                   "uznajemy, gdy różnica poziomów wynosi co najmniej 4 błędy standardowe (|z| ≥ 4). Daty to kandydaci "
+                   "zmian; każdego sprawdzamy potem na danych.")
+    metoda = "Dzień wskazała metoda wykrywania zmian w serii dziennej (opis we wstępie zakładki). "
     zr_ret = "Źródło: analiza/a5r_zdarzenia.py; notatki/a5_retencja.md, krok 5."
+    r_lut = V["rano"].loc["2026-02":"2026-09", "int_rano_ponad15_spoza_nowych"]
     Z_ = {}
 
     gz = jak["godzina"]
@@ -788,11 +809,14 @@ def zdarzenia_teksty(zdz, nag, jak, V, E):
            "u pacjentów spoza nowych kampanii. Przy tym samym porannym ruchu opóźnień jest dużo więcej niż rok wcześniej, "
            "a już pierwsza poranna wizyta dnia jest często spóźniona. Przyczyny w danych nie widać (Czego nie wiemy, "
            "punkt 4).",
-        ile=z["ile"], skad=metoda + "Seria: wizyty u internisty rano, pacjenci spoza nowych kampanii. " + zr_ret)
+        ile=z["ile"] + f" To średnie poziomy odcinków wyznaczonych przez metodę. Miesiąc po miesiącu od lutego do września "
+                       f"2026 to {B2.zakres(r_lut.min(), r_lut.max(), 1, '%')} porannych wizyt, jak w zakładce „Po "
+                       f"zakupie”.",
+        skad=metoda + "Seria: wizyty u internisty rano, pacjenci spoza nowych kampanii. " + zr_ret)
 
     z = L["remarketing_meta"]
     Z_["remarketing_meta"] = dict(
-        tytul="Remarketing Meta słabnie, bo wraca do innych osób niż wcześniej",
+        tytul="Remarketing Meta coraz rzadziej kończy się płatnością, a jednocześnie trafia do innych osób niż wcześniej",
         krotko="Remarketing Meta słabnie",
         co=z["co"], ile=okresy(z["ile"]),
         skad=z["skad"].replace("Źródło:", "Kod kampanii: meta_rmkt_koszyk. Źródło:"))
@@ -813,14 +837,28 @@ def zdarzenia_teksty(zdz, nag, jak, V, E):
         co="W kampaniach obecnych w obu latach powrót w 90 dniach też spada, ale metoda nie znalazła zmiany skokowej "
            "powyżej progu. Najsilniejszy kandydat to ten dzień.",
         ile=z["ile"],
-        skad=metoda + "Brak skoku nie znaczy, że spadek musi być rozłożony w czasie. Luty 2026 nie pasuje do prostej "
-                      "hipotezy przeciążenia (opóźnienia już wysokie, powrót bez spadku), to trop do sprawdzenia. " + zr_ret)
+        skad="Kandydata wskazała metoda wykrywania zmian w serii dziennej (opis we wstępie zakładki); różnica jest poniżej "
+             "progu. Brak skoku nie znaczy, że spadek musi być rozłożony w czasie. Luty 2026 nie pasuje do hipotezy, że "
+                      "większe opóźnienia zawsze obniżają powrót: opóźnienia były wtedy już wysokie, a powrót w tych "
+                      "kampaniach nie spadł. To trop do sprawdzenia. " + zr_ret)
 
     z = L["safari_ios"]
+    sk, so = V["safari_krok"], V["safari_okresy"]
+    d_s = dt.date.fromisoformat(nag["safari"]["data"])
+    dzien_saf = f"{d_s.day} {B2.MIESIACE_DOP[d_s.month - 1]} {d_s.year}"
+    s60 = nag["safari"]
     Z_["safari_ios"] = dict(
-        tytul="Awaria: w Safari na iPhone'ach i iPadach dużo rzadziej udaje się założyć nowe konto",
+        tytul=f"Od {dzien_saf} w Safari na iPhone'ach i iPadach dużo rzadziej udaje się założyć nowe konto",
         krotko="Awaria zakładania konta w Safari na iOS",
-        co=z["co"], ile=z["ile"], skad=z["skad"])
+        co=z["co"],
+        ile=f"Krok konta po wyborze terminu spadł z {proc(sk[0])} (od {so[0]} do {so[1]}) do {proc(sk[1])} (od {so[2]} do "
+            f"{so[3]}, {ile(sk[2], 'sesja')} z wyborem terminu) i nie wraca. W 60 dniach przed awarią i po niej: "
+            f"{proc(s60['przed_proc'])} ({ile(s60['przed_k2'], 'sesja')}) i {proc(s60['po60_proc'])} "
+            f"({ile(s60['po60_k2'], 'sesja')}); pozostałe przeglądarki {proc(s60['reszta_przed_proc'])} i "
+            f"{proc(s60['reszta_po60_proc'])}. Szacunek: {liczba(s60['utracone_od'])}–{liczba(s60['utracone_do'])} "
+            f"utraconych pierwszych zamówień w {liczba(s60['dni_po'])} dniach do {data(O2[1])}, czyli "
+            f"{liczba(s60['na30_od'])}–{liczba(s60['na30_do'])} na 30 dni.",
+        skad=z["skad"])
 
     z = L["marka_konwersja"]
     Z_["marka_konwersja"] = dict(
@@ -838,7 +876,9 @@ def zdarzenia_teksty(zdz, nag, jak, V, E):
         krotko="Duplikaty zamówień w eksporcie",
         co=z["co"],
         ile=okresy(z["ile"]).replace("Wszystkie kopie są w ostatnich 12 miesiącach. Dodają mu",
-                                     "Wszystkie kopie są w ostatnich 12 miesiącach i dodają do nich"),
+                                     "Wszystkie kopie są w ostatnich 12 miesiącach i dodają do nich").replace(
+            "więc to wygląda na błąd eksportu, a nie na podwójne płatności", "więc to wygląda na błąd eksportu: pacjent "
+            "zapłacił raz"),
         skad=z["skad"])
 
     brak = set(L) - set(Z_)
@@ -857,7 +897,7 @@ def zdarzenia_teksty(zdz, nag, jak, V, E):
                       "Przy każdym jest data, co się zmieniło, o ile i skąd to wiemy.")],
         zastrzezenie="Zdarzenia z tych samych miesięcy nakładają się, więc bez testu nie rozdzielamy ich skutków.",
         szczegoly=[akapit("Tory na osi: lejek (pozyskanie), retencja (kohorty), obsługa pacjenta (przebieg wizyt) i jakość "
-                          "danych. " + metoda)])
+                          "danych. " + metoda_opis)])
     return ET.popraw(wstep)
 
 

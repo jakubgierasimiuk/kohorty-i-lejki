@@ -64,12 +64,15 @@
     if (w) { w.hidden = true; w.parentNode.insertBefore(k, w.nextSibling); }
     else s.insertBefore(k, s.querySelector("h2").nextSibling);
   }
-  // zmiana w punktach procentowych jako etykieta ze strzałką; wyżej = lepiej, chyba że odwrotnie
-  function zmianaPkt(d, miejsca, odwrotnie) {
+  // zmiana w punktach procentowych jako etykieta ze strzałką; wyżej = lepiej, chyba że odwrotnie.
+  // o.neutralnie: bez oceny (szara etykieta, np. przy małych grupach, których nie interpretujemy); o.wobec: z czym porównujemy
+  function zmianaPkt(d, miejsca, odwrotnie, o) {
+    o = o || {};
     var m = miejsca === undefined ? 1 : miejsca, zero = Math.abs(d) < Math.pow(10, -m) / 2;
-    var lepiej = odwrotnie ? d < 0 : d > 0;
-    return BK.zmiana(zero ? liczba(0, m) : znak(d, m), zero ? "bez" : BK.kierunekZnaku(d), zero ? "neutralnie" : lepiej ? "dobrze" : "zle",
-      zero ? "Bez zmiany wobec okresu A" : (d > 0 ? "Wzrost" : "Spadek") + " o " + liczba(Math.abs(d), m) + " wobec okresu A");
+    var lepiej = odwrotnie ? d < 0 : d > 0, wobec = o.wobec || "wobec okresu A";
+    return BK.zmiana(zero ? liczba(0, m) : znak(d, m), zero ? "bez" : BK.kierunekZnaku(d),
+      zero || o.neutralnie ? "neutralnie" : lepiej ? "dobrze" : "zle",
+      zero ? "Bez zmiany " + wobec : (d > 0 ? "Wzrost" : "Spadek") + " o " + liczba(Math.abs(d), m) + " " + wobec);
   }
   // ikony i znaczniki zapisane w index.html jako miejsca do wypełnienia
   function ikonyStatyczne() {
@@ -240,7 +243,11 @@
       })));
     }
     if (BK.czyKarta(N.osobne_karta)) {
-      var o = wyczysc($("lj-osobne")), c = BK.karta(N.osobne_karta);
+      // tytuł karty (wniosek) staje się napisem zwijanej sekcji, reszta karty jej treścią
+      var ko = Object.assign({}, N.osobne_karta);
+      if (ko.tytul) $("lj-naglowek").querySelector("details.osobne > summary").textContent = ko.tytul;
+      delete ko.tytul;
+      var o = wyczysc($("lj-osobne")), c = BK.karta(ko);
       while (c.firstChild) o.appendChild(c.firstChild);
     } else akapity($("lj-osobne"), N.osobne);
     $("lj-granica").textContent = N.granica || "";

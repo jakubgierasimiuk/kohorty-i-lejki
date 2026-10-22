@@ -185,7 +185,9 @@
   }
   function zastrzezenie(t) {
     if (!t) return null;
-    return el("p", { class: "zastrzezenie" }, [ikona("info"), el("span", null, [el("strong", { text: "Zastrzeżenie: " }), t])]);
+    // etykieta w osobnym wierszu, bez dwukropka (tekst zastrzeżenia często sam ma dwukropek)
+    return el("p", { class: "zastrzezenie" }, [ikona("info"), el("span", null, [el("strong", { class: "zastrzezenie-etykieta", text: "Zastrzeżenie" }),
+      el("span", { class: "zastrzezenie-tekst", text: t })])]);
   }
 
   // części karty: nagłówek (tytuł i znacznik), góra (wniosek, treść, wstawka, zastrzeżenie, odnośniki), dół (szczegóły)

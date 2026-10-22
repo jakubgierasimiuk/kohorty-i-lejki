@@ -81,3 +81,38 @@ Obejrzane zrzuty (komputer i telefon): „Czy to wzrost” (werdykt, kafelki, de
 
 - Nowe: `narzedzie/karty.js`, `analiza/e_przegladarka.py`, ta notatka.
 - Zmienione: `narzedzie/index.html`, `narzedzie/styl.css`, `narzedzie/app.js`, `narzedzie/widoki.js`, `narzedzie/widoki_c.js`, `analiza/b2_teksty_strony.py`.
+
+## 9. Druga lista Kuby po przeglądzie wersji `ccc3c61` (2026-10-22)
+
+**Zlecenie:** Kuba przysłał do tej sesji listę 15 poprawek (merytoryka w tekstach, język, README), „wszystko w jednym przejściu, razem z poprzednią wiadomością”, potem kontrola liczb, odtworzenie tekstów strony i zatrzymanie u niego. Sesja prowadząca na ten czas nie zmieniała plików (potwierdziła wiadomością).
+
+**Podział:** teksty z danych, szkice i README poprawił agent w tle tej sesji. Jego pliki: `analiza/e_teksty.py`, `analiza/e_teksty_zakladki.py`, `analiza/b2_eksport_c.py`, `analiza/b_eksport.py`, nowy `analiza/e_poprawki.py` (wyniki `analiza/wyniki/e_poprawki.txt`, `.json`), `notatki/e_teksty.md`, `notatki/e_teksty_zakladki.md`, `README.md`, `analiza/README.md`, recenzja `notatki/recenzje/e2_codex*.md` i eksport do `narzedzie/dane_strony/`. Kod strony poprawiła ta sesja.
+
+**Kod strony (ta sesja):**
+- „Po zakupie” i „Wynik biznesu” (tam nie wybiera się dat): zamiast „A: …” i „okres B = … (A = …)” stoi „rok wcześniej: …” i „ostatnie 12 miesięcy (…), pod spodem rok wcześniej” (punkt 8 Kuby);
+- jedna para nazw reguły w filtrach, nagłówkach tabel i przypisach: „według pierwszego wejścia” i „według sesji z płatnością” (punkt 9);
+- tabela powrotu według opóźnienia pierwszej wizyty: porównania z rokiem wcześniej szare, bez oceny „lepiej/gorzej” (punkt 5, ostatni myślnik);
+- statyczne definicje w „Po zakupie” chowają się, gdy przychodzą karty z danych, bo definicje są w ich szczegółach (punkt 11);
+- napis zwijanej sekcji pod nagłówkiem lejka to tytuł-wniosek karty `osobne_karta` (punkt 14);
+- etykieta „Zastrzeżenie” stoi w osobnym wierszu, bez dwukropka; wcześniej doklejona etykieta z dwukropkiem dawała podwójne dwukropki (punkt 12).
+
+**Teksty z danych (agent):** wszystkie punkty 1–15. Najważniejsze: oba warianty naprawy zwrotów nazwane słowami („po samej nowej kreacji”, „po zmianie zasad zwrotów”) w tabelach pozycji 3 i 9, a w pozycji 9 oba progi (dziś 85%, po samej nowej kreacji 79%, po zmianie zasad 70%); kryterium kolejności listy zgodne z miejscem pozycji 9; w lejku „ile płacą dziś” (kwiecień–wrzesień 2026: około 8% wobec 11% w tych samych miesiącach rok wcześniej; nowa liczba z `e_poprawki.py`); Safari „do naprawy”, przeglądarki w aplikacjach „do sprawdzenia”, z nazwanymi kampaniami zamiast „osób, które znają stronę”; jedna wersja liczb (Safari 66% → 46%, poranne opóźnienia, blok 5:00–13:59, jedna lista na pierwszy tydzień w „Czy to wzrost”, w zasadach priorytetów i w README). Pełny raport punkt po punkcie: odpowiedź agenta, streszczona w raporcie dla Kuby.
+
+**Kontrola (2026-10-22):**
+- `python -I analiza/b_eksport.py`: 0 różnic w 104 kontrolach; liczby bez pokrycia w szkicach: 0 (C: 1 176 liczb, D: 247, E: 1 292 i 1 271);
+- Codex (Sol, `-p review`): 9 z 9 nowych liczb zgodnych, przeliczone jego kodem (`notatki/recenzje/e2_codex.md`, odpowiedź `e2_codex_odpowiedz.md`);
+- `python -I analiza/b2_teksty_strony.py`: teksty odtworzone, 9 zakładek, 0 błędów w konsoli;
+- `python -I analiza/e_przegladarka.py`: 9 zakładek przy 1366 i 375 px, 0 błędów, bez przewijania w bok, 296 odnośników działa;
+- w odtworzonych tekstach nie ma już: „wariant A/B”, „przyjęta reguła” w żadnej odmianie, „reguła porównawcza”, „pacjentów dodatkowych”, „co do znaku”, „co do kwoty”, „oszacowanie punktowe”, „sesja płatności”, technicznej nazwy kampanii w tytule tabeli; „, a nie” zostało tylko przy TelemediGO i przy porównaniu z dashboardem; litery okresów A/B tylko w kohortach i lejku, gdzie wybiera się daty.
+
+**Uwagi agenta, które warto znać:**
+- w kodzie tekstów było kilka liczb wpisanych ręcznie (przechodziły kontrolę, bo stały też w szkicach); teraz liczy je kod. Wniosek: sama zgodność ze szkicem nie wyłapuje liczb wpisanych ręcznie;
+- samodzielne uruchomienie `b2_eksport_c.py` wywracało się na imporcie `e_teksty` pod `python -I`; naprawione;
+- szkice `e_teksty*.md` i `README.md` mają końce linii LF (zachowane), `analiza/README.md` CRLF;
+- w `podsumowanie.js` zostało dawne pole `naprawy`; strona go nie rysuje.
+
+**Propozycje wpisów do wspólnych notatek (scala sesja prowadząca; numery od 71):**
+- `ZALOZENIA.md`: 71 — „ile płacą dziś” w lejku to miesiące IV–IX 2026 wobec IV–IX 2025, średnia roczna tylko w szczegółach; 72 — jedna para nazw reguły („według pierwszego wejścia”, „według sesji z płatnością”), definicje bez zmian; 73 — warianty naprawy zwrotów nazwane słowami („po samej nowej kreacji”, „po zmianie zasad zwrotów”), oba w tabelach i progach; 74 — kryterium kolejności listy: najpierw pewne straty (1–2) i pauzy (3–4), potem działania z wyceną (5–10, w tym test Mety o nieznanym znaku i największej stawce), na końcu pozycje bez oszacowanego efektu (11 i 12); 75 — jedna wersja porannych opóźnień (pacjenci spoza nowych kampanii, miesiąc terminu) i blok 5:00–13:59; 76 — Safari 66% → 46% (1.10.2025–16.03.2026 wobec 17.03–30.09.2026), okna 60 dni w szczegółach; 77 — jedna lista na pierwszy tydzień;
+- `DECYZJE.md`: druga lista Kuby zrobiona w jednym przejściu w sesji wyglądu (teksty: agent tej sesji, kod strony: ta sesja); przeglądarki w aplikacjach „do sprawdzenia”, bez pozycji na liście priorytetów; reguła decyzji testu Mety zostaje, z dopisanym ryzykiem (uwaga Codeksa przyjęta częściowo);
+- `e_runda.md` (postęp) i `PRZEKAZANIE.md`: kontrole 0/104, Codex 9/9, naprawiony samodzielny eksport `b2_eksport_c.py`, lekcja o liczbach wpisanych ręcznie; następny krok: przegląd Kuby;
+- `ZNALEZISKA.md`: w danych nic nowego.

@@ -167,8 +167,8 @@
       </div></details>
     </article>
     <details class="jak-liczymy"><summary>Jak liczymy w tej zakładce</summary><div class="szczegoly-tresc">
-      <p>Nowy pacjent to konto z pierwszym opłaconym zamówieniem, bez względu na status. Źródło pozyskania według przyjętej reguły (pierwsze wejście pacjenta, także anonimowe sesje jego przeglądarek, a kod kampanii na pierwszym zamówieniu rozstrzyga) albo według sesji płatności.</p>
-      <p>Urządzenie i przeglądarka z sesji płatności. Pierwsza usługa: internista według celu wizyty, pediatra, psychiatra, inny specjalista. Opóźnienie i pora z pierwszej wizyty.</p>
+      <p>Nowy pacjent to konto z pierwszym opłaconym zamówieniem, bez względu na status. Źródło pozyskania przypisujemy według pierwszego wejścia (pierwsze wejście pacjenta, także z anonimowych sesji jego przeglądarek; kod kampanii na pierwszym zamówieniu rozstrzyga) albo według sesji z płatnością.</p>
+      <p>Urządzenie i przeglądarka z sesji z płatnością. Pierwsza usługa: internista według celu wizyty, pediatra, psychiatra, inny specjalista. Opóźnienie i pora z pierwszej wizyty.</p>
       <p>Źródło danych: <code>analiza/definicje.py</code>, <code>analiza/a5r_kohorty.py</code>, eksport <code>analiza/b_eksport.py</code>.</p>
     </div></details>
   </section>
@@ -278,7 +278,7 @@
       <p class="przypis">Wykres: odsetek wizyt spóźnionych w wybranej specjalizacji, osobno dla każdej pory, z liczbą wizyt w legendzie.</p>
       <div id="pz-wykres" class="wykres"></div>
       <div class="tabela-ramka"><table class="tabela tabela-lejek" id="pz-tabela"></table></div>
-      <details class="jak-liczymy"><summary>Jak liczymy</summary><div class="szczegoly-tresc">
+      <details class="jak-liczymy zastap"><summary>Jak liczymy</summary><div class="szczegoly-tresc">
         <p>Opóźnienie to faktyczny start wizyty minus umówiony termin, tylko wizyty odbyte. Dzień i pora według terminu.</p>
       </div></details>
     </article>
@@ -294,14 +294,14 @@
       <div id="pz-ruch-zdania"></div>
       <form class="filtry" id="pz-ruch-filtry" onsubmit="return false"></form>
       <div class="tabela-ramka"><table class="tabela tabela-lejek" id="pz-ruch"></table></div>
-      <details class="jak-liczymy"><summary>Jak liczymy</summary><div class="szczegoly-tresc">
+      <details class="jak-liczymy zastap"><summary>Jak liczymy</summary><div class="szczegoly-tresc">
         <p>Ruch poranny w dniu to wszystkie nieanulowane wizyty u internisty z terminem 6:00–11:59 tego dnia. Dni grupujemy według tego ruchu i w każdej grupie porównujemy odsetek porannych wizyt spóźnionych ponad 15 minut w obu okresach.</p>
       </div></details>
     </article>
     <article class="karta" id="pz-karta-powrot">
       <h3>Powrót według opóźnienia pierwszej wizyty</h3>
       <div id="pz-powrot-zdania"></div>
-      <p class="przypis">Powrót w 90 dniach na tych samych dniach kalendarzowych, tylko kohorty z pełnym oknem.</p>
+      <p class="przypis zastap">Powrót w 90 dniach na tych samych dniach kalendarzowych, tylko kohorty z pełnym oknem.</p>
       <form class="filtry" id="pz-powrot-filtry" onsubmit="return false"></form>
       <div class="tabela-ramka"><table class="tabela tabela-lejek" id="pz-powrot"></table></div>
     </article>
@@ -309,7 +309,7 @@
       <h3>Zwroty, anulacje i wizyty nieodebrane</h3>
       <div id="zw-zdania"></div>
       <form class="filtry" id="zw-filtry" onsubmit="return false"></form>
-      <p class="przypis">Wykres: odsetek odbytych wizyt, za które pacjent dostał zwrot po wizycie, według celu wizyty i dnia płatności. Tabela: ostatnie 12 miesięcy (okres B) wobec roku wcześniej (okres A).</p>
+      <p class="przypis">Wykres: odsetek odbytych wizyt, za które pacjent dostał zwrot po wizycie, według celu wizyty i dnia płatności. Tabela: ostatnie 12 miesięcy wobec roku wcześniej.</p>
       <div id="zw-wykres" class="wykres"></div>
       <div class="tabela-ramka"><table class="tabela tabela-lejek" id="zw-tabela"></table></div>
     </article>
@@ -319,8 +319,8 @@
       <form class="filtry" id="oc-filtry" onsubmit="return false"></form>
       <div class="tabela-ramka"><table class="tabela tabela-lejek" id="oc-tabela"></table></div>
     </article>
-    <details class="jak-liczymy"><summary>Jak liczymy w tej zakładce</summary><div class="szczegoly-tresc">
-      <p>Nowe kampanie na L4 to pacjenci z kampanii <code>meta_prosp_l4_szybko</code> i <code>tt_prosp_l4_15min</code> według przyjętej reguły źródła.</p>
+    <details class="jak-liczymy" id="pz-jak-liczymy"><summary>Jak liczymy w tej zakładce</summary><div class="szczegoly-tresc">
+      <p>Nowe kampanie na L4 to pacjenci z kampanii <code>meta_prosp_l4_szybko</code> i <code>tt_prosp_l4_15min</code> według pierwszego wejścia.</p>
       <p>Źródło danych: <code>analiza/a5r_punktualnosc.py</code>, <code>analiza/a5r_po_zakupie.py</code>, eksport <code>analiza/b_eksport.py</code>.</p>
     </div></details>
   </section>
@@ -361,7 +361,7 @@
       <div class="tabela-ramka"><table class="tabela tabela-lejek" id="ek-tabela"></table></div>
       <details class="jak-liczymy"><summary>Jak liczymy</summary><div class="szczegoly-tresc">
         <p>Koszt pozyskania to wydatki na kampanię albo prowizja afiliacyjna na nowego pacjenta. Liczymy go osobno dla każdego okna: z kohort z pełnym oknem i z wydatków z tych samych dni, więc po 180 dniach to inne kohorty i inny koszt niż po 90 dniach.</p>
-        <p>Obie reguły źródła stoją obok siebie: przyjęta reguła (pierwsze wejście pacjenta) i sesja płatności.</p>
+        <p>Oba sposoby przypisania źródła stoją obok siebie: według pierwszego wejścia i według sesji z płatnością.</p>
       </div></details>
     </article>
     <details class="jak-liczymy"><summary>Jak liczymy w tej zakładce</summary><div class="szczegoly-tresc">
