@@ -263,3 +263,11 @@ Zlecenie: `notatki/e_runda.md`. Skrypt: `analiza/e_merytoryka.py` → `analiza/w
 - **Godzina bez danych (17.05.2025, 13:00–14:00):** zamówień w tej godzinie jest zwykle około 2 (mediana z 15 dni), więc ich brak niewiele mówi. Nie wiemy, czy to przerwa w działaniu strony, czy w zbieraniu danych.
 - **Słownik danych o sesjach zalogowanych od wejścia** mówi tylko, że taka sesja nie ma kroku logowania; nie mówi, że powinna kończyć się zakupem. Zdanie w README poprawione.
 - **Pozycja 4 (Google Ads na specjalistów):** pauza się opłaca, dopóki nowych pacjentów u specjalistów ze wszystkich kanałów ubywa mniej niż około 31 tygodniowo (wydatki 53,2 tys. zł / marża 32,4 zł na pacjenta w 90 dniach, bez zaokrąglenia: 1 640 rocznie); kampania przypisuje sobie 13–18 tygodniowo, a wszystkich nowych pacjentów u specjalistów jest około 66 tygodniowo.
+
+## 2026-10-22 — trzecia lista Kuby: lejek bez nowych kampanii według pierwszego wejścia (punkt E)
+
+Skrypt: `analiza/e_poprawki.py`, punkt 3 (kwiecień–wrzesień 2026 wobec tych samych miesięcy 2025, sesje osób, które jeszcze nie kupowały). Recenzja Codeksa (Sol): 9 z 9 liczb zgodnych (`notatki/recenzje/e3_codex*.md`).
+
+- **Hipoteza Kuby się potwierdziła: płaska średnia „bez nowych kampanii” przykrywała Safari.** Według sesji konwersja bez nowych kampanii stoi (11,12% → 11,02%), ale według pierwszego wejścia osoby spada: 11,12% → 10,26% (65 262 i 71 441 sesji), −0,86 punktu procentowego, przedział 95% od −1,19 do −0,53. Różnica reguł to 8 236 sesji powrotnych osób z reklam L4 (wejście bezpośrednie, wyszukiwarka, inna reklama), które płacą w 17,6%; liczone według sesji zawyżały ruch spoza kampanii.
+- **Prawie cały ten spadek to Safari na iPhone'ach:** 11,99% → 8,27% (12 887 i 14 323 sesje), krok konta po wyborze terminu 67,0% → 45,7%; przed awarią (X 2025 – II 2026) bez zmiany (12,15% i 12,07%). Pozostałe przeglądarki: 10,91% → 10,76%, bez istotnej zmiany (przedział od −0,52 do +0,22 punktu). Rozkład opisowy spadku −0,86 punktu: Safari −0,74 (około 86%), reszta −0,12.
+- **Cecha danych:** sesje z reklam nowych kampanii mają tylko osoby, których pierwsze wejście to nowa kampania (0 sesji u pozostałych osób). Prawdopodobnie cecha generatora danych; w prawdziwych danych byłoby to nietypowe.

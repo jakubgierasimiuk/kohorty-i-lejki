@@ -299,3 +299,11 @@ Scalone przez sesję prowadzącą z `notatki/b_narzedzie.md` (sekcje 12 i 13). P
 **Lekcja (agent sesji wyglądu):** w kodzie tekstów było kilka liczb wpisanych ręcznie; przechodziły kontrolę, bo stały też w szkicach. Teraz liczy je kod. Zgodność ze szkicem nie wyłapuje liczby wpisanej ręcznie w obu miejscach — przy przeglądzie kodu tekstów trzeba szukać literałów liczbowych w zdaniach.
 
 **Dalej:** przegląd Kuby; publikacja i mail tylko za jego zgodą.
+
+## 2026-10-22 — trzecia lista Kuby (punkt E)
+
+**Zlecenie Kuby (w sesji wyglądu `local_61aff6c2`):** (1) zdanie „poza nowymi kampaniami konwersja się nie zmieniła” gryzie się z awarią Safari — policzyć według pierwszego wejścia, z Safari na iPhone'ach osobno; (2) wydatki w tabeli kwartałów w procentach zamiast „razy”; (3) etykieta wyróżnionego przejścia na wykresie kroków lejka; (4) konkretne wdrożenie pozycji 1 i stopki bez „Runda E”.
+
+**Wykonanie (commit `351f556`, opis `notatki/e_wyglad.md`, punkt 10):** nagłówek lejka zmieniony po sprawdzeniu kodem (hipoteza Kuby potwierdzona, znaleziska z 2026-10-22); po recenzji Codeksa tytuł mówi o składnikach spadku (zmiana ruchu i awaria Safari). Etykieta wykresu kroków „Najbardziej obniża płatności” zamiast „Największy spadek” (prośba Kuby). Założenia 78–82. Kontrole: eksport 0 różnic w 104 kontrolach i 0 liczb bez pokrycia, teksty odtworzone, przeglądarka bez błędów, Codex (Sol) 9 z 9.
+
+**Równolegle:** sesja „E: dopracowanie wyglądu narzędzia z Kubą” (`local_dc5102f3`) pracuje z Kubą nad grafiką; czekała z edycją plików strony na commit trzeciej listy.

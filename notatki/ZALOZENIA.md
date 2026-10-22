@@ -162,3 +162,11 @@ Szczegóły: lista Kuby `notatki/d_poprawki.md`, teksty `notatki/c_szkic.md` i `
 75. **Jedna wersja liczb porannych opóźnień** (pacjenci spoza nowych kampanii, miesiąc terminu) i jeden blok godzin 5:00–13:59 w całym narzędziu.
 76. **Jedna wersja liczb Safari na iOS w tekstach:** krok konta 66% → 46% (1.10.2025–16.03.2026 wobec 17.03–30.09.2026); porównanie 60 dni przed i po awarii tylko w szczegółach.
 77. **Jedna lista decyzji na pierwszy tydzień** — ta sama w „Czy to wzrost”, w zasadach listy priorytetów i w README.
+
+## 2026-10-22 — trzecia lista Kuby (punkt E; scalone z `notatki/e_wyglad.md`, punkt 10)
+
+78. **Lejek nowych osób „bez nowych kampanii” liczymy według pierwszego wejścia osoby**, tak jak retencję: konto z anonimowymi sesjami jego przeglądarek, a bez konta przeglądarka; przy zamówieniu źródło z `analiza/definicje.py`. Wersja według sesji stoi tylko w szczegółach, z wyjaśnieniem, że liczy sesje powrotne osób z reklam L4 jako ruch spoza kampanii (`analiza/e_poprawki.py`, punkt 3).
+79. **Safari na iPhone'ach = system iOS i przeglądarka Safari**, także na iPadach.
+80. **Wydatki na kampanie w tabelach kwartałów podajemy jako zmianę rok do roku w procentach ze znacznikiem „uwaga”**; zmiana kosztu lekarza jest bez oceny. Kafelek „×2,1” w „Czy to wzrost” zostaje.
+81. **Wdrożenie pozycji 1 (Safari):** diagnoza 1–2 dni, poprawka 2–5 dni, sprawdzenie 1 tydzień. To szacunek: diagnoza i sprawdzenie za `c_szkic.md`, przedział poprawki to szacunek, bo szkic mówi „zwykle dni”.
+82. **W stopkach „Skąd liczby” nie ma nazw rund ani części pracy** — tylko skrypty i raporty.
