@@ -22,6 +22,8 @@ Zasada z `CLAUDE.md`, punkt 14: każda sesja czyta ten plik na starcie i aktuali
 
 Status wszystkich punktów: `notatki/PLAN.md`.
 
+**Stan na 2026-10-22 po dopracowaniu grafiki:** sesja `local_dc5102f3` zrobiła etapy 1–4 wyglądu (`6c5c683` … `63ddc3d`, opis `notatki/e_grafika.md`), sesja prowadząca etap 5 i pola dla wykresów w eksporcie (`c3bde09`, `83353f8`, `05dc624`; nowy skrypt `analiza/e_wykresy.py` uruchamiany przed eksportem). Kontrole: eksport 115/0, przeglądarka w obu trybach bez błędów, 314 odnośników, 162 porównania wykresów z tabelami bez niezgodności. Następny krok: przegląd Kuby; publikacja i mail tylko za jego zgodą.
+
 **Stan na 2026-10-22 po trzeciej liście Kuby:** cztery poprawki zrobione w commicie `351f556` (sesja wyglądu; `notatki/e_wyglad.md`, punkt 10; założenia 78–82; znaleziska i decyzje z 2026-10-22). Najważniejsze: lejek nowych osób „bez nowych kampanii” liczony według pierwszego wejścia spada przez Safari na iPhone'ach. Kontrole 104/0, Codex (Sol) 9/9. Grafikę dopracowuje z Kubą sesja `local_dc5102f3` (pliki strony w `narzedzie/`). Następny krok: przegląd Kuby; publikacja i mail tylko za jego zgodą.
 
 **Stan na 2026-10-22 po drugiej liście Kuby:** Kuba przejrzał wersję `ccc3c61` i wysłał 15 poprawek do sesji wyglądu; zrobione w commicie `4c594b5` (opis: `notatki/e_wyglad.md`, punkt 9; założenia 71–77; ostatni wpis w `DECYZJE.md`). Kontrole: 104/0 różnic, 0 liczb bez pokrycia, Codex (Sol) 9/9, przeglądarka bez błędów. Nowy skrypt: `analiza/e_poprawki.py` uruchamiany osobno, przed eksportem (raport `wyniki/e_poprawki.txt` i `.json`, z którego czyta `analiza/e_teksty.py`). Następny krok: przegląd Kuby; publikacja i mail tylko za jego zgodą.
