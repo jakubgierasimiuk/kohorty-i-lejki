@@ -307,3 +307,11 @@ Scalone przez sesję prowadzącą z `notatki/b_narzedzie.md` (sekcje 12 i 13). P
 **Wykonanie (commit `351f556`, opis `notatki/e_wyglad.md`, punkt 10):** nagłówek lejka zmieniony po sprawdzeniu kodem (hipoteza Kuby potwierdzona, znaleziska z 2026-10-22); po recenzji Codeksa tytuł mówi o składnikach spadku (zmiana ruchu i awaria Safari). Etykieta wykresu kroków „Najbardziej obniża płatności” zamiast „Największy spadek” (prośba Kuby). Założenia 78–82. Kontrole: eksport 0 różnic w 104 kontrolach i 0 liczb bez pokrycia, teksty odtworzone, przeglądarka bez błędów, Codex (Sol) 9 z 9.
 
 **Równolegle:** sesja „E: dopracowanie wyglądu narzędzia z Kubą” (`local_dc5102f3`) pracuje z Kubą nad grafiką; czekała z edycją plików strony na commit trzeciej listy.
+
+## 2026-10-22 — dopracowanie grafiki narzędzia (sesja `local_dc5102f3`, na prośbę Kuby)
+
+**Polecenie Kuby:** osobna sesja do dopracowania dashboardu od strony graficznej. Przegląd strony i wspólną wersję zmian przygotowała narada modeli (Fable, Sol, Astra i Claude, dwie rundy, na polecenie Kuby): `notatki/e_grafika_rundy/wspolna_v2.md`. Opis pracy: `notatki/e_grafika.md`.
+
+**Decyzje Kuby:** R1 — jedna skala kolorów dla całej mapy kohort (progi co 5 punktów procentowych, legenda nad mapą); R2 — na telefonie ciaśniejsze zakładki i przycisk „Zakładki” po przewinięciu; R3 — słowo „lepiej / gorzej / uwaga” widoczne w etykiecie zmiany (w dużych tabelach podziałów w podpowiedzi i objaśnieniu pod tabelą). Etap 5 (pola liczbowe dla nowych wykresów w eksporcie) sesja prowadząca robi równolegle, na polecenie Kuby (commit `c3bde09`).
+
+**Etap 1 (commit `6c5c683`):** kolory i dwa sposoby oznaczania okresu i grupy, mapa kohort według R1, etykiety zmiany według R3, typografia, zastrzeżenie bez ramki, wykresy na szerokość karty, oś zdarzeń i zakładki na telefonie według R2. Kontrola: 9 zakładek przy 1366 i 375 px w trybie jasnym i ciemnym, 0 błędów w konsoli, 296 odnośników działa. Etapy 2–4 (nowe wykresy z pól etapu 5) po przeglądzie Kuby.
