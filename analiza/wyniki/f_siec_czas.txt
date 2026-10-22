@@ -1,0 +1,82 @@
+F — ŻĄDANIA SIECIOWE I CZAS ŁADOWANIA (2026-10-23 00:12, commit a4d52c9, pliki strony z dysku)
+
+1. Żądania sieciowe (9 zakładek, zmiany filtrów na zakładkach kohort, lejka, po zakupie, wyniku, zdarzeń i niewiadomych)
+   jasny   1366 px: 23 żądań, różnych plików 23, poza 127.0.0.1: 0, nieudanych 0, ze statusem 4xx/5xx 0; rodzaje: document, script, stylesheet
+   jasny    375 px: 23 żądań, różnych plików 23, poza 127.0.0.1: 0, nieudanych 0, ze statusem 4xx/5xx 0; rodzaje: document, script, stylesheet
+   ciemny  1366 px: 23 żądań, różnych plików 23, poza 127.0.0.1: 0, nieudanych 0, ze statusem 4xx/5xx 0; rodzaje: document, script, stylesheet
+   ciemny   375 px: 23 żądań, różnych plików 23, poza 127.0.0.1: 0, nieudanych 0, ze statusem 4xx/5xx 0; rodzaje: document, script, stylesheet
+   Pliki pobrane (wariant jasny, 1366 px): /, /app.js, /dane_strony/c.js, /dane_strony/jakosc.js, /dane_strony/kohorty.js, /dane_strony/lejek_calosc.js, /dane_strony/lejek_kampania.js, /dane_strony/lejek_kanal.js, /dane_strony/lejek_przegladarka.js, /dane_strony/lejek_strona_wejscia.js, /dane_strony/lejek_system_przegladarka.js, /dane_strony/lejek_urzadzenie.js, /dane_strony/lejek_urzadzenie_przegladarka.js, /dane_strony/po_zakupie.js, /dane_strony/podsumowanie.js, /dane_strony/wynik.js, /dane_strony/zdarzenia.js, /karty.js, /lib/uPlot.iife.min.js, /lib/uPlot.min.css, /styl.css, /widoki.js, /widoki_c.js
+
+2. Adresy i wywołania sieci w plikach narzedzie/ (każde trafienie z kontekstem)
+   app.js: 'http://www.w3.org/2000/svg' … '{ return obszaryWidoczne[o.id]; });     var NS = "http://www.w3.org/2000/svg";     function s(tag, a, txt)'
+   karty.js: 'http://www.w3.org/2000/svg' … 'js. */ (function () {   "use strict";   var NS = "http://www.w3.org/2000/svg";    function el(tag, attrs, '
+   lib/uPlot.iife.min.js: 'https://github.com/leeoniya/uPlot' … '/*! https://github.com/leeoniya/uPlot (v1.6.32) */ var uPlot=functi'
+
+3. Czas ładowania (sekundy do narysowania ostatniego elementu zakładki; pierwsze otwarcie każdej zakładki po kolei; bajty przez sieć)
+   == komputer 1366 px, bez ograniczeń, bez kompresji (lokalnie): razem przez sieć 2 829 KB
+      Czy to wzrost       0.2 s     611 KB  pierwsza karta widoczna po 0.2 s; DOMContentLoaded 0.2 s, load 0.2 s
+      Kohorty             0.2 s   1 414 KB  
+      Lejek               0.1 s     498 KB  
+      Po zakupie          0.1 s     306 KB  
+      Zdarzenia           0.1 s       0 KB  
+      Wynik biznesu       0.0 s       0 KB  
+      Jakość danych       0.0 s       0 KB  
+      Priorytety          0.0 s       0 KB  
+      Czego nie wiemy     0.0 s       0 KB  
+      ponowne wejście na „Kohorty” (dane w pamięci): 0.1 s
+   == komputer 1366 px, bez ograniczeń, gzip jak GitHub Pages: razem przez sieć 618 KB
+      Czy to wzrost       0.2 s     181 KB  pierwsza karta widoczna po 0.2 s; DOMContentLoaded 0.2 s, load 0.2 s
+      Kohorty             0.3 s     308 KB  
+      Lejek               0.1 s      92 KB  
+      Po zakupie          0.1 s      38 KB  
+      Zdarzenia           0.1 s       0 KB  
+      Wynik biznesu       0.1 s       0 KB  
+      Jakość danych       0.0 s       0 KB  
+      Priorytety          0.0 s       0 KB  
+      Czego nie wiemy     0.0 s       0 KB  
+      ponowne wejście na „Kohorty” (dane w pamięci): 0.2 s
+   == telefon 375 px, wolne 4G (150 ms, 1,6 Mb/s) i procesor 4× wolniej, gzip jak GitHub Pages: razem przez sieć 618 KB
+      Czy to wzrost       1.6 s     181 KB  pierwsza karta widoczna po 1.6 s; DOMContentLoaded 1.5 s, load 1.6 s
+      Kohorty             2.2 s     308 KB  
+      Lejek               0.9 s      92 KB  
+      Po zakupie          0.6 s      38 KB  
+      Zdarzenia           0.3 s       0 KB  
+      Wynik biznesu       0.2 s       0 KB  
+      Jakość danych       0.1 s       0 KB  
+      Priorytety          0.2 s       0 KB  
+      Czego nie wiemy     0.1 s       0 KB  
+      ponowne wejście na „Kohorty” (dane w pamięci): 0.4 s
+   == telefon 375 px, wolne 4G i procesor 4× wolniej, bez kompresji (najgorszy przypadek): razem przez sieć 2 829 KB
+      Czy to wzrost       3.5 s     611 KB  pierwsza karta widoczna po 3.2 s; DOMContentLoaded 3.2 s, load 3.5 s
+      Kohorty             7.7 s   1 414 KB  
+      Lejek               3.0 s     498 KB  
+      Po zakupie          1.9 s     306 KB  
+      Zdarzenia           0.3 s       0 KB  
+      Wynik biznesu       0.2 s       0 KB  
+      Jakość danych       0.1 s       0 KB  
+      Priorytety          0.2 s       0 KB  
+      Czego nie wiemy     0.1 s       0 KB  
+      ponowne wejście na „Kohorty” (dane w pamięci): 0.4 s
+
+4. Rozmiar plików strony: razem 4 496 KB (27 plików), w tym dane_strony/ 4 164 KB; po kompresji gzip razem 866 KB, dane_strony/ 766 KB
+   największe pliki (bajty, po gzip):
+      dane_strony/kohorty.js                      1 414 KB    308 KB
+      dane_strony/lejek_system_przegladarka.js      581 KB     72 KB
+      dane_strony/lejek_urzadzenie_przegladarka.js    524 KB     64 KB
+      dane_strony/po_zakupie.js                     306 KB     38 KB
+      dane_strony/lejek_strona_wejscia.js           259 KB     47 KB
+      dane_strony/lejek_przegladarka.js             253 KB     41 KB
+      dane_strony/lejek_kampania.js                 244 KB     50 KB
+      dane_strony/lejek_kanal.js                    173 KB     37 KB
+      dane_strony/lejek_urzadzenie.js                96 KB     20 KB
+      dane_strony/c.js                               95 KB     27 KB
+      dane_strony/wynik.js                           95 KB     29 KB
+      app.js                                         73 KB     22 KB
+      widoki.js                                      71 KB     21 KB
+      styl.css                                       53 KB     12 KB
+      lib/uPlot.iife.min.js                          50 KB     21 KB
+      dane_strony/zdarzenia.js                       40 KB     10 KB
+      dane_strony/lejek_calosc.js                    37 KB     10 KB
+      dane_strony/podsumowanie.js                    33 KB      9 KB
+      karty.js                                       31 KB      9 KB
+      index.html                                     28 KB      7 KB

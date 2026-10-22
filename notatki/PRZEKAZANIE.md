@@ -2,7 +2,7 @@
 
 Zasada z `CLAUDE.md`, punkt 14: każda sesja czyta ten plik na starcie i aktualizuje go na końcu swojej pracy.
 
-**Ostatnia aktualizacja:** 2026-10-22 w nocy, sesja prowadząca `local_1bf06826-0432-47b9-8fb9-1cbc38ad58e1` (runda E: merytoryka, język, wygląd; zlecenie Kuby w `notatki/e_runda.md`). **Runda E zrobiona i czeka na przegląd Kuby. Następne kroki, każdy za zgodą Kuby: poprawki po przeglądzie, publikacja, mail.** Wcześniejsze sesje prowadzące: `local_791c102e` (D, poprawki po konsylium), `local_06eb3146` (A1–A5), `local_ca1efb6a` (C i D do konsylium).
+**Ostatnia aktualizacja:** 2026-10-23 w nocy, sesja prowadząca `local_e4232e55-24be-46f8-a2c8-d411b47ebc48` (punkt F: ostatnia kontrola przed publikacją; zlecenie Kuby w `notatki/f_kontrola.md`). **Kontrola zrobiona; propozycja jednej rundy poprawek (`notatki/f_propozycja.md`) czeka na decyzję Kuby. Następne kroki, każdy za zgodą Kuby: runda poprawek, publikacja, mail.** Wcześniejsze sesje prowadzące: `local_1bf06826` (E, merytoryka, język, wygląd), `local_791c102e` (D, poprawki po konsylium), `local_06eb3146` (A1–A5), `local_ca1efb6a` (C i D do konsylium).
 
 ## 1. Gdzie jesteśmy
 
@@ -21,6 +21,8 @@ Zasada z `CLAUDE.md`, punkt 14: każda sesja czyta ten plik na starcie i aktuali
 | D Poprawki po konsylium (lista Kuby `notatki/d_poprawki.md`) | zrobione i przyjęte przez Kubę 2026-10-21; recenzja Codeksa (Sol) uwzględniona (założenia 55–63) | `bfbc5cf`, `ebf37d5`, `b7b55ba`, `1bfa75f`, `3470f54` |
 
 Status wszystkich punktów: `notatki/PLAN.md`.
+
+**Stan na 2026-10-23 (punkt F, ostatnia kontrola przed publikacją):** sesja prowadząca `local_e4232e55` zrobiła z dwiema sesjami (kontrola techniczna `local_ffe2f6b6`, język `local_00805ea0`) trzy części zlecenia Kuby (`notatki/f_kontrola.md`). Wyniki: recenzje Astry i Fable (`notatki/recenzje/f_*`), `notatki/f_techniczna.md` (nowe skrypty `analiza/f_*.py`, wyniki `analiza/wyniki/f_*`), `notatki/f_jezyk.md`. Kuba poprosił o propozycję jednej rundy poprawek przed jakąkolwiek zmianą: `notatki/f_propozycja.md` — **czeka na jego decyzję**; nic na stronie, w tekstach ani w README się nie zmienia. W folderze zostało 6 śledzonych plików odświeżonych eksportem w kontroli technicznej (treść danych bez zmian: tylko godzina, skrót commitu w stopce i szum zmiennoprzecinkowy) — niezacommitowane, pójdą razem z poprawkami. Tekst zadania wyciągnięty z linku leży tylko w folderze roboczym sesji prowadzącej, poza repozytorium (decyzja Kuby). Następny krok: decyzja Kuby, potem runda poprawek (propozycja: sesja A — teksty, eksport, strona; sesja B — ślad pracy i oczyszczony zapis rozmów), komplet kontroli, publikacja i mail, każdy krok za zgodą Kuby.
 
 **Stan na 2026-10-22 po dopracowaniu grafiki:** sesja `local_dc5102f3` (zamknięta przez Kubę) zrobiła etapy 1–4 wyglądu (`6c5c683` … `63ddc3d`, poprawka wykresu powrotu `87b55b2`, opis `notatki/e_grafika.md`), sesja prowadząca etap 5 i pola dla wykresów w eksporcie (`c3bde09`, `83353f8`, `05dc624`; nowy skrypt `analiza/e_wykresy.py` uruchamiany przed eksportem). Kontrole: eksport 115/0, przeglądarka w obu trybach bez błędów, 314 odnośników, 162 porównania wykresów z tabelami bez niezgodności. Następny krok: przegląd Kuby; publikacja i mail tylko za jego zgodą.
 

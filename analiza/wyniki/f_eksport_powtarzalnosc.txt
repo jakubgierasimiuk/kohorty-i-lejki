@@ -1,0 +1,33 @@
+F — POWTARZALNOŚĆ EKSPORTU: narzedzie/dane_strony/*.js na dysku wobec commitu HEAD
+
+c.js                                 metadane 1, szum zmiennoprzecinkowy 0, różnice w treści 0
+      metadane: c.js.D.C.wygenerowano: '2026-10-22 22:16' → '2026-10-22 23:04'
+jakosc.js                            metadane 0, szum zmiennoprzecinkowy 11, różnice w treści 0
+      szum: jakosc.js.D.jakosc.mostek.kroki[0].miary.przychod.p1: 2381880.5999999936 → 2381880.599999993
+      szum: jakosc.js.D.jakosc.mostek.kroki[0].miary.przychod.p2: 3579928.600000091 → 3579928.6000000928
+      szum: jakosc.js.D.jakosc.mostek.kroki[0].miary.przychod.wzrost: 50.29840706541295 → 50.298407065413066
+      szum: jakosc.js.D.jakosc.mostek.kroki[1].miary.przychod.p1: 2381880.5999999936 → 2381880.599999993
+      szum: jakosc.js.D.jakosc.mostek.kroki[1].miary.przychod.p2: 3528635.6000000867 → 3528635.6000000904
+      szum: jakosc.js.D.jakosc.mostek.kroki[1].miary.przychod.wzrost: 48.14494059862178 → 48.14494059862198
+      szum: jakosc.js.D.jakosc.mostek.kroki[2].miary.przychod.p2: 3508197.600000085 → 3508197.600000089
+      szum: jakosc.js.D.jakosc.mostek.kroki[2].miary.przychod.wzrost: 47.73052707182479 → 47.730527071824966
+      szum: jakosc.js.D.jakosc.mostek.kroki[3].miary.przychod.p1: 2230266.499999986 → 2230266.499999985
+      szum: jakosc.js.D.jakosc.mostek.kroki[3].miary.przychod.p2: 3228342.4000000637 → 3228342.4000000665
+      szum: jakosc.js.D.jakosc.mostek.kroki[3].miary.przychod.wzrost: 44.75141872059163 → 44.75141872059183
+kohorty.js                           identyczny co do bajtu
+lejek_calosc.js                      identyczny co do bajtu
+lejek_kampania.js                    identyczny co do bajtu
+lejek_kanal.js                       identyczny co do bajtu
+lejek_przegladarka.js                identyczny co do bajtu
+lejek_strona_wejscia.js              identyczny co do bajtu
+lejek_system_przegladarka.js         identyczny co do bajtu
+lejek_urzadzenie.js                  identyczny co do bajtu
+lejek_urzadzenie_przegladarka.js     identyczny co do bajtu
+po_zakupie.js                        identyczny co do bajtu
+podsumowanie.js                      metadane 2, szum zmiennoprzecinkowy 0, różnice w treści 0
+      metadane: podsumowanie.js.D.P.meta.commit: '329d075' → 'a4d52c9'
+      metadane: podsumowanie.js.D.P.meta.wygenerowano: '2026-10-22 22:16' → '2026-10-22 23:03'
+wynik.js                             identyczny co do bajtu
+zdarzenia.js                         identyczny co do bajtu
+
+Razem: metadane 3, szum zmiennoprzecinkowy 11, różnice w treści 0.
