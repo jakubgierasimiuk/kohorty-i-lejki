@@ -104,7 +104,8 @@
     return BK.hantle({ nazwy: { a: "rok wcześniej", b: "ostatnie 12 miesięcy" }, kodowanie: "okresy", min: 0, max: 30, os: ["0%", "10%", "20%", "30%"],
       opis: "Powrót nowych pacjentów w ciągu 30, 60, 90 i 180 dni: rok wcześniej i ostatnie 12 miesięcy",
       wiersze: R.okna.map(function (o) {
-        var d = o.p2 - o.p1;
+        // zmiana z eksportu (liczona z wartości niezaokrąglonych, zgodna z tabelą karty); bez niej różnica wartości zaokrąglonych
+        var d = o.zm_pkt !== undefined && o.zm_pkt !== null ? o.zm_pkt : o.p2 - o.p1;
         return { etykieta: "w ciągu " + o.dni + " dni", a: o.p1, b: o.p2, tekstA: B.proc(o.p1), tekstB: B.proc(o.p2),
           tytul: "Powrót w ciągu " + o.dni + " dni: rok wcześniej " + B.proc(o.p1) + " z " + B.liczba(o.n1) + " pacjentów, ostatnie 12 miesięcy " +
             B.proc(o.p2) + " z " + B.liczba(o.n2) + " pacjentów (kohorty z pełnym oknem)",
