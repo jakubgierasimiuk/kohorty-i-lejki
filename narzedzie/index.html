@@ -129,6 +129,7 @@
       <p class="przypis" id="ko-okresy-opis"></p>
       <p class="przypis">W komórce: wartość w okresie B i liczba pacjentów, pod spodem okres A i zmiana. Zaznacz wiersze, które mają się pojawić na wykresie.</p>
       <div class="tabela-ramka"><table class="tabela tabela-lejek" id="ko-tabela"></table></div>
+      <p class="legenda-zmian" id="ko-legenda-zmian"></p>
       <details class="jak-liczymy"><summary>Jak liczymy</summary><div class="szczegoly-tresc">
         <p>Kohorta to nowi pacjenci z tego samego dnia pierwszego zakupu. Powrót to kolejne zamówienie, które nie zostało anulowane, w ciągu N dni. Marża na pacjenta to przychód z konsultacji po zwrotach i z TelemediGO minus koszt lekarza, przed kosztem pozyskania.</p>
         <p>Liczymy tylko kohorty z pełnym oknem. Okres A obcinamy do tej samej długości co dojrzała część okresu B, więc przy porównaniu rok do roku to te same dni kalendarzowe.</p>
@@ -150,11 +151,12 @@
         <h3>Macierz kohort: powrót według dni od pierwszego zakupu</h3>
         <div class="filtry-wykresu" id="ko-macierz-filtry"></div>
       </div>
-      <p class="przypis">Wiersz to kohorta, kolumna to okno: odsetek pacjentów kohorty, którzy wrócili w ciągu tylu dni. Ciemniej znaczy wyżej. Kropka oznacza kohortę bez pełnego okna.</p>
+      <p class="przypis">Wiersz to kohorta, kolumna to okno: odsetek pacjentów kohorty, którzy wrócili w ciągu tylu dni. Ten sam kolor znaczy w każdej kolumnie to samo.</p>
+      <div class="skala-macierzy" id="ko-macierz-skala"></div>
       <div class="tabela-ramka macierz-ramka"><table class="tabela macierz" id="ko-macierz"></table></div>
       <details class="jak-liczymy"><summary>Jak czytać</summary><div class="szczegoly-tresc">
         <p>Kohorta to nowi pacjenci z tego samego dnia, tygodnia albo miesiąca pierwszego zakupu; domyślnie dzień. Kohorty dzienne są małe, więc ich wartości skaczą bardziej niż tygodniowe.</p>
-        <p>Skala koloru jest osobna w każdej kolumnie, od 5. do 95. percentyla wartości. Kolumna „Zdarzenia” podaje numery zdarzeń z osi, które wypadają w tej kohorcie. Filtry są te same co wyżej, bez podziału na serie.</p>
+        <p>Skala koloru jest jedna dla całej macierzy: progi są te same w każdej kolumnie i przy każdym filtrze, więc ten sam kolor zawsze oznacza ten sam przedział odsetka. Kolumna „Zdarzenia” podaje numery zdarzeń z osi, które wypadają w tej kohorcie. Filtry są te same co wyżej, bez podziału na serie.</p>
       </div></details>
     </article>
     <article class="karta">
@@ -238,6 +240,7 @@
       <p class="przypis" id="lj-okresy-opis"></p>
       <p class="przypis">W komórce: odsetek w okresie B i liczba sesji, od której go liczymy. Pod spodem ten sam odsetek w okresie A i zmiana w punktach procentowych. Zaznacz wiersze, które mają się pojawić na wykresie.</p>
       <div class="tabela-ramka"><table class="tabela tabela-lejek" id="lj-tabela"></table></div>
+      <p class="legenda-zmian" id="lj-legenda-zmian"></p>
     </article>
 
     <article class="karta">
@@ -337,6 +340,7 @@
       <p class="przypis">Metoda dzieli każdą serię dzienną (podział, wartość, krok) na odcinki o różnym poziomie, w sesjach osób, które jeszcze nie kupowały. Nie każda wykryta zmiana jest zdarzeniem: część to zmiana struktury ruchu, część to sezon. Zdarzenia powyżej zostały sprawdzone na bazie.</p>
       <label class="filtr-inline">Podział <select id="zd-wykryte-podz"></select></label>
       <div class="tabela-ramka"><table class="tabela" id="zd-wykryte"></table></div>
+      <p class="legenda-zmian" id="zd-wykryte-legenda"></p>
     </details>
   </section>
 
@@ -440,6 +444,11 @@
     <p class="przypis" id="nw-zrodlo"></p>
   </section>
 </main>
+
+<div class="szybkie-zakladki" id="szybkie-zakladki" hidden>
+  <ul class="szybkie-lista" id="szybkie-lista" hidden aria-label="Zakładki"></ul>
+  <button type="button" class="szybkie-przycisk" id="szybkie-przycisk" aria-expanded="false" aria-controls="szybkie-lista">Zakładki</button>
+</div>
 
 <footer class="stopka">
   <p id="stopka-meta"></p>

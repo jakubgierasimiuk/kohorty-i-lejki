@@ -213,6 +213,7 @@ def main():
     ap.add_argument("--przyklad", action="store_true", help="nowy kształt danych z kontraktu, podstawiony w przeglądarce")
     ap.add_argument("--dane-z-gita", metavar="REWIZJA", help="pliki dane_strony/ z tego commitu (np. HEAD), zamiast z dysku")
     ap.add_argument("--bez-zrzutow", action="store_true")
+    ap.add_argument("--ciemny", action="store_true", help="tryb ciemny (prefers-color-scheme: dark); zrzuty z przedrostkiem ciemny_")
     arg = ap.parse_args()
     os.makedirs(arg.wyjscie, exist_ok=True)
     s = serwer()
@@ -220,12 +221,15 @@ def main():
     raport, problemy = [], []
     tryb = ("dane z commitu " + arg.dane_z_gita if arg.dane_z_gita else "dane z dane_strony/ na dysku") + \
         (", przekształcone do nowego kształtu (przykład podstawiony w przeglądarce)" if arg.przyklad else "")
+    if arg.ciemny:
+        tryb += ", motyw ciemny"
+    pref = "ciemny_" if arg.ciemny else ""
     raport.append(f"Kontrola strony w Edge bez okna, {adres}, tryb: {tryb}")
 
     with sync_playwright() as p:
         przegl = p.chromium.launch(channel="msedge", headless=True)
         for szer, wys in SZEROKOSCI:
-            kontekst = przegl.new_context(viewport={"width": szer, "height": wys})
+            kontekst = przegl.new_context(viewport={"width": szer, "height": wys}, color_scheme="dark" if arg.ciemny else "light")
             if arg.przyklad or arg.dane_z_gita:
                 kontekst.route("**/dane_strony/*.js*", obsluga_danych(arg.dane_z_gita, arg.przyklad))
             strona = kontekst.new_page()
@@ -247,15 +251,19 @@ def main():
                     h: document.documentElement.scrollHeight,
                     szersze: [...document.querySelectorAll('main *')].filter(e => { const r = e.getBoundingClientRect();
                       return r.width > 0 && r.right > window.innerWidth + 1 && !e.closest('.tabela-ramka, .zakladki, .macierz-ramka'); })
-                      .slice(0, 5).map(e => e.tagName + (e.id ? '#' + e.id : '') + '.' + e.className)})""")
+                      .slice(0, 5).map(e => e.tagName + (e.id ? '#' + e.id : '') + '.' + e.className),
+                    wykresy: [...document.querySelectorAll('section:not([hidden]) .wykres')].filter(e => e.offsetParent && e.scrollWidth > e.clientWidth + 1)
+                      .map(e => e.id + ' ' + e.scrollWidth + '/' + e.clientWidth)})""")
                 bok = m["sw"] > m["iw"] + 1
                 raport.append(f"{z:12s} wysokość {m['h']:6d} px, szerokość dokumentu {m['sw']} / okno {m['iw']}"
                               + (" — PRZEWIJA SIĘ W BOK" if bok else ""))
                 if bok or m["szersze"]:
                     problemy.append(f"{szer} px, {z}: wychodzi poza ekran: {m['szersze']}")
+                if m["wykresy"]:
+                    problemy.append(f"{szer} px, {z}: wykres szerszy niż karta: {m['wykresy']}")
                 hrefy |= set(strona.evaluate(f"""() => [...document.querySelectorAll('#v-{z} a[href^="#"]')].map(a => a.getAttribute('href'))"""))
                 if not arg.bez_zrzutow:
-                    strona.screenshot(path=os.path.join(arg.wyjscie, f"{szer}_{z}.png"), full_page=True)
+                    strona.screenshot(path=os.path.join(arg.wyjscie, f"{pref}{szer}_{z}.png"), full_page=True)
             # lejek: domyślne „Kto” i wykres kroków
             strona.evaluate("location.hash = 'lejek'")
             strona.wait_for_selector("#lj-kroki .lk-krok")
@@ -276,7 +284,24 @@ def main():
             if "Telefon" not in lj2:
                 problemy.append(f"{szer} px, lejek nie reaguje na filtr: {lj2}")
             if not arg.bez_zrzutow:
-                strona.locator("#lj-kroki-karta").screenshot(path=os.path.join(arg.wyjscie, f"{szer}_lejek_kroki_telefon.png"))
+                strona.locator("#lj-kroki-karta").screenshot(path=os.path.join(arg.wyjscie, f"{pref}{szer}_lejek_kroki_telefon.png"))
+            # telefon: przycisk „Zakładki” po przewinięciu poza pasek z zakładkami
+            if szer < 760:
+                strona.evaluate("location.hash = 'priorytety'")
+                strona.wait_for_timeout(500)
+                strona.evaluate("window.scrollTo(0, 2500)")
+                strona.wait_for_timeout(400)
+                widac = strona.evaluate("() => !document.getElementById('szybkie-zakladki').hidden")
+                if widac:
+                    strona.click("#szybkie-przycisk")
+                    strona.wait_for_timeout(200)
+                lista = strona.evaluate("() => { const l = document.getElementById('szybkie-lista'); return l.hidden ? 0 : l.querySelectorAll('a').length; }")
+                raport.append(f"przycisk „Zakładki” po przewinięciu: {'widoczny' if widac else 'NIEWIDOCZNY'}, zakładek na liście: {lista}")
+                if not widac or lista != 9:
+                    problemy.append(f"{szer} px, przycisk „Zakładki”: widoczny={widac}, zakładek={lista}")
+                if not arg.bez_zrzutow and widac:
+                    strona.screenshot(path=os.path.join(arg.wyjscie, f"{pref}{szer}_zakladki_przycisk.png"))
+                strona.keyboard.press("Escape")
             # odnośniki między zakładkami (raz, na pierwszej szerokości; zakładki są te same)
             zle = []
             for h in (sorted(hrefy) if szer == SZEROKOSCI[0][0] else []):

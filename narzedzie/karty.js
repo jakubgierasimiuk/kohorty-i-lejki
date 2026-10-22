@@ -32,7 +32,8 @@
     info: [["circle", { cx: 12, cy: 12, r: 9 }], ["path", { d: "M12 11v5.4M12 7.8v.1" }]],
     wzrost: [["path", { d: "M12 19V5.5M6.5 11L12 5.5 17.5 11" }]],
     spadek: [["path", { d: "M12 5v13.5M6.5 13L12 18.5 17.5 13" }]],
-    bez: [["path", { d: "M5 12h13.5M13 6.5l5.5 5.5-5.5 5.5" }]]
+    bez: [["path", { d: "M5 12h13.5M13 6.5l5.5 5.5-5.5 5.5" }]],
+    lista: [["path", { d: "M4 6.5h16M4 12h16M4 17.5h16" }]]
   };
   function ikona(nazwa, etykieta) {
     var svg = document.createElementNS(NS, "svg");
@@ -84,13 +85,27 @@
     return { poziom: null, tekst: s };
   }
 
-  // etykieta zmiany rok do roku: strzałka według kierunku, kolor i słowo (dla czytników ekranu) według stanu
+  // etykieta zmiany rok do roku: strzałka według kierunku, kolor i słowo według stanu (kolor stanu nigdy bez słowa).
+  // Słowo jest widoczne; tylko w dużych tabelach podziałów (kohorty, lejek, wykryte zmiany) opcje.slowo = false:
+  // wtedy słowo jest w podpowiedzi i dla czytników ekranu, a pod tabelą stoi objaśnienie kolorów (legendaZmian).
   var SLOWO = { dobrze: "lepiej", zle: "gorzej", uwaga: "uwaga", neutralnie: "" };
-  function zmiana(tekst, kierunek, s, tytul) {
+  function zmiana(tekst, kierunek, s, tytul, opcje) {
     s = stan(s);
     var kier = kierunek === "wzrost" || kierunek === "spadek" ? kierunek : "bez";
-    return el("span", { class: "zm zm-" + s, title: tytul || null }, [ikona(kier), el("span", { text: tekst }),
-      SLOWO[s] && tekst !== SLOWO[s] ? el("span", { class: "sr", text: " (" + SLOWO[s] + ")" }) : null]);
+    var slowo = SLOWO[s] && tekst !== SLOWO[s] ? SLOWO[s] : "", widoczne = !opcje || opcje.slowo !== false;
+    var t = tytul ? tytul + (slowo ? ": " + slowo : "") : (slowo && !widoczne ? slowo : null);
+    return el("span", { class: "zm zm-" + s, title: t }, [ikona(kier), el("span", { text: tekst }),
+      slowo ? el("span", { class: widoczne ? "zm-slowo" : "sr", text: widoczne ? slowo : " (" + slowo + ")" }) : null]);
+  }
+  // objaśnienie kolorów etykiet zmiany pod dużymi tabelami podziałów
+  function legendaZmian(cel, wobec) {
+    if (!cel) return;
+    while (cel.firstChild) cel.removeChild(cel.firstChild);
+    cel.appendChild(el("span", { text: "Etykiety zmiany " + (wobec || "wobec okresu porównania") + ":" }));
+    [["wzrost", "dobrze", "lepiej"], ["spadek", "zle", "gorzej"], ["bez", "neutralnie", "bez oceny"]].forEach(function (x) {
+      cel.appendChild(el("span", { class: "zm zm-" + x[1] }, [ikona(x[0]), el("span", { text: x[2] })]));
+    });
+    cel.appendChild(el("span", { text: "Strzałka pokazuje kierunek, kolor ocenę; słowo także po najechaniu na etykietę." }));
   }
   function kierunekZnaku(d) { return d > 0 ? "wzrost" : d < 0 ? "spadek" : "bez"; }
 
@@ -240,7 +255,7 @@
   function czyKarta(k) { return !!(k && typeof k === "object" && !Array.isArray(k) && (k.tytul || k.wniosek || k.tresc)); }
 
   window.BK = { el: el, ikona: ikona, znacznik: znacznik, pewnosc: pewnosc, pewnoscZNapisu: pewnoscZNapisu,
-    zmiana: zmiana, kierunekZnaku: kierunekZnaku, bloki: bloki, tabela: tabela, kafelek: kafelek, kafelki: kafelki,
+    zmiana: zmiana, legendaZmian: legendaZmian, kierunekZnaku: kierunekZnaku, bloki: bloki, tabela: tabela, kafelek: kafelek, kafelki: kafelki,
     linki: linki, szczegoly: szczegoly, zastrzezenie: zastrzezenie, karta: karta, kartaW: kartaW, czyKarta: czyKarta,
     tekstKomorki: tekstKomorki, komorkaDzieci: komorkaDzieci, POZIOMY: POZIOMY };
 })();

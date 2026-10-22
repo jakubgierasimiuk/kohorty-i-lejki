@@ -72,7 +72,8 @@
     var lepiej = odwrotnie ? d < 0 : d > 0, wobec = o.wobec || "wobec okresu A";
     return BK.zmiana(zero ? liczba(0, m) : znak(d, m), zero ? "bez" : BK.kierunekZnaku(d),
       zero || o.neutralnie ? "neutralnie" : lepiej ? "dobrze" : "zle",
-      zero ? "Bez zmiany " + wobec : (d > 0 ? "Wzrost" : "Spadek") + " o " + liczba(Math.abs(d), m) + " " + wobec);
+      zero ? "Bez zmiany " + wobec : (d > 0 ? "Wzrost" : "Spadek") + " o " + liczba(Math.abs(d), m) + " " + wobec,
+      { slowo: !o.bezSlowa });
   }
   // ikony i znaczniki zapisane w index.html jako miejsca do wypełnienia
   function ikonyStatyczne() {
@@ -218,15 +219,27 @@
     S.kolory = {};
   }
 
-  function przydzielKolory() {
-    var zajete = {};
-    Object.keys(S.kolory).forEach(function (w) {
-      if (S.wybrane.indexOf(w) < 0) delete S.kolory[w]; else zajete[S.kolory[w]] = true;
-    });
-    S.wybrane.forEach(function (w) {
-      if (S.kolory[w]) return;
-      for (var i = 1; i <= 8; i++) if (!zajete[i]) { S.kolory[w] = i; zajete[i] = true; return; }
-    });
+  // kolor idzie za grupą, nie za kolejnością zaznaczenia: każda wartość ma stałe miejsce w palecie (ranking po liczbie
+  // wszystkich sesji w pliku podziału, niezależny od filtrów i okresów); „Razem” to seria odniesienia w kolorze tuszu
+  var rankingi = {};
+  function rankingWartosci(dane) {
+    if (rankingi[S.podz]) return rankingi[S.podz];
+    var suma_ = {};
+    dane.serie.forEach(function (s) { var t = 0; for (var i = 0; i < s.s.length; i++) t += s.s[i]; suma_[s.w] = (suma_[s.w] || 0) + t; });
+    var r = {};
+    Object.keys(suma_).sort(function (a, c) { return suma_[c] - suma_[a] || (a < c ? -1 : 1); }).forEach(function (w, i) { r[w] = i; });
+    return (rankingi[S.podz] = r);
+  }
+  function przydzielKolory(dane) {
+    var rank = rankingWartosci(dane), zajete = {};
+    S.kolory = {};
+    S.wybrane.slice().sort(function (a, c) { return (rank[a] === undefined ? 99 : rank[a]) - (rank[c] === undefined ? 99 : rank[c]); })
+      .forEach(function (w) {
+        if (w === "__razem") { S.kolory[w] = "--seria-ref"; return; }
+        var start = (rank[w] || 0) % 8;
+        for (var k = 0; k < 8; k++) { var i = (start + k) % 8 + 1; if (!zajete[i]) { S.kolory[w] = "--series-" + i; zajete[i] = true; return; } }
+        S.kolory[w] = "--seria-ref";
+      });
   }
 
   function rysujNaglowekLejka() {
@@ -316,7 +329,7 @@
     td.appendChild(el("span", { class: "b", text: proc(pB) }));
     td.appendChild(el("span", { class: "n", text: " z " + liczba(mB) }));
     var a = el("span", { class: "a", text: "A: " + proc(pA) + " z " + liczba(mA) });
-    if (pA !== null && pB !== null) a.appendChild(zmianaPkt(pB - pA, 1));
+    if (pA !== null && pB !== null) a.appendChild(zmianaPkt(pB - pA, 1, false, { bezSlowa: true }));
     td.appendChild(a);
     return td;
   }
@@ -327,13 +340,14 @@
     { pole: "k3", nazwa: ET.kroki.k3 }, { pole: "k4", nazwa: ET.kroki.k4 }, { pole: "k5", nazwa: ET.kroki.k5 }
   ];
   // nazwy okresów porównania; aD to forma po „wobec”
-  function nazwyOkresow() {
-    if (S.preset === "rok") return { b: "Ostatnie 12 miesięcy", a: "rok wcześniej", aD: "roku wcześniej" };
-    if (S.preset === "30rr") return { b: "Ostatnie 30 dni", a: "te same dni rok wcześniej", aD: "tych samych dni rok wcześniej" };
-    if (S.preset === "90") return { b: "Ostatnie 90 dni", a: "poprzednie 90 dni", aD: "poprzednich 90 dni" };
-    if (S.preset.indexOf("zd:") === 0) return { b: "Po zdarzeniu", a: "przed zdarzeniem", aD: "okresu przed zdarzeniem" };
+  function nazwyPresetu(p) {
+    if (p === "rok") return { b: "Ostatnie 12 miesięcy", a: "rok wcześniej", aD: "roku wcześniej" };
+    if (p === "30rr") return { b: "Ostatnie 30 dni", a: "te same dni rok wcześniej", aD: "tych samych dni rok wcześniej" };
+    if (p === "90") return { b: "Ostatnie 90 dni", a: "poprzednie 90 dni", aD: "poprzednich 90 dni" };
+    if (p && p.indexOf("zd:") === 0) return { b: "Po zdarzeniu", a: "przed zdarzeniem", aD: "okresu przed zdarzeniem" };
     return { b: "Okres B", a: "okres A", aD: "okresu A" };
   }
+  function nazwyOkresow() { return nazwyPresetu(S.preset); }
   function rysujKrokiLejka(dane) {
     var lista = wartosci(dane).map(function (w) { return { w: w, n: suma(seria(dane, w).s, S.b) + suma(seria(dane, w).s, S.a) }; })
       .filter(function (x) { return x.n > 0; }).sort(function (x, y) { return y.n - x.n; });
@@ -415,10 +429,10 @@
     var lista = wartosci(dane).map(function (w) { var sr = seria(dane, w); return { w: w, sr: sr, sB: suma(sr.s, S.b), sA: suma(sr.s, S.a) }; })
       .filter(function (x) { return x.sA + x.sB > 0; })
       .sort(function (x, y) { return y.sB - x.sB || y.sA - x.sA; });
-    if (!S.wybrane) S.wybrane = S.podz === "calosc" ? ["__razem"] : lista.slice(0, 5).map(function (x) { return x.w; });
+    if (!S.wybrane) S.wybrane = S.podz === "calosc" ? ["__razem"] : lista.slice(0, 4).map(function (x) { return x.w; });
     if (S.podz === "calosc") S.wybrane = S.wybrane.map(function (w) { return w === "calosc" ? "__razem" : w; });
     S.wybrane = S.wybrane.filter(function (w) { return w === "__razem" || lista.some(function (x) { return x.w === w; }); });
-    przydzielKolory();
+    przydzielKolory(dane);
 
     function wiersz(w, sr, wA, wB, klasa) {
       var wybrany = S.wybrane.indexOf(w) >= 0;
@@ -431,7 +445,7 @@
         } else S.wybrane = S.wybrane.filter(function (x) { return x !== w; });
         odswiezLejek(true, true);
       };
-      var kol = wybrany && S.kolory[w] ? css("--series-" + S.kolory[w]) : "transparent";
+      var kol = wybrany && S.kolory[w] ? css(S.kolory[w]) : "transparent";
       var tr = el("tr", { class: (klasa || "") + (wybrany ? " zaznaczony" : ""), style: "--kolor:" + kol });
       tr.appendChild(el("td", null, [el("label", { class: "wiersz-wybor" }, [chk,
         el("span", { class: "kropka", style: "background:" + kol }), el("span", { text: etykieta(S.podz, w) })])]));
@@ -444,6 +458,7 @@
     tb.appendChild(wiersz("__razem", razem, sA, sB, "podsuma"));
     if (S.podz !== "calosc") lista.forEach(function (x) { tb.appendChild(wiersz(x.w, x.sr, x.sA, x.sB)); });
     t.appendChild(tb);
+    BK.legendaZmian($("lj-legenda-zmian"), "wobec okresu A, w punktach procentowych");
     $("lj-okresy-opis").textContent = opisOkresow() + " Typ: " + ET.typ[S.typ] + ". " +
       (S.typ === "zwykla" ? "Kto: " + (S.pac === "wszyscy" ? "wszyscy" : ET.pacjent[S.pac].toLowerCase()) + "." : "Wszyscy w tym typie kupowali wcześniej.");
   }
@@ -485,16 +500,31 @@
     ctx.restore();
   }
 
-  function rysujOkresy(u) {
-    var ctx = u.ctx, top = u.bbox.top, h = u.bbox.height;
-    [["A", S.a, css("--okres-a")], ["B", S.b, css("--okres-b")]].forEach(function (o) {
-      var x0 = u.valToPos((START + o[1][0] * DZIEN) / 1000, "x", true);
-      var x1 = u.valToPos((START + (o[1][1] + 1) * DZIEN) / 1000, "x", true);
+  // szare pola okresów porównania z nazwą przy dolnej krawędzi (nazwy idą za wyborem porównania)
+  function polaOkresow(u, a, b, nazwy) {
+    var ctx = u.ctx, top = u.bbox.top, h = u.bbox.height, dpr = window.devicePixelRatio || 1;
+    [[a, css("--okres-a"), nazwy && nazwy.a], [b, css("--okres-b"), nazwy && nazwy.b]].forEach(function (o) {
+      if (!o[0]) return;
+      var x0 = u.valToPos((START + o[0][0] * DZIEN) / 1000, "x", true);
+      var x1 = u.valToPos((START + (o[0][1] + 1) * DZIEN) / 1000, "x", true);
       x0 = Math.max(x0, u.bbox.left); x1 = Math.min(x1, u.bbox.left + u.bbox.width);
       if (x1 <= x0) return;
-      ctx.save(); ctx.fillStyle = o[2]; ctx.fillRect(x0, top, x1 - x0, h); ctx.restore();
+      ctx.save(); ctx.fillStyle = o[1]; ctx.fillRect(x0, top, x1 - x0, h);
+      if (o[2]) {
+        ctx.font = (11 * dpr) + "px system-ui"; ctx.textBaseline = "bottom";
+        var t = o[2].charAt(0).toUpperCase() + o[2].slice(1);
+        var sz = ctx.measureText(t).width;
+        if (sz + 12 * dpr < x1 - x0) {
+          // tło pod nazwą, żeby linie danych jej nie przecinały
+          ctx.fillStyle = css("--surface"); ctx.globalAlpha = 0.88;
+          ctx.fillRect(x0 + 3 * dpr, top + h - 18 * dpr, sz + 6 * dpr, 15 * dpr);
+          ctx.globalAlpha = 1; ctx.fillStyle = css("--ink-2"); ctx.fillText(t, x0 + 6 * dpr, top + h - 5 * dpr);
+        }
+      }
+      ctx.restore();
     });
   }
+  function rysujOkresy(u) { var n = nazwyOkresow(); polaOkresow(u, S.a, S.b, n); }
 
   function zdarzeniaNumerowane() {
     return ZD.lista.map(function (z, i) { var k = Object.assign({}, z); k.nr = i + 1; return k; });
@@ -525,7 +555,7 @@
       data.push(y);
       (function (mian) {
         series.push({
-          label: etykieta(S.podz, wart), stroke: css("--series-" + S.kolory[wart]), width: 2, spanGaps: false,
+          label: etykieta(S.podz, wart), stroke: css(S.kolory[wart] || "--seria-ref"), width: 2, spanGaps: false,
           points: { show: false },
           value: function (u, v, si, di) {
             if (v == null) return "—";
@@ -539,7 +569,7 @@
     var zd = zdarzeniaNumerowane();
     var procentowa = miara.id !== "sesje";
     var opts = {
-      width: Math.max(320, cel.clientWidth), height: 340,
+      width: cel.clientWidth || 300, height: 340,
       scales: { x: { time: true }, y: { range: function (u, mn, mx) { return [0, procentowa ? Math.min(100, Math.max(5, mx * 1.08)) : Math.max(1, mx * 1.08)]; } } },
       axes: osieWykresu(procentowa ? "%" : "sesje dziennie", function (v) { return liczba(v, 0) + (procentowa ? "%" : ""); }),
       series: series,
@@ -585,8 +615,21 @@
     });
   }
 
+  function rysujOsPionowa(kont) {
+    var ol = el("ol", { class: "os-pionowa", "aria-label": "Zdarzenia w kolejności dat" });
+    zdarzeniaNumerowane().forEach(function (z) {
+      if (!obszaryWidoczne[z.obszar]) return;
+      var i0 = idxIso(z.od);
+      ol.appendChild(el("li", null, [
+        el("div", { class: "os-data" }, [el("strong", { text: z.nr + ". " + dataPL(i0) + (z.do ? "–" + dataPL(idxIso(z.do)) : "") }),
+          el("span", { class: "obszar", text: ET.obszary[z.obszar] })]),
+        el("a", { href: "#zdarzenia?z=" + z.id, text: z.krotko || z.tytul })]));
+    });
+    kont.appendChild(ol);
+  }
   function rysujOs() {
     var kont = wyczysc($("zd-os"));
+    if ((kont.clientWidth || 900) < 600) { rysujOsPionowa(kont); return; }
     var szer = Math.max(560, kont.clientWidth || 900), lewy = 130, prawy = 16, gora = 34, tor = 40;
     var obszary = ZD.obszary.filter(function (o) { return obszaryWidoczne[o.id]; });
     var wys = gora + obszary.length * tor + 8;
@@ -693,12 +736,13 @@
           el("td", { text: etykieta(r[ix.podzial], r[ix.wartosc]) }), el("td", { text: NAZWA_PRZEJSCIA[r[ix.przejscie]] || r[ix.przejscie] }),
           el("td", { text: f(r[ix.przed]) }), el("td", { text: f(r[ix.po]) }),
           el("td", null, [BK.zmiana(znak(r[ix.zmiana], 1) + (ruch ? "" : " pkt proc."), BK.kierunekZnaku(r[ix.zmiana]),
-            ruch ? "neutralnie" : r[ix.zmiana] >= 0 ? "dobrze" : "zle")]),
+            ruch ? "neutralnie" : r[ix.zmiana] >= 0 ? "dobrze" : "zle", null, { slowo: false })]),
           el("td", { text: r[ix.dni_przed] + " / " + r[ix.dni_po] }),
           el("td", { text: r[ix.zamowienia_na_30_dni] === null ? "—" : znak(r[ix.zamowienia_na_30_dni], 1) }),
           el("td", null, [el("a", { href: "#lejek?" + q.toString(), text: "w lejku" })])]));
       });
     t.appendChild(tb);
+    BK.legendaZmian($("zd-wykryte-legenda"), "po zmianie wobec okresu przed nią");
   }
 
   // ------------------------------------------------------------ jakość danych
@@ -736,7 +780,7 @@
     for (var i = 0; i < NDNI; i++) x[i] = (START + i * DZIEN) / 1000;
     var od = idxIso(JK.duplikaty.od), dok = idxIso(JK.duplikaty.do);
     var opts = {
-      width: Math.max(320, cel.clientWidth), height: 260,
+      width: cel.clientWidth || 300, height: 260,
       scales: { x: { time: true, min: x[ogranicz(od - 21)], max: x[ogranicz(dok + 21)] }, y: { range: function (u, mn, mx) { return [0, mx * 1.1]; } } },
       axes: osieWykresu("zamówienia dziennie", function (v) { return liczba(v, 0); }),
       series: [
@@ -763,9 +807,10 @@
     var widok = WIDOKI.indexOf(nazwa) >= 0 ? nazwa : "wzrost";
     var q = new URLSearchParams(cz[1] || "");
     WIDOKI.forEach(function (v) { $("v-" + v).hidden = v !== widok; });
-    Array.prototype.forEach.call(document.querySelectorAll(".zakladki a"), function (a) {
+    Array.prototype.forEach.call(document.querySelectorAll(".zakladki a, .szybkie-lista a"), function (a) {
       if (a.dataset.widok === widok) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
     });
+    zamknijSzybkie();
     if (biezacy !== widok) window.scrollTo(0, 0);
     biezacy = widok;
     if (widok === "lejek") {
@@ -792,6 +837,36 @@
     if (window.BW && window.BW[biezacy] && window.BW[biezacy].przerysuj) window.BW[biezacy].przerysuj();
   }
 
+  // ------------------------------------------------------------ przycisk „Zakładki” na telefonie
+  // Na telefonie pasek z zakładkami nie jest przyklejony. Gdy zniknie z ekranu, w prawym dolnym rogu pojawia się przycisk,
+  // który rozwija listę wszystkich zakładek.
+  function zamknijSzybkie() {
+    var l = $("szybkie-lista"), p = $("szybkie-przycisk");
+    if (l && !l.hidden) { l.hidden = true; p.setAttribute("aria-expanded", "false"); }
+  }
+  function przygotujSzybkie() {
+    var box = $("szybkie-zakladki"), l = $("szybkie-lista"), p = $("szybkie-przycisk");
+    if (!box) return;
+    Array.prototype.forEach.call(document.querySelectorAll(".zakladki a"), function (a) {
+      l.appendChild(el("li", null, [el("a", { href: a.getAttribute("href"), "data-widok": a.dataset.widok, text: a.textContent })]));
+    });
+    p.insertBefore(BK.ikona("lista"), p.firstChild);
+    p.onclick = function (e) {
+      e.stopPropagation();
+      l.hidden = !l.hidden; p.setAttribute("aria-expanded", String(!l.hidden));
+      if (!l.hidden) { var akt = l.querySelector("a[aria-current]") || l.querySelector("a"); if (akt) akt.focus(); }
+    };
+    l.addEventListener("click", function (e) { if (e.target.closest("a")) zamknijSzybkie(); });
+    document.addEventListener("click", function (e) { if (!box.contains(e.target)) zamknijSzybkie(); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") { zamknijSzybkie(); } });
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (wpisy) {
+        box.hidden = wpisy[0].isIntersecting;
+        if (box.hidden) zamknijSzybkie();
+      }).observe(document.querySelector(".zakladki"));
+    }
+  }
+
   // pomocnicze funkcje dla widoków z plików widoki.js (kohorty, po zakupie, wynik biznesu)
   // i widoki_c.js (czy to wzrost, priorytety, czego nie wiemy)
   var wczytywane = {};
@@ -810,8 +885,10 @@
     liczba: liczba, proc: proc, znak: znak, dataPL: dataPL, isoIdx: isoIdx, idxIso: idxIso, ogranicz: ogranicz,
     el: el, wyczysc: wyczysc, $: $, css: css, akapity: akapity, osieWykresu: osieWykresu, krocz: krocz,
     zdarzeniaNumerowane: zdarzeniaNumerowane, rysujZdarzeniaNaWykresie: rysujZdarzeniaNaWykresie, wczytaj: wczytaj,
-    mostek: mostek, BK: BK, zdaniaAlboKarta: zdaniaAlboKarta, zmianaPkt: zmianaPkt, wstepKarta: wstepKarta };
+    mostek: mostek, BK: BK, zdaniaAlboKarta: zdaniaAlboKarta, zmianaPkt: zmianaPkt, wstepKarta: wstepKarta,
+    nazwyPresetu: nazwyPresetu, polaOkresow: polaOkresow };
   ikonyStatyczne();
+  przygotujSzybkie();
 
   var czasResize = null;
   window.addEventListener("resize", function () { clearTimeout(czasResize); czasResize = setTimeout(przerysujWykresy, 200); });

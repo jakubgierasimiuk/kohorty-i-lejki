@@ -37,17 +37,9 @@
     s.onchange = function () { zmiana(this.value); };
     return B.el("label", null, [etyk, s]);
   }
-  function cieniuj(u, a, bb) {
-    var B = b(), ctx = u.ctx, top = u.bbox.top, h = u.bbox.height;
-    [[a, B.css("--okres-a")], [bb, B.css("--okres-b")]].forEach(function (o) {
-      if (!o[0]) return;
-      var x0 = u.valToPos((B.START + o[0][0] * B.DZIEN) / 1000, "x", true);
-      var x1 = u.valToPos((B.START + (o[0][1] + 1) * B.DZIEN) / 1000, "x", true);
-      x0 = Math.max(x0, u.bbox.left); x1 = Math.min(x1, u.bbox.left + u.bbox.width);
-      if (x1 > x0) { ctx.save(); ctx.fillStyle = o[1]; ctx.fillRect(x0, top, x1 - x0, h); ctx.restore(); }
-    });
-  }
-  /* serie: [{label, kolor (numer serii albo kolor css), y, opis(di, v)}], o: {jednostka, procent, a, b, zdarzenia, x, min, max} */
+  function cieniuj(u, a, bb, nazwy) { b().polaOkresow(u, a, bb, nazwy); }
+  /* serie: [{label, kolor (numer serii albo kolor css), y, opis(di, v)}],
+     o: {jednostka, procent, a, b, nazwy: {a, b} (podpisy pól okresów), zdarzenia, x, min, max} */
   function wykres(cel, serie, o) {
     var B = b();
     B.wyczysc(cel);
@@ -62,13 +54,13 @@
     });
     var zd = o.zdarzenia ? B.zdarzeniaNumerowane() : [];
     var opts = {
-      width: Math.max(320, cel.clientWidth), height: o.wys || 320,
+      width: cel.clientWidth || 300, height: o.wys || 320,
       scales: { x: { time: true, min: o.min, max: o.max },
         y: { range: function (u, mn, mx) { return [Math.min(0, mn), o.procent ? Math.min(100, Math.max(5, mx * 1.08)) : (mx > 0 ? mx * 1.08 : 1)]; } } },
       axes: B.osieWykresu(o.jednostka || "", o.formatY || function (v) { return B.liczba(v, 0) + (o.procent ? "%" : ""); }),
       series: ser, cursor: { drag: { x: true, y: false } }, legend: { live: true },
       tzDate: function (ts) { return uPlot.tzDate(new Date(ts * 1000), "Etc/UTC"); },
-      hooks: { drawClear: [function (u) { cieniuj(u, o.a, o.b); }], draw: [function (u) { if (zd.length) B.rysujZdarzeniaNaWykresie(u, zd); }] }
+      hooks: { drawClear: [function (u) { cieniuj(u, o.a, o.b, o.nazwy); }], draw: [function (u) { if (zd.length) B.rysujZdarzeniaNaWykresie(u, zd); }] }
     };
     if (o.osX) opts.axes[0].values = o.osX;
     return new uPlot(opts, dane, cel);
@@ -187,7 +179,23 @@
   }
 
   var OKNA_MACIERZY = [7, 14, 30, 60, 90, 180], KS_GRAN = "dzien", wykresKrz = null;
-  var RAMPA = ["#cde2fb", "#b7d3f6", "#9ec5f4", "#86b6ef", "#6da7ec", "#5598e7", "#3987e5", "#2a78d6", "#256abf", "#1c5cab", "#184f95", "#104281"];
+  // jedna skala koloru dla całej macierzy: ten sam kolor = ten sam przedział odsetka w każdym oknie i po każdym filtrze
+  // (progi dobrane tak, żeby w każdym oknie były co najmniej dwa odcienie); kolory z tokenów --heat-0…7 w styl.css
+  var PROGI_MACIERZY = [5, 10, 15, 20, 25, 30, 35];
+  function klasaMacierzy(v) { var k = 0; while (k < PROGI_MACIERZY.length && v >= PROGI_MACIERZY[k]) k++; return k; }
+  function skalaMacierzy() {
+    var B = b(), cel = B.$("ko-macierz-skala");
+    if (!cel || cel.firstChild) return;
+    var ol = B.el("ol", { "aria-label": "Skala koloru: powrót w oknie" });
+    for (var k = 0; k <= PROGI_MACIERZY.length; k++) {
+      var t = k === 0 ? "poniżej " + PROGI_MACIERZY[0] + "%" : k === PROGI_MACIERZY.length ? PROGI_MACIERZY[k - 1] + "% i więcej" :
+        PROGI_MACIERZY[k - 1] + "–" + PROGI_MACIERZY[k] + "%";
+      ol.appendChild(B.el("li", null, [B.el("span", { class: "pole hm" + k }), B.el("span", { text: t })]));
+    }
+    cel.appendChild(B.el("span", { text: "Powrót w oknie:" }));
+    cel.appendChild(ol);
+    cel.appendChild(B.el("span", null, [B.el("span", { class: "pusta" }), "brak pełnego okna"]));
+  }
 
   function grupyKohort(gran) {
     var B = b(), N = B.NDNI, gr = [], cur = null;
@@ -214,12 +222,7 @@
       return { g: g, n: x.n, p: OKNA_MACIERZY.map(function (w, k) { return g.do <= N - 1 - w && x.n > 0 ? 100 * x.r[k] / x.n : null; }),
         zd: zd.filter(function (z) { var di = B.idxIso(z.od); return di >= g.od && di <= g.do; }) };
     });
-    var mn = OKNA_MACIERZY.map(function (w, k) {
-      var v = wiersze.map(function (r) { return r.p[k]; }).filter(function (x) { return x !== null; }).sort(function (a, c) { return a - c; });
-      if (!v.length) return [0, 1];
-      var q = function (u) { return v[Math.min(v.length - 1, Math.max(0, Math.round(u * (v.length - 1))))]; };
-      return [q(0.05), q(0.95)];
-    });
+    skalaMacierzy();
     var t = B.wyczysc(B.$("ko-macierz"));
     var hr = B.el("tr", null, [B.el("th", { text: KS_GRAN === "dzien" ? "Kohorta (dzień)" : KS_GRAN === "tydz" ? "Kohorta (tydzień od)" : "Kohorta (miesiąc)" }),
       B.el("th", { text: "Nowi pacjenci" }), B.el("th", { text: "Zdarzenia" })]);
@@ -234,8 +237,7 @@
           title: r.zd.map(function (z) { return z.nr + ". " + (z.krotko || z.tytul); }).join("\n") })]);
       r.p.forEach(function (v, k) {
         if (v === null) { tr.appendChild(B.el("td", { class: "macierz-pusta", text: "·", title: "Kohorta nie ma jeszcze pełnego okna " + OKNA_MACIERZY[k] + " dni" })); return; }
-        var z = mn[k], u = z[1] > z[0] ? Math.max(0, Math.min(1, (v - z[0]) / (z[1] - z[0]))) : 0.5, st_ = Math.min(RAMPA.length - 1, Math.floor(u * RAMPA.length));
-        tr.appendChild(B.el("td", { class: "macierz-kom", style: "background:" + RAMPA[st_] + ";color:" + (st_ >= 7 ? "#fff" : "#0b0b0b"),
+        tr.appendChild(B.el("td", { class: "macierz-kom hm" + klasaMacierzy(v),
           text: B.liczba(v, 1), title: naz + ": powrót w " + OKNA_MACIERZY[k] + " dniach " + B.proc(v) + " z " + B.liczba(r.n) + " pacjentów" }));
       });
       tb.appendChild(tr);
@@ -243,6 +245,7 @@
     t.appendChild(tb);
   }
 
+  function nazwaKrzywej(k) { var n = b().nazwyPresetu(KS.preset)[k]; return n.charAt(0).toUpperCase() + n.slice(1); }
   function rysujKrzywa() {
     var B = b(), idx = pacjenciFiltru(), D = 180, xs = [], yA = [], yB = [], nA = [], nB = [];
     for (var d = 1; d <= D; d++) {
@@ -265,16 +268,16 @@
       B.liczba(nB[dP - 1]) + ", z najstarszych kohort. Wyższe wartości późnych dni nie znaczą więc, że młodsze kohorty nadrabiają." : "";
     if (wykresKrz) wykresKrz.destroy();
     wykresKrz = new uPlot({
-      width: Math.max(320, cel.clientWidth), height: 300,
+      width: cel.clientWidth || 300, height: 300,
       scales: { x: { time: false }, y: { range: [0, mx * 1.1] } },
       axes: [{ stroke: m, grid: { stroke: g, width: 1 }, ticks: { stroke: g, width: 1, size: 4 }, font: "12px system-ui",
         label: "dni od pierwszego zakupu", labelFont: "12px system-ui", values: function (u, sp) { return sp.map(function (v) { return v; }); } },
       { stroke: m, grid: { stroke: g, width: 1 }, ticks: { stroke: g, width: 1, size: 4 }, font: "12px system-ui", size: 56,
         values: function (u, sp) { return sp.map(function (v) { return B.liczba(v, 0) + "%"; }); } }],
       series: [{ label: "Dzień", value: function (u, v) { return v == null ? "—" : v + ". dzień"; } },
-        { label: "Okres A (" + B.dataPL(KS.a[0]) + "–" + B.dataPL(KS.a[1]) + ")", stroke: B.css("--ink-2"), width: 2,
+        { label: nazwaKrzywej("a") + " (" + B.dataPL(KS.a[0]) + "–" + B.dataPL(KS.a[1]) + ")", stroke: B.css("--seria-a"), width: 2,
           value: function (u, v, si, di) { return v == null ? "—" : B.proc(v) + " z " + B.liczba(nA[di]); } },
-        { label: "Okres B (" + B.dataPL(KS.b[0]) + "–" + B.dataPL(KS.b[1]) + ")", stroke: B.css("--series-1"), width: 2,
+        { label: nazwaKrzywej("b") + " (" + B.dataPL(KS.b[0]) + "–" + B.dataPL(KS.b[1]) + ")", stroke: B.css("--seria-b"), width: 2,
           value: function (u, v, si, di) { return v == null ? "—" : B.proc(v) + " z " + B.liczba(nB[di]) + (yA[di] ? ", " + B.liczba(100 * v / yA[di], 0) + "% poziomu A" : ""); } }],
       legend: { live: true }, cursor: { drag: { x: true, y: false } }
     }, [xs, yA, yB], cel);
@@ -325,12 +328,18 @@
     });
     return s;
   }
+  // kolor idzie za grupą, nie za kolejnością zaznaczenia: miejsce w palecie według stałej kolejności wartości wymiaru;
+  // „Wszyscy w filtrze” to seria odniesienia w kolorze tuszu; nowe kampanie na L4 zawsze pomarańczowe, pozostałe niebieskie
+  var KOLOR_GRUPY = { nowe: "--series-2", pozostale: "--series-1" };
   function przydziel(S) {
-    var zajete = {};
-    Object.keys(S.kolory).forEach(function (w) { if (S.wybrane.indexOf(w) < 0) delete S.kolory[w]; else zajete[S.kolory[w]] = true; });
-    S.wybrane.forEach(function (w) {
-      if (S.kolory[w]) return;
-      for (var i = 1; i <= 8; i++) if (!zajete[i]) { S.kolory[w] = i; zajete[i] = true; return; }
+    var wart = S.podz ? wartosciWym(S.podz) : [], zajete = {};
+    S.kolory = {};
+    S.wybrane.slice().sort(function (a, c) { return wart.indexOf(a) - wart.indexOf(c); }).forEach(function (w) {
+      if (w === "__razem") { S.kolory[w] = "--seria-ref"; return; }
+      if (S.podz === "grupa" && KOLOR_GRUPY[w]) { S.kolory[w] = KOLOR_GRUPY[w]; return; }
+      var start = Math.max(0, wart.indexOf(w)) % 8;
+      for (var k = 0; k < 8; k++) { var i = (start + k) % 8 + 1; if (!zajete[i]) { S.kolory[w] = "--series-" + i; zajete[i] = true; return; } }
+      S.kolory[w] = "--seria-ref";
     });
   }
   function zapiszAdresK() {
@@ -413,7 +422,7 @@
     var tb = B.el("tbody");
     function wiersz(w, g, klasa) {
       var s = statyK(g, grupy.__razem), wybrany = KS.wybrane.indexOf(w) >= 0;
-      var kol = wybrany && KS.kolory[w] ? B.css("--series-" + KS.kolory[w]) : "transparent";
+      var kol = wybrany && KS.kolory[w] ? B.css(KS.kolory[w]) : "transparent";
       var chk = B.el("input", { type: "checkbox", "aria-label": "Pokaż na wykresie: " + etykietaWart(KS.podz, w) });
       chk.checked = wybrany;
       chk.onchange = function () {
@@ -426,10 +435,11 @@
         B.el("span", { text: etykietaWart(KS.podz, w) })])]));
       tr.appendChild(B.el("td", null, [B.el("span", { class: "b", text: B.liczba(s.nB) }), B.el("span", { class: "a", text: "A: " + B.liczba(s.nA) })]));
       tr.appendChild(B.el("td", null, [B.el("span", { class: "b", text: B.proc(s.uB) }), B.el("span", { class: "a", text: "A: " + B.proc(s.uA) })]));
-      s.okna.forEach(function (o) { tr.appendChild(o ? komorka(o.pB, o.eB, o.pA, o.eA) : B.el("td", { text: "—" })); });
+      var bezSlowa = { bezSlowa: true };
+      s.okna.forEach(function (o) { tr.appendChild(o ? komorka(o.pB, o.eB, o.pA, o.eA, "%", 1, false, bezSlowa) : B.el("td", { text: "—" })); });
       [90, 180].forEach(function (n) {
         var o = s.okna[okna.indexOf(n)];
-        tr.appendChild(o ? komorka(o.mB, o.eB, o.mA, o.eA, "zł", 1) : B.el("td", { text: "—" }));
+        tr.appendChild(o ? komorka(o.mB, o.eB, o.mA, o.eA, "zł", 1, false, bezSlowa) : B.el("td", { text: "—" }));
       });
       return tr;
     }
@@ -442,6 +452,7 @@
       opis.push(n + " dni: " + (z ? "A " + B.dataPL(z.a[0]) + "–" + B.dataPL(z.a[1]) + ", B " + B.dataPL(z.b[0]) + "–" + B.dataPL(z.b[1]) : "brak kohort z pełnym oknem w okresie B"));
     });
     B.$("ko-okresy-opis").textContent = opisOkresow(KS) + " Kohorty z pełnym oknem: " + opis.join("; ") + ".";
+    B.BK.legendaZmian(B.$("ko-legenda-zmian"), "wobec okresu A");
   }
 
   function wykresKoh(grupy) {
@@ -462,7 +473,7 @@
         for (i = 0; i < N; i++) y[i] = i >= w - 1 && cWsz[i] > 0 ? 100 * c[i] / cWsz[i] : null;
         mian = cWsz;
       }
-      return { label: etykietaWart(KS.podz, wart), kolor: KS.kolory[wart], y: y,
+      return { label: etykietaWart(KS.podz, wart), kolor: B.css(KS.kolory[wart] || "--seria-ref"), y: y,
         opis: function (di, v) {
           if (KS.miara === "nowi") return B.liczba(v, 1) + " dziennie";
           if (KS.miara === "marza") return B.liczba(v, 1) + " zł na pacjenta z " + B.liczba(mian[di]);
@@ -472,7 +483,7 @@
     if (wykresK) wykresK.destroy();
     var proc = KS.miara === "powrot" || KS.miara === "udzial";
     wykresK = wykres(B.$("ko-wykres"), serie, { procent: proc, jednostka: proc ? "%" : KS.miara === "marza" ? "zł" : "pacjenci",
-      formatY: function (v) { return B.liczba(v, 0) + (proc ? "%" : ""); }, a: KS.a, b: KS.b, zdarzenia: true });
+      formatY: function (v) { return B.liczba(v, 0) + (proc ? "%" : ""); }, a: KS.a, b: KS.b, nazwy: B.nazwyPresetu(KS.preset), zdarzenia: true });
   }
 
   function filtryMacierzy() {
@@ -531,7 +542,7 @@
       return { label: ET.pora[pora], kolor: i + 1, y: y, opis: function (di, v) { return B.proc(v) + " z " + B.liczba(m[di]) + " wizyt"; } };
     });
     if (wykresP) wykresP.destroy();
-    wykresP = wykres(B.$("pz-wykres"), serie, { procent: true, jednostka: "%", zdarzenia: true, a: zakresOkresu(1), b: zakresOkresu(2) });
+    wykresP = wykres(B.$("pz-wykres"), serie, { procent: true, jednostka: "%", zdarzenia: true, a: zakresOkresu(1), b: zakresOkresu(2), nazwy: B.nazwyPresetu("rok") });
     // tabela: specjalizacja × pora, okres 1 wobec okresu 2
     var t = B.wyczysc(B.$("pz-tabela")), o1 = zakresOkresu(1), o2 = zakresOkresu(2);
     t.appendChild(B.el("thead", null, [B.el("tr", null, [B.el("th", { text: "Specjalizacja" }), B.el("th", { text: "Pora terminu" }),
@@ -616,7 +627,7 @@
       return { label: ET.cel[cel], kolor: i + 1, y: y, opis: function (di, v) { return B.proc(v) + " z " + B.liczba(m[di]) + " odbytych"; } };
     });
     if (wykresZ) wykresZ.destroy();
-    wykresZ = wykres(B.$("zw-wykres"), serie, { procent: true, jednostka: "%", zdarzenia: true, a: zakresOkresu(1), b: zakresOkresu(2) });
+    wykresZ = wykres(B.$("zw-wykres"), serie, { procent: true, jednostka: "%", zdarzenia: true, a: zakresOkresu(1), b: zakresOkresu(2), nazwy: B.nazwyPresetu("rok") });
     var t = B.wyczysc(B.$("zw-tabela")), o1 = zakresOkresu(1), o2 = zakresOkresu(2);
     t.appendChild(B.el("thead", null, [B.el("tr", null, ["Cel wizyty", "Zwrot po odbytej wizycie", "Anulowane przed wizytą",
       "Pacjent nie odebrał", "Zwrócone zapłaty", "Koszt lekarza za zwrócone wizyty"].map(function (h) { return B.el("th", { text: h }); }))]));
