@@ -287,3 +287,15 @@ Scalone przez sesję prowadzącą z `notatki/b_narzedzie.md` (sekcje 12 i 13). P
 **Kontrola liczb w zakładkach pomocnika:** szkic `notatki/e_teksty_zakladki.md` powstał z wyniku kodu, więc kontrola była dla tych zakładek pusta. Sesja prowadząca przeczytała teksty i zamroziła szkic jako wzorzec poprawiany ręcznie (generator tylko z flagą `--nadpisz`).
 
 **Integracja (sesja prowadząca, 2026-10-22):** eksport 104 kontrole, 0 różnic; nowe karty 80, każda liczba z pokryciem w szkicach; teksty strony odtworzone (`analiza/wyniki/b_teksty_strony.md`); przeglądarka: 9 zakładek przy 1366 i 375 px, 0 błędów w konsoli, bez przewijania w bok, 296 odnośników działa; zrzuty obejrzane („Czy to wzrost”, lejek z wykresem kroków, priorytety, „Wynik biznesu”, telefon). Dawne kształty tekstów „Czy to wzrost”, „Priorytetów” i „Czego nie wiemy” usunięte z danych strony. Dalej: przegląd Kuby; publikacja i mail tylko za jego zgodą.
+
+## 2026-10-22 — druga lista Kuby po przeglądzie wersji `ccc3c61` (punkt E)
+
+**Zlecenie Kuby:** 15 poprawek merytoryki w tekstach, języka i README, wysłane bezpośrednio do sesji wyglądu (`local_61aff6c2`), do zrobienia w jednym przejściu, potem kontrola liczb, odtworzenie tekstów strony i zatrzymanie u Kuby. Sesja prowadząca na ten czas nie zmieniała plików.
+
+**Wykonanie (commit `4c594b5`, opis: `notatki/e_wyglad.md`, punkt 9):** teksty z danych, szkice i README poprawił agent sesji wyglądu (nowy skrypt `analiza/e_poprawki.py`), kod strony sesja wyglądu. Przeglądarki w aplikacjach opisane jako „do sprawdzenia”, bez pozycji na liście priorytetów. Reguła decyzji testu Mety zostaje (z góry ustalona w rundzie D), z dopisanym ryzykiem; uwagę Codeksa przyjęliśmy częściowo (`notatki/recenzje/e2_codex_odpowiedz.md`). Założenia 71–77.
+
+**Kontrola:** eksport 104 kontrole, 0 różnic, 0 liczb bez pokrycia w szkicach; Codex (Sol) 9 z 9 nowych liczb zgodnych; teksty strony odtworzone; przeglądarka: 9 zakładek przy 1366 i 375 px, 0 błędów, 296 odnośników.
+
+**Lekcja (agent sesji wyglądu):** w kodzie tekstów było kilka liczb wpisanych ręcznie; przechodziły kontrolę, bo stały też w szkicach. Teraz liczy je kod. Zgodność ze szkicem nie wyłapuje liczby wpisanej ręcznie w obu miejscach — przy przeglądzie kodu tekstów trzeba szukać literałów liczbowych w zdaniach.
+
+**Dalej:** przegląd Kuby; publikacja i mail tylko za jego zgodą.

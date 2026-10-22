@@ -22,6 +22,8 @@ Zasada z `CLAUDE.md`, punkt 14: każda sesja czyta ten plik na starcie i aktuali
 
 Status wszystkich punktów: `notatki/PLAN.md`.
 
+**Stan na 2026-10-22 po drugiej liście Kuby:** Kuba przejrzał wersję `ccc3c61` i wysłał 15 poprawek do sesji wyglądu; zrobione w commicie `4c594b5` (opis: `notatki/e_wyglad.md`, punkt 9; założenia 71–77; ostatni wpis w `DECYZJE.md`). Kontrole: 104/0 różnic, 0 liczb bez pokrycia, Codex (Sol) 9/9, przeglądarka bez błędów. Nowy skrypt: `analiza/e_poprawki.py` uruchamiany osobno, przed eksportem (raport `wyniki/e_poprawki.txt` i `.json`, z którego czyta `analiza/e_teksty.py`). Następny krok: przegląd Kuby; publikacja i mail tylko za jego zgodą.
+
 **Stan na 2026-10-22 (runda E, przed przeglądem Kuby):**
 - **Zlecenie i wynik:** `notatki/e_runda.md` (słowa Kuby, podział pracy, kontrakt danych, wynik części 1 w punkcie 4, postęp i recenzja Codeksa w punkcie 5). Decyzje: `DECYZJE.md`, ostatni wpis; założenia 64–70; znaleziska z 2026-10-21 wieczorem.
 - **Kod:** `analiza/e_merytoryka.py` (część 1, raport `wyniki/e_merytoryka.txt` i `.json`); teksty strony w kształcie karty: `analiza/e_teksty.py` (sesja prowadząca) i `analiza/e_teksty_zakladki.py` (agent, przejrzany i poprawiony); oba uruchamia `python -I analiza/b_eksport.py`. Szkice-wzorce kontroli liczb: `notatki/e_teksty.md`, `notatki/e_teksty_zakladki.md` (ten drugi zamrożony, poprawiany ręcznie, generator tylko z `--nadpisz`). Zmiana tekstu = zmiana w kodzie i w szkicu.
