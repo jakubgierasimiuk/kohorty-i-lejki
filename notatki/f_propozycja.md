@@ -4,6 +4,8 @@ Podstawa: recenzje Astry i Fable (`notatki/recenzje/f_*`), kontrola języka (`no
 
 **Ramy Kuby:** poprawiamy tylko braki wobec zadania i to, co zmienia ocenę rozwiązania; bez nowych analiz, raczej lepiej pokazać to, co już mamy; jedna runda poprawek, potem publikacja. Do decyzji Kuby nic się nie zmienia.
 
+**Decyzja Kuby (2026-10-23):** „tak, wszystko według rekomendacji, ruszaj z dwiema sesjami”. Zdarzenie 8 (remarketing Meta) zostaje tylko na osi. Wykonanie: sesja A `local_e5cfeeb6` (strona), sesja B `local_4102aedd` (ślad pracy). Zapis: `DECYZJE.md`, ostatni wpis.
+
 ## Puenta
 
 Proponujemy pięć poprawek. Dwie największe odpowiadają na to, co obaj recenzenci wskazali niezależnie:

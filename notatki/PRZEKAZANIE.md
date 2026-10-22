@@ -2,7 +2,7 @@
 
 Zasada z `CLAUDE.md`, punkt 14: każda sesja czyta ten plik na starcie i aktualizuje go na końcu swojej pracy.
 
-**Ostatnia aktualizacja:** 2026-10-23 w nocy, sesja prowadząca `local_e4232e55-24be-46f8-a2c8-d411b47ebc48` (punkt F: ostatnia kontrola przed publikacją; zlecenie Kuby w `notatki/f_kontrola.md`). **Kontrola zrobiona; propozycja jednej rundy poprawek (`notatki/f_propozycja.md`) czeka na decyzję Kuby. Następne kroki, każdy za zgodą Kuby: runda poprawek, publikacja, mail.** Wcześniejsze sesje prowadzące: `local_1bf06826` (E, merytoryka, język, wygląd), `local_791c102e` (D, poprawki po konsylium), `local_06eb3146` (A1–A5), `local_ca1efb6a` (C i D do konsylium).
+**Ostatnia aktualizacja:** 2026-10-23 w nocy, sesja prowadząca `local_e4232e55-24be-46f8-a2c8-d411b47ebc48` (punkt F: ostatnia kontrola przed publikacją; zlecenie Kuby w `notatki/f_kontrola.md`). **Kontrola zrobiona; propozycja poprawek (`notatki/f_propozycja.md`) przyjęta przez Kubę 2026-10-23. Runda poprawek w toku: sesja A `local_e5cfeeb6-1f29-4157-8b0e-600ce2627bbd` (strona), sesja B `local_4102aedd-1d8f-4480-89ae-f3336b9f767e` (ślad pracy; commit dopiero po przeglądzie Kuby). Potem: komplet kontroli, publikacja i mail, każdy krok za zgodą Kuby.** Wcześniejsze sesje prowadzące: `local_1bf06826` (E, merytoryka, język, wygląd), `local_791c102e` (D, poprawki po konsylium), `local_06eb3146` (A1–A5), `local_ca1efb6a` (C i D do konsylium).
 
 ## 1. Gdzie jesteśmy
 

@@ -323,3 +323,27 @@ Scalone przez sesję prowadzącą z `notatki/b_narzedzie.md` (sekcje 12 i 13). P
 **Etapy (opis: `notatki/e_grafika.md`, punkty 6–8):** etap 2 (`a91be0c`) — nowe wykresy w kartach (słupki pacjentów, hantle powrotu, sposoby zakupu TelemediGO, Safari, przeglądarki w aplikacjach, dwa wykresy wyniku biznesu, ekonomia kampanii względem zera); etap 3 (`329d075`) — wspólna legenda wykresów dziennych, wyróżnienie jednej serii, kolejność kart, filtry kohort na dwóch poziomach, tabele na telefonie z jedną miarą; etap 4 (`63ddc3d`) — schodki mostka, słupki kwartałów, udział nowych kampanii w lejku, oś zdarzeń z kształtami, „Dalej”, wykresy godzin, grupy priorytetów, powiązania priorytetów z niewiadomymi. Etap 5 (pola liczbowe w eksporcie) zrobiła sesja prowadząca (`c3bde09`), a pole zmiany powrotu z wartości niezaokrąglonych dodała po uwadze sesji grafiki (`05dc624`; hantel 180 dni pokazywał −5,3 zamiast −5,2).
 
 **Kontrola (sesja grafiki i sesja prowadząca):** eksport 115 kontroli, 0 różnic; przeglądarka w trybie jasnym i ciemnym, 9 zakładek przy 1366 i 375 px, 0 błędów, 314 odnośników działa; 162 porównania podpisów wykresów z tabelami, 0 niezgodnych; teksty strony odtworzone (`analiza/wyniki/b_teksty_strony.md`).
+
+## 2026-10-23 — ostatnia kontrola przed publikacją (punkt F) i jedna runda poprawek
+
+**Zlecenie Kuby (2026-10-22 wieczorem):** trzy części równolegle — zgodność z zadaniem (Astra przez Codeksa i Fable jako agent, niezależnie, z pełnym tekstem zadania, bez naszych notatek i oceny w briefie), kontrola techniczna ostatecznej wersji, język tylko w tekstach zmienionych od rana; nic nie publikować. Pełne słowa Kuby: `notatki/f_kontrola.md`, punkt 1.
+
+**Decyzje po drodze:**
+- Tekst zadania: narzędzie odczytu linku dało tylko streszczenie, pełny tekst wyciągnięty kodem z zapisanej strony; zostaje poza repozytorium (polecenie Kuby).
+- „Od rana” = od wersji `ccc3c61`, którą Kuba przeglądał rano (założenie sesji prowadzącej, podane sesji języka).
+- Brief recenzji przyjęty przez Kubę z dwiema rzeczami dodanymi przez sesję prowadzącą (lista commitów jako materiał, pytanie „co było jasne, a co trzeba przeczytać drugi raz”): „tak, wysyłaj, obie rzeczy zostają”.
+
+**Wynik:** `notatki/f_kontrola.md`, punkty 4–6 (recenzje, kontrola techniczna, język).
+
+**Prośba Kuby o propozycję (dosłownie):** „Przeczytałem odpowiedzi Astry i Fable, kontrolę języka i Twoje podsumowanie. Zanim cokolwiek zmienimy, zaproponuj, jak to poprawić. Gdy skończy się kontrola techniczna, dołóż jej wynik. Ramy: poprawiamy tylko braki wobec zadania i to, co zmienia ocenę rozwiązania; bez nowych analiz, raczej lepiej pokazać to, co już mamy; jedna runda poprawek, potem publikacja. Dla każdej poprawki napisz: co dokładnie zmieniamy i gdzie, jak to będzie wyglądać dla kogoś z Telemedi, skąd liczby i jak je sprawdzimy, ile to zajmie i co może pójść źle. Tam, gdzie jest więcej niż jeden sensowny sposób, daj warianty i swoją rekomendację. Osobno napisz, czego nie ruszamy i co idzie na rozmowę. Szczególnie przemyśl dwie rzeczy, które obaj recenzenci wskazali niezależnie: 1. jak pokazać w jednym miejscu, które zdarzenie albo która nasza decyzja zmieniła zachowanie kohort i wynik; 2. jak pokazać ślad pracy tak, jak chce zadanie (prompty, ślepe uliczki, poprawki), i co trzeba zrobić z zapisem rozmów, żeby do publicznego repozytorium nie trafiło nic spoza tego projektu. Nic jeszcze nie zmieniaj. Pokaż mi propozycję i poczekaj na decyzję.”
+
+**Propozycja:** `notatki/f_propozycja.md` (z wynikiem kontroli technicznej w punkcie 6).
+
+**Decyzja Kuby (2026-10-23):** „tak, wszystko według rekomendacji, ruszaj z dwiema sesjami”. Czyli:
+1. tabela „co zmieniło kohorty i wynik” jako pierwsza karta „Kohort”, tylko z liczb już policzonych, z odnośnikami do porównania „60 dni przed i po” na kohortach dziennych; zdarzenie 8 (remarketing Meta) tylko na osi — w propozycji bez rekomendacji, sesja prowadząca wybrała wariant z mniejszą ilością tekstu;
+2. ślad pracy w wariancie C: sekcja README z 8–10 sprawdzonymi historiami, folder `rozmowy/` (wiadomości Kuby, odpowiedzi Claude, polecenia dla innych sesji; bez niczego, co dokleja aplikacja, bez wyników narzędzi, z usuniętymi adresami stron i e-mail, ścieżkami spoza projektu, nazwami innych projektów i fragmentami tekstu zadania) oraz `notatki/lekcje.md` z pamięci projektu; commit dopiero po przeglądzie Kuby;
+3. sześć zdań na pierwszej zakładce, w tym kolejność decyzji na pierwszy tydzień jak na liście priorytetów;
+4. wszystkie dziesięć poprawek językowych „przed wysłaniem”;
+5. wykres Safari na równych oknach 60 dni przed i po awarii;
+6. poprawki techniczne 6a (pasek zakładek przy 761–990 px), 6b (Safari na telefonie: „Lejek” przesuwa się w bok), 6c (ucięte cyfry w tabelach na telefonie, jeśli zmieści się w rundzie);
+7. dwie sesje naraz: sesja A `local_e5cfeeb6-1f29-4157-8b0e-600ce2627bbd` (strona: poprawki 3, 4, 1, 5, 6a–6c, eksport i kontrole) i sesja B `local_4102aedd-1d8f-4480-89ae-f3336b9f767e` (ślad pracy). Na końcu sesja prowadząca: komplet kontroli, krótkie przejrzenie przez Codeksa (Sol), czy nowa tabela i zmienione zdania nie mówią więcej niż dane, zatrzymanie u Kuby przed publikacją.
