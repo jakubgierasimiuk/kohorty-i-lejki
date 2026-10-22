@@ -482,7 +482,17 @@ a.nr:hover { background: var(--accent); }
 #pz-tabela td:nth-child(2), #pz-tabela th:nth-child(2) { text-align: left; }
 #ek-tabela td:last-child { white-space: normal; min-width: 150px; text-align: left; }
 #ek-tabela td:last-child .znacznik { white-space: normal; line-height: 1.25; }
-.macierz-ramka { max-height: 640px; overflow: auto; }
+.macierz-ramka { overflow-x: auto; }
+.macierz-ramka.przewijana { max-height: 640px; overflow: auto; }
+/* przełącznik jako widoczne przyciski (np. rozdzielczość mapy kohort) */
+.przelacznik-etykieta { font-size: 12px; color: var(--muted); font-weight: 500; align-self: center; }
+.przelacznik { display: inline-flex; border: 1px solid var(--axis); border-radius: 8px; overflow: hidden; background: var(--surface); }
+.przelacznik button { font: 500 14px/1 var(--font); color: var(--ink-2); background: transparent; border: 0; border-left: 1px solid var(--axis);
+  padding: 0 14px; min-height: 38px; cursor: pointer; }
+.przelacznik button:first-child { border-left: 0; }
+.przelacznik button:hover { background: var(--wash); color: var(--ink); }
+.przelacznik button[aria-pressed="true"] { background: var(--accent-tlo); color: var(--accent); font-weight: 650; }
+.przelacznik button:focus-visible { outline-offset: -2px; }
 .macierz td.macierz-kom { text-align: center; font-variant-numeric: tabular-nums; border-bottom: 2px solid var(--surface); border-left: 2px solid var(--surface); }
 .macierz td.macierz-pusta { text-align: center; color: var(--muted);
   background: repeating-linear-gradient(135deg, transparent 0 4px, var(--wash-2) 4px 5px); }
@@ -499,6 +509,60 @@ a.nr:hover { background: var(--accent); }
 .macierz td.macierz-zd { text-align: left; color: var(--ink-2); font-size: 12px; }
 .macierz th { text-align: center; }
 .macierz tbody tr:hover td.macierz-kom { filter: brightness(0.95); }
+
+
+/* ------------------------------------------------------------ wykresy w kartach (hantle, słupki, punkty względem zera) */
+.wk { margin: 14px 0 10px; max-width: 820px; }
+.wk-legenda { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 12px; color: var(--ink-2); margin-bottom: 6px; }
+.wk-lg { display: inline-flex; align-items: center; gap: 6px; }
+.wk-wiersz { display: grid; grid-template-columns: minmax(120px, 190px) minmax(0, 1fr) minmax(150px, auto); column-gap: 14px; align-items: center;
+  min-height: 34px; border-radius: 6px; }
+.wk-wiersz:focus-visible { outline-offset: 0; }
+.wk-wiersz:hover { background: var(--wash); }
+.wk-etykieta { font-size: 13px; color: var(--ink); line-height: 1.3; }
+.wk-podtytul { font-size: 12px; color: var(--muted); margin: 10px 0 2px; }
+.wk-tor { position: relative; height: 22px; }
+.wk-tor::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--grid); }
+.pkt { display: inline-block; width: 12px; height: 12px; border-radius: 50%; flex: none; background: var(--muted); }
+.wk-tor .pkt { position: absolute; top: 50%; margin: -6px 0 0 -6px; box-shadow: 0 0 0 2px var(--surface); }
+.pkt.kw { border-radius: 3px; }
+.pkt-a { background: var(--seria-a); }
+.pkt-b { background: var(--seria-b); }
+.hantle-odcinek { position: absolute; top: calc(50% - 1.5px); height: 3px; border-radius: 2px; background: var(--seria-b); opacity: 0.35; }
+.hantle-grupy .pkt-a { background: var(--surface); box-shadow: inset 0 0 0 2.5px var(--ink-2); }
+.hantle-grupy .wk-tor .pkt-a { box-shadow: inset 0 0 0 2.5px var(--ink-2), 0 0 0 2px var(--surface); }
+.hantle-grupy .pkt-b { background: var(--series-7); }
+.hantle-grupy .hantle-odcinek { background: var(--ink-2); opacity: 0.3; }
+.wk-wart { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 13px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.wk-ab { white-space: nowrap; }
+.wk-ab strong { color: var(--ink); }
+.wk-os .wk-os-skala { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; border-top: 1px solid var(--axis); padding-top: 3px; }
+.wk-os { min-height: 0; }
+.wk-os:hover { background: transparent; }
+.wk-przypis { font-size: 12px; color: var(--muted); margin-top: 8px; max-width: 72ch; }
+.wk-para { display: grid; gap: 3px; padding: 4px 0; }
+.wk-slupek-wiersz { display: flex; align-items: center; gap: 6px; min-height: 12px; }
+.wk-slupek { display: block; height: 11px; border-radius: 0 3px 3px 0; min-width: 2px; }
+.sl-a { background: var(--seria-a); }
+.sl-b { background: var(--seria-b); }
+.wk-slupek-tekst { font-size: 12px; color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.wk-slupek-tekst.mocny { color: var(--ink); font-weight: 600; }
+.wk-skum { display: flex; height: 22px; gap: 2px; }
+.wk-segment { display: flex; align-items: center; justify-content: center; height: 100%; font-size: 12px; font-weight: 600; color: #fff;
+  font-variant-numeric: tabular-nums; overflow: hidden; white-space: nowrap; }
+.wk-segment:first-child { border-radius: 3px 0 0 3px; }
+.wk-segment:last-child { border-radius: 0 3px 3px 0; }
+.seg-pozostale { background: var(--series-1); }
+.seg-nowe { background: var(--series-2); }
+.wk-zero { position: absolute; top: -3px; bottom: -3px; width: 2px; margin-left: -1px; background: var(--ink-2); border-radius: 1px; }
+.pkt-r1 { background: var(--ink); }
+.pkt-r2 { background: var(--surface); box-shadow: inset 0 0 0 2.5px var(--ink); border-radius: 2px; transform: rotate(45deg); }
+.wk-tor .pkt-r2 { box-shadow: inset 0 0 0 2.5px var(--ink), 0 0 0 2px var(--surface); }
+.pkt.mini { width: 9px; height: 9px; margin-right: 4px; vertical-align: 0; }
+.wk-v { display: inline-flex; align-items: center; white-space: nowrap; }
+.wk-v.ujemne { color: var(--zle); }
+details.tabela-zwinieta { margin-top: 8px; }
+.filtr-przelacznik { display: flex; flex-direction: column; gap: 3px; font-size: 12px; color: var(--muted); font-weight: 500; }
 
 /* ------------------------------------------------------------ telefon */
 @media (max-width: 760px) {
@@ -546,4 +610,10 @@ a.nr:hover { background: var(--accent); }
   .lk-tor { grid-column: 1 / 3; margin-top: 4px; }
   .lk-przejscie .lk-strzalka { display: none; }
   .lk-przejscie .lk-dalej { grid-column: 1 / 3; padding: 6px 8px !important; border-radius: 8px !important; }
+  /* wykresy w kartach na telefonie: etykieta i wartości w pierwszym wierszu, oś pod spodem na całą szerokość */
+  .wk-wiersz { grid-template-columns: minmax(0, 1fr) auto; row-gap: 2px; padding: 4px 0; }
+  .wk-wiersz .wk-tor, .wk-wiersz .wk-para, .wk-wiersz .wk-skum { grid-column: 1 / 3; grid-row: 2; }
+  .wk-wart { justify-content: flex-end; }
+  .wk-os > span { display: none; }
+  .wk-os .wk-os-skala { grid-column: 1 / 3; }
 }

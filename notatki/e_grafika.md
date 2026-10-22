@@ -68,3 +68,23 @@ Do commita `351f556` (trzecia lista Kuby w sesji `local_61aff6c2`) ta sesja nie 
 **Podgląd dla Kuby:** `.claude/launch.json` (poza repozytorium, `.claude/` dopisane do `.gitignore`) uruchamia `.claude/serwer_podgladu.py` na 127.0.0.1:8771 z nagłówkiem `Cache-Control: no-store`, żeby odświeżenie panelu zawsze pokazywało nowe pliki (zwykły `http.server` zostawiał w panelu stare skrypty). Port 8765 zajmował proces innej sesji — nieruszany.
 
 **Kontrola (`analiza/e_przegladarka.py`, rozszerzony):** nowa opcja `--ciemny` (tryb ciemny, zrzuty z przedrostkiem `ciemny_`), nowe sprawdzenia: wykres szerszy niż karta, przycisk „Zakładki” na telefonie (widoczny po przewinięciu, 9 zakładek na liście).
+
+## 5. Uwagi Kuby po etapie 1: mapa kohort (2026-10-22)
+
+**Słowa Kuby (skrót polecenia):** wersja dzienna mapy jest nieczytelna (730 wierszy po około 40 pacjentów, liczby skaczą, do 2026 trzeba przewinąć setki wierszy); domyślnie kohorty miesięczne, przełącznik „miesięczne / tygodniowe / dzienne” jako widoczne przyciski; wszystkie 24 miesiące bez przewijania w ramce; nad mapą jedno zdanie, co z niej wynika, z liczbami od sesji prowadzącej. „Dla zakładki i wykresu dziennego [rozdzielczość dzienna] zostaje, mapa jest wyjątkiem.”
+
+**Zrobione:** domyślna rozdzielczość mapy `mies`; przełącznik jako trzy przyciski (`.przelacznik`, `aria-pressed`); ramka bez ograniczenia wysokości przy mapie miesięcznej (24 wiersze widać od razu), przy tygodniowej i dziennej przewijana jak dotąd; miejsce na zdanie nad mapą (`#ko-macierz-wniosek`, wypełniane z `D.kohorty.macierz.wniosek`, gdy eksport je poda — prośba wysłana sesji prowadzącej); tekst „Jak czytać” poprawiony.
+
+## 6. Etap 2 — główne nowe dowody (2026-10-22)
+
+**Komponenty (`narzedzie/karty.js`, bez biblioteki, HTML i CSS):** `BK.hantle` (dwa punkty na wspólnej osi i odcinek; kodowanie „okresy”: szary → niebieski, albo „grupy”: pusty pierścień → fiolet), `BK.slupkiParami` (wartość wcześniejsza szara, późniejsza niebieska, wspólny początek), `BK.slupkiSkumulowane` (długość = liczba, nie 100%), `BK.punktyZero` (punkty względem zera, dwa kształty dla dwóch reguł), `BK.wstawWykres` (wykres pod wnioskiem karty; tabela, którą zastępuje, idzie do zwijanej sekcji „Tabela z liczbami”). Każdy wiersz wykresu ma podpis z liczbami (te same co w tekście), podpowiedź z liczebnościami i opis dla czytników ekranu; etykieta zmiany ma słowo (decyzja R3).
+
+**Gdzie:**
+- „Czy to wzrost”: „Więcej pacjentów” — słupki obu lat w skali liczby pacjentów (pozostałe kanały niebieskie, nowe kampanie na L4 pomarańczowe; `D.P.wzrost.pacjenci.grupy`); „Lepsza retencja” — hantle powrotu w 30/60/90/180 dniach (`D.P.wzrost.retencja.okna`), tabela do „Tabeli z liczbami”; TelemediGO — słupki parami trzech sposobów zakupu (pole `wykres` karty), tabela zwinięta.
+- „Kohorty”: te same hantle powrotu w karcie nagłówka.
+- „Lejek”: karta Safari — hantle „przed awarią → po awarii” dla Safari na iPhone'ach (66% → 46%, jak w tekście karty) i pozostałych przeglądarek; karta przeglądarek w aplikacjach — hantle grup (zwykłe przeglądarki w tych samych warunkach → przeglądarka w aplikacji) dla trzech kampanii z tekstu i, osobno, dla kampanii na L4; podpis drugiej wartości według uwagi sesji prowadzącej („w tych samych warunkach”, bez liczby sesji).
+- „Priorytety”: w karcie pozycji 1 ten sam wykres Safari.
+- „Po zakupie”: karta porannego ruchu — hantle odsetka spóźnionych ponad 15 minut według ruchu w dniu; tabela zwinięta.
+- „Wynik biznesu”: zamiast jednego wykresu z czterema liniami dwa wykresy jeden pod drugim — (1) marża przed kosztem kampanii i wydatki na kampanie (jedna jednostka, jedna oś; marża przed kosztem kampanii = przychód z konsultacji po zwrotach + TelemediGO − koszt lekarza, czyli marża + wydatki + prowizja, jak w eksporcie; wydatki bez prowizji), (2) marża po koszcie lekarza, kampaniach i prowizji. Ekonomia kampanii: punkty wyniku na pacjenta względem zera, koło = według pierwszego wejścia, romb = według sesji z płatnością, przełącznik okna 90 / 180 dni, znacznik „Znak zależy od przypisania”, gdy reguły dają różny znak; tabela w zwijanej sekcji. Na poziomie kanałów dane mają tylko okno 90 dni — przy 180 dniach zamiast pustej osi stoi informacja.
+
+**Kontrola:** `e_przegladarka.py` (znak gotowości zakładki „Wynik biznesu” to teraz wykres ekonomii, bo tabela jest zwinięta): 9 zakładek przy 1366 i 375 px w trybie jasnym i ciemnym, 0 błędów w konsoli, bez przewijania w bok, wykresy mieszczą się w kartach, 296 odnośników działa, przycisk „Zakładki” działa. Obejrzane zrzuty: „Czy to wzrost” (komputer i telefon), lejek, wynik biznesu; poprawione po obejrzeniu: podziałka osi ekonomii (równe kroki co 20 albo 40 zł z zerem), pusty wykres przy 180 dniach na poziomie kanałów.

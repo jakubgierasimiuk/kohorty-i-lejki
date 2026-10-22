@@ -109,6 +109,116 @@
   }
   function kierunekZnaku(d) { return d > 0 ? "wzrost" : d < 0 ? "spadek" : "bez"; }
 
+
+  // ------------------------------------------------------------ wykresy w kartach (HTML i CSS, bez biblioteki)
+  // Liczby do podpisów przychodzą z wywołującego już sformatowane (tak jak w tekstach), tu tylko pozycje na osi.
+  function pozycja(v, min, max) { return Math.max(0, Math.min(100, 100 * (v - min) / ((max - min) || 1))); }
+  function legendaPunktow(lista) {
+    return el("div", { class: "wk-legenda" }, lista.map(function (x) {
+      return el("span", { class: "wk-lg" }, [el("span", { class: "pkt " + x.klasa }), el("span", { text: x.nazwa })]);
+    }));
+  }
+  function osWartosci(teksty) {
+    return el("div", { class: "wk-wiersz wk-os", "aria-hidden": "true" }, [el("span"),
+      el("div", { class: "wk-os-skala" }, teksty.map(function (t) { return el("span", { text: t }); })), el("span")]);
+  }
+  // Wykres hantlowy. cfg: {nazwy: {a, b}, wiersze: [{etykieta, a, b, tekstA, tekstB, zmiana: {tekst, kierunek, stan, tytul},
+  //   tytul, podtytul}], min, max, os: [teksty podziałki], kodowanie: "okresy" (szary → niebieski) | "grupy", opis, przypis}
+  function hantle(cfg) {
+    var min = cfg.min || 0, max = cfg.max;
+    var f = el("figure", { class: "wk hantle" + (cfg.kodowanie === "grupy" ? " hantle-grupy" : ""), role: "group", "aria-label": cfg.opis || null });
+    f.appendChild(legendaPunktow([{ klasa: "pkt-a", nazwa: cfg.nazwy.a }, { klasa: "pkt-b", nazwa: cfg.nazwy.b }]));
+    cfg.wiersze.forEach(function (w) {
+      if (w.podtytul) { f.appendChild(el("div", { class: "wk-podtytul", text: w.etykieta })); return; }
+      var xa = pozycja(w.a, min, max), xb = pozycja(w.b, min, max), lo = Math.min(xa, xb), hi = Math.max(xa, xb);
+      var opis = w.etykieta + ": " + cfg.nazwy.a + " " + w.tekstA + ", " + cfg.nazwy.b + " " + w.tekstB;
+      f.appendChild(el("div", { class: "wk-wiersz", tabindex: "0", title: w.tytul || opis, "aria-label": opis }, [
+        el("span", { class: "wk-etykieta", text: w.etykieta }),
+        el("div", { class: "wk-tor" }, [el("span", { class: "hantle-odcinek", style: "left:" + lo + "%;width:" + (hi - lo) + "%" }),
+          el("span", { class: "pkt pkt-a", style: "left:" + xa + "%" }), el("span", { class: "pkt pkt-b", style: "left:" + xb + "%" })]),
+        el("span", { class: "wk-wart" }, [el("span", { class: "wk-ab" }, [el("span", { class: "wk-a", text: w.tekstA }), " → ",
+          el("strong", { text: w.tekstB })]), w.zmiana ? zmiana(w.zmiana.tekst, w.zmiana.kierunek, w.zmiana.stan, w.zmiana.tytul) : null])]));
+    });
+    if (cfg.os) f.appendChild(osWartosci(cfg.os));
+    if (cfg.przypis) f.appendChild(el("figcaption", { class: "wk-przypis", text: cfg.przypis }));
+    return f;
+  }
+  // Słupki parami (wartość wcześniejsza szara, późniejsza niebieska, wspólny początek osi).
+  // cfg: {nazwy: {a, b}, wiersze: [{etykieta, a, b, tekstA, tekstB, zmiana}], max, opis, przypis}
+  function slupkiParami(cfg) {
+    var f = el("figure", { class: "wk slupki-parami", role: "group", "aria-label": cfg.opis || null });
+    f.appendChild(legendaPunktow([{ klasa: "pkt-a kw", nazwa: cfg.nazwy.a }, { klasa: "pkt-b kw", nazwa: cfg.nazwy.b }]));
+    cfg.wiersze.forEach(function (w) {
+      var opis = w.etykieta + ": " + cfg.nazwy.a + " " + w.tekstA + ", " + cfg.nazwy.b + " " + w.tekstB;
+      f.appendChild(el("div", { class: "wk-wiersz", tabindex: "0", title: w.tytul || opis, "aria-label": opis }, [
+        el("span", { class: "wk-etykieta", text: w.etykieta }),
+        el("div", { class: "wk-para" }, [
+          el("div", { class: "wk-slupek-wiersz" }, [el("span", { class: "wk-slupek sl-a", style: "width:" + pozycja(w.a, 0, cfg.max) + "%" }),
+            el("span", { class: "wk-slupek-tekst", text: w.tekstA })]),
+          el("div", { class: "wk-slupek-wiersz" }, [el("span", { class: "wk-slupek sl-b", style: "width:" + pozycja(w.b, 0, cfg.max) + "%" }),
+            el("span", { class: "wk-slupek-tekst mocny", text: w.tekstB })])]),
+        el("span", { class: "wk-wart" }, [w.zmiana ? zmiana(w.zmiana.tekst, w.zmiana.kierunek, w.zmiana.stan, w.zmiana.tytul) : null])]));
+    });
+    if (cfg.przypis) f.appendChild(el("figcaption", { class: "wk-przypis", text: cfg.przypis }));
+    return f;
+  }
+  // Słupki skumulowane w skali liczebności (długość = liczba, nie 100%).
+  // cfg: {czesci: [{nazwa, klasa}], wiersze: [{etykieta, wartosci: [liczby], teksty: [napisy], suma: napis}], max, opis}
+  function slupkiSkumulowane(cfg) {
+    var f = el("figure", { class: "wk slupki-skum", role: "group", "aria-label": cfg.opis || null });
+    f.appendChild(el("div", { class: "wk-legenda" }, cfg.czesci.map(function (c) {
+      return el("span", { class: "wk-lg" }, [el("span", { class: "pkt kw " + c.klasa }), el("span", { text: c.nazwa })]);
+    })));
+    cfg.wiersze.forEach(function (w) {
+      var opis = w.etykieta + ": " + cfg.czesci.map(function (c, i) { return c.nazwa + " " + w.teksty[i]; }).join(", ") + ", razem " + w.suma;
+      f.appendChild(el("div", { class: "wk-wiersz", tabindex: "0", title: opis, "aria-label": opis }, [
+        el("span", { class: "wk-etykieta", text: w.etykieta }),
+        el("div", { class: "wk-skum" }, cfg.czesci.map(function (c, i) {
+          var v = w.wartosci[i], sz = pozycja(v, 0, cfg.max);
+          return v > 0 ? el("span", { class: "wk-segment " + c.klasa, style: "width:" + sz + "%" }, [sz > 14 ? el("span", { text: w.teksty[i] }) : null]) : null;
+        })),
+        el("span", { class: "wk-wart" }, [el("strong", { text: w.suma })])]));
+    });
+    if (cfg.przypis) f.appendChild(el("figcaption", { class: "wk-przypis", text: cfg.przypis }));
+    return f;
+  }
+  // Punkty względem zera (np. wynik na pacjenta po koszcie pozyskania według dwóch reguł przypisania).
+  // cfg: {legenda: [{klasa, nazwa}], wiersze: [{etykieta, punkty: [{v, klasa}], teksty: [napisy], ujemne: [bool], uwaga: element}],
+  //   min, max, os: [teksty], opis, przypis}
+  function punktyZero(cfg) {
+    var f = el("figure", { class: "wk punkty-zero", role: "group", "aria-label": cfg.opis || null });
+    f.appendChild(legendaPunktow(cfg.legenda));
+    var x0 = pozycja(0, cfg.min, cfg.max);
+    cfg.wiersze.forEach(function (w) {
+      var opis = w.etykieta + ": " + cfg.legenda.map(function (l, i) { return l.nazwa + " " + w.teksty[i]; }).join(", ");
+      f.appendChild(el("div", { class: "wk-wiersz", tabindex: "0", title: opis, "aria-label": opis }, [
+        el("span", { class: "wk-etykieta", text: w.etykieta }),
+        el("div", { class: "wk-tor" }, [el("span", { class: "wk-zero", style: "left:" + x0 + "%" })].concat(w.punkty.map(function (p) {
+          return p.v === null || p.v === undefined ? null : el("span", { class: "pkt " + p.klasa, style: "left:" + pozycja(p.v, cfg.min, cfg.max) + "%" });
+        }))),
+        el("span", { class: "wk-wart" }, w.teksty.map(function (t, i) {
+          return el("span", { class: "wk-v" + (w.ujemne && w.ujemne[i] ? " ujemne" : "") }, [el("span", { class: "pkt mini " + cfg.legenda[i].klasa }), t]);
+        }).concat([w.uwaga || null]))]));
+    });
+    if (cfg.os) f.appendChild(osWartosci(cfg.os));
+    if (cfg.przypis) f.appendChild(el("figcaption", { class: "wk-przypis", text: cfg.przypis }));
+    return f;
+  }
+  // wstawia wykres do karty pod wnioskiem; tabelę z liczbami, którą wykres zastępuje, chowa do zwijanej sekcji
+  function wstawWykres(art, wykres, schowajTabele, napis) {
+    if (!art || !wykres) return;
+    var w = art.querySelector(".wniosek"), tr = art.querySelector(".tresc");
+    if (w) w.parentNode.insertBefore(wykres, w.nextSibling);
+    else if (tr) tr.parentNode.insertBefore(wykres, tr);
+    else art.appendChild(wykres);
+    if (!schowajTabele) return;
+    var t = art.querySelector(".tresc .tabela-ramka") || art.querySelector(".tabela-ramka");
+    if (!t || t.closest("details")) return;
+    var d = el("details", { class: "szczegoly tabela-zwinieta" }, [el("summary", { text: napis || "Tabela z liczbami" })]);
+    t.parentNode.insertBefore(d, t);
+    d.appendChild(t);
+  }
+
   // ------------------------------------------------------------ bloki treści
   function tekstKomorki(k) {
     if (k === null || k === undefined) return "—";
@@ -257,5 +367,6 @@
   window.BK = { el: el, ikona: ikona, znacznik: znacznik, pewnosc: pewnosc, pewnoscZNapisu: pewnoscZNapisu,
     zmiana: zmiana, legendaZmian: legendaZmian, kierunekZnaku: kierunekZnaku, bloki: bloki, tabela: tabela, kafelek: kafelek, kafelki: kafelki,
     linki: linki, szczegoly: szczegoly, zastrzezenie: zastrzezenie, karta: karta, kartaW: kartaW, czyKarta: czyKarta,
-    tekstKomorki: tekstKomorki, komorkaDzieci: komorkaDzieci, POZIOMY: POZIOMY };
+    tekstKomorki: tekstKomorki, komorkaDzieci: komorkaDzieci, POZIOMY: POZIOMY,
+    hantle: hantle, slupkiParami: slupkiParami, slupkiSkumulowane: slupkiSkumulowane, punktyZero: punktyZero, wstawWykres: wstawWykres };
 })();

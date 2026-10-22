@@ -242,12 +242,53 @@
       });
   }
 
+  // Safari na iPhone'ach: krok konta po wyborze terminu przed awarią i po niej, obok pozostałe przeglądarki (hantle)
+  function hantleSafari() {
+    var s = P.lejek_naglowek && P.lejek_naglowek.safari;
+    if (!s || s.przed_proc === undefined) return null;
+    var po = s.po_proc !== undefined ? s.po_proc : s.po60_proc;
+    function wiersz(et, a, b, zla) {
+      var d = Math.round(b) - Math.round(a);   // różnica liczb pokazanych (całe procenty, jak w tekście karty)
+      return { etykieta: et, a: a, b: b, tekstA: proc(a, 0), tekstB: proc(b, 0),
+        zmiana: { tekst: znak(d, 0) + " pkt proc.", kierunek: BK.kierunekZnaku(d), stan: zla ? "zle" : "neutralnie",
+          tytul: (d < 0 ? "Spadek" : "Wzrost") + " o " + liczba(Math.abs(d), 1) + " pkt proc." } };
+    }
+    return BK.hantle({ nazwy: { a: "przed awarią", b: "po awarii" }, kodowanie: "okresy", min: 0, max: 80, os: ["0%", "20%", "40%", "60%", "80%"],
+      opis: "Krok konta po wyborze terminu, osoby, które jeszcze nie kupowały: Safari na iPhone'ach i pozostałe przeglądarki przed awarią i po niej",
+      wiersze: [wiersz("Safari na iPhone'ach", s.przed_proc, po, true), wiersz("Pozostałe przeglądarki", s.reszta_przed_proc, s.reszta_po60_proc, false)],
+      przypis: "Odsetek sesji po wyborze terminu, które przechodzą przez krok konta. Przed awarią: " + dataPL(idxIso(s.przed[0])) + "–" + dataPL(idxIso(s.przed[1])) +
+        ". Po awarii: Safari " + dataPL(idxIso(s.data)) + "–" + dataPL(NDNI - 1) + ", pozostałe przeglądarki " + dataPL(idxIso(s.po60[0])) + "–" + dataPL(idxIso(s.po60[1])) + "." });
+  }
+  // przeglądarki w aplikacjach wobec zwykłych przeglądarek w tych samych warunkach (ta sama kampania i grupa osób)
+  function hantlePrzegladarek(W) {
+    if (!W || !W.wiersze || !W.wiersze.length) return null;
+    var wiersze = [], byloL4 = false;
+    W.wiersze.forEach(function (r) {
+      if (r.rodzaj === "nowe_osoby" && !byloL4) { wiersze.push({ podtytul: true, etykieta: "Dla porównania: kampanie na L4, które trafiają do nowych osób" }); byloL4 = true; }
+      var a = r.zwykla_w_tych_samych_warunkach.proc, b = r.w_aplikacji.proc, d = r.roznica_pkt;
+      wiersze.push({ etykieta: r.kampania, a: a, b: b, tekstA: proc(a, 1), tekstB: proc(b, 1),
+        tytul: r.kampania + ": w aplikacji " + proc(b, 1) + " z " + liczba(r.w_aplikacji.sesje) + " sesji, zwykłe przeglądarki w tych samych warunkach " + proc(a, 1) +
+          (r.od_pkt !== undefined ? "; różnica " + znak(d, 1) + " pkt proc. (przedział " + znak(r.od_pkt, 1) + " do " + znak(r.do_pkt, 1) + ")" : ""),
+        zmiana: { tekst: znak(d, 1) + " pkt proc.", kierunek: BK.kierunekZnaku(d), stan: "neutralnie" } });
+    });
+    return BK.hantle({ nazwy: { a: "zwykłe przeglądarki w tych samych warunkach", b: "przeglądarka w aplikacji" }, kodowanie: "grupy",
+      min: 0, max: 30, os: ["0%", "10%", "20%", "30%"], wiersze: wiersze,
+      opis: "Odsetek sesji zakończonych płatnością w przeglądarkach w aplikacjach i w zwykłych przeglądarkach w tych samych warunkach",
+      przypis: "Odsetek sesji zakończonych płatnością, " + (W.okres || "ostatnie 12 miesięcy") + ". Zwykłe przeglądarki „w tych samych warunkach”: odsetek, jaki miałyby te same sesje przy konwersji zwykłych przeglądarek w tej samej kampanii i tej samej grupie osób." });
+  }
+
   function rysujNaglowekLejka() {
     var N = P.lejek_naglowek;
     zdaniaAlboKarta($("lj-naglowek"), $("lj-zdania"), N.karta, N.zdania);
     var n = wyczysc($("lj-naprawy"));
     if (N.naprawy_karty && N.naprawy_karty.length) {
-      N.naprawy_karty.forEach(function (k) { n.appendChild(BK.karta(k, { prefiks: "lj-" })); });
+      N.naprawy_karty.forEach(function (k, i) {
+        var a = BK.karta(k, { prefiks: "lj-" });
+        n.appendChild(a);
+        // wykresy w kartach napraw: Safari (pierwsza karta) i przeglądarki w aplikacjach (karta z polem wykres)
+        if (k.wykres) BK.wstawWykres(a, hantlePrzegladarek(k.wykres));
+        else if (i === 0) BK.wstawWykres(a, hantleSafari());
+      });
     } else {
       // dotychczasowy kształt: karty napraw w karcie nagłówka
       $("lj-zdania").appendChild(el("div", { class: "naprawy" }, N.naprawy.map(function (x) {
@@ -886,7 +927,7 @@
     el: el, wyczysc: wyczysc, $: $, css: css, akapity: akapity, osieWykresu: osieWykresu, krocz: krocz,
     zdarzeniaNumerowane: zdarzeniaNumerowane, rysujZdarzeniaNaWykresie: rysujZdarzeniaNaWykresie, wczytaj: wczytaj,
     mostek: mostek, BK: BK, zdaniaAlboKarta: zdaniaAlboKarta, zmianaPkt: zmianaPkt, wstepKarta: wstepKarta,
-    nazwyPresetu: nazwyPresetu, polaOkresow: polaOkresow };
+    nazwyPresetu: nazwyPresetu, polaOkresow: polaOkresow, hantleSafari: hantleSafari };
   ikonyStatyczne();
   przygotujSzybkie();
 

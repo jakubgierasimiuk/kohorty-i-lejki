@@ -178,7 +178,9 @@
     return out;
   }
 
-  var OKNA_MACIERZY = [7, 14, 30, 60, 90, 180], KS_GRAN = "dzien", wykresKrz = null;
+  // mapa domyślnie miesięczna (decyzja Kuby): dzienne kohorty po ok. 40 pacjentów skaczą z dnia na dzień, a rozdzielczość
+  // dzienną pokazuje wykres dzień po dniu nad mapą; tygodniowe i dzienne są o jedno kliknięcie
+  var OKNA_MACIERZY = [7, 14, 30, 60, 90, 180], KS_GRAN = "mies", wykresKrz = null;
   // jedna skala koloru dla całej macierzy: ten sam kolor = ten sam przedział odsetka w każdym oknie i po każdym filtrze
   // (progi dobrane tak, żeby w każdym oknie były co najmniej dwa odcienie); kolory z tokenów --heat-0…7 w styl.css
   var PROGI_MACIERZY = [5, 10, 15, 20, 25, 30, 35];
@@ -223,6 +225,8 @@
         zd: zd.filter(function (z) { var di = B.idxIso(z.od); return di >= g.od && di <= g.do; }) };
     });
     skalaMacierzy();
+    // miesięczna mapa (24 wiersze) stoi cała, bez przewijania w ramce; tygodniowa i dzienna przewijają się w ramce
+    B.$("ko-macierz").closest(".macierz-ramka").classList.toggle("przewijana", KS_GRAN !== "mies");
     var t = B.wyczysc(B.$("ko-macierz"));
     var hr = B.el("tr", null, [B.el("th", { text: KS_GRAN === "dzien" ? "Kohorta (dzień)" : KS_GRAN === "tydz" ? "Kohorta (tydzień od)" : "Kohorta (miesiąc)" }),
       B.el("th", { text: "Nowi pacjenci" }), B.el("th", { text: "Zdarzenia" })]);
@@ -486,10 +490,24 @@
       formatY: function (v) { return B.liczba(v, 0) + (proc ? "%" : ""); }, a: KS.a, b: KS.b, nazwy: B.nazwyPresetu(KS.preset), zdarzenia: true });
   }
 
+  // przełącznik rozdzielczości mapy jako widoczne przyciski
   function filtryMacierzy() {
     var B = b(), f = B.wyczysc(B.$("ko-macierz-filtry"));
-    f.appendChild(wybor("ko-gran", "Kohorty", [["dzien", "dzienne"], ["tydz", "tygodniowe"], ["mies", "miesięczne"]], KS_GRAN,
-      function (v) { KS_GRAN = v; rysujMacierz(); }));
+    var g = B.el("div", { class: "przelacznik", role: "group", "aria-label": "Kohorty w mapie" });
+    [["mies", "miesięczne"], ["tydz", "tygodniowe"], ["dzien", "dzienne"]].forEach(function (o) {
+      var p = B.el("button", { type: "button", "aria-pressed": String(KS_GRAN === o[0]), text: o[1] });
+      p.onclick = function () {
+        KS_GRAN = o[0];
+        Array.prototype.forEach.call(g.querySelectorAll("button"), function (x) { x.setAttribute("aria-pressed", String(x === p)); });
+        rysujMacierz();
+      };
+      g.appendChild(p);
+    });
+    f.appendChild(B.el("span", { class: "przelacznik-etykieta", text: "Kohorty:" }));
+    f.appendChild(g);
+    // zdanie z wnioskiem nad mapą: z danych (kohorty.js, klucz macierz), gdy eksport je podaje
+    var M = K && K.macierz, w = B.$("ko-macierz-wniosek");
+    if (w) { w.textContent = M && M.wniosek ? M.wniosek : ""; w.hidden = !(M && M.wniosek); }
   }
 
   BW.kohorty = {
@@ -500,7 +518,12 @@
       }
       B.wczytaj("kohorty", "kohorty").then(function (dane) {
         if (!K) { K = dane; przygotujK(); }
-        if (!gotoweK) { B.zdaniaAlboKarta(B.$("ko-naglowek"), B.$("ko-zdania"), K.karta, K.zdania); gotoweK = true; }
+        if (!gotoweK) {
+          B.zdaniaAlboKarta(B.$("ko-naglowek"), B.$("ko-zdania"), K.karta, K.zdania);
+          // obraz liczby z wniosku: powrót w czterech oknach, rok wcześniej → ostatnie 12 miesięcy
+          if (BW.hantleRetencji) B.BK.wstawWykres(B.$("ko-naglowek"), BW.hantleRetencji());
+          gotoweK = true;
+        }
         czytajAdresK(q);
         filtryK();
         filtryMacierzy();
@@ -563,7 +586,7 @@
 
   var RUCH_GRUPA = "wszyscy";
   function rysujRuch() {
-    var B = b(), t = B.wyczysc(B.$("pz-ruch")), stare = RUCH_GRUPA === "pozostale";
+    var B = b(), t = B.wyczysc(B.$("pz-ruch")), stare = RUCH_GRUPA === "pozostale", hw = [];
     var przedz = [];
     PZ.ruch.forEach(function (r) { if (przedz.indexOf(r.przedzial) < 0) przedz.push(r.przedzial); });
     t.appendChild(B.el("thead", null, [B.el("tr", null, [B.el("th", { text: "Poranne wizyty u internisty w dniu" }),
@@ -575,10 +598,24 @@
       PZ.ruch.forEach(function (r) { if (r.przedzial === pz) o[r.okres] = r; });
       var f = function (r) { if (!r) return [null, null]; var od = stare ? r.odbyte_stare : r.odbyte, sp = stare ? r.spoznione_stare : r.spoznione; return [od ? 100 * sp / od : null, od]; };
       var a = f(o[1]), bb = f(o[2]);
+      if (a[0] !== null && bb[0] !== null) {
+        var d = bb[0] - a[0];
+        hw.push({ etykieta: pz + " wizyt", a: a[0], b: bb[0], tekstA: B.proc(a[0]), tekstB: B.proc(bb[0]),
+          tytul: "Poranne wizyty u internisty w dniach z ruchem " + pz + ": spóźnione ponad 15 minut rok wcześniej " + B.proc(a[0]) + " z " + B.liczba(a[1]) +
+            ", ostatnie 12 miesięcy " + B.proc(bb[0]) + " z " + B.liczba(bb[1]),
+          zmiana: { tekst: B.znak(d, 1) + " pkt proc.", kierunek: B.BK.kierunekZnaku(d), stan: Math.abs(d) < 0.05 ? "neutralnie" : d > 0 ? "zle" : "dobrze" } });
+      }
       tb.appendChild(B.el("tr", null, [B.el("td", { text: pz }), komorka(bb[0], bb[1], a[0], a[1], "%", 1, true, RR),
         B.el("td", null, [B.el("span", { class: "b", text: o[2] ? B.liczba(o[2].dni) : "—" }), B.el("span", { class: "a", text: "rok wcześniej: " + (o[1] ? B.liczba(o[1].dni) : "—") })])]));
     });
     t.appendChild(tb);
+    var mx = Math.max.apply(null, hw.map(function (w) { return Math.max(w.a, w.b); }).concat([10]));
+    mx = Math.ceil(mx / 10) * 10;
+    var hc = B.wyczysc(B.$("pz-ruch-hantle"));
+    hc.appendChild(B.BK.hantle({ nazwy: { a: "rok wcześniej", b: "ostatnie 12 miesięcy" }, kodowanie: "okresy", min: 0, max: mx,
+      os: [0, mx / 2, mx].map(function (v) { return B.liczba(v, 0) + "%"; }), wiersze: hw,
+      opis: "Odsetek porannych wizyt u internisty spóźnionych ponad 15 minut według ruchu porannego w dniu: rok wcześniej i ostatnie 12 miesięcy",
+      przypis: "Odsetek porannych wizyt u internisty (6:00–11:59) spóźnionych ponad 15 minut, w dniach z takim samym ruchem porannym." }));
   }
 
   function rysujPowrotOpoznienie() {
@@ -736,7 +773,7 @@
   };
 
   // ------------------------------------------------------------ WYNIK BIZNESU
-  var WY = null, WS = { krok: "mies", poziom: "grupa", okres: 2 }, wykresW = null, gotoweW = false;
+  var WY = null, WS = { krok: "mies", poziom: "grupa", okres: 2, okno: 90 }, wykresW = null, wykresW2 = null, gotoweW = false;
 
   function okresy(krok) {
     var B = b(), N = B.NDNI, gr = [], cur = null;
@@ -760,27 +797,30 @@
   }
   function rysujWynik() {
     var B = b(), gr = okresy(WS.krok);
-    var x = new Float64Array(gr.length), cz = { prz: [], kl: [], kamp: [], marza: [] };
+    // marża przed kosztem kampanii = przychód z konsultacji po zwrotach + TelemediGO − koszt lekarza
+    // (= marża + wydatki na kampanie + prowizja, ta sama definicja co w eksporcie); wydatki na kampanie bez prowizji
+    var x = new Float64Array(gr.length), cz = { przed: [], kamp: [], marza: [] };
     gr.forEach(function (g, i) {
       x[i] = (B.START + g.od * B.DZIEN) / 1000;
       var s = skladowe(g);
-      cz.prz.push(s.prz + s.go); cz.kl.push(s.kl); cz.kamp.push(s.kamp + s.pr); cz.marza.push(s.marza);
+      cz.przed.push(s.prz + s.go - s.kl); cz.kamp.push(s.kamp); cz.marza.push(s.marza);
     });
     var f = function (v) { return B.liczba(v) + " zł"; };
     var serie = [
-      { label: "Przychód (konsultacje po zwrotach i TelemediGO)", kolor: 1, y: cz.prz, opis: function (di, v) { return f(v); } },
-      { label: "Koszt lekarza", kolor: 2, y: cz.kl, opis: function (di, v) { return f(v); } },
-      { label: "Kampanie i prowizja afiliacyjna", kolor: 4, y: cz.kamp, opis: function (di, v) { return f(v); } },
-      { label: "Marża", kolor: 3, y: cz.marza, opis: function (di, v) { return f(v); } }
+      { label: "Marża przed kosztem kampanii", kolor: B.css("--series-1"), y: cz.przed, opis: function (di, v) { return f(v); } },
+      { label: "Wydatki na kampanie", kolor: B.css("--series-7"), y: cz.kamp, opis: function (di, v) { return f(v); } }
     ];
     if (wykresW) wykresW.destroy();
+    if (wykresW2) wykresW2.destroy();
     var et = function (u, ts) {
       if (ts == null) return "—";
       var i = Math.round((ts * 1000 - B.START) / B.DZIEN), g = gr.filter(function (q) { return q.od === i; })[0];
       return g ? B.dataPL(g.od) + (g.do > g.od ? "–" + B.dataPL(g.do) : "") : B.dataPL(i);
     };
-    wykresW = wykres(B.$("wy-wykres"), serie, { x: x, procent: false, jednostka: "zł", punkty: WS.krok === "mies", etykietaX: et, zdarzenia: true,
-      formatY: function (v) { return Math.abs(v) >= 1000 ? B.liczba(v / 1000, 0) + " tys." : B.liczba(v, 0); } });
+    var fY = function (v) { return Math.abs(v) >= 1000 ? B.liczba(v / 1000, 0) + " tys." : B.liczba(v, 0); };
+    wykresW = wykres(B.$("wy-wykres"), serie, { x: x, procent: false, jednostka: "zł", punkty: WS.krok === "mies", etykietaX: et, zdarzenia: true, formatY: fY });
+    wykresW2 = wykres(B.$("wy-wykres2"), [{ label: "Marża po koszcie lekarza, kampaniach i prowizji", kolor: B.css("--series-3"), y: cz.marza,
+      opis: function (di, v) { return f(v); } }], { x: x, procent: false, jednostka: "zł", punkty: WS.krok === "mies", etykietaX: et, zdarzenia: true, formatY: fY, wys: 240 });
     // tabela miesięczna z sumami okresów
     var t = B.wyczysc(B.$("wy-tabela"));
     var kol = [["Okres", null], ["Zamówienia", "zam"], ["Nowi pacjenci", "nowi"], ["Przychód: pierwsze zamówienia", "prz1"],
@@ -876,6 +916,36 @@
       tb.appendChild(tr);
     });
     t.appendChild(tb);
+    rysujEkonomieWykres(w, klucze, et, znajdz);
+  }
+  function rysujEkonomieWykres(w, klucze, et, znajdz) {
+    var B = b(), BK = B.BK, okno = WS.okno, zl = function (v) { return (v > 0 ? "+" : "") + B.liczba(v, 1) + " zł"; };
+    var wiersze = klucze.map(function (k) {
+      var r1 = znajdz(k, "Z1K", okno), r2 = znajdz(k, "Z2", okno), v1 = r1 ? r1.wynik : null, v2 = r2 ? r2.wynik : null;
+      var rozne = v1 !== null && v2 !== null && (v1 >= 0) !== (v2 >= 0);
+      return { etykieta: et(k), punkty: [{ v: v1, klasa: "pkt-r1" }, { v: v2, klasa: "pkt-r2" }],
+        teksty: [v1 === null ? "—" : zl(v1), v2 === null ? "—" : zl(v2)], ujemne: [v1 < 0, v2 < 0],
+        uwaga: rozne ? BK.znacznik({ tekst: "Znak zależy od przypisania", stan: "uwaga" }) : null };
+    }).filter(function (r) { return r.punkty[0].v !== null || r.punkty[1].v !== null; });
+    var wsz = []; wiersze.forEach(function (r) { r.punkty.forEach(function (p) { if (p.v !== null) wsz.push(p.v); }); });
+    var krok = 20, mn = Math.min(0, Math.floor(Math.min.apply(null, wsz.concat([0])) / krok) * krok),
+      mx = Math.max(0, Math.ceil(Math.max.apply(null, wsz.concat([0])) / krok) * krok);
+    if (mx === mn) mx = mn + krok;
+    if ((mx - mn) / krok > 6) {   // szeroki zakres: podziałka co 40 zł, oś znowu od wielokrotności kroku, żeby zero było na podziałce
+      krok = 40;
+      mn = Math.min(0, Math.floor(Math.min.apply(null, wsz.concat([0])) / krok) * krok);
+      mx = Math.max(0, Math.ceil(Math.max.apply(null, wsz.concat([0])) / krok) * krok);
+    }
+    var os = []; for (var v = mn; v <= mx + 0.001; v += krok) os.push((v > 0 ? "+" : "") + B.liczba(v, 0) + " zł");
+    var c = B.wyczysc(B.$("ek-wykres"));
+    if (!wiersze.length) {
+      c.appendChild(B.el("p", { class: "lejek-pusty", text: "Na tym poziomie dane nie mają wyniku w oknie " + okno + " dni. Wybierz okno 90 dni albo inny poziom." }));
+      return;
+    }
+    c.appendChild(BK.punktyZero({ legenda: [{ klasa: "pkt-r1", nazwa: "według pierwszego wejścia" }, { klasa: "pkt-r2", nazwa: "według sesji z płatnością" }],
+      min: mn, max: mx, os: os, wiersze: wiersze,
+      opis: "Wynik na pacjenta po koszcie pozyskania w " + okno + " dniach według dwóch reguł przypisania źródła",
+      przypis: "Wynik na pacjenta w " + okno + " dniach: marża na pacjenta minus koszt pozyskania. Pionowa linia to zero: na lewo od niej kampania traci na każdym pacjencie." }));
   }
 
   BW.wynik = {
@@ -895,6 +965,14 @@
             function (v) { WS.poziom = v; rysujEkonomie(); }));
           fe.appendChild(wybor("ek-okres", "Okres", [["2", "Ostatnie 12 miesięcy (" + B.O[1].nazwa + ")"], ["1", "Rok wcześniej (" + B.O[0].nazwa + ")"]], String(WS.okres),
             function (v) { WS.okres = +v; rysujEkonomie(); }));
+          // okno wykresu wyniku: przełącznik 90 / 180 dni (tabela w szczegółach pokazuje oba)
+          var g = B.el("div", { class: "przelacznik", role: "group", "aria-label": "Okno wyniku na pacjenta" });
+          [90, 180].forEach(function (n) {
+            var p = B.el("button", { type: "button", "aria-pressed": String(WS.okno === n), text: n + " dni" });
+            p.onclick = function () { WS.okno = n; Array.prototype.forEach.call(g.querySelectorAll("button"), function (x) { x.setAttribute("aria-pressed", String(x === p)); }); rysujEkonomie(); };
+            g.appendChild(p);
+          });
+          fe.appendChild(B.el("label", { class: "filtr-przelacznik" }, ["Okno wyniku", g]));
           gotoweW = true;
         }
         rysujWynik(); rysujEkonomie();

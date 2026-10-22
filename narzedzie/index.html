@@ -151,11 +151,12 @@
         <h3>Macierz kohort: powrót według dni od pierwszego zakupu</h3>
         <div class="filtry-wykresu" id="ko-macierz-filtry"></div>
       </div>
+      <p class="wniosek" id="ko-macierz-wniosek" hidden></p>
       <p class="przypis">Wiersz to kohorta, kolumna to okno: odsetek pacjentów kohorty, którzy wrócili w ciągu tylu dni. Ten sam kolor znaczy w każdej kolumnie to samo.</p>
       <div class="skala-macierzy" id="ko-macierz-skala"></div>
       <div class="tabela-ramka macierz-ramka"><table class="tabela macierz" id="ko-macierz"></table></div>
       <details class="jak-liczymy"><summary>Jak czytać</summary><div class="szczegoly-tresc">
-        <p>Kohorta to nowi pacjenci z tego samego dnia, tygodnia albo miesiąca pierwszego zakupu; domyślnie dzień. Kohorty dzienne są małe, więc ich wartości skaczą bardziej niż tygodniowe.</p>
+        <p>Kohorta to nowi pacjenci z tego samego miesiąca, tygodnia albo dnia pierwszego zakupu; domyślnie miesiąc. Kohorty dzienne mają po około 40 pacjentów, więc ich wartości skaczą z dnia na dzień; rozdzielczość dzienną pokazuje wykres dzień po dniu wyżej.</p>
         <p>Skala koloru jest jedna dla całej macierzy: progi są te same w każdej kolumnie i przy każdym filtrze, więc ten sam kolor zawsze oznacza ten sam przedział odsetka. Kolumna „Zdarzenia” podaje numery zdarzeń z osi, które wypadają w tej kohorcie. Filtry są te same co wyżej, bez podziału na serie.</p>
       </div></details>
     </article>
@@ -296,7 +297,10 @@
       <h3>Opóźnienia przy tym samym porannym ruchu</h3>
       <div id="pz-ruch-zdania"></div>
       <form class="filtry" id="pz-ruch-filtry" onsubmit="return false"></form>
-      <div class="tabela-ramka"><table class="tabela tabela-lejek" id="pz-ruch"></table></div>
+      <div id="pz-ruch-hantle"></div>
+      <details class="szczegoly tabela-zwinieta"><summary>Tabela z liczbami</summary>
+        <div class="tabela-ramka"><table class="tabela tabela-lejek" id="pz-ruch"></table></div>
+      </details>
       <details class="jak-liczymy zastap"><summary>Jak liczymy</summary><div class="szczegoly-tresc">
         <p>Ruch poranny w dniu to wszystkie nieanulowane wizyty u internisty z terminem 6:00–11:59 tego dnia. Dni grupujemy według tego ruchu i w każdej grupie porównujemy odsetek porannych wizyt spóźnionych ponad 15 minut w obu okresach.</p>
       </div></details>
@@ -351,7 +355,11 @@
       <h3>Przychód i marża w czasie</h3>
       <div id="wy-zdania"></div>
       <form class="filtry" id="wy-filtry" onsubmit="return false"></form>
+      <h4 class="podtytul-karty">Marża przed kosztem kampanii i wydatki na kampanie</h4>
+      <p class="przypis">Obie linie w złotych, na jednej osi. Marża przed kosztem kampanii to przychód z konsultacji po zwrotach i z TelemediGO minus koszt lekarza.</p>
       <div id="wy-wykres" class="wykres"></div>
+      <h4 class="podtytul-karty">Marża po koszcie lekarza, kampaniach i prowizji</h4>
+      <div id="wy-wykres2" class="wykres"></div>
       <h4 class="podtytul-karty">Kwartały rok do roku</h4>
       <div class="tabela-ramka"><table class="tabela tabela-lejek" id="wy-kwartaly"></table></div>
       <h4 class="podtytul-karty">Miesiące i sumy obu lat</h4>
@@ -361,8 +369,11 @@
       <h3>Ekonomia kampanii: koszt pozyskania i wynik na pacjenta</h3>
       <div id="ek-zdania"></div>
       <form class="filtry" id="ek-filtry" onsubmit="return false"></form>
-      <p class="przypis">Wynik na pacjenta to marża na pacjenta w 90 albo 180 dniach minus koszt pozyskania. Pod kosztem: liczba pacjentów; pod wynikiem: marża minus koszt. Przedział warunkowy pokazuje się po najechaniu na wynik.</p>
-      <div class="tabela-ramka"><table class="tabela tabela-lejek" id="ek-tabela"></table></div>
+      <div id="ek-wykres"></div>
+      <details class="szczegoly tabela-zwinieta"><summary>Tabela: koszt pozyskania i wynik na pacjenta (90 i 180 dni)</summary>
+        <p class="przypis">Wynik na pacjenta to marża na pacjenta w 90 albo 180 dniach minus koszt pozyskania. Pod kosztem: liczba pacjentów; pod wynikiem: marża minus koszt. Przedział warunkowy pokazuje się po najechaniu na wynik.</p>
+        <div class="tabela-ramka"><table class="tabela tabela-lejek" id="ek-tabela"></table></div>
+      </details>
       <details class="jak-liczymy"><summary>Jak liczymy</summary><div class="szczegoly-tresc">
         <p>Koszt pozyskania to wydatki na kampanię albo prowizja afiliacyjna na nowego pacjenta. Liczymy go osobno dla każdego okna: z kohort z pełnym oknem i z wydatków z tych samych dni, więc po 180 dniach to inne kohorty i inny koszt niż po 90 dniach.</p>
         <p>Oba sposoby przypisania źródła stoją obok siebie: według pierwszego wejścia i według sesji z płatnością.</p>

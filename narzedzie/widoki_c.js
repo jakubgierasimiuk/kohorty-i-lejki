@@ -73,11 +73,55 @@
     n.appendChild(art);
 
     var karty = W.karty || [], ws = wstawki();
-    var obok = karty.slice(0, 2), reszta = karty.slice(2);
-    if (obok.length) n.appendChild(el("div", { class: "karty-dwie" }, obok.map(function (k) { return BK.karta(k, { prefiks: "wz-", wstawki: ws }); })));
-    reszta.forEach(function (k) { n.appendChild(BK.karta(k, { prefiks: "wz-", wstawki: ws })); });
+    var elKarty = karty.map(function (k) { return BK.karta(k, { prefiks: "wz-", wstawki: ws }); });
+    if (elKarty.length >= 2) n.appendChild(el("div", { class: "karty-dwie" }, elKarty.slice(0, 2)));
+    elKarty.slice(elKarty.length >= 2 ? 2 : 0).forEach(function (a) { n.appendChild(a); });
+    // wykresy w kartach: „Więcej pacjentów” (słupki), „Lepsza retencja” (hantle), TelemediGO (słupki parami)
+    if (karty[0] && karty[0].etykieta) BK.wstawWykres(elKarty[0], slupkiPacjentow());
+    if (karty[1] && karty[1].etykieta) BK.wstawWykres(elKarty[1], hantleRetencji(), true);
+    karty.forEach(function (k, i) { if (k.wykres && k.wykres.wiersze && i >= 2) BK.wstawWykres(elKarty[i], slupkiTelemedigo(k.wykres), true); });
     $("wz-zrodlo").textContent = W.zrodlo || "";
   }
+
+  // powrót nowych pacjentów w 30/60/90/180 dniach: rok wcześniej → ostatnie 12 miesięcy (hantle); dane z podsumowanie.js
+  function hantleRetencji() {
+    var B = b(), R = B.P.wzrost && B.P.wzrost.retencja;
+    if (!R || !R.okna || !R.okna.length) return null;
+    return BK.hantle({ nazwy: { a: "rok wcześniej", b: "ostatnie 12 miesięcy" }, kodowanie: "okresy", min: 0, max: 30, os: ["0%", "10%", "20%", "30%"],
+      opis: "Powrót nowych pacjentów w ciągu 30, 60, 90 i 180 dni: rok wcześniej i ostatnie 12 miesięcy",
+      wiersze: R.okna.map(function (o) {
+        var d = o.p2 - o.p1;
+        return { etykieta: "w ciągu " + o.dni + " dni", a: o.p1, b: o.p2, tekstA: B.proc(o.p1), tekstB: B.proc(o.p2),
+          tytul: "Powrót w ciągu " + o.dni + " dni: rok wcześniej " + B.proc(o.p1) + " z " + B.liczba(o.n1) + " pacjentów, ostatnie 12 miesięcy " +
+            B.proc(o.p2) + " z " + B.liczba(o.n2) + " pacjentów (kohorty z pełnym oknem)",
+          zmiana: { tekst: B.znak(d, 1) + " pkt proc.", kierunek: BK.kierunekZnaku(d), stan: d < 0 ? "zle" : d > 0 ? "dobrze" : "neutralnie" } };
+      }) });
+  }
+  // nowi pacjenci w obu latach: nowe kampanie na L4 i pozostali (długość = liczba pacjentów); dane z podsumowanie.js
+  function slupkiPacjentow() {
+    var B = b(), G = B.P.wzrost && B.P.wzrost.pacjenci && B.P.wzrost.pacjenci.grupy;
+    if (!G) return null;
+    var poz = G.filter(function (g) { return g.grupa === "pozostale"; })[0], now = G.filter(function (g) { return g.grupa === "nowe_kampanie"; })[0];
+    if (!poz || !now) return null;
+    var r1 = poz.n1 + now.n1, r2 = poz.n2 + now.n2;
+    return BK.slupkiSkumulowane({ czesci: [{ nazwa: "pozostałe kampanie i kanały", klasa: "seg-pozostale" }, { nazwa: "nowe kampanie na L4", klasa: "seg-nowe" }],
+      max: Math.max(r1, r2) * 1.02, opis: "Nowi pacjenci rok wcześniej i w ostatnich 12 miesiącach, w podziale na nowe kampanie na L4 i pozostałe",
+      wiersze: [{ etykieta: "rok wcześniej", wartosci: [poz.n1, now.n1], teksty: [B.liczba(poz.n1), B.liczba(now.n1)], suma: B.liczba(r1) },
+        { etykieta: "ostatnie 12 miesięcy", wartosci: [poz.n2, now.n2], teksty: [B.liczba(poz.n2), B.liczba(now.n2)], suma: B.liczba(r2) }],
+      przypis: "Nowi pacjenci według pierwszego wejścia; długość słupka to liczba pacjentów." });
+  }
+  // TelemediGO: trzy sposoby zakupu, rok wcześniej i ostatnie 12 miesięcy (słupki parami); dane z pola wykres karty
+  function slupkiTelemedigo(Wk) {
+    var B = b(), mx = Math.max.apply(null, Wk.wiersze.map(function (r) { return Math.max(r.p1, r.p2); }));
+    return BK.slupkiParami({ nazwy: { a: "rok wcześniej", b: "ostatnie 12 miesięcy" }, max: mx * 1.05,
+      opis: "Sprzedaż TelemediGO według sposobu zakupu: rok wcześniej i ostatnie 12 miesięcy",
+      wiersze: Wk.wiersze.map(function (r) {
+        var d = r.p2 - r.p1;
+        return { etykieta: r.opis, a: r.p1, b: r.p2, tekstA: B.liczba(r.p1), tekstB: B.liczba(r.p2),
+          zmiana: { tekst: B.znak(d, 0), kierunek: BK.kierunekZnaku(d), stan: "neutralnie", tytul: "Zmiana liczby zakupów rok do roku" } };
+      }), przypis: "Liczba zakupów TelemediGO." });
+  }
+  BW.hantleRetencji = hantleRetencji;
 
   function rysujWzrostStary(W) {
     var B = b(), el = B.el, $ = B.$, O = B.O;
@@ -211,6 +255,8 @@
         k.wniosek ? el("p", { class: "wniosek", text: k.wniosek }) : null,
         pasek(p)
       ]);
+      // pozycja 1 (Safari): ten sam wykres co w karcie naprawy w lejku
+      if (k.nr === 1 && B.hantleSafari) { var hs = B.hantleSafari(); if (hs) art.appendChild(hs); }
       if (k.sekcje && k.sekcje.length) {
         var dl = el("dl", { class: "sekcje" });
         k.sekcje.forEach(function (s) {
