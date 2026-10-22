@@ -383,6 +383,14 @@ def czy_wzrost(con, mostek, kontrole):
         g1, g2 = D.granice_por(o)
         okna.append({"dni": o, "p1": r[f"p{o}_o1"], "p2": r[f"p{o}_o2"], "n1": int(r[f"n{o}_o1"]),
                      "n2": int(r[f"n{o}_o2"]), "do1": g1.isoformat(), "do2": g2.isoformat()})
+    # okno 180 dni dla wykresu pierwszej zakładki (etap 5 grafiki): ta sama funkcja, te same dni kalendarzowe
+    r180 = con.execute(D.stopy_por(okna=(180,))).df().iloc[0]
+    g1, g2 = D.granice_por(180)
+    okna.append({"dni": 180, "p1": r180["p180_o1"], "p2": r180["p180_o2"], "n1": int(r180["n180_o1"]),
+                 "n2": int(r180["n180_o2"]), "do1": g1.isoformat(), "do2": g2.isoformat()})
+    kontrole += [("powrót w 180 dniach, pacjenci okresu 1 (pierwsza zakładka)", int(r180["n180_o1"]), 9125),
+                 ("powrót w 180 dniach, pacjenci okresu 2 (pierwsza zakładka)", int(r180["n180_o2"]), 12591),
+                 ("powrót w 180 dniach, okres 1 (%)", r180["p180_o1"], 27.5), ("powrót w 180 dniach, okres 2 (%)", r180["p180_o2"], 22.2)]
     g1, g2 = D.granice_por(90)
     dash = mostek["kroki"][0]["miary"]
     czyste = mostek["kroki"][2]["miary"]
@@ -1309,10 +1317,17 @@ def main():
     V2 = B2.wartosci(Z2)
     td = B2.teksty_d(V2)
     nag = naglowek_lejka(d, zd, kontrole, td, V2)
+    kontrole.append(("nowi pacjenci okresu 2: nowe kampanie + pozostali (przyjęta reguła) = wszyscy",
+                     int(V2["nowe_7268"] + V2["bez_z1k"]), int(V2["nowi"][2])))
 
     con = D.polacz()
     mostek, jak = jakosc(con, kontrole)
     wz = czy_wzrost(con, mostek, kontrole)
+    # podział nowych pacjentów dla wykresu pierwszej zakładki (etap 5 grafiki; reguła pierwszego wejścia)
+    wz["pacjenci"]["grupy"] = [{"grupa": "nowe_kampanie", "n1": 0, "n2": int(V2["nowe_7268"])},
+                               {"grupa": "pozostale", "n1": int(V2["nowi"][1]), "n2": int(V2["bez_z1k"])}]
+    kontrole.append(("wykres pacjentów: suma grup = nowi pacjenci okresu 2",
+                     sum(g["n2"] for g in wz["pacjenci"]["grupy"]), wz["pacjenci"]["n2"]))
     zdz = zdarzenia(con, d, zd, nag, jak, kontrole, td, V2, Z2)
     pac, koh, koh_zdania = kohorty(con, kontrole)
     pz = po_zakupie(con, kontrole, td)

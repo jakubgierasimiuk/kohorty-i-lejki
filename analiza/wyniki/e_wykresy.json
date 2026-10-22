@@ -1,0 +1,488 @@
+{
+ "godziny": {
+  "internista": {
+   "0": {
+    "1": {
+     "odbyte": 359,
+     "spoznione": 4
+    },
+    "2": {
+     "odbyte": 559,
+     "spoznione": 17
+    }
+   },
+   "1": {
+    "1": {
+     "odbyte": 198,
+     "spoznione": 6
+    },
+    "2": {
+     "odbyte": 291,
+     "spoznione": 11
+    }
+   },
+   "2": {
+    "1": {
+     "odbyte": 145,
+     "spoznione": 4
+    },
+    "2": {
+     "odbyte": 214,
+     "spoznione": 6
+    }
+   },
+   "3": {
+    "1": {
+     "odbyte": 166,
+     "spoznione": 6
+    },
+    "2": {
+     "odbyte": 224,
+     "spoznione": 9
+    }
+   },
+   "4": {
+    "1": {
+     "odbyte": 187,
+     "spoznione": 1
+    },
+    "2": {
+     "odbyte": 276,
+     "spoznione": 5
+    }
+   },
+   "5": {
+    "1": {
+     "odbyte": 267,
+     "spoznione": 4
+    },
+    "2": {
+     "odbyte": 459,
+     "spoznione": 70
+    }
+   },
+   "6": {
+    "1": {
+     "odbyte": 473,
+     "spoznione": 27
+    },
+    "2": {
+     "odbyte": 865,
+     "spoznione": 392
+    }
+   },
+   "7": {
+    "1": {
+     "odbyte": 799,
+     "spoznione": 55
+    },
+    "2": {
+     "odbyte": 1517,
+     "spoznione": 672
+    }
+   },
+   "8": {
+    "1": {
+     "odbyte": 1021,
+     "spoznione": 61
+    },
+    "2": {
+     "odbyte": 1858,
+     "spoznione": 873
+    }
+   },
+   "9": {
+    "1": {
+     "odbyte": 1055,
+     "spoznione": 79
+    },
+    "2": {
+     "odbyte": 1844,
+     "spoznione": 835
+    }
+   },
+   "10": {
+    "1": {
+     "odbyte": 1037,
+     "spoznione": 61
+    },
+    "2": {
+     "odbyte": 1704,
+     "spoznione": 688
+    }
+   },
+   "11": {
+    "1": {
+     "odbyte": 834,
+     "spoznione": 28
+    },
+    "2": {
+     "odbyte": 1363,
+     "spoznione": 493
+    }
+   },
+   "12": {
+    "1": {
+     "odbyte": 774,
+     "spoznione": 26
+    },
+    "2": {
+     "odbyte": 1303,
+     "spoznione": 291
+    }
+   },
+   "13": {
+    "1": {
+     "odbyte": 719,
+     "spoznione": 18
+    },
+    "2": {
+     "odbyte": 1207,
+     "spoznione": 68
+    }
+   },
+   "14": {
+    "1": {
+     "odbyte": 699,
+     "spoznione": 16
+    },
+    "2": {
+     "odbyte": 1131,
+     "spoznione": 34
+    }
+   },
+   "15": {
+    "1": {
+     "odbyte": 782,
+     "spoznione": 30
+    },
+    "2": {
+     "odbyte": 1113,
+     "spoznione": 32
+    }
+   },
+   "16": {
+    "1": {
+     "odbyte": 749,
+     "spoznione": 21
+    },
+    "2": {
+     "odbyte": 1245,
+     "spoznione": 25
+    }
+   },
+   "17": {
+    "1": {
+     "odbyte": 862,
+     "spoznione": 18
+    },
+    "2": {
+     "odbyte": 1356,
+     "spoznione": 43
+    }
+   },
+   "18": {
+    "1": {
+     "odbyte": 954,
+     "spoznione": 27
+    },
+    "2": {
+     "odbyte": 1529,
+     "spoznione": 33
+    }
+   },
+   "19": {
+    "1": {
+     "odbyte": 1026,
+     "spoznione": 31
+    },
+    "2": {
+     "odbyte": 1608,
+     "spoznione": 42
+    }
+   },
+   "20": {
+    "1": {
+     "odbyte": 1093,
+     "spoznione": 44
+    },
+    "2": {
+     "odbyte": 1648,
+     "spoznione": 42
+    }
+   },
+   "21": {
+    "1": {
+     "odbyte": 953,
+     "spoznione": 26
+    },
+    "2": {
+     "odbyte": 1455,
+     "spoznione": 39
+    }
+   },
+   "22": {
+    "1": {
+     "odbyte": 775,
+     "spoznione": 20
+    },
+    "2": {
+     "odbyte": 1261,
+     "spoznione": 34
+    }
+   },
+   "23": {
+    "1": {
+     "odbyte": 615,
+     "spoznione": 11
+    },
+    "2": {
+     "odbyte": 988,
+     "spoznione": 26
+    }
+   }
+  },
+  "pozostali": {
+   "0": {
+    "1": {
+     "odbyte": 176,
+     "spoznione": 4
+    },
+    "2": {
+     "odbyte": 204,
+     "spoznione": 8
+    }
+   },
+   "1": {
+    "1": {
+     "odbyte": 66,
+     "spoznione": 2
+    },
+    "2": {
+     "odbyte": 91,
+     "spoznione": 2
+    }
+   },
+   "2": {
+    "1": {
+     "odbyte": 60,
+     "spoznione": 1
+    },
+    "2": {
+     "odbyte": 51,
+     "spoznione": 0
+    }
+   },
+   "3": {
+    "1": {
+     "odbyte": 53,
+     "spoznione": 1
+    },
+    "2": {
+     "odbyte": 59,
+     "spoznione": 1
+    }
+   },
+   "4": {
+    "1": {
+     "odbyte": 49,
+     "spoznione": 1
+    },
+    "2": {
+     "odbyte": 77,
+     "spoznione": 0
+    }
+   },
+   "5": {
+    "1": {
+     "odbyte": 84,
+     "spoznione": 3
+    },
+    "2": {
+     "odbyte": 113,
+     "spoznione": 2
+    }
+   },
+   "6": {
+    "1": {
+     "odbyte": 139,
+     "spoznione": 1
+    },
+    "2": {
+     "odbyte": 246,
+     "spoznione": 8
+    }
+   },
+   "7": {
+    "1": {
+     "odbyte": 312,
+     "spoznione": 10
+    },
+    "2": {
+     "odbyte": 423,
+     "spoznione": 12
+    }
+   },
+   "8": {
+    "1": {
+     "odbyte": 367,
+     "spoznione": 16
+    },
+    "2": {
+     "odbyte": 545,
+     "spoznione": 18
+    }
+   },
+   "9": {
+    "1": {
+     "odbyte": 376,
+     "spoznione": 11
+    },
+    "2": {
+     "odbyte": 574,
+     "spoznione": 14
+    }
+   },
+   "10": {
+    "1": {
+     "odbyte": 382,
+     "spoznione": 7
+    },
+    "2": {
+     "odbyte": 495,
+     "spoznione": 17
+    }
+   },
+   "11": {
+    "1": {
+     "odbyte": 373,
+     "spoznione": 9
+    },
+    "2": {
+     "odbyte": 474,
+     "spoznione": 15
+    }
+   },
+   "12": {
+    "1": {
+     "odbyte": 312,
+     "spoznione": 11
+    },
+    "2": {
+     "odbyte": 426,
+     "spoznione": 15
+    }
+   },
+   "13": {
+    "1": {
+     "odbyte": 296,
+     "spoznione": 7
+    },
+    "2": {
+     "odbyte": 420,
+     "spoznione": 8
+    }
+   },
+   "14": {
+    "1": {
+     "odbyte": 300,
+     "spoznione": 7
+    },
+    "2": {
+     "odbyte": 410,
+     "spoznione": 11
+    }
+   },
+   "15": {
+    "1": {
+     "odbyte": 305,
+     "spoznione": 8
+    },
+    "2": {
+     "odbyte": 410,
+     "spoznione": 12
+    }
+   },
+   "16": {
+    "1": {
+     "odbyte": 328,
+     "spoznione": 8
+    },
+    "2": {
+     "odbyte": 393,
+     "spoznione": 10
+    }
+   },
+   "17": {
+    "1": {
+     "odbyte": 365,
+     "spoznione": 9
+    },
+    "2": {
+     "odbyte": 455,
+     "spoznione": 9
+    }
+   },
+   "18": {
+    "1": {
+     "odbyte": 389,
+     "spoznione": 8
+    },
+    "2": {
+     "odbyte": 584,
+     "spoznione": 20
+    }
+   },
+   "19": {
+    "1": {
+     "odbyte": 440,
+     "spoznione": 10
+    },
+    "2": {
+     "odbyte": 572,
+     "spoznione": 19
+    }
+   },
+   "20": {
+    "1": {
+     "odbyte": 436,
+     "spoznione": 7
+    },
+    "2": {
+     "odbyte": 588,
+     "spoznione": 12
+    }
+   },
+   "21": {
+    "1": {
+     "odbyte": 371,
+     "spoznione": 10
+    },
+    "2": {
+     "odbyte": 544,
+     "spoznione": 15
+    }
+   },
+   "22": {
+    "1": {
+     "odbyte": 331,
+     "spoznione": 10
+    },
+    "2": {
+     "odbyte": 458,
+     "spoznione": 13
+    }
+   },
+   "23": {
+    "1": {
+     "odbyte": 230,
+     "spoznione": 5
+    },
+    "2": {
+     "odbyte": 320,
+     "spoznione": 7
+    }
+   }
+  }
+ }
+}

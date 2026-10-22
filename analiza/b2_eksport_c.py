@@ -750,6 +750,8 @@ def teksty_d(V):
         "pojedynczego lekarza; bez identyfikatorów lekarzy i grafików mechanizmu nie rozstrzygamy (Czego nie wiemy, punkt 4).")
     dod["Opóźnienia po godzinach i w ciągu poranka"] = ex.lista
     komorka = lambda p_, n_: f"{proc(p_)} ({liczba(n_)})"  # noqa: E731
+    with open(os.path.join(WYNIKI, "e_wykresy.json"), encoding="utf-8") as f:
+        GW = json.load(f)["godziny"]
     T["po_godziny"] = {
         "tytul": "Opóźnienia według godziny terminu: wizyty spóźnione ponad 15 minut (w nawiasie liczba wizyt odbytych)",
         "kolumny": ["Godzina terminu", f"Internista, okres {O1_NAZWA}", f"Internista, okres {O2_NAZWA}",
@@ -761,7 +763,10 @@ def teksty_d(V):
             zn(op(f"godz{h:02d}_ponad15_proc_okres2") - op(f"godz{h:02d}_ponad15_proc_okres1")).replace("−0,0", "0,0")
             if abs(op(f"godz{h:02d}_ponad15_proc_okres2") - op(f"godz{h:02d}_ponad15_proc_okres1")) >= 0.05 else "0,0",
             komorka(pg[h][2], pg[h][0]), komorka(pg[h][3], pg[h][1])],
-            "blok": 5 <= h <= 12} for h in range(24)],
+            "blok": 5 <= h <= 12,
+            # liczby do wykresu strony (etap 5 grafiki; analiza/e_wykresy.py, zgodne z d_retencja co do wizyty)
+            "liczby": {g: {o: GW[g][str(h)][o] for o in ("1", "2")} for g in ("internista", "pozostali")}}
+            for h in range(24)],
         "przypis": "Internista i pozostali lekarze, wszyscy pacjenci, okres według dnia terminu. Źródło: "
                    "analiza/wyniki/d_retencja.txt, punkt 1 (analiza/d_retencja.py).",
     }
@@ -2233,8 +2238,12 @@ def kontrole_krzyzowe(V, kontrole, wz=None, mostek=None, wy=None):
         W = V["pow_wszyscy"]
         for o in wz["retencja"]["okna"]:
             d = o["dni"]
-            kontrole.append((f"C: powrót {d} dni = eksport z bazy (%, pacjenci)",
-                             f"{W[f'p{d}_o1']} {W[f'p{d}_o2']} {int(W[f'n{d}_o1'])} {int(W[f'n{d}_o2'])}",
+            if d == 180:   # okno 180 dni (etap 5 grafiki) porównujemy z a5r_kohorty.txt
+                p180 = V["p180"]
+                wzor = f"{p180[2]} {p180[3]} {int(p180[0])} {int(p180[1])}"
+            else:
+                wzor = f"{W[f'p{d}_o1']} {W[f'p{d}_o2']} {int(W[f'n{d}_o1'])} {int(W[f'n{d}_o2'])}"
+            kontrole.append((f"C: powrót {d} dni = eksport z bazy (%, pacjenci)", wzor,
                              f"{round(o['p1'], 1)} {round(o['p2'], 1)} {o['n1']} {o['n2']}"))
     if mostek is not None:
         d0, d2 = mostek["kroki"][0]["miary"]["zamowienia"], mostek["kroki"][2]["miary"]["zamowienia"]

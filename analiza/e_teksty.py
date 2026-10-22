@@ -498,6 +498,14 @@ def wzrost(V, E, C):
             f"(rozkład na strukturę i marżę w obrębie rodzaju zniżki)."])],
         linki=G0["linki"], zrodlo=G0["zrodlo"].replace("Liczby: ", "") + " Marża powtórnych zamówień: "
                                                                           "analiza/wyniki/e_merytoryka.txt (punkt 3).")
+    # liczby do wykresu strony (etap 5 grafiki): trzy sposoby zakupu, oba lata; te same co w tabeli karty
+    ty = V["go_typy"]
+    nazwy_go = {"1_kasa_z_pierwszym_zamowieniem": "Przy kasie z pierwszym zamówieniem",
+                "2_kasa_z_kolejnym_zamowieniem": "Przy kasie z kolejnym zamówieniem",
+                "3_osobno_newsletter_crm_go_upsell": "Osobno, z newslettera"}
+    go["wykres"] = {"wiersze": [{"opis": nazwy_go[t_], "p1": int(ty.loc[t_, "okres_1"]), "p2": int(ty.loc[t_, "okres_2"])}
+                                for t_ in nazwy_go]}
+    assert sum(w["p2"] for w in go["wykres"]["wiersze"]) == int(razem["okres_2"])
     bloki.append(("wzrost/telemedigo", go, ["c:telemedigo"], G0["_dodane"]))
 
     # --- wynik
@@ -1002,6 +1010,11 @@ def priorytety(V, E, C):
             "Przesuwania uwolnionego budżetu do innych kampanii bez testu."])],
         szczegoly=[punkty([popraw(x) for x in P0["nie_robimy"]])])
     bloki.append(("priorytety/nie_robimy", nie, ["c:nie_robimy"], []))
+    # podpis grupy w przeglądzie (etap 5 grafiki), według kryterium kolejności listy (założenie 74)
+    GRUPY = [((1, 2), "Pewne straty"), ((3, 4), "Pauzy, które da się cofnąć"), (tuple(range(5, 11)), "Działania z wyceną"),
+             ((11, 12), "Bez oszacowanego efektu")]
+    for r_ in przeglad:
+        r_["grupa"] = next(nazwa for nry, nazwa in GRUPY if r_["nr"] in nry)
     nowe = {"tytul": "Priorytety: co robimy po kolei",
             "wstep": "Lista od najważniejszej pozycji. Przy każdej: dlaczego, co robimy, ile jest warta w złotych marży na rok, "
                      "po czym poznamy, że zadziałała, i ile zajmie wdrożenie. Pełne rachunki i założenia są w szczegółach "
@@ -1334,6 +1347,24 @@ def karty_lejka(nag, V, E):
     osobne = karta("Sesje zalogowane od wejścia nie kończą się płatnością, a ponad co piąte konto nie ma żadnego zakupu",
                    tresc=[akapit(popraw(z)) for z in nag["osobne"]])
     nag["karta"] = nazwy(karta_n)
+    # liczby do wykresu karty przeglądarek (etap 5 grafiki): ta sama kampania, ostatnie 12 miesięcy (d_kampanie.json,
+    # punkt 1, zbiorczo, wariant V1). „zwykla_w_tych_samych_warunkach” to odsetek, jaki miałyby te same sesje przy
+    # konwersji zwykłych przeglądarek w tej samej kampanii i grupie osób (ważony sesjami w aplikacjach, założenie 63).
+    with open(os.path.join(WYNIKI, "d_kampanie.json"), encoding="utf-8") as f:
+        DK = json.load(f)
+    kamp = [("meta_remarketing", "Remarketing Meta", "znaja_strone"), ("gs_brand", "Google Ads na markę", "znaja_strone"),
+            ("bezposrednie", "Wejścia bezpośrednie", "znaja_strone"), ("meta_l4", "Kampania Meta na L4", "nowe_osoby"),
+            ("tiktok_l4", "Kampania TikTok na L4", "nowe_osoby")]
+    wiersze_w = []
+    for klucz, opis, rodzaj in kamp:
+        k_ = f"p1_zbiorczo_v1_{klucz}_okres_2"
+        wiersze_w.append({"kampania": opis, "rodzaj": rodzaj,
+                          "w_aplikacji": {"proc": DK[k_ + "_sesja_do_platnosci_wbudowane_proc"],
+                                          "sesje": int(DK[k_ + "_sesje_wbudowane"])},
+                          "zwykla_w_tych_samych_warunkach": {"proc": DK[k_ + "_sesja_do_platnosci_oczekiwana_proc"]},
+                          "roznica_pkt": DK[k_ + "_roznica_pkt"], "od_pkt": DK[k_ + "_roznica_od_pkt"],
+                          "do_pkt": DK[k_ + "_roznica_do_pkt"]})
+    przegl["wykres"] = {"okres": "ostatnie 12 miesięcy", "wiersze": wiersze_w}
     nag["naprawy_karty"] = [nazwy(safari), nazwy(przegl)]
     nag["osobne_karta"] = nazwy(osobne)
     return kontrola([("lejek/naglowek", nag["karta"], ["d:Rozkład zmiany"], dod_tab),

@@ -1,4 +1,4 @@
-B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 19:07, commit 89fa02b)
+B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 20:31, commit 911d2ff)
 
 1. Pliki w narzedzie/dane_strony/ (bajty)
    calosc                             38,075
@@ -9,14 +9,14 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 19:07, commit 89fa02b)
    kanal                             177,555
    kampania                          249,718
    strona_wejscia                    265,403
-   podsumowanie                       32,074
+   podsumowanie                       33,357
    zdarzenia                          40,988
-   jakosc                             15,778
+   jakosc                             15,772
    kohorty                         1,447,382
-   po_zakupie                        308,676
+   po_zakupie                        312,883
    wynik                              96,824
-   c                                  96,613
-   razem                           4,257,673
+   c                                  97,199
+   razem                           4,263,743
 
 2. Kontrola: liczby z eksportu wobec notatek i wcześniejszych raportów
    co                                                                    eksport  oczekiwane  wynik
@@ -37,6 +37,7 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 19:07, commit 89fa02b)
    Safari na iOS: utracone pierwsze zamówienia do końca danych               695         695  zgodne
    Safari na iOS: to samo po odjęciu tła                                     628         628  zgodne
    lejek: rozkład według przeglądarki, struktura i konwersja (pp) = a5p_lejek.txt -3.00 / 0.67 -3.00 / 0.67  zgodne
+   nowi pacjenci okresu 2: nowe kampanie + pozostali (przyjęta reguła) = wszyscy      24687       24687  zgodne
    mostek: różnice wobec siatki A3 (komórki)                                   0           0  zgodne
    duplikaty: liczba kopii                                                   604         604  zgodne
    testy: konta                                                             22.0          22  zgodne
@@ -54,6 +55,11 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 19:07, commit 89fa02b)
    powrót w 90 dniach, okres 2 (%)                                          17.4        17.4  zgodne
    pacjenci w porównaniu 90 dni, okres 1                                 12867.0       12867  zgodne
    pacjenci w porównaniu 90 dni, okres 2                                 18924.0       18924  zgodne
+   powrót w 180 dniach, pacjenci okresu 1 (pierwsza zakładka)               9125        9125  zgodne
+   powrót w 180 dniach, pacjenci okresu 2 (pierwsza zakładka)              12591       12591  zgodne
+   powrót w 180 dniach, okres 1 (%)                                         27.5        27.5  zgodne
+   powrót w 180 dniach, okres 2 (%)                                         22.2        22.2  zgodne
+   wykres pacjentów: suma grup = nowi pacjenci okresu 2                    24687       24687  zgodne
    sprzedaż TelemediGO: zakupy samego TelemediGO                             686         686  zgodne
    sprzedaż TelemediGO: dni z sesjami = a5p_zdarzenia.txt (sekcja 6)         326       326.0  zgodne
    remarketing: płatność na sesję IV kw. 2025 (%)                           28.2        28.2  zgodne
@@ -118,14 +124,15 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 19:07, commit 89fa02b)
    C: powrót 30 dni = eksport z bazy (%, pacjenci)                    11.0 7.8 14984 22646 11.0 7.8 14984 22646  zgodne
    C: powrót 60 dni = eksport z bazy (%, pacjenci)                    19.1 13.7 13941 20823 19.1 13.7 13941 20823  zgodne
    C: powrót 90 dni = eksport z bazy (%, pacjenci)                    23.9 17.4 12867 18924 23.9 17.4 12867 18924  zgodne
+   C: powrót 180 dni = eksport z bazy (%, pacjenci)                   27.5 22.2 9125 12591 27.5 22.2 9125 12591  zgodne
    C: zamówienia dashboardu i oczyszczone = mostek z bazy             25269 40613 24716 38491 25269 40613 24716 38491  zgodne
    C: marża po kwartałach = eksport z bazy (zł, 8 kwartałów)          151340 226877 227044 222824 259375 324423 256558 207713 151340 226877 227044 222824 259375 324423 256558 207713  zgodne
    C: liczby w tekstach bez pokrycia w c_szkic.md (50 fragmentów, 1176 liczb)          0           0  zgodne
    D: liczby w tekstach innych zakładek bez pokrycia w d_teksty_strony.md (8 sekcji, 247 liczb)          0           0  zgodne
    E: liczby w nowych tekstach „Czy to wzrost”, „Priorytety”, „Czego nie wiemy” bez pokrycia w notatkach (45 kart, 1297 liczb)          0           0  zgodne
-   E: liczby w nowych kartach zakładek bez pokrycia w notatkach (35 kart, 1490 liczb)          0           0  zgodne
+   E: liczby w nowych kartach zakładek bez pokrycia w notatkach (35 kart, 1492 liczb)          0           0  zgodne
 
-   Różnic: 0 z 104 kontroli.
+   Różnic: 0 z 111 kontroli.
 
 3. Zdarzenia na osi czasu
    2025-05-17  jakosc   Jednej godziny prawie nie ma w danych, ale wyników to nie zmienia
@@ -252,7 +259,7 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 19:07, commit 89fa02b)
    e:niewiadome/22      24  —              —
    e:lejek/naglowek    342  —              0,01, 0,08, 0,19, 0,20, 0,24, 0,25, 0,26, 0,34, 0,35, 0,36, 0,38, 0,40, 0,48, 0,66, 0,68, 0,76, 0,83, 1,22, 1,51, 1,57, 1,62, 10,1, 10,39, 10,47, 10,50, 10,58, 10,59, 10,65, 10,72, 10,86, 10,88, 10,93, 10,94, 10020, 10844, 11,00, 11,03, 11,05, 11,08, 11,09, 11,10, 11,13, 11,14, 11,21, 11,23, 11,27, 11,30, 11,34, 11,35, 11,38, 11,42, 11,50, 11,54, 11,56, 11,62, 11,63, 11,77, 11,82, 11,94, 11,97, 11324, 11417, 11861, 12,08, 12,35, 12,36, 12,45, 12,50, 12,65, 12,98, 12943, 13,16, 13021, 18,4, 2,34, 2,64, 2,72, 2,74, 2116, 2154, 2352, 2364, 24,2, 2425, 2487, 2723, 2912, 2915, 3,09, 3,14, 3,43, 3,54, 3,68, 3017, 3201, 3335, 36,7, 4,29, 4,40, 42,1, 43,0, 44,9, 45,2, 45,4, 45,9, 46,6, 46,9, 47,0, 47,1, 47,2, 47,5, 58,5, 63,9, 64,5, 64,7, 64,8, 64,9, 65,1, 65,2, 65,3, 65,6, 65,7, 65,8, 65,9, 66,0, 66,1, 66,2, 66,3, 66,5, 66,6, 66,9, 67,1, 67,2, 67,5, 68,1, 68,8, 69,4, 7,37, 7,45, 8,28, 8,29, 8,37, 8,39, 8,44, 8,82, 8,93, 8803, 8884, 9,72, 9,99, 9079, 9359, 9669
    e:lejek/safari       48  —              —
-   e:lejek/przegladarki     41  —              —
+   e:lejek/przegladarki     43  —              —
    e:lejek/osobne       28  —              19
    z:kohorty           107  —              —
    z:po_zakupie/punktualnos     48  —              —
