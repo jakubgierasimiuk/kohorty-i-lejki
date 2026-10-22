@@ -124,26 +124,26 @@
     <form class="filtry" id="ko-filtry" onsubmit="return false"></form>
     <article class="karta">
       <div class="naglowek-karty">
+        <h3 id="ko-wykres-tytul">Dzień po dniu</h3>
+        <div class="filtry-wykresu" id="ko-filtry-wykresu"></div>
+      </div>
+      <p class="przypis">Oś pozioma to dzień pierwszego zakupu. Szare pola to okresy porównania, pionowe linie to zdarzenia z obszaru „Retencja” (numery jak na osi zdarzeń). Serie dodasz i usuniesz w legendzie pod wykresem albo w tabeli niżej.</p>
+      <div id="ko-wykres" class="wykres"></div>
+      <details class="jak-liczymy"><summary>Jak czytać</summary><div class="szczegoly-tresc">
+        <p>Powrót i marża kończą się na ostatniej kohorcie z pełnym oknem. Przeciągnij po wykresie, żeby przybliżyć, kliknij dwukrotnie, żeby wrócić.</p>
+      </div></details>
+    </article>
+    <article class="karta">
+      <div class="naglowek-karty">
         <h3>Kohorty w podziale</h3>
       </div>
       <p class="przypis" id="ko-okresy-opis"></p>
-      <p class="przypis">W komórce: wartość w okresie B i liczba pacjentów, pod spodem okres A i zmiana. Zaznacz wiersze, które mają się pojawić na wykresie.</p>
+      <p class="przypis">W komórce: wartość w okresie B i liczba pacjentów, pod spodem okres A i zmiana. Zaznaczone wiersze są na wykresie wyżej.</p>
       <div class="tabela-ramka"><table class="tabela tabela-lejek" id="ko-tabela"></table></div>
       <p class="legenda-zmian" id="ko-legenda-zmian"></p>
       <details class="jak-liczymy"><summary>Jak liczymy</summary><div class="szczegoly-tresc">
         <p>Kohorta to nowi pacjenci z tego samego dnia pierwszego zakupu. Powrót to kolejne zamówienie, które nie zostało anulowane, w ciągu N dni. Marża na pacjenta to przychód z konsultacji po zwrotach i z TelemediGO minus koszt lekarza, przed kosztem pozyskania.</p>
         <p>Liczymy tylko kohorty z pełnym oknem. Okres A obcinamy do tej samej długości co dojrzała część okresu B, więc przy porównaniu rok do roku to te same dni kalendarzowe.</p>
-      </div></details>
-    </article>
-    <article class="karta">
-      <div class="naglowek-karty">
-        <h3 id="ko-wykres-tytul">Dzień po dniu</h3>
-        <div class="filtry-wykresu" id="ko-filtry-wykresu"></div>
-      </div>
-      <p class="przypis">Oś pozioma to dzień pierwszego zakupu. Szare pola to okresy A i B, pionowe linie to zdarzenia z osi zdarzeń. Wartość i liczbę pacjentów pokazuje legenda pod kursorem.</p>
-      <div id="ko-wykres" class="wykres"></div>
-      <details class="jak-liczymy"><summary>Jak czytać</summary><div class="szczegoly-tresc">
-        <p>Powrót i marża kończą się na ostatniej kohorcie z pełnym oknem. Przeciągnij po wykresie, żeby przybliżyć, kliknij dwukrotnie, żeby wrócić.</p>
       </div></details>
     </article>
     <article class="karta">
@@ -236,16 +236,6 @@
 
     <article class="karta">
       <div class="naglowek-karty">
-        <h3>Kroki lejka w podziale</h3>
-      </div>
-      <p class="przypis" id="lj-okresy-opis"></p>
-      <p class="przypis">W komórce: odsetek w okresie B i liczba sesji, od której go liczymy. Pod spodem ten sam odsetek w okresie A i zmiana w punktach procentowych. Zaznacz wiersze, które mają się pojawić na wykresie.</p>
-      <div class="tabela-ramka"><table class="tabela tabela-lejek" id="lj-tabela"></table></div>
-      <p class="legenda-zmian" id="lj-legenda-zmian"></p>
-    </article>
-
-    <article class="karta">
-      <div class="naglowek-karty">
         <h3 id="lj-wykres-tytul">Dzień po dniu</h3>
         <div class="filtry-wykresu">
           <label>Miara
@@ -260,10 +250,19 @@
           </label>
         </div>
       </div>
-      <p class="przypis">Szare pola to okresy A i B, pionowe linie to zdarzenia z osi zdarzeń. Wartość pod kursorem i liczbę sesji pokazuje legenda pod wykresem.</p>
+      <p class="przypis">Szare pola to okresy porównania, pionowe linie to zdarzenia z obszaru „Lejek” (numery jak na osi zdarzeń). Serie dodasz i usuniesz w legendzie pod wykresem albo w tabeli niżej.</p>
       <div id="lj-wykres" class="wykres"></div>
-      <ol class="lista-zdarzen-wykres" id="lj-zdarzenia-legenda"></ol>
     </article>
+    <article class="karta">
+      <div class="naglowek-karty">
+        <h3>Kroki lejka w podziale</h3>
+      </div>
+      <p class="przypis" id="lj-okresy-opis"></p>
+      <p class="przypis">W komórce: odsetek w okresie B i liczba sesji, od której go liczymy. Pod spodem ten sam odsetek w okresie A i zmiana w punktach procentowych. Zaznaczone wiersze są na wykresie wyżej.</p>
+      <div class="tabela-ramka"><table class="tabela tabela-lejek" id="lj-tabela"></table></div>
+      <p class="legenda-zmian" id="lj-legenda-zmian"></p>
+    </article>
+
     <details class="jak-liczymy"><summary>Jak liczymy w tej zakładce</summary><div class="szczegoly-tresc">
       <p>Lejek główny obejmuje sesje zwykłe, czyli bez konta na wejściu albo z kontem, które pojawia się dopiero na kroku logowania. Sesje zalogowane od wejścia i zakupy samego TelemediGO są osobnymi typami sesji.</p>
       <p>„Jeszcze nie kupowali” to osoby bez zakupu przed początkiem sesji, także na koncie, na które logowały się w tej samej przeglądarce. Dzień sesji liczymy w czasie polskim.</p>

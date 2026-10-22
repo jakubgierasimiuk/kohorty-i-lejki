@@ -332,7 +332,7 @@
     $("f-podz").onchange = function () { S.podz = this.value; S.wybrane = null; S.kolory = {}; S.lw = "__razem"; odswiezLejek(); };
     $("f-lw").onchange = function () {
       S.lw = this.value;
-      wczytajPodzial(S.podz).then(function (dane) { rysujKrokiLejka(dane); zapiszAdres(); });
+      wczytajPodzial(S.podz).then(function (dane) { rysujKrokiLejka(dane); rysujWykresLejka(dane); zapiszAdres(); });
     };
     $("f-preset").onchange = function () { if (this.value !== "wlasne") ustawPreset(this.value); else S.preset = "wlasne"; odswiezLejek(); };
     $("f-krok").onchange = function () { S.krok = this.value; odswiezLejek(true); };
@@ -373,6 +373,28 @@
     if (pA !== null && pB !== null) a.appendChild(zmianaPkt(pB - pA, 1, false, { bezSlowa: true }));
     td.appendChild(a);
     return td;
+  }
+
+  // tabela podziałów na telefonie: widoczne kolumny stałe i jedna wybrana miara; całą tabelę pokazuje przycisk
+  var KOLUMNA_TEL = {};
+  function tabelaTelefon(t, id, stale, domyslna) {
+    var ramka = t.closest(".tabela-ramka"), th = t.querySelectorAll("thead tr:last-child th"), miary = [];
+    Array.prototype.forEach.call(th, function (h, i) { if (stale.indexOf(i) < 0) miary.push([i, h.textContent]); });
+    var wyb = KOLUMNA_TEL[id] !== undefined ? KOLUMNA_TEL[id] : domyslna;
+    function ustaw() {
+      Array.prototype.forEach.call(t.rows, function (r) {
+        Array.prototype.forEach.call(r.cells, function (c, i) { c.classList.toggle("kol-tel-ukryta", stale.indexOf(i) < 0 && i !== wyb); });
+      });
+    }
+    ustaw();
+    var stary = ramka.previousElementSibling;
+    if (stary && stary.classList.contains("tabela-tel")) stary.parentNode.removeChild(stary);
+    var sel = el("select", { "aria-label": "Miara w tabeli" }, miary.map(function (m) { return el("option", { value: String(m[0]), text: m[1] }); }));
+    sel.value = String(wyb);
+    sel.onchange = function () { wyb = KOLUMNA_TEL[id] = +this.value; ustaw(); };
+    var btn = el("button", { type: "button", class: "przycisk-maly", text: t.classList.contains("cala-tabela") ? "Pokaż jedną miarę" : "Pokaż całą tabelę" });
+    btn.onclick = function () { var c = t.classList.toggle("cala-tabela"); btn.textContent = c ? "Pokaż jedną miarę" : "Pokaż całą tabelę"; };
+    ramka.parentNode.insertBefore(el("div", { class: "tabela-tel" }, [el("label", null, ["Miara w tabeli", sel]), btn]), ramka);
   }
 
   // ------------------------------------------------------------ wykres kroków lejka (liczony z tych samych danych co tabela)
@@ -500,6 +522,7 @@
     if (S.podz !== "calosc") lista.forEach(function (x) { tb.appendChild(wiersz(x.w, x.sr, x.sA, x.sB)); });
     t.appendChild(tb);
     BK.legendaZmian($("lj-legenda-zmian"), "wobec okresu A, w punktach procentowych");
+    tabelaTelefon(t, "lejek", [0, 1], 8);
     $("lj-okresy-opis").textContent = opisOkresow() + " Typ: " + ET.typ[S.typ] + ". " +
       (S.typ === "zwykla" ? "Kto: " + (S.pac === "wszyscy" ? "wszyscy" : ET.pacjent[S.pac].toLowerCase()) + "." : "Wszyscy w tym typie kupowali wcześniej.");
   }
@@ -526,17 +549,115 @@
     ];
   }
 
+  // pionowe linie zdarzeń z numerami jak na osi zdarzeń; bliskie numery schodzą do drugiego i trzeciego rzędu,
+  // na wąskim wykresie (telefon) same linie bez numerów (nazwy są w liście pod wykresem)
   function rysujZdarzeniaNaWykresie(u, zdarzenia) {
-    var ctx = u.ctx, top = u.bbox.top, h = u.bbox.height, dpr = window.devicePixelRatio || 1;
+    var ctx = u.ctx, top = u.bbox.top, h = u.bbox.height, dpr = window.devicePixelRatio || 1, waskie = u.bbox.width < 500 * dpr;
+    var rzedy = [-1e9, -1e9, -1e9];
     ctx.save();
-    ctx.strokeStyle = css("--muted"); ctx.fillStyle = css("--ink-2"); ctx.lineWidth = 1 * dpr;
-    ctx.globalAlpha = 0.7; ctx.setLineDash([3 * dpr, 3 * dpr]);
-    ctx.font = (11 * dpr) + "px system-ui"; ctx.textAlign = "center";
-    zdarzenia.forEach(function (z) {
-      var x = u.valToPos((START + idxIso(z.od) * DZIEN) / 1000, "x", true);
-      if (x < u.bbox.left || x > u.bbox.left + u.bbox.width) return;
-      ctx.beginPath(); ctx.moveTo(Math.round(x) + 0.5, top + 14 * dpr); ctx.lineTo(Math.round(x) + 0.5, top + h); ctx.stroke();
-      ctx.fillText(String(z.nr), x, top + 11 * dpr);
+    ctx.lineWidth = 1 * dpr; ctx.font = (11 * dpr) + "px system-ui"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    zdarzenia.map(function (z) { return { z: z, x: u.valToPos((START + idxIso(z.od) * DZIEN) / 1000, "x", true) }; })
+      .filter(function (p) { return p.x >= u.bbox.left && p.x <= u.bbox.left + u.bbox.width; })
+      .sort(function (a, c) { return a.x - c.x; })
+      .forEach(function (p) {
+        var r = 0;
+        while (r < rzedy.length - 1 && p.x - rzedy[r] < 16 * dpr) r++;
+        rzedy[r] = p.x;
+        ctx.globalAlpha = 0.5; ctx.strokeStyle = css("--muted");
+        ctx.beginPath(); ctx.moveTo(Math.round(p.x) + 0.5, top + (waskie ? 0 : 8 * dpr)); ctx.lineTo(Math.round(p.x) + 0.5, top + h); ctx.stroke();
+        ctx.globalAlpha = 1;
+        if (waskie) return;
+        var t = String(p.z.nr), y = top + (8 + r * 14) * dpr, sz = ctx.measureText(t).width + 6 * dpr;
+        ctx.fillStyle = css("--surface"); ctx.fillRect(p.x - sz / 2, y - 6.5 * dpr, sz, 13 * dpr);
+        ctx.fillStyle = css("--ink-2"); ctx.fillText(t, p.x, y);
+      });
+    ctx.restore();
+  }
+
+  // ------------------------------------------------------------ legenda wykresów dziennych (zamiast domyślnej legendy uPlot)
+  // Zdarzenia na wykresie: domyślnie tylko z obszaru wykresu (np. „Lejek”), przełącznik pokazuje wszystkie.
+  var ZD_WSZYSTKIE = {};
+  function zdarzeniaWykresu(id, obszary) {
+    var zd = zdarzeniaNumerowane();
+    if (!obszary || ZD_WSZYSTKIE[id]) return zd;
+    return zd.filter(function (z) { return obszary.indexOf(z.obszar) >= 0; });
+  }
+  // Dopisuje do opcji uPlot własną legendę i podpisy końców linii; zwraca funkcję, która po utworzeniu wykresu rysuje legendę.
+  // o: {id, serie: [{label, kolor, w, gruba, wart(v, i)}], etykietaX(x), obszary, zdarzenia, koncowe, odswiez(),
+  //     wybor: {dostepne: [[w, nazwa]], wybrane: [w], max, dodaj(w), usun(w)}}
+  function legendaUplot(opts, cel, o) {
+    var waskie = (cel.clientWidth || 300) < 600, wart = [], data = null;
+    var PUSTE = waskie ? "Dotknij wykresu, żeby zobaczyć wartości." : "Najedź na wykres, żeby zobaczyć wartości.";
+    opts.legend = { show: false };
+    opts.hooks = opts.hooks || {};
+    (opts.hooks.setCursor = opts.hooks.setCursor || []).push(function (u) {
+      if (!data) return;
+      var i = u.cursor.idx;
+      if (i === null || i === undefined) { data.textContent = PUSTE; wart.forEach(function (w) { w.textContent = ""; }); return; }
+      data.textContent = o.etykietaX(u.data[0][i]);
+      o.serie.forEach(function (s, k) { var v = u.data[k + 1][i]; wart[k].textContent = v === null || v === undefined ? "—" : s.wart(v, i); });
+    });
+    if (o.koncowe && !waskie && o.serie.length <= 4) {
+      opts.padding = [8, 160, 0, 0];
+      (opts.hooks.draw = opts.hooks.draw || []).push(function (u) { podpisyKoncowe(u, o.serie); });
+    }
+    return function () {
+      var box = el("div", { class: "lw" });
+      data = el("div", { class: "lw-data", text: PUSTE });
+      box.appendChild(data);
+      var lista = el("div", { class: "lw-serie" });
+      o.serie.forEach(function (s, k) {
+        wart[k] = el("span", { class: "lw-wart" });
+        var usun = null;
+        if (o.wybor && o.wybor.wybrane.length > 1 && s.w !== undefined) {
+          usun = el("button", { type: "button", class: "lw-usun", "aria-label": "Usuń z wykresu: " + s.label, title: "Usuń z wykresu" }, ["×"]);
+          usun.onclick = function () { o.wybor.usun(s.w); };
+        }
+        lista.appendChild(el("span", { class: "lw-seria" }, [el("span", { class: "lw-kreska" + (s.gruba ? " gruba" : ""), style: "background:" + s.kolor }),
+          el("span", { class: "lw-nazwa", text: s.label }), wart[k], usun]));
+      });
+      if (o.wybor) {
+        var reszta = o.wybor.dostepne.filter(function (x) { return o.wybor.wybrane.indexOf(x[0]) < 0; });
+        if (reszta.length && o.wybor.wybrane.length < (o.wybor.max || 8)) {
+          var sel = el("select", { class: "lw-dodaj", "aria-label": "Dodaj serię do wykresu" }, [el("option", { value: "", text: "+ Dodaj serię" })].concat(
+            reszta.map(function (x) { return el("option", { value: x[0], text: x[1] }); })));
+          sel.onchange = function () { if (this.value) o.wybor.dodaj(this.value); };
+          lista.appendChild(sel);
+        }
+      }
+      box.appendChild(lista);
+      if (o.zdarzenia) {
+        var stopka = el("div", { class: "lw-zdarzenia" });
+        if (o.zdarzenia.length) stopka.appendChild(el("ol", { class: "lista-zdarzen-wykres" }, o.zdarzenia.map(function (z) {
+          return el("li", { value: String(z.nr) }, [el("a", { href: "#zdarzenia?z=" + z.id, text: dataPL(idxIso(z.od)) + ": " + (z.krotko || z.tytul) })]);
+        })));
+        if (o.obszary) {
+          var chk = el("input", { type: "checkbox" });
+          chk.checked = !!ZD_WSZYSTKIE[o.id];
+          chk.onchange = function () { ZD_WSZYSTKIE[o.id] = this.checked; o.odswiez(); };
+          stopka.appendChild(el("label", { class: "chip lw-wszystkie" }, [chk, "Zdarzenia ze wszystkich obszarów (" + zdarzeniaNumerowane().length + ")"]));
+        }
+        box.appendChild(stopka);
+      }
+      cel.appendChild(box);
+    };
+  }
+  // podpisy na końcach linii (do czterech serii, nie na telefonie): kreska w kolorze serii i nazwa w kolorze tekstu
+  function podpisyKoncowe(u, serie) {
+    var ctx = u.ctx, dpr = window.devicePixelRatio || 1, xmax = u.scales.x.max, pozy = [];
+    serie.forEach(function (s, k) {
+      var d = u.data[k + 1], x = u.data[0];
+      for (var i = d.length - 1; i >= 0; i--) if (d[i] !== null && d[i] !== undefined && x[i] <= xmax) { pozy.push({ y: u.valToPos(d[i], "y", true), s: s }); return; }
+    });
+    pozy.sort(function (a, c) { return a.y - c.y; });
+    for (var j = 1; j < pozy.length; j++) if (pozy[j].y - pozy[j - 1].y < 15 * dpr) pozy[j].y = pozy[j - 1].y + 15 * dpr;
+    var x0 = u.bbox.left + u.bbox.width + 8 * dpr;
+    ctx.save();
+    ctx.font = (12 * dpr) + "px system-ui"; ctx.textBaseline = "middle"; ctx.textAlign = "left";
+    pozy.forEach(function (p) {
+      ctx.fillStyle = p.s.kolor; ctx.fillRect(x0, p.y - 1.5 * dpr, 10 * dpr, 3 * dpr);
+      ctx.fillStyle = css("--ink-2");
+      ctx.fillText(p.s.label.length > 22 ? p.s.label.slice(0, 21) + "…" : p.s.label, x0 + 14 * dpr, p.y);
     });
     ctx.restore();
   }
@@ -578,8 +699,10 @@
       ", " + (w === 1 ? "dzień po dniu" : "suma z " + w + " dni kończących się danego dnia");
     var x = new Float64Array(NDNI);
     for (var i = 0; i < NDNI; i++) x[i] = (START + i * DZIEN) / 1000;
-    var data = [x], series = [{ label: "Dzień", value: function (u, ts) { return ts == null ? "—" : dataPL(Math.round((ts * 1000 - START) / DZIEN)); } }];
+    var data = [x], series = [{ label: "Dzień" }], opisy = [];
     var razem = seria(dane, "__razem"), sRazem = krocz(razem.s, w);
+    // wartość wybrana w „Pokaż dla” jest wyróżniona, pozostałe szare (gdy jest na wykresie)
+    var wyroz = S.lw !== "__razem" && S.wybrane.indexOf(S.lw) >= 0 ? S.lw : null;
     S.wybrane.forEach(function (wart) {
       var sr = seria(dane, wart), y = new Array(NDNI), mian;
       if (miara.id === "sesje") {
@@ -594,37 +717,39 @@
         for (i = 0; i < NDNI; i++) y[i] = i >= w - 1 && mian[i] > 0 ? 100 * ln[i] / mian[i] : null;
       }
       data.push(y);
-      (function (mian) {
-        series.push({
-          label: etykieta(S.podz, wart), stroke: css(S.kolory[wart] || "--seria-ref"), width: 2, spanGaps: false,
-          points: { show: false },
-          value: function (u, v, si, di) {
-            if (v == null) return "—";
-            if (miara.id === "sesje") return liczba(v, 1) + " sesji dziennie";
-            return proc(v) + (mian && di != null ? " z " + liczba(mian[di]) + (miara.id === "udzial" ? " sesji razem" : "") : "");
-          }
-        });
-      })(mian);
+      var kol = wyroz && wart !== wyroz ? css("--seria-a") : css(S.kolory[wart] || "--seria-ref");
+      var gruba = wyroz ? wart === wyroz : wart === "__razem";
+      series.push({ label: etykieta(S.podz, wart), stroke: kol, width: wyroz && !gruba ? 1.25 : gruba ? 2.5 : 2, spanGaps: false, points: { show: false } });
+      opisy.push({ label: etykieta(S.podz, wart), kolor: kol, w: wart, gruba: gruba, wart: (function (mian) {
+        return function (v, di) {
+          if (miara.id === "sesje") return liczba(v, 1) + " sesji dziennie";
+          return proc(v) + (mian && di != null ? " z " + liczba(mian[di]) + (miara.id === "udzial" ? " sesji razem" : "") : "");
+        };
+      })(mian) });
     });
     var cel = wyczysc($("lj-wykres"));
-    var zd = zdarzeniaNumerowane();
+    var zd = zdarzeniaWykresu("lejek", ["lejek"]);
     var procentowa = miara.id !== "sesje";
     var opts = {
       width: cel.clientWidth || 300, height: 340,
       scales: { x: { time: true }, y: { range: function (u, mn, mx) { return [0, procentowa ? Math.min(100, Math.max(5, mx * 1.08)) : Math.max(1, mx * 1.08)]; } } },
-      axes: osieWykresu(procentowa ? "%" : "sesje dziennie", function (v) { return liczba(v, 0) + (procentowa ? "%" : ""); }),
+      axes: osieWykresu("", function (v) { return liczba(v, 0) + (procentowa ? "%" : ""); }),
       series: series,
       cursor: { drag: { x: true, y: false }, points: { size: 8 } },
-      legend: { live: true },
       tzDate: function (ts) { return uPlot.tzDate(new Date(ts * 1000), "Etc/UTC"); },
       hooks: { drawClear: [rysujOkresy], draw: [function (u) { rysujZdarzeniaNaWykresie(u, zd); }] }
     };
+    var dostepne = (S.podz === "calosc" ? [] : wartosci(dane).map(function (v) { return { w: v, n: suma(seria(dane, v).s, S.b) }; })
+      .sort(function (p, q) { return q.n - p.n; }).map(function (p) { return [p.w, etykieta(S.podz, p.w)]; }));
+    var dorysuj = legendaUplot(opts, cel, { id: "lejek", serie: opisy, obszary: ["lejek"], zdarzenia: zd, koncowe: true,
+      etykietaX: function (ts) { return dataPL(Math.round((ts * 1000 - START) / DZIEN)); },
+      odswiez: function () { odswiezLejek(true); },
+      wybor: { dostepne: [["__razem", "Razem"]].concat(dostepne), wybrane: S.wybrane, max: 8,
+        dodaj: function (v) { S.wybrane.push(v); odswiezLejek(true, true); },
+        usun: function (v) { S.wybrane = S.wybrane.filter(function (q) { return q !== v; }); odswiezLejek(true, true); } } });
     if (wykresLejka) wykresLejka.destroy();
     wykresLejka = new uPlot(opts, data, cel);
-    var leg = wyczysc($("lj-zdarzenia-legenda"));
-    zd.forEach(function (z) {
-      leg.appendChild(el("li", null, [el("a", { href: "#zdarzenia?z=" + z.id, text: dataPL(idxIso(z.od)) + ": " + (z.krotko || z.tytul) })]));
-    });
+    dorysuj();
   }
 
   function odswiezLejek(tylkoWykres, tabelaTez) {
@@ -835,8 +960,13 @@
       cursor: { drag: { x: true, y: false } },
       tzDate: function (ts) { return uPlot.tzDate(new Date(ts * 1000), "Etc/UTC"); }
     };
+    var dorysuj = legendaUplot(opts, cel, { id: "duplikaty", koncowe: false,
+      etykietaX: function (ts) { return dataPL(Math.round((ts * 1000 - START) / DZIEN)); },
+      serie: [{ label: "Zamówienia bez kopii", kolor: css("--series-1"), wart: function (v) { return liczba(v); } },
+        { label: "Kopie (duplikaty)", kolor: css("--series-2"), wart: function (v) { return liczba(v); } }] });
     if (wykresDup) wykresDup.destroy();
     wykresDup = new uPlot(opts, [x, JK.duplikaty.zamowienia_d, JK.duplikaty.kopie_d], cel);
+    dorysuj();
   }
 
   // ------------------------------------------------------------ nawigacja
@@ -859,7 +989,7 @@
       czytajAdres(q);
       odswiezLejek();
       if (q && Array.from(q.keys()).length) setTimeout(function () {
-        $("lj-tabela").closest(".karta").scrollIntoView({ behavior: "smooth", block: "start" });
+        $("lj-kroki-karta").scrollIntoView({ behavior: "smooth", block: "start" });
       }, 60);
     }
     if (widok === "zdarzenia") {
@@ -927,7 +1057,8 @@
     el: el, wyczysc: wyczysc, $: $, css: css, akapity: akapity, osieWykresu: osieWykresu, krocz: krocz,
     zdarzeniaNumerowane: zdarzeniaNumerowane, rysujZdarzeniaNaWykresie: rysujZdarzeniaNaWykresie, wczytaj: wczytaj,
     mostek: mostek, BK: BK, zdaniaAlboKarta: zdaniaAlboKarta, zmianaPkt: zmianaPkt, wstepKarta: wstepKarta,
-    nazwyPresetu: nazwyPresetu, polaOkresow: polaOkresow, hantleSafari: hantleSafari };
+    nazwyPresetu: nazwyPresetu, polaOkresow: polaOkresow, hantleSafari: hantleSafari,
+    legendaUplot: legendaUplot, zdarzeniaWykresu: zdarzeniaWykresu, tabelaTelefon: tabelaTelefon };
   ikonyStatyczne();
   przygotujSzybkie();
 

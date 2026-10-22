@@ -119,7 +119,8 @@ CZYTNIK = r"""
     out.push('');
   }
   function wykres(e) {
-    const s = [...e.querySelectorAll('.u-legend .u-series:not(:first-child) .u-label')].map(x => T(x.innerText)).filter(Boolean);
+    // nazwy serii z legendy strony (.lw-nazwa; od etapu 3 grafiki zamiast domyślnej legendy uPlot)
+    const s = [...e.querySelectorAll('.lw-nazwa, .u-legend .u-series:not(:first-child) .u-label')].map(x => T(x.innerText)).filter(Boolean);
     akapit('*[Wykres] serie: ' + (s.length ? s.join('; ') : 'brak') + '*');
   }
   function os(svg) {

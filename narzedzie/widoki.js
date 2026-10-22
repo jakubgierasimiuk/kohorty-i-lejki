@@ -40,30 +40,39 @@
   function cieniuj(u, a, bb, nazwy) { b().polaOkresow(u, a, bb, nazwy); }
   /* serie: [{label, kolor (numer serii albo kolor css), y, opis(di, v)}],
      o: {jednostka, procent, a, b, nazwy: {a, b} (podpisy pól okresów), zdarzenia, x, min, max} */
+  // wykres dzienny (uPlot) z własną legendą: o.id, o.obszary (zdarzenia tylko z tych obszarów), o.odswiez, o.wybor, o.koncowe;
+  // seria: {label, kolor, y, opis(di, v), w (klucz do wyboru), szer (grubość linii)}
   function wykres(cel, serie, o) {
     var B = b();
     B.wyczysc(cel);
     var x = o.x;
     if (!x) { x = new Float64Array(B.NDNI); for (var i = 0; i < B.NDNI; i++) x[i] = (B.START + i * B.DZIEN) / 1000; }
-    var dane = [x], ser = [{ label: "Dzień", value: o.etykietaX || function (u, ts) { return ts == null ? "—" : B.dataPL(Math.round((ts * 1000 - B.START) / B.DZIEN)); } }];
+    var etX = o.etykietaX || function (u, ts) { return ts == null ? "—" : B.dataPL(Math.round((ts * 1000 - B.START) / B.DZIEN)); };
+    var dane = [x], ser = [{ label: "Dzień" }], opisy = [];
     serie.forEach(function (s) {
       dane.push(s.y);
-      ser.push({ label: s.label, stroke: typeof s.kolor === "number" ? B.css("--series-" + s.kolor) : s.kolor, width: 2,
-        points: { show: !!o.punkty, size: 6 },
-        value: function (u, v, si, di) { return v == null ? "—" : s.opis ? s.opis(di, v) : B.liczba(v, 1); } });
+      var kol = typeof s.kolor === "number" ? B.css("--series-" + s.kolor) : s.kolor;
+      ser.push({ label: s.label, stroke: kol, width: s.szer || 2, points: { show: !!o.punkty, size: 6 } });
+      opisy.push({ label: s.label, kolor: kol, w: s.w, gruba: (s.szer || 2) > 2,
+        wart: function (v, di) { return s.opis ? s.opis(di, v) : B.liczba(v, 1); } });
     });
-    var zd = o.zdarzenia ? B.zdarzeniaNumerowane() : [];
+    var zd = o.zdarzenia ? B.zdarzeniaWykresu(o.id || "", o.obszary || null) : [];
     var opts = {
       width: cel.clientWidth || 300, height: o.wys || 320,
       scales: { x: { time: true, min: o.min, max: o.max },
         y: { range: function (u, mn, mx) { return [Math.min(0, mn), o.procent ? Math.min(100, Math.max(5, mx * 1.08)) : (mx > 0 ? mx * 1.08 : 1)]; } } },
-      axes: B.osieWykresu(o.jednostka || "", o.formatY || function (v) { return B.liczba(v, 0) + (o.procent ? "%" : ""); }),
-      series: ser, cursor: { drag: { x: true, y: false } }, legend: { live: true },
+      axes: B.osieWykresu("", o.formatY || function (v) { return B.liczba(v, 0) + (o.procent ? "%" : ""); }),
+      series: ser, cursor: { drag: { x: true, y: false } },
       tzDate: function (ts) { return uPlot.tzDate(new Date(ts * 1000), "Etc/UTC"); },
       hooks: { drawClear: [function (u) { cieniuj(u, o.a, o.b, o.nazwy); }], draw: [function (u) { if (zd.length) B.rysujZdarzeniaNaWykresie(u, zd); }] }
     };
     if (o.osX) opts.axes[0].values = o.osX;
-    return new uPlot(opts, dane, cel);
+    var dorysuj = B.legendaUplot(opts, cel, { id: o.id || "", serie: opisy, koncowe: o.koncowe !== false,
+      etykietaX: function (ts) { return etX(null, ts); }, obszary: o.zdarzenia ? (o.obszary || null) : null,
+      zdarzenia: o.zdarzenia ? zd : null, odswiez: o.odswiez, wybor: o.wybor });
+    var u = new uPlot(opts, dane, cel);
+    dorysuj();
+    return u;
   }
   function krocz(arr, w) { return b().krocz(arr, w); }
   function suma(arr, z) { var t = 0; if (!z) return 0; for (var i = z[0]; i <= z[1]; i++) t += arr[i]; return t; }
@@ -114,6 +123,7 @@
     { id: "status1", nazwa: "Status pierwszego zamówienia" }, { id: "koszyk", nazwa: "Opóźnienie pierwszej wizyty" },
     { id: "pora", nazwa: "Pora pierwszej wizyty" }
   ];
+  var zawezOtwarte = false;
   var MIARY_K = [["powrot", "Powrót w oknie"], ["marza", "Marża na pacjenta w oknie"], ["nowi", "Nowi pacjenci dziennie"],
     ["udzial", "Udział w nowych pacjentach"]];
   var K = null, KOD = {}, KS = null, wykresK = null, gotoweK = false;
@@ -271,7 +281,8 @@
       "które ten dzień już osiągnęły. W okresie B dzień " + dW + " to " + B.liczba(nB[dW - 1]) + " pacjentów, a dzień " + dP + " już tylko " +
       B.liczba(nB[dP - 1]) + ", z najstarszych kohort. Wyższe wartości późnych dni nie znaczą więc, że młodsze kohorty nadrabiają." : "";
     if (wykresKrz) wykresKrz.destroy();
-    wykresKrz = new uPlot({
+    var naA = nazwaKrzywej("a") + " (" + B.dataPL(KS.a[0]) + "–" + B.dataPL(KS.a[1]) + ")", naB = nazwaKrzywej("b") + " (" + B.dataPL(KS.b[0]) + "–" + B.dataPL(KS.b[1]) + ")";
+    var optsK = {
       width: cel.clientWidth || 300, height: 300,
       scales: { x: { time: false }, y: { range: [0, mx * 1.1] } },
       axes: [{ stroke: m, grid: { stroke: g, width: 1 }, ticks: { stroke: g, width: 1, size: 4 }, font: "12px system-ui",
@@ -279,12 +290,18 @@
       { stroke: m, grid: { stroke: g, width: 1 }, ticks: { stroke: g, width: 1, size: 4 }, font: "12px system-ui", size: 56,
         values: function (u, sp) { return sp.map(function (v) { return B.liczba(v, 0) + "%"; }); } }],
       series: [{ label: "Dzień", value: function (u, v) { return v == null ? "—" : v + ". dzień"; } },
-        { label: nazwaKrzywej("a") + " (" + B.dataPL(KS.a[0]) + "–" + B.dataPL(KS.a[1]) + ")", stroke: B.css("--seria-a"), width: 2,
+        { label: naA, stroke: B.css("--seria-a"), width: 2,
           value: function (u, v, si, di) { return v == null ? "—" : B.proc(v) + " z " + B.liczba(nA[di]); } },
-        { label: nazwaKrzywej("b") + " (" + B.dataPL(KS.b[0]) + "–" + B.dataPL(KS.b[1]) + ")", stroke: B.css("--seria-b"), width: 2,
+        { label: naB, stroke: B.css("--seria-b"), width: 2.5,
           value: function (u, v, si, di) { return v == null ? "—" : B.proc(v) + " z " + B.liczba(nB[di]) + (yA[di] ? ", " + B.liczba(100 * v / yA[di], 0) + "% poziomu A" : ""); } }],
-      legend: { live: true }, cursor: { drag: { x: true, y: false } }
-    }, [xs, yA, yB], cel);
+      cursor: { drag: { x: true, y: false } }
+    };
+    var dorysuj = B.legendaUplot(optsK, cel, { id: "krzywa", koncowe: true, etykietaX: function (v) { return v + ". dzień od pierwszego zakupu"; },
+      serie: [{ label: nazwaKrzywej("a"), kolor: B.css("--seria-a"), wart: function (v, di) { return B.proc(v) + " z " + B.liczba(nA[di]); } },
+        { label: nazwaKrzywej("b"), kolor: B.css("--seria-b"), gruba: true,
+          wart: function (v, di) { return B.proc(v) + " z " + B.liczba(nB[di]) + (yA[di] ? ", " + B.liczba(100 * v / yA[di], 0) + "% poziomu A" : ""); } }] });
+    wykresKrz = new uPlot(optsK, [xs, yA, yB], cel);
+    dorysuj();
   }
 
   function agregujK() {
@@ -375,17 +392,12 @@
 
   function filtryK() {
     var B = b(), box = B.wyczysc(B.$("ko-filtry"));
-    box.appendChild(B.el("p", { class: "filtry-tytul", text: "Filtry: tabela, wykres, macierz i krzywa powrotu" }));
+    box.appendChild(B.el("p", { class: "filtry-tytul", text: "Filtry: wykres, tabela, mapa i krzywa powrotu" }));
     var odswiez = function () { rysujK(); };
     box.appendChild(wybor("ko-regula", "Przypisanie źródła", [["Z1K", "Według pierwszego wejścia"],
       ["Z2", "Według sesji z płatnością"]], KS.regula, function (v) {
       KS.regula = v; KS.wybrane = null; KS.kolory = {}; filtryK(); odswiez();
     }));
-    WYMIARY.forEach(function (w) {
-      var opcje = [["", "wszystkie"]].concat(wartosciWym(w.id).map(function (v) { return [v, etykietaWart(w.id, v)]; }));
-      if (KS.f[w.id] && wartosciWym(w.id).indexOf(KS.f[w.id]) < 0) KS.f[w.id] = "";
-      box.appendChild(wybor("ko-f-" + w.id, w.nazwa, opcje, KS.f[w.id] || "", function (v) { KS.f[w.id] = v; odswiez(); }));
-    });
     box.appendChild(wybor("ko-podz", "Podział na serie", [["", "bez podziału"]].concat(WYMIARY.map(function (w) { return [w.id, w.nazwa]; })),
       KS.podz, function (v) { KS.podz = v; KS.wybrane = null; KS.kolory = {}; odswiez(); }));
     var pr = B.el("select", { id: "ko-preset" });
@@ -394,6 +406,25 @@
     pr.onchange = function () { if (this.value !== "wlasne") okresyPreset(this.value, KS); else KS.preset = "wlasne"; filtryK(); odswiez(); };
     box.appendChild(B.el("label", null, ["Porównanie", pr]));
     box.appendChild(datyAB("ko", KS, function () { filtryK(); odswiez(); }));
+    // zawężenie pacjentów: zwinięte, z licznikiem; aktywne zawężenia widać jako chipy także po zwinięciu
+    var akt = WYMIARY.filter(function (w) { return KS.f[w.id]; });
+    var d = B.el("details", { class: "zawez" }, [B.el("summary", { text: "Zawęź pacjentów" + (akt.length ? " (aktywne: " + akt.length + ")" : "") })]);
+    var siatka = B.el("div", { class: "zawez-siatka" });
+    WYMIARY.forEach(function (w) {
+      var opcje = [["", "wszystkie"]].concat(wartosciWym(w.id).map(function (v) { return [v, etykietaWart(w.id, v)]; }));
+      if (KS.f[w.id] && wartosciWym(w.id).indexOf(KS.f[w.id]) < 0) KS.f[w.id] = "";
+      siatka.appendChild(wybor("ko-f-" + w.id, w.nazwa, opcje, KS.f[w.id] || "", function (v) { KS.f[w.id] = v; filtryK(); odswiez(); }));
+    });
+    d.appendChild(siatka);
+    d.open = zawezOtwarte;
+    d.addEventListener("toggle", function () { zawezOtwarte = d.open; });
+    box.appendChild(d);
+    if (akt.length) box.appendChild(B.el("div", { class: "chipy-aktywne" }, akt.map(function (w) {
+      var x = B.el("button", { type: "button", class: "chip chip-usun", "aria-label": "Usuń zawężenie: " + w.nazwa },
+        [w.nazwa + ": " + etykietaWart(w.id, KS.f[w.id]), B.el("span", { "aria-hidden": "true", text: "×" })]);
+      x.onclick = function () { KS.f[w.id] = ""; filtryK(); odswiez(); };
+      return x;
+    })));
     var fw = B.wyczysc(B.$("ko-filtry-wykresu"));
     fw.appendChild(wybor("ko-miara", "Miara", MIARY_K, KS.miara, function (v) { KS.miara = v; rysujK(true); }));
     fw.appendChild(wybor("ko-okno", "Okno", K.okna.map(function (n) { return [String(n), n + " dni od pierwszego zakupu"]; }),
@@ -457,6 +488,7 @@
     });
     B.$("ko-okresy-opis").textContent = opisOkresow(KS) + " Kohorty z pełnym oknem: " + opis.join("; ") + ".";
     B.BK.legendaZmian(B.$("ko-legenda-zmian"), "wobec okresu A");
+    B.tabelaTelefon(t, "kohorty", [0, 1], 5);
   }
 
   function wykresKoh(grupy) {
@@ -477,17 +509,26 @@
         for (i = 0; i < N; i++) y[i] = i >= w - 1 && cWsz[i] > 0 ? 100 * c[i] / cWsz[i] : null;
         mian = cWsz;
       }
-      return { label: etykietaWart(KS.podz, wart), kolor: B.css(KS.kolory[wart] || "--seria-ref"), y: y,
+      return { label: etykietaWart(KS.podz, wart), kolor: B.css(KS.kolory[wart] || "--seria-ref"), y: y, w: wart, szer: wart === "__razem" ? 2.5 : 1.75,
         opis: function (di, v) {
           if (KS.miara === "nowi") return B.liczba(v, 1) + " dziennie";
           if (KS.miara === "marza") return B.liczba(v, 1) + " zł na pacjenta z " + B.liczba(mian[di]);
           return B.proc(v) + " z " + B.liczba(mian[di]) + (KS.miara === "udzial" ? " w filtrze" : "");
         } };
     });
+    // seria odniesienia („Wszyscy w filtrze”) rysowana na końcu, żeby nie chowała się pod seriami podziału
+    serie.sort(function (p, q) { return (p.w === "__razem") - (q.w === "__razem"); });
     if (wykresK) wykresK.destroy();
     var proc = KS.miara === "powrot" || KS.miara === "udzial";
+    var dost = Object.keys(grupy).filter(function (v) { return v !== "__razem"; }).map(function (v) {
+      var t = 0, c_ = grupy[v].cnt; for (var j = 0; j < c_.length; j++) t += c_[j]; return { w: v, n: t };
+    }).sort(function (p, q) { return q.n - p.n; }).map(function (p) { return [p.w, etykietaWart(KS.podz, p.w)]; });
     wykresK = wykres(B.$("ko-wykres"), serie, { procent: proc, jednostka: proc ? "%" : KS.miara === "marza" ? "zł" : "pacjenci",
-      formatY: function (v) { return B.liczba(v, 0) + (proc ? "%" : ""); }, a: KS.a, b: KS.b, nazwy: B.nazwyPresetu(KS.preset), zdarzenia: true });
+      formatY: function (v) { return B.liczba(v, 0) + (proc ? "%" : ""); }, a: KS.a, b: KS.b, nazwy: B.nazwyPresetu(KS.preset),
+      zdarzenia: true, id: "kohorty", obszary: ["retencja"], odswiez: function () { rysujK(true); },
+      wybor: { dostepne: [["__razem", "Wszyscy w filtrze"]].concat(dost), wybrane: KS.wybrane, max: 8,
+        dodaj: function (v) { KS.wybrane.push(v); rysujK(); },
+        usun: function (v) { KS.wybrane = KS.wybrane.filter(function (q) { return q !== v; }); rysujK(); } } });
   }
 
   // przełącznik rozdzielczości mapy jako widoczne przyciski
@@ -536,7 +577,7 @@
   // ------------------------------------------------------------ PO ZAKUPIE
   var PZ = null, PS = { spec: "internista", grupa: "pozostale", prog: "p15", wygl: 28,
     zwGrupa: "wszyscy", zwZam: "wszystkie", zwWygl: 28, ocSpec: "internista", ocGrupa: "pozostale",
-    opWizyta: "internista_rano", opGrupa: "pozostale" };
+    opWizyta: "internista_rano", opGrupa: "pozostale", wyrozPora: "a_rano_6_11", wyrozCel: "l4" };
   var wykresP = null, wykresZ = null, gotoweP = false;
   // w „Po zakupie” i „Wyniku biznesu” nie wybiera się dat, więc porównanie nazywamy słowami, a nie literami A i B
   var RR = { pref: "rok wcześniej: ", wobec: "wobec roku wcześniej" };
@@ -562,10 +603,13 @@
       var s = zsumuj(PZ.punktualnosc, function (x) { return x.pora === pora && (PS.spec === "wszyscy" || x.spec === PS.spec) && grupaOk(PS.grupa, x.nowa); }, ["n", PS.prog]);
       var m = krocz(s.n, w), l = krocz(s[PS.prog], w), y = new Array(B.NDNI);
       for (var d = 0; d < B.NDNI; d++) y[d] = d >= w - 1 && m[d] > 0 ? 100 * l[d] / m[d] : null;
-      return { label: ET.pora[pora], kolor: i + 1, y: y, opis: function (di, v) { return B.proc(v) + " z " + B.liczba(m[di]) + " wizyt"; } };
+      var wyr = pora === PS.wyrozPora;
+      return { label: ET.pora[pora], kolor: B.css(wyr ? "--series-1" : "--seria-a"), szer: wyr ? 2.5 : 1.25, y: y,
+        opis: function (di, v) { return B.proc(v) + " z " + B.liczba(m[di]) + " wizyt"; } };
     });
     if (wykresP) wykresP.destroy();
-    wykresP = wykres(B.$("pz-wykres"), serie, { procent: true, jednostka: "%", zdarzenia: true, a: zakresOkresu(1), b: zakresOkresu(2), nazwy: B.nazwyPresetu("rok") });
+    wykresP = wykres(B.$("pz-wykres"), serie, { procent: true, jednostka: "%", zdarzenia: true, a: zakresOkresu(1), b: zakresOkresu(2), nazwy: B.nazwyPresetu("rok"),
+      id: "punktualnosc", obszary: ["obsluga"], odswiez: rysujPunktualnosc });
     // tabela: specjalizacja × pora, okres 1 wobec okresu 2
     var t = B.wyczysc(B.$("pz-tabela")), o1 = zakresOkresu(1), o2 = zakresOkresu(2);
     t.appendChild(B.el("thead", null, [B.el("tr", null, [B.el("th", { text: "Specjalizacja" }), B.el("th", { text: "Pora terminu" }),
@@ -661,10 +705,13 @@
       var s = zsumuj(PZ.zwroty, warunek(cel), ["odbyte", "zwrocone"]);
       var m = krocz(s.odbyte, w), l = krocz(s.zwrocone, w), y = new Array(B.NDNI);
       for (var d = 0; d < B.NDNI; d++) y[d] = d >= w - 1 && m[d] > 0 ? 100 * l[d] / m[d] : null;
-      return { label: ET.cel[cel], kolor: i + 1, y: y, opis: function (di, v) { return B.proc(v) + " z " + B.liczba(m[di]) + " odbytych"; } };
+      var wyr = cel === PS.wyrozCel;
+      return { label: ET.cel[cel], kolor: B.css(wyr ? "--series-1" : "--seria-a"), szer: wyr ? 2.5 : 1.25, y: y,
+        opis: function (di, v) { return B.proc(v) + " z " + B.liczba(m[di]) + " odbytych"; } };
     });
     if (wykresZ) wykresZ.destroy();
-    wykresZ = wykres(B.$("zw-wykres"), serie, { procent: true, jednostka: "%", zdarzenia: true, a: zakresOkresu(1), b: zakresOkresu(2), nazwy: B.nazwyPresetu("rok") });
+    wykresZ = wykres(B.$("zw-wykres"), serie, { procent: true, jednostka: "%", zdarzenia: true, a: zakresOkresu(1), b: zakresOkresu(2), nazwy: B.nazwyPresetu("rok"),
+      id: "zwroty", obszary: ["obsluga"], odswiez: rysujZwroty });
     var t = B.wyczysc(B.$("zw-tabela")), o1 = zakresOkresu(1), o2 = zakresOkresu(2);
     t.appendChild(B.el("thead", null, [B.el("tr", null, ["Cel wizyty", "Zwrot po odbytej wizycie", "Anulowane przed wizytą",
       "Pacjent nie odebrał", "Zwrócone zapłaty", "Koszt lekarza za zwrócone wizyty"].map(function (h) { return B.el("th", { text: h }); }))]));
@@ -709,6 +756,7 @@
     f.appendChild(wybor("pz-grupa", "Pacjenci", grupy, PS.grupa, function (v) { PS.grupa = v; rysujPunktualnosc(); }));
     f.appendChild(wybor("pz-prog", "Opóźnienie", [["p15", "ponad 15 minut"], ["p30", "ponad 30 minut"]], PS.prog, function (v) { PS.prog = v; rysujPunktualnosc(); }));
     f.appendChild(wybor("pz-wygl", "Wygładzenie", [["1", "dzień"], ["7", "suma z 7 dni"], ["28", "suma z 28 dni"]], String(PS.wygl), function (v) { PS.wygl = +v; rysujPunktualnosc(); }));
+    f.appendChild(wybor("pz-wyroz", "Wyróżnij porę", PORY.map(function (p) { return [p, B.ET.pora[p]]; }), PS.wyrozPora, function (v) { PS.wyrozPora = v; rysujPunktualnosc(); }));
     var fo = B.wyczysc(B.$("pz-powrot-filtry"));
     fo.appendChild(wybor("pz-op-wizyta", "Pierwsza wizyta", [["internista_rano", "Internista rano (6–11)"], ["internista", "Internista, każda pora"], ["wszystkie", "Wszystkie"]],
       PS.opWizyta, function (v) { PS.opWizyta = v; rysujPowrotOpoznienie(); }));
@@ -719,6 +767,7 @@
     fz.appendChild(wybor("zw-zam", "Zamówienia", [["wszystkie", "Wszystkie"], ["pierwsze", "Pierwsze"], ["kolejne", "Kolejne"]],
       PS.zwZam, function (v) { PS.zwZam = v; rysujZwroty(); }));
     fz.appendChild(wybor("zw-wygl", "Wygładzenie", [["1", "dzień"], ["7", "suma z 7 dni"], ["28", "suma z 28 dni"]], String(PS.zwWygl), function (v) { PS.zwWygl = +v; rysujZwroty(); }));
+    fz.appendChild(wybor("zw-wyroz", "Wyróżnij cel", CELE.map(function (c) { return [c, B.ET.cel[c]]; }), PS.wyrozCel, function (v) { PS.wyrozCel = v; rysujZwroty(); }));
     var fc = B.wyczysc(B.$("oc-filtry"));
     fc.appendChild(wybor("oc-spec", "Specjalizacja", specy, PS.ocSpec, function (v) { PS.ocSpec = v; rysujOceny(); }));
     fc.appendChild(wybor("oc-grupa", "Pacjenci", grupy, PS.ocGrupa, function (v) { PS.ocGrupa = v; rysujOceny(); }));
@@ -818,9 +867,9 @@
       return g ? B.dataPL(g.od) + (g.do > g.od ? "–" + B.dataPL(g.do) : "") : B.dataPL(i);
     };
     var fY = function (v) { return Math.abs(v) >= 1000 ? B.liczba(v / 1000, 0) + " tys." : B.liczba(v, 0); };
-    wykresW = wykres(B.$("wy-wykres"), serie, { x: x, procent: false, jednostka: "zł", punkty: WS.krok === "mies", etykietaX: et, zdarzenia: true, formatY: fY });
+    wykresW = wykres(B.$("wy-wykres"), serie, { x: x, procent: false, jednostka: "zł", punkty: WS.krok === "mies", etykietaX: et, zdarzenia: true, formatY: fY, id: "wynik1" });
     wykresW2 = wykres(B.$("wy-wykres2"), [{ label: "Marża po koszcie lekarza, kampaniach i prowizji", kolor: B.css("--series-3"), y: cz.marza,
-      opis: function (di, v) { return f(v); } }], { x: x, procent: false, jednostka: "zł", punkty: WS.krok === "mies", etykietaX: et, zdarzenia: true, formatY: fY, wys: 240 });
+      opis: function (di, v) { return f(v); } }], { x: x, procent: false, jednostka: "zł", punkty: WS.krok === "mies", etykietaX: et, zdarzenia: true, formatY: fY, wys: 240, id: "wynik2" });
     // tabela miesięczna z sumami okresów
     var t = B.wyczysc(B.$("wy-tabela"));
     var kol = [["Okres", null], ["Zamówienia", "zam"], ["Nowi pacjenci", "nowi"], ["Przychód: pierwsze zamówienia", "prz1"],

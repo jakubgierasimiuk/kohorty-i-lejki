@@ -564,6 +564,42 @@ a.nr:hover { background: var(--accent); }
 details.tabela-zwinieta { margin-top: 8px; }
 .filtr-przelacznik { display: flex; flex-direction: column; gap: 3px; font-size: 12px; color: var(--muted); font-weight: 500; }
 
+
+/* ------------------------------------------------------------ legenda wykresów dziennych */
+.lw { margin: 6px 0 0; font-size: 12px; color: var(--ink-2); }
+.lw-data { color: var(--muted); min-height: 18px; font-variant-numeric: tabular-nums; }
+.lw-serie { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; margin-top: 4px; }
+.lw-seria { display: inline-flex; align-items: center; gap: 6px; }
+.lw-kreska { display: inline-block; width: 16px; height: 2px; border-radius: 1px; flex: none; }
+.lw-kreska.gruba { height: 4px; }
+.lw-nazwa { color: var(--ink); }
+.lw-wart { color: var(--ink-2); font-variant-numeric: tabular-nums; font-weight: 600; }
+.lw-usun { font: inherit; font-size: 14px; line-height: 1; color: var(--muted); background: transparent; border: 0; border-radius: 4px;
+  padding: 2px 5px; cursor: pointer; min-width: 24px; min-height: 24px; }
+.lw-usun:hover { color: var(--zle); background: var(--zle-tlo); }
+.lw-dodaj { font-size: 12px; min-height: 30px; padding: 3px 6px; color: var(--accent); border-color: var(--accent-ramka); }
+.lw-zdarzenia { margin-top: 8px; }
+.lw-zdarzenia .lista-zdarzen-wykres { margin: 0 0 6px; }
+.lw-wszystkie { font-size: 12px; padding: 3px 10px 3px 8px; }
+/* filtry kohort: zawężenie pacjentów zwinięte, aktywne zawężenia jako chipy */
+details.zawez { flex: 1 0 100%; }
+details.zawez > summary { cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600;
+  color: var(--accent); padding: 4px 0; }
+details.zawez > summary::before { content: ""; width: 7px; height: 7px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg); transition: transform 0.15s; margin: 0 3px 0 1px; }
+.zawez-siatka { display: flex; flex-wrap: wrap; gap: 10px 14px; margin-top: 8px; }
+.chipy-aktywne { flex: 1 0 100%; display: flex; flex-wrap: wrap; gap: 6px; }
+.chip-usun { font: inherit; font-size: 12px; background: var(--accent-tlo); border-color: var(--accent-ramka); color: var(--ink); gap: 8px; }
+.chip-usun span { font-size: 14px; color: var(--muted); }
+/* tabele podziałów: pierwsza kolumna przyklejona przy przewijaniu w bok */
+.tabela-lejek th:first-child, .tabela-lejek td:first-child { position: sticky; left: 0; z-index: 1; background: var(--surface); box-shadow: 1px 0 0 var(--grid); }
+.tabela-lejek th:first-child { z-index: 2; }
+.tabela-lejek tr.zaznaczony td:first-child { background: var(--accent-tlo); }
+.tabela-lejek tr.podsuma td:first-child, .tabela-lejek tbody tr:hover td:first-child { background: var(--wash); }
+.tabela-tel { display: none; }
+.przycisk-maly { font: 500 13px/1 var(--font); color: var(--accent); background: var(--surface); border: 1px solid var(--accent-ramka);
+  border-radius: 999px; padding: 0 12px; min-height: 36px; cursor: pointer; }
+
 /* ------------------------------------------------------------ telefon */
 @media (max-width: 760px) {
   body { font-size: 15px; }
@@ -599,6 +635,13 @@ details.tabela-zwinieta { margin-top: 8px; }
   .tabela-tekst td::before { content: attr(data-etykieta); display: block; font-size: 12px; color: var(--muted); margin-top: 4px; }
   .tabela-tekst td.nr-kom::before { display: none; }
   .lista-zdarzen-wykres { columns: 1; }
+  .tabela-tel { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 8px 12px; margin: 8px 0; }
+  .tabela-tel label { display: flex; flex-direction: column; gap: 3px; font-size: 12px; color: var(--muted); font-weight: 500; flex: 1 1 180px; }
+  .tabela .kol-tel-ukryta { display: none; }
+  .tabela.cala-tabela .kol-tel-ukryta { display: table-cell; }
+  .tabela-lejek td:first-child { min-width: 0; }
+  .tabela-lejek td, .tabela-lejek th { white-space: normal; }
+  .macierz th:first-child, .macierz td:first-child { position: sticky; left: 0; z-index: 1; background: var(--surface); box-shadow: 1px 0 0 var(--grid); }
   .liczba-glowna { font-size: 30px; }
   .okresy input, .filtry-daty input { width: 140px; }
   .filtry { padding: 10px 12px 12px; gap: 10px 12px; }
