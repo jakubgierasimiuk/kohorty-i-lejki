@@ -689,6 +689,12 @@ details.zawez > summary::before { content: ""; width: 7px; height: 7px; border-r
 .przycisk-maly { font: 500 13px/1 var(--font); color: var(--accent); background: var(--surface); border: 1px solid var(--accent-ramka);
   border-radius: 999px; padding: 0 12px; min-height: 36px; cursor: pointer; }
 
+/* ------------------------------------------------------------ tablet i wąskie okno: pasek zakładek w dwóch rzędach, żeby
+   „Priorytety” i „Czego nie wiemy” nie chowały się poza ekranem (od 761 do 1000 px pasek był przewijany bez widocznego paska) */
+@media (max-width: 1000px) {
+  .zakladki { flex-wrap: wrap; overflow: visible; }
+}
+
 /* ------------------------------------------------------------ telefon */
 @media (max-width: 760px) {
   body { font-size: 15px; }

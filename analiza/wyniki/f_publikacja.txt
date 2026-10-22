@@ -1,4 +1,4 @@
-F — GOTOWOŚĆ DO PUBLIKACJI: PODŚCIEŻKA, SZEROKOŚCI POŚREDNIE, SAFARI (WEBKIT) I FIREFOX (2026-10-23 00:07, commit a4d52c9)
+F — GOTOWOŚĆ DO PUBLIKACJI: PODŚCIEŻKA, SZEROKOŚCI POŚREDNIE, SAFARI (WEBKIT) I FIREFOX (2026-10-23 00:32, commit 3b5eeaa)
 Problemy razem: 1
    WebKit (Safari) 375 px: lejek: wychodzi poza ekran []
 

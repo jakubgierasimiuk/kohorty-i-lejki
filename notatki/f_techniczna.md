@@ -4,6 +4,17 @@
 **Zlecenie Kuby:** „Kontrola techniczna ostatecznej wersji: kontrola liczb w eksporcie i kontrola liczb na wykresach względem tekstu kart, 9 zakładek na komputerze i telefonie, tryb jasny i ciemny, konsola, odnośniki z filtrami po odświeżeniu strony, brak pobierania czegokolwiek z internetu, czas ładowania.”
 **Zasady tej części:** niczego nie poprawiano w plikach strony, skryptach ani wspólnych notatkach; bez commitów; strony otwierane tylko z 127.0.0.1.
 
+## Aktualizacja: pasek zakładek poprawiony (polecenie Kuby, 23 października 2026)
+
+**Jedyny problem „przed wysłaniem” (pozycja 1 listy poprawek) jest poprawiony i sprawdzony.** Przed wysłaniem nie zostaje żaden problem. Pozostałe pozycje to materiał na rozmowę.
+
+- **Zmiana:** w `narzedzie/styl.css`, przed regułą dla telefonu, dodana reguła `@media (max-width: 1000px) { .zakladki { flex-wrap: wrap; overflow: visible; } }`. Do 1 000 pikseli pasek zakładek ma dwa rzędy, od 1 024 pikseli jeden.
+- **Pomiar paska** przy 14 szerokościach od 700 do 1 280 pikseli: żadna zakładka nie chowa się poza ekranem. Przed poprawką przy 768–834 pikselach chowały się „Priorytety” i „Czego nie wiemy”, a przy 900–960 „Czego nie wiemy”. Zrzut przy 768 pikselach pokazuje 9 zakładek w dwóch rzędach.
+- **`e_przegladarka.py` w trybie jasnym i ciemnym:** 9 zakładek przy 1 366 i 375 pikselach bez problemów, 0 błędów w konsoli, 314 odnośników działa, przycisk „Zakładki” działa.
+- **`f_publikacja.py`** (wynik odświeżony w `analiza/wyniki/f_publikacja.txt`): podścieżka, 768 i 1 920 pikseli, WebKit i Firefox bez nowych problemów. Zostaje znany problem z pozycji 2: w WebKit przy 375 pikselach „Lejek” ma 478 pikseli szerokości. Tego nie poprawiano.
+- Liczby na stronie się nie zmieniły, bo poprawka dotyczy tylko stylu paska.
+- Poprawka w `styl.css` i ten wpis są niezacommitowane; commit robi sesja prowadząca.
+
 ## Puenta
 
 **Wersja `a4d52c9` jest technicznie gotowa do publikacji po jednej małej poprawce.** Liczby się zgadzają, strona nie pobiera niczego z internetu i ładuje się szybko także na wolnym telefonie.
@@ -209,7 +220,7 @@ Czas mierzono od otwarcia adresu albo przełączenia zakładki do narysowania je
 
 ## Lista poprawek (od najważniejszej)
 
-**1. Pasek zakładek na tablecie i w wąskim oknie chowa „Priorytety” i „Czego nie wiemy”.** Waga: **przed wysłaniem**.
+**1. Pasek zakładek na tablecie i w wąskim oknie chowa „Priorytety” i „Czego nie wiemy”.** Waga: **przed wysłaniem**. **Zrobione 23 października 2026 na polecenie Kuby** (sekcja „Aktualizacja” na górze).
 - **Gdzie:** wszystkie zakładki, pasek w nagłówku, przy szerokości od 761 do około 990 pikseli. Typowe urządzenia to iPad trzymany pionowo (768–834 pikseli) i okno laptopa na pół ekranu. Kod: `narzedzie/styl.css`, reguła `.zakladki` (wiersz 141) i reguła `@media (max-width: 760px)` (wiersze 693–703).
 - **Jak odtworzyć:** otworzyć stronę w oknie szerokim na 768 pikseli. Pasek kończy się na „Jakość danych | P”.
 - **Propozycja poprawki:** dopisać do `styl.css` regułę `@media (max-width: 1000px) { .zakladki { flex-wrap: wrap; overflow: visible; } }`. Sprawdzone w przeglądarce bez zmiany plików: przy 768, 834, 900, 960 i 999 pikselach widać wszystkie 9 zakładek w dwóch rzędach, a nagłówek ma 174 piksele zamiast 128. Po poprawce trzeba powtórzyć `e_przegladarka.py` w obu trybach i `f_publikacja.py`.
