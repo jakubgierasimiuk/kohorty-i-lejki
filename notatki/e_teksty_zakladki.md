@@ -135,13 +135,13 @@ Rok do roku marża przed kosztem kampanii rośnie z każdym kwartałem wolniej, 
 Powtórne zamówienie zostawia mniej marży niż rok wcześniej, bo rośnie udział wizyt ze zniżką TelemediGO: z 34% do 42% powtórnych zamówień. To spina się z bilansem programu: opłata za TelemediGO nie pokrywa zniżek, które dostają jego członkowie (zakładka „Czy to wzrost”).
 Zastrzeżenie: Spadek marży w III kwartale 2026, o 7% rok do roku, zależy od jednorazowego zdarzenia: we wrześniu 2025 ruszyła sprzedaż TelemediGO w newsletterze. Po odjęciu jednorazowej nadwyżki tego startu marża kwartału jest o 1% wyższa niż rok wcześniej.
 Szczegóły:
-*Kwartały rok do roku*
-| Kwartał | Marża przed kosztem kampanii | Wydatki na kampanie wobec roku wcześniej | Marża po kosztach kampanii |
+*Kwartały rok do roku* (trzecia lista Kuby, punkt 2: wydatki w procentach, jak marża i jak w tabeli „Kwartały rok do roku” liczonej przez stronę; znacznik „uwaga”)
+| Kwartał | Marża przed kosztem kampanii | Wydatki na kampanie | Marża po kosztach kampanii |
 |---|---|---|---|
-| IV kw. 2025 | +55,2% | 1,30 raza | +71,4% |
-| I kw. 2026 | +49,7% | 1,66 raza | +43,0% |
-| II kw. 2026 | +38,4% | 2,04 raza | +13,0% |
-| III kw. 2026 | +25,2% | 2,08 raza | −6,8% |
+| IV kw. 2025 | +55,2% | +29,6% | +71,4% |
+| I kw. 2026 | +49,7% | +66,4% | +43,0% |
+| II kw. 2026 | +38,4% | +104,0% | +13,0% |
+| III kw. 2026 | +25,2% | +107,7% | −6,8% |
 Za cały rok: marża przed kosztem kampanii 1 211 tys. zł → 1 713 tys. zł (+41,5%), wydatki na kampanie 368 tys. zł → 650 tys. zł (+76,7%), marża po koszcie lekarza, kampaniach i prowizji 828 tys. zł → 1 048 tys. zł (+26,6%). Marża przed kosztem kampanii to przychód z konsultacji po zwrotach i z TelemediGO minus koszt lekarza.
 **III kwartał 2026 bez jednorazowego startu sprzedaży TelemediGO**
 Sprzedaż TelemediGO w newsletterze ruszyła 8.09.2025. W pierwszych 23 dniach sprzedała 225 członkostw, a przy późniejszym tempie (1,26 dziennie) sprzedałaby około 29. Jednorazowa nadwyżka to 196 zakupów, czyli 17,4 tys. zł. Bez niej marża III kwartału 2026 jest o 1,1% wyższa niż rok wcześniej, a bez całej sprzedaży w newsletterze w obu latach o 2,3% niższa. Marża przed kosztem kampanii rośnie wtedy o 32,6% (bez tej korekty o 25,2%).

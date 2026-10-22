@@ -815,10 +815,11 @@
       var tr = B.el("tr", null, [B.el("td", { text: B.RZYM[Math.floor(m / 3)] + " kw. " + y + " wobec " + B.RZYM[Math.floor(m / 3)] + " kw. " + (y - 1) })]);
       kol.forEach(function (kk) {
         var a = sA[kk[1]], bb = sB[kk[1]], zm = a ? 100 * (bb / a - 1) : null, zl = kk[1] !== "nowi";
-        var lepiej = kk[1] === "kamp" || kk[1] === "kl" ? zm < 0 : zm > 0;
+        // wydatki na kampanie: wzrost to „uwaga” (jak kafelek wydatków w „Czy to wzrost”); koszt lekarza rośnie z liczbą wizyt, bez oceny
+        var stanZm = kk[1] === "kamp" ? (zm > 0 ? "uwaga" : "neutralnie") : kk[1] === "kl" ? "neutralnie" : (zm > 0 ? "dobrze" : "zle");
         tr.appendChild(B.el("td", null, [B.el("span", { class: "b", text: B.liczba(bb) + (zl ? " zł" : "") }),
           B.el("span", { class: "a", text: "rok wcześniej: " + B.liczba(a) + (zl ? " zł" : "") }, [
-            B.BK.zmiana(B.znak(zm, 1) + "%", B.BK.kierunekZnaku(zm), lepiej ? "dobrze" : "zle",
+            B.BK.zmiana(B.znak(zm, 1) + "%", B.BK.kierunekZnaku(zm), stanZm,
               (zm >= 0 ? "Wzrost" : "Spadek") + " o " + B.liczba(Math.abs(zm), 1) + "% rok do roku")])]));
       });
       tb.appendChild(tr);

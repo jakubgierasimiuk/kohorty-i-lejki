@@ -43,8 +43,10 @@ MIESIACE_DOP = ["stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", "l
                 "października", "listopada", "grudnia"]
 
 # Czas wdrożenia i parametry planu testów to nasz szacunek z c_szkic.md, a nie liczby z danych.
+# Pozycja 1 (trzecia lista Kuby, punkt 4): kroki z c_szkic.md, pozycja 1 — diagnoza (rejestracja na iPhonie, logi, lista
+# zmian) 1–2 dni; poprawka „zwykle dni”, u nas 2–5 dni; sprawdzenie: krok konta wraca w ciągu tygodnia od poprawki.
 SZACUNEK = {
-    1: "dni", 2: "1 dzień sprawdzenie, 1–2 tygodnie raport", 3: "1 dzień", 4: "1 dzień",
+    1: "diagnoza 1–2 dni, poprawka 2–5 dni, sprawdzenie 1 tydzień", 2: "1 dzień sprawdzenie, 1–2 tygodnie raport", 3: "1 dzień", 4: "1 dzień",
     5: "1–2 tygodnie + 4–6 tygodni pomiaru", 6: "diagnoza 1–2 dni, test 2–4 tygodnie",
     7: "dane o wysyłkach dni, sekwencja 2–4 tygodnie, pomiar 90 dni", 8: "1 dzień", 9: "1 tydzień + 4–6 tygodni",
     10: "1–2 tygodnie + test dwóch cen 4 tygodnie", 11: "1–2 dni", 12: "2–8 tygodni + 90 dni",

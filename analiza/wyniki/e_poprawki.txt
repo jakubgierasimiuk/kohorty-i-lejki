@@ -1,4 +1,4 @@
-E2 — LICZBY DO DRUGIEJ LISTY POPRAWEK (2026-10-22 10:33)
+E2 — LICZBY DO DRUGIEJ LISTY POPRAWEK (2026-10-22 19:01)
 Okres 1 = rok wcześniej (1.10.2024–30.09.2025), okres 2 = ostatnie 12 miesięcy (1.10.2025–30.09.2026), czas polski.
 
 1. LEJEK OSÓB, KTÓRE JESZCZE NIE KUPOWAŁY: SESJA DO PŁATNOŚCI „DZIŚ” (sesje zwykłe, dzień sesji w czasie polskim)
@@ -17,3 +17,124 @@ Okres 1 = rok wcześniej (1.10.2024–30.09.2025), okres 2 = ostatnie 12 miesię
    l4           wizyty odbyte   5895, zwroty po wizycie  1024 (17.4%)
    skierowanie  wizyty odbyte     35, zwroty po wizycie     0 (0.0%)
    Razem: 1044 zwrotów po wizycie (wszystkie cele), z tego 1024 przy wizytach L4 (z 5895 wizyt L4) i 20 przy innych celach wizyty.
+
+3. OSOBY, KTÓRE JESZCZE NIE KUPOWAŁY, BEZ NOWYCH KAMPANII: WEDŁUG PIERWSZEGO WEJŚCIA A WEDŁUG SESJI
+   Sesje zwykłe osób, które jeszcze nie kupowały (lejek główny, jak analiza/a5p_lejek.py), dzień sesji w czasie polskim.
+   Według sesji = bez sesji, których własna kampania to nowa kampania (dotychczasowy nagłówek lejka).
+   Według pierwszego wejścia = bez wszystkich sesji osób, których pierwsze wejście to nowa kampania (jak w retencji).
+   Osoba = konto (z anonimowymi sesjami jego przeglądarek), bez konta przeglądarka; pierwsze wejście osoby z zamówieniem
+   według definicje.py (kod kampanii na pierwszym zamówieniu rozstrzyga), bez zamówienia = kampania jej pierwszej sesji.
+   Safari na iPhone'ach = system iOS i przeglądarka Safari (także iPady). Okres 1/2 jak wyżej.
+   Osoby: 359983, z zamówieniem 40918; pierwsza sesja osoby z zamówieniem inna niż pierwsze wejście z definicje.py: 0; kod kampanii zmienia kampanię u 183.
+   Sprawdzenie, okres 1: 144813 sesji i 16232 płatności; lejek dzienny 144813 i 16232 — zgodne
+   Sprawdzenie według sesji, okres 1: 144813 sesji, 11.21% — e_merytoryka.json 144813, 11.21% — zgodne
+   Sprawdzenie, okres 2: 265264 sesji i 24686 płatności; lejek dzienny 265264 i 24686 — zgodne
+   Sprawdzenie według sesji, okres 2: 170802 sesji, 11.42% — e_merytoryka.json 170802, 11.42% — zgodne
+   Sesje osób nowych kampanii poza sesjami z reklam nowych kampanii (wracają bezpośrednio, z wyszukiwarki, z innej reklamy): 11577 sesji, 2081 płatności (17.98%); pacjentów, których według pierwszego wejścia mają nowe kampanie, a według sesji z płatnością inne kanały: 2081 — zgodne.
+   Sesje z reklam nowych kampanii u osób, których pierwsze wejście to inny kanał: 0 (obie reguły różnią się więc tylko sesjami powrotnymi osób nowych kampanii).
+
+   Okna (sesje, płatności, odsetek sesji z płatnością, krok konta po wyborze terminu):
+   grupa     okno             sesje  płatn.  konw. % z term.  konto %
+   pw        o1              144813   16232    11.21   32890     66.4
+   pw        o2              159225   17418    10.94   36833     63.8
+   pw        dzis             71441    7328    10.26   16230     61.1
+   pw        rok_wczesniej    65262    7257    11.12   14715     66.6
+   pw        przed26          71562    8235    11.51   16794     66.3
+   pw        przed25          65292    7374    11.29   14840     66.3
+   ses       o1              144813   16232    11.21   32890     66.4
+   ses       o2              170802   19499    11.42   41289     63.7
+   ses       dzis             79677    8779    11.02   19323     61.4
+   ses       rok_wczesniej    65262    7257    11.12   14715     66.6
+   ses       przed26          73674    8645    11.73   17649     66.2
+   ses       przed25          65292    7374    11.29   14840     66.3
+   saf       o1               28496    3456    12.13    6941     67.0
+   saf       o2               32001    3284    10.26    7909     56.1
+   saf       dzis             14323    1184     8.27    3561     45.7
+   saf       rok_wczesniej    12887    1545    11.99    3112     67.0
+   saf       przed26          14477    1747    12.07    3580     65.9
+   saf       przed25          12803    1556    12.15    3115     66.7
+   res       o1              116317   12776    10.98   25949     66.2
+   res       o2              127224   14134    11.11   28924     65.9
+   res       dzis             57118    6144    10.76   12669     65.4
+   res       rok_wczesniej    52375    5712    10.91   11603     66.4
+   res       przed26          57085    6488    11.37   13214     66.4
+   res       przed25          52489    5818    11.08   11725     66.3
+   nowe_os   o1                   0       0      nan       0      nan
+   nowe_os   o2              106039    7268     6.85   16694     60.1
+   nowe_os   dzis             74961    4987     6.65   11574     59.6
+   nowe_os   rok_wczesniej        0       0      nan       0      nan
+   nowe_os   przed26          19726    1455     7.38    3233     61.6
+   nowe_os   przed25              0       0      nan       0      nan
+   nowe_ses  o1                   0       0      nan       0      nan
+   nowe_ses  o2               94462    5187     5.49   12238     59.1
+   nowe_ses  dzis             66725    3536     5.30    8481     58.5
+   nowe_ses  rok_wczesniej        0       0      nan       0      nan
+   nowe_ses  przed26          17614    1045     5.93    2378     60.8
+   nowe_ses  przed25              0       0      nan       0      nan
+   wszyscy   o1              144813   16232    11.21   32890     66.4
+   wszyscy   o2              265264   24686     9.31   53527     62.6
+   wszyscy   dzis            146402   12315     8.41   27804     60.5
+   wszyscy   rok_wczesniej    65262    7257    11.12   14715     66.6
+   wszyscy   przed26          91288    9690    10.61   20027     65.5
+   wszyscy   przed25          65292    7374    11.29   14840     66.3
+   (pw = bez nowych kampanii według pierwszego wejścia, ses = według sesji, saf / res = Safari na iPhone'ach / pozostałe
+   przeglądarki w grupie pw, nowe_os = osoby nowych kampanii, nowe_ses = sesje z reklam nowych kampanii;
+   dzis = 2026-04–2026-09, rok_wczesniej = 2025-04–2025-09, przed26 = 2025-10–2026-02, przed25 = 2024-10–2025-02)
+
+   Miesiąc po miesiącu (konw = odsetek sesji z płatnością, zm = zmiana wobec tego samego miesiąca rok wcześniej, punkty;
+   konto = krok konta po wyborze terminu):
+   mies     pw sesje  pw konw  pw zm ses konw ses zm | saf ses. saf konw saf zm saf kon. | res ses. res konw res zm res kon.
+   2024-10     11375    11.30      —    11.30      — |     2251    12.08      —     69.4 |     9124    11.10      —     66.0
+   2024-11     12256    11.42      —    11.42      — |     2370    12.07      —     66.9 |     9886    11.27      —     66.9
+   2024-12     13472    11.14      —    11.14      — |     2659    11.62      —     64.7 |    10813    11.02      —     65.2
+   2025-01     14699    11.08      —    11.08      — |     2928    12.50      —     66.0 |    11771    10.72      —     66.0
+   2025-02     13490    11.56      —    11.56      — |     2595    12.45      —     66.9 |    10895    11.35      —     67.1
+   2025-03     14259    11.23      —    11.23      — |     2806    12.65      —     68.1 |    11453    10.88      —     64.8
+   2025-04     12878    11.10      —    11.10      — |     2578    11.13      —     65.2 |    10300    11.10      —     67.1
+   2025-05     11290    11.21      —    11.21      — |     2257    12.36      —     68.1 |     9033    10.93      —     65.3
+   2025-06     10190    11.02      —    11.02      — |     1986    11.38      —     64.5 |     8204    10.93      —     66.6
+   2025-07     10070    11.08      —    11.08      — |     1915    13.16      —     69.4 |     8155    10.59      —     66.5
+   2025-08      9986    10.76      —    10.76      — |     2030    11.77      —     66.3 |     7956    10.50      —     65.8
+   2025-09     10848    11.50      —    11.50      — |     2121    12.35      —     68.8 |     8727    11.30      —     67.2
+   2025-10     12507    11.05  -0.25    11.05  -0.25 |     2487    11.82  -0.26     65.7 |    10020    10.86  -0.24     64.9
+   2025-11     13567    11.58  +0.16    11.64  +0.22 |     2723    11.38  -0.68     67.0 |    10844    11.63  +0.36     66.2
+   2025-12     14434    11.15  +0.01    11.52  +0.37 |     3017    11.97  +0.34     65.9 |    11417    10.94  -0.08     66.0
+   2026-01     16278    12.15  +1.08    12.38  +1.30 |     3335    12.98  +0.48     66.1 |    12943    11.94  +1.22     67.5
+   2026-02     14776    11.46  -0.10    11.88  +0.31 |     2915    11.97  -0.47     64.9 |    11861    11.34  -0.01     66.9
+   2026-03     16222    11.44  +0.21    11.89  +0.66 |     3201    11.03  -1.62     58.5 |    13021    11.54  +0.66     65.6
+   2026-04     14236    10.05  -1.05    10.76  -0.34 |     2912     7.45  -3.68     43.0 |    11324    10.72  -0.38     64.5
+   2026-05     12094    10.66  -0.56    11.55  +0.34 |     2425     8.82  -3.54     47.0 |     9669    11.12  +0.19     66.9
+   2026-06     11431    10.11  -0.91    10.79  -0.23 |     2352     8.29  -3.09     45.2 |     9079    10.58  -0.35     65.1
+   2026-07     10957    10.58  -0.50    11.18  +0.10 |     2154     8.87  -4.29     47.5 |     8803    11.00  +0.40     66.9
+   2026-08     11000    10.02  -0.74    10.68  -0.07 |     2116     7.37  -4.40     44.9 |     8884    10.65  +0.15     65.4
+   2026-09     11723    10.16  -1.34    11.16  -0.34 |     2364     8.93  -3.43     47.2 |     9359    10.47  -0.83     63.9
+
+   Test rozróżniający hipotezy (IV–IX 2026 wobec IV–IX 2025, punkty procentowe, wzór symetryczny; opisowo):
+   Hipoteza Kuby: płaska średnia przykrywa Safari (Safari wyraźnie spada, reszta stoi albo lekko rośnie).
+   Druga możliwość: według pierwszego wejścia średnia spada (wtedy „nie zmieniła się” wynikało z reguły).
+   według pierwszego wejścia: Safari a pozostałe przeglądarki: zmiana średniej -0.86 (11.12% → 10.26%, 65262 → 71441 sesji)
+      reszta           udział sesji  80.3% →  80.0%, konwersja  10.91% →  10.76%; struktura -0.03, w obrębie grupy -0.12, razem -0.15
+      safari           udział sesji  19.7% →  20.0%, konwersja  11.99% →   8.27%; struktura +0.03, w obrębie grupy -0.74, razem -0.71
+   według sesji: Safari, pozostałe i sesje powrotne osób nowych kampanii: zmiana średniej -0.10 (11.12% → 11.02%, 65262 → 79677 sesji)
+      powrotne_nowych  udział sesji   0.0% →  10.3%, konwersja    nan% →  17.62%; struktura +1.82, w obrębie grupy +0.00, razem +1.82
+      reszta           udział sesji  80.3% →  71.7%, konwersja  10.91% →  10.76%; struktura -0.93, w obrębie grupy -0.11, razem -1.04
+      safari           udział sesji  19.7% →  18.0%, konwersja  11.99% →   8.27%; struktura -0.18, w obrębie grupy -0.70, razem -0.88
+   wszystkie osoby, które jeszcze nie kupowały: osoby nowych kampanii, Safari i pozostałe: zmiana średniej -2.71 (11.12% → 8.41%, 65262 → 146402 sesji)
+      nowe_kampanie    udział sesji   0.0% →  51.2%, konwersja    nan% →   6.65%; struktura +3.41, w obrębie grupy +0.00, razem +3.41
+      reszta           udział sesji  80.3% →  39.0%, konwersja  10.91% →  10.76%; struktura -4.47, w obrębie grupy -0.09, razem -4.56
+      safari           udział sesji  19.7% →   9.8%, konwersja  11.99% →   8.27%; struktura -1.01, w obrębie grupy -0.55, razem -1.56
+      razem zmiana struktury -2.07, w obrębie Safari -0.55, w obrębie pozostałych -0.09
+   Zmiana z 95% przedziałem (przybliżenie normalne, sesje jak niezależne, więc przedział raczej za wąski):
+      pw   -0.86 punktu (od -1.19 do -0.53)
+      ses  -0.10 punktu (od -0.43 do +0.22)
+      saf  -3.72 punktu (od -4.44 do -3.00)
+      res  -0.15 punktu (od -0.52 do +0.22)
+      saf  przed awarią (2025-10–2026-02 wobec roku wcześniej) -0.09 punktu (od -0.86 do +0.69)
+      res  przed awarią (2025-10–2026-02 wobec roku wcześniej) +0.28 punktu (od -0.09 do +0.66)
+   Wrażliwość: grupa pw bez osób, których pierwsze zamówienie to L4 (w obu latach), IV–IX 2026 wobec IV–IX 2025:
+      saf: 9.57% (12430 sesji) → 6.76% (13995), zmiana -2.81 punktu (od -3.48 do -2.15)
+      res: 8.77% (50707 sesji) → 8.72% (55414), zmiana -0.05 punktu (od -0.39 do +0.29)
+   Który krok (IV–IX 2026 wobec IV–IX 2025): sesja z płatnością = termin/sesje × konto/termin × płatność/konto;
+   udział kroku = ln(iloraz kroku) / ln(iloraz odsetka sesji z płatnością).
+      saf: iloraz odsetka sesji z płatnością 0.690; termin 1.030, konto 0.682, płatność po koncie 0.982; udział kroku konta 103%
+      res: iloraz odsetka sesji z płatnością 0.986; termin 1.001, konto 0.985, płatność po koncie 1.000; udział kroku konta 112%

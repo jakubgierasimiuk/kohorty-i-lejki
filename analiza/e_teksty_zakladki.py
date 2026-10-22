@@ -452,8 +452,9 @@ def karta_wynik(wy, V, E, Z):
     pw = V["q3_powtorne"]
     rok = int(q3["kw"][:4])
     nazwa_kw = lambda s: f"{MIESIACE_RZ[(int(s[5:7]) - 1) // 3]} kw. {s[:4]}"  # noqa: E731
+    # wydatki w procentach, tak jak marża (trzecia lista Kuby, punkt 2); ta sama komórka co w „Czy to wzrost”
     wiersze = [wiersz(nazwa_kw(k["kw"]), [zmiana(f"{zn(k['przed_rr_dokl'])}%", k["przed_rr_dokl"]),
-                                          f"{liczba(k['wydatki_razy'], 2)} raza",
+                                          ET.zmiana_wydatkow(k),
                                           zmiana(f"{zn(k['marza_rr_dokl'])}%", k["marza_rr_dokl"])]) for k in kw]
     baza_bez_osobno = 100 * ((E["baza_2026"] - E["baza_2026_osobno_zl"]) / (E["baza_2025"] - E["baza_2025_osobno_zl"]) - 1)
     pac = V["q3_baza_pac"]
@@ -487,7 +488,7 @@ def karta_wynik(wy, V, E, Z):
                      f"jednorazowej nadwyżki tego startu marża kwartału jest o {proc(E['q3_w1_zmiana_proc'], 0)} wyższa niż "
                      f"rok wcześniej.",
         szczegoly=[
-            tabela(["Kwartał", "Marża przed kosztem kampanii", "Wydatki na kampanie wobec roku wcześniej",
+            tabela(["Kwartał", "Marża przed kosztem kampanii", "Wydatki na kampanie",
                     "Marża po kosztach kampanii"], wiersze, tytul="Kwartały rok do roku"),
             akapit(f"Za cały rok: marża przed kosztem kampanii {tz(E['rok_przed_1'], 0)} → {tz(E['rok_przed_2'], 0)} "
                    f"({zn(E['rok_przed_zmiana_proc'])}%), wydatki na kampanie {tz(E['rok_wyd_1'], 0)} → "

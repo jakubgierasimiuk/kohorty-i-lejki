@@ -107,6 +107,18 @@ def zmiana(tekst, wartosc, lepiej_gdy_rosnie=True, pod=None):
     return k
 
 
+def zmiana_wydatkow(r, z_wartoscia=False):
+    """Komórka ze zmianą wydatków na kampanie rok do roku w procentach (trzecia lista Kuby, punkt 2), liczona z ilorazu
+    wydatków kwartału i tego samego kwartału rok wcześniej (e_merytoryka.json, kwartaly). Wzrost wydatków ma stan
+    „uwaga”, jak kafelek o wydatkach w „Czy to wzrost”: sam wzrost nie jest zły, zły jest wzrost szybszy niż marża."""
+    w = 100 * (r["wydatki_razy"] - 1)
+    assert abs(round(w, 1) - r["wydatki_rr"]) < 1e-9, "zmiana wydatków niezgodna z e_merytoryka.json (wydatki_rr)"
+    k = zmiana(f"{zn(w)}%", w, lepiej_gdy_rosnie=False, pod=tz(r["wydatki"]) if z_wartoscia else None)
+    if k["zmiana"] == "wzrost":
+        k["stan"] = "uwaga"
+    return k
+
+
 def link(tekst, href):
     return {"tekst": tekst, "href": href}
 
@@ -493,8 +505,7 @@ def wzrost(V, E, C):
     tab_kw = tabela(["Kwartał", "Marża przed kosztem kampanii", "Wydatki na kampanie", "Marża po kosztach kampanii"],
                     [wiersz(nazwy_kw[r["kw"]], [
                         zmiana(f"{zn(r['przed_rr_dokl'])}%", r["przed_rr_dokl"], pod=tz(r["przed"])),
-                        zmiana(f"×{liczba(r['wydatki_razy'], 2)}", r["wydatki_razy"] - 1, lepiej_gdy_rosnie=False,
-                               pod=tz(r["wydatki"])),
+                        zmiana_wydatkow(r, z_wartoscia=True),
                         zmiana(f"{zn(r['marza_rr_dokl'])}%", r["marza_rr_dokl"], pod=tz(r["marza"]))]) for r in kw],
                     tytul="Zmiana wobec tego samego kwartału rok wcześniej; pod nią wartość w kwartale")
     baza1 = (E["baza_2026"] - E["baza_2026_osobno_zl"]) / (E["baza_2025"] - E["baza_2025_osobno_zl"]) - 1
@@ -595,8 +606,9 @@ def wzrost(V, E, C):
                      f"danych oczyszczonych, porównując {O2_TEKST} z rokiem wcześniej (X 2024 – IX 2025).",
             "werdykt": werdykt, "kafelki": kafelki, "decyzje": decyzje,
             "karty": [pac, ret, go, wy, dash, dalej],
-            "zrodlo": "Skąd liczby: " + W0["zrodlo"].replace("Liczby: ", "") + " Runda E: analiza/wyniki/e_merytoryka.txt, "
-                      "notatki/e_teksty.md."}
+            # bez wewnętrznej nazwy rundy pracy (trzecia lista Kuby, punkt 4)
+            "zrodlo": "Skąd liczby: " + W0["zrodlo"].replace("Liczby: ", "") + " Sprawdzenia przed publikacją: "
+                      "analiza/wyniki/e_merytoryka.txt i analiza/wyniki/e_poprawki.txt. Teksty strony: notatki/e_teksty.md."}
     bloki.append(("wzrost/wstep", {"w": nowe["wstep"]}, [], []))
     return nowe, bloki
 
@@ -994,7 +1006,11 @@ def priorytety(V, E, C):
             "wstep": "Lista od najważniejszej pozycji. Przy każdej: dlaczego, co robimy, ile jest warta w złotych marży na rok, "
                      "po czym poznamy, że zadziałała, i ile zajmie wdrożenie. Pełne rachunki i założenia są w szczegółach "
                      "każdej karty.",
-            "przeglad": przeglad, "zasady": zas, "karty": karty, "nie_robimy": nie, "zrodlo": P0["zrodlo"]}
+            "przeglad": przeglad, "zasady": zas, "karty": karty, "nie_robimy": nie,
+            # bez wewnętrznej nazwy części pracy („raporty części A5”; trzecia lista Kuby, punkt 4)
+            "zrodlo": P0["zrodlo"].replace(" i raporty części A5, wskazane przy każdej pozycji",
+                                           " i raporty wskazane przy każdej pozycji")}
+    assert "A5," not in nowe["zrodlo"], "w stopce priorytetów została nazwa części pracy"
     bloki.append(("priorytety/wstep", {"w": nowe["wstep"]}, [], []))
     return nowe, bloki
 
@@ -1098,6 +1114,27 @@ def karty_lejka(nag, V, E):
               [zn(M[m]["zmiana_rr_pkt"], 2) for m in m_a + m_b + m_c] + \
               [liczba(MK[m]["udzial_sesji_nowe_kampanie"], 1) for m in m_a + m_b + m_c
                if MK[m]["udzial_sesji_nowe_kampanie"] == MK[m]["udzial_sesji_nowe_kampanie"]]
+    # Safari na iPhone'ach i pozostałe przeglądarki u nowych osób spoza nowych kampanii (według pierwszego wejścia),
+    # miesiąc po miesiącu (trzecia lista Kuby, punkt 1; analiza/wyniki/e_poprawki.txt, punkt 3)
+    PM = {r["mies"]: r for r in E["lj_pw_miesiace"]}
+    rw = lambda m: str(int(m[:4]) - 1) + m[4:]  # noqa: E731
+
+    def kom_saf(m, g):
+        a, b = PM[rw(m)], PM[m]
+        return [{"tekst": proc(b[f"{g}_konw"], 2),
+                 "pod": f"{odm(b[f'{g}_sesje'], 'sesja', 'sesje', 'sesji')}; rok wcześniej {proc(a[f'{g}_konw'], 2)}"},
+                zmiana(f"{zn(b[f'{g}_zm'], 2)} pkt", b[f"{g}_zm"]),
+                {"tekst": proc(b[f"{g}_konto"]), "pod": f"rok wcześniej {proc(a[f'{g}_konto'])}"}]
+    tab_saf = tabela(["Miesiąc", "Safari na iPhone'ach", "Zmiana", "Krok konta", "Pozostałe przeglądarki", "Zmiana",
+                      "Krok konta"],
+                     [wiersz(B2.MIESIACE_RZ[int(m[5:]) - 1] + " " + m[:4], kom_saf(m, "saf") + kom_saf(m, "res"))
+                      for m in m_a + m_b + m_c],
+                     tytul="Nowe osoby spoza nowych kampanii (według pierwszego wejścia): odsetek sesji z płatnością i krok "
+                           "konta po wyborze terminu, Safari na iPhone'ach i pozostałe przeglądarki")
+    for m in m_a + m_b + m_c:   # zmiana w tabeli = różnica tych samych liczb, które stoją w komórkach
+        for g in ("saf", "res"):
+            assert abs(PM[m][f"{g}_zm"] - (PM[m][f"{g}_konw"] - PM[rw(m)][f"{g}_konw"])) < 1e-9
+    dod_tab += [x for w_ in tab_saf["wiersze"] for k_ in w_["komorki"] for x in (k_["tekst"], k_.get("pod", ""))]
     stare = [popraw(z) for z in nag["zdania"]]
     # „Wszystkie sesje razem”: zdanie o rachunku bez powtórzonego wyniku rozkładu według przeglądarki (stoi w stare[2])
     wszystkie = stare[1].split(" Sama zmiana struktury ruchu")[0] + " " + stare[2]
@@ -1105,25 +1142,52 @@ def karty_lejka(nag, V, E):
     dz_k, rw_k = E["lj_nk_dzis_konw"], E["lj_nk_rok_wczesniej_konw"]
     assert min(udz_c) >= 40, "„prawie połowa ruchu nowych osób” wymaga co najmniej 40% sesji nowych kampanii od kwietnia"
     assert max(zm(m_a)) < 1 and min(zm(m_b)) > max(zm(m_a)) and min(zm(m_c)) > max(zm(m_b))
-    pozostale_2 = E["lj_nk_bez_nowych_2"]
-    assert round(pozostale_2, 1) == round(E["lj_kampania_pozostale_2_konw"], 1)
     d_s = B2.dt.date.fromisoformat(nag["safari"]["data"])
     dzien_saf = f"{d_s.day} {B2.MIESIACE_DOP[d_s.month - 1]} {d_s.year}"
     assert V["start"][B2.NOWE[1]].month == 2 and V["start"][B2.NOWE[1]].year == 2026, "„w lutym 2026 ruszył TikTok na L4”"
-    assert 0.4 <= E["lj_kampania_nowe_kampanie_2_konw"] / pozostale_2 <= 0.6, "„mniej więcej o połowę rzadziej”"
+    # Nowe osoby spoza nowych kampanii według pierwszego wejścia, jak w retencji (trzecia lista Kuby, punkt 1;
+    # analiza/wyniki/e_poprawki.txt, punkt 3). „pw” = bez osób nowych kampanii, „saf” / „res” = Safari na iPhone'ach /
+    # pozostałe przeglądarki w tej grupie, „ses” = dawna wersja według sesji.
+    pw = lambda g, okno, m: E[f"lj_pw_{g}_{okno}_{m}"]  # noqa: E731
+    roz = lambda g, s: E[f"lj_pw_rozklad_{g}_{s}"]  # noqa: E731
+    assert 0.4 <= pw("nowe_ses", "dzis", "konw") / pw("pw", "dzis", "konw") <= 0.6, "„o połowę rzadziej niż pozostałe”"
+    assert 0.4 <= pw("nowe_ses", "o2", "konw") / pw("pw", "o2", "konw") <= 0.6
+    assert E["lj_pw_saf_zmiana_dzis_do"] < 0, "„Safari płaci rzadziej” wymaga przedziału całego poniżej zera"
+    assert E["lj_pw_res_zmiana_dzis_od"] < 0 < E["lj_pw_res_zmiana_dzis_do"], \
+        "„w innych przeglądarkach konwersja się nie zmieniła” wymaga przedziału przez zero"
+    assert E["lj_pw_saf_zmiana_przed_od"] < 0 < E["lj_pw_saf_zmiana_przed_do"], "„przed awarią Safari płaciło tak jak rok wcześniej”"
+    assert E["lj_pw_saf_udzial_kroku_konta"] >= 90, "„spadek skupia się na kroku konta” wymaga co najmniej 90% w kroku konta"
+    assert 0.97 < E["lj_pw_saf_iloraz_platnosc_po_koncie"] < 1.03 and 0.97 < E["lj_pw_saf_iloraz_termin"] < 1.04
+    # a: tytuł jako składniki rozkładu, a nie „dwa powody”; obie rzeczy razem to co najmniej 90% spadku
+    assert (E["lj_pw_rozklad_wszyscy_struktura_razem"] + roz("wszyscy", "safari_wewnatrz")) / roz("wszyscy", "zmiana") >= 0.9
+    # wrażliwość reguły tożsamości (uwaga g): bez osób z pierwszym zamówieniem L4 wniosek ten sam
+    assert E["lj_pw_bez_l4_saf_zmiana_do"] < 0 < E["lj_pw_bez_l4_res_zmiana_do"] and E["lj_pw_bez_l4_res_zmiana_od"] < 0
+    pow_dz = (pw("nowe_os", "dzis", "sesje") - pw("nowe_ses", "dzis", "sesje"),
+              pw("nowe_os", "dzis", "k5") - pw("nowe_ses", "dzis", "k5"))
+    udz_saf = roz("pw", "safari_wewnatrz") / roz("pw", "zmiana")
+    assert udz_saf >= 0.8, "„prawie cały spadek to Safari” wymaga co najmniej 80% zmiany średniej"
+    struk_pw = roz("pw", "safari_struktura") + roz("pw", "reszta_struktura")
+    assert abs(struk_pw) < 0.05, "„zmiana udziału Safari daje około zera”"
+    assert pw("ses", "dzis", "k5") - pw("pw", "dzis", "k5") == pw("nowe_os", "dzis", "k5") - pw("nowe_ses", "dzis", "k5")
+    assert abs(pw("ses", "dzis", "konw") - pw("ses", "rok_wczesniej", "konw")) < 0.2, "„według sesji od kwietnia stoi”"
+    assert abs(pw("wszyscy", "dzis", "konw") - dz_k) < 1e-9 and abs(pw("wszyscy", "rok_wczesniej", "konw") - rw_k) < 1e-9
+    assert E["lj_nie_kupowal_2_platnosci"] > E["lj_nie_kupowal_1_platnosci"], "„liczba płatności nowych osób rośnie”"
     karta_n = karta(
-        "Od lutego 2026 nowe osoby płacą rzadziej; poza sesjami z nowych kampanii na L4 konwersja się nie zmieniła",
+        "Na spadek konwersji nowych osób składają się głównie dwie rzeczy: więcej ruchu z nowych kampanii na L4 i awaria "
+        "zakładania konta w Safari",
         wniosek=f"Od kwietnia do września 2026 płatnością kończy się około {z0(dz_k)}% sesji osób, które jeszcze nie "
                 f"kupowały, a w tych samych miesiącach rok wcześniej około {z0(rw_k)}%.",
         tresc=[punkty([
-            "Do stycznia 2026 nowe osoby płaciły prawie tak samo często jak rok wcześniej. W lutym 2026, gdy ruszył TikTok "
-            "na L4, różnica wobec roku wcześniej wyraźnie się powiększyła, a od kwietnia jeszcze się pogłębiła: sesje "
-            "nowych kampanii na L4 to od tego czasu prawie połowa ruchu nowych osób.",
-            "Sesje nowych kampanii płacą mniej więcej o połowę rzadziej niż pozostałe, a bez nich konwersja nowych osób się "
-            "nie zmienia. Liczba płatności nowych osób rośnie, spada tylko ich odsetek.",
-            f"Niezależnie od zmiany ruchu trzeba naprawić zakładanie konta w Safari na iPhone'ach (od {dzien_saf}). Do "
-            "sprawdzenia jest niższa konwersja przeglądarek w aplikacjach w remarketingu Meta, kampanii Google Ads na markę "
-            "i wejściach bezpośrednich (karty niżej)."])],
+            "Do stycznia 2026 nowe osoby płaciły prawie tak samo często jak rok wcześniej. Od lutego 2026, gdy ruszył TikTok "
+            "na L4, przybywa ruchu z nowych kampanii na L4. Od kwietnia to prawie połowa sesji nowych osób, a te sesje "
+            "płacą o połowę rzadziej niż pozostałe.",
+            f"Wśród pozostałych nowych osób od kwietnia 2026 wyraźnie płacą rzadziej tylko sesje w Safari na iPhone'ach: "
+            f"około {z0(pw('saf', 'dzis', 'konw'))}% wobec {z0(pw('saf', 'rok_wczesniej', 'konw'))}% rok wcześniej. Spadek "
+            f"skupia się na kroku zakładania konta, który działa gorzej od {dzien_saf}. W innych przeglądarkach konwersja "
+            f"jest bez istotnej zmiany.",
+            "Liczba płatności nowych osób rośnie, spada tylko ich odsetek.",
+            "Safari trzeba naprawić (pozycja 1 listy priorytetów). Do sprawdzenia jest niższa konwersja przeglądarek "
+            "w aplikacjach w remarketingu Meta, kampanii Google Ads na markę i wejściach bezpośrednich (karta niżej)."])],
         zastrzezenie="Niższa konwersja nie mówi, ilu pacjentów nowe kampanie dokładają, bo nie wiemy, ilu z nich przyszłoby "
                      "i bez reklamy.",
         szczegoly=[punkty([
@@ -1138,8 +1202,51 @@ def karty_lejka(nag, V, E):
             f"punktu. Sesje nowych kampanii przekroczyły 30% ruchu nowych osób w lutym 2026 "
             f"({proc(MK['2026-02']['udzial_sesji_nowe_kampanie'])}), a od kwietnia to {zakres(min(udz_c), max(udz_c))}% "
             f"(tabela niżej).",
-            f"Sesje nowych kampanii płacą w {proc(E['lj_kampania_nowe_kampanie_2_konw'])}, a pozostałe sesje osób, które "
-            f"jeszcze nie kupowały, w {proc(E['lj_nk_bez_nowych_2'])}, wobec {proc(E['lj_nk_bez_nowych_1'])} rok wcześniej.",
+            f"Sesje z reklam nowych kampanii płacą w {proc(pw('nowe_ses', 'o2', 'konw'))} ("
+            f"{odm(pw('nowe_ses', 'o2', 'sesje'), 'sesja', 'sesje', 'sesji')} w ostatnich 12 miesiącach; od kwietnia do "
+            f"września 2026 {proc(pw('nowe_ses', 'dzis', 'konw'), 2)} z {liczba(pw('nowe_ses', 'dzis', 'sesje'))} sesji). "
+            f"Nowe osoby spoza "
+            f"nowych kampanii liczymy według pierwszego wejścia, tak jak pacjentów i retencję: od kwietnia do września 2026 "
+            f"płaci {proc(pw('pw', 'dzis', 'konw'), 2)} z {liczba(pw('pw', 'dzis', 'sesje'))} sesji, a w "
+            f"tych samych miesiącach rok wcześniej {proc(pw('pw', 'rok_wczesniej', 'konw'), 2)} z "
+            f"{liczba(pw('pw', 'rok_wczesniej', 'sesje'))} sesji (zmiana {zn(E['lj_pw_pw_zmiana_dzis'], 2)} "
+            f"punktu procentowego). W całych ostatnich 12 miesiącach {proc(pw('pw', 'o2', 'konw'))} wobec "
+            f"{proc(pw('pw', 'o1', 'konw'))} rok wcześniej.",
+            f"Safari na iPhone'ach i iPadach w tej grupie, od kwietnia do września 2026: płaci "
+            f"{proc(pw('saf', 'dzis', 'konw'), 2)} z {liczba(pw('saf', 'dzis', 'sesje'))} sesji wobec "
+            f"{proc(pw('saf', 'rok_wczesniej', 'konw'), 2)} z {liczba(pw('saf', 'rok_wczesniej', 'sesje'))} rok wcześniej, a "
+            f"krok konta po wyborze terminu przechodzi {proc(pw('saf', 'dzis', 'konto'))} sesji wobec "
+            f"{proc(pw('saf', 'rok_wczesniej', 'konto'))}. Pogorszenie skupia się na kroku konta; pozostałe kroki w Safari "
+            f"prawie się nie zmieniają. Pozostałe przeglądarki: "
+            f"{proc(pw('res', 'dzis', 'konw'), 2)} z {liczba(pw('res', 'dzis', 'sesje'))} sesji wobec "
+            f"{proc(pw('res', 'rok_wczesniej', 'konw'), 2)} z {liczba(pw('res', 'rok_wczesniej', 'sesje'))} (zmiana "
+            f"{zn(E['lj_pw_res_zmiana_dzis'], 2)} punktu, 95% przedział od {zn(E['lj_pw_res_zmiana_dzis_od'], 2)} do "
+            f"{zn(E['lj_pw_res_zmiana_dzis_do'], 2)}, czyli bez istotnej zmiany), krok konta "
+            f"{proc(pw('res', 'dzis', 'konto'))} wobec {proc(pw('res', 'rok_wczesniej', 'konto'))}. Od października 2025 do "
+            f"lutego 2026, przed awarią, Safari płaciło tak jak rok wcześniej: {proc(pw('saf', 'przed26', 'konw'), 2)} wobec "
+            f"{proc(pw('saf', 'przed25', 'konw'), 2)}. Sprawdzenie reguły łączenia osób (osoba z reklamy L4, która wróciła "
+            f"w innej przeglądarce bez logowania, liczy się do pozostałych): bez wszystkich osób, których pierwsze zamówienie "
+            f"to L4, w obu latach, Safari spada o {liczba(abs(E['lj_pw_bez_l4_saf_zmiana']), 2)} punktu, a pozostałe "
+            f"przeglądarki są bez istotnej zmiany ({zn(E['lj_pw_bez_l4_res_zmiana'], 2)} punktu, przedział od "
+            f"{zn(E['lj_pw_bez_l4_res_zmiana_od'], 2)} do {zn(E['lj_pw_bez_l4_res_zmiana_do'], 2)}).",
+            f"Podział zmiany od kwietnia do września 2026 (opisowo, czyli bez mierzenia wpływu): z "
+            f"{zn(roz('pw', 'zmiana'), 2)} punktu u nowych osób spoza nowych kampanii {zn(roz('pw', 'safari_wewnatrz'), 2)} "
+            f"punktu to spadek w Safari, {zn(roz('pw', 'reszta_wewnatrz'), 2)} punktu spadek w pozostałych przeglądarkach, "
+            f"a zmiana udziału Safari w ruchu daje około zera. Dla wszystkich nowych osób ({zn(roz('wszyscy', 'zmiana'), 2)} "
+            f"punktu, z {proc(rw_k, 2)} do {proc(dz_k, 2)}) zmiana struktury ruchu daje "
+            f"{zn(E['lj_pw_rozklad_wszyscy_struktura_razem'], 2)} punktu, spadek w Safari "
+            f"{zn(roz('wszyscy', 'safari_wewnatrz'), 2)} punktu, a spadek w pozostałych przeglądarkach "
+            f"{zn(roz('wszyscy', 'reszta_wewnatrz'), 2)} punktu.",
+            f"Licząc według sesji, czyli bez samych sesji z reklam nowych kampanii, konwersja pozostałych sesji rośnie z "
+            f"{proc(pw('ses', 'o1', 'konw'))} do {proc(pw('ses', 'o2', 'konw'))}, a od kwietnia do września 2026 stoi "
+            f"({proc(pw('ses', 'dzis', 'konw'), 2)} wobec {proc(pw('ses', 'rok_wczesniej', 'konw'), 2)}). W całych "
+            f"ostatnich 12 miesiącach ten podział zostawia w średniej "
+            f"{odm(E['lj_pw_powrotne_sesje'], 'sesja', 'sesje', 'sesji')}, w których osoby nowych kampanii wracają "
+            f"bezpośrednio, z wyszukiwarki albo z innej reklamy. Płaci w nich {proc(E['lj_pw_powrotne_konw'])} "
+            f"({odm(E['lj_pw_powrotne_platnosci'], 'płatność', 'płatności', 'płatności')}, czyli ci sami pacjenci, których "
+            f"w retencji oba podziały przypisują różnie). Od kwietnia do września 2026 to "
+            f"{odm(pow_dz[0], 'sesja', 'sesje', 'sesji')}, w których płaci {proc(100 * pow_dz[1] / pow_dz[0])}. Te sesje "
+            f"podnosiły średnią i przykrywały spadek w Safari.",
             f"Osoby, które jeszcze nie kupowały: {liczba(E['lj_nie_kupowal_1_sesje'])} sesji i "
             f"{liczba(E['lj_nie_kupowal_1_platnosci'])} płatności rok wcześniej, {liczba(E['lj_nie_kupowal_2_sesje'])} sesji i "
             f"{liczba(E['lj_nie_kupowal_2_platnosci'])} płatności w ostatnich 12 miesiącach. Najbardziej pogorszyło się "
@@ -1153,11 +1260,13 @@ def karty_lejka(nag, V, E):
             f"wpływu): zmiana struktury ruchu {zn(E['lj_nk_rozklad_kampania_struktura'], 2)} punktu, zmiana w obrębie kampanii "
             f"{zn(E['lj_nk_rozklad_kampania_wewnatrz'], 2)} punktu. Nowe kampanie nie mają roku wcześniej, więc liczą się w "
             f"całości do struktury.",
-            "Wszystkie sesje razem: " + wszystkie]), tab_m],
+            # całe 12 miesięcy i wszystkie sesje: to nie przeczy awarii Safari, która dotyczy IV–IX 2026 (trzecia lista Kuby)
+            "Wszystkie sesje razem, w całych ostatnich 12 miesiącach: " + wszystkie]), tab_m, tab_saf],
         linki=[link("Lejek: osoby, które jeszcze nie kupowały, według kampanii",
                     "#lejek?typ=zwykla&pac=nie_kupowal&podz=kampania&krok=k5&wygl=28")],
         zrodlo="analiza/a5p_lejek.py → analiza/wyniki/a5p_lejek_dzienny.csv.gz; analiza/e_merytoryka.py → "
-               "analiza/wyniki/e_merytoryka.txt (punkt 4); analiza/e_poprawki.py → analiza/wyniki/e_poprawki.txt (punkt 1).")
+               "analiza/wyniki/e_merytoryka.txt (punkt 4); analiza/e_poprawki.py → analiza/wyniki/e_poprawki.txt (punkty 1 "
+               "i 3).")
     s = nag["safari"]
     nap0, nap1 = nag["naprawy"]
     sk = V["safari_krok"]   # od 1.10.2025 do dnia przed awarią, od awarii do końca danych, sesje z wyborem terminu po
@@ -1172,7 +1281,9 @@ def karty_lejka(nag, V, E):
         wniosek=f"Krok konta po wyborze terminu spadł z {z0(sk[0])}% do {z0(sk[1])}% i nie wraca, a w innych przeglądarkach "
                 f"prawie się nie zmienił.",
         tresc=[punkty([f"Konta dalej powstają, ale rzadziej. To około {liczba(na30)} utraconych pierwszych zamówień "
-                       f"miesięcznie."])],
+                       f"miesięcznie.",
+                       # trzecia lista Kuby, punkt 1 (warunek „prawie cały” sprawdza assert przy karcie nagłówka)
+                       "Od kwietnia 2026 to prawie cały spadek konwersji nowych osób spoza nowych kampanii na L4."])],
         szczegoly=[akapit(
             f"Krok konta po wyborze terminu u osób, które jeszcze nie kupowały: {proc(sk[0])} od {so[0]} do {so[1]} i "
             f"{proc(sk[1])} od {so[2]} do {so[3]} ({liczba(sk[2])} sesji z wyborem terminu). W 60 dniach przed awarią i po "
@@ -1183,7 +1294,8 @@ def karty_lejka(nag, V, E):
             f"{proc(s['reszta_po60_proc'])}. Szacunek: {liczba(s['utracone_od'])}–{liczba(s['utracone_do'])} utraconych "
             f"pierwszych zamówień do {B2.data(B2.O2[1])}, czyli {liczba(s['na30_od'])}–{liczba(s['na30_do'])} na 30 dni.")],
         linki=[link("Pokaż w lejku", nap0["link"])], zrodlo="analiza/a5p_zdarzenia.py → analiza/wyniki/a5p_zdarzenia.txt; "
-                                                           "analiza/wyniki/c_priorytety.txt (P1).")
+                                                           "analiza/wyniki/c_priorytety.txt (P1); "
+                                                           "analiza/wyniki/e_poprawki.txt (punkt 3).")
     P = {r["wartosc"] + str(r["okres"]): r for r in E["nk_przegl_kroki_wartosc"]}
     apl = [P[k] for k in P if k[:-1] in ("Instagram", "Facebook", "TikTok")]
     zw_ = [P[k] for k in P if k[:-1] in ("Chrome", "Safari")]

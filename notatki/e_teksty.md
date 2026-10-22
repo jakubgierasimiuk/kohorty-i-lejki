@@ -6,6 +6,8 @@ Słownik w całym tekście: „ostatnie 12 miesięcy” = X 2025 – IX 2026, �
 
 Druga lista poprawek Kuby (2026-10-22, zlecenie w notatki/e_runda.md): sekcje niżej poprawione według niej; nowe liczby (lejek „dziś”, dwa zbiory zwrotów) liczy analiza/e_poprawki.py → analiza/wyniki/e_poprawki.txt.
 
+Trzecia lista Kuby (2026-10-22, po przeglądzie 4c594b5): nagłówek lejka według pierwszego wejścia, z Safari (punkt 1; e_poprawki.txt, punkt 3), wydatki w tabeli kwartałów w procentach (punkt 2), konkretne wdrożenie pozycji 1 i stopka „Skąd liczby” bez nazwy rundy (punkt 4).
+
 ## 1. Czy to wzrost
 
 ### wzrost/werdykt
@@ -76,7 +78,7 @@ Szczegóły (nowe zdania; reszta jak w c_szkic.md, sekcja 2):
 Tytuł: Z każdym kwartałem wydatki na kampanie rosną rok do roku szybciej, a marża przed ich kosztem wolniej
 (Inny tytuł niż główna karta „Wyniku biznesu”, która mówi o całym roku.)
 Wniosek: W III kwartale 2026 marża przed kosztem kampanii wzrosła o 25%, a wydatki na kampanie były ponad dwa razy wyższe niż rok wcześniej.
-Tabela kwartałów (zmiana rok do roku): marża przed kosztem kampanii +55,2%, +49,7%, +38,4%, +25,2% (376,0, 500,2, 444,5, 392,5 tys. zł); wydatki na kampanie ×1,30, ×1,66, ×2,04, ×2,08 (113,1, 170,6, 184,4, 181,6 tys. zł); marża po kosztach kampanii +71,4%, +43,0%, +13,0%, −6,8% (259,4, 324,4, 256,6, 207,7 tys. zł).
+Tabela kwartałów (zmiana rok do roku): marża przed kosztem kampanii +55,2%, +49,7%, +38,4%, +25,2% (376,0, 500,2, 444,5, 392,5 tys. zł); wydatki na kampanie +29,6%, +66,4%, +104,0%, +107,7% (113,1, 170,6, 184,4, 181,6 tys. zł; trzecia lista Kuby, punkt 2: procenty zamiast „×1,30”, tak jak w tabeli kwartałów w „Wyniku biznesu”; znacznik „uwaga”, jak na kafelku o wydatkach); marża po kosztach kampanii +71,4%, +43,0%, +13,0%, −6,8% (259,4, 324,4, 256,6, 207,7 tys. zł). „Ponad dwa razy wyższe” w zdaniu i „×2,1” na kafelku zostają.
 - Za cały rok marża po koszcie lekarza, kampaniach i prowizji wzrosła o 27%.
 - Marża przed kosztem kampanii wzrosła za cały rok o 41%, a wydatki na kampanie o 77%.
 Zastrzeżenie (jedno; zastrzeżenie o Safari przeniesione do szczegółów): Spadek marży w III kwartale 2026, o 7% rok do roku, zależy od jednorazowego zdarzenia: rok wcześniej we wrześniu ruszyła sprzedaż TelemediGO w newsletterze. Po odjęciu jednorazowej nadwyżki tego startu marża kwartału jest o 1% wyższa niż rok wcześniej.
@@ -123,7 +125,8 @@ Szczegóły: dawne zasady listy i definicje (c_szkic.md, sekcja 3, „Zasady lis
 
 Tytuł: Naprawić zakładanie konta w Safari na iPhone'ach
 Wniosek: Od 17 marca 2026 nowi pacjenci na iPhone'ach rzadziej kończą zakładanie konta, co kosztuje około 100 pierwszych zamówień miesięcznie.
-Pasek: 75–83 tys. zł (rocznie, górny scenariusz; w horyzoncie 180 dni 86–95 tys. zł) · Wysoka (awaria widoczna w danych) · dni.
+Pasek: 75–83 tys. zł (rocznie, górny scenariusz; w horyzoncie 180 dni 86–95 tys. zł) · Wysoka (awaria widoczna w danych) · diagnoza 1–2 dni, poprawka 2–5 dni, sprawdzenie 1 tydzień.
+Wdrożenie (trzecia lista Kuby, punkt 4; ta sama wersja w przeglądzie i w pasku): diagnoza 1–2 dni (powtórzyć rejestrację na iPhonie, przejrzeć logi błędów rejestracji i listę zmian z 16–17 marca 2026, jak w c_szkic.md, pozycja 1), poprawka 2–5 dni (nasz szacunek; c_szkic.md mówi „zwykle dni”), sprawdzenie 1 tydzień (krok konta w Safari wraca z około 46% do około 66% w ciągu tygodnia od poprawki, jak w „Po czym poznamy”).
 Dlaczego: Krok konta po wyborze terminu u osób, które jeszcze nie kupowały, spadł w Safari na iPhone'ach z 66% do 46% i nie wraca. W innych przeglądarkach takiego spadku nie ma.
 Co robimy: Powtórzyć rejestrację na iPhonie, przejrzeć logi błędów rejestracji i listę zmian z 16–17 marca 2026, wdrożyć poprawkę.
 
@@ -282,21 +285,28 @@ Co: Czy sesje w przeglądarkach w aplikacjach płacą rzadziej w remarketingu Me
 
 ### lejek/naglowek
 
-Tytuł: Od lutego 2026 nowe osoby płacą rzadziej; poza sesjami z nowych kampanii na L4 konwersja się nie zmieniła
+Trzecia lista Kuby (2026-10-22, punkt 1): dawne „poza sesjami z nowych kampanii konwersja się nie zmieniła” wynikało z reguły według sesji. Według pierwszego wejścia, tak jak w retencji, nowe osoby spoza nowych kampanii płacą od kwietnia 2026 rzadziej, i prawie cały ten spadek to Safari na iPhone'ach (analiza/wyniki/e_poprawki.txt, punkt 3). Nagłówek nazywa więc i zmianę ruchu, i awarię Safari. Po recenzji Codeksa (notatki/recenzje/e3_codex.md): tytuł jako składniki spadku zamiast „dwóch powodów”, „bez istotnej zmiany” zamiast „nie zmieniła się”, „o połowę rzadziej” na tych samych miesiącach (IV–IX 2026: 5,30% wobec 10,26%), „pogorszenie skupia się na kroku konta” zamiast „cały spadek”, okresy sesji powrotnych nazwane osobno, sprawdzenie reguły łączenia osób.
+
+Tytuł: Na spadek konwersji nowych osób składają się głównie dwie rzeczy: więcej ruchu z nowych kampanii na L4 i awaria zakładania konta w Safari
 Wniosek (ile płacą dziś, analiza/wyniki/e_poprawki.txt, punkt 1): Od kwietnia do września 2026 płatnością kończy się około 8% sesji osób, które jeszcze nie kupowały, a w tych samych miesiącach rok wcześniej około 11%.
-- Do stycznia 2026 nowe osoby płaciły prawie tak samo często jak rok wcześniej. W lutym 2026, gdy ruszył TikTok na L4, różnica wobec roku wcześniej wyraźnie się powiększyła, a od kwietnia jeszcze się pogłębiła: sesje nowych kampanii na L4 to od tego czasu prawie połowa ruchu nowych osób.
-- Sesje nowych kampanii płacą mniej więcej o połowę rzadziej niż pozostałe, a bez nich konwersja nowych osób się nie zmienia. Liczba płatności nowych osób rośnie, spada tylko ich odsetek.
-- Niezależnie od zmiany ruchu trzeba naprawić zakładanie konta w Safari na iPhone'ach (od 17 marca 2026). Do sprawdzenia jest niższa konwersja przeglądarek w aplikacjach w remarketingu Meta, kampanii Google Ads na markę i wejściach bezpośrednich (karty niżej).
+- Do stycznia 2026 nowe osoby płaciły prawie tak samo często jak rok wcześniej. Od lutego 2026, gdy ruszył TikTok na L4, przybywa ruchu z nowych kampanii na L4. Od kwietnia to prawie połowa sesji nowych osób, a te sesje płacą o połowę rzadziej niż pozostałe.
+- Wśród pozostałych nowych osób od kwietnia 2026 wyraźnie płacą rzadziej tylko sesje w Safari na iPhone'ach: około 8% wobec 12% rok wcześniej. Spadek skupia się na kroku zakładania konta, który działa gorzej od 17 marca 2026. W innych przeglądarkach konwersja jest bez istotnej zmiany.
+- Liczba płatności nowych osób rośnie, spada tylko ich odsetek.
+- Safari trzeba naprawić (pozycja 1 listy priorytetów). Do sprawdzenia jest niższa konwersja przeglądarek w aplikacjach w remarketingu Meta, kampanii Google Ads na markę i wejściach bezpośrednich (karta niżej).
 Zastrzeżenie: Niższa konwersja nie mówi, ilu pacjentów nowe kampanie dokładają, bo nie wiemy, ilu z nich przyszłoby i bez reklamy.
 Szczegóły:
 - Ile płacą dziś: od kwietnia do września 2026 płatnością kończy się 8,41% z 146 402 sesji osób, które jeszcze nie kupowały (od 8,11% do 8,87% miesięcznie), a w tych samych miesiącach rok wcześniej 11,12% z 65 262 sesji. Średnia z całych ostatnich 12 miesięcy to 9,3% wobec 11,2% rok wcześniej.
 - Przebieg rok do roku: od października 2025 do stycznia 2026 konwersja była o 0,2–0,8 punktu procentowego niższa niż rok wcześniej, w lutym i marcu 2026 o 1,5–1,6 punktu, a od kwietnia 2026 o 2,3–3,1 punktu. Sesje nowych kampanii przekroczyły 30% ruchu nowych osób w lutym 2026 (31,8%), a od kwietnia to 42–47% (tabela niżej).
-- Sesje nowych kampanii płacą w 5,5%, a pozostałe sesje osób, które jeszcze nie kupowały, w 11,4%, wobec 11,2% rok wcześniej.
+- Sesje z reklam nowych kampanii płacą w 5,5% (94 462 sesje w ostatnich 12 miesiącach; od kwietnia do września 2026 5,30% z 66 725 sesji). Nowe osoby spoza nowych kampanii liczymy według pierwszego wejścia, tak jak pacjentów i retencję: od kwietnia do września 2026 płaci 10,26% z 71 441 sesji, a w tych samych miesiącach rok wcześniej 11,12% z 65 262 sesji (zmiana −0,86 punktu procentowego). W całych ostatnich 12 miesiącach 10,9% wobec 11,2% rok wcześniej.
+- Safari na iPhone'ach i iPadach w tej grupie, od kwietnia do września 2026: płaci 8,27% z 14 323 sesji wobec 11,99% z 12 887 rok wcześniej, a krok konta po wyborze terminu przechodzi 45,7% sesji wobec 67,0%. Pogorszenie skupia się na kroku konta; pozostałe kroki w Safari prawie się nie zmieniają. Pozostałe przeglądarki: 10,76% z 57 118 sesji wobec 10,91% z 52 375 (zmiana −0,15 punktu, 95% przedział od −0,52 do +0,22, czyli bez istotnej zmiany), krok konta 65,4% wobec 66,4%. Od października 2025 do lutego 2026, przed awarią, Safari płaciło tak jak rok wcześniej: 12,07% wobec 12,15%. Sprawdzenie reguły łączenia osób (osoba z reklamy L4, która wróciła w innej przeglądarce bez logowania, liczy się do pozostałych): bez wszystkich osób, których pierwsze zamówienie to L4, w obu latach, Safari spada o 2,81 punktu, a pozostałe przeglądarki są bez istotnej zmiany (−0,05 punktu, przedział od −0,39 do +0,29).
+- Podział zmiany od kwietnia do września 2026 (opisowo, czyli bez mierzenia wpływu): z −0,86 punktu u nowych osób spoza nowych kampanii −0,74 punktu to spadek w Safari, −0,12 punktu spadek w pozostałych przeglądarkach, a zmiana udziału Safari w ruchu daje około zera. Dla wszystkich nowych osób (−2,71 punktu, z 11,12% do 8,41%) zmiana struktury ruchu daje −2,07 punktu, spadek w Safari −0,55 punktu, a spadek w pozostałych przeglądarkach −0,09 punktu.
+- Licząc według sesji, czyli bez samych sesji z reklam nowych kampanii, konwersja pozostałych sesji rośnie z 11,2% do 11,4%, a od kwietnia do września 2026 stoi (11,02% wobec 11,12%). W całych ostatnich 12 miesiącach ten podział zostawia w średniej 11 577 sesji, w których osoby nowych kampanii wracają bezpośrednio, z wyszukiwarki albo z innej reklamy. Płaci w nich 18,0% (2 081 płatności, czyli ci sami pacjenci, których w retencji oba podziały przypisują różnie). Od kwietnia do września 2026 to 8 236 sesji, w których płaci 17,6%. Te sesje podnosiły średnią i przykrywały spadek w Safari.
+- Tabela miesięcy dla Safari i pozostałych przeglądarek w tej grupie: liczby z analiza/wyniki/e_poprawki.txt, punkt 3 (odsetek sesji z płatnością w ostatnich 12 miesiącach, zmiana wobec tego samego miesiąca rok wcześniej, krok konta, pod nimi rok wcześniej i liczba sesji).
 - Osoby, które jeszcze nie kupowały: 144 813 sesji i 16 232 płatności rok wcześniej, 265 264 sesji i 24 686 płatności w ostatnich 12 miesiącach. Najbardziej pogorszyło się przejście do wyboru usługi (z 33,7% do 30,6% sesji) i krok konta po wyborze terminu (z 66,4% do 62,6%).
 - Wszystkie sesje, także osób, które już kupowały (płacą w 91,5% i 89,9% sesji): 16,0% rok wcześniej (154 085 sesji, 24 717 płatności) i 13,7% w ostatnich 12 miesiącach (280 625 sesji, 38 490 płatności).
 - Podział zmiany konwersji osób, które jeszcze nie kupowały, według kampanii (opisowo, czyli bez mierzenia wpływu): zmiana struktury ruchu −1,43 punktu, zmiana w obrębie kampanii −0,47 punktu. Nowe kampanie nie mają roku wcześniej, więc liczą się w całości do struktury.
 - Miesiące (tabela): konwersja nowych osób w ostatnich 12 miesiącach, rok wcześniej, zmiana i udział sesji nowych kampanii — liczby z analiza/wyniki/e_merytoryka.txt, punkt 4.
-- Dawne zdania o rozkładzie wszystkich sesji według przeglądarki i kampanii (d_teksty_strony.md, „Rozkład zmiany konwersji”), z udziałem przeglądarek wbudowanych w aplikacje: z 10,7% do 35,6% sesji; wynik rozkładu według przeglądarki podany raz.
+- Dawne zdania o rozkładzie wszystkich sesji według przeglądarki i kampanii (d_teksty_strony.md, „Rozkład zmiany konwersji”), z udziałem przeglądarek wbudowanych w aplikacje: z 10,7% do 35,6% sesji; wynik rozkładu według przeglądarki podany raz. Na początku dopisane „w całych ostatnich 12 miesiącach”, żeby „prawie cały spadek to zmiana ruchu” (wszystkie sesje, cały rok) nie czytało się jak zaprzeczenie awarii Safari od kwietnia 2026.
 
 ### lejek/safari
 
@@ -304,6 +314,7 @@ Tytuł: Od 17 marca 2026 nowi pacjenci w Safari na iPhone'ach rzadziej kończą 
 Znacznik: Do naprawy.
 Wniosek (ta sama wersja co pozycja 1 listy priorytetów): Krok konta po wyborze terminu spadł z 66% do 46% i nie wraca, a w innych przeglądarkach prawie się nie zmienił.
 - Konta dalej powstają, ale rzadziej. To około 100 utraconych pierwszych zamówień miesięcznie.
+- Od kwietnia 2026 to prawie cały spadek konwersji nowych osób spoza nowych kampanii na L4 (trzecia lista Kuby, punkt 1; nagłówek lejka, szczegóły: Safari −0,74 z −0,86 punktu, czyli około 86%; Codex uznał brzmienie za uzasadnione opisowo).
 Szczegóły (bez powtórzenia punktu z widocznej części): Krok konta po wyborze terminu u osób, które jeszcze nie kupowały: 66,1% od 1.10.2025 do 16.03.2026 i 45,6% od 17.03 do 30.09.2026 (4 678 sesji z wyborem terminu). W 60 dniach przed awarią i po niej: 66,2% (16.01.2026–16.03.2026, 1 763 sesje) i 45,1% (17.03.2026–15.05.2026, 1 553 sesje); pozostałe przeglądarki w tych samych dniach 64,8% i 63,4%. Szacunek: 628–695 utraconych pierwszych zamówień do 30.09.2026, czyli 95–105 na 30 dni.
 
 ### lejek/przegladarki

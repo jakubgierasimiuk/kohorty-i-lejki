@@ -384,7 +384,7 @@
           el("span", null, ["Przechodzi dalej: ", el("strong", { text: proc(x.tB) })]),
           el("span", { class: "przypis", text: nz.a + ": " + proc(x.tA) }),
           x.tB !== null && x.tA !== null ? zmianaPkt(x.tB - x.tA, 1) : null,
-          gorsze ? BK.znacznik({ tekst: "Największy spadek", stan: "zle" }) : null]);
+          gorsze ? BK.znacznik({ tekst: "Najbardziej obniża płatności", stan: "zle" }) : null]);
         cel.appendChild(el("div", { class: "lk-przejscie" + (gorsze ? " lk-najgorsze" : ""), role: "listitem" }, [
           el("div", { class: "lk-strzalka" }, [BK.ikona("spadek")]), dalej]));
       }

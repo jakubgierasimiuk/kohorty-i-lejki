@@ -1,6 +1,6 @@
 # Teksty strony narzędzia — wszystkie zakładki, tak jak widzi je czytelnik
 
-Wygenerowane 2026-10-22 11:35 skryptem `analiza/b2_teksty_strony.py` ze strony w `narzedzie/` (stan repozytorium ccc3c61), otwartej w przeglądarce bez okna (Microsoft Edge), szerokość 1366 px. Każda zakładka przy ustawieniach domyślnych, bez klikania. Tabele dłuższe niż 40 wierszy są skrócone do 15 pierwszych i 5 ostatnich wierszy. Rozwijane sekcje są rozwinięte. Wykresy opisane nazwami serii. W komórkach tabel `<br>` oddziela linie, które strona pokazuje jedna pod drugą (zwykle: wartość w okresie B, pod spodem okres A i zmiana). Odnośniki do innych zakładek są oznaczone strzałką albo wypisane po „Zobacz w danych”.
+Wygenerowane 2026-10-22 19:08 skryptem `analiza/b2_teksty_strony.py` ze strony w `narzedzie/` (stan repozytorium 89fa02b), otwartej w przeglądarce bez okna (Microsoft Edge), szerokość 1366 px. Każda zakładka przy ustawieniach domyślnych, bez klikania. Tabele dłuższe niż 40 wierszy są skrócone do 15 pierwszych i 5 ostatnich wierszy. Rozwijane sekcje są rozwinięte. Wykresy opisane nazwami serii. W komórkach tabel `<br>` oddziela linie, które strona pokazuje jedna pod drugą (zwykle: wartość w okresie B, pod spodem okres A i zmiana). Odnośniki do innych zakładek są oznaczone strzałką albo wypisane po „Zobacz w danych”.
 
 **Nagłówek strony:** B2C: czy to wzrost? — Narzędzie do zadania rekrutacyjnego na stanowisko Head of B2C
 
@@ -117,10 +117,10 @@ W III kwartale 2026 marża przed kosztem kampanii wzrosła o 25%, a wydatki na k
 
 | Kwartał | Marża przed kosztem kampanii | Wydatki na kampanie | Marża po kosztach kampanii |
 | --- | --- | --- | --- |
-| IV 2025 | +55,2%<br>(lepiej)<br>376,0 tys. zł | ×1,30<br>(gorzej)<br>113,1 tys. zł | +71,4%<br>(lepiej)<br>259,4 tys. zł |
-| I 2026 | +49,7%<br>(lepiej)<br>500,2 tys. zł | ×1,66<br>(gorzej)<br>170,6 tys. zł | +43,0%<br>(lepiej)<br>324,4 tys. zł |
-| II 2026 | +38,4%<br>(lepiej)<br>444,5 tys. zł | ×2,04<br>(gorzej)<br>184,4 tys. zł | +13,0%<br>(lepiej)<br>256,6 tys. zł |
-| III 2026 | +25,2%<br>(lepiej)<br>392,5 tys. zł | ×2,08<br>(gorzej)<br>181,6 tys. zł | −6,8%<br>(gorzej)<br>207,7 tys. zł |
+| IV 2025 | +55,2%<br>(lepiej)<br>376,0 tys. zł | +29,6%<br>(uwaga)<br>113,1 tys. zł | +71,4%<br>(lepiej)<br>259,4 tys. zł |
+| I 2026 | +49,7%<br>(lepiej)<br>500,2 tys. zł | +66,4%<br>(uwaga)<br>170,6 tys. zł | +43,0%<br>(lepiej)<br>324,4 tys. zł |
+| II 2026 | +38,4%<br>(lepiej)<br>444,5 tys. zł | +104,0%<br>(uwaga)<br>184,4 tys. zł | +13,0%<br>(lepiej)<br>256,6 tys. zł |
+| III 2026 | +25,2%<br>(lepiej)<br>392,5 tys. zł | +107,7%<br>(uwaga)<br>181,6 tys. zł | −6,8%<br>(gorzej)<br>207,7 tys. zł |
 
 - Za cały rok marża po koszcie lekarza, kampaniach i prowizji wzrosła o 27%.
 - Marża przed kosztem kampanii wzrosła za cały rok o 41%, a wydatki na kampanie o 77%.
@@ -176,7 +176,7 @@ Lista priorytetów idzie od najważniejszej pozycji i przy każdej podaje warto�
 
 Zobacz w danych: Priorytety; Czego nie wiemy *(odnośniki)*
 
-*Skąd liczby: analiza/c_priorytety.py → analiza/wyniki/c_priorytety.txt (W1–W4, P1), analiza/wyniki/a5r_kohorty.txt (180 dni), analiza/wyniki/a5r_struktura.txt (L4 z L4, rozkład spadku), analiza/wyniki/a5e_ekonomia.txt, analiza/wyniki/c_telemedigo.txt. Notatka: notatki/c_szkic.md, sekcja 1. Runda E: analiza/wyniki/e_merytoryka.txt, notatki/e_teksty.md.*
+*Skąd liczby: analiza/c_priorytety.py → analiza/wyniki/c_priorytety.txt (W1–W4, P1), analiza/wyniki/a5r_kohorty.txt (180 dni), analiza/wyniki/a5r_struktura.txt (L4 z L4, rozkład spadku), analiza/wyniki/a5e_ekonomia.txt, analiza/wyniki/c_telemedigo.txt. Notatka: notatki/c_szkic.md, sekcja 1. Sprawdzenia przed publikacją: analiza/wyniki/e_merytoryka.txt i analiza/wyniki/e_poprawki.txt. Teksty strony: notatki/e_teksty.md.*
 
 # Zakładka 2: Kohorty (`#kohorty`)
 
@@ -333,13 +333,14 @@ Urządzenie i przeglądarka z sesji z płatnością. Pierwsza usługa: internist
 
 ## Lejek: od wejścia na stronę do płatności
 
-### Od lutego 2026 nowe osoby płacą rzadziej; poza sesjami z nowych kampanii na L4 konwersja się nie zmieniła
+### Na spadek konwersji nowych osób składają się głównie dwie rzeczy: więcej ruchu z nowych kampanii na L4 i awaria zakładania konta w Safari
 
 Od kwietnia do września 2026 płatnością kończy się około 8% sesji osób, które jeszcze nie kupowały, a w tych samych miesiącach rok wcześniej około 11%.
 
-- Do stycznia 2026 nowe osoby płaciły prawie tak samo często jak rok wcześniej. W lutym 2026, gdy ruszył TikTok na L4, różnica wobec roku wcześniej wyraźnie się powiększyła, a od kwietnia jeszcze się pogłębiła: sesje nowych kampanii na L4 to od tego czasu prawie połowa ruchu nowych osób.
-- Sesje nowych kampanii płacą mniej więcej o połowę rzadziej niż pozostałe, a bez nich konwersja nowych osób się nie zmienia. Liczba płatności nowych osób rośnie, spada tylko ich odsetek.
-- Niezależnie od zmiany ruchu trzeba naprawić zakładanie konta w Safari na iPhone'ach (od 17 marca 2026). Do sprawdzenia jest niższa konwersja przeglądarek w aplikacjach w remarketingu Meta, kampanii Google Ads na markę i wejściach bezpośrednich (karty niżej).
+- Do stycznia 2026 nowe osoby płaciły prawie tak samo często jak rok wcześniej. Od lutego 2026, gdy ruszył TikTok na L4, przybywa ruchu z nowych kampanii na L4. Od kwietnia to prawie połowa sesji nowych osób, a te sesje płacą o połowę rzadziej niż pozostałe.
+- Wśród pozostałych nowych osób od kwietnia 2026 wyraźnie płacą rzadziej tylko sesje w Safari na iPhone'ach: około 8% wobec 12% rok wcześniej. Spadek skupia się na kroku zakładania konta, który działa gorzej od 17 marca 2026. W innych przeglądarkach konwersja jest bez istotnej zmiany.
+- Liczba płatności nowych osób rośnie, spada tylko ich odsetek.
+- Safari trzeba naprawić (pozycja 1 listy priorytetów). Do sprawdzenia jest niższa konwersja przeglądarek w aplikacjach w remarketingu Meta, kampanii Google Ads na markę i wejściach bezpośrednich (karta niżej).
 
 **Zastrzeżenie.** Niższa konwersja nie mówi, ilu pacjentów nowe kampanie dokładają, bo nie wiemy, ilu z nich przyszłoby i bez reklamy.
 
@@ -357,11 +358,14 @@ Zakupy samego TelemediGO: 225 rok wcześniej (X 2024 – IX 2025) i 461 w ostatn
 
 - Ile płacą dziś: od kwietnia do września 2026 płatnością kończy się 8,41% z 146 402 sesji osób, które jeszcze nie kupowały (od 8,11% do 8,87% miesięcznie), a w tych samych miesiącach rok wcześniej 11,12% z 65 262 sesji. Średnia z całych ostatnich 12 miesięcy to 9,3% wobec 11,2% rok wcześniej.
 - Przebieg rok do roku: od października 2025 do stycznia 2026 konwersja była o 0,2–0,8 punktu procentowego niższa niż rok wcześniej, w lutym i marcu 2026 o 1,5–1,6 punktu, a od kwietnia 2026 o 2,3–3,1 punktu. Sesje nowych kampanii przekroczyły 30% ruchu nowych osób w lutym 2026 (31,8%), a od kwietnia to 42–47% (tabela niżej).
-- Sesje nowych kampanii płacą w 5,5%, a pozostałe sesje osób, które jeszcze nie kupowały, w 11,4%, wobec 11,2% rok wcześniej.
+- Sesje z reklam nowych kampanii płacą w 5,5% (94 462 sesje w ostatnich 12 miesiącach; od kwietnia do września 2026 5,30% z 66 725 sesji). Nowe osoby spoza nowych kampanii liczymy według pierwszego wejścia, tak jak pacjentów i retencję: od kwietnia do września 2026 płaci 10,26% z 71 441 sesji, a w tych samych miesiącach rok wcześniej 11,12% z 65 262 sesji (zmiana −0,86 punktu procentowego). W całych ostatnich 12 miesiącach 10,9% wobec 11,2% rok wcześniej.
+- Safari na iPhone'ach i iPadach w tej grupie, od kwietnia do września 2026: płaci 8,27% z 14 323 sesji wobec 11,99% z 12 887 rok wcześniej, a krok konta po wyborze terminu przechodzi 45,7% sesji wobec 67,0%. Pogorszenie skupia się na kroku konta; pozostałe kroki w Safari prawie się nie zmieniają. Pozostałe przeglądarki: 10,76% z 57 118 sesji wobec 10,91% z 52 375 (zmiana −0,15 punktu, 95% przedział od −0,52 do +0,22, czyli bez istotnej zmiany), krok konta 65,4% wobec 66,4%. Od października 2025 do lutego 2026, przed awarią, Safari płaciło tak jak rok wcześniej: 12,07% wobec 12,15%. Sprawdzenie reguły łączenia osób (osoba z reklamy L4, która wróciła w innej przeglądarce bez logowania, liczy się do pozostałych): bez wszystkich osób, których pierwsze zamówienie to L4, w obu latach, Safari spada o 2,81 punktu, a pozostałe przeglądarki są bez istotnej zmiany (−0,05 punktu, przedział od −0,39 do +0,29).
+- Podział zmiany od kwietnia do września 2026 (opisowo, czyli bez mierzenia wpływu): z −0,86 punktu u nowych osób spoza nowych kampanii −0,74 punktu to spadek w Safari, −0,12 punktu spadek w pozostałych przeglądarkach, a zmiana udziału Safari w ruchu daje około zera. Dla wszystkich nowych osób (−2,71 punktu, z 11,12% do 8,41%) zmiana struktury ruchu daje −2,07 punktu, spadek w Safari −0,55 punktu, a spadek w pozostałych przeglądarkach −0,09 punktu.
+- Licząc według sesji, czyli bez samych sesji z reklam nowych kampanii, konwersja pozostałych sesji rośnie z 11,2% do 11,4%, a od kwietnia do września 2026 stoi (11,02% wobec 11,12%). W całych ostatnich 12 miesiącach ten podział zostawia w średniej 11 577 sesji, w których osoby nowych kampanii wracają bezpośrednio, z wyszukiwarki albo z innej reklamy. Płaci w nich 18,0% (2 081 płatności, czyli ci sami pacjenci, których w retencji oba podziały przypisują różnie). Od kwietnia do września 2026 to 8 236 sesji, w których płaci 17,6%. Te sesje podnosiły średnią i przykrywały spadek w Safari.
 - Osoby, które jeszcze nie kupowały: 144 813 sesji i 16 232 płatności rok wcześniej, 265 264 sesji i 24 686 płatności w ostatnich 12 miesiącach. Najbardziej pogorszyło się przejście do wyboru usługi (z 33,7% do 30,6% sesji) i krok konta po wyborze terminu (z 66,4% do 62,6%).
 - Wszystkie sesje, także osób, które już kupowały (płacą w 91,5% i 89,9% sesji): 16,0% rok wcześniej (154 085 sesji, 24 717 płatności) i 13,7% w ostatnich 12 miesiącach (280 625 sesji, 38 490 płatności).
 - Podział zmiany konwersji osób, które jeszcze nie kupowały, według kampanii (opisowo, czyli bez mierzenia wpływu): zmiana struktury ruchu −1,43 punktu, zmiana w obrębie kampanii −0,47 punktu. Nowe kampanie nie mają roku wcześniej, więc liczą się w całości do struktury.
-- Wszystkie sesje razem: Rachunkowo prawie cały spadek to zmiana ruchu. Udział przeglądarek wbudowanych w aplikacje Instagram, Facebook i TikTok wzrósł z 10,7% do 35,6% sesji. Wynik rozkładu zależy od podziału. Według przeglądarki zmiana struktury ruchu daje −3,00 punktu procentowego, a zmiana konwersji w obrębie grup +0,67 punktu. Według kampanii to −2,44 i +0,11 punktu. Według strony wejścia (−0,45 i −1,87 punktu) i według tego, czy osoba już kupowała (−0,44 i −1,89 punktu), większość spadku wychodzi jako zmiana konwersji w obrębie grup. Przyjmujemy podział według przeglądarki i kampanii, bo ruch zmienił się właśnie w tym wymiarze: przybyło sesji nowych kampanii w przeglądarkach w aplikacjach, których rok wcześniej nie było. Na tej samej stronie wejścia albo w tej samej grupie pacjentów nowy ruch miesza się ze starym, więc jego niższa konwersja wygląda jak spadek w obrębie grupy.
+- Wszystkie sesje razem, w całych ostatnich 12 miesiącach: Rachunkowo prawie cały spadek to zmiana ruchu. Udział przeglądarek wbudowanych w aplikacje Instagram, Facebook i TikTok wzrósł z 10,7% do 35,6% sesji. Wynik rozkładu zależy od podziału. Według przeglądarki zmiana struktury ruchu daje −3,00 punktu procentowego, a zmiana konwersji w obrębie grup +0,67 punktu. Według kampanii to −2,44 i +0,11 punktu. Według strony wejścia (−0,45 i −1,87 punktu) i według tego, czy osoba już kupowała (−0,44 i −1,89 punktu), większość spadku wychodzi jako zmiana konwersji w obrębie grup. Przyjmujemy podział według przeglądarki i kampanii, bo ruch zmienił się właśnie w tym wymiarze: przybyło sesji nowych kampanii w przeglądarkach w aplikacjach, których rok wcześniej nie było. Na tej samej stronie wejścia albo w tej samej grupie pacjentów nowy ruch miesza się ze starym, więc jego niższa konwersja wygląda jak spadek w obrębie grupy.
 
 *Osoby, które jeszcze nie kupowały: sesja do płatności, miesiąc po miesiącu*
 
@@ -380,13 +384,31 @@ Zakupy samego TelemediGO: 225 rok wcześniej (X 2024 – IX 2025) i 461 w ostatn
 | VIII 2026 | 8,11% | 10,76% | −2,64 pkt<br>(gorzej) | 47,1% |
 | IX 2026 | 8,37% | 11,50% | −3,14 pkt<br>(gorzej) | 45,9% |
 
-Skąd liczby: analiza/a5p_lejek.py → analiza/wyniki/a5p_lejek_dzienny.csv.gz; analiza/e_merytoryka.py → analiza/wyniki/e_merytoryka.txt (punkt 4); analiza/e_poprawki.py → analiza/wyniki/e_poprawki.txt (punkt 1).
+*Nowe osoby spoza nowych kampanii (według pierwszego wejścia): odsetek sesji z płatnością i krok konta po wyborze terminu, Safari na iPhone'ach i pozostałe przeglądarki*
+
+| Miesiąc | Safari na iPhone'ach | Zmiana | Krok konta | Pozostałe przeglądarki | Zmiana | Krok konta |
+| --- | --- | --- | --- | --- | --- | --- |
+| X 2025 | 11,82%<br>2 487 sesji; rok wcześniej 12,08% | −0,26 pkt<br>(gorzej) | 65,7%<br>rok wcześniej 69,4% | 10,86%<br>10 020 sesji; rok wcześniej 11,10% | −0,24 pkt<br>(gorzej) | 64,9%<br>rok wcześniej 66,0% |
+| XI 2025 | 11,38%<br>2 723 sesje; rok wcześniej 12,07% | −0,68 pkt<br>(gorzej) | 67,0%<br>rok wcześniej 66,9% | 11,63%<br>10 844 sesje; rok wcześniej 11,27% | +0,36 pkt<br>(lepiej) | 66,2%<br>rok wcześniej 66,9% |
+| XII 2025 | 11,97%<br>3 017 sesji; rok wcześniej 11,62% | +0,34 pkt<br>(lepiej) | 65,9%<br>rok wcześniej 64,7% | 10,94%<br>11 417 sesji; rok wcześniej 11,02% | −0,08 pkt<br>(gorzej) | 66,0%<br>rok wcześniej 65,2% |
+| I 2026 | 12,98%<br>3 335 sesji; rok wcześniej 12,50% | +0,48 pkt<br>(lepiej) | 66,1%<br>rok wcześniej 66,0% | 11,94%<br>12 943 sesje; rok wcześniej 10,72% | +1,22 pkt<br>(lepiej) | 67,5%<br>rok wcześniej 66,0% |
+| II 2026 | 11,97%<br>2 915 sesji; rok wcześniej 12,45% | −0,47 pkt<br>(gorzej) | 64,9%<br>rok wcześniej 66,9% | 11,34%<br>11 861 sesji; rok wcześniej 11,35% | −0,01 pkt<br>(gorzej) | 66,9%<br>rok wcześniej 67,1% |
+| III 2026 | 11,03%<br>3 201 sesji; rok wcześniej 12,65% | −1,62 pkt<br>(gorzej) | 58,5%<br>rok wcześniej 68,1% | 11,54%<br>13 021 sesji; rok wcześniej 10,88% | +0,66 pkt<br>(lepiej) | 65,6%<br>rok wcześniej 64,8% |
+| IV 2026 | 7,45%<br>2 912 sesji; rok wcześniej 11,13% | −3,68 pkt<br>(gorzej) | 43,0%<br>rok wcześniej 65,2% | 10,72%<br>11 324 sesje; rok wcześniej 11,10% | −0,38 pkt<br>(gorzej) | 64,5%<br>rok wcześniej 67,1% |
+| V 2026 | 8,82%<br>2 425 sesji; rok wcześniej 12,36% | −3,54 pkt<br>(gorzej) | 47,0%<br>rok wcześniej 68,1% | 11,12%<br>9 669 sesji; rok wcześniej 10,93% | +0,19 pkt<br>(lepiej) | 66,9%<br>rok wcześniej 65,3% |
+| VI 2026 | 8,29%<br>2 352 sesje; rok wcześniej 11,38% | −3,09 pkt<br>(gorzej) | 45,2%<br>rok wcześniej 64,5% | 10,58%<br>9 079 sesji; rok wcześniej 10,93% | −0,35 pkt<br>(gorzej) | 65,1%<br>rok wcześniej 66,6% |
+| VII 2026 | 8,87%<br>2 154 sesje; rok wcześniej 13,16% | −4,29 pkt<br>(gorzej) | 47,5%<br>rok wcześniej 69,4% | 11,00%<br>8 803 sesje; rok wcześniej 10,59% | +0,40 pkt<br>(lepiej) | 66,9%<br>rok wcześniej 66,5% |
+| VIII 2026 | 7,37%<br>2 116 sesji; rok wcześniej 11,77% | −4,40 pkt<br>(gorzej) | 44,9%<br>rok wcześniej 66,3% | 10,65%<br>8 884 sesje; rok wcześniej 10,50% | +0,15 pkt<br>(lepiej) | 65,4%<br>rok wcześniej 65,8% |
+| IX 2026 | 8,93%<br>2 364 sesje; rok wcześniej 12,35% | −3,43 pkt<br>(gorzej) | 47,2%<br>rok wcześniej 68,8% | 10,47%<br>9 359 sesji; rok wcześniej 11,30% | −0,83 pkt<br>(gorzej) | 63,9%<br>rok wcześniej 67,2% |
+
+Skąd liczby: analiza/a5p_lejek.py → analiza/wyniki/a5p_lejek_dzienny.csv.gz; analiza/e_merytoryka.py → analiza/wyniki/e_merytoryka.txt (punkt 4); analiza/e_poprawki.py → analiza/wyniki/e_poprawki.txt (punkty 1 i 3).
 
 ### Od 17 marca 2026 nowi pacjenci w Safari na iPhone'ach rzadziej kończą zakładanie konta — znacznik „Do naprawy”
 
 Krok konta po wyborze terminu spadł z 66% do 46% i nie wraca, a w innych przeglądarkach prawie się nie zmienił.
 
 - Konta dalej powstają, ale rzadziej. To około 100 utraconych pierwszych zamówień miesięcznie.
+- Od kwietnia 2026 to prawie cały spadek konwersji nowych osób spoza nowych kampanii na L4.
 
 Zobacz w danych: Pokaż w lejku *(odnośniki)*
 
@@ -394,7 +416,7 @@ Zobacz w danych: Pokaż w lejku *(odnośniki)*
 
 Krok konta po wyborze terminu u osób, które jeszcze nie kupowały: 66,1% od 1.10.2025 do 16.03.2026 i 45,6% od 17.03 do 30.09.2026 (4 678 sesji z wyborem terminu). W 60 dniach przed awarią i po niej: 66,2% (16.01.2026–16.03.2026, 1 763 sesje) i 45,1% (17.03.2026–15.05.2026, 1 553 sesje); pozostałe przeglądarki w tych samych dniach 64,8% i 63,4%. Szacunek: 628–695 utraconych pierwszych zamówień do 30.09.2026, czyli 95–105 na 30 dni.
 
-Skąd liczby: analiza/a5p_zdarzenia.py → analiza/wyniki/a5p_zdarzenia.txt; analiza/wyniki/c_priorytety.txt (P1).
+Skąd liczby: analiza/a5p_zdarzenia.py → analiza/wyniki/a5p_zdarzenia.txt; analiza/wyniki/c_priorytety.txt (P1); analiza/wyniki/e_poprawki.txt (punkt 3).
 
 ### Przeglądarki w aplikacjach płacą rzadziej niż zwykłe w remarketingu, kampanii na markę i wejściach bezpośrednich — znacznik „Do sprawdzenia”
 
@@ -432,7 +454,7 @@ Skąd liczby: analiza/d_kampanie.py → analiza/wyniki/d_kampanie.txt (punkt 1);
 | Krok | Sesje (B) | Odsetek sesji (B) | Porównanie | Przejście do kroku |
 | --- | --- | --- | --- | --- |
 | Wejście na stronę | 265 264 sesji | 100,0% | rok wcześniej: 100,0% |  |
-| Wybór usługi | 81 294 sesji | 30,6% | rok wcześniej: 33,7% | Przechodzi dalej: 30,6% rok wcześniej: 33,7% −3,0 (gorzej) Największy spadek |
+| Wybór usługi | 81 294 sesji | 30,6% | rok wcześniej: 33,7% | Przechodzi dalej: 30,6% rok wcześniej: 33,7% −3,0 (gorzej) Najbardziej obniża płatności |
 | Wybór terminu | 53 527 sesji | 20,2% | rok wcześniej: 22,7% | Przechodzi dalej: 65,8% rok wcześniej: 67,5% −1,6 (gorzej) |
 | Logowanie albo założenie konta | 33 525 sesji | 12,6% | rok wcześniej: 15,1% | Przechodzi dalej: 62,6% rok wcześniej: 66,4% −3,7 (gorzej) |
 | Wejście na płatność | 27 824 sesji | 10,5% | rok wcześniej: 12,6% | Przechodzi dalej: 83,0% rok wcześniej: 83,4% −0,4 (gorzej) |
@@ -446,7 +468,7 @@ Ten sam odsetek: rok wcześniej
 
 Pasek to odsetek sesji, które doszły do kroku. Pionowa kreska to ten sam odsetek w okresie porównania. Między krokami: jaka część sesji z poprzedniego kroku przechodzi dalej.
 
-Wyróżnione przejście ma największy względny spadek wobec okresu porównania, więc najbardziej obniża odsetek sesji zakończonych płatnością. Liczby sesji przy krokach są z okresu B.
+Etykieta „Najbardziej obniża płatności” wskazuje przejście, które najbardziej obniża odsetek sesji zakończonych płatnością. Mierzymy to spadkiem względnym wobec okresu porównania, bo odsetek płatności to iloczyn przejść. Ten sam spadek w punktach procentowych waży więcej tam, gdzie dalej przechodzi mniejsza część sesji. Liczby sesji przy krokach są z okresu B.
 
 ### Kroki lejka w podziale
 
@@ -1038,10 +1060,10 @@ Powtórne zamówienie zostawia mniej marży niż rok wcześniej, bo rośnie udzi
 
 | Kwartał wobec tego samego kwartału rok wcześniej | Marża | Wydatki na kampanie | Przychód: konsultacje po zwrotach i TelemediGO | Koszt lekarza | Nowi pacjenci |
 | --- | --- | --- | --- | --- | --- |
-| IV kw. 2025 wobec IV kw. 2024 | 259 375 zł<br>rok wcześniej: 151 340 zł<br>+71,4%<br>(lepiej) | 113 089 zł<br>rok wcześniej: 87 253 zł<br>+29,6%<br>(gorzej) | 756 915 zł<br>rok wcześniej: 479 343 zł<br>+57,9%<br>(lepiej) | 380 925 zł<br>rok wcześniej: 237 125 zł<br>+60,6%<br>(gorzej) | 4 964<br>rok wcześniej: 4 186<br>+18,6%<br>(lepiej) |
-| I kw. 2026 wobec I kw. 2025 | 324 423 zł<br>rok wcześniej: 226 877 zł<br>+43,0%<br>(lepiej) | 170 625 zł<br>rok wcześniej: 102 565 zł<br>+66,4%<br>(gorzej) | 998 098 zł<br>rok wcześniej: 657 568 zł<br>+51,8%<br>(lepiej) | 497 875 zł<br>rok wcześniej: 323 375 zł<br>+54,0%<br>(gorzej) | 7 408<br>rok wcześniej: 4 789<br>+54,7%<br>(lepiej) |
-| II kw. 2026 wobec II kw. 2025 | 256 558 zł<br>rok wcześniej: 227 044 zł<br>+13,0%<br>(lepiej) | 184 405 zł<br>rok wcześniej: 90 383 zł<br>+104,0%<br>(gorzej) | 896 013 zł<br>rok wcześniej: 635 002 zł<br>+41,1%<br>(lepiej) | 451 550 zł<br>rok wcześniej: 313 825 zł<br>+43,9%<br>(gorzej) | 6 429<br>rok wcześniej: 3 819<br>+68,3%<br>(lepiej) |
-| III kw. 2026 wobec III kw. 2025 | 207 713 zł<br>rok wcześniej: 222 824 zł<br>−6,8%<br>(gorzej) | 181 555 zł<br>rok wcześniej: 87 431 zł<br>+107,7%<br>(gorzej) | 796 968 zł<br>rok wcześniej: 614 905 zł<br>+29,6%<br>(lepiej) | 404 475 zł<br>rok wcześniej: 301 375 zł<br>+34,2%<br>(gorzej) | 5 886<br>rok wcześniej: 3 437<br>+71,3%<br>(lepiej) |
+| IV kw. 2025 wobec IV kw. 2024 | 259 375 zł<br>rok wcześniej: 151 340 zł<br>+71,4%<br>(lepiej) | 113 089 zł<br>rok wcześniej: 87 253 zł<br>+29,6%<br>(uwaga) | 756 915 zł<br>rok wcześniej: 479 343 zł<br>+57,9%<br>(lepiej) | 380 925 zł<br>rok wcześniej: 237 125 zł<br>+60,6% | 4 964<br>rok wcześniej: 4 186<br>+18,6%<br>(lepiej) |
+| I kw. 2026 wobec I kw. 2025 | 324 423 zł<br>rok wcześniej: 226 877 zł<br>+43,0%<br>(lepiej) | 170 625 zł<br>rok wcześniej: 102 565 zł<br>+66,4%<br>(uwaga) | 998 098 zł<br>rok wcześniej: 657 568 zł<br>+51,8%<br>(lepiej) | 497 875 zł<br>rok wcześniej: 323 375 zł<br>+54,0% | 7 408<br>rok wcześniej: 4 789<br>+54,7%<br>(lepiej) |
+| II kw. 2026 wobec II kw. 2025 | 256 558 zł<br>rok wcześniej: 227 044 zł<br>+13,0%<br>(lepiej) | 184 405 zł<br>rok wcześniej: 90 383 zł<br>+104,0%<br>(uwaga) | 896 013 zł<br>rok wcześniej: 635 002 zł<br>+41,1%<br>(lepiej) | 451 550 zł<br>rok wcześniej: 313 825 zł<br>+43,9% | 6 429<br>rok wcześniej: 3 819<br>+68,3%<br>(lepiej) |
+| III kw. 2026 wobec III kw. 2025 | 207 713 zł<br>rok wcześniej: 222 824 zł<br>−6,8%<br>(gorzej) | 181 555 zł<br>rok wcześniej: 87 431 zł<br>+107,7%<br>(uwaga) | 796 968 zł<br>rok wcześniej: 614 905 zł<br>+29,6%<br>(lepiej) | 404 475 zł<br>rok wcześniej: 301 375 zł<br>+34,2% | 5 886<br>rok wcześniej: 3 437<br>+71,3%<br>(lepiej) |
 
 #### Miesiące i sumy obu lat
 
@@ -1079,12 +1101,12 @@ Powtórne zamówienie zostawia mniej marży niż rok wcześniej, bo rośnie udzi
 
 *Kwartały rok do roku*
 
-| Kwartał | Marża przed kosztem kampanii | Wydatki na kampanie wobec roku wcześniej | Marża po kosztach kampanii |
+| Kwartał | Marża przed kosztem kampanii | Wydatki na kampanie | Marża po kosztach kampanii |
 | --- | --- | --- | --- |
-| IV kw. 2025 | +55,2%<br>(lepiej) | 1,30 raza | +71,4%<br>(lepiej) |
-| I kw. 2026 | +49,7%<br>(lepiej) | 1,66 raza | +43,0%<br>(lepiej) |
-| II kw. 2026 | +38,4%<br>(lepiej) | 2,04 raza | +13,0%<br>(lepiej) |
-| III kw. 2026 | +25,2%<br>(lepiej) | 2,08 raza | −6,8%<br>(gorzej) |
+| IV kw. 2025 | +55,2%<br>(lepiej) | +29,6%<br>(uwaga) | +71,4%<br>(lepiej) |
+| I kw. 2026 | +49,7%<br>(lepiej) | +66,4%<br>(uwaga) | +43,0%<br>(lepiej) |
+| II kw. 2026 | +38,4%<br>(lepiej) | +104,0%<br>(uwaga) | +13,0%<br>(lepiej) |
+| III kw. 2026 | +25,2%<br>(lepiej) | +107,7%<br>(uwaga) | −6,8%<br>(gorzej) |
 
 Za cały rok: marża przed kosztem kampanii 1 211 tys. zł → 1 713 tys. zł (+41,5%), wydatki na kampanie 368 tys. zł → 650 tys. zł (+76,7%), marża po koszcie lekarza, kampaniach i prowizji 828 tys. zł → 1 048 tys. zł (+26,6%). Marża przed kosztem kampanii to przychód z konsultacji po zwrotach i z TelemediGO minus koszt lekarza.
 
@@ -1317,7 +1339,7 @@ Lista od najważniejszej pozycji. Przy każdej: dlaczego, co robimy, ile jest wa
 
 | Nr | Co robimy | Ile warte rocznie (marża) | Pewność | Wdrożenie |
 | --- | --- | --- | --- | --- |
-| 1 | Naprawić zakładanie konta w Safari na iPhone'ach | 75–83 tys. zł<br>rocznie, górny scenariusz; w horyzoncie 180 dni 86–95 tys. zł | Wysoka<br>awaria widoczna w danych | dni |
+| 1 | Naprawić zakładanie konta w Safari na iPhone'ach | 75–83 tys. zł<br>rocznie, górny scenariusz; w horyzoncie 180 dni 86–95 tys. zł | Wysoka<br>awaria widoczna w danych | diagnoza 1–2 dni, poprawka 2–5 dni, sprawdzenie 1 tydzień |
 | 2 | Oczyścić codzienny raport i dodać alarmy na lejku i zwrotach | 0 albo 38 tys. zł<br>rocznie bezpośrednio; przede wszystkim warunek pozostałych decyzji | Wysoka<br>oba błędy widoczne w danych | 1 dzień sprawdzenie, 1–2 tygodnie raport |
 | 3 | Wstrzymać kampanię TikTok na L4 | +19 do +48 tys. zł<br>rocznie, nawet gdy każdy jej pacjent przyszedł tylko dzięki niej; więcej, gdy część przyszłaby i tak | Wysoka<br>kampania traci według obu reguł przypisania; niepewna jest tylko wielkość zysku z pauzy | 1 dzień |
 | 4 | Wstrzymać kampanię Google Ads na specjalistów do czasu zmiany cennika | +19 do +32 tys. zł<br>rocznie, nawet gdy każdy jej pacjent przyszedł tylko dzięki niej; do +53 tys. zł, gdy przyszliby i bez niej | Wysoka<br>kampania traci według obu reguł przypisania; niepewna jest tylko wielkość zysku z pauzy | 1 dzień |
@@ -1355,7 +1377,7 @@ Rok wcześniej = X 2024 – IX 2025, ostatnie 12 miesięcy = X 2025 – IX 2026;
 
 Od 17 marca 2026 nowi pacjenci na iPhone'ach rzadziej kończą zakładanie konta, co kosztuje około 100 pierwszych zamówień miesięcznie.
 
-*Ile warte rocznie (marża): 75–83 tys. zł — rocznie, górny scenariusz; w horyzoncie 180 dni 86–95 tys. zł · Pewność: Wysoka — awaria widoczna w danych · Wdrożenie: dni*
+*Ile warte rocznie (marża): 75–83 tys. zł — rocznie, górny scenariusz; w horyzoncie 180 dni 86–95 tys. zł · Pewność: Wysoka — awaria widoczna w danych · Wdrożenie: diagnoza 1–2 dni, poprawka 2–5 dni, sprawdzenie 1 tydzień*
 
 **Dlaczego:**
 Krok konta po wyborze terminu u osób, które jeszcze nie kupowały, spadł w Safari na iPhone'ach z 66% do 46% i nie wraca. W innych przeglądarkach takiego spadku nie ma.
@@ -1898,7 +1920,7 @@ Wróć do przeglądu
 - Mocniejsza sprzedaż i odnowienia TelemediGO: dopiero po teście z pozycji 12.
 - Przesuwanie uwolnionego budżetu do innych kampanii bez testu (zasada budżetu).
 
-*Notatka: notatki/c_szkic.md, sekcja 3. Liczby: analiza/c_priorytety.py → analiza/wyniki/c_priorytety.txt, analiza/c_telemedigo.py → analiza/wyniki/c_telemedigo.txt i raporty części A5, wskazane przy każdej pozycji. Kolejność i wyceny sprawdziła niezależnie runda kilku modeli AI różnych firm (notatki/konsylium/c_priorytety/synteza.md), a liczby drugi model (notatki/recenzje/c_codex.md).*
+*Notatka: notatki/c_szkic.md, sekcja 3. Liczby: analiza/c_priorytety.py → analiza/wyniki/c_priorytety.txt, analiza/c_telemedigo.py → analiza/wyniki/c_telemedigo.txt i raporty wskazane przy każdej pozycji. Kolejność i wyceny sprawdziła niezależnie runda kilku modeli AI różnych firm (notatki/konsylium/c_priorytety/synteza.md), a liczby drugi model (notatki/recenzje/c_codex.md).*
 
 # Zakładka 9: Czego nie wiemy (`#niewiadome`)
 
@@ -1934,4 +1956,4 @@ Rzeczy, których te dane nie rozstrzygają, i test albo dane, które je domkną.
 
 ---
 
-**Stopka strony:** Dane od 1.10.2024 do 30.09.2026. Liczby przeliczone 2026-10-22 11:30 skryptami analiza/b_eksport.py i analiza/b2_eksport_c.py (stan repozytorium ccc3c61). Strona nie pobiera niczego z internetu.
+**Stopka strony:** Dane od 1.10.2024 do 30.09.2026. Liczby przeliczone 2026-10-22 19:07 skryptami analiza/b_eksport.py i analiza/b2_eksport_c.py (stan repozytorium 89fa02b). Strona nie pobiera niczego z internetu.
