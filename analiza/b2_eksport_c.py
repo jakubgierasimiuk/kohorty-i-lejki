@@ -2245,6 +2245,10 @@ def kontrole_krzyzowe(V, kontrole, wz=None, mostek=None, wy=None):
                 wzor = f"{W[f'p{d}_o1']} {W[f'p{d}_o2']} {int(W[f'n{d}_o1'])} {int(W[f'n{d}_o2'])}"
             kontrole.append((f"C: powrót {d} dni = eksport z bazy (%, pacjenci)", wzor,
                              f"{round(o['p1'], 1)} {round(o['p2'], 1)} {o['n1']} {o['n2']}"))
+            if "zm_pkt" in o:   # zmiana dla wykresu pierwszej zakładki = zmiana w tabeli karty (dane kohort strony)
+                dok = V["powroty_dokladne"][d]
+                kontrole.append((f"C: zmiana powrotu {d} dni, wykres = tabela karty (pkt)", f"{o['zm_pkt']:.1f}",
+                                 f"{round(dok[1] - dok[0], 1):.1f}"))
     if mostek is not None:
         d0, d2 = mostek["kroki"][0]["miary"]["zamowienia"], mostek["kroki"][2]["miary"]["zamowienia"]
         kontrole.append(("C: zamówienia dashboardu i oczyszczone = mostek z bazy", f"{int(V['dash_zam'][1])} {int(V['dash_zam'][2])} "

@@ -1,4 +1,4 @@
-B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 20:51, commit 4c58c6c)
+B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 22:16, commit 329d075)
 
 1. Pliki w narzedzie/dane_strony/ (bajty)
    calosc                             38,075
@@ -9,14 +9,14 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 20:51, commit 4c58c6c)
    kanal                             177,555
    kampania                          249,718
    strona_wejscia                    265,403
-   podsumowanie                       33,357
+   podsumowanie                       33,413
    zdarzenia                          40,988
-   jakosc                             15,778
+   jakosc                             15,777
    kohorty                         1,447,898
    po_zakupie                        312,883
    wynik                              96,824
    c                                  97,199
-   razem                           4,264,265
+   razem                           4,264,320
 
 2. Kontrola: liczby z eksportu wobec notatek i wcześniejszych raportów
    co                                                                    eksport  oczekiwane  wynik
@@ -122,9 +122,13 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 20:51, commit 4c58c6c)
    C: wizyty testowe u internisty i trwające 1 minutę = wszystkie      2071 2071   2071 2071  zgodne
    C: nowi pacjenci = eksport z bazy (okres 1 / 2)                    16231 / 24687 16231 / 24687  zgodne
    C: powrót 30 dni = eksport z bazy (%, pacjenci)                    11.0 7.8 14984 22646 11.0 7.8 14984 22646  zgodne
+   C: zmiana powrotu 30 dni, wykres = tabela karty (pkt)                    -3.2        -3.2  zgodne
    C: powrót 60 dni = eksport z bazy (%, pacjenci)                    19.1 13.7 13941 20823 19.1 13.7 13941 20823  zgodne
+   C: zmiana powrotu 60 dni, wykres = tabela karty (pkt)                    -5.4        -5.4  zgodne
    C: powrót 90 dni = eksport z bazy (%, pacjenci)                    23.9 17.4 12867 18924 23.9 17.4 12867 18924  zgodne
+   C: zmiana powrotu 90 dni, wykres = tabela karty (pkt)                    -6.5        -6.5  zgodne
    C: powrót 180 dni = eksport z bazy (%, pacjenci)                   27.5 22.2 9125 12591 27.5 22.2 9125 12591  zgodne
+   C: zmiana powrotu 180 dni, wykres = tabela karty (pkt)                   -5.2        -5.2  zgodne
    C: zamówienia dashboardu i oczyszczone = mostek z bazy             25269 40613 24716 38491 25269 40613 24716 38491  zgodne
    C: marża po kwartałach = eksport z bazy (zł, 8 kwartałów)          151340 226877 227044 222824 259375 324423 256558 207713 151340 226877 227044 222824 259375 324423 256558 207713  zgodne
    C: liczby w tekstach bez pokrycia w c_szkic.md (50 fragmentów, 1176 liczb)          0           0  zgodne
@@ -132,7 +136,7 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 20:51, commit 4c58c6c)
    E: liczby w nowych tekstach „Czy to wzrost”, „Priorytety”, „Czego nie wiemy” bez pokrycia w notatkach (45 kart, 1297 liczb)          0           0  zgodne
    E: liczby w nowych kartach zakładek bez pokrycia w notatkach (36 kart, 1498 liczb)          0           0  zgodne
 
-   Różnic: 0 z 111 kontroli.
+   Różnic: 0 z 115 kontroli.
 
 3. Zdarzenia na osi czasu
    2025-05-17  jakosc   Jednej godziny prawie nie ma w danych, ale wyników to nie zmienia

@@ -388,6 +388,10 @@ def czy_wzrost(con, mostek, kontrole):
     g1, g2 = D.granice_por(180)
     okna.append({"dni": 180, "p1": r180["p180_o1"], "p2": r180["p180_o2"], "n1": int(r180["n180_o1"]),
                  "n2": int(r180["n180_o2"]), "do1": g1.isoformat(), "do2": g2.isoformat()})
+    # zmiana w punktach z wartości niezaokrąglonych, tak jak w tabeli karty „Lepsza retencja” (prośba sesji grafiki)
+    rd = con.execute(D.stopy_por(okna=tuple(D.OKNA) + (180,), zaokr=10)).df().iloc[0]
+    for ok_ in okna:
+        ok_["zm_pkt"] = round(float(rd[f"p{ok_['dni']}_o2"] - rd[f"p{ok_['dni']}_o1"]), 1)
     kontrole += [("powrót w 180 dniach, pacjenci okresu 1 (pierwsza zakładka)", int(r180["n180_o1"]), 9125),
                  ("powrót w 180 dniach, pacjenci okresu 2 (pierwsza zakładka)", int(r180["n180_o2"]), 12591),
                  ("powrót w 180 dniach, okres 1 (%)", r180["p180_o1"], 27.5), ("powrót w 180 dniach, okres 2 (%)", r180["p180_o2"], 22.2)]
