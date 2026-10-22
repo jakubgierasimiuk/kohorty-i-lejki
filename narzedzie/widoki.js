@@ -235,6 +235,7 @@
         zd: zd.filter(function (z) { var di = B.idxIso(z.od); return di >= g.od && di <= g.do; }) };
     });
     skalaMacierzy();
+    wniosekMacierzy();
     // miesięczna mapa (24 wiersze) stoi cała, bez przewijania w ramce; tygodniowa i dzienna przewijają się w ramce
     B.$("ko-macierz").closest(".macierz-ramka").classList.toggle("przewijana", KS_GRAN !== "mies");
     var t = B.wyczysc(B.$("ko-macierz"));
@@ -546,9 +547,16 @@
     });
     f.appendChild(B.el("span", { class: "przelacznik-etykieta", text: "Kohorty:" }));
     f.appendChild(g);
-    // zdanie z wnioskiem nad mapą: z danych (kohorty.js, klucz macierz), gdy eksport je podaje
-    var M = K && K.macierz, w = B.$("ko-macierz-wniosek");
-    if (w) { w.textContent = M && M.wniosek ? M.wniosek : ""; w.hidden = !(M && M.wniosek); }
+    wniosekMacierzy();
+  }
+  // zdanie z wnioskiem nad mapą: z danych (kohorty.js, klucz macierz), gdy eksport je podaje. Opisuje tylko mapę domyślną
+  // (wszyscy nowi pacjenci, bez zawężeń, kohorty miesięczne), więc przy zawężeniu albo innej rozdzielczości jest ukryte.
+  function wniosekMacierzy() {
+    var B = b(), M = K && K.macierz, w = B.$("ko-macierz-wniosek");
+    if (!w) return;
+    var domyslna = KS_GRAN === "mies" && !(KS && Object.keys(KS.f).some(function (id) { return KS.f[id]; }));
+    w.textContent = M && M.wniosek ? M.wniosek : "";
+    w.hidden = !(M && M.wniosek && domyslna);
   }
 
   BW.kohorty = {
@@ -789,6 +797,41 @@
       tb.appendChild(r);
     });
     t.appendChild(tb);
+    // wykres: dwa małe wykresy (internista, pozostali lekarze), tabela i jej tytuł w zwijanej sekcji
+    var wk = wykresGodzin(G), art = B.$("pz-karta-godziny");
+    if (wk) {
+      B.BK.wstawWykres(art, wk, true);
+      var d = art.querySelector("details.tabela-zwinieta"), ty = B.$("pz-godziny-tytul");
+      if (d && ty) d.insertBefore(ty, d.querySelector(".tabela-ramka"));
+    }
+  }
+  // Opóźnienia według godziny terminu: odsetek wizyt odbytych, które zaczęły się ponad 15 minut po terminie
+  // (spóźnione / odbyte z pola liczby), dla każdej godziny dwie wąskie kolumny: rok wcześniej (szara) i ostatnie
+  // 12 miesięcy (niebieska); ta sama skala w obu wykresach; godziny bloku porannego (pole blok) podcieniowane
+  function wykresGodzin(G) {
+    var B = b(), BK = B.BK;
+    if (!G || !G.wiersze || !G.wiersze.length || !G.wiersze[0].liczby) return null;
+    var GR = [["internista", "Internista"], ["pozostali", "Pozostali lekarze"]], mx = 0;
+    var p = function (x) { return x && x.odbyte ? 100 * x.spoznione / x.odbyte : null; };
+    G.wiersze.forEach(function (w) { GR.forEach(function (g) { var l = w.liczby[g[0]] || {}; mx = Math.max(mx, p(l["1"]) || 0, p(l["2"]) || 0); }); });
+    var sk = BK.podzialka(0, mx, 5);
+    var t = function (x) { var v = p(x); return v === null ? "—" : B.proc(v) + " (" + B.liczba(x.spoznione) + " z " + B.liczba(x.odbyte) + " wizyt)"; };
+    var wykresy = GR.map(function (g) {
+      return BK.kolumny({ tytul: g[1], max: sk.max, wys: 150, tloNazwa: "blok poranny",
+        os: sk.wartosci.map(function (v) { return { v: v, tekst: B.liczba(v, 0) + "%" }; }),
+        grupy: G.wiersze.map(function (w, i) {
+          var l = w.liczby[g[0]] || {}, opis = w.opis + ", " + g[1].toLowerCase() + ": rok wcześniej " + t(l["1"]) + ", ostatnie 12 miesięcy " + t(l["2"]) +
+            (w.blok ? "; blok poranny" : "");
+          return { os: i % 3 === 0 ? [String(w.opis).split("–")[0]] : null, wartosci: [p(l["1"]), p(l["2"])], tlo: !!w.blok, tytul: opis, opis: opis };
+        }),
+        serie: [{ nazwa: "rok wcześniej", klasa: "sl-a" }, { nazwa: "ostatnie 12 miesięcy", klasa: "sl-b" }],
+        opis: g[1] + ": odsetek wizyt spóźnionych ponad 15 minut według godziny terminu, rok wcześniej i ostatnie 12 miesięcy" });
+    });
+    // legenda tylko nad pierwszym wykresem; drugi ma ją identyczną
+    var leg = wykresy[1].querySelector(".wk-legenda");
+    if (leg) leg.classList.add("kl-legenda-druga");
+    return B.el("div", { class: "wk-dwa" }, wykresy.concat([B.el("p", { class: "wk-przypis wk-dwa-przypis",
+      text: "Odsetek wizyt odbytych, które zaczęły się ponad 15 minut po terminie, według godziny terminu. Ta sama skala w obu wykresach." })]));
   }
 
   BW["po-zakupie"] = {
@@ -836,8 +879,8 @@
     return gr;
   }
   function sumaOkresu(arr, g) { var t = 0; for (var i = g.od; i <= g.do; i++) t += arr[i]; return t; }
-  function skladowe(g) {
-    var S = WY.serie;
+  function skladowe(g, serie) {
+    var S = serie || WY.serie;
     var prz = sumaOkresu(S.przychod_pierwsze, g) + sumaOkresu(S.przychod_powtorne, g), go = sumaOkresu(S.go, g),
       kl = sumaOkresu(S.koszt_lekarza, g), kamp = sumaOkresu(S.wydatki_google, g) + sumaOkresu(S.wydatki_meta, g) + sumaOkresu(S.wydatki_tiktok, g),
       pr = sumaOkresu(S.prowizja, g);
@@ -897,22 +940,59 @@
     t.appendChild(tb);
   }
 
-  function rysujKwartaly() {
-    var B = b(), t = B.wyczysc(B.$("wy-kwartaly")), O = B.O, i2 = B.idxIso(O[1].od), N = B.NDNI;
-    var kol = [["Marża", "marza"], ["Wydatki na kampanie", "kamp"], ["Przychód: konsultacje po zwrotach i TelemediGO", "przgo"],
-      ["Koszt lekarza", "kl"], ["Nowi pacjenci", "nowi"]];
-    t.appendChild(B.el("thead", null, [B.el("tr", null, [B.el("th", { text: "Kwartał wobec tego samego kwartału rok wcześniej" })]
-      .concat(kol.map(function (k) { return B.el("th", { text: k[0] }); })))]));
-    var tb = B.el("tbody");
-    var i = i2;
+  // kwartały ostatnich 12 miesięcy i te same kwartały rok wcześniej: [{kw: „IV kw. 2025”, kwA: „IV kw. 2024”, sA, sB}]
+  function kwartalyRr(serie) {
+    var B = b(), N = B.NDNI, i = B.idxIso(B.O[1].od), out = [];
     while (i < N) {
       var d = new Date(B.START + i * B.DZIEN), m = d.getUTCMonth(), y = d.getUTCFullYear();
       var dk = new Date(Date.UTC(y, m + 3, 1)), k = Math.min(N - 1, Math.round((dk.getTime() - B.START) / B.DZIEN) - 1);
       var dp = new Date(Date.UTC(y - 1, m, 1)), dpk = new Date(Date.UTC(y - 1, m + 3, 1));
       var ip = Math.round((dp.getTime() - B.START) / B.DZIEN), kp = Math.round((dpk.getTime() - B.START) / B.DZIEN) - 1;
-      var sB = skladowe({ od: i, do: k }), sA = skladowe({ od: ip, do: kp });
-      sB.przgo = sB.prz + sB.go; sA.przgo = sA.prz + sA.go; sB.kamp += 0; sA.kamp += 0;
-      var tr = B.el("tr", null, [B.el("td", { text: B.RZYM[Math.floor(m / 3)] + " kw. " + y + " wobec " + B.RZYM[Math.floor(m / 3)] + " kw. " + (y - 1) })]);
+      var sB = skladowe({ od: i, do: k }, serie), sA = skladowe({ od: ip, do: kp }, serie);
+      sB.przgo = sB.prz + sB.go; sA.przgo = sA.prz + sA.go;
+      // marża przed kosztem kampanii = przychód z konsultacji po zwrotach + TelemediGO − koszt lekarza (jak na wykresie wyżej)
+      sB.przed = sB.prz + sB.go - sB.kl; sA.przed = sA.prz + sA.go - sA.kl;
+      var q = B.RZYM[Math.floor(m / 3)] + " kw. ";
+      out.push({ kw: q + y, kwA: q + (y - 1), sA: sA, sB: sB });
+      i = k + 1;
+    }
+    return out;
+  }
+  // Słupki grupowane kwartałów: zmiana rok do roku marży przed kosztem kampanii obok zmiany wydatków na kampanie
+  // (wydatki bez prowizji, kolor jak na wykresie „Wyniku biznesu”). Dane: wynik.js (serie dzienne).
+  function wykresKwartalow(dane) {
+    var B = b(), lista = kwartalyRr(dane ? dane.serie : null), wsz = [];
+    var zm = function (a, v) { return a ? 100 * (v / a - 1) : null; };
+    var zl = function (v) { return B.liczba(v) + " zł"; };
+    var wiersze = lista.map(function (q) {
+      var p = zm(q.sA.przed, q.sB.przed), k = zm(q.sA.kamp, q.sB.kamp);
+      wsz.push(p, k);
+      return { etykieta: q.kw, wartosci: [p, k], teksty: [p === null ? "—" : B.znak(p, 1) + "%", k === null ? "—" : B.znak(k, 1) + "%"],
+        tytul: q.kw + " wobec " + q.kwA + ": marża przed kosztem kampanii " + zl(q.sB.przed) + " wobec " + zl(q.sA.przed) +
+          ", wydatki na kampanie " + zl(q.sB.kamp) + " wobec " + zl(q.sA.kamp) };
+    });
+    var ok = wsz.filter(function (v) { return v !== null && isFinite(v); });
+    var sk = B.BK.podzialka(Math.min.apply(null, ok.concat([0])), Math.max.apply(null, ok.concat([0])), 6);
+    return B.BK.slupkiGrupowane({ min: sk.min, max: sk.max, wiersze: wiersze,
+      os: sk.wartosci.map(function (v) { return (v > 0 ? "+" : "") + B.liczba(v, 0) + "%"; }),
+      serie: [{ nazwa: "marża przed kosztem kampanii", klasa: "sg-marza" }, { nazwa: "wydatki na kampanie", klasa: "sg-kampanie" }],
+      opis: "Zmiana rok do roku w każdym kwartale: marża przed kosztem kampanii i wydatki na kampanie",
+      przypis: "Zmiana wobec tego samego kwartału rok wcześniej. Marża przed kosztem kampanii to przychód z konsultacji po zwrotach i z TelemediGO minus koszt lekarza; wydatki na kampanie bez prowizji afiliacyjnej." });
+  }
+  BW.wykresKwartalow = wykresKwartalow;
+
+  function rysujKwartaly() {
+    var B = b(), t = B.wyczysc(B.$("wy-kwartaly"));
+    var kol = [["Marża", "marza"], ["Wydatki na kampanie", "kamp"], ["Przychód: konsultacje po zwrotach i TelemediGO", "przgo"],
+      ["Koszt lekarza", "kl"], ["Nowi pacjenci", "nowi"]];
+    var w = B.$("wy-kwartaly-wykres");
+    if (w) B.wyczysc(w).appendChild(wykresKwartalow(WY));
+    t.appendChild(B.el("thead", null, [B.el("tr", null, [B.el("th", { text: "Kwartał wobec tego samego kwartału rok wcześniej" })]
+      .concat(kol.map(function (k) { return B.el("th", { text: k[0] }); })))]));
+    var tb = B.el("tbody");
+    kwartalyRr().forEach(function (q) {
+      var sA = q.sA, sB = q.sB;
+      var tr = B.el("tr", null, [B.el("td", { text: q.kw + " wobec " + q.kwA })]);
       kol.forEach(function (kk) {
         var a = sA[kk[1]], bb = sB[kk[1]], zm = a ? 100 * (bb / a - 1) : null, zl = kk[1] !== "nowi";
         // wydatki na kampanie: wzrost to „uwaga” (jak kafelek wydatków w „Czy to wzrost”); koszt lekarza rośnie z liczbą wizyt, bez oceny
@@ -923,8 +1003,7 @@
               (zm >= 0 ? "Wzrost" : "Spadek") + " o " + B.liczba(Math.abs(zm), 1) + "% rok do roku")])]));
       });
       tb.appendChild(tr);
-      i = k + 1;
-    }
+    });
     t.appendChild(tb);
   }
 

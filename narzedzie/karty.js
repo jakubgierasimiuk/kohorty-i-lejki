@@ -204,6 +204,117 @@
     if (cfg.przypis) f.appendChild(el("figcaption", { class: "wk-przypis", text: cfg.przypis }));
     return f;
   }
+  // „Ładna” podziałka osi: krok 1, 2, 2,5 albo 5 razy potęga dziesięciu, najwyżej n kroków; zero zawsze na podziałce.
+  // Zwraca {min, max, krok, wartosci: [liczby podziałki]}.
+  function podzialka(mn, mx, n) {
+    mn = Math.min(0, mn); mx = Math.max(0, mx); n = n || 6;
+    if (mx === mn) mx = mn + 1;
+    var surowy = (mx - mn) / n, pot = Math.pow(10, Math.floor(Math.log(surowy) / Math.LN10)), krok = pot * 10;
+    [1, 2, 2.5, 5, 10].some(function (m) { if (m * pot >= surowy) { krok = m * pot; return true; } return false; });
+    var a = Math.floor(mn / krok + 1e-9) * krok, b = Math.ceil(mx / krok - 1e-9) * krok, w = [];
+    for (var v = a; v <= b + krok / 1000; v += krok) w.push(Math.round(v * 1e6) / 1e6);
+    return { min: a, max: b, krok: krok, wartosci: w };
+  }
+
+  // Schodki poziomów (mostek „dashboard → dane oczyszczone”): dla każdej miary słupek poziomu po każdym kroku, wspólna oś
+  // od zera. To poziomy, a nie odejmowanie jak w wodospadzie: każdy słupek zaczyna się od zera. Pierwszy krok (dane surowe)
+  // szary, kolejne niebieskie; kreska na kolejnych słupkach pokazuje poziom pierwszego kroku.
+  // cfg: {legenda: [{klasa, nazwa}], miary: [{nazwa, kroki: [{etykieta, v, tekst, bezZmian, tytul}]}], max, os: [teksty], opis, przypis}
+  function schodki(cfg) {
+    var f = el("figure", { class: "wk schodki", role: "group", "aria-label": cfg.opis || null });
+    f.appendChild(el("div", { class: "wk-legenda" }, (cfg.legenda || []).map(function (x) {
+      return el("span", { class: "wk-lg" }, [el("span", { class: x.klasa }), el("span", { text: x.nazwa })]);
+    })));
+    cfg.miary.forEach(function (m) {
+      f.appendChild(el("div", { class: "wk-grupa-tytul", text: m.nazwa }));
+      var x0 = m.kroki.length ? pozycja(m.kroki[0].v, 0, cfg.max) : null;
+      m.kroki.forEach(function (k, i) {
+        var x = pozycja(k.v, 0, cfg.max), opis = m.nazwa + ", " + k.etykieta + ": " + k.tekst + (k.bezZmian ? " (bez zmian)" : "");
+        f.appendChild(el("div", { class: "wk-wiersz", tabindex: "0", title: k.tytul || opis, "aria-label": opis }, [
+          el("span", { class: "wk-etykieta", text: k.etykieta }),
+          el("div", { class: "wk-tor sch-tor" }, [el("span", { class: "sch-pasek " + (i === 0 ? "sl-a" : "sl-b"), style: "width:" + x + "%" }),
+            i > 0 && x0 !== null ? el("span", { class: "sch-kreska", style: "left:" + x0 + "%" }) : null]),
+          el("span", { class: "wk-wart" }, [el("strong", { text: k.tekst }), k.bezZmian ? el("span", { class: "wk-bez", text: "bez zmian" }) : null])]));
+      });
+    });
+    if (cfg.os) f.appendChild(osWartosci(cfg.os));
+    if (cfg.przypis) f.appendChild(el("figcaption", { class: "wk-przypis", text: cfg.przypis }));
+    return f;
+  }
+
+  // Słupki grupowane: w każdym wierszu po jednym poziomym słupku na serię, od zera (także w lewo, dla wartości ujemnych),
+  // z podpisem przy słupku. cfg: {serie: [{nazwa, klasa}], wiersze: [{etykieta, wartosci: [liczby], teksty: [napisy], tytul}],
+  //   min, max, os: [teksty podziałki od min do max], opis, przypis}
+  function slupkiGrupowane(cfg) {
+    var min = Math.min(0, cfg.min || 0), max = cfg.max, x0 = pozycja(0, min, max);
+    var f = el("figure", { class: "wk slupki-grup", role: "group", "aria-label": cfg.opis || null });
+    f.appendChild(el("div", { class: "wk-legenda" }, cfg.serie.map(function (s) {
+      return el("span", { class: "wk-lg" }, [el("span", { class: "pkt kw " + s.klasa }), el("span", { text: s.nazwa })]);
+    })));
+    cfg.wiersze.forEach(function (w) {
+      var opis = w.etykieta + ": " + cfg.serie.map(function (s, i) { return s.nazwa + " " + w.teksty[i]; }).join(", ");
+      f.appendChild(el("div", { class: "wk-wiersz sg-wiersz", tabindex: "0", title: w.tytul || opis, "aria-label": opis }, [
+        el("span", { class: "wk-etykieta", text: w.etykieta }),
+        el("div", { class: "sg-linie" }, cfg.serie.map(function (s, i) {
+          var v = w.wartosci[i], ok = v !== null && v !== undefined && isFinite(v), x = ok ? pozycja(v, min, max) : x0;
+          return el("div", { class: "sg-linia" }, [
+            el("div", { class: "sg-tor" }, [el("span", { class: "sg-zero", style: "left:" + x0 + "%" }),
+              ok ? el("span", { class: "sg-pasek " + s.klasa, style: "left:" + Math.min(x, x0) + "%;width:" + Math.abs(x - x0) + "%" }) : null]),
+            el("span", { class: "sg-tekst" + (ok && v < 0 ? " ujemne" : "") }, [w.teksty[i]])]);
+        }))]));
+    });
+    if (cfg.os) f.appendChild(el("div", { class: "wk-wiersz wk-os sg-os", "aria-hidden": "true" }, [el("span"),
+      el("div", { class: "sg-os-siatka" }, [el("div", { class: "wk-os-skala" }, cfg.os.map(function (t) { return el("span", { text: t }); })), el("span")])]));
+    if (cfg.przypis) f.appendChild(el("figcaption", { class: "wk-przypis", text: cfg.przypis }));
+    return f;
+  }
+
+  // Pionowe kolumny (np. miesiące albo godziny), oś od zera; w grupie jedna albo kilka wąskich kolumn (jedna na serię).
+  // cfg: {tytul (napis nad wykresem), serie: [{nazwa, klasa}] (legenda, opcjonalnie), grupy: [{os: [linie podpisu osi] albo null,
+  //   wartosci: [liczby], podpisy: [napisy nad kolumnami] (opcjonalnie), tytul (podpowiedź), opis (dla czytników), tlo: bool}],
+  //   max, os: [{v, tekst}] (podziałka osi pionowej), tloNazwa (podpis podcieniowanych grup), wys (px), opis, przypis}
+  function kolumny(cfg) {
+    var max = cfg.max || 1, n = cfg.grupy.length, wys = cfg.wys || 180;
+    var f = el("figure", { class: "wk kolumny", role: "group", "aria-label": cfg.opis || null });
+    if (cfg.tytul) f.appendChild(el("div", { class: "kl-tytul", text: cfg.tytul }));
+    if (cfg.serie && cfg.serie.length) f.appendChild(el("div", { class: "wk-legenda" }, cfg.serie.map(function (s) {
+      return el("span", { class: "wk-lg" }, [el("span", { class: "pkt kw " + s.klasa }), el("span", { text: s.nazwa })]);
+    }).concat(cfg.tloNazwa && cfg.grupy.some(function (g) { return g.tlo; }) ?
+      [el("span", { class: "wk-lg" }, [el("span", { class: "kl-tlo-wzor" }), el("span", { text: cfg.tloNazwa })])] : [])));
+    var osY = el("div", { class: "kl-os-y", style: "height:" + wys + "px", "aria-hidden": "true" });
+    var obszar = el("div", { class: "kl-obszar", style: "height:" + wys + "px" });
+    (cfg.os || []).forEach(function (t) {
+      var b = pozycja(t.v, 0, max);
+      osY.appendChild(el("span", { style: "bottom:" + b + "%", text: t.tekst }));
+      if (t.v > 0) obszar.appendChild(el("span", { class: "kl-siatka", style: "bottom:" + b + "%" }));
+    });
+    // podpis podcieniowanych grup nad ciągłym odcinkiem (np. „blok poranny”)
+    for (var i = 0; i < n; i++) {
+      if (!cfg.grupy[i].tlo || (i > 0 && cfg.grupy[i - 1].tlo)) continue;
+      var j = i; while (j + 1 < n && cfg.grupy[j + 1].tlo) j++;
+      if (cfg.tloNazwa) obszar.appendChild(el("span", { class: "kl-tlo-nazwa", style: "left:" + (100 * i / n) + "%;width:" + (100 * (j - i + 1) / n) + "%",
+        text: cfg.tloNazwa, "aria-hidden": "true" }));
+    }
+    var rzad = el("div", { class: "kl-grupy" });
+    cfg.grupy.forEach(function (g) {
+      rzad.appendChild(el("div", { class: "kl-grupa" + (g.tlo ? " kl-tlo" : ""), tabindex: "0", title: g.tytul || null, "aria-label": g.opis || g.tytul || null },
+        g.wartosci.map(function (v, k) {
+          var ok = v !== null && v !== undefined && isFinite(v);
+          return el("span", { class: "kl-kol " + ((cfg.serie && cfg.serie[k] && cfg.serie[k].klasa) || "sl-b") + (ok ? "" : " kl-brak"),
+            style: "height:" + (ok ? pozycja(v, 0, max) : 0) + "%" }, [g.podpisy && g.podpisy[k] ? el("span", { class: "kl-wart", text: g.podpisy[k] }) : null]);
+        })));
+    });
+    obszar.appendChild(rzad);
+    var osX = el("div", { class: "kl-os-x", "aria-hidden": "true" }, cfg.grupy.map(function (g) {
+      return el("span", null, g.os ? [el("span", null, g.os.map(function (t, k) { return el("span", { class: k ? "kl-os-2" : null, text: t }); }))] : null);
+    }));
+    // miejsce nad obszarem na podpisy kolumn albo podpis podcieniowanych grup
+    var gora = cfg.grupy.some(function (g) { return g.podpisy; }) || (cfg.tloNazwa && cfg.grupy.some(function (g) { return g.tlo; }));
+    f.appendChild(el("div", { class: "kl-ramka" + (gora ? " kl-z-gora" : "") }, [osY, obszar, el("span"), osX]));
+    if (cfg.przypis) f.appendChild(el("figcaption", { class: "wk-przypis", text: cfg.przypis }));
+    return f;
+  }
+
   // wstawia wykres do karty pod wnioskiem; tabelę z liczbami, którą wykres zastępuje, chowa do zwijanej sekcji
   function wstawWykres(art, wykres, schowajTabele, napis) {
     if (!art || !wykres) return;
@@ -368,5 +479,6 @@
     zmiana: zmiana, legendaZmian: legendaZmian, kierunekZnaku: kierunekZnaku, bloki: bloki, tabela: tabela, kafelek: kafelek, kafelki: kafelki,
     linki: linki, szczegoly: szczegoly, zastrzezenie: zastrzezenie, karta: karta, kartaW: kartaW, czyKarta: czyKarta,
     tekstKomorki: tekstKomorki, komorkaDzieci: komorkaDzieci, POZIOMY: POZIOMY,
-    hantle: hantle, slupkiParami: slupkiParami, slupkiSkumulowane: slupkiSkumulowane, punktyZero: punktyZero, wstawWykres: wstawWykres };
+    hantle: hantle, slupkiParami: slupkiParami, slupkiSkumulowane: slupkiSkumulowane, punktyZero: punktyZero, wstawWykres: wstawWykres,
+    schodki: schodki, slupkiGrupowane: slupkiGrupowane, kolumny: kolumny, podzialka: podzialka };
 })();

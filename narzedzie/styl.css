@@ -147,6 +147,10 @@ p { margin: 0 0 8px; }
 .zakladki a:hover { color: var(--bar-ink); background: var(--bar-2); }
 .zakladki a[aria-current="page"] { color: var(--bar-ink); border-bottom-color: var(--bar-akcent); font-weight: 650; }
 .zakladki a:focus-visible { outline-color: var(--bar-akcent); outline-offset: -2px; }
+/* dwa cienkie separatory grup zakładek (komputer): [Czy to wzrost] | zakładki z danymi | Priorytety, Czego nie wiemy */
+.zakladki a[data-widok="kohorty"], .zakladki a[data-widok="priorytety"] { position: relative; margin-left: 17px; }
+.zakladki a[data-widok="kohorty"]::before, .zakladki a[data-widok="priorytety"]::before {
+  content: ""; position: absolute; left: -10px; top: 11px; bottom: 14px; width: 1px; background: var(--bar-ink-2); opacity: 0.4; }
 
 /* ------------------------------------------------------------ układ strony */
 main { max-width: 1320px; margin: 0 auto; padding: 20px 24px 48px; }
@@ -334,7 +338,11 @@ input[type="checkbox"] { accent-color: var(--accent); width: 16px; height: 16px;
 .tabela td { font-variant-numeric: tabular-nums; }
 .tabela tbody tr:hover td { background: var(--wash); }
 .tabela tr.podsuma td { font-weight: 600; background: var(--wash); }
-.tabela tr.oddzielnik td { border-bottom: 0; padding-top: 16px; color: var(--muted); font-size: 12px; text-align: left; }
+.tabela tr.oddzielnik td { border-bottom: 1px solid var(--axis); padding-top: 18px; padding-bottom: 4px; color: var(--ink-2); font-size: 12px; font-weight: 650;
+  letter-spacing: 0.01em; text-align: left; }
+.tabela tbody tr.oddzielnik:hover td { background: transparent; }
+.tabela tbody tr.oddzielnik:first-child td { padding-top: 10px; }
+.tabela tr[hidden] { display: none !important; }
 .tabela tr.zaznaczony td { background: var(--accent-tlo); }
 .tabela td .pod { display: block; color: var(--muted); font-size: 12px; font-weight: 400; }
 .tabela-lejek td:first-child { min-width: 210px; white-space: normal; }
@@ -393,15 +401,34 @@ input[type="checkbox"] { accent-color: var(--accent); width: 16px; height: 16px;
 .os-zdarzen .tor-tlo { fill: var(--wash); }
 .os-zdarzen .tor-nazwa { fill: var(--ink); font-size: 12px; font-weight: 600; }
 .os-zdarzen .siatka { stroke: var(--grid); stroke-width: 1; }
-.os-zdarzen .znacznik { fill: var(--bar); stroke: var(--surface); stroke-width: 2; cursor: pointer; }
-.os-zdarzen .znacznik-zakres { fill: var(--bar); opacity: 0.5; cursor: pointer; }
+/* znaczniki w kolorze tuszu (w trybie ciemnym jasne); kształt według rodzaju zdarzenia, legenda kształtów nad osią */
+.os-zdarzen .znacznik { fill: var(--ink); stroke: var(--surface); stroke-width: 2; cursor: pointer; }
+.os-zdarzen .znacznik-zakres { fill: var(--ink); opacity: 0.5; cursor: pointer; }
+.os-zdarzen .zk-puste { fill: var(--surface); stroke: var(--ink); stroke-width: 2; }
 .os-zdarzen .znacznik:hover, .os-zdarzen .znacznik-zakres:hover, .os-zdarzen .znacznik:focus, .os-zdarzen .znacznik-zakres:focus { fill: var(--accent); opacity: 1; outline: none; }
+.os-zdarzen .zk-puste:hover, .os-zdarzen .zk-puste:focus { stroke: var(--accent); }
+.os-zdarzen .os-nr { fill: var(--ink-2); font-weight: 600; font-variant-numeric: tabular-nums; }
 .os-zdarzen .puste { fill: var(--muted); font-style: italic; }
+.os-legenda { margin: 0 0 8px; }
+.ks { display: inline-block; flex: none; width: 11px; height: 11px; background: var(--ink); }
+.ks-kolo { border-radius: 50%; }
+.ks-kwadrat { width: 10px; height: 10px; border-radius: 2px; }
+.ks-romb { width: 9px; height: 9px; border-radius: 1px; transform: rotate(45deg); margin: 0 1px; }
+.ks-puste { border-radius: 50%; background: var(--surface); box-shadow: inset 0 0 0 2px var(--ink); }
+.ks-pasek { width: 20px; height: 10px; border-radius: 3px; opacity: 0.5; }
+.chipy-obszarow { gap: 6px 8px; }
+.filtry-wykresu .chip { flex-direction: row; font-size: 13px; color: var(--ink); font-weight: 400; }
 .os-pionowa { list-style: none; margin: 0; padding: 0 0 0 4px; }
 .os-pionowa li { position: relative; padding: 0 0 14px 22px; border-left: 2px solid var(--grid); margin-left: 5px; }
 .os-pionowa li:last-child { border-left-color: transparent; padding-bottom: 0; }
 .os-pionowa li::before { content: ""; position: absolute; left: -7px; top: 3px; width: 12px; height: 12px; border-radius: 50%;
-  background: var(--bar); box-shadow: 0 0 0 2px var(--surface); }
+  background: var(--ink); box-shadow: 0 0 0 2px var(--surface); }
+.os-pionowa li.zk-kwadrat::before { border-radius: 2px; width: 11px; height: 11px; left: -6.5px; }
+.os-pionowa li.zk-romb::before { border-radius: 1px; width: 10px; height: 10px; left: -6px; top: 4px; transform: rotate(45deg); }
+.os-pionowa li.zk-puste::before { background: var(--surface); box-shadow: inset 0 0 0 2px var(--ink), 0 0 0 2px var(--surface); }
+.os-pionowa li.zk-pasek::before { border-radius: 3px; width: 10px; height: 18px; left: -6px; top: 1px; opacity: 0.6; }
+.zdarzenie .rodzaj { display: inline-flex; align-items: center; gap: 6px; }
+.zdarzenie .zd-link { margin: 10px 0 0; }
 .os-pionowa .os-data { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 13px; color: var(--ink-2); }
 .os-pionowa .os-data strong { color: var(--ink); font-variant-numeric: tabular-nums; }
 .os-pionowa a { display: inline-block; margin-top: 2px; font-size: 14px; }
@@ -464,6 +491,16 @@ a.nr:hover { background: var(--accent); }
 .tabela-kampanii { margin: 10px 0 6px; }
 .tabela-kampanii td:first-child { min-width: 240px; }
 .wroc { font-size: 13px; margin-top: 10px; }
+/* pigułki z numerami pozycji nad przeglądem priorytetów */
+.pigulki { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 6px 0 10px; }
+.pigulki-etykieta { font-size: 12px; color: var(--muted); margin-right: 4px; }
+.pigulki .nr { min-width: 32px; height: 32px; }
+/* czego nie wiemy: filtr według pozycji, podświetlony wiersz z odnośnika */
+.nw-filtr { margin: 0 0 6px; }
+#nw-tabela td:nth-child(5) { min-width: 180px; }
+#nw-tabela tr { scroll-margin-top: 112px; }
+#nw-tabela tr.podswietlone td { background: var(--accent-tlo); }
+.linki + .linki-niewiadome { margin-top: 4px; }
 
 /* przycisk „Zakładki” (tylko telefon, po przewinięciu poza pasek z zakładkami) */
 .szybkie-zakladki { display: none; position: fixed; right: 16px; bottom: 16px; z-index: 20; }
@@ -564,6 +601,58 @@ a.nr:hover { background: var(--accent); }
 details.tabela-zwinieta { margin-top: 8px; }
 .filtr-przelacznik { display: flex; flex-direction: column; gap: 3px; font-size: 12px; color: var(--muted); font-weight: 500; }
 
+/* schodki poziomów (mostek dashboardu): słupek od zera po każdym kroku, kreska = poziom z dashboardu */
+.wk-grupa-tytul { font-size: 13px; font-weight: 650; color: var(--ink); margin: 12px 0 2px; }
+.sch-tor::before { display: none; }
+.sch-pasek { position: absolute; left: 0; top: 4px; bottom: 4px; border-radius: 0 3px 3px 0; min-width: 2px; }
+.sch-kreska { position: absolute; top: 1px; bottom: 1px; width: 2px; margin-left: -1px; background: var(--ink-2); border-radius: 1px; }
+.sch-kreska-wzor { display: inline-block; width: 2px; height: 14px; background: var(--ink-2); border-radius: 1px; }
+.wk-bez { font-size: 12px; color: var(--muted); }
+/* słupki grupowane (kwartały): słupek od zera w prawo albo w lewo, podpis przy słupku */
+.wk-wiersz.sg-wiersz { grid-template-columns: minmax(90px, 150px) minmax(0, 1fr); padding: 3px 0; }
+.sg-linie { display: grid; gap: 3px; }
+.sg-linia { display: grid; grid-template-columns: minmax(0, 1fr) 64px; align-items: center; column-gap: 8px; }
+.sg-tor { position: relative; height: 14px; }
+.sg-zero { position: absolute; top: -2px; bottom: -2px; width: 1px; margin-left: -0.5px; background: var(--axis); }
+.sg-pasek { position: absolute; top: 1px; bottom: 1px; min-width: 2px; border-radius: 2px; }
+.sg-tekst { font-size: 12px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sg-marza { background: var(--series-1); }
+.sg-kampanie { background: var(--series-7); }
+.wk-wiersz.sg-os { grid-template-columns: minmax(90px, 150px) minmax(0, 1fr); }
+.sg-os-siatka { display: grid; grid-template-columns: minmax(0, 1fr) 64px; column-gap: 8px; }
+/* pionowe kolumny (miesiące, godziny): oś od zera, siatka, podcieniowane grupy z podpisem */
+.wk.kolumny { max-width: none; }
+.kl-tytul { font-size: 13px; font-weight: 650; color: var(--ink); margin-bottom: 4px; }
+.kl-ramka { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 6px; padding-top: 8px; }
+.kl-ramka.kl-z-gora { padding-top: 20px; }
+.kl-os-y { position: relative; min-width: 30px; font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.kl-os-y span { position: absolute; right: 0; transform: translateY(50%); line-height: 1; white-space: nowrap; }
+.kl-obszar { position: relative; border-bottom: 1px solid var(--axis); }
+.kl-siatka { position: absolute; left: 0; right: 0; height: 0; border-top: 1px solid var(--grid); }
+.kl-grupy { position: absolute; inset: 0; display: flex; }
+.kl-grupa { flex: 1 1 0; min-width: 0; display: flex; align-items: flex-end; justify-content: center; gap: 1px; padding: 0 1px; }
+.kl-grupa.kl-tlo { background: var(--okres-b); }
+.kl-grupa:hover, .kl-grupa:focus-visible { background: var(--wash-2); outline-offset: -2px; }
+.kl-kol { position: relative; flex: 1 1 0; max-width: 26px; min-width: 1px; border-radius: 2px 2px 0 0; }
+.kl-wart { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); margin-bottom: 2px; font-size: 11px; color: var(--ink-2);
+  white-space: nowrap; font-variant-numeric: tabular-nums; }
+.kl-tlo-nazwa { position: absolute; top: -17px; font-size: 11px; line-height: 14px; color: var(--muted); text-align: center; white-space: nowrap; }
+.kl-os-x { display: flex; font-size: 11px; color: var(--muted); padding-top: 3px; font-variant-numeric: tabular-nums; }
+.kl-os-x > span { flex: 1 1 0; min-width: 0; display: flex; justify-content: center; white-space: nowrap; }
+.kl-os-x > span > span { display: flex; flex-direction: column; align-items: center; line-height: 1.25; }
+.kl-tlo-wzor { display: inline-block; width: 14px; height: 12px; background: var(--okres-b); border: 1px solid var(--axis); border-radius: 2px; }
+.seg-nowe.kl-kol, .pkt.seg-nowe { background: var(--series-2); }
+.wk-dwa { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 32px; margin: 14px 0 10px; max-width: 1100px; }
+.wk-dwa .wk { margin: 0; }
+.wk-dwa-przypis { grid-column: 1 / -1; margin-top: 0; }
+.kl-legenda-druga { visibility: hidden; }
+/* odnośnik „Dalej” na dole zakładki */
+.dalej { display: flex; justify-content: flex-end; margin: 24px 0 0; }
+.dalej a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px; border: 1px solid var(--accent-ramka); border-radius: 999px;
+  background: var(--surface); text-decoration: none; font-weight: 600; font-size: 14px; }
+.dalej a::after { content: ""; width: 7px; height: 7px; border-right: 2px solid currentColor; border-top: 2px solid currentColor; transform: rotate(45deg); flex: none; }
+.dalej a:hover { background: var(--accent-tlo); }
+
 
 /* ------------------------------------------------------------ legenda wykresów dziennych */
 .lw { margin: 6px 0 0; font-size: 12px; color: var(--ink-2); }
@@ -659,4 +748,25 @@ details.zawez > summary::before { content: ""; width: 7px; height: 7px; border-r
   .wk-wart { justify-content: flex-end; }
   .wk-os > span { display: none; }
   .wk-os .wk-os-skala { grid-column: 1 / 3; }
+  /* etap 4 na telefonie: bez separatorów zakładek; słupki grupowane pod etykietą; kolumny bez podpisów wartości
+     (wartość w podpowiedzi); dwa wykresy godzin jeden pod drugim z jedną legendą */
+  .zakladki a[data-widok="kohorty"], .zakladki a[data-widok="priorytety"] { margin-left: 0; }
+  .zakladki a[data-widok="kohorty"]::before, .zakladki a[data-widok="priorytety"]::before { display: none; }
+  .wk-wiersz.sg-wiersz, .wk-wiersz.sg-os { grid-template-columns: minmax(0, 1fr); }
+  .wk-wiersz .sg-linie { grid-column: 1; grid-row: 2; }
+  .sg-os-siatka { grid-column: 1; }
+  .wk-os .sg-os-siatka .wk-os-skala { grid-column: 1; }
+  .kl-wart { display: none; }
+  .kl-ramka.kl-z-gora { padding-top: 8px; }
+  .kl-ramka.kl-z-gora:has(.kl-tlo-nazwa) { padding-top: 20px; }
+  .kl-os-y { min-width: 26px; }
+  .kl-legenda-druga { display: none; }
+  .wk-dwa { grid-template-columns: minmax(0, 1fr); }
+  .pigulki .nr { min-width: 36px; height: 36px; }
+  .dalej { justify-content: stretch; }
+  .dalej a { flex: 1 1 auto; justify-content: center; }
+  .tabela-tekst tr.oddzielnik { padding: 16px 0 4px; border-bottom: 1px solid var(--axis); }
+  .tabela-tekst tr.oddzielnik td { padding: 0; font-size: 12px; border: 0; }
+  .tabela-tekst tr.oddzielnik td::before { display: none; }
+  #nw-tabela tr { scroll-margin-top: 12px; }
 }

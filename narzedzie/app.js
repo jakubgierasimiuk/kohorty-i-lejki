@@ -91,9 +91,13 @@
   }
 
   // ------------------------------------------------------------ wspólne: mostek dashboardu
+  var MIARY_MOSTKA = [["nowi", "Nowi pacjenci"], ["zamowienia", "Zamówienia"], ["przychod", "Przychód z konsultacji"], ["go", "TelemediGO"]];
+  // „wartość rok wcześniej → wartość w ostatnich 12 miesiącach”, jak pod zmianą w tabeli mostka
+  function wartMostka(miara, v) {
+    return miara === "przychod" ? liczba(v.p1 / 1e6, 3) + " → " + liczba(v.p2 / 1e6, 3) + " mln zł" : liczba(v.p1) + " → " + liczba(v.p2);
+  }
   function mostek(tabela) {
-    var M = JK.mostek.kroki, miary = [["nowi", "Nowi pacjenci"], ["zamowienia", "Zamówienia"],
-      ["przychod", "Przychód z konsultacji"], ["go", "TelemediGO"]];
+    var M = JK.mostek.kroki, miary = MIARY_MOSTKA;
     var o1 = P.meta.okresy[0].nazwa, o2 = P.meta.okresy[1].nazwa;
     wyczysc(tabela);
     tabela.appendChild(el("caption", { class: "przypis",
@@ -107,15 +111,34 @@
       miary.forEach(function (m) {
         var v = k.miary[m[0]], poprz = i > 0 ? M[i - 1].miary[m[0]] : null;
         if (poprz && poprz.p1 === v.p1 && poprz.p2 === v.p2) { r.appendChild(el("td", { text: "bez zmian" })); return; }
-        var wart = m[0] === "przychod"
-          ? liczba(v.p1 / 1e6, 3) + " → " + liczba(v.p2 / 1e6, 3) + " mln zł"
-          : liczba(v.p1) + " → " + liczba(v.p2);
         r.appendChild(el("td", null, [el("strong", { text: znak(v.wzrost, 1) + "%" }), el("br"),
-          el("span", { class: "przypis", text: wart })]));
+          el("span", { class: "przypis", text: wartMostka(m[0], v) })]));
       });
       tb.appendChild(r);
     });
     tabela.appendChild(tb);
+  }
+  // Schodki mostka: wzrost rok do roku zamówień i przychodu z konsultacji po każdym kroku (te same liczby i ten sam zapis
+  // co w tabeli mostka). Nowi pacjenci i TelemediGO zostają w tabeli: w mostku prawie się nie zmieniają.
+  function schodkiMostka() {
+    var M = JK.mostek && JK.mostek.kroki;
+    if (!M || !M.length) return null;
+    var miary = MIARY_MOSTKA.filter(function (m) { return m[0] === "zamowienia" || m[0] === "przychod"; }), mx = 0;
+    var dane = miary.map(function (m) {
+      return { nazwa: m[1], kroki: M.map(function (k, i) {
+        var v = k.miary[m[0]], poprz = i > 0 ? M[i - 1].miary[m[0]] : null;
+        mx = Math.max(mx, v.wzrost);
+        return { etykieta: k.opis, v: v.wzrost, tekst: znak(v.wzrost, 1) + "%", bezZmian: !!(poprz && poprz.p1 === v.p1 && poprz.p2 === v.p2),
+          tytul: m[1] + ", " + k.opis + ": " + znak(v.wzrost, 1) + "% rok do roku (" + wartMostka(m[0], v) + ")" };
+      }) };
+    });
+    var s = BK.podzialka(0, mx, 7);
+    return BK.schodki({ miary: dane, max: s.max, os: s.wartosci.map(function (v) { return liczba(v, 0) + "%"; }),
+      legenda: [{ klasa: "pkt kw pkt-a", nazwa: M[0].opis }, { klasa: "pkt kw pkt-b", nazwa: "po kolejnych krokach oczyszczenia" },
+        { klasa: "sch-kreska-wzor", nazwa: "poziom z dashboardu" }],
+      opis: "Wzrost zamówień i przychodu z konsultacji rok do roku po każdym kroku od dashboardu do danych oczyszczonych",
+      przypis: "Wzrost: ostatnie 12 miesięcy (" + P.meta.okresy[1].nazwa + ") wobec roku wcześniej (" + P.meta.okresy[0].nazwa +
+        "). Każdy słupek to poziom po danym kroku, liczony od zera, a nie różnica między krokami." });
   }
 
   // ------------------------------------------------------------ lejek
@@ -752,6 +775,43 @@
     dorysuj();
   }
 
+  // Udział sesji nowych kampanii na L4 w sesjach osób, które jeszcze nie kupowały, miesiąc po miesiącu. Liczony z pliku
+  // podziału według kampanii, zawsze dla sesji zwykłych osób, które jeszcze nie kupowały: nie zależy od podziału,
+  // „Kto” ani okresów wybranych w filtrach lejka.
+  var udzialNarysowany = false;
+  function rysujUdzialNowych() {
+    var cel = $("lj-udzial");
+    if (!cel || udzialNarysowany) return;
+    udzialNarysowany = true;
+    wczytajPodzial("kampania").then(function (dane) {
+      var nowe = ET.nowe_kampanie || [], mies = [], kl = {}, przyp = new Int32Array(NDNI), i;
+      for (i = 0; i < NDNI; i++) {   // miesiące kalendarzowe według dnia sesji (dni w danych są w czasie polskim)
+        var d = dataIdx(i), k = d.getUTCFullYear() * 12 + d.getUTCMonth();
+        if (kl[k] === undefined) { kl[k] = mies.length; mies.push({ r: d.getUTCFullYear(), m: d.getUTCMonth(), nowe: 0, wsz: 0 }); }
+        przyp[i] = kl[k];
+      }
+      dane.serie.forEach(function (s) {
+        if (s.typ !== "zwykla" || s.pacjent !== "nie_kupowal" || !s.s) return;
+        var czyNowa = nowe.indexOf(s.w) >= 0;
+        for (var j = 0; j < NDNI; j++) { var v = s.s[j]; if (!v) continue; var x = mies[przyp[j]]; x.wsz += v; if (czyNowa) x.nowe += v; }
+      });
+      mies.forEach(function (x) { x.p = x.wsz > 0 ? 100 * x.nowe / x.wsz : null; });
+      var mx = Math.max.apply(null, mies.map(function (x) { return x.p || 0; }).concat([1])), sk = BK.podzialka(0, mx, 5);
+      var nazwy = nowe.map(function (w) { return (ET.kampania && ET.kampania[w]) || w; });
+      wyczysc(cel).appendChild(BK.kolumny({ max: sk.max, wys: 190,
+        os: sk.wartosci.map(function (v) { return { v: v, tekst: liczba(v, 0) + "%" }; }),
+        serie: [{ nazwa: "nowe kampanie na L4", klasa: "seg-nowe" }],
+        grupy: mies.map(function (x, j) {
+          var naz = RZYM[x.m] + " " + x.r, t = naz + ": " + proc(x.p) + " (" + liczba(x.nowe) + " z " + liczba(x.wsz) + " sesji)";
+          return { os: j % 3 === 0 ? (j === 0 || x.m === 0 ? [RZYM[x.m], String(x.r)] : [RZYM[x.m]]) : null,
+            wartosci: [x.p], podpisy: [x.p ? proc(x.p) : ""], tytul: t, opis: t };
+        }),
+        opis: "Udział sesji nowych kampanii na L4 w sesjach osób, które jeszcze nie kupowały, w każdym miesiącu",
+        przypis: "Odsetek sesji zwykłych osób, które jeszcze nie kupowały, z kampanii " + nazwy.join(" i ") +
+          ", w każdym miesiącu kalendarzowym. Wykres nie zależy od podziału, „Kto” ani okresów wybranych w filtrach wyżej." }));
+    }).catch(function (e) { udzialNarysowany = false; wyczysc(cel).appendChild(el("p", { class: "przypis", text: e.message + ". Odśwież stronę." })); });
+  }
+
   function odswiezLejek(tylkoWykres, tabelaTez) {
     ustawKontrolki();
     var cel = $("lj-wykres");
@@ -770,6 +830,7 @@
   // ------------------------------------------------------------ zdarzenia
   var obszaryWidoczne = { lejek: true, retencja: true, obsluga: true, jakosc: true };
 
+  // chipy obszarów w nagłówku karty z osią
   function rysujFiltryZdarzen() {
     var f = wyczysc($("zd-filtry"));
     ZD.obszary.forEach(function (o) {
@@ -781,12 +842,37 @@
     });
   }
 
+  // kształt znacznika według rodzaju zdarzenia (pole rodzaj): koło = start kampanii; kwadrat = awaria, błąd albo luka
+  // w danych; romb = zmiana (poziomu, stopniowa, struktury pacjentów, wyniku i zachowania kohort, obsługi pacjenta);
+  // puste koło = kandydat poniżej progu; zdarzenie z datą końca to pasek od początku do końca
+  var KSZTALTY = [["kolo", "start kampanii"], ["kwadrat", "awaria, błąd albo luka w danych"], ["romb", "zmiana"],
+    ["puste", "kandydat poniżej progu"], ["pasek", "zdarzenie z datą początku i końca"]];
+  function ksztalt(z) {
+    if (z.do && z.do !== z.od) return "pasek";
+    var r = String(z.rodzaj || "").toLowerCase();
+    if (r.indexOf("start") === 0) return "kolo";
+    if (r.indexOf("kandydat") === 0) return "puste";
+    if (r === "awaria" || r.indexOf("błąd") === 0 || r.indexOf("luka") === 0) return "kwadrat";
+    if (r.indexOf("zmiana") === 0) return "romb";
+    return "kolo";
+  }
+  function znakKsztaltu(k) { return el("span", { class: "ks ks-" + k, "aria-hidden": "true" }); }
+  function rysujLegendeOsi() {
+    var c = $("zd-os-legenda");
+    if (!c || c.firstChild) return;
+    var obecne = {};
+    ZD.lista.forEach(function (z) { obecne[ksztalt(z)] = true; });
+    KSZTALTY.forEach(function (k) {
+      if (obecne[k[0]]) c.appendChild(el("span", { class: "wk-lg" }, [znakKsztaltu(k[0]), el("span", { text: k[1] })]));
+    });
+  }
+
   function rysujOsPionowa(kont) {
     var ol = el("ol", { class: "os-pionowa", "aria-label": "Zdarzenia w kolejności dat" });
     zdarzeniaNumerowane().forEach(function (z) {
       if (!obszaryWidoczne[z.obszar]) return;
       var i0 = idxIso(z.od);
-      ol.appendChild(el("li", null, [
+      ol.appendChild(el("li", { class: "zk-" + ksztalt(z) }, [
         el("div", { class: "os-data" }, [el("strong", { text: z.nr + ". " + dataPL(i0) + (z.do ? "–" + dataPL(idxIso(z.do)) : "") }),
           el("span", { class: "obszar", text: ET.obszary[z.obszar] })]),
         el("a", { href: "#zdarzenia?z=" + z.id, text: z.krotko || z.tytul })]));
@@ -795,14 +881,31 @@
   }
   function rysujOs() {
     var kont = wyczysc($("zd-os"));
+    rysujLegendeOsi();
     if ((kont.clientWidth || 900) < 600) { rysujOsPionowa(kont); return; }
-    var szer = Math.max(560, kont.clientWidth || 900), lewy = 130, prawy = 16, gora = 34, tor = 40;
+    var szer = Math.max(560, kont.clientWidth || 900), lewy = 130, prawy = 16, gora = 34, ODSTEP = 18, RZAD = 13;
     var obszary = ZD.obszary.filter(function (o) { return obszaryWidoczne[o.id]; });
-    var wys = gora + obszary.length * tor + 8;
     var NS = "http://www.w3.org/2000/svg";
     function s(tag, a, txt) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (txt) e.textContent = txt; return e; }
-    var svg = s("svg", { viewBox: "0 0 " + szer + " " + wys, role: "img", "aria-label": "Oś czasu zdarzeń w podziale na obszary" });
     function xp(i) { return lewy + (szer - lewy - prawy) * i / (NDNI - 1); }
+    // numery bez nachodzenia: bliskie zdarzenia dostają numer w wyższym rzędzie nad znacznikiem; tor jest tak wysoki,
+    // ile rzędów potrzeba
+    var zd = zdarzeniaNumerowane(), tory = [], y = gora;
+    obszary.forEach(function (o) {
+      var tu = zd.filter(function (z) { return z.obszar === o.id; }).map(function (z) { return { z: z, x: xp(idxIso(z.od)) }; })
+        .sort(function (a, c) { return a.x - c.x; });
+      var rzedy = [];
+      tu.forEach(function (p) {
+        var r = 0;
+        while (rzedy[r] !== undefined && p.x - rzedy[r] < ODSTEP) r++;
+        rzedy[r] = p.x; p.r = r;
+      });
+      var wys = 30 + RZAD * Math.max(1, rzedy.length);
+      tory.push({ o: o, tu: tu, y: y, wys: wys });
+      y += wys;
+    });
+    var wys = y + 8;
+    var svg = s("svg", { viewBox: "0 0 " + szer + " " + wys, class: "os-rys", role: "img", "aria-label": "Oś czasu zdarzeń w podziale na obszary; kształt znacznika według rodzaju zdarzenia" });
     // podziałka: początek każdego kwartału
     for (var i = 0; i < NDNI; i++) {
       var d = dataIdx(i);
@@ -811,28 +914,25 @@
         svg.appendChild(s("text", { x: xp(i) + 3, y: gora - 14 }, RZYM[d.getUTCMonth()] + " " + d.getUTCFullYear()));
       }
     }
-    var zd = zdarzeniaNumerowane();
-    obszary.forEach(function (o, j) {
-      var y = gora + j * tor;
-      svg.appendChild(s("rect", { x: lewy, y: y + 4, width: szer - lewy - prawy, height: tor - 8, rx: 6, class: "tor-tlo" }));
-      svg.appendChild(s("text", { x: 0, y: y + tor / 2 + 4, class: "tor-nazwa" }, ET.obszary[o.id]));
-      var tu = zd.filter(function (z) { return z.obszar === o.id; });
-      if (!tu.length && o.puste) svg.appendChild(s("text", { x: lewy + 10, y: y + tor / 2 + 4, class: "puste" }, o.puste));
-      var ostatniX = -99;
-      tu.forEach(function (z) {
-        var i0 = idxIso(z.od), i1 = z.do ? idxIso(z.do) : null, g;
-        var xl = xp(i0) - ostatniX < 14 ? ostatniX + 14 : xp(i0);   // numery bliskich zdarzeń nie nachodzą na siebie
-        ostatniX = xl;
-        if (i1 !== null && i1 > i0) {
-          g = s("rect", { x: xp(i0), y: y + tor / 2 - 6, width: Math.max(6, xp(i1) - xp(i0)), height: 12, rx: 4, class: "znacznik-zakres", tabindex: 0 });
-        } else {
-          g = s("circle", { cx: xp(i0), cy: y + tor / 2, r: 6, class: "znacznik", tabindex: 0 });
-        }
-        g.appendChild(s("title", {}, z.nr + ". " + dataPL(i0) + (i1 ? "–" + dataPL(i1) : "") + ": " + z.tytul));
+    tory.forEach(function (t) {
+      var cy = t.y + t.wys - 15;
+      svg.appendChild(s("rect", { x: lewy, y: t.y + 3, width: szer - lewy - prawy, height: t.wys - 6, rx: 6, class: "tor-tlo" }));
+      svg.appendChild(s("text", { x: 0, y: cy + 4, class: "tor-nazwa" }, ET.obszary[t.o.id]));
+      if (!t.tu.length && t.o.puste) svg.appendChild(s("text", { x: lewy + 10, y: cy + 4, class: "puste" }, t.o.puste));
+      t.tu.forEach(function (p) {
+        var z = p.z, i0 = idxIso(z.od), i1 = z.do ? idxIso(z.do) : null, k = ksztalt(z), x = p.x, g;
+        if (k === "pasek") g = s("rect", { x: x, y: cy - 6, width: Math.max(6, xp(i1) - x), height: 12, rx: 4, class: "znacznik-zakres" });
+        else if (k === "kwadrat") g = s("rect", { x: x - 5.5, y: cy - 5.5, width: 11, height: 11, rx: 1.5, class: "znacznik zk-kwadrat" });
+        else if (k === "romb") g = s("path", { d: "M" + x + " " + (cy - 7.5) + "L" + (x + 7.5) + " " + cy + "L" + x + " " + (cy + 7.5) + "L" + (x - 7.5) + " " + cy + "Z", class: "znacznik zk-romb" });
+        else if (k === "puste") g = s("circle", { cx: x, cy: cy, r: 5.5, class: "znacznik zk-puste" });
+        else g = s("circle", { cx: x, cy: cy, r: 6, class: "znacznik zk-kolo" });
+        g.setAttribute("tabindex", "0");
+        g.setAttribute("aria-label", z.nr + ". " + dataPL(i0) + (i1 ? "–" + dataPL(i1) : "") + ", " + z.rodzaj + ": " + z.tytul);
+        g.appendChild(s("title", {}, z.nr + ". " + dataPL(i0) + (i1 ? "–" + dataPL(i1) : "") + " (" + z.rodzaj + "): " + z.tytul));
         g.addEventListener("click", function () { pokazZdarzenie(z.id); });
-        g.addEventListener("keydown", function (e) { if (e.key === "Enter") pokazZdarzenie(z.id); });
+        g.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pokazZdarzenie(z.id); } });
         svg.appendChild(g);
-        svg.appendChild(s("text", { x: xl, y: y + tor / 2 - 9, "text-anchor": "middle" }, String(z.nr)));
+        svg.appendChild(s("text", { x: x, y: cy - 11 - p.r * RZAD, "text-anchor": "middle", class: "os-nr" }, String(z.nr)));
       });
     });
     kont.appendChild(svg);
@@ -844,12 +944,14 @@
       if (!obszaryWidoczne[z.obszar]) return;
       var dl = el("dl", null, [el("dt", { text: "Co się zmieniło" }), el("dd", { text: z.co })]);
       if (z.ile) { dl.appendChild(el("dt", { text: "O ile" })); dl.appendChild(el("dd", { text: z.ile })); }
-      dl.appendChild(el("dt", { text: "Skąd wiemy" })); dl.appendChild(el("dd", { text: z.skad }));
+      // „Skąd wiemy” w zwijanej sekcji na końcu karty
+      var skad = z.skad ? el("details", { class: "szczegoly" }, [el("summary", { text: "Skąd wiemy" }),
+        el("div", { class: "szczegoly-tresc" }, [el("p", { text: z.skad })])]) : null;
       var link = z.link ? el("a", { href: z.link, text: napisOdnosnika(z.link) }) : null;
       l.appendChild(el("article", { class: "karta zdarzenie", id: "zd-" + z.id }, [
         el("div", { class: "meta" }, [el("span", { class: "data", text: z.nr + ". " + dataPL(idxIso(z.od)) + (z.do ? "–" + dataPL(idxIso(z.do)) : "") }),
-          el("span", { class: "obszar", text: ET.obszary[z.obszar] }), el("span", { text: z.rodzaj })]),
-        el("h3", { text: z.tytul }), dl, link ? el("p", null, [link]) : null]));
+          el("span", { class: "obszar", text: ET.obszary[z.obszar] }), el("span", { class: "rodzaj" }, [znakKsztaltu(ksztalt(z)), z.rodzaj])]),
+        el("h3", { text: z.tytul }), dl, link ? el("p", { class: "zd-link" }, [link]) : null, skad]));
     });
   }
 
@@ -920,6 +1022,8 @@
     mostek($("jk-mostek"));
     zdaniaAlboKarta($("jk-karta-mostek"), $("jk-mostek-zdania"), KJ.mostek, null,
       { mostek: function () { return $("jk-mostek").closest(".tabela-ramka"); } });
+    // schodki mostka pod wnioskiem, tabela mostka w zwijanej sekcji
+    BK.wstawWykres($("jk-karta-mostek"), schodkiMostka(), true);
     zdaniaAlboKarta($("jk-karta-dup"), $("jk-dup-zdania"), KJ.duplikaty || JK.duplikaty.karta, JK.duplikaty.zdania);
     zdaniaAlboKarta($("jk-karta-testy"), $("jk-testy-zdania"), KJ.testy || JK.testy.karta, JK.testy.zdania);
     var kw = wyczysc($("jk-testy-kw")), mx = Math.max.apply(null, JK.testy.kwartaly.map(function (k) { return k.n; }));
@@ -958,7 +1062,8 @@
           value: function (u, v) { return v == null ? "—" : liczba(v); } }
       ],
       cursor: { drag: { x: true, y: false } },
-      tzDate: function (ts) { return uPlot.tzDate(new Date(ts * 1000), "Etc/UTC"); }
+      tzDate: function (ts) { return uPlot.tzDate(new Date(ts * 1000), "Etc/UTC"); },
+      hooks: { drawClear: [function (u) { oknoDuplikatow(u, od, dok); }], draw: [function (u) { oknoDuplikatow(u, od, dok, true); }] }
     };
     var dorysuj = legendaUplot(opts, cel, { id: "duplikaty", koncowe: false,
       etykietaX: function (ts) { return dataPL(Math.round((ts * 1000 - START) / DZIEN)); },
@@ -969,8 +1074,26 @@
     dorysuj();
   }
 
+  // okno duplikatów (JK.duplikaty.od–do) podcieniowane na szaro, z podpisem przy górnej krawędzi; gdy podpis jest szerszy
+  // niż pole (telefon), wychodzi w prawo na tle karty
+  function oknoDuplikatow(u, od, dok, podpis) {
+    var ctx = u.ctx, top = u.bbox.top, h = u.bbox.height, dpr = window.devicePixelRatio || 1;
+    var x0 = Math.max(u.valToPos((START + od * DZIEN) / 1000, "x", true), u.bbox.left);
+    var x1 = Math.min(u.valToPos((START + (dok + 1) * DZIEN) / 1000, "x", true), u.bbox.left + u.bbox.width);
+    if (x1 <= x0) return;
+    ctx.save();
+    if (!podpis) { ctx.fillStyle = css("--okres-b"); ctx.fillRect(x0, top, x1 - x0, h); ctx.restore(); return; }
+    // podpis rysowany po seriach, żeby linia go nie przecinała
+    ctx.font = (11 * dpr) + "px system-ui"; ctx.textBaseline = "top"; ctx.textAlign = "left";
+    var t = "Okno duplikatów", sz = ctx.measureText(t).width;
+    var xt = Math.min(x0 + 4 * dpr, u.bbox.left + u.bbox.width - sz - 6 * dpr);
+    ctx.fillStyle = css("--surface"); ctx.globalAlpha = 0.88; ctx.fillRect(xt - 3 * dpr, top + 3 * dpr, sz + 6 * dpr, 15 * dpr);
+    ctx.globalAlpha = 1; ctx.fillStyle = css("--ink-2"); ctx.fillText(t, xt, top + 5 * dpr);
+    ctx.restore();
+  }
+
   // ------------------------------------------------------------ nawigacja
-  var WIDOKI = Array.prototype.map.call(document.querySelectorAll(".zakladki a"), function (a) { return a.dataset.widok; });
+  var WIDOKI =Array.prototype.map.call(document.querySelectorAll(".zakladki a"), function (a) { return a.dataset.widok; });
   var narysowane = {}, biezacy = null;
 
   function trasa() {
@@ -988,6 +1111,7 @@
       if (!narysowane.lejek) { rysujNaglowekLejka(); przygotujFiltry(); narysowane.lejek = true; }
       czytajAdres(q);
       odswiezLejek();
+      rysujUdzialNowych();
       if (q && Array.from(q.keys()).length) setTimeout(function () {
         $("lj-kroki-karta").scrollIntoView({ behavior: "smooth", block: "start" });
       }, 60);
@@ -1038,6 +1162,17 @@
     }
   }
 
+  // na dole każdej zakładki odnośnik do następnej (ostatnia wraca do początku)
+  function odnosnikiDalej() {
+    var linki = Array.prototype.slice.call(document.querySelectorAll(".zakladki a"));
+    linki.forEach(function (a, i) {
+      var s = $("v-" + a.dataset.widok), nast = linki[i + 1];
+      if (!s || s.querySelector(":scope > .dalej")) return;
+      s.appendChild(el("p", { class: "dalej" }, [el("a", { href: (nast || linki[0]).getAttribute("href"),
+        text: nast ? "Dalej: " + nast.textContent : "Wróć do początku: " + linki[0].textContent })]));
+    });
+  }
+
   // pomocnicze funkcje dla widoków z plików widoki.js (kohorty, po zakupie, wynik biznesu)
   // i widoki_c.js (czy to wzrost, priorytety, czego nie wiemy)
   var wczytywane = {};
@@ -1058,9 +1193,10 @@
     zdarzeniaNumerowane: zdarzeniaNumerowane, rysujZdarzeniaNaWykresie: rysujZdarzeniaNaWykresie, wczytaj: wczytaj,
     mostek: mostek, BK: BK, zdaniaAlboKarta: zdaniaAlboKarta, zmianaPkt: zmianaPkt, wstepKarta: wstepKarta,
     nazwyPresetu: nazwyPresetu, polaOkresow: polaOkresow, hantleSafari: hantleSafari,
-    legendaUplot: legendaUplot, zdarzeniaWykresu: zdarzeniaWykresu, tabelaTelefon: tabelaTelefon };
+    legendaUplot: legendaUplot, zdarzeniaWykresu: zdarzeniaWykresu, tabelaTelefon: tabelaTelefon, schodkiMostka: schodkiMostka };
   ikonyStatyczne();
   przygotujSzybkie();
+  odnosnikiDalej();
 
   var czasResize = null;
   window.addEventListener("resize", function () { clearTimeout(czasResize); czasResize = setTimeout(przerysujWykresy, 200); });

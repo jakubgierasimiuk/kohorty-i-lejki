@@ -80,7 +80,21 @@
     if (karty[0] && karty[0].etykieta) BK.wstawWykres(elKarty[0], slupkiPacjentow());
     if (karty[1] && karty[1].etykieta) BK.wstawWykres(elKarty[1], hantleRetencji(), true);
     karty.forEach(function (k, i) { if (k.wykres && k.wykres.wiersze && i >= 2) BK.wstawWykres(elKarty[i], slupkiTelemedigo(k.wykres), true); });
+    // mostek „dashboard → dane oczyszczone”: schodki poziomów, tabela mostka w zwijanej sekcji
+    karty.forEach(function (k, i) { if (k.wstaw === "mostek" && B.schodkiMostka) BK.wstawWykres(elKarty[i], B.schodkiMostka(), true); });
+    // kwartały: słupki grupowane zmian rok do roku (marża przed kosztem kampanii, wydatki), liczone z wynik.js tą samą
+    // definicją co w „Wyniku biznesu”; karta rozpoznana po kolumnie tabeli „Marża przed kosztem kampanii”
+    karty.forEach(function (k, i) {
+      if (!tabelaKwartalow(k) || !BW.wykresKwartalow) return;
+      B.wczytaj("wynik", "wynik").then(function (dane) {
+        if (elKarty[i].querySelector(".slupki-grup")) return;
+        BK.wstawWykres(elKarty[i], BW.wykresKwartalow(dane), true);
+      }).catch(function () { /* bez wykresu zostaje tabela */ });
+    });
     $("wz-zrodlo").textContent = W.zrodlo || "";
+  }
+  function tabelaKwartalow(k) {
+    return (k.tresc || []).some(function (b_) { return b_ && b_.typ === "tabela" && (b_.kolumny || []).indexOf("Marża przed kosztem kampanii") >= 0; });
   }
 
   // powrót nowych pacjentów w 30/60/90/180 dniach: rok wcześniej → ostatnie 12 miesięcy (hantle); dane z podsumowanie.js
@@ -229,12 +243,27 @@
       $("pr-definicje").textContent = P.definicje || "";
     }
 
+    // pigułki 1…N prowadzące do kart pozycji (przydatne zwłaszcza na telefonie, gdzie przegląd jest długi)
+    var pig = $("pr-pigulki");
+    if (pig) {
+      B.wyczysc(pig);
+      pig.appendChild(el("span", { class: "pigulki-etykieta", text: "Przejdź do pozycji:" }));
+      P.przeglad.forEach(function (r) {
+        pig.appendChild(el("a", { href: "#priorytety?p=" + r.nr, class: "nr", text: String(r.nr), title: r.co, "aria-label": "Pozycja " + r.nr + ": " + r.co }));
+      });
+    }
+
     var t = B.wyczysc($("pr-przeglad"));
     var etyk = ["Nr", "Co robimy", "Ile warte rocznie (marża)", "Pewność", "Wdrożenie"];
     t.appendChild(el("thead", null, [wiersz(etyk, true)]));
-    var tb = el("tbody");
+    var tb = el("tbody"), grupa = null;
     P.przeglad.forEach(function (r) {
       var href = "#priorytety?p=" + r.nr;
+      // wiersz-separator przed pierwszą pozycją każdej grupy (pole grupa z eksportu)
+      if (r.grupa && r.grupa !== grupa) {
+        tb.appendChild(el("tr", { class: "oddzielnik" }, [el("td", { colspan: String(etyk.length), text: r.grupa })]));
+        grupa = r.grupa;
+      }
       tb.appendChild(wiersz([
         { attrs: { class: "nr-kom", "data-etykieta": etyk[0] }, dzieci: [el("a", { href: href, class: "nr", text: String(r.nr), "aria-label": "Pozycja " + r.nr }) ] },
         { attrs: { "data-etykieta": etyk[1] }, dzieci: [el("a", { href: href, text: r.co })] },
@@ -273,6 +302,10 @@
       if (k.zastrzezenie) art.appendChild(BK.zastrzezenie(k.zastrzezenie));
       var l = BK.linki(k.linki);
       if (l) art.appendChild(l);
+      // powiązane punkty „Czego nie wiemy” (pole pozycja w danych niewiadomych)
+      var nw = ((C.niewiadome && C.niewiadome.wiersze) || []).filter(function (w) { return w.pozycja !== null && w.pozycja !== undefined && String(w.pozycja) === String(k.nr); });
+      if (nw.length) art.appendChild(el("ul", { class: "linki linki-niewiadome" }, [el("li", { class: "linki-etykieta", text: "Czego nie wiemy:" })].concat(
+        nw.map(function (w) { return el("li", null, [el("a", { href: "#niewiadome?n=" + w.nr, title: w.co, text: "punkt " + w.nr })]); }))));
       if (k.szczegoly && k.szczegoly.length) art.appendChild(BK.szczegoly(k.szczegoly, k.zrodlo));
       else if (k.zrodlo) art.appendChild(el("p", { class: "zrodlo", text: "Skąd liczby: " + k.zrodlo }));
       art.appendChild(el("p", { class: "wroc" }, [el("a", { href: "#priorytety", text: "Wróć do przeglądu" })]));
@@ -311,25 +344,72 @@
   };
 
   // ------------------------------------------------------------ CZEGO NIE WIEMY
-  var gotoweNw = false;
+  var gotoweNw = false, filtrNw = "";
+  function nazwaPozycji(nr) {
+    var r = ((C.priorytety && C.priorytety.przeglad) || []).filter(function (x) { return String(x.nr) === String(nr); })[0];
+    return nr + ". " + (r ? r.co : "pozycja " + nr);
+  }
+  // filtr według pozycji listy priorytetów: wszystkie / numery obecne w danych / bez pozycji
+  function filtrNiewiadomych(N) {
+    var B = b(), el = B.el, c = B.$("nw-filtr");
+    if (!c) return;
+    B.wyczysc(c);
+    var nry = [], bez = 0;
+    N.wiersze.forEach(function (w) {
+      if (w.pozycja === null || w.pozycja === undefined || w.pozycja === "") { bez++; return; }
+      if (nry.indexOf(w.pozycja) < 0) nry.push(w.pozycja);
+    });
+    nry.sort(function (a, c_) { return a - c_; });
+    var ile = function (nr) { return N.wiersze.filter(function (w) { return String(w.pozycja) === String(nr); }).length; };
+    var s = el("select", { id: "nw-filtr-pozycja" }, [el("option", { value: "", text: "wszystkie (" + N.wiersze.length + ")" })]
+      .concat(nry.map(function (nr) { return el("option", { value: String(nr), text: nazwaPozycji(nr) + " (" + ile(nr) + ")" }); }))
+      .concat(bez ? [el("option", { value: "brak", text: "bez pozycji (" + bez + ")" })] : []));
+    s.value = filtrNw;
+    s.onchange = function () { filtrNw = this.value; filtrujNiewiadome(); };
+    c.appendChild(el("label", null, ["Pozycja listy priorytetów", s]));
+  }
+  function filtrujNiewiadome() {
+    Array.prototype.forEach.call(document.querySelectorAll("#nw-tabela tbody tr"), function (tr) {
+      var p = tr.getAttribute("data-pozycja") || "";
+      tr.hidden = filtrNw === "" ? false : filtrNw === "brak" ? p !== "" : p !== filtrNw;
+    });
+  }
   function rysujNiewiadome() {
     var B = b(), el = B.el, $ = B.$, N = C.niewiadome;
     if (N.tytul) $("nw-tytul").textContent = N.tytul;
     $("nw-wstep").textContent = N.wstep;
+    filtrNiewiadomych(N);
     var t = B.wyczysc($("nw-tabela"));
     var etyk = ["Nr", "Czego nie wiemy", "Dlaczego to ważne", "Test albo brakujące dane", "Pozycja listy priorytetów"];
     t.appendChild(el("thead", null, [wiersz(etyk, true)]));
     var tb = el("tbody");
     N.wiersze.forEach(function (w) {
-      tb.appendChild(wiersz([
+      var ma = w.pozycja !== null && w.pozycja !== undefined && w.pozycja !== "";
+      var tr = wiersz([
         { attrs: { class: "nr-kom", "data-etykieta": etyk[0] }, dzieci: [el("span", { class: "nr", text: String(w.nr) })] },
         { attrs: { "data-etykieta": etyk[1] }, dzieci: [el("strong", { text: w.co })] },
         { attrs: { "data-etykieta": etyk[2], text: w.dlaczego } },
         { attrs: { "data-etykieta": etyk[3], text: w.test } },
-        { attrs: { "data-etykieta": etyk[4] }, dzieci: [w.pozycja ? el("a", { href: "#priorytety?p=" + w.pozycja, text: "pozycja " + w.pozycja }) : "—"] }]));
+        { attrs: { "data-etykieta": etyk[4] }, dzieci: [ma ? el("a", { href: "#priorytety?p=" + w.pozycja, text: nazwaPozycji(w.pozycja) }) : "—"] }]);
+      tr.id = "nw-" + w.nr;
+      tr.setAttribute("data-pozycja", ma ? String(w.pozycja) : "");
+      tb.appendChild(tr);
     });
     t.appendChild(tb);
+    filtrujNiewiadome();
     $("nw-zrodlo").textContent = N.zrodlo;
   }
-  BW.niewiadome = { pokaz: function () { if (!gotoweNw) { rysujNiewiadome(); gotoweNw = true; } } };
+  // odnośnik #niewiadome?n=<nr>: podświetla wiersz (filtr wraca do „wszystkie”, jeśli wiersz był ukryty)
+  function podswietlNiewiadoma(nr) {
+    var e = document.getElementById("nw-" + nr);
+    if (!e) return;
+    if (e.hidden) { filtrNw = ""; var s = document.getElementById("nw-filtr-pozycja"); if (s) s.value = ""; filtrujNiewiadome(); }
+    Array.prototype.forEach.call(document.querySelectorAll("#nw-tabela tr.podswietlone"), function (x) { x.classList.remove("podswietlone"); });
+    e.classList.add("podswietlone");
+    setTimeout(function () { e.scrollIntoView({ behavior: "smooth", block: "start" }); }, 30);
+  }
+  BW.niewiadome = { pokaz: function (q) {
+    if (!gotoweNw) { rysujNiewiadome(); gotoweNw = true; }
+    if (q && q.get("n")) podswietlNiewiadoma(q.get("n"));
+  } };
 })();

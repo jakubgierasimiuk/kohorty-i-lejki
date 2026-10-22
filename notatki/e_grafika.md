@@ -105,3 +105,27 @@ Do commita `351f556` (trzecia lista Kuby w sesji `local_61aff6c2`) ta sesja nie 
 **Inne:** `analiza/b2_teksty_strony.py` czyta nazwy serii z nowej legendy (`.lw-nazwa`). Zdanie nad mapą kohort przyszło z eksportu (`D.kohorty.macierz.wniosek`) i jest widoczne.
 
 **Kontrola:** `e_przegladarka.py`: 9 zakładek przy 1366 i 375 px w trybie jasnym i ciemnym, 0 błędów w konsoli, bez przewijania w bok, wykresy mieszczą się w kartach, 296 odnośników działa, przycisk „Zakładki” działa. W panelu przeglądarki sprawdzone: usunięcie serii z legendy, kolejność kart, lista zdarzeń według obszaru. Poprawione po obejrzeniu zrzutów: kolejność rysowania serii odniesienia, zawijanie komórek tabel na telefonie, przyklejona pierwsza kolumna mapy na telefonie.
+
+
+## 8. Etap 4 — dodatki (2026-10-22)
+
+**Kto zrobił:** agent tej sesji według zlecenia z pełną listą zasad (zmienia tylko pliki strony i dwa skrypty kontroli, bez commitów, liczby na wykresach tylko z danych i identyczne z tabelą obok); sesja sprawdziła wynik niezależnie (kontrola w obu trybach, zrzuty) i zrobiła commit.
+
+**Co zmienione:**
+1. **Schodki mostka** (`BK.schodki`, `schodkiMostka` w `app.js`): zamówienia i przychód z konsultacji po każdym kroku mostka, poziomy na wspólnej osi od zera (dashboard szary, kolejne kroki niebieskie, kreska poziomu z dashboardu, „bez zmian” przy kroku, który nic nie zmienia); w „Czy to wzrost” i w „Jakości danych”, tabela mostka w „Tabeli z liczbami”.
+2. **Słupki grupowane kwartałów** (`BK.slupkiGrupowane`, `kwartalyRr`, `wykresKwartalow` w `widoki.js`): zmiana rok do roku marży przed kosztem kampanii i wydatków na kampanie w czterech kwartałach; w „Wyniku biznesu” nad tabelą kwartałów i w karcie kwartałów „Czy to wzrost” (dane z `wynik.js` wczytywane po narysowaniu karty, tabela zwinięta).
+3. **Udział sesji nowych kampanii na L4 w ruchu osób, które jeszcze nie kupowały** (`BK.kolumny`, `rysujUdzialNowych` w `app.js`, karta `#lj-udzial-karta` między krokami lejka a wykresem dzień po dniu): kolumny miesięczne z pliku `lejek_kampania.js`, niezależne od filtrów lejka (napisane w przypisie).
+4. **Oś zdarzeń:** kształt według rodzaju (koło: start kampanii; kwadrat: awaria, błąd albo luka w danych; romb: zmiana; puste koło: kandydat poniżej progu; pasek: zdarzenie z datą końca), legenda kształtów, numery w rzędach bez nachodzenia, obsługa klawiatury, chipy obszarów w nagłówku jednej karty, „Skąd wiemy” w zwijanej sekcji karty zdarzenia, znaczniki w kolorze tekstu (w trybie ciemnym kolor paska prawie znikał).
+5. **Nawigacja:** dwa separatory grup zakładek na komputerze; na dole każdej zakładki „Dalej: …” (ostatnia: „Wróć do początku: Czy to wzrost”).
+6. **Opóźnienia według godziny** („Po zakupie”): dwa wykresy kolumnowe (internista, pozostali lekarze) ze wspólną skalą, rok wcześniej szary, ostatnie 12 miesięcy niebieski, podcieniowany blok poranny (`liczby` z eksportu, etap 5); tabela zwinięta.
+7. **Grupy priorytetów:** wiersze-separatory z podpisem grupy (`przeglad[].grupa`) w przeglądzie, także na telefonie; pigułki 1–12 nad przeglądem.
+8. **„Czego nie wiemy”:** w kolumnie pozycji numer z nazwą decyzji; filtr „Pozycja listy priorytetów”.
+9. **Priorytety ↔ niewiadome:** w karcie pozycji wiersz „Czego nie wiemy: punkt …” (gdy są powiązane); wiersze niewiadomych mają kotwice `#niewiadome?n=N` z podświetleniem.
+10. **Okno duplikatów** podcieniowane na wykresie duplikatów w „Jakości danych”.
+11. **Zdanie nad mapą kohort** (z `D.kohorty.macierz.wniosek`, eksport sesji prowadzącej `83353f8`) chowa się przy każdym zawężeniu pacjentów i przy rozdzielczości innej niż miesięczna (uwaga sesji prowadzącej: zdanie opisuje mapę domyślną).
+
+**Skrypty kontroli:** `e_przegladarka.py` — zakładka „Jakość danych” czeka na schodki (tabela mostka zwinięta), sprawdzanie odnośników obsługuje `?n=`; `b2_teksty_strony.py` — tabele w zwiniętych sekcjach czytane z kodu strony, wykresy w kartach wypisane jako wiersze z opisami, bez pustych wpisów z ikon etykiet zmiany.
+
+**Kontrola:** agent i niezależnie ta sesja: `e_przegladarka.py` w trybie jasnym i ciemnym — 9 zakładek przy 1366 i 375 px, 0 błędów w konsoli, bez przewijania w bok, wykresy w kartach, 314 odnośników działa (nowe: „Dalej”, pigułki, powiązania z niewiadomymi), przycisk „Zakładki” działa. Zgodność podpisów wykresów z tabelami (skrypt agenta w katalogu tymczasowym): 162 porównania, 0 niezgodnych (schodki z tabelą mostka, kwartały z tabelami kart, udział nowych kampanii z niezależnym rachunkiem w Pythonie, godziny z komórkami tabeli znak w znak, stany zdania nad mapą). `b2_teksty_strony.py` do pliku tymczasowego: 9 zakładek, 0 błędów. Obejrzane zrzuty: schodki, kwartały, udział nowych kampanii, godziny, oś zdarzeń.
+
+**Niezgodność znaleziona przy kontroli (sprzed etapu 4), przekazana sesji prowadzącej:** w karcie „Lepsza retencja” hantel powrotu po 180 dniach pokazuje −5,3 pkt proc. (różnica wartości zaokrąglonych 27,5 i 22,2), a tabela tej karty −5,2 (z wartości niezaokrąglonych). Potrzebne pole zmiany zgodne z tabelą w `D.P.wzrost.retencja.okna` (prośba wysłana); strona weźmie je, gdy będzie.

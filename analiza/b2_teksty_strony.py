@@ -34,6 +34,10 @@ GOTOWE = {
     "po-zakupie": "#pz-tabela tbody tr", "zdarzenia": "#zd-lista article", "wynik": "#ek-tabela tbody tr",
     "jakosc": "#jk-mostek tbody tr", "priorytety": "#pr-karty article", "niewiadome": "#nw-tabela tbody tr",
 }
+# tabele, które są w zwijanych sekcjach (wykres nad nimi), są w DOM, ale niewidoczne: czekamy na ich obecność
+STAN = {
+    "wynik": "attached", "jakosc": "attached",
+}
 
 # Czytanie widocznej treści jednej zakładki i zamiana na markdown (w przeglądarce, na narysowanym DOM).
 CZYTNIK = r"""
@@ -135,7 +139,22 @@ CZYTNIK = r"""
     const tag = e.tagName;
     if (['SCRIPT', 'STYLE', 'CANVAS', 'CAPTION'].includes(tag)) return;
     if (e.classList.contains('uplot')) { wykres(e); return; }
-    if (tag === 'svg') { os(e); return; }
+    // rysunek osi zdarzeń; pozostałe SVG to ikony (np. w etykietach zmiany) i nie mają treści
+    if (tag === 'svg') { if (e.classList.contains('os-rys')) os(e); return; }
+    // wykresy w kartach (hantle, słupki, schodki, kolumny): opis wykresu i opis każdego wiersza albo kolumny
+    if (tag === 'FIGURE' && e.classList.contains('wk')) {
+      const t = e.querySelector('.kl-tytul');
+      akapit('*[Wykres' + (t ? ': ' + T(t.innerText) : '') + '] ' + T(e.getAttribute('aria-label') || '') + '*');
+      [...e.querySelectorAll('.wk-grupa-tytul, .wk-podtytul, [tabindex][aria-label]')].forEach(w => {
+        if (!w.hasAttribute('tabindex')) { out.push('', '**' + T(w.innerText) + '**'); return; }
+        const zm = w.querySelector('.zm');
+        out.push('- ' + T(w.getAttribute('aria-label')) + (zm ? ' [' + T(zm.innerText) + ']' : ''));
+      });
+      out.push('');
+      const p = e.querySelector('figcaption');
+      if (p) akapit('*' + T(p.innerText) + '*');
+      return;
+    }
     if (e.classList.contains('priorytet-naglowek')) {
       akapit('### ' + T(e.querySelector('.nr').innerText) + '. ' + T(e.querySelector('h3').innerText)); return;
     }
@@ -266,7 +285,7 @@ def main():
             zakladki: [...document.querySelectorAll('.zakladki a')].map(a => [a.dataset.widok, a.innerText.trim()])})""")
         for i, (widok, nazwa) in enumerate(naglowek["zakladki"], 1):
             strona.evaluate(f"location.hash = '{widok}'")
-            strona.wait_for_selector(GOTOWE[widok], timeout=30000)
+            strona.wait_for_selector(GOTOWE[widok], timeout=30000, state=STAN.get(widok, "visible"))
             strona.wait_for_timeout(800)   # wykresy i tabele rysują się chwilę po danych
             md = strona.evaluate(CZYTNIK, f"#v-{widok}")
             czesci.append(f"# Zakładka {i}: {nazwa} (`#{widok}`)\n\n{md.strip()}\n")

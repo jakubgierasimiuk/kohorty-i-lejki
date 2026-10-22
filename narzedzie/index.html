@@ -234,6 +234,11 @@
       </div></details>
     </article>
 
+    <article class="karta" id="lj-udzial-karta">
+      <h3>Udział sesji nowych kampanii na L4 w ruchu osób, które jeszcze nie kupowały, miesiąc po miesiącu</h3>
+      <div id="lj-udzial"><p class="przypis">Wczytywanie danych kampanii…</p></div>
+    </article>
+
     <article class="karta">
       <div class="naglowek-karty">
         <h3 id="lj-wykres-tytul">Dzień po dniu</h3>
@@ -335,8 +340,14 @@
   <section id="v-zdarzenia" class="widok" hidden>
     <h2>Oś zdarzeń: co się stało i kiedy</h2>
     <p class="wstep">Zdarzenia znalezione w danych, bo listy zmian w produkcie i kalendarza kampanii nie mamy. Przy każdym: data, co się zmieniło, o ile i skąd to wiemy.</p>
-    <div class="filtry" id="zd-filtry"></div>
-    <div class="karta"><div id="zd-os" class="os-zdarzen"></div></div>
+    <article class="karta" id="zd-os-karta">
+      <div class="naglowek-karty">
+        <h3>Zdarzenia na osi czasu</h3>
+        <div class="filtry-wykresu chipy-obszarow" id="zd-filtry" role="group" aria-label="Obszary zdarzeń"></div>
+      </div>
+      <div class="wk-legenda os-legenda" id="zd-os-legenda"></div>
+      <div id="zd-os" class="os-zdarzen"></div>
+    </article>
     <div id="zd-lista" class="lista-zdarzen"></div>
     <details class="karta wykryte">
       <summary>Wszystkie zmiany wykryte automatycznie w lejku (surowy wynik metody)</summary>
@@ -360,6 +371,7 @@
       <h4 class="podtytul-karty">Marża po koszcie lekarza, kampaniach i prowizji</h4>
       <div id="wy-wykres2" class="wykres"></div>
       <h4 class="podtytul-karty">Kwartały rok do roku</h4>
+      <div id="wy-kwartaly-wykres"></div>
       <div class="tabela-ramka"><table class="tabela tabela-lejek" id="wy-kwartaly"></table></div>
       <h4 class="podtytul-karty">Miesiące i sumy obu lat</h4>
       <div class="tabela-ramka"><table class="tabela" id="wy-tabela"></table></div>
@@ -427,6 +439,7 @@
     <p class="wstep" id="pr-wstep"></p>
     <article class="karta" id="pr-przeglad-karta">
       <h3>Przegląd</h3>
+      <nav class="pigulki" id="pr-pigulki" aria-label="Przejdź do pozycji listy priorytetów"></nav>
       <div class="tabela-ramka"><table class="tabela tabela-tekst" id="pr-przeglad"></table></div>
     </article>
     <div id="pr-zasady-miejsce">
@@ -450,7 +463,10 @@
   <section id="v-niewiadome" class="widok" hidden>
     <h2 id="nw-tytul">Czego z tych danych nie wiemy</h2>
     <p class="wstep" id="nw-wstep"></p>
-    <div class="karta"><div class="tabela-ramka"><table class="tabela tabela-tekst" id="nw-tabela"></table></div></div>
+    <div class="karta">
+      <div class="filtry-wykresu nw-filtr" id="nw-filtr"></div>
+      <div class="tabela-ramka"><table class="tabela tabela-tekst" id="nw-tabela"></table></div>
+    </div>
     <p class="przypis" id="nw-zrodlo"></p>
   </section>
 </main>

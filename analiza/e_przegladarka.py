@@ -33,7 +33,7 @@ ZAKLADKI = ["wzrost", "kohorty", "lejek", "po-zakupie", "zdarzenia", "wynik", "j
 GOTOWE = {
     "wzrost": "#wz-nowy .karta, #wz-puenta p", "kohorty": "#ko-tabela tbody tr", "lejek": "#lj-tabela tbody tr",
     "po-zakupie": "#pz-tabela tbody tr", "zdarzenia": "#zd-lista article", "wynik": "#ek-wykres .wk-wiersz",
-    "jakosc": "#jk-mostek tbody tr", "priorytety": "#pr-karty article", "niewiadome": "#nw-tabela tbody tr",
+    "jakosc": "#jk-karta-mostek .schodki .wk-wiersz", "priorytety": "#pr-karty article", "niewiadome": "#nw-tabela tbody tr",
 }
 SZEROKOSCI = [(1366, 900), (375, 812)]
 
@@ -161,6 +161,7 @@ SPRAWDZ_ODNOSNIK = r"""
   const out = { widok: !!v && !v.hidden };
   if (q.get('p')) { const e = document.getElementById('pr-' + q.get('p')); out.cel = !!e && e.classList.contains('podswietlone'); }
   if (q.get('z')) { const e = document.getElementById('zd-' + q.get('z')); out.cel = !!e && e.classList.contains('podswietlone'); }
+  if (q.get('n')) { const e = document.getElementById('nw-' + q.get('n')); out.cel = !!e && e.classList.contains('podswietlone') && !e.hidden; }
   if (nazwa === 'lejek' && [...q.keys()].length) out.cel = document.querySelectorAll('#lj-tabela tbody tr').length > 0 && document.querySelectorAll('#lj-kroki .lk-krok').length > 0;
   return out;
 }
