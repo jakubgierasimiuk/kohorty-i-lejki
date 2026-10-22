@@ -1,4 +1,4 @@
-B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 20:31, commit 911d2ff)
+B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 20:51, commit 4c58c6c)
 
 1. Pliki w narzedzie/dane_strony/ (bajty)
    calosc                             38,075
@@ -11,12 +11,12 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 20:31, commit 911d2ff)
    strona_wejscia                    265,403
    podsumowanie                       33,357
    zdarzenia                          40,988
-   jakosc                             15,772
-   kohorty                         1,447,382
+   jakosc                             15,778
+   kohorty                         1,447,898
    po_zakupie                        312,883
    wynik                              96,824
    c                                  97,199
-   razem                           4,263,743
+   razem                           4,264,265
 
 2. Kontrola: liczby z eksportu wobec notatek i wcześniejszych raportów
    co                                                                    eksport  oczekiwane  wynik
@@ -130,7 +130,7 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 20:31, commit 911d2ff)
    C: liczby w tekstach bez pokrycia w c_szkic.md (50 fragmentów, 1176 liczb)          0           0  zgodne
    D: liczby w tekstach innych zakładek bez pokrycia w d_teksty_strony.md (8 sekcji, 247 liczb)          0           0  zgodne
    E: liczby w nowych tekstach „Czy to wzrost”, „Priorytety”, „Czego nie wiemy” bez pokrycia w notatkach (45 kart, 1297 liczb)          0           0  zgodne
-   E: liczby w nowych kartach zakładek bez pokrycia w notatkach (35 kart, 1492 liczb)          0           0  zgodne
+   E: liczby w nowych kartach zakładek bez pokrycia w notatkach (36 kart, 1498 liczb)          0           0  zgodne
 
    Różnic: 0 z 111 kontroli.
 
@@ -261,6 +261,7 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 20:31, commit 911d2ff)
    e:lejek/safari       48  —              —
    e:lejek/przegladarki     43  —              —
    e:lejek/osobne       28  —              19
+   e:kohorty/macierz      6  —              —
    z:kohorty           107  —              —
    z:po_zakupie/punktualnos     48  —              —
    z:po_zakupie/godziny     75  —              —

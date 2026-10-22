@@ -330,3 +330,10 @@ Szczegóły: dawne zdanie z d_teksty_strony.md („Przeglądarki wbudowane w apl
 
 Tytuł (wniosek zamiast tematu; strona używa go jako napisu zwijanej sekcji): Sesje zalogowane od wejścia nie kończą się płatnością, a ponad co piąte konto nie ma żadnego zakupu.
 Treść (okresy: rok wcześniej (X 2024 – IX 2025), ostatnie 12 miesięcy (X 2025 – IX 2026)): dawne zdania (sesje zalogowane od wejścia, zakupy samego TelemediGO, konta bez zakupu) po zmianie słownika; liczby jak dotąd: 8 026 i 14 042 sesje, 20,7%, 112 sesji, 225 i 461 zakupów, 11 482 z 52 400 kont (21,9%), 21,3% z 20 620, 22,3% z 31 780, 37,1%, 58,1%, 30.09.2026.
+
+## 5. Kohorty — zdanie nad miesięczną mapą (polecenie Kuby przez sesję grafiki, 2026-10-22)
+
+### kohorty/macierz
+
+Od listopada 2025 kohorty wracają rzadziej, a od marca 2026 spadek się pogłębia: w ciągu 90 dni wraca około 15% nowych pacjentów, wobec około 24% w kohortach do października 2025.
+Skąd: kohorty miesięczne, wszyscy nowi pacjenci, powrót w ciągu 90 dni, tylko miesiące z pełnym oknem: X 2024 – X 2025 razem (17 614 pacjentów) i III – VI 2026 razem (9 111 pacjentów). Każdy miesiąc od XI 2025 ma niższy powrót niż każdy miesiąc do X 2025, a każdy od III 2026 niższy niż każdy z XI 2025 – II 2026 (sprawdza kod).

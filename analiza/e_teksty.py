@@ -1105,6 +1105,42 @@ def teksty_c(V, E, C):
     return C, bloki
 
 
+def macierz_kohort(koh):
+    """Jedno zdanie nad miesięczną mapą kohort (polecenie Kuby przez sesję grafiki, 2026-10-22). Liczone z tych samych
+    danych co mapa w przeglądarce (kohorty.js: dzień kohorty `d`, dni do powrotu `r`), wszyscy nowi pacjenci, okno 90 dni,
+    tylko miesiące z pełnym oknem. Zapisuje koh["macierz"] i zwraca wynik kontroli liczb."""
+    import datetime as dt_
+    start, n_dni, okno = dt_.date(2024, 10, 1), 730, 90
+    mies = {}
+    for d, r in zip(koh["d"], koh["r"]):
+        dzien = start + dt_.timedelta(days=d)
+        s = mies.setdefault((dzien.year, dzien.month), [0, 0])
+        s[0] += 1
+        s[1] += 0 <= r <= okno
+    def pelne(k):
+        y, m = k
+        ost = dt_.date(y + (m == 12), m % 12 + 1, 1) - dt_.timedelta(days=1)
+        return (ost - start).days <= n_dni - 1 - okno
+    p = {k: 100 * v[1] / v[0] for k, v in mies.items() if pelne(k)}
+    A = [k for k in p if k <= (2025, 10)]
+    B = [k for k in p if (2025, 11) <= k <= (2026, 2)]
+    C = [k for k in p if k >= (2026, 3)]
+    # warunki zdania: każdy miesiąc od XI 2025 niżej niż każdy do X 2025, a każdy od III 2026 niżej niż każdy z XI–II
+    assert max(p[k] for k in B) < min(p[k] for k in A) and max(p[k] for k in C) < min(p[k] for k in B), \
+        "zdanie nad mapą kohort nie pasuje już do danych"
+    pa = 100 * sum(mies[k][1] for k in A) / sum(mies[k][0] for k in A)
+    pc = 100 * sum(mies[k][1] for k in C) / sum(mies[k][0] for k in C)
+    ost = max(C)
+    koh["macierz"] = {
+        "wniosek": f"Od listopada 2025 kohorty wracają rzadziej, a od marca 2026 spadek się pogłębia: w ciągu 90 dni wraca "
+                   f"około {z0(pc)}% nowych pacjentów, wobec około {z0(pa)}% w kohortach do października 2025.",
+        "zrodlo": f"Kohorty miesięczne, wszyscy nowi pacjenci, powrót w ciągu 90 dni (kolejne zamówienie nieanulowane), tylko "
+                  f"miesiące z pełnym oknem: X 2024 – X 2025 razem ({liczba(sum(mies[k][0] for k in A))} pacjentów) i III – "
+                  f"{B2.MIESIACE_RZ[ost[1] - 1]} {ost[0]} razem ({liczba(sum(mies[k][0] for k in C))} pacjentów). Liczone z danych "
+                  f"tej mapy (analiza/e_teksty.py, macierz_kohort)."}
+    return kontrola([("kohorty/macierz", koh["macierz"], [], [])])
+
+
 def karty_lejka(nag, V, E):
     """Karty nagłówka lejka (D.P.lejek_naglowek.karta, .naprawy_karty, .osobne_karta; notatki/e_teksty.md, sekcja 4).
     Dopisuje je do `nag` w miejscu i zwraca wynik kontroli liczb."""

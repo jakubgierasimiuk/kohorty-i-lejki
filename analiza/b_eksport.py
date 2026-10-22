@@ -1353,7 +1353,7 @@ def main():
     koh["zdania"] = koh_zdania + [td["kohorty_demo"]]
     # E: karty tekstowe w nowym kształcie (notatki/e_runda.md, punkt 3): nagłówek lejka i pozostałe zakładki
     E = ET.wczytaj_e()
-    sz_e = ET.karty_lejka(nag, V2, E) + EZ.dodaj_karty(kontrole, V=V2, Z=Z2, E=E, wz=wz, mostek=mostek, nag=nag, jak=jak,
+    sz_e = ET.karty_lejka(nag, V2, E) + ET.macierz_kohort(koh) + EZ.dodaj_karty(kontrole, V=V2, Z=Z2, E=E, wz=wz, mostek=mostek, nag=nag, jak=jak,
                                                        zdz=zdz, koh=koh, pz=pz, wy=wy)
     kontrole.append((f"E: liczby w nowych kartach zakładek bez pokrycia w notatkach ({len(sz_e)} kart, "
                      f"{sum(x[1] for x in sz_e)} liczb)", sum(len(x[2]) for x in sz_e), 0))
