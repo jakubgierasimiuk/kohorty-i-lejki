@@ -678,7 +678,9 @@ def zdarzenia(con, d, zd, lejek_nag, jak, kontrole, td, V2, Z2):
                       "skad": "Pierwszy dzień z sesjami z tym kodem kampanii w analityce; ten sam dzień w wydatkach na "
                               "kampanie. Źródło: analiza/a5p_zdarzenia.py, sekcja 6; notatki/a5_pozyskanie.md, punkt 2.",
                       "link": f"#lejek?pac=nie_kupowal&podz=kampania&krok=k5&w={kamp},"
-                              + ",".join(w for _, r, w in porownaj if r is nk)})
+                              + ",".join(w for _, r, w in porownaj if r is nk),
+                      # te same daty skoków co w zdaniu „ile”, dla tabeli zdarzeń w „Kohortach” (nie trafiają na stronę)
+                      "_skoki": list(skoki)})
         return od
 
     nk = k[k["pacjent"] == "nie_kupowal"]
@@ -1299,6 +1301,15 @@ def zdarzenia_retencji(zdz, pac, kontrole):
                         "w wizytach L4 pacjentów nowych kampanii. Lekarz dostaje wynagrodzenie także za te wizyty.",
                   "ile": " → ".join(f"{proc(r['poziom'])} od {d(r['od'])} ({ile(r['n'], 'pacjent')})" for _, r in zw.iterrows()) + ".",
                   "skad": zrodlo + kandydaci, "link": "#po-zakupie"})
+    # odcinki serii z tych samych wierszy co zdania „ile”, dla tabeli zdarzeń w „Kohortach” (runda F, poprawka 1;
+    # pola z podkreśleniem nie trafiają na stronę)
+    odc = lambda s: [{"poziom": float(r["poziom"]), "od": r["od"], "do": r["do"] if "do" in r else None,  # noqa: E731
+                      "n": int(r["n"])} for _, r in s.iterrows()]
+    L_ = {x["id"]: x for x in lista}
+    for id_, s in (("udzial_nowych", u), ("powrot30_spada", p30), ("marza30_spada", m), ("opoznienia_rano", o),
+                   ("zwroty_pierwsze", zw)):
+        L_[id_]["_odcinki"] = odc(s)
+    L_["powrot90_stare"]["_odcinki"] = [{"poziom": pr(sp), "n": len(sp)}, {"poziom": pr(sa), "n": len(sa)}]
     lista.sort(key=lambda x: x["od"])
     for ob in zdz["obszary"]:
         if ob["id"] in ("retencja", "obsluga"):
@@ -1352,13 +1363,19 @@ def main():
     wy["granica"] = (granica + f" Przychód z konsultacji po zwrotach rok wcześniej to {liczba(prz1, 2)} zł, więc zależnie od "
                      f"zaokrąglenia {liczba(int(prz1))} albo {liczba(int(prz1) + 1)} zł.")
     go = next(z for z in zdz["lista"] if z["id"] == "start_go_upsell")
-    _, szkic, _ = B2.eksport_c(kontrole, wz=wz, mostek=mostek, wy=wy, nag=nag, koh=koh, pz=pz, Z=Z2, V=V2,
+    C_, szkic, _ = B2.eksport_c(kontrole, wz=wz, mostek=mostek, wy=wy, nag=nag, koh=koh, pz=pz, Z=Z2, V=V2,
                                d_dodatkowe={"Kampania `crm_go_upsell`": ([go["ile"].split(" Sesje z tej kampanii")[1]], [])})
     koh["zdania"] = koh_zdania + [td["kohorty_demo"]]
     # E: karty tekstowe w nowym kształcie (notatki/e_runda.md, punkt 3): nagłówek lejka i pozostałe zakładki
     E = ET.wczytaj_e()
     sz_e = ET.karty_lejka(nag, V2, E) + ET.macierz_kohort(koh) + EZ.dodaj_karty(kontrole, V=V2, Z=Z2, E=E, wz=wz, mostek=mostek, nag=nag, jak=jak,
                                                        zdz=zdz, koh=koh, pz=pz, wy=wy)
+    # runda F, poprawka 1: tabela „co zmieniło kohorty i wynik” (pierwsza karta „Kohort”) z pól kart zdarzeń, przeglądu
+    # listy priorytetów i ekonomii kampanii; pola pomocnicze zdarzeń (z podkreśleniem) nie trafiają na stronę
+    sz_e += EZ.tabela_zdarzen(koh, zdz=zdz, C=C_, wy=wy, V=V2, E=E, nag=nag, pz=pz)
+    for z in zdz["lista"]:
+        for k_ in [k_ for k_ in z if k_.startswith("_")]:
+            z.pop(k_)
     kontrole.append((f"E: liczby w nowych kartach zakładek bez pokrycia w notatkach ({len(sz_e)} kart, "
                      f"{sum(x[1] for x in sz_e)} liczb)", sum(len(x[2]) for x in sz_e), 0))
     szkic = szkic + sz_e

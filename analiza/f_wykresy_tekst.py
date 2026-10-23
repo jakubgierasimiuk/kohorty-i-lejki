@@ -46,7 +46,7 @@ NAZWY = {"wzrost": "Czy to wzrost", "kohorty": "Kohorty", "lejek": "Lejek", "po-
 GOTOWE = {
     "wzrost": ["#wz-nowy .slupki-skum .wk-wiersz", "#wz-nowy .hantle .wk-wiersz", "#wz-nowy .slupki-parami .wk-wiersz",
                "#wz-nowy .slupki-grup .sg-wiersz", "#wz-nowy .schodki .wk-wiersz"],
-    "kohorty": ["#ko-naglowek .hantle .wk-wiersz", "#ko-tabela tbody tr", "#ko-macierz tbody tr"],
+    "kohorty": ["#ko-zd-tabela tbody tr", "#ko-naglowek .hantle .wk-wiersz", "#ko-tabela tbody tr", "#ko-macierz tbody tr"],
     "lejek": ["#lj-naprawy .hantle .wk-wiersz", "#lj-kroki .lk-krok", "#lj-udzial .kl-grupa", "#lj-tabela tbody tr"],
     "po-zakupie": ["#pz-karta-godziny .kolumny .kl-grupa", "#pz-ruch-hantle .wk-wiersz", "#pz-godziny tbody tr"],
     "zdarzenia": ["#zd-lista article", "#zd-os svg .os-nr, #zd-os .os-pionowa li"],
@@ -68,11 +68,12 @@ ZBIERZ = r"""
   const atr = (e, n) => (e && e.getAttribute(n)) || '';
   const tabela = t => ({ id: t.id || '', wDetails: !!t.closest('details'), podpis: T(t.querySelector('caption')),
     naglowki: [...t.querySelectorAll('thead tr')].map(r => [...r.children].map(T)),
-    wiersze: [...t.querySelectorAll('tbody tr')].map(r => ({ klasa: r.className,
+    wiersze: [...t.querySelectorAll('tbody tr')].map(r => ({ klasa: r.className, id: r.id || '',
       komorki: [...r.children].map(c => ({ t: T(c), b: T(c.querySelector('.b')), n: T(c.querySelector('.n')), a: T(c.querySelector('.a')),
         strong: T(c.querySelector('strong')), zm: zm(c), przypis: T(c.querySelector('.przypis')), pod: T(c.querySelector('.pod')),
         kwota: T(c.querySelector('.kwota')), kdop: T(c.querySelector('.kwota-dopisek')), znacznik: T(c.querySelector('.znacznik')),
-        pdop: T(c.querySelector('.pewnosc-dopisek')), link: T(c.querySelector('a')), href: atr(c.querySelector('a'), 'href') })) })) });
+        pdop: T(c.querySelector('.pewnosc-dopisek')), link: T(c.querySelector('a')), href: atr(c.querySelector('a'), 'href'),
+        linki: [...c.querySelectorAll('a')].map(x => ({ t: T(x), href: atr(x, 'href') })) })) })) });
   const wykres = f => ({ klasa: f.className, opis: atr(f, 'aria-label'), przypis: T(f.querySelector('figcaption')),
     tytul: T(f.querySelector('.kl-tytul')), legenda: [...f.querySelectorAll('.wk-legenda .wk-lg')].map(T),
     os: [...f.querySelectorAll('.wk-os-skala span, .kl-os-y span')].map(T),
@@ -487,7 +488,11 @@ def kontrola_lejek(W, karty, kroki_stany):
     ks = karta(karty, wykres="hantle")
     f, K = wyk(ks, "hantle"), "Safari (karta naprawy)"
     tekst, prz = norm(ks["tekst"]), norm(f["przypis"])
-    okresy = re.search(r"Przed awarią: (\S+)–(\S+)\. Po awarii: Safari (\S+)–(\S+), pozostałe przeglądarki (\S+)–(\S+)\.", prz).groups()
+    # runda F, poprawka 5: oba wiersze na tych samych oknach (60 dni przed awarią i po niej); przypis podaje też poziom
+    # Safari do końca danych
+    m_ok = re.search(r"Przed awarią: (\S+)–(\S+)\. Po awarii: (\S+)–(\S+)\.", prz)
+    okresy = m_ok.groups() + m_ok.groups()[2:] if m_ok else ("?",) * 6
+    m_kon = re.search(r"Do końca danych krok w Safari nie wraca: ([\d,]+)% od (\S+) do (\S+)\.", prz)
     m60 = re.search(r"W 60 dniach przed awarią i po niej: ([\d,]+)% \((\S+)–(\S+), [\d ]+ sesj\w*\) i ([\d,]+)% \((\S+)–(\S+), [\d ]+ sesj\w*\); "
                     r"pozostałe przeglądarki w tych samych dniach ([\d,]+)% i ([\d,]+)%", tekst)
     mcal = re.search(r"([\d,]+)% od (\S+) do (\S+) i ([\d,]+)% od (\S+) do (\S+?) \(", tekst)
@@ -514,9 +519,13 @@ def kontrola_lejek(W, karty, kroki_stany):
     sa = f["wiersze"][0]
     W.w_tekscie(Z, K, "hantle Safari", "Safari przed awarią w zdaniu głównym karty", sa["a"], ks["tekst"])
     W.w_tekscie(Z, K, "hantle Safari", "Safari po awarii w zdaniu głównym karty", sa["b"], ks["tekst"])
-    if okresy[3] != okresy[5]:
-        W.niedasie(Z, "hantle Safari", f"na jednym wykresie dwa różne okresy „po awarii”: Safari {okresy[2]}–{okresy[3]}, pozostałe przeglądarki "
-                   f"{okresy[4]}–{okresy[5]} (opisane w przypisie; liczby zgodne z tekstem dla tych okresów)")
+    W.por(Z, K, "hantle Safari", "oba wiersze na tych samych oknach (przypis wykresu)", f"{okresy[0]}–{okresy[1]} i {okresy[2]}–{okresy[3]}",
+          "60 dni przed awarią i 60 dni po niej, jak w tekście karty", bool(m_ok and m60) and
+          (okresy[0], okresy[1], okresy[2], okresy[3]) == (m60.group(2), m60.group(3), m60.group(5), m60.group(6)), "tekst karty (Szczegóły)")
+    kl = ("Safari", m_kon.group(2), m_kon.group(3)) if m_kon else None
+    W.por(Z, K, "hantle Safari", "przypis: Safari do końca danych = tekst karty, ten sam okres", m_kon.group(1) + "%" if m_kon else "BRAK",
+          f"{pl(wart[kl], 1)}%" if kl in wart else "BRAK wartości dla tego okresu w tekście",
+          bool(m_kon) and kl in wart and l1(m_kon.group(1)) == wart[kl], "tekst karty (Szczegóły)")
     # 2. przeglądarki w aplikacjach: hantle wobec tekstu karty i raportu d_kampanie.txt
     kb = next(k for k in karty if any("hantle-grupy" in x["klasa"] for x in k["wykresy"]))
     f, K = next(x for x in kb["wykresy"] if "hantle-grupy" in x["klasa"]), "przeglądarki w aplikacjach"
@@ -707,7 +716,7 @@ def kontrola_po_zakupie(W, karty, ruch_stany):
         f, t = wyk(k, "hantle"), tab(k, id="pz-ruch")
         K = f"poranny ruch ({opis})"
         for w in f["wiersze"]:
-            et = norm(w["etykieta"]).replace(" wizyt", "")
+            et = re.sub(r" wizyt[ay]?$", "", norm(w["etykieta"]))   # „21–24 wizyty”, „25–28 wizyt” (runda F, P10)
             r = wiersz_tab(t, et)
             kom = r["komorki"][1]
             n = re.search(r"rok wcześniej ([\d,]+%) z ([\d ]+), ostatnie 12 miesięcy ([\d,]+%) z ([\d ]+)$", norm(w["tytul"]))
@@ -940,6 +949,116 @@ def kontrola_niewiadome(W, t, przeg):
                 "tabela „Przegląd” w zakładce „Priorytety”")
 
 
+# ------------------------------------------------------------------ „Kohorty”: tabela „co zmieniło kohorty i wynik” (runda F, poprawka 1)
+# zapisy liczb w komórce: daty, godziny, odsetki, kwoty, zakresy i liczby (bez cyfr w nazwach typu „L4”); długość okna
+# („w 90 dniach”, „ostatnich 12 miesięcy”) to część nazwy miary i też musi stać w karcie źródłowej
+ZAPISY = [re.compile(r"\d{1,2}\.\d{2}\.\d{4}"), re.compile(r"\d{1,2}:\d{2}"),
+          re.compile(r"[+-]?\d{1,3}(?: \d{3})*(?:,\d+)?(?:–\d{1,3}(?: \d{3})*(?:,\d+)?)?(?: tys\.)? zł"),
+          re.compile(r"[+-]?\d+(?:,\d+)?(?:–\d+(?:,\d+)?)?%"), re.compile(r"(?<![\w,.])\d{1,3}(?: \d{3})+(?![\d,])"),
+          re.compile(r"(?<![\w,.:–+-])\d+(?:,\d+)?–\d+(?:,\d+)?(?![\d%])"), re.compile(r"(?<![\w,.:–])[+-]?\d+(?:,\d+)?(?![\w%.:–]|,\d)")]
+
+
+def zapisy_liczb(s):
+    t, out = norm(s), []
+    for wz in ZAPISY:
+        for m in wz.finditer(t):
+            out.append(m.group(0).lstrip("+"))
+        t = wz.sub(lambda m: "#" * len(m.group(0)), t)
+    return out
+
+
+# źródła liczb dla wierszy tabeli: karty zdarzeń (id), karty innych zakładek (zakładka, tytuł karty albo id), pozycje
+# listy priorytetów, pozycja, z której jest skutek w złotych (kwota i dopisek), i pozycja, z której jest pewność
+ZRODLA_TABELI = {
+    "start_go_upsell": (["start_go_upsell"], [("wzrost", "tytul", "kwartałem wydatki")], [], None, None),
+    "start_meta_l4": (["start_meta_l4", "udzial_nowych", "start_tiktok", "marza30_spada"], [("wzrost", "tytul", "wracają rzadziej")], [9, 5], 9, 9),
+    "zwroty_pierwsze": (["zwroty_pierwsze"], [("po-zakupie", "tytul", "Zwroty po wizycie")], [5], None, 5),
+    "opoznienia_rano": (["opoznienia_rano"], [], [6], 6, 6),
+    "start_tiktok": (["start_tiktok", "powrot30_spada"], [("wynik", "id", "ek-karta")], [3], 3, 3),
+    "powrot90_stare": (["powrot90_stare"], [], [], None, None),
+    "safari_ios": (["safari_ios"], [("lejek", "wykres", "hantle")], [1], 1, 1),
+    "marka_konwersja": (["marka_konwersja"], [], [], None, None),
+}
+
+
+def kontrola_tabeli_zdarzen(W, D, zd, przeg, nw):
+    Z, K = NAZWY["kohorty"], "co zmieniło kohorty i wynik"
+    kz = karta(D["kohorty"]["karty"], id="ko-zdarzenia")
+    t = tab(kz, id="ko-zd-tabela") if kz else None
+    if not t:
+        W.por(Z, K, "tabela zdarzeń", "tabela na górze zakładki", "BRAK", "8 wierszy", False, "dane kohorty.js")
+        return
+    po_id = {z["id"]: z for z in zd.values()}
+    karty_zd = {k["id"][3:]: k for k in D["zdarzenia"]["karty"] if k["id"].startswith("zd-")}
+    W.rowne(Z, K, "tabela zdarzeń", "liczba wierszy (8 zdarzeń i decyzji z osi)", str(len(t["wiersze"])), "8", "decyzja Kuby, poprawka 1")
+    for r in t["wiersze"]:
+        id_ = r["id"][len("ko-zd-"):]
+        c = r["komorki"]
+        z = po_id.get(id_)
+        zr_id, inne, pozycje, nr_skutek, nr_pewnosc = ZRODLA_TABELI.get(id_, ([id_], [], [], None, None))
+        zrodla, opis_zr = [], []
+        for x in zr_id:
+            if x in karty_zd:
+                zrodla.append(karty_zd[x]["tekst"])
+                opis_zr.append(f"karta zdarzenia {x}")
+        for zakl, jak, co in inne:
+            k = karta(D[zakl]["karty"], **({"tytul": co} if jak == "tytul" else {"id": co} if jak == "id" else {"wykres": co}))
+            if k:
+                zrodla.append(k["tekst"])
+                opis_zr.append(f"karta „{k['tytul'][:40]}” ({NAZWY[zakl]})")
+        for nr in pozycje:
+            p = przeg.get(nr, {})
+            zrodla.append(" ".join([p.get("co", ""), p.get("ile", ""), p.get("dop", ""), p.get("pew", ""), p.get("pdop", "")]))
+            opis_zr.append(f"pozycja {nr} w przeglądzie listy priorytetów")
+        zr_tekst, zr_opis = " | ".join(zrodla), "; ".join(opis_zr)
+        # data wiersza = data karty zdarzenia
+        W.por(Z, K, "tabela zdarzeń", f"{id_}: data w kolumnie „Kiedy” = karta zdarzenia", c[0]["strong"],
+              f"{z['od']:%d.%m.%Y}".lstrip("0") if z else "BRAK karty", bool(z) and data_pl(c[0]["strong"]) == z["od"], "karty zdarzeń w zakładce „Zdarzenia”")
+        # każda liczba w komórkach 1–6 stoi w karcie źródłowej
+        for i, nazwa in ((0, "Kiedy"), (2, "Kogo dotyczy"), (3, "Co zmieniło się po nim"), (4, "Skutek w złotych"), (5, "Pewność")):
+            for tok in zapisy_liczb(c[i]["t"]):
+                if i == 0 and tok == c[0]["strong"]:
+                    continue
+                W.w_tekscie(Z, K, "tabela zdarzeń", f"{id_}, kolumna „{nazwa}”: {tok}", tok, zr_tekst, zr_opis)
+        # kwota, dopisek i pewność pozycji listy priorytetów: dokładnie jak w przeglądzie
+        if nr_skutek:
+            p = przeg.get(nr_skutek, {})
+            W.rowne(Z, K, "tabela zdarzeń", f"{id_}: skutek = pozycja {nr_skutek} (kwota i dopisek)", f"{c[4]['kwota']} | {c[4]['kdop']}",
+                    f"{p.get('ile')} | {p.get('dop')}", "tabela „Przegląd” w zakładce „Priorytety”")
+        if nr_pewnosc:
+            p = przeg.get(nr_pewnosc, {})
+            W.rowne(Z, K, "tabela zdarzeń", f"{id_}: pewność = pozycja {nr_pewnosc}", f"{c[5]['znacznik']} | {c[5]['pdop']}",
+                    f"{p.get('pew')} | {p.get('pdop')}", "tabela „Przegląd” w zakładce „Priorytety”")
+        # odnośniki: co robimy, kohorty dzienne (60 dni przed i po dacie zdarzenia), opis zdarzenia
+        for l in c[6]["linki"]:
+            h = l["href"]
+            if h.startswith("#priorytety?p="):
+                nr = int(h.split("=")[1])
+                W.rowne(Z, K, "tabela zdarzeń", f"{id_}: odnośnik do pozycji {nr} (nazwa = przegląd)", l["t"], f"Pozycja {nr}: {przeg.get(nr, {}).get('co')}",
+                        "tabela „Przegląd” w zakładce „Priorytety”")
+            elif h.startswith("#niewiadome?n="):
+                nr = h.split("=")[1]
+                W.por(Z, K, "tabela zdarzeń", f"{id_}: odnośnik do „Czego nie wiemy”, punkt {nr}", l["t"], f"punkt {nr}: {nw.get(nr, 'BRAK')[:60]}",
+                      nr in nw and l["t"].startswith(f"Czego nie wiemy, punkt {nr}"), "tabela „Czego nie wiemy”")
+            elif h.startswith("#kohorty?"):
+                q = dict(x.split("=", 1) for x in h.split("?", 1)[1].split("&"))
+                if z:
+                    d = z["od"]
+                    a = (max(dt.date(2024, 10, 1), d - dt.timedelta(days=60)), d - dt.timedelta(days=1))
+                    b = (d, min(dt.date(2026, 9, 30), d + dt.timedelta(days=59)))
+                    oczek = f"a={a[0]}_{a[1]}, b={b[0]}_{b[1]}"
+                else:
+                    oczek = "BRAK karty"
+                W.rowne(Z, K, "tabela zdarzeń", f"{id_}: „Pokaż na kohortach dziennych” = 60 dni przed i po dacie zdarzenia",
+                        f"a={q.get('a')}, b={q.get('b')}", oczek, "data karty zdarzenia")
+            elif h.startswith("#zdarzenia?z="):
+                W.por(Z, K, "tabela zdarzeń", f"{id_}: „Opis zdarzenia” prowadzi do karty tego zdarzenia", h, f"#zdarzenia?z={id_}",
+                      h == f"#zdarzenia?z={id_}" and id_ in karty_zd, "karty zdarzeń w zakładce „Zdarzenia”")
+        W.por(Z, K, "tabela zdarzeń", f"{id_}: dwa odnośniki wiersza („Pokaż na kohortach dziennych”, „Opis zdarzenia”)",
+              ", ".join(l["t"] for l in c[6]["linki"][-2:]), "Pokaż na kohortach dziennych, Opis zdarzenia",
+              [l["t"] for l in c[6]["linki"][-2:]] == ["Pokaż na kohortach dziennych", "Opis zdarzenia"], "decyzja Kuby, poprawka 1")
+
+
 # ------------------------------------------------------------------ przeglądarka
 class CichyHandler(http.server.SimpleHTTPRequestHandler):
     def log_message(self, *a):
@@ -1068,6 +1187,9 @@ def main():
             kontrola_jakosc(W, D["jakosc"]["karty"])
             przeg = kontrola_priorytety(W, D["priorytety"]["karty"], wyk(karta(D["lejek"]["karty"], wykres="hantle"), "hantle"))
             kontrola_niewiadome(W, D["niewiadome"]["niewiadome"], przeg)
+            # runda F, poprawka 1: tabela „co zmieniło kohorty i wynik” wobec kart zdarzeń, priorytetów i ekonomii kampanii
+            nw = {norm(r["komorki"][0]["t"]): norm(r["komorki"][1]["t"]) for r in D["niewiadome"]["niewiadome"]["wiersze"]}
+            kontrola_tabeli_zdarzen(W, D, zd, przeg, nw)
             # wykresy bez liczb w DOM
             W.niedasie(NAZWY["kohorty"], "wykres dzień po dniu i krzywa powrotu (uPlot)", "rysowane na płótnie; liczby tylko pod kursorem; numery zdarzeń sprawdzone przez listę pod wykresem")
             W.niedasie(NAZWY["lejek"], "wykres dzień po dniu (uPlot)", "rysowany na płótnie; liczby tylko pod kursorem; numery zdarzeń sprawdzone przez listę pod wykresem")

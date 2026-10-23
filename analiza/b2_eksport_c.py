@@ -763,7 +763,7 @@ def teksty_d(V):
             zn(op(f"godz{h:02d}_ponad15_proc_okres2") - op(f"godz{h:02d}_ponad15_proc_okres1")).replace("−0,0", "0,0")
             if abs(op(f"godz{h:02d}_ponad15_proc_okres2") - op(f"godz{h:02d}_ponad15_proc_okres1")) >= 0.05 else "0,0",
             komorka(pg[h][2], pg[h][0]), komorka(pg[h][3], pg[h][1])],
-            "blok": 5 <= h <= 12,
+            "blok": 5 <= h <= 13,   # blok poranny 5:00–13:59, jak w tytule karty i w założeniu 75 (runda F, P2)
             # liczby do wykresu strony (etap 5 grafiki; analiza/e_wykresy.py, zgodne z d_retencja co do wizyty)
             "liczby": {g: {o: GW[g][str(h)][o] for o in ("1", "2")} for g in ("internista", "pozostali")}}
             for h in range(24)],
@@ -1034,8 +1034,8 @@ def czy_wzrost(V):
         "tabela": {"kolumny": ["Typ zakupu", "Okres 1", "Okres 2", "Zmiana", "Udział we wzroście"], "wiersze": tab_go},
         "punkty": [
             f"Sprzedaż osobna w newsletterze ruszyła {V['go_start_data']}. W okresie 1 działała więc tylko "
-            f"{liczba(go_dni2)} dni, a sprzedała w nich {liczba(go_n2)} członkostw. W okresie 2 sprzedaje średnio "
-            f"{liczba(V['go_osobno_mies'])} miesięcznie.",
+            f"{liczba(go_dni2)} dni, a pacjenci kupili w tym czasie {liczba(go_n2)} członkostw. W okresie 2 kupują w niej "
+            f"średnio {liczba(V['go_osobno_mies'])} członkostw miesięcznie.",
             f"Przy kasie przybywa zakupów, bo jest więcej zamówień, a nie wyższy odsetek kupujących. Przy pierwszym "
             f"zamówieniu odsetek kupujących spada z {proc(k[(1, '1')]['odsetek_proc'], 2)} "
             f"({exg(liczba(k[(1, '1')]['zamowienia_do_oferty']))} zamówień) do {proc(k[(2, '1')]['odsetek_proc'], 2)} "
@@ -1270,7 +1270,7 @@ def priorytety(V, linki_lejka):
             f"testową (wszystkie są u internisty), albo 0 zł, jeśli nie dostają. Pieniądze już wypłacone są stracone, "
             f"a oszczędność dotyczy kolejnych miesięcy.",
             f"Pośrednio: bez poprawnych liczb nie da się prowadzić biznesu na kohortach. Alarm na krokach lejka wykryłby "
-            f"awarię Safari po kilku dniach, a bez alarmu trwała {liczba(lo[1])} dni. Wykrycie po tygodniu ograniczyłoby stratę do "
+            f"awarię Safari po kilku dniach, a trwała ona {liczba(lo[1])} dni, do końca danych. Wykrycie po tygodniu ograniczyłoby stratę do "
             f"{proc(p15[0])} ({zakres(p15[1], p15[2])} zamówień zamiast {zakres(lo[0], hi[0])}).",
         ]),
         ("Po czym poznamy", [
@@ -2288,6 +2288,8 @@ def eksport_c(kontrole, wz=None, mostek=None, wy=None, nag=None, koh=None, pz=No
     if nag is None:
         nag = wczytaj_js("podsumowanie.js", ".P")["lejek_naglowek"]
     linki_lejka = {"safari": nag["naprawy"][0]["link"]}
+    # krok konta w Safari w 60 dniach przed awarią i po niej, jak na wykresie karty (runda F, poprawka 5)
+    V["safari_60"] = (nag["safari"]["przed_proc"], nag["safari"]["po60_proc"])
     C = {"wygenerowano": dt.datetime.now().strftime("%Y-%m-%d %H:%M"), "wzrost": czy_wzrost(V),
          "priorytety": priorytety(V, linki_lejka), "niewiadome": niewiadome(V)}
     kontrole_krzyzowe(V, kontrole, wz, mostek, wy)

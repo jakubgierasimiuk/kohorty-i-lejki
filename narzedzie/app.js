@@ -265,11 +265,12 @@
       });
   }
 
-  // Safari na iPhone'ach: krok konta po wyborze terminu przed awarią i po niej, obok pozostałe przeglądarki (hantle)
+  // Safari na iPhone'ach: krok konta po wyborze terminu przed awarią i po niej, obok pozostałe przeglądarki (hantle);
+  // oba wiersze na tych samych oknach: 60 dni przed awarią i 60 dni po niej (runda F, poprawka 5)
   function hantleSafari() {
     var s = P.lejek_naglowek && P.lejek_naglowek.safari;
-    if (!s || s.przed_proc === undefined) return null;
-    var po = s.po_proc !== undefined ? s.po_proc : s.po60_proc;
+    if (!s || s.przed_proc === undefined || s.po60_proc === undefined) return null;
+    var po = s.po60_proc;
     function wiersz(et, a, b, zla) {
       var d = Math.round(b) - Math.round(a);   // różnica liczb pokazanych (całe procenty, jak w tekście karty)
       return { etykieta: et, a: a, b: b, tekstA: proc(a, 0), tekstB: proc(b, 0),
@@ -279,8 +280,9 @@
     return BK.hantle({ nazwy: { a: "przed awarią", b: "po awarii" }, kodowanie: "okresy", min: 0, max: 80, os: ["0%", "20%", "40%", "60%", "80%"],
       opis: "Krok konta po wyborze terminu, osoby, które jeszcze nie kupowały: Safari na iPhone'ach i pozostałe przeglądarki przed awarią i po niej",
       wiersze: [wiersz("Safari na iPhone'ach", s.przed_proc, po, true), wiersz("Pozostałe przeglądarki", s.reszta_przed_proc, s.reszta_po60_proc, false)],
-      przypis: "Odsetek sesji po wyborze terminu, które przechodzą przez krok konta. Przed awarią: " + dataPL(idxIso(s.przed[0])) + "–" + dataPL(idxIso(s.przed[1])) +
-        ". Po awarii: Safari " + dataPL(idxIso(s.data)) + "–" + dataPL(NDNI - 1) + ", pozostałe przeglądarki " + dataPL(idxIso(s.po60[0])) + "–" + dataPL(idxIso(s.po60[1])) + "." });
+      przypis: "Odsetek sesji po wyborze terminu, które przechodzą przez krok konta, w obu wierszach w tych samych dniach. Przed awarią: " +
+        dataPL(idxIso(s.przed[0])) + "–" + dataPL(idxIso(s.przed[1])) + ". Po awarii: " + dataPL(idxIso(s.po60[0])) + "–" + dataPL(idxIso(s.po60[1])) + "." +
+        (s.po_proc !== undefined ? " Do końca danych krok w Safari nie wraca: " + proc(s.po_proc, 1) + " od " + dataPL(idxIso(s.data)) + " do " + dataPL(NDNI - 1) + "." : "") });
   }
   // przeglądarki w aplikacjach wobec zwykłych przeglądarek w tych samych warunkach (ta sama kampania i grupa osób)
   function hantlePrzegladarek(W) {
@@ -391,8 +393,9 @@
     var td = el("td", { title: k.nazwa + " (" + k.krotko + "). Okres B: " + liczba(lB) + " z " + liczba(mB) +
       ". Okres A: " + liczba(lA) + " z " + liczba(mA) + "." });
     td.appendChild(el("span", { class: "b", text: proc(pB) }));
-    td.appendChild(el("span", { class: "n", text: " z " + liczba(mB) }));
-    var a = el("span", { class: "a", text: "A: " + proc(pA) + " z " + liczba(mA) });
+    // „z” i liczba sklejone twardą spacją, żeby na wąskim ekranie nie rozdzielał ich koniec wiersza
+    td.appendChild(el("span", { class: "n", text: " z " + liczba(mB) }));
+    var a = el("span", { class: "a", text: "A: " + proc(pA) + " z " + liczba(mA) });
     if (pA !== null && pB !== null) a.appendChild(zmianaPkt(pB - pA, 1, false, { bezSlowa: true }));
     td.appendChild(a);
     return td;
@@ -797,7 +800,6 @@
       });
       mies.forEach(function (x) { x.p = x.wsz > 0 ? 100 * x.nowe / x.wsz : null; });
       var mx = Math.max.apply(null, mies.map(function (x) { return x.p || 0; }).concat([1])), sk = BK.podzialka(0, mx, 5);
-      var nazwy = nowe.map(function (w) { return (ET.kampania && ET.kampania[w]) || w; });
       wyczysc(cel).appendChild(BK.kolumny({ max: sk.max, wys: 190,
         os: sk.wartosci.map(function (v) { return { v: v, tekst: liczba(v, 0) + "%" }; }),
         serie: [{ nazwa: "nowe kampanie na L4", klasa: "seg-nowe" }],
@@ -807,8 +809,8 @@
             wartosci: [x.p], podpisy: [x.p ? proc(x.p) : ""], tytul: t, opis: t };
         }),
         opis: "Udział sesji nowych kampanii na L4 w sesjach osób, które jeszcze nie kupowały, w każdym miesiącu",
-        przypis: "Odsetek sesji zwykłych osób, które jeszcze nie kupowały, z kampanii " + nazwy.join(" i ") +
-          ", w każdym miesiącu kalendarzowym. Wykres nie zależy od podziału, „Kto” ani okresów wybranych w filtrach wyżej." }));
+        przypis: "Udział sesji z dwóch nowych kampanii na L4 (Meta i TikTok) w zwykłych sesjach osób, które jeszcze nie " +
+          "kupowały, w każdym miesiącu kalendarzowym. Wykres nie zależy od filtrów „Podział” i „Kto” ani od okresów wybranych wyżej." }));
     }).catch(function (e) { udzialNarysowany = false; wyczysc(cel).appendChild(el("p", { class: "przypis", text: e.message + ". Odśwież stronę." })); });
   }
 
@@ -1010,7 +1012,7 @@
           el("td", null, [el("a", { href: "#lejek?" + q.toString(), text: "w lejku" })])]));
       });
     t.appendChild(tb);
-    BK.legendaZmian($("zd-wykryte-legenda"), "po zmianie wobec okresu przed nią");
+    BK.legendaZmian($("zd-wykryte-legenda"), "(poziom po wykrytej zmianie wobec poziomu przed nią)");
   }
 
   // ------------------------------------------------------------ jakość danych

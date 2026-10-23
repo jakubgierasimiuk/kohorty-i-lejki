@@ -53,10 +53,13 @@ STAN = r"""
   if (s) s.querySelectorAll('select, input').forEach(e => { if (e.id) kontrolki[e.id] = e.type === 'checkbox' ? e.checked : e.value; });
   const pod = [...document.querySelectorAll('.podswietlone')].filter(e => !e.closest('[hidden]') && !e.hidden).map(e => {
     const r = e.getBoundingClientRect(); return { id: e.id, top: Math.round(r.top), dol: Math.round(r.bottom) }; });
-  const kroki = document.getElementById('lj-kroki-karta');
+  const kroki = document.getElementById('lj-kroki-karta'), dzienny = document.getElementById('ko-wykres-karta');
+  const pr = document.getElementById('ko-preset');
   return { hash: decodeURIComponent(location.hash), widok: s ? s.id.slice(2) : null, kontrolki, pod, scrollY: Math.round(scrollY), ih: innerHeight,
     krokiTop: kroki && s && s.id === 'v-lejek' ? Math.round(kroki.getBoundingClientRect().top) : null,
-    krokiTytul: (document.getElementById('lj-kroki-tytul') || {}).textContent || null };
+    krokiTytul: (document.getElementById('lj-kroki-tytul') || {}).textContent || null,
+    dziennyTop: dzienny && s && s.id === 'v-kohorty' ? Math.round(dzienny.getBoundingClientRect().top) : null,
+    presetOpcja: pr && pr.selectedOptions && pr.selectedOptions[0] ? pr.selectedOptions[0].textContent : null };
 }
 """
 
@@ -95,6 +98,16 @@ def oczekiwania(href, s):
                 wyn.append((f"zawężenie ko-f-{k[2:]} = {v}", str(s["kontrolki"].get("ko-f-" + k[2:])) == v))
         if z == "lejek":
             wyn.append(("wykres kroków na ekranie (przewinięcie)", s["krokiTop"] is not None and -5 <= s["krokiTop"] < s["ih"] * 0.6))
+        if z == "kohorty":
+            # runda F: odnośnik z filtrami przewija do wykresu dzień po dniu (pod tabelą zdarzeń na górze zakładki)
+            wyn.append(("wykres dzień po dniu na ekranie (przewinięcie)", s["dziennyTop"] is not None and -5 <= s["dziennyTop"] < s["ih"] * 0.6))
+            if "a" in q and "b" in q:
+                a0, a1 = (dt.date.fromisoformat(x) for x in q["a"].split("_"))
+                b0, b1 = (dt.date.fromisoformat(x) for x in q["b"].split("_"))
+                if (a1 - a0).days == 59 and (b0 - a1).days == 1 and (b1 - b0).days == 59:
+                    # okna „60 dni przed i po” dniu b0: na liście porównań pozycja tego zdarzenia, a nie „własne daty”
+                    wyn.append((f"porównanie „60 dni przed i po” zdarzeniu z {b0:%d.%m.%Y}", str(s["kontrolki"].get("ko-preset", "")).startswith("zd:")
+                                and (s["presetOpcja"] or "").endswith(f"({b0.day}.{b0:%m.%Y})")))
     for k, pref in CEL.items():
         if k in q:
             cel = pref + q[k]

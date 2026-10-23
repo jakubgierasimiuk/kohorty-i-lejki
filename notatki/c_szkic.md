@@ -112,7 +112,7 @@ Raport: `analiza/wyniki/c_telemedigo.txt`. Każde członkostwo kosztuje 89 zł i
   razem                                          1 759      2 468     +709        100%
   ```
 
-- **Sprzedaż osobna w newsletterze** ruszyła 8.09.2025. W okresie 1 działała więc tylko 23 dni, a sprzedała w nich 225 członkostw. W okresie 2 sprzedaje średnio 38 miesięcznie (sekcja 1b). Możliwe odczytanie: start kampanii zebrał od razu pacjentów, którzy czekali na ofertę. Wysyłek w danych nie ma, więc nie wiemy, ile wiadomości poszło w kolejnych miesiącach.
+- **Sprzedaż osobna w newsletterze** ruszyła 8.09.2025. W okresie 1 działała więc tylko 23 dni, a pacjenci kupili w tym czasie 225 członkostw. W okresie 2 kupują w niej średnio 38 członkostw miesięcznie (sekcja 1b; brzmienie poprawione w rundzie F, liczby bez zmian). Możliwe odczytanie: start kampanii zebrał od razu pacjentów, którzy czekali na ofertę. Wysyłek w danych nie ma, więc nie wiemy, ile wiadomości poszło w kolejnych miesiącach.
 - **Przy kasie: więcej zamówień, a nie wyższy odsetek kupujących** (sekcja 1e). Liczymy zamówienia pacjentów bez ważnego członkostwa:
   - przy pierwszym zamówieniu odsetek kupujących spada z 5,58% do 4,41%. Więcej zamówień dodaje 471 zakupów, a niższy odsetek odejmuje 287;
   - przy kolejnych zamówieniach odsetek rośnie lekko, z 9,27% do 9,86%. Więcej zamówień dodaje 234 zakupy, a wyższy odsetek 55. Zamówień powtórnych jest więcej głównie przez start od zera.

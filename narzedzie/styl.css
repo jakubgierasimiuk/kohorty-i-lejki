@@ -463,6 +463,25 @@ a.nr:hover { background: var(--accent); }
 .kwota { font: 650 16px/1.3 var(--font-liczby); font-variant-numeric: tabular-nums; color: var(--ink); }
 .kwota-dopisek { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; }
 .pewnosc-dopisek { display: block; font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+/* ------------------------------------------------------------ Kohorty: tabela „co zmieniło kohorty i wynik” (pierwsza karta) */
+.tabela-zdarzen td { font-size: 13px; line-height: 1.45; }
+.tabela-zdarzen td:nth-child(1) { width: 8%; }
+.tabela-zdarzen td:nth-child(2) { width: 14%; }
+.tabela-zdarzen td:nth-child(3) { width: 12%; }
+.tabela-zdarzen td:nth-child(4) { width: 25%; }
+.tabela-zdarzen td:nth-child(5) { width: 15%; }
+.tabela-zdarzen td:nth-child(6) { width: 12%; }
+.tabela-zdarzen td:nth-child(7) { width: 14%; }
+.tabela-zdarzen .zd-kiedy strong { white-space: nowrap; }
+.tabela-zdarzen .zd-rodzaj { display: inline-block; font-size: 11px; font-weight: 600; color: var(--ink-2); background: var(--wash);
+  border: 1px solid var(--grid); border-radius: 999px; padding: 0 8px; margin-bottom: 4px; }
+.tabela-zdarzen .zd-co { display: block; font-weight: 600; color: var(--ink); }
+.tabela-zdarzen td .pod { margin-top: 4px; }
+.tabela-zdarzen .kwota { font-size: 14px; }
+.tabela-zdarzen .pewnosc-opis { font-size: 12px; color: var(--ink-2); }
+.tabela-zdarzen .zd-robimy { display: block; font-weight: 500; margin-bottom: 6px; }
+.tabela-zdarzen .zd-linki { display: flex; flex-direction: column; gap: 4px; font-size: 12px; padding-top: 6px; border-top: 1px solid var(--grid); }
 #pr-przeglad td:nth-child(2) { min-width: 240px; }
 #pr-przeglad td:nth-child(2) a { color: var(--ink); font-weight: 600; text-decoration: none; }
 #pr-przeglad td:nth-child(2) a:hover { color: var(--accent); text-decoration: underline; }
@@ -729,6 +748,12 @@ details.zawez > summary::before { content: ""; width: 7px; height: 7px; border-r
   .tabela-tekst td { display: block; border: 0; padding: 2px 0; min-width: 0 !important; width: auto !important; }
   .tabela-tekst td::before { content: attr(data-etykieta); display: block; font-size: 12px; color: var(--muted); margin-top: 4px; }
   .tabela-tekst td.nr-kom::before { display: none; }
+  /* tabela zdarzeń w „Kohortach”: każdy wiersz jako osobna karta */
+  .tabela-zdarzen tr { border: 1px solid var(--grid); border-radius: 10px; padding: 8px 12px 10px; margin: 0 0 10px; }
+  .tabela-zdarzen td { font-size: 14px; }
+  .tabela-zdarzen td.zd-kiedy { font-size: 15px; }
+  .tabela-zdarzen td.zd-kiedy::before { display: none; }
+  .tabela-zdarzen .zd-linki { flex-direction: row; flex-wrap: wrap; gap: 4px 16px; font-size: 13px; }
   .lista-zdarzen-wykres { columns: 1; }
   .tabela-tel { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 8px 12px; margin: 8px 0; }
   .tabela-tel label { display: flex; flex-direction: column; gap: 3px; font-size: 12px; color: var(--muted); font-weight: 500; flex: 1 1 180px; }
@@ -736,10 +761,16 @@ details.zawez > summary::before { content: ""; width: 7px; height: 7px; border-r
   .tabela.cala-tabela .kol-tel-ukryta { display: table-cell; }
   .tabela-lejek td:first-child { min-width: 0; }
   .tabela-lejek td, .tabela-lejek th { white-space: normal; }
+  /* widok jednej miary: kolumna miary bez stałych 140 px, żeby tabela mieściła się w ramce i ostatnie cyfry nie były
+     ucięte; „z N” w osobnym wierszu (w widoku całej tabeli kolumny zostają szersze i tabela przewija się w ramce) */
+  .tabela-lejek:not(.cala-tabela) .th-krok { min-width: 0; }
+  .tabela-lejek:not(.cala-tabela) td .n { display: block; }
   .macierz th:first-child, .macierz td:first-child { position: sticky; left: 0; z-index: 1; background: var(--surface); box-shadow: 1px 0 0 var(--grid); }
   .liczba-glowna { font-size: 30px; }
   .okresy input, .filtry-daty input { width: 140px; }
-  .filtry { padding: 10px 12px 12px; gap: 10px 12px; }
+  /* Safari (WebKit) wlicza wewnętrzną szerokość list wyboru do szerokości strony, więc „Lejek” dawał się przesunąć w bok
+     o około 100 px; przycięcie poziome filtrów to wyłącza (starsze Safari bez „clip” biorą „hidden”) */
+  .filtry { padding: 10px 12px 12px; gap: 10px 12px; overflow-x: hidden; overflow-x: clip; }
   .filtry label { flex: 1 1 140px; }
   .filtry label select { width: 100%; }
   .lejek-kroki { grid-template-columns: minmax(0, 1fr) auto; column-gap: 10px; grid-auto-flow: row dense; }   /* wartość wraca obok nazwy kroku */

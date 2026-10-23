@@ -149,12 +149,12 @@ def karta_kohorty(koh, wz, V, E, Z):
             akapit(f"Źródło pacjenta liczymy według pierwszego wejścia. Według sesji z płatnością bez nowych kampanii powrót "
                    f"spada do {proc(bez2['p90_o2'])} ({ile(bez2['n90_o2'], 'pacjent')}), marża na pacjenta w 90 dniach do "
                    f"{liczba(V['m90_bez_z2'], 1)} zł, a na nowe kampanie przypada około {proc(u2, 0)} spadku. Cała różnica "
-                   f"między podziałami to jedna grupa: według sesji z płatnością do innych kanałów trafia "
+                   f"między regułami przypisania to jedna grupa: według sesji z płatnością do innych kanałów trafia "
                    f"{liczba(E['r_X_n'])} pacjentów nowych kampanii na L4 z tych kohort ({liczba(E['p_X_caly'])} w całych "
                    f"ostatnich 12 miesiącach). {liczba(E['r_X_wejscie_n'])} z nich weszło pierwszy raz z reklamy nowej "
                    f"kampanii, a zapłaciło w innej sesji, a {liczba(E['r_X_tylko_kod_n'])} weszło z innego kanału, ale "
-                   f"zapłaciło z kodem nowej kampanii. Bez nich oba podziały dają ten sam powrót i tę samą marżę. Dlatego "
-                   f"opis liczymy według pierwszego wejścia, a w filtrach można wybrać oba podziały."),
+                   f"zapłaciło z kodem nowej kampanii. Bez nich obie reguły dają ten sam powrót i tę samą marżę. Dlatego "
+                   f"opis liczymy według pierwszego wejścia, a w filtrach można wybrać obie reguły."),
             akapit("Część spadku w kampaniach działających w obu latach może wiązać się z porannymi opóźnieniami u "
                    "internistów: po spóźnionej pierwszej wizycie pacjenci wracają rzadziej. Dane tego nie rozstrzygają "
                    "(Czego nie wiemy, punkt 4)."),
@@ -174,6 +174,16 @@ def _i2(pz):
 
 def _suma(tab, o, i2):
     return sum(tab[:i2]) if o == 1 else sum(tab[i2:])
+
+
+def _zw_suma(pz, cel=None, nowa=None, o=2, kol="zwrocone"):
+    """Suma serii zwrotów (dzień płatności) dla celu wizyty i grupy pacjentów: karta zwrotów i tabela zdarzeń w „Kohortach”."""
+    s, i2 = 0, _i2(pz)
+    for g in pz["zwroty"]:
+        if (cel and g["cel"] != cel) or (nowa is not None and g["nowa"] != nowa):
+            continue
+        s += _suma(g.get(kol, [0]), o, i2) if kol in g else 0
+    return s
 
 
 def karty_po_zakupie(pz, wz, V, E, Z):
@@ -368,13 +378,8 @@ def karty_po_zakupie(pz, wz, V, E, Z):
 
     # --- zwroty (dzień płatności)
     def zw_suma(cel=None, nowa=None, o=2, kol="zwrocone"):
-        s = 0
-        for g in pz["zwroty"]:
-            if (cel and g["cel"] != cel) or (nowa is not None and g["nowa"] != nowa):
-                continue
-            s += _suma(g.get(kol, [0]), o, i2) if kol in g else 0
-        return s
-    l4n = (zw_suma("l4", True, 2), zw_suma("l4", True, 2, "odbyte"))
+        return _zw_suma(pz, cel, nowa, o, kol)
+    l4n =(zw_suma("l4", True, 2), zw_suma("l4", True, 2, "odbyte"))
     l4s = (zw_suma("l4", False, 2), zw_suma("l4", False, 2, "odbyte"))
     l41 = (zw_suma("l4", None, 1), zw_suma("l4", None, 1, "odbyte"))
     nowe2 = (zw_suma(None, True, 2), zw_suma(None, True, 2, "zw_zl"), zw_suma(None, True, 2, "kl_zw"))
@@ -398,8 +403,8 @@ def karty_po_zakupie(pz, wz, V, E, Z):
                    f"kampanii i {proc(100 * l4s[0] / l4s[1])} z {zile(l4s[1], 'wizyta')} L4 pozostałych pacjentów. Rok "
                    f"wcześniej: {proc(100 * l41[0] / l41[1])} z {zile(l41[1], 'wizyta')} L4."),
             akapit(f"Zwroty po wizycie u pacjentów nowych kampanii w ostatnich 12 miesiącach: {ile(nowe2[0], 'wizyta')} we "
-                   f"wszystkich celach wizyty, z tego {liczba(l4n[0])} przy wizytach L4 (te liczy pozycja 5 listy "
-                   f"priorytetów), {zl(nowe2[1])} zwróconych zapłat i {zl(nowe2[2])} kosztu lekarza."),
+                   f"wszystkich celach (w tym {ile(l4n[0], 'wizyta')} L4, które liczy pozycja 5 listy priorytetów), "
+                   f"{zl(nowe2[1])} zwróconych zapłat i {zl(nowe2[2])} kosztu lekarza."),
             akapit("Odsetek zwrotów liczymy wśród odbytych wizyt, według dnia płatności."),
         ],
         zrodlo="analiza/a5r_po_zakupie.py → analiza/wyniki/a5r_po_zakupie.txt (2b); eksport analiza/b_eksport.py.")
@@ -478,13 +483,15 @@ def karta_wynik(wy, V, E, Z):
             akapit(f"Po koszcie lekarza, kampaniach i prowizji marża i tak wzrosła o {proc(E['rok_marza_zmiana_proc'], 0)}."),
             akapit(f"Rok do roku marża przed kosztem kampanii rośnie z każdym kwartałem wolniej, a wydatki szybciej. W III "
                    f"kwartale {rok} wydatki na kampanie były ponad dwa razy wyższe niż rok wcześniej."),
-            akapit(f"Powtórne zamówienie zostawia mniej marży niż rok wcześniej, bo rośnie udział wizyt ze zniżką TelemediGO: "
-                   f"z {proc(E['pw_go_udzial_25'], 0)} do {proc(E['pw_go_udzial_26'], 0)} powtórnych zamówień. To spina się z "
+            akapit(f"W III kwartale {rok} powtórne zamówienie pacjenta spoza nowych kampanii zostawia mniej marży niż rok "
+                   f"wcześniej, bo rośnie udział wizyt ze zniżką TelemediGO: z {proc(E['pw_go_udzial_25'], 0)} do "
+                   f"{proc(E['pw_go_udzial_26'], 0)} powtórnych zamówień. To spina się z "
                    f"bilansem programu: opłata za TelemediGO nie pokrywa zniżek, które dostają jego członkowie (zakładka „Czy "
                    f"to wzrost”)."),
         ],
-        zastrzezenie=f"Spadek marży w III kwartale {rok}, o {proc(abs(E['q3_zmiana_proc']), 0)} rok do roku, zależy od "
-                     f"jednorazowego zdarzenia: we wrześniu {rok - 1} ruszyła sprzedaż TelemediGO w newsletterze. Po odjęciu "
+        zastrzezenie=f"Marża po koszcie lekarza, kampaniach i prowizji spadła w III kwartale {rok} o "
+                     f"{proc(abs(E['q3_zmiana_proc']), 0)} rok do roku, ale ten spadek zależy od jednorazowego zdarzenia: we "
+                     f"wrześniu {rok - 1} ruszyła sprzedaż TelemediGO w newsletterze. Po odjęciu "
                      f"jednorazowej nadwyżki tego startu marża kwartału jest o {proc(E['q3_w1_zmiana_proc'], 0)} wyższa niż "
                      f"rok wcześniej.",
         szczegoly=[
@@ -497,8 +504,8 @@ def karta_wynik(wy, V, E, Z):
                    f"kosztem kampanii to przychód z konsultacji po zwrotach i z TelemediGO minus koszt lekarza."),
             podtytul(f"III kwartał {rok} bez jednorazowego startu sprzedaży TelemediGO"),
             akapit(f"Sprzedaż TelemediGO w newsletterze ruszyła {V['go_start_data']}. W pierwszych "
-                   f"{liczba(E['newsletter_dni_startu'])} dniach sprzedała {ile(E['q3_osobno_25'], 'czlonkostwo')}, a przy "
-                   f"późniejszym tempie ({liczba(E['newsletter_tempo_dzienne'], 2)} dziennie) sprzedałaby około "
+                   f"{liczba(E['newsletter_dni_startu'])} dniach pacjenci kupili {ile(E['q3_osobno_25'], 'czlonkostwo')}, a "
+                   f"przy późniejszym tempie ({liczba(E['newsletter_tempo_dzienne'], 2)} dziennie) kupiliby około "
                    f"{liczba(E['newsletter_norma_startu'])}. Jednorazowa nadwyżka to {ile(round(E['newsletter_nadwyzka']), 'zakup')}, "
                    f"czyli {tz(E['newsletter_nadwyzka_zl'])}. Bez niej marża III kwartału {rok} jest o "
                    f"{proc(E['q3_w1_zmiana_proc'])} wyższa niż rok wcześniej, a bez całej sprzedaży w newsletterze w obu "
@@ -598,11 +605,11 @@ def karta_ekonomia(ek, V, E):
                    f"płatnością."),
             akapit(f"Według pierwszego wejścia pacjent należy do kanału, z którego pierwszy raz wszedł na stronę, a kod "
                    f"kampanii na pierwszym zamówieniu rozstrzyga; według sesji z płatnością należy do kanału sesji, w której "
-                   f"zapłacił. W nowych kampaniach różnica między tymi podziałami to jedna grupa: według sesji z płatnością "
+                   f"zapłacił. W nowych kampaniach różnica między tymi regułami to jedna grupa: według sesji z płatnością "
                    f"do innych kanałów trafia {liczba(E['p_X_caly'])} pacjentów nowych kampanii na L4 z ostatnich 12 "
                    f"miesięcy. {liczba(E['p_X_caly_wejscie_n'])} z nich weszło pierwszy raz z reklamy nowej kampanii, a "
                    f"zapłaciło w innej sesji, a {liczba(E['p_X_caly_tylko_kod_n'])} weszło z innego kanału, ale zapłaciło z "
-                   f"kodem nowej kampanii. W ekonomii kampanii pokazujemy oba podziały, bo od nich zależy, której kampanii "
+                   f"kodem nowej kampanii. W ekonomii kampanii pokazujemy obie reguły, bo od nich zależy, której kampanii "
                    f"przypisujemy koszt pozyskania."),
             akapit(f"Zamówienia powtórne w sesjach kampanii w ostatnich 12 miesiącach: Google Ads na markę "
                    f"{proc(w2('gs_brand', 2)[0])} z {zile(w2('gs_brand', 2)[1], 'zamowienie')}, remarketing Meta "
@@ -898,8 +905,199 @@ def zdarzenia_teksty(zdz, nag, jak, V, E):
                       "Przy każdym jest data, co się zmieniło, o ile i skąd to wiemy.")],
         zastrzezenie="Zdarzenia z tych samych miesięcy nakładają się, więc bez testu nie rozdzielamy ich skutków.",
         szczegoly=[akapit("Tory na osi: lejek (pozyskanie), retencja (kohorty), obsługa pacjenta (przebieg wizyt) i jakość "
-                          "danych. " + metoda_opis)])
+                          "danych. " + metoda_opis)],
+        # runda F, poprawka 1: jedna linijka z odnośnikiem do tabeli na górze „Kohort”
+        linki=[ET.link("Kohorty: co zmieniło się po każdym zdarzeniu i ile to jest warte", "#kohorty")])
     return ET.popraw(wstep)
+
+
+# ---------------------------------------------------------------- Kohorty: co zmieniło kohorty i wynik (runda F, poprawka 1)
+
+def _okna_zdarzenia(od):
+    """Porównanie „60 dni przed i po” zdarzeniu, tak jak na liście porównań w filtrach kohort (widoki.js, okresyPreset)."""
+    d = dt.date.fromisoformat(od)
+    a = (max(O1[0], d - dt.timedelta(days=60)), max(O1[0], d - dt.timedelta(days=1)))
+    b = (min(O2[1], d), min(O2[1], d + dt.timedelta(days=59)))
+    return a, b
+
+
+def tabela_zdarzen(koh, zdz, C, wy, V, E, nag, pz):
+    """Pierwsza karta zakładki „Kohorty”: które zdarzenie albo która decyzja zmieniła kohorty i wynik.
+    Tylko liczby już policzone, z tych samych pól eksportu co: karty zdarzeń na osi (zdz, w tym odcinki serii z
+    b_eksport.py), przegląd listy priorytetów (C["priorytety"]["przeglad"]: kwota, dopisek, pewność), ekonomia kampanii
+    (wy["ekonomia"]), karta Safari w lejku (nag["safari"]), karta zwrotów (pz) i „Czy to wzrost” (V, E).
+    Zapisuje koh["zdarzenia"] i zwraca wynik kontroli liczb wobec szkicu (notatki/e_teksty_zakladki.md,
+    sekcja „kohorty/zdarzenia”, pisana ręcznie z liczb widocznych na stronie)."""
+    L = {z["id"]: z for z in zdz["lista"]}
+    PR = {r["nr"]: r for r in C["priorytety"]["przeglad"]}
+    NW = {w["nr"]: w for w in C["niewiadome"]["wiersze"]}
+    dd = lambda iso: data(dt.date.fromisoformat(iso))  # noqa: E731
+    dz = lambda iso: (lambda d: f"{d.day} {B2.MIESIACE_DOP[d.month - 1]} {d.year}")(dt.date.fromisoformat(iso))  # noqa: E731
+
+    def nw(poczatek):
+        n = next(n for n, w in NW.items() if w["co"].startswith(poczatek))
+        return n, f"#niewiadome?n={n}"
+
+    def poz(nr):
+        return {"tekst": f"Pozycja {nr}: {PR[nr]['co']}", "href": f"#priorytety?p={nr}"}
+
+    def skutek_poz(nr, pod=None):
+        return {"kwota": PR[nr]["ile"], "dopisek": PR[nr]["ile_dopisek"], "pod": pod}
+
+    wiersze = []
+
+    def wiersz_(id_, rodzaj, co, kogo, zmiana_, zmiana_pod, skutek, pew, robimy, kiedy_pod=None):
+        a, b = _okna_zdarzenia(L[id_]["od"])
+        wiersze.append({"id": id_, "kiedy": dd(L[id_]["od"]), "kiedy_pod": kiedy_pod, "rodzaj": rodzaj, "co": co,
+                        "kogo": kogo, "zmiana": zmiana_, "zmiana_pod": zmiana_pod, "skutek": skutek, "pewnosc": pew,
+                        "robimy": robimy,
+                        "linki": [{"tekst": "Pokaż na kohortach dziennych",
+                                   "href": f"#kohorty?a={a[0]}_{a[1]}&b={b[0]}_{b[1]}"},
+                                  {"tekst": "Opis zdarzenia", "href": f"#zdarzenia?z={id_}"}]})
+
+    # 1. sprzedaż TelemediGO w newsletterze (karta zdarzenia i karta kwartałów w „Czy to wzrost”)
+    assert E["q3_zmiana_proc"] < 0 < E["q3_w1_zmiana_proc"]
+    wiersz_("start_go_upsell", "Decyzja", "Newsletter zaczyna sprzedawać samo TelemediGO", "Pacjenci, którzy już kupowali",
+            f"Zakupy samego TelemediGO: {ile(E['q3_osobno_25'], 'czlonkostwo')} w pierwszych "
+            f"{liczba(E['newsletter_dni_startu'])} dniach, wobec około {liczba(E['newsletter_norma_startu'])} przy "
+            f"późniejszym tempie",
+            f"Późniejsze tempo: {liczba(E['newsletter_tempo_dzienne'], 2)} zakupu dziennie, średnia z ostatnich 12 miesięcy",
+            {"kwota": f"+{tz(E['newsletter_nadwyzka_zl'])}",
+             "dopisek": f"jednorazowo w marży III kwartału 2025 ({ile(round(E['newsletter_nadwyzka']), 'zakup')} ponad "
+                        f"późniejsze tempo)",
+             "pod": f"Przez to marża po koszcie lekarza, kampaniach i prowizji jest w III kwartale 2026 o "
+                    f"{proc(abs(E['q3_zmiana_proc']), 0)} niższa niż rok wcześniej, a po odjęciu tej nadwyżki o "
+                    f"{proc(E['q3_w1_zmiana_proc'], 0)} wyższa."},
+            {"dopisek": "Skok sprzedaży widoczny w danych; nadwyżkę szacujemy z późniejszego tempa"},
+            [{"tekst": "Odejmujemy ją przy porównaniu kwartałów (Wynik biznesu)", "href": "#wynik"}])
+
+    # 2. kampania Meta na L4 (start kampanii, udział nowych kampanii, marża w 30 dniach, powrót z „Czy to wzrost”)
+    meta, tt = L["start_meta_l4"], L["start_tiktok"]
+    u, m30 = L["udzial_nowych"]["_odcinki"], L["marza30_spada"]["_odcinki"]
+    NZ, B1 = V["pow_nowe_z1k"], V["pow_bez_z1k"]
+    assert u[0]["poziom"] == 0 and u[-1]["poziom"] == max(x["poziom"] for x in u) and m30[-1]["poziom"] < m30[0]["poziom"]
+    wiersz_("start_meta_l4", "Decyzja", "Start kampanii Meta na L4", "Nowi pacjenci: skład kohort",
+            f"Udział nowych kampanii na L4 w nowych pacjentach: {proc(u[0]['poziom'])} → {proc(u[-1]['poziom'])} od "
+            f"{dd(u[-1]['od'])} (od {dd(tt['od'])} razem z TikTokiem). W 90 dniach wraca {proc(NZ['p90_o2'])} ich "
+            f"pacjentów, a pozostałych {proc(B1['p90_o2'])}. Marża nowego pacjenta w 30 dniach: "
+            f"{liczba(m30[0]['poziom'], 1)} zł → {liczba(m30[-1]['poziom'], 1)} zł od {dd(m30[-1]['od'])}.",
+            f"Udział: {ile(u[0]['n'], 'pacjent')} do {dd(u[0]['do'])}, {ile(u[-1]['n'], 'pacjent')} od {dd(u[-1]['od'])}. "
+            f"Powrót: kohorty ostatnich 12 miesięcy z pełnym oknem, {ile(NZ['n90_o2'], 'pacjent')} i "
+            f"{ile(B1['n90_o2'], 'pacjent')}. Marża: {ile(m30[0]['n'], 'pacjent')} od {dd(m30[0]['od'])}, "
+            f"{ile(m30[-1]['n'], 'pacjent')} od {dd(m30[-1]['od'])}.",
+            skutek_poz(9), PR[9]["pewnosc"], [poz(9), poz(5)],
+            kiedy_pod=f"ruch rośnie skokami od {dd(meta['_skoki'][0])}")
+
+    # 3. zwroty po wizycie (karta zdarzenia i karta zwrotów w „Po zakupie”)
+    zw = L["zwroty_pierwsze"]["_odcinki"]
+    zw2 = (_zw_suma(pz, None, True, 2), _zw_suma(pz, None, True, 2, "zw_zl"), _zw_suma(pz, None, True, 2, "kl_zw"))
+    assert zw2[0] == E["zw_nowe_wszystkie"]
+    wiersz_("zwroty_pierwsze", "Zdarzenie", "Więcej zwrotów po odbytej wizycie",
+            "Pierwsze zamówienia, głównie wizyty L4 pacjentów nowych kampanii",
+            "Zwrot po odbytej wizycie: " + " → ".join([f"{proc(zw[0]['poziom'])} pierwszych zamówień"]
+                                                       + [f"{proc(x['poziom'])} od {dd(x['od'])}" for x in zw[1:]]),
+            ", ".join(f"{ile(x['n'], 'pacjent')} od {dd(x['od'])}" for x in zw),
+            {"kwota": f"{zl(zw2[1])} zwrotów",
+             "dopisek": f"i {zl(zw2[2])} kosztu lekarza w ostatnich 12 miesiącach u pacjentów nowych kampanii "
+                        f"({ile(zw2[0], 'wizyta')}, wszystkie cele wizyty)"},
+            PR[5]["pewnosc"], [poz(5)])
+
+    # 4. poranne opóźnienia u internistów (karta zdarzenia)
+    op = L["opoznienia_rano"]["_odcinki"]
+    wiersz_("opoznienia_rano", "Zdarzenie", "Poranne opóźnienia u internistów",
+            "Poranne wizyty u internisty (6:00–11:59), także pacjentów spoza nowych kampanii",
+            "Wizyty ponad 15 minut po terminie: " + " → ".join([f"{proc(op[0]['poziom'])} porannych wizyt"]
+                                                               + [f"{proc(x['poziom'])} od {dd(x['od'])}" for x in op[1:]]),
+            ", ".join(f"{ile(x['n'], 'wizyta')} od {dd(x['od'])}" for x in op) + "; pacjenci spoza nowych kampanii",
+            skutek_poz(6), PR[6]["pewnosc"], [poz(6)])
+
+    # 5. kampania TikTok na L4 (start kampanii, powrót w 30 dniach, ekonomia kampanii)
+    p30 = L["powrot30_spada"]["_odcinki"]
+    rows = wy["ekonomia"]["wiersze"]
+    ttw = {reg: next(x for x in rows if x["poziom"] == "kampania" and x["klucz"] == "tt_prosp_l4_15min"
+                     and x["regula"] == reg and x["okno"] == 90 and x["okres"] == 2)["wynik"] for reg in ("Z1K", "Z2")}
+    assert max(ttw.values()) < 0 and p30[2]["poziom"] < p30[1]["poziom"]
+    wiersz_("start_tiktok", "Decyzja", "Start kampanii TikTok na L4", "Nowi pacjenci: skład kohort",
+            f"Powrót nowych pacjentów w 30 dniach: {proc(p30[1]['poziom'])} → {proc(p30[2]['poziom'])} od "
+            f"{dd(p30[2]['od'])}",
+            f"{ile(p30[1]['n'], 'pacjent')} od {dd(p30[1]['od'])} do {dd(p30[1]['do'])}, {ile(p30[2]['n'], 'pacjent')} od "
+            f"{dd(p30[2]['od'])} do {dd(p30[2]['do'])}; wszyscy nowi pacjenci",
+            skutek_poz(3, pod=f"Wynik na pacjenta po koszcie pozyskania w 90 dniach: {zlz(ttw['Z1K'])} według pierwszego "
+                              f"wejścia i {zlz(ttw['Z2'])} według sesji z płatnością (ekonomia kampanii)"),
+            PR[3]["pewnosc"], [poz(3)],
+            kiedy_pod=f"ruch rośnie skokami do {dd(tt['_skoki'][-1])}")
+
+    # 6. powrót w kampaniach działających w obu latach (karta zdarzenia; kandydat poniżej progu)
+    p9 = L["powrot90_stare"]["_odcinki"]
+    n4, h4 = nw("Skąd poranne opóźnienia")
+    wiersz_("powrot90_stare", "Zmiana bez znanej przyczyny", "Spada powrót w kampaniach działających w obu latach",
+            "Nowi pacjenci kampanii i kanałów działających w obu latach",
+            f"Powrót w 90 dniach: {proc(p9[0]['poziom'])} przed → {proc(p9[1]['poziom'])} po",
+            f"{ile(p9[0]['n'], 'pacjent')} i {ile(p9[1]['n'], 'pacjent')}, kohorty z pełnym oknem 90 dni",
+            {"kwota": "Nie policzono"},
+            {"dopisek": "Zmiana poniżej progu metody wykrywania zmian"},
+            [{"tekst": f"Czego nie wiemy, punkt {n4}: czy obniżają go poranne opóźnienia", "href": h4}])
+
+    # 7. awaria Safari (karta Safari w lejku i pozycja 1)
+    s = nag["safari"]
+    wiersz_("safari_ios", "Awaria", "Zakładanie konta w Safari na iPhone'ach i iPadach",
+            "Osoby, które jeszcze nie kupowały, w Safari na iOS",
+            f"Krok konta po wyborze terminu: {proc(s['przed_proc'])} → {proc(s['po60_proc'])}; pozostałe przeglądarki "
+            f"{proc(s['reszta_przed_proc'])} → {proc(s['reszta_po60_proc'])}",
+            f"60 dni przed awarią ({dd(s['przed_od'])}–{dd(s['przed_do'])}, {ile(s['przed_k2'], 'sesja')} z wyborem terminu "
+            f"w Safari) i 60 dni po niej ({dd(s['po60_od'])}–{dd(s['po60_do'])}, {ile(s['po60_k2'], 'sesja')})",
+            skutek_poz(1, pod=f"{liczba(s['utracone_od'])}–{liczba(s['utracone_do'])} utraconych pierwszych zamówień do "
+                              f"{data(O2[1])}"),
+            PR[1]["pewnosc"], [poz(1)])
+
+    # 8. Google Ads na markę (karta zdarzenia; te same pola co jej zdanie „ile” w b2_eksport_c.py)
+    mk = V["marka_okna"]
+    md = {k: [B2.pl_data(x) for x in v] for k, v in V["marka_daty"].items()}
+    A_, D_ = md["A_przed_caly"], md["D_po_spadku"]
+    n21, h21 = nw("Dlaczego od " + data(D_[0]))
+    wiersz_("marka_konwersja", "Zmiana bez znanej przyczyny", "Spada konwersja Google Ads na markę",
+            "Osoby, które jeszcze nie kupowały, z kampanii Google Ads na markę",
+            f"Płatność na sesję: {proc(mk['A_przed_caly'][-1])} → {proc(mk['D_po_spadku'][-1])}",
+            f"{ile(mk['A_przed_caly'][1], 'sesja')} od {data(A_[0])} do {data(A_[1])}, {ile(mk['D_po_spadku'][1], 'sesja')} "
+            f"od {data(D_[0])} do {data(D_[1])}",
+            {"kwota": "W złotych nie policzono",
+             "dopisek": f"około {B2.zakres(-V['marka_na30'][3], -V['marka_na30'][1], 1)} zamówienia mniej na 30 dni, "
+                        f"zależnie od okna porównania"},
+            {"dopisek": f"Część może być sezonowa: rok wcześniej w tym samym sezonie spadek był mniejszy "
+                        f"({liczba(V['marka_rok_wczesniej'], 1)} punktu) i nieistotny"},
+            [{"tekst": f"Czego nie wiemy, punkt {n21}", "href": h21}])
+
+    # tytuł i wniosek: „głównie” = udział nowych kampanii w spadku powrotu (rozkład opisowy z „Czy to wzrost”);
+    # „największa pewna strata” = najwyższa kwota wśród pozycji o wysokiej pewności
+    assert E["rozklad_Z1K_udzial_nowych_w_spadku"] > 50
+    gora = lambda r: max(float(x.replace(",", ".")) for x in re.findall(r"\d+(?:,\d+)?", r["ile"]))  # noqa: E731
+    wys = [r for r in PR.values() if r["pewnosc"]["poziom"] == "wysoka"]
+    assert PR[1] in wys and gora(PR[1]) == max(gora(r) for r in wys)
+    k = karta(
+        "Kohorty zmieniły się głównie po naszych decyzjach o kampaniach na L4, a wynik obniża dodatkowo awaria Safari",
+        wniosek=f"Od {dz(u[-1]['od'])} nowe kampanie na L4 dają {proc(u[-1]['poziom'], 0)} nowych pacjentów, a największą "
+                f"pewną stratą jest awaria Safari: {PR[1]['ile']} marży rocznie.",
+        wstaw="tabela_zdarzen",
+        zastrzezenie="Zdarzenia z tych samych miesięcy nakładają się, więc tabela pokazuje, co zmieniło się po zdarzeniu, "
+                     "a nie dowodzi przyczyny.",
+        szczegoly=[
+            akapit("Kiedy: dzień startu kampanii albo dzień zmiany, który wskazała metoda wykrywania zmian w serii dziennej "
+                   "(opis w zakładce „Zdarzenia”). Liczby w wierszach to te same liczby co w kartach zdarzeń, w pozycjach "
+                   "listy priorytetów i w ekonomii kampanii, więc wiersze mają różne miary."),
+            akapit("„Pokaż na kohortach dziennych” ustawia dla każdego wiersza to samo porównanie kohort: 60 dni przed "
+                   "zdarzeniem i 60 dni po nim, powrót w 90 dniach, z podziałem na nowe kampanie na L4 i pozostałe."),
+            akapit("Spadek marży nowego pacjenta w 30 dniach i powrotu w 30 dniach (osobne zdarzenia na osi) stoi w wierszach "
+                   "kampanii na L4. Remarketing Meta i dwa zdarzenia jakości danych (godzina bez danych i duplikaty "
+                   "zamówień) są tylko na osi zdarzeń."),
+        ],
+        linki=[ET.link("Wszystkie zdarzenia na osi", "#zdarzenia")],
+        zrodlo="karty zdarzeń na osi (analiza/b_eksport.py, analiza/e_teksty_zakladki.py), przegląd listy priorytetów "
+               "(analiza/e_teksty.py), ekonomia kampanii (analiza/a5e_ekonomia.py → analiza/wyniki/a5e_kampanie.csv), "
+               "powroty z „Czy to wzrost” (analiza/wyniki/c_priorytety.txt).")
+    koh["zdarzenia"] = {"karta": k, "wiersze": wiersze,
+                        "kolumny": ["Kiedy", "Co się stało", "Kogo dotyczy", "Co zmieniło się po nim", "Skutek w złotych",
+                                    "Pewność", "Co robimy"]}
+    return ET.kontrola([("kohorty/zdarzenia", koh["zdarzenia"], [], [])], notatka=ET.E_TEKSTY_ZAKLADKI, prefiks="z")
 
 
 # ---------------------------------------------------------------- główna funkcja

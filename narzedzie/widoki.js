@@ -82,8 +82,9 @@
     var B = b(), td = B.el("td"), j = jedn === undefined ? "%" : jedn, m = miejsca === undefined ? 1 : miejsca;
     var f = function (v) { return v === null || !isFinite(v) ? "—" : B.liczba(v, m) + (j === "%" ? "%" : j ? " " + j : ""); };
     td.appendChild(B.el("span", { class: "b", text: f(pB) }));
-    td.appendChild(B.el("span", { class: "n", text: nB !== null ? " z " + B.liczba(nB) : "" }));
-    var a = B.el("span", { class: "a", text: (o.pref || "A: ") + f(pA) + (nA !== null ? " z " + B.liczba(nA) : "") });
+    // „z” i liczba sklejone twardą spacją, żeby na wąskim ekranie nie rozdzielał ich koniec wiersza
+    td.appendChild(B.el("span", { class: "n", text: nB !== null ? " z " + B.liczba(nB) : "" }));
+    var a = B.el("span", { class: "a", text: (o.pref || "A: ") + f(pA) + (nA !== null ? " z " + B.liczba(nA) : "") });
     if (pA !== null && pB !== null && isFinite(pA) && isFinite(pB)) a.appendChild(B.zmianaPkt(pB - pA, m, odwrotnie, o));
     td.appendChild(a);
     return td;
@@ -387,6 +388,13 @@
     });
     var r = domyslneK();
     if (KS.preset === "wlasne" && KS.a.join() === r.a.join() && KS.b.join() === r.b.join()) KS.preset = "rok";
+    // daty „60 dni przed i po” zdarzeniu (np. z tabeli zdarzeń): na liście porównań ta pozycja, a nie „własne daty”
+    if (KS.preset === "wlasne") B.ZD.lista.some(function (z) {
+      var t = {};
+      okresyPreset("zd:" + z.id, t);
+      if (t.a && t.a.join() === KS.a.join() && t.b.join() === KS.b.join()) { KS.preset = "zd:" + z.id; return true; }
+      return false;
+    });
     WYMIARY.forEach(function (w) { if (q.get("f_" + w.id)) KS.f[w.id] = q.get("f_" + w.id); });
     KS.wybrane = q.get("w") ? q.get("w").split(",").filter(Boolean) : null;
   }
@@ -559,15 +567,51 @@
     w.hidden = !(M && M.wniosek && domyslna);
   }
 
+  // tabela „co zmieniło kohorty i wynik” (pierwsza karta zakładki; wiersze z eksportu, D.kohorty.zdarzenia):
+  // na komputerze tabela, na telefonie każdy wiersz jako blok z etykietami kolumn (styl tabela-tekst)
+  function tabelaZdarzen(KZ) {
+    var B = b(), el = B.el, BK = B.BK, kol = KZ.kolumny;
+    var pod = function (t) { return t ? el("span", { class: "pod", text: t }) : null; };
+    var pewn = function (p) {
+      if (p && p.poziom) return [BK.pewnosc(p), p.dopisek ? el("span", { class: "pewnosc-dopisek", text: p.dopisek }) : null];
+      return [el("span", { class: "pewnosc-opis", text: (p && p.dopisek) || "—" })];
+    };
+    var t = el("table", { class: "tabela tabela-tekst tabela-zdarzen", id: "ko-zd-tabela" }, [
+      el("thead", null, [el("tr", null, kol.map(function (k) { return el("th", { scope: "col", text: k }); }))])]);
+    var tb = el("tbody");
+    KZ.wiersze.forEach(function (w) {
+      var sk = w.skutek || {};
+      tb.appendChild(el("tr", { id: "ko-zd-" + w.id }, [
+        el("td", { class: "zd-kiedy", "data-etykieta": kol[0] }, [el("strong", { text: w.kiedy }), pod(w.kiedy_pod)]),
+        el("td", { "data-etykieta": kol[1] }, [el("span", { class: "zd-rodzaj", text: w.rodzaj }), el("span", { class: "zd-co", text: w.co })]),
+        el("td", { "data-etykieta": kol[2], text: w.kogo }),
+        el("td", { "data-etykieta": kol[3] }, [el("span", { text: w.zmiana }), pod(w.zmiana_pod)]),
+        el("td", { "data-etykieta": kol[4] }, [el("span", { class: "kwota", text: sk.kwota }),
+          sk.dopisek ? el("span", { class: "kwota-dopisek", text: sk.dopisek }) : null, pod(sk.pod)]),
+        el("td", { "data-etykieta": kol[5] }, pewn(w.pewnosc)),
+        el("td", { "data-etykieta": kol[6] }, (w.robimy || []).map(function (r) {
+          return el("a", { class: "zd-robimy", href: r.href, text: r.tekst });
+        }).concat([el("span", { class: "zd-linki" }, (w.linki || []).map(function (l) { return el("a", { href: l.href, text: l.tekst }); }))]))]));
+    });
+    t.appendChild(tb);
+    return el("div", { class: "tabela-ramka" }, [t]);
+  }
+
   BW.kohorty = {
     pokaz: function (q) {
       var B = b(), cel = B.$("ko-wykres");
       if (!gotoweK) {
+        B.akapity(B.$("ko-zdarzenia-tresc"), ["Wczytywanie danych kohort…"]);
         B.akapity(B.$("ko-zdania"), ["Wczytywanie danych kohort…"]);
       }
       B.wczytaj("kohorty", "kohorty").then(function (dane) {
         if (!K) { K = dane; przygotujK(); }
         if (!gotoweK) {
+          var KZ = K.zdarzenia;
+          if (KZ && KZ.wiersze) {
+            B.zdaniaAlboKarta(B.$("ko-zdarzenia"), B.$("ko-zdarzenia-tresc"), KZ.karta, null,
+              { tabela_zdarzen: function () { return tabelaZdarzen(KZ); } });
+          } else B.$("ko-zdarzenia").hidden = true;
           B.zdaniaAlboKarta(B.$("ko-naglowek"), B.$("ko-zdania"), K.karta, K.zdania);
           // obraz liczby z wniosku: powrót w czterech oknach, rok wcześniej → ostatnie 12 miesięcy
           if (BW.hantleRetencji) B.BK.wstawWykres(B.$("ko-naglowek"), BW.hantleRetencji());
@@ -577,6 +621,11 @@
         filtryK();
         filtryMacierzy();
         rysujK();
+        // odnośnik z filtrami (także z tabeli zdarzeń) przewija do wykresu dzień po dniu, jak w lejku do wykresu kroków;
+        // sama zakładka (#kohorty) otwiera się na górze, przy tabeli zdarzeń
+        if (q && Array.from(q.keys()).length) setTimeout(function () {
+          B.$("ko-wykres-karta").scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 60);
       }).catch(function (e) { B.akapity(B.$("ko-zdania"), [e.message + ". Odśwież stronę."]); });
     },
     przerysuj: function () { if (K && KS) { rysujK(true); rysujKrzywa(); } }
@@ -637,6 +686,13 @@
   }
 
   var RUCH_GRUPA = "wszyscy";
+  // forma „wizyta / wizyty / wizyt” po przedziale ruchu: idzie za ostatnią liczbą („21–24 wizyty”, „25–28 wizyt”);
+  // po „do 8” i „41 i więcej” zawsze „wizyt”
+  function wizytPrzedzialu(pz) {
+    var m = /(\d+)$/.exec(pz), n = m ? +m[1] : 0;
+    if (!m || /^do /.test(pz)) return "wizyt";
+    return n === 1 ? "wizyta" : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? "wizyty" : "wizyt";
+  }
   function rysujRuch() {
     var B = b(), t = B.wyczysc(B.$("pz-ruch")), stare = RUCH_GRUPA === "pozostale", hw = [];
     var przedz = [];
@@ -652,7 +708,7 @@
       var a = f(o[1]), bb = f(o[2]);
       if (a[0] !== null && bb[0] !== null) {
         var d = bb[0] - a[0];
-        hw.push({ etykieta: pz + " wizyt", a: a[0], b: bb[0], tekstA: B.proc(a[0]), tekstB: B.proc(bb[0]),
+        hw.push({ etykieta: pz + " " + wizytPrzedzialu(pz), a: a[0], b: bb[0], tekstA: B.proc(a[0]), tekstB: B.proc(bb[0]),
           tytul: "Poranne wizyty u internisty w dniach z ruchem " + pz + ": spóźnione ponad 15 minut rok wcześniej " + B.proc(a[0]) + " z " + B.liczba(a[1]) +
             ", ostatnie 12 miesięcy " + B.proc(bb[0]) + " z " + B.liczba(bb[1]),
           zmiana: { tekst: B.znak(d, 1) + " pkt proc.", kierunek: B.BK.kierunekZnaku(d), stan: Math.abs(d) < 0.05 ? "neutralnie" : d > 0 ? "zle" : "dobrze" } });

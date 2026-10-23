@@ -120,9 +120,10 @@
   <!-- KOHORTY -->
   <section id="v-kohorty" class="widok" hidden>
     <h2>Kohorty dzienne nowych pacjentów</h2>
-    <article class="karta karta-naglowek" id="ko-naglowek"><div id="ko-zdania"></div></article>
+    <!-- co zmieniło kohorty i wynik: tabela zdarzeń i decyzji z danych (D.kohorty.zdarzenia) -->
+    <article class="karta karta-naglowek" id="ko-zdarzenia"><div id="ko-zdarzenia-tresc"></div></article>
     <form class="filtry" id="ko-filtry" onsubmit="return false"></form>
-    <article class="karta">
+    <article class="karta" id="ko-wykres-karta">
       <div class="naglowek-karty">
         <h3 id="ko-wykres-tytul">Dzień po dniu</h3>
         <div class="filtry-wykresu" id="ko-filtry-wykresu"></div>
@@ -133,6 +134,7 @@
         <p>Powrót i marża kończą się na ostatniej kohorcie z pełnym oknem. Przeciągnij po wykresie, żeby przybliżyć, kliknij dwukrotnie, żeby wrócić.</p>
       </div></details>
     </article>
+    <article class="karta" id="ko-naglowek"><div id="ko-zdania"></div></article>
     <article class="karta">
       <div class="naglowek-karty">
         <h3>Kohorty w podziale</h3>
@@ -156,7 +158,7 @@
       <div class="skala-macierzy" id="ko-macierz-skala"></div>
       <div class="tabela-ramka macierz-ramka"><table class="tabela macierz" id="ko-macierz"></table></div>
       <details class="jak-liczymy"><summary>Jak czytać</summary><div class="szczegoly-tresc">
-        <p>Kohorta to nowi pacjenci z tego samego miesiąca, tygodnia albo dnia pierwszego zakupu; domyślnie miesiąc. Kohorty dzienne mają po około 40 pacjentów, więc ich wartości skaczą z dnia na dzień; rozdzielczość dzienną pokazuje wykres dzień po dniu wyżej.</p>
+        <p>Kohorta to nowi pacjenci z tego samego miesiąca, tygodnia albo dnia pierwszego zakupu; domyślnie miesiąc. Kohorty dzienne mają po kilkadziesiąt pacjentów, więc ich wartości skaczą z dnia na dzień; rozdzielczość dzienną pokazuje wykres dzień po dniu wyżej.</p>
         <p>Skala koloru jest jedna dla całej macierzy: progi są te same w każdej kolumnie i przy każdym filtrze, więc ten sam kolor zawsze oznacza ten sam przedział odsetka. Kolumna „Zdarzenia” podaje numery zdarzeń z osi, które wypadają w tej kohorcie. Filtry są te same co wyżej, bez podziału na serie.</p>
       </div></details>
     </article>

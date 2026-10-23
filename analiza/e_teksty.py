@@ -171,10 +171,10 @@ REGULY = [
      "którzy według pierwszego wejścia należą do nowych kampanii, a według sesji z płatnością do innych kanałów"),
     (r"Według drugiej reguły źródła, czyli sesji płatności,", "Według sesji z płatnością"),
     (r"Według drugiej reguły \(sesja płatności\)", "Według sesji z płatnością"),
-    (r"Druga reguła \(sesja płatności\) daje", "Podział według sesji z płatnością daje"),
-    (r"\bprzyjęta reguła z definicji", "podział według pierwszego wejścia z definicji"),
-    (r"\bsesja płatności przypisuje", "podział według sesji z płatnością przypisuje"),
-    (r"\bta reguła przypisuje", "ten podział przypisuje"),
+    # runda F, P9: zbiorcza nazwa to „reguła przypisania”; słowo „podział” zostaje dla rozkładu spadku i wymiaru filtra
+    (r"Druga reguła \(sesja płatności\) daje", "Reguła sesji z płatnością daje"),
+    (r"\bprzyjęta reguła z definicji", "reguła pierwszego wejścia z definicji"),
+    (r"\bsesja płatności przypisuje", "reguła sesji z płatnością przypisuje"),
     (r"trzymamy się (?:przyjętej reguły|reguły przyjętej)", "liczymy według pierwszego wejścia"),
     (r"\bpacjentów reguły przyjętej\b", "pacjentów według pierwszego wejścia"),
     (r"\b([Ww])edług (?:przyjętej reguły(?: źródła)?|reguły przyjętej|naszej reguły)", r"\1edług pierwszego wejścia"),
@@ -339,11 +339,11 @@ def wzrost(V, E, C):
     decyzje = {"tytul": "Decyzje na pierwszy tydzień", "punkty": [
         {"nr": 1, "tekst": "Naprawić zakładanie konta w Safari na iPhone'ach", "href": "#priorytety?p=1",
          "dopisek": f"pozycja 1 · do {z0(V['p1_hi'][3] / 1000)} tys. zł marży rocznie"},
-        {"nr": 2, "tekst": "Wstrzymać kampanię TikTok na L4 i kampanię Google Ads na specjalistów", "href": "#priorytety?p=3",
-         "dopisek": "pozycje 3 i 4 · obie tracą na każdym pacjencie według obu reguł przypisania, a pauzę da się cofnąć "
-                    "w jeden dzień"},
-        {"nr": 3, "tekst": "Oczyścić codzienny raport i dodać alarmy na lejku", "href": "#priorytety?p=2",
-         "dopisek": f"pozycja 2 · awaria Safari trwała {liczba(V['p1_lo'][1])} dni bez alarmu"},
+        {"nr": 2, "tekst": "Oczyścić codzienny raport i dodać alarmy na lejku", "href": "#priorytety?p=2",
+         "dopisek": f"pozycja 2 · awaria Safari trwała {liczba(V['p1_lo'][1])} dni, do końca danych"},
+        {"nr": 3, "tekst": "Wstrzymać kampanię TikTok na L4 i kampanię Google Ads na specjalistów", "href": "#priorytety?p=3",
+         "dopisek": "pozycje 3 i 4 · obie tracą na każdym pacjencie według obu reguł przypisania źródła (pierwsze wejście "
+                    "i sesja z płatnością), a pauzę da się cofnąć w jeden dzień"},
         {"nr": 4, "tekst": "Zrobić krótkie sprawdzenia: obietnica reklam L4, poranne grafiki internistów, zakup po "
                            "zalogowaniu, kliknięcia w panelach reklam", "href": "#priorytety?p=5",
          "dopisek": "pierwsze kroki pozycji 5, 6, 8 i 11 · każde zajmuje dzień albo dwa"},
@@ -364,8 +364,8 @@ def wzrost(V, E, C):
             f"Bez pacjentów dwóch nowych kampanii na L4: {liczba(V['bez_z1k'])}. Te kampanie dały {z0(nowe_udz)}% nowych "
             f"pacjentów, a ich pacjent zostawia w 90 dniach {z0(V['nowe_marza'][4])} zł marży przed kosztem pozyskania wobec "
             f"{z0(V['m90_bez_z1k'])} zł pozostałych.",
-            f"Z kanałów bezpłatnych (wejścia bezpośrednie, bezpłatna wyszukiwarka, program poleceń) przybyło "
-            f"{z0(wz[3])}% nowych pacjentów, licząc według pierwszego wejścia.",
+            f"Nowych pacjentów z kanałów bezpłatnych (wejścia bezpośrednie, bezpłatna wyszukiwarka, program poleceń) jest "
+            f"o {z0(wz[3])}% więcej niż rok wcześniej, licząc według pierwszego wejścia.",
         ])],
         zastrzezenie="Nie wiemy, ilu pacjentów nowych kampanii przyszłoby i bez nich. Sprawdzi to test z wyłączeniem "
                      "reklamy w części kraju (pozycja 9 listy priorytetów).",
@@ -381,8 +381,8 @@ def wzrost(V, E, C):
             f"{liczba(E['p_X_caly_wejscie_n'])} weszło pierwszy raz z reklamy nowej kampanii, a zapłaciło w innej sesji "
             f"(najczęściej po wejściu bezpośrednim albo z wyszukiwarki), a {liczba(E['p_X_caly_tylko_kod_n'])} weszło "
             f"z innego kanału, ale zapłaciło z kodem nowej kampanii. Wracają tak rzadko jak pozostali pacjenci nowych "
-            f"kampanii. Bez nich oba podziały dają ten sam przyrost pacjentów, ten sam powrót i tę samą marżę, więc pacjentów "
-            f"i retencję opisujemy według pierwszego wejścia. W ekonomii kampanii pokazujemy oba podziały.",
+            f"kampanii. Bez nich obie reguły przypisania dają ten sam przyrost pacjentów, ten sam powrót i tę samą marżę, więc "
+            f"pacjentów i retencję opisujemy według pierwszego wejścia. W ekonomii kampanii pokazujemy obie reguły.",
         ])],
         linki=[link("Kohorty: nowi pacjenci według źródła pozyskania", "#kohorty?okno=90&podz=kanal&wygl=28")],
         zrodlo="analiza/wyniki/c_priorytety.txt (W1), analiza/wyniki/e_merytoryka.txt (punkt 1). Notatki: "
@@ -421,8 +421,9 @@ def wzrost(V, E, C):
             f"Marża na pacjenta w 90 dniach, przed kosztem pozyskania, spadła z {z0(V['m90'][1])} do "
             f"{z0(V['m90'][2])} zł. Poza nowymi kampaniami prawie stoi.",
         ])],
-        zastrzezenie="To opis zmiany, który nie wskazuje jej przyczyny. Nie wiemy, czy ci sami pacjenci zachowują się dziś gorzej, czy zmieniło "
-                     "się to, kto do nas trafia.",
+        zastrzezenie="Te liczby opisują zmianę, ale nie wskazują jej przyczyny. Nie wiemy, dlaczego spada powrót w kanałach "
+                     "działających w obu latach: czy ci sami pacjenci zachowują się dziś gorzej, czy zmieniło się to, kto do "
+                     "nas trafia.",
         szczegoly=[punkty([
             f"Powrót to kolejne zamówienie, które nie zostało anulowane. Liczymy go na tych samych dniach kalendarzowych "
             f"(pierwsze zakupy do {int(pw[2])} {B2.MIESIACE_DOP[int(pw[1]) - 1]} w obu latach przy oknie 90 dni) i tylko "
@@ -437,9 +438,9 @@ def wzrost(V, E, C):
             f"mniej; bez pacjentów nowych kampanii {liczba(Dd['kolejne90_bez_nowych_z1k_okres2_srednia_na_pacjenta'], 3)}.",
             f"Według sesji z płatnością bez nowych kampanii powrót wynosi {proc(B2_['p90_o2'])}, a marża "
             f"{liczba(V['m90_bez_z2'], 1)} zł. Cała różnica to {liczba(E['r_X_n'])} pacjentów nowych kampanii (z pełnym "
-            f"oknem 90 dni), których ten podział przypisuje innym kanałom: {liczba(E['r_X_wejscie_n'])} weszło z reklamy "
+            f"oknem 90 dni), których ta reguła przypisuje innym kanałom: {liczba(E['r_X_wejscie_n'])} weszło z reklamy "
             f"nowej kampanii, a zapłaciło w innej sesji, a {liczba(E['r_X_tylko_kod_n'])} zapłaciło z kodem nowej "
-            f"kampanii po wejściu z innego kanału. Wracają w {liczba(E['r_X_powrot'], 1)}%. Bez nich oba podziały dają "
+            f"kampanii po wejściu z innego kanału. Wracają w {liczba(E['r_X_powrot'], 1)}%. Bez nich obie reguły dają "
             f"{proc(B1['p90_o2'])} i {liczba(V['m90_bez_z1k'], 1)} zł, a udział nowych kampanii w spadku powrotu wynosi w "
             f"obu {z0(u_z1k)}% (według sesji z płatnością bez tej poprawki {z0(E['rozklad_Z2_udzial_nowych_w_spadku'])}%).",
             f"„Około {z0(u_z1k)}% spadku” to podział opisowy, czyli bez mierzenia wpływu: udział pacjentów nowych kampanii "
@@ -458,7 +459,8 @@ def wzrost(V, E, C):
             "Część spadku w kanałach działających w obu latach może wiązać się z porannymi opóźnieniami u internistów: po "
             "spóźnionej pierwszej wizycie pacjenci wracają rzadziej. Dane tego nie rozstrzygają (Czego nie wiemy, punkt 4).",
         ])],
-        linki=[link("Kohorty: powrót w 90 dniach, nowe kampanie na L4 i pozostałe", "#kohorty?okno=90&podz=grupa&wygl=28"),
+        linki=[link("Kohorty: co zmieniło się po każdym zdarzeniu i każdej decyzji", "#kohorty"),   # runda F, poprawka 1
+               link("Kohorty: powrót w 90 dniach, nowe kampanie na L4 i pozostałe", "#kohorty?okno=90&podz=grupa&wygl=28"),
                link("Kohorty: powrót bez pacjentów nowych kampanii", "#kohorty?okno=90&f_grupa=pozostale&wygl=28")],
         zrodlo="analiza/wyniki/c_priorytety.txt (W2), analiza/wyniki/a5r_kohorty.txt (180 dni), analiza/wyniki/d_retencja.txt "
                "(usługi, kolejne zamówienia), analiza/wyniki/e_merytoryka.txt (punkt 1).")
@@ -521,6 +523,7 @@ def wzrost(V, E, C):
     assert q3["wydatki_razy"] > 2
     assert all(a["przed_rr_dokl"] > b["przed_rr_dokl"] and a["wydatki_razy"] < b["wydatki_razy"] for a, b in zip(kw, kw[1:])), \
         "„coraz szybciej / coraz wolniej” wymaga monotonicznych zmian w kolejnych kwartałach"
+    assert E["q3_zmiana_proc"] < 0 < E["q3_w1_zmiana_proc"], "zastrzeżenie mówi „spadła” i „wyższa”"
     wy = karta(
         "Z każdym kwartałem wydatki na kampanie rosną rok do roku szybciej, a marża przed ich kosztem wolniej",
         wniosek=f"W III kwartale 2026 marża przed kosztem kampanii wzrosła o {z0(q3['przed_rr_dokl'])}%, a wydatki na "
@@ -530,19 +533,19 @@ def wzrost(V, E, C):
             f"Marża przed kosztem kampanii wzrosła za cały rok o {z0(E['rok_przed_zmiana_proc'])}%, a wydatki na kampanie "
             f"o {z0(E['rok_wyd_zmiana_proc'])}%.",
         ])],
-        zastrzezenie=f"Spadek marży w III kwartale 2026, o {z0(abs(E['q3_zmiana_proc']))}% rok do roku, zależy od "
-                     f"jednorazowego zdarzenia: rok wcześniej we wrześniu ruszyła sprzedaż TelemediGO w newsletterze. Po "
-                     f"odjęciu jednorazowej nadwyżki tego startu marża kwartału jest o {z0(E['q3_w1_zmiana_proc'])}% wyższa "
-                     f"niż rok wcześniej.",
+        zastrzezenie=f"Marża po koszcie lekarza, kampaniach i prowizji spadła w III kwartale 2026 o "
+                     f"{z0(abs(E['q3_zmiana_proc']))}% rok do roku, ale ten spadek zależy od jednorazowego zdarzenia: rok "
+                     f"wcześniej we wrześniu ruszyła sprzedaż TelemediGO w newsletterze. Po odjęciu jednorazowej nadwyżki tego "
+                     f"startu marża kwartału jest o {z0(E['q3_w1_zmiana_proc'])}% wyższa niż rok wcześniej.",
         szczegoly=[punkty([
             f"Za cały rok marża po koszcie lekarza, kampaniach i prowizji wzrosła z {z0(E['rok_marza_1'] / 1000)} do "
             f"{z0(E['rok_marza_2'] / 1000)} tys. zł, czyli o {liczba(E['rok_marza_zmiana_proc'], 1)}%. Marża przed kosztem "
             f"kampanii wzrosła o {liczba(E['rok_przed_zmiana_proc'], 1)}%, a wydatki na kampanie o "
             f"{liczba(E['rok_wyd_zmiana_proc'], 1)}%.",
-            f"W III kwartale 2026 marża była o {liczba(abs(E['q3_zmiana_proc']), 1)}% niższa niż rok wcześniej. Sprzedaż "
-            f"TelemediGO w newsletterze sprzedała w pierwszych {liczba(E['newsletter_dni_startu'])} dniach "
-            f"{liczba(E['q3_osobno_25'])} członkostw; po odjęciu szacowanej nadwyżki tego startu marża kwartału rośnie o "
-            f"{liczba(E['q3_w1_zmiana_proc'], 1)}%.",
+            f"W III kwartale 2026 marża była o {liczba(abs(E['q3_zmiana_proc']), 1)}% niższa niż rok wcześniej. W pierwszych "
+            f"{liczba(E['newsletter_dni_startu'])} dniach sprzedaży TelemediGO w newsletterze pacjenci kupili "
+            f"{odm(E['q3_osobno_25'], 'członkostwo', 'członkostwa', 'członkostw')}; po odjęciu szacowanej nadwyżki tego "
+            f"startu marża kwartału jest o {liczba(E['q3_w1_zmiana_proc'], 1)}% wyższa niż rok wcześniej.",
             f"Warianty III kwartału: bez nadwyżki startu sprzedaży w newsletterze ({z0(E['newsletter_nadwyzka'])} z "
             f"{liczba(E['q3_osobno_25'])} zakupów ponad zwykłe tempo {z0(E['newsletter_norma_startu'])} na "
             f"{liczba(E['newsletter_dni_startu'])} dni, {tz(E['newsletter_nadwyzka_zl'])}) {zn(E['q3_w1_zmiana_proc'])}%; "
@@ -721,9 +724,9 @@ def priorytety(V, E, C):
         f"{zakres(lo[3] / 1000, hi[3] / 1000)} tys. zł",
         f"rocznie, górny scenariusz; w horyzoncie 180 dni {zakres(lo[4] / 1000, hi[4] / 1000)} tys. zł",
         pewnosc("wysoka", "awaria widoczna w danych"),
-        [("Dlaczego", [f"Krok konta po wyborze terminu u osób, które jeszcze nie kupowały, spadł w Safari na iPhone'ach z "
-                       f"{z0(V['safari_krok'][0])}% do {z0(V['safari_krok'][1])}% i nie wraca. W innych przeglądarkach "
-                       f"takiego spadku nie ma."]),
+        [("Dlaczego", [f"W 60 dniach po awarii krok konta po wyborze terminu u osób, które jeszcze nie kupowały, przechodzi "
+                       f"w Safari na iPhone'ach {z0(V['safari_60'][1])}% sesji wobec {z0(V['safari_60'][0])}% w 60 dniach "
+                       f"przed nią, i do końca danych nie wraca. W innych przeglądarkach takiego spadku nie ma."]),
          ("Co robimy", [f"Powtórzyć rejestrację na iPhonie, przejrzeć logi błędów rejestracji i listę zmian z "
                         f"{d_saf0.day - 1}–{dz_saf}, wdrożyć poprawkę."]),
          ("Po czym poznamy", sekcja(K0[1], "Po czym poznamy"))],
@@ -736,7 +739,7 @@ def priorytety(V, E, C):
         f"Raport pokazuje wzrost zamówień o {z0(dz[0])}% zamiast {z0(cz[0])}% i nie pokazuje ani marży, ani powrotów kohort.",
         f"0 albo {z0(V['testy_koszt2'] / 1000)} tys. zł", "rocznie bezpośrednio; przede wszystkim warunek pozostałych decyzji",
         pewnosc("wysoka", "oba błędy widoczne w danych"),
-        [("Dlaczego", [f"Awaria w Safari trwała {liczba(lo[1])} dni bez alarmu. Alarm na krokach lejka wykryłby ją po kilku "
+        [("Dlaczego", [f"Awaria w Safari trwała {liczba(lo[1])} dni, do końca danych. Alarm na krokach lejka wykryłby ją po kilku "
                        f"dniach; wykrycie po tygodniu ograniczyłoby stratę do {zakres(V['p15'][1], V['p15'][2])} pierwszych "
                        f"zamówień zamiast {zakres(lo[0], hi[0])}."]),
          ("Co robimy", [p for p in sekcja(k2, "Co robimy") if not p.lower().startswith("do pilnowania")]),
@@ -1221,15 +1224,18 @@ def karty_lejka(nag, V, E):
     assert abs(pw("ses", "dzis", "konw") - pw("ses", "rok_wczesniej", "konw")) < 0.2, "„według sesji od kwietnia stoi”"
     assert abs(pw("wszyscy", "dzis", "konw") - dz_k) < 1e-9 and abs(pw("wszyscy", "rok_wczesniej", "konw") - rw_k) < 1e-9
     assert E["lj_nie_kupowal_2_platnosci"] > E["lj_nie_kupowal_1_platnosci"], "„liczba płatności nowych osób rośnie”"
+    u_ = lambda m: MK[m]["udzial_sesji_nowe_kampanie"]  # noqa: E731
+    assert not u_("2025-10") > 0 and 0 < u_("2025-11") < u_("2025-12") < u_("2026-01") < 30 < u_("2026-02"), \
+        "„przybywało już od listopada 2025” i „w lutym 2026 przekroczyły 30%” (runda F, P4)"
     karta_n = karta(
         "Na spadek konwersji nowych osób składają się głównie dwie rzeczy: więcej ruchu z nowych kampanii na L4 i awaria "
         "zakładania konta w Safari",
         wniosek=f"Od kwietnia do września 2026 płatnością kończy się około {z0(dz_k)}% sesji osób, które jeszcze nie "
                 f"kupowały, a w tych samych miesiącach rok wcześniej około {z0(rw_k)}%.",
         tresc=[punkty([
-            "Do stycznia 2026 nowe osoby płaciły prawie tak samo często jak rok wcześniej. Od lutego 2026, gdy ruszył TikTok "
-            "na L4, przybywa ruchu z nowych kampanii na L4. Od kwietnia to prawie połowa sesji nowych osób, a te sesje "
-            "płacą o połowę rzadziej niż pozostałe.",
+            "Do stycznia 2026 nowe osoby płaciły prawie tak samo często jak rok wcześniej, choć ruchu z nowych kampanii na "
+            "L4 przybywało już od listopada 2025. W lutym 2026, gdy ruszył TikTok na L4, sesje nowych kampanii przekroczyły "
+            "30% ruchu nowych osób, a od kwietnia to prawie połowa. Te sesje płacą o połowę rzadziej niż pozostałe.",
             f"Wśród pozostałych nowych osób od kwietnia 2026 wyraźnie płacą rzadziej tylko sesje w Safari na iPhone'ach: "
             f"około {z0(pw('saf', 'dzis', 'konw'))}% wobec {z0(pw('saf', 'rok_wczesniej', 'konw'))}% rok wcześniej. Spadek "
             f"skupia się na kroku zakładania konta, który działa gorzej od {dzien_saf}. W innych przeglądarkach konwersja "
@@ -1289,11 +1295,11 @@ def karty_lejka(nag, V, E):
             f"Licząc według sesji, czyli bez samych sesji z reklam nowych kampanii, konwersja pozostałych sesji rośnie z "
             f"{proc(pw('ses', 'o1', 'konw'))} do {proc(pw('ses', 'o2', 'konw'))}, a od kwietnia do września 2026 stoi "
             f"({proc(pw('ses', 'dzis', 'konw'), 2)} wobec {proc(pw('ses', 'rok_wczesniej', 'konw'), 2)}). W całych "
-            f"ostatnich 12 miesiącach ten podział zostawia w średniej "
+            f"ostatnich 12 miesiącach ta reguła zostawia w średniej "
             f"{odm(E['lj_pw_powrotne_sesje'], 'sesja', 'sesje', 'sesji')}, w których osoby nowych kampanii wracają "
             f"bezpośrednio, z wyszukiwarki albo z innej reklamy. Płaci w nich {proc(E['lj_pw_powrotne_konw'])} "
             f"({odm(E['lj_pw_powrotne_platnosci'], 'płatność', 'płatności', 'płatności')}, czyli ci sami pacjenci, których "
-            f"w retencji oba podziały przypisują różnie). Od kwietnia do września 2026 to "
+            f"w retencji obie reguły przypisują różnie). Od kwietnia do września 2026 to "
             f"{odm(pow_dz[0], 'sesja', 'sesje', 'sesji')}, w których płaci {proc(100 * pow_dz[1] / pow_dz[0])}. Te sesje "
             f"podnosiły średnią i przykrywały spadek w Safari.",
             f"Osoby, które jeszcze nie kupowały: {liczba(E['lj_nie_kupowal_1_sesje'])} sesji i "
@@ -1324,10 +1330,13 @@ def karty_lejka(nag, V, E):
     na30 = B2.dziesiatki((s["na30_od"] + s["na30_do"]) / 2)
     so = V["safari_okresy"]   # od, do przed awarią; od, do po awarii (do końca danych); dni
     dd = lambda x: B2.data(B2.dt.date.fromisoformat(x))  # noqa: E731
+    assert s["po_proc"] < s["przed_proc"] - 15 and abs(s["po_proc"] - s["po60_proc"]) < 2, \
+        "„do końca danych nie wraca”: poziom do 30.09.2026 jak w 60 dniach po awarii (runda F, poprawka 5)"
     safari = karta(
         f"Od {dzien} nowi pacjenci w Safari na iPhone'ach rzadziej kończą zakładanie konta",
         znacznik=znacznik("Do naprawy", "zle"),
-        wniosek=f"Krok konta po wyborze terminu spadł z {z0(sk[0])}% do {z0(sk[1])}% i nie wraca, a w innych przeglądarkach "
+        wniosek=f"W 60 dniach po awarii krok konta po wyborze terminu przechodzi {z0(s['po60_proc'])}% sesji wobec "
+                f"{z0(s['przed_proc'])}% w 60 dniach przed nią i do końca danych nie wraca, a w innych przeglądarkach "
                 f"prawie się nie zmienił.",
         tresc=[punkty([f"Konta dalej powstają, ale rzadziej. To około {liczba(na30)} utraconych pierwszych zamówień "
                        f"miesięcznie.",
