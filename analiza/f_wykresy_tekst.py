@@ -491,17 +491,22 @@ def kontrola_kohorty(W, karty, stany_mapy, zdarzenia, tabela_okien=None):
     for opis, widoczne, oczek in stany_mapy:
         W.por(Z, "mapa kohort", "zdanie nad mapą", f"stan zdania: {opis}", "widoczne" if widoczne else "ukryte", "widoczne" if oczek else "ukryte",
               widoczne == oczek, "zasada strony: zdanie opisuje tylko mapę miesięczną bez zawężeń")
-    # kolumna „Zdarzenia” mapy: numer zdarzenia w wierszu miesiąca jego daty
-    iz = kolumna(t, "Zdarzenia")
-    w_mapie = {}
-    for x in t["wiersze"]:
-        for nr in re.findall(r"\d+", x["komorki"][iz]["t"]):
-            w_mapie[int(nr)] = miesiac(x["komorki"][0]["t"])
+    # kolumna „Zdarzenia w tej kohorcie”: krótka nazwa zdarzenia w wierszu miesiąca jego daty; zdarzeń jakości danych
+    # (godzina bez danych, duplikaty) w mapie nie ma (runda G, uwaga Kuby: nie zmieniły kohort)
+    iz = kolumna(t, "Zdarzenia w tej kohorcie")
+    lista = {x["id"]: x for x in dane_strony("zdarzenia.js")["D.zdarzenia"]["lista"]}
     for nr, z in sorted(zdarzenia.items()):
         oczek = (z["od"].year, z["od"].month)
-        W.por(Z, "mapa kohort", "kolumna „Zdarzenia”", f"zdarzenie {nr} ({z['od']:%d.%m.%Y}) w wierszu miesiąca",
-              f"{RZYM[w_mapie[nr][1] - 1]} {w_mapie[nr][0]}" if nr in w_mapie else "BRAK w mapie", f"{RZYM[oczek[1] - 1]} {oczek[0]}",
-              w_mapie.get(nr) == oczek, "karty zdarzeń w zakładce „Zdarzenia”")
+        zl = lista.get(z["id"], {})
+        naz = norm(zl.get("krotko") or zl.get("tytul") or "")
+        gdzie = [miesiac(x["komorki"][0]["t"]) for x in t["wiersze"] if naz and naz in norm(x["komorki"][iz]["t"])]
+        if zl.get("obszar") == "jakosc":
+            W.por(Z, "mapa kohort", "kolumna „Zdarzenia”", f"zdarzenie {nr} ({z['od']:%d.%m.%Y}, jakość danych) nie stoi w mapie",
+                  "BRAK w mapie" if not gdzie else ", ".join(f"{RZYM[m - 1]} {r}" for r, m in gdzie), "BRAK w mapie", not gdzie, "zasada strony (runda G)")
+            continue
+        W.por(Z, "mapa kohort", "kolumna „Zdarzenia”", f"zdarzenie {nr} ({z['od']:%d.%m.%Y}) „{naz}” w wierszu miesiąca",
+              ", ".join(f"{RZYM[m - 1]} {r}" for r, m in gdzie) or "BRAK w mapie", f"{RZYM[oczek[1] - 1]} {oczek[0]}",
+              gdzie == [oczek], "karty zdarzeń w zakładce „Zdarzenia”, nazwy z zdarzenia.js")
 
 
 # ------------------------------------------------------------------ zakładka „Lejek”
@@ -673,7 +678,8 @@ def kroki_lejka(W, Z, opis, kroki, t):
     liczebności do „Sesja do płatności”), bo nazwy kroków na wykresie i w tabeli mogą się różnić."""
     K = "kroki lejka"
     wartosc = "Wszystkie wybrane sesje" if opis.startswith("Razem") else opis
-    r = wiersz_tab(t, wartosc)
+    # pierwsza komórka: nazwa, czasem „mała grupa” i liczebność na telefon („Sesje…: …”), sklejone bez spacji
+    r = wiersz_tab(t, wartosc, przez=lambda s: re.split(r"Sesje( na kroku „[^”]*”)?:", norm(s))[0].replace("mała grupa", "").strip())
     zr = f"tabela „Kroki lejka w podziale”, wiersz „{wartosc}”"
     if r is None:
         W.por(Z, K, "wykres kroków", f"{opis}: wiersz tabeli", wartosc, "BRAK", False, zr)
@@ -711,9 +717,9 @@ def kroki_lejka(W, Z, opis, kroki, t):
             tol = mian * 0.0005 + 0.5
             W.por(Z, K, "wykres kroków", f"{opis}: {nt}: sesje w kroku (ostatnie 12 miesięcy) = odsetek × mianownik z tabeli (tabela nie podaje licznika)",
                   pl(n), f"{pl(p * mian / 100)} ± {pl(tol)}", abs(n - p * mian / 100) <= tol, zr + ", w granicach zaokrąglenia odsetka")
-    pB, _, _ = wart(r["komorki"][isp])
+    pB, _, pA = wart(r["komorki"][isp])
     W.rowne(Z, K, "wykres kroków", f"{opis}: ostatni krok jako odsetek sesji (ostatnie 12 miesięcy) = „Sesja do płatności”", etapy[-1]["b"], pB, zr)
-    W.rowne(Z, K, "wykres kroków", f"{opis}: ostatni krok jako odsetek sesji (okres A) = „Sesja do płatności”", proc_z(etapy[-1]["a"]), proc_z(kom["a"]), zr)
+    W.rowne(Z, K, "wykres kroków", f"{opis}: ostatni krok jako odsetek sesji (rok wcześniej) = „Sesja do płatności”", proc_z(etapy[-1]["a"]), proc_z(pA), zr)
 
 
 # ------------------------------------------------------------------ zakładka „Po zakupie”
@@ -1029,8 +1035,8 @@ def zapisy_liczb(s):
 # źródła liczb dla wierszy tabeli: karty zdarzeń (id), karty innych zakładek (zakładka, tytuł karty albo id), pozycje
 # listy priorytetów, pozycja, z której jest skutek w złotych (kwota i dopisek), i pozycja, z której jest pewność
 ZRODLA_TABELI = {
-    "start_go_upsell": (["start_go_upsell"], [("wzrost", "tytul", "kwartałem wydatki")], [], None, None),
-    "start_meta_l4": (["start_meta_l4", "udzial_nowych", "start_tiktok", "marza30_spada"], [("wzrost", "tytul", "wracają rzadziej")], [9, 5], 9, 9),
+    "start_go_upsell": (["start_go_upsell"], [("wynik", "id", "wy-karta")], [], None, None),
+    "start_meta_l4": (["start_meta_l4", "udzial_nowych", "start_tiktok", "marza30_spada"], [("kohorty", "id", "ko-naglowek")], [9, 5], 9, 9),
     "zwroty_pierwsze": (["zwroty_pierwsze"], [("po-zakupie", "tytul", "Zwroty po wizycie")], [5], None, 5),
     "opoznienia_rano": (["opoznienia_rano"], [], [6], 6, 6),
     "start_tiktok": (["start_tiktok", "powrot30_spada"], [("wynik", "id", "ek-karta")], [3], 3, 3),
