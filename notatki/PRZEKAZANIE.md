@@ -2,7 +2,7 @@
 
 Zasada z `CLAUDE.md`, punkt 14: każda sesja czyta ten plik na starcie i aktualizuje go na końcu swojej pracy.
 
-**Ostatnia aktualizacja:** 2026-10-23 w nocy, sesja prowadząca `local_e4232e55-24be-46f8-a2c8-d411b47ebc48` (punkt F: ostatnia kontrola przed publikacją; zlecenie Kuby w `notatki/f_kontrola.md`). **Opublikowane 2026-10-23: strona https://jakubgierasimiuk.github.io/kohorty-i-lejki/, repozytorium https://github.com/jakubgierasimiuk/kohorty-i-lejki (publiczne, konto osobiste Kuby). Kontrola pod prawdziwym adresem bez problemów (`DECYZJE.md`, ostatni wpis). Mail do Telemedi wysyła Kuba; po rekrutacji repozytorium wraca do prywatnych. Każdy kolejny push tylko za zgodą Kuby.** Wcześniejsze sesje prowadzące: `local_1bf06826` (E, merytoryka, język, wygląd), `local_791c102e` (D, poprawki po konsylium), `local_06eb3146` (A1–A5), `local_ca1efb6a` (C i D do konsylium).
+**Ostatnia aktualizacja:** 2026-10-23 przed południem, sesja prowadząca `local_e4232e55-24be-46f8-a2c8-d411b47ebc48` (punkt F i publikacja), zamknięta na prośbę Kuby. **Rozwiązanie jest opublikowane** (https://jakubgierasimiuk.github.io/kohorty-i-lejki/, repozytorium https://github.com/jakubgierasimiuk/kohorty-i-lejki). **Następne: nowe wątki Kuby z poprawkami merytorycznymi narzędzia.** Każdy push zmienia publiczną stronę, więc tylko za zgodą Kuby. Wcześniejsze sesje prowadzące: `local_1bf06826` (E, merytoryka, język, wygląd), `local_791c102e` (D, poprawki po konsylium), `local_06eb3146` (A1–A5), `local_ca1efb6a` (C i D do konsylium).
 
 ## 1. Gdzie jesteśmy
 
@@ -21,6 +21,14 @@ Zasada z `CLAUDE.md`, punkt 14: każda sesja czyta ten plik na starcie i aktuali
 | D Poprawki po konsylium (lista Kuby `notatki/d_poprawki.md`) | zrobione i przyjęte przez Kubę 2026-10-21; recenzja Codeksa (Sol) uwzględniona (założenia 55–63) | `bfbc5cf`, `ebf37d5`, `b7b55ba`, `1bfa75f`, `3470f54` |
 
 Status wszystkich punktów: `notatki/PLAN.md`.
+
+**Dla nowych wątków z poprawkami (stan na 2026-10-23, zamknięcie sesji publikacji):**
+- **Publikacja:** repozytorium publiczne, `origin` = `jakubgierasimiuk/kohorty-i-lejki`, gałąź `master`; workflow `.github/workflows/pages.yml` wdraża stronę przy każdym pushu. **Push tylko za wyraźną zgodą Kuby.** Lokalnie niewypchnięte są commity z notatkami po publikacji (od `c90c0d4`); wejdą z najbliższym pushem.
+- **Poprawka tekstu albo liczby:** zmiana w kodzie tekstów (`analiza/e_teksty.py`, `analiza/e_teksty_zakladki.py`, `analiza/b2_eksport_c.py`) i w szkicu kontroli (`notatki/e_teksty.md`, `notatki/e_teksty_zakladki.md`, `notatki/c_szkic.md`); szkic pisany ręcznie, nie z kodu. Nowa liczba = nowy kod w `analiza/` i przejrzenie przez Codeksa (Sol).
+- **Kolejność:** commit kodu, potem eksport (`analiza/README.md`: `e_poprawki.py`, `e_wykresy.py`, `b_eksport.py`; osobno `b2_eksport_c.py` i `b2_teksty_strony.py`), żeby stopka strony wskazywała właściwy stan; potem commit danych strony i wyników.
+- **Kontrole przed pushem:** eksport 0 różnic i pełne pokrycie w szkicach; `f_wykresy_tekst.py` (Edge, WebKit, Firefox), `f_odnosniki.py`, `e_przegladarka.py` w trybie jasnym i `--ciemny`, `f_publikacja.py`; ponowny zapis rozmów `analiza/f_rozmowy.py` z plikami spoza repozytorium (tekst zadania, lista nazw: folder `poza_repo` w danych Claude Code tego projektu; wzór polecenia i lista kontrolna w `notatki/f_slad_pracy.md`).
+- **Po pushu:** `python -I analiza/f_strona_publiczna.py https://jakubgierasimiuk.github.io/kohorty-i-lejki/ <katalog poza repozytorium>` (9 zakładek na komputerze i telefonie, pliki danych, odnośniki po odświeżeniu, `noindex`).
+- **Sesje rundy F** (kontrola techniczna, język, poprawki strony, ślad pracy) są zarchiwizowane; ich wyniki są w `notatki/f_*.md`.
 
 **Stan na 2026-10-23 po publikacji:** repozytorium `jakubgierasimiuk/kohorty-i-lejki` publiczne, zdalne `origin`, gałąź `master`, GitHub Pages z workflow `.github/workflows/pages.yml` (środowisko `github-pages` dopuszcza gałęzie `main` i `master`). Ostatni zapis rozmów przed wypchnięciem: commit `8750ca4`; późniejsze rozmowy wejdą do repozytorium dopiero przy kolejnym uruchomieniu `analiza/f_rozmowy.py` i pushu za zgodą Kuby. Wiersze Meta i TikTok w tabeli zdarzeń zostały bez zmian (daty to skoki ruchu, nie budżetu; `DECYZJE.md`).
 
