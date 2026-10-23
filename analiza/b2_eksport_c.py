@@ -1270,8 +1270,9 @@ def priorytety(V, linki_lejka):
             f"testową (wszystkie są u internisty), albo 0 zł, jeśli nie dostają. Pieniądze już wypłacone są stracone, "
             f"a oszczędność dotyczy kolejnych miesięcy.",
             f"Pośrednio: bez poprawnych liczb nie da się prowadzić biznesu na kohortach. Alarm na krokach lejka wykryłby "
-            f"awarię Safari po kilku dniach, a trwała ona {liczba(lo[1])} dni, do końca danych. Wykrycie po tygodniu ograniczyłoby stratę do "
-            f"{proc(p15[0])} ({zakres(p15[1], p15[2])} zamówień zamiast {zakres(lo[0], hi[0])}).",
+            f"awarię Safari po kilku dniach, a trwała ona {liczba(lo[1])} dni, do końca danych. Gdyby awarię wykryto i "
+            f"usunięto w ciągu tygodnia, strata wyniosłaby około {proc(p15[0])} dzisiejszej: {zakres(p15[1], p15[2])} pierwszych "
+            f"zamówień zamiast {zakres(lo[0], hi[0])}.",
         ]),
         ("Po czym poznamy", [
             f"Raport pokazuje te same liczby co oczyszczona warstwa danych (w okresie 2: {liczba(cz[2])} zamówień i "

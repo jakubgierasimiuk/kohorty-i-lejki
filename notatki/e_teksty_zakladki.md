@@ -37,8 +37,9 @@ Skąd liczby: analiza/a5r_kohorty.py → analiza/wyniki/a5r_kohorty.txt; analiza
 
 Runda F, poprawka 1 (decyzja Kuby 2026-10-23, `notatki/f_propozycja.md`): nowa pierwsza karta „Kohort”. Szkic pisany ręcznie z liczb widocznych na stronie w wersji `3b5eeaa` (karty zdarzeń na osi, przegląd listy priorytetów, ekonomia kampanii w „Wyniku biznesu”, karta Safari w „Lejku”, karta zwrotów w „Po zakupie”, karta „Lepsza retencja” i karta kwartałów w „Czy to wzrost”), a nie z kodu. Wszystkie liczby tabeli stoją dziś w tych kartach; 41% we wniosku to zaokrąglone 41,0% z karty zdarzenia o udziale nowych kampanii w nowych pacjentach, a 66,2% → 45,1% dla Safari to okna 60 dni ze szczegółów karty Safari (po poprawce 5 także na jej wykresie).
 
-Tytuł: Kohorty zmieniły się głównie po naszych decyzjach o kampaniach na L4, a wynik obniża dodatkowo awaria Safari
-Wniosek: Od 10 kwietnia 2026 nowe kampanie na L4 dają 41% nowych pacjentów, a największą pewną stratą jest awaria Safari: 75–83 tys. zł marży rocznie.
+Tytuł: Po starcie naszych kampanii na L4 rośnie udział pacjentów, którzy rzadko wracają, a awaria Safari obniża wynik
+Wniosek: Od 10 kwietnia 2026 nowe kampanie na L4 dają 41% nowych pacjentów, a naprawa awarii Safari to w górnym scenariuszu 75–83 tys. zł marży rocznie.
+(Po przejrzeniu przez Codeksa, Sol, 2026-10-23: tytuł bez „głównie po naszych decyzjach”, bo 71% to opisowy rozkład spadku, a nie ustalona przyczyna; we wniosku kwota pozycji 1 nazwana górnym scenariuszem zamiast „największej pewnej straty”.)
 Zastrzeżenie: Zdarzenia z tych samych miesięcy nakładają się, więc tabela pokazuje, co zmieniło się po zdarzeniu, a nie dowodzi przyczyny.
 Kolumny: Kiedy | Co się stało | Kogo dotyczy | Co zmieniło się po nim | Skutek w złotych | Pewność | Co robimy (w ostatniej kolumnie także odnośniki „Pokaż na kohortach dziennych” i „Opis zdarzenia”).
 

@@ -136,7 +136,7 @@ Co robimy: Powtórzyć rejestrację na iPhonie, przejrzeć logi błędów rejest
 Tytuł: Oczyścić codzienny raport i dodać alarmy na lejku i zwrotach
 Wniosek: Raport pokazuje wzrost zamówień o 61% zamiast 56% i nie pokazuje ani marży, ani powrotów kohort.
 Pasek: 0 albo 38 tys. zł (rocznie bezpośrednio; przede wszystkim warunek pozostałych decyzji) · Wysoka (oba błędy widoczne w danych) · 1 dzień sprawdzenie, 1–2 tygodnie raport.
-Dlaczego: Awaria w Safari trwała 198 dni, do końca danych. Alarm na krokach lejka wykryłby ją po kilku dniach; wykrycie po tygodniu ograniczyłoby stratę do 22–25 pierwszych zamówień zamiast 628–695.
+Dlaczego: Awaria w Safari trwała 198 dni, do końca danych. Alarm na krokach lejka wykryłby ją po kilku dniach. Gdyby awarię wykryto i usunięto w ciągu tygodnia, strata wyniosłaby około 22–25 pierwszych zamówień zamiast 628–695. (Po przejrzeniu przez Codeksa, Sol: samo wykrycie nie zatrzymuje straty, więc zdanie mówi o wykryciu i usunięciu.)
 
 ### priorytety/3
 

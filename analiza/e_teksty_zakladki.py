@@ -1067,16 +1067,15 @@ def tabela_zdarzen(koh, zdz, C, wy, V, E, nag, pz):
                         f"({liczba(V['marka_rok_wczesniej'], 1)} punktu) i nieistotny"},
             [{"tekst": f"Czego nie wiemy, punkt {n21}", "href": h21}])
 
-    # tytuł i wniosek: „głównie” = udział nowych kampanii w spadku powrotu (rozkład opisowy z „Czy to wzrost”);
-    # „największa pewna strata” = najwyższa kwota wśród pozycji o wysokiej pewności
-    assert E["rozklad_Z1K_udzial_nowych_w_spadku"] > 50
-    gora = lambda r: max(float(x.replace(",", ".")) for x in re.findall(r"\d+(?:,\d+)?", r["ile"]))  # noqa: E731
-    wys = [r for r in PR.values() if r["pewnosc"]["poziom"] == "wysoka"]
-    assert PR[1] in wys and gora(PR[1]) == max(gora(r) for r in wys)
+    # tytuł i wniosek bez związku przyczynowego (po przejrzeniu przez Codeksa, Sol): „rośnie udział pacjentów, którzy rzadko
+    # wracają” = udział nowych kampanii w nowych pacjentach rośnie, a ich powrót w 90 dniach jest niższy niż pozostałych;
+    # kwota Safari to górny scenariusz pozycji 1
+    assert u[-1]["poziom"] > u[0]["poziom"] and NZ["p90_o2"] < B1["p90_o2"]
+    assert "górny scenariusz" in PR[1]["ile_dopisek"]
     k = karta(
-        "Kohorty zmieniły się głównie po naszych decyzjach o kampaniach na L4, a wynik obniża dodatkowo awaria Safari",
-        wniosek=f"Od {dz(u[-1]['od'])} nowe kampanie na L4 dają {proc(u[-1]['poziom'], 0)} nowych pacjentów, a największą "
-                f"pewną stratą jest awaria Safari: {PR[1]['ile']} marży rocznie.",
+        "Po starcie naszych kampanii na L4 rośnie udział pacjentów, którzy rzadko wracają, a awaria Safari obniża wynik",
+        wniosek=f"Od {dz(u[-1]['od'])} nowe kampanie na L4 dają {proc(u[-1]['poziom'], 0)} nowych pacjentów, a naprawa "
+                f"awarii Safari to w górnym scenariuszu {PR[1]['ile']} marży rocznie.",
         wstaw="tabela_zdarzen",
         zastrzezenie="Zdarzenia z tych samych miesięcy nakładają się, więc tabela pokazuje, co zmieniło się po zdarzeniu, "
                      "a nie dowodzi przyczyny.",

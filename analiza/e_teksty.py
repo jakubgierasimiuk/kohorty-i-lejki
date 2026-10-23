@@ -740,8 +740,8 @@ def priorytety(V, E, C):
         f"0 albo {z0(V['testy_koszt2'] / 1000)} tys. zł", "rocznie bezpośrednio; przede wszystkim warunek pozostałych decyzji",
         pewnosc("wysoka", "oba błędy widoczne w danych"),
         [("Dlaczego", [f"Awaria w Safari trwała {liczba(lo[1])} dni, do końca danych. Alarm na krokach lejka wykryłby ją po kilku "
-                       f"dniach; wykrycie po tygodniu ograniczyłoby stratę do {zakres(V['p15'][1], V['p15'][2])} pierwszych "
-                       f"zamówień zamiast {zakres(lo[0], hi[0])}."]),
+                       f"dniach. Gdyby awarię wykryto i usunięto w ciągu tygodnia, strata wyniosłaby około "
+                       f"{zakres(V['p15'][1], V['p15'][2])} pierwszych zamówień zamiast {zakres(lo[0], hi[0])}."]),
          ("Co robimy", [p for p in sekcja(k2, "Co robimy") if not p.lower().startswith("do pilnowania")]),
          ("Po czym poznamy", sekcja(k2, "Po czym poznamy"))],
         stare_sekcje(k2, pomin=("Co robimy", "Po czym poznamy", "Wdrożenie"),
