@@ -1,0 +1,249 @@
+G — LICZBY DO WERDYKTU „CZY TO WZROST” (2026-10-23 11:41), schemat `czyste`
+Okres 1 = X 2024 – IX 2025, okres 2 = X 2025 – IX 2026. Z1K = przyjęta reguła źródła (pierwsze wejście, kod kampanii
+rozstrzyga), Z2 = sesja płatności. Nowe kampanie na L4 = meta_prosp_l4_szybko (od 3.11.2025) i tt_prosp_l4_15min
+(od 9.02.2026). Pozostałe kampanie płatne = Google Ads, Meta lekarz online, remarketing Meta (płatne za klik, z
+marketing_spend). Ranking lekarzy (afiliacja, prowizja 25 zł za pacjenta) osobno, obok jako wariant „płatne z afiliacją”.
+
+==============================================================================================================
+G1. PRZYROST NOWYCH PACJENTÓW I UDZIAŁ DWÓCH NOWYCH KAMPANII NA L4
+==============================================================================================================
+
+   reguła Z1K:
+     regula               grupa  okres_1  okres_2  przyrost  udzial_w_przyroscie_proc
+        Z1K  1_nowe_kampanie_L4        0     7268      7268                      86.0
+        Z1K  2_pozostale_platne     8546     8878       332                       3.9
+        Z1K 3_afiliacja_ranking      616      617         1                       0.0
+        Z1K         4_bezplatne     7069     7924       855                      10.1
+     razem: okres 1 16231, okres 2 24687, przyrost 8456
+
+   reguła Z2:
+     regula               grupa  okres_1  okres_2  przyrost  udzial_w_przyroscie_proc
+         Z2  1_nowe_kampanie_L4        0     5187      5187                      61.3
+         Z2  2_pozostale_platne     7917     9062      1145                      13.5
+         Z2 3_afiliacja_ranking      437      405       -32                      -0.4
+         Z2         4_bezplatne     7877    10033      2156                      25.5
+     razem: okres 1 16231, okres 2 24687, przyrost 8456
+
+   Przyrost nowych pacjentów: 16231 → 24687, +8456 (+52.1%).
+   Z1K: nowe kampanie na L4 7268 pacjentów = 86.0% przyrostu; bez nich przyrost 1188 (+7.3%).
+   Z2: nowe kampanie na L4 5187 pacjentów = 61.3% przyrostu; bez nich przyrost 3269 (+20.1%).
+   Z1K według kampanii: Meta na L4 5059, TikTok na L4 2209.
+
+==============================================================================================================
+G2. ILE ZOSTAJE Z JEDNEGO NOWEGO PACJENTA: MARŻA W 180 DNIACH MINUS KOSZT POZYSKANIA, PŁATNE Z PŁATNYMI
+==============================================================================================================
+   Okno 180 dni: kohorty 1.10–3.04 w obu okresach (te same dni kalendarzowe). Koszt pozyskania = wydatki kampanii
+   z tych samych dni (+ prowizja 25 zł za pacjenta rankingu) / nowi pacjenci. Przedział 95% warunkowy (rozrzut marży).
+
+2a. Okno 180 dni (grupy: 1 = nowe kampanie na L4, 2 = pozostałe kampanie płatne, 3 = ranking lekarzy; 1+2 = wszystkie kampanie płatne za klik; 1+2+3 = z afiliacją)
+     regula  okres grupy  nowi  wydatki_zl  prowizja_zl  koszt_pozysk  marza  wynik  wynik_od  wynik_do  wynik_razem_zl
+        Z1K      2     1  2352       71325            0          30.3   37.3    7.0       5.4       8.6         16418.3
+        Z1K      1     2  4717      193425            0          41.0   72.8   31.8      29.9      33.6        149816.7
+        Z1K      2     2  5130      218658            0          42.6   72.3   29.7      27.9      31.4        152146.6
+        Z1K      1     3   340           0         8500          25.0   59.8   34.8      29.4      40.1         11816.4
+        Z1K      2     3   352           0         8800          25.0   62.0   37.0      31.1      42.8         13010.5
+        Z1K      1   1+2  4717      193425            0          41.0   72.8   31.8      29.9      33.6        149816.7
+        Z1K      2   1+2  7482      289983            0          38.8   61.3   22.5      21.2      23.9        168564.9
+        Z1K      1 1+2+3  5057      193425         8500          39.9   71.9   32.0      30.2      33.7        161633.1
+        Z1K      2 1+2+3  7834      289983         8800          38.1   61.3   23.2      21.9      24.5        181575.4
+         Z2      2     1  1693       71325            0          42.1   36.9   -5.2      -7.1      -3.2         -8776.2
+         Z2      1     2  4407      193425            0          43.9   73.9   30.0      28.0      31.9        132170.9
+         Z2      2     2  5029      218658            0          43.5   71.0   27.5      25.8      29.3        138413.6
+         Z2      1     3   246           0         6150          25.0   60.2   35.2      28.7      41.7          8664.9
+         Z2      2     3   229           0         5725          25.0   60.6   35.6      28.3      42.9          8156.4
+         Z2      1   1+2  4407      193425            0          43.9   73.9   30.0      28.0      31.9        132170.9
+         Z2      2   1+2  6722      289983            0          43.1   62.4   19.3      17.9      20.7        129637.4
+         Z2      1 1+2+3  4653      193425         6150          42.9   73.2   30.3      28.4      32.1        140835.8
+         Z2      2 1+2+3  6951      289983         5725          42.5   62.4   19.8      18.4      21.2        137793.8
+
+2c. Okno 90 dni (grupy: 1 = nowe kampanie na L4, 2 = pozostałe kampanie płatne, 3 = ranking lekarzy; 1+2 = wszystkie kampanie płatne za klik; 1+2+3 = z afiliacją)
+     regula  okres grupy  nowi  wydatki_zl  prowizja_zl  koszt_pozysk  marza  wynik  wynik_od  wynik_do  wynik_razem_zl
+        Z1K      2     1  4893      159897            0          32.7   36.3    3.6       2.5       4.7         17589.3
+        Z1K      1     2  6705      282111            0          42.1   65.0   22.9      21.7      24.1        153751.5
+        Z1K      2     2  7076      312427            0          44.2   64.2   20.0      18.8      21.2        141509.9
+        Z1K      1     3   489           0        12225          25.0   57.2   32.2      28.2      36.1         15723.1
+        Z1K      2     3   489           0        12225          25.0   57.2   32.2      28.0      36.5         15755.0
+        Z1K      1   1+2  6705      282111            0          42.1   65.0   22.9      21.7      24.1        153751.5
+        Z1K      2   1+2 11969      472324            0          39.5   52.8   13.3      12.4      14.1        159099.2
+        Z1K      1 1+2+3  7194      282111        12225          40.9   64.5   23.6      22.4      24.7        169474.6
+        Z1K      2 1+2+3 12458      472324        12225          38.9   52.9   14.0      13.2      14.9        174854.2
+         Z2      2     1  3510      159897            0          45.6   36.1   -9.4     -10.7      -8.1        -33075.2
+         Z2      1     2  6252      282111            0          45.1   65.7   20.6      19.3      21.9        128866.3
+         Z2      2     2  7141      312427            0          43.8   62.4   18.7      17.5      19.9        133407.7
+         Z2      1     3   348           0         8700          25.0   57.1   32.1      27.4      36.9         11177.2
+         Z2      2     3   319           0         7975          25.0   55.8   30.8      25.7      35.9          9825.8
+         Z2      1   1+2  6252      282111            0          45.1   65.7   20.6      19.3      21.9        128866.3
+         Z2      2   1+2 10651      472324            0          44.3   53.8    9.4       8.5      10.3        100332.5
+         Z2      1 1+2+3  6600      282111         8700          44.1   65.3   21.2      20.0      22.4        140043.5
+         Z2      2 1+2+3 10970      472324         7975          43.8   53.8   10.0       9.1      11.0        110158.3
+   Kontrola: nowe kampanie (Z1K, 180 dni) i pozostałe płatne (Z1K, 180 dni) zgodne z a5e_ekonomia.txt, 1b.
+
+2b. Cały rocznik (wszystkie kohorty okresu, koszt pozyskania z wydatków i prowizji całego okresu). Okres 1: marża w
+    180 dniach zmierzona dla wszystkich kohort (ostatnia 30.09.2025, pełne okno). Okres 2: przybliżenie (opis na górze
+    skryptu); okno_* = ilu pacjentów ma marżę z pełnego okna 180, 90, 30 i 0 dni.
+     regula grupy  okres  nowi  wydatki_zl  prowizja_zl  koszt_pozysk  marza180  wynik  wynik_od  wynik_do  wynik_razem_zl  okno_180  okno_90  okno_30  okno_0
+        Z1K     1      2  7268      245787            0          33.8      36.6    2.8       1.9       3.7         20062.8      2352     2541     1525     850
+        Z1K     2      1  8546      367632            0          43.0      73.8   30.8      29.4      32.2        263228.1      8546        0        0       0
+        Z1K     2      2  8878      403888            0          45.5      72.2   26.7      25.5      27.9        236738.0      5130     1946     1167     635
+        Z1K     3      1   616           0        15400          25.0      60.2   35.2      31.1      39.4         21697.0       616        0        0       0
+        Z1K     3      2   617           0        15425          25.0      61.8   36.8      32.7      40.8         22675.2       352      137       80      48
+        Z1K   1+2      1  8546      367632            0          43.0      73.8   30.8      29.4      32.2        263228.1      8546        0        0       0
+        Z1K   1+2      2 16146      649675            0          40.2      57.8   17.6      16.7      18.4        283611.1      7482     4487     2692    1485
+        Z1K 1+2+3      1  9162      367632        15400          41.8      72.9   31.1      29.8      32.4        284925.0      9162        0        0       0
+        Z1K 1+2+3      2 16763      649675        15425          39.7      57.9   18.3      17.5      19.1        306177.3      7834     4624     2772    1533
+         Z2     1      2  5187      245787            0          47.4      36.5  -10.9     -12.0      -9.9        -56619.5      1693     1817     1109     568
+         Z2     2      1  7917      367632            0          46.4      74.3   27.9      26.4      29.3        220801.0      7917        0        0       0
+         Z2     2      2  9062      403888            0          44.6      70.0   25.4      24.2      26.6        230053.6      5029     2112     1242     679
+         Z2     3      1   437           0        10925          25.0      60.5   35.5      30.4      40.6         15515.4       437        0        0       0
+         Z2     3      2   405           0        10125          25.0      60.6   35.6      30.7      40.5         14420.6       229       90       55      31
+         Z2   1+2      1  7917      367632            0          46.4      74.3   27.9      26.4      29.3        220801.0      7917        0        0       0
+         Z2   1+2      2 14249      649675            0          45.6      59.1   13.5      12.6      14.4        192324.9      6722     3929     2351    1247
+         Z2 1+2+3      1  8354      367632        10925          45.3      73.6   28.3      26.9      29.7        236316.4      8354        0        0       0
+         Z2 1+2+3      2 14654      649675        10125          45.0      59.1   14.1      13.2      15.0        206633.5      6951     4019     2406    1278
+
+==============================================================================================================
+G3. NOWE KAMPANIE NA L4 MIESIĄC PO MIESIĄCU: KOSZT POZYSKANIA A WSZYSTKO, CO PACJENT ZOSTAWIA (180 DNI)
+==============================================================================================================
+   miesiąc = miesiąc pierwszego zakupu (kohorta); wydatki = wydatki kampanii w tym miesiącu; koszt = wydatki / nowi.
+   marza180 = zmierzona, gdy cała kohorta ma pełne 180 dni (do 3.04.2026); dla młodszych przybliżenie: marża w najdłuższym
+   pełnym oknie pacjenta + przyrost do 180 dni zmierzony na kohortach 1.10.2025–3.04.2026 tej samej grupy i reguły.
+   okno = najkrótsze pełne okno w miesiącu (180, 90, 30, 0). wynik = marza180 − koszt; przedział 95% warunkowy.
+
+   razem, Z1K: przyrost marży do 180 dni zmierzony na 2352 pacjentach: od 90 dni 0.35 zł, od 30 dni 1.59 zł, od dnia 0 2.87 zł
+       okres  nowi  wydatki_zl  koszt_pozysk  okno  marza180  wynik  wynik_od  wynik_do  wynik_razem_zl  powrot90_proc
+     2025-11   121        3300          27.3   180      34.3    7.0       0.8      13.3           851.7            5.8
+     2025-12   279        7734          27.7   180      37.4    9.6       4.6      14.7          2689.9            4.3
+     2026-01   445       13375          30.1   180      40.4   10.3       6.8      13.9          4593.5            4.9
+     2026-02   610       18075          29.6   180      39.7   10.1       7.2      13.0          6137.8            5.4
+     2026-03   826       26176          31.7   180      35.5    3.8       1.0       6.6          3127.9            3.6
+     2026-04   825       29708          36.0    90      35.0   -1.0      -3.4       1.5          -805.0            3.9
+     2026-05   910       30125          33.1    90      36.1    3.0       0.6       5.5          2751.5            3.3
+     2026-06   818       29369          35.9    90      35.6   -0.3      -3.2       2.6          -220.7            4.4
+     2026-07   799       29838          37.3    30      37.0   -0.3      -2.8       2.2          -254.1            1.7
+     2026-08   785       28540          36.4    30      36.5    0.1      -2.5       2.7            76.7            NaN
+     2026-09   850       29548          34.8     0      36.1    1.3      -1.4       4.0          1113.6            NaN
+      okres  nowi  wydatki_zl  koszt_pozysk  okno  marza180  wynik  wynik_od  wynik_do  wynik_razem_zl  powrot90_proc
+     2025Q4   400       11034          27.6   180      36.4    8.9       4.9      12.9          3541.6            4.8
+     2026Q1  1881       57626          30.6   180      38.0    7.4       5.6       9.1         13859.2            4.5
+     2026Q2  2553       89202          34.9    90      35.6    0.7      -0.8       2.2          1725.7            3.8
+     2026Q3  2434       87925          36.1     0      36.5    0.4      -1.1       1.9           936.3            1.7
+
+   razem, Z2: przyrost marży do 180 dni zmierzony na 1693 pacjentach: od 90 dni 0.33 zł, od 30 dni 1.53 zł, od dnia 0 2.89 zł
+       okres  nowi  wydatki_zl  koszt_pozysk  okno  marza180  wynik  wynik_od  wynik_do  wynik_razem_zl  powrot90_proc
+     2025-11    95        3300          34.7   180      35.2    0.4      -6.8       7.7            41.7            7.4
+     2025-12   180        7734          43.0   180      34.3   -8.7     -15.5      -1.8         -1557.6            2.2
+     2026-01   333       13375          40.2   180      39.8   -0.3      -4.6       3.9          -115.5            4.5
+     2026-02   437       18075          41.4   180      39.9   -1.4      -5.0       2.1          -628.2            5.3
+     2026-03   606       26176          43.2   180      35.3   -7.9     -11.2      -4.6         -4775.1            3.6
+     2026-04   578       29708          51.4    90      35.5  -15.9     -18.6     -13.1         -9182.7            3.8
+     2026-05   636       30125          47.4    90      35.7  -11.6     -14.5      -8.8         -7407.3            3.1
+     2026-06   601       29369          48.9    90      36.0  -12.9     -16.3      -9.5         -7736.9            4.8
+     2026-07   581       29838          51.4    30      36.8  -14.5     -17.5     -11.6         -8436.1            2.3
+     2026-08   572       28540          49.9    30      35.9  -14.0     -17.1     -10.9         -7994.3            NaN
+     2026-09   568       29548          52.0     0      36.5  -15.5     -18.9     -12.2         -8827.5            NaN
+      okres  nowi  wydatki_zl  koszt_pozysk  okno  marza180  wynik  wynik_od  wynik_do  wynik_razem_zl  powrot90_proc
+     2025Q4   275       11034          40.1   180      34.6   -5.5     -10.7      -0.4         -1515.9            4.0
+     2026Q1  1376       57626          41.9   180      37.9   -4.0      -6.1      -1.9         -5518.8            4.4
+     2026Q2  1815       89202          49.1    90      35.7  -13.4     -15.2     -11.7        -24326.8            3.9
+     2026Q3  1721       87925          51.1     0      36.4  -14.7     -16.5     -12.8        -25258.0            2.3
+
+   meta, Z1K: przyrost marży do 180 dni zmierzony na 2053 pacjentach: od 90 dni 0.40 zł, od 30 dni 1.73 zł, od dnia 0 3.01 zł
+       okres  nowi  wydatki_zl  koszt_pozysk  okno  marza180  wynik  wynik_od  wynik_do  wynik_razem_zl  powrot90_proc
+     2025-11   121        3300          27.3   180      34.3    7.0       0.8      13.3           851.7            5.8
+     2025-12   279        7734          27.7   180      37.4    9.6       4.6      14.7          2689.9            4.3
+     2026-01   445       13375          30.1   180      40.4   10.3       6.8      13.9          4593.5            4.9
+     2026-02   551       16385          29.7   180      40.3   10.6       7.5      13.7          5832.3            5.4
+     2026-03   619       19092          30.8   180      36.2    5.3       1.9       8.8          3301.4            3.7
+     2026-04   511       17641          34.5    90      38.9    4.3       1.4       7.2          2213.3            4.3
+     2026-05   565       17982          31.8    90      37.5    5.7       2.4       8.9          3209.1            3.2
+     2026-06   505       16873          33.4    90      38.0    4.6       0.6       8.6          2324.7            5.5
+     2026-07   481       17092          35.5    30      36.8    1.3      -2.1       4.7           624.9            3.1
+     2026-08   467       16438          35.2    30      36.0    0.8      -3.0       4.5           360.3            NaN
+     2026-09   515       17409          33.8     0      37.0    3.2      -0.5       6.9          1648.7            NaN
+      okres  nowi  wydatki_zl  koszt_pozysk  okno  marza180  wynik  wynik_od  wynik_do  wynik_razem_zl  powrot90_proc
+     2025Q4   400       11034          27.6   180      36.4    8.9       4.9      12.9          3541.6            4.8
+     2026Q1  1615       48853          30.2   180      38.7    8.5       6.5      10.5         13727.2            4.6
+     2026Q2  1581       52496          33.2    90      38.1    4.9       2.9       6.9          7747.1            4.3
+     2026Q3  1463       50940          34.8     0      36.6    1.8      -0.3       3.9          2634.0            3.1
+
+   meta, Z2: przyrost marży do 180 dni zmierzony na 1465 pacjentach: od 90 dni 0.38 zł, od 30 dni 1.73 zł, od dnia 0 3.07 zł
+       okres  nowi  wydatki_zl  koszt_pozysk  okno  marza180  wynik  wynik_od  wynik_do  wynik_razem_zl  powrot90_proc
+     2025-11    95        3300          34.7   180      35.2    0.4      -6.8       7.7            41.7            7.4
+     2025-12   180        7734          43.0   180      34.3   -8.7     -15.5      -1.8         -1557.6            2.2
+     2026-01   333       13375          40.2   180      39.8   -0.3      -4.6       3.9          -115.5            4.5
+     2026-02   388       16385          42.2   180      40.8   -1.4      -5.2       2.4          -543.7            5.4
+     2026-03   446       19092          42.8   180      36.0   -6.8     -10.9      -2.7         -3047.6            3.8
+     2026-04   360       17641          49.0    90      39.6   -9.4     -12.7      -6.1         -3385.9            5.0
+     2026-05   394       17982          45.6    90      35.4  -10.2     -14.1      -6.3         -4015.3            3.0
+     2026-06   372       16873          45.4    90      38.6   -6.7     -11.5      -2.0         -2509.6            6.5
+     2026-07   353       17092          48.4    30      36.6  -11.8     -16.0      -7.7         -4175.2            4.8
+     2026-08   337       16438          48.8    30      36.0  -12.8     -17.2      -8.4         -4303.1            NaN
+     2026-09   336       17409          51.8     0      37.1  -14.7     -19.2     -10.1         -4932.9            NaN
+      okres  nowi  wydatki_zl  koszt_pozysk  okno  marza180  wynik  wynik_od  wynik_do  wynik_razem_zl  powrot90_proc
+     2025Q4   275       11034          40.1   180      34.6   -5.5     -10.7      -0.4         -1515.9            4.0
+     2026Q1  1167       48853          41.9   180      38.7   -3.2      -5.5      -0.8         -3706.8            4.5
+     2026Q2  1126       52496          46.6    90      37.8   -8.8     -11.1      -6.5         -9910.8            4.8
+     2026Q3  1026       50940          49.6     0      36.6  -13.1     -15.6     -10.5        -13411.2            4.8
+
+   tiktok, Z1K: przyrost marży do 180 dni zmierzony na 299 pacjentach: od 90 dni 0.00 zł, od 30 dni 0.63 zł, od dnia 0 1.93 zł
+       okres  nowi  wydatki_zl  koszt_pozysk  okno  marza180  wynik  wynik_od  wynik_do  wynik_razem_zl  powrot90_proc
+     2026-02    59        1689          28.6   180      33.8    5.2      -2.7      13.0           305.5            5.1
+     2026-03   207        7084          34.2   180      33.4   -0.8      -5.6       3.9          -173.5            3.4
+     2026-04   314       12066          38.4    90      28.6   -9.8     -14.0      -5.7         -3091.9            3.2
+     2026-05   345       12143          35.2    90      33.6   -1.6      -5.3       2.1          -548.8            3.5
+     2026-06   313       12496          39.9    90      31.5   -8.4     -12.4      -4.4         -2628.5            2.6
+     2026-07   318       12746          40.1    30      36.6   -3.5      -6.9      -0.1         -1105.0            0.0
+     2026-08   318       12102          38.1    30      36.4   -1.7      -5.0       1.7          -525.4            NaN
+     2026-09   335       12138          36.2     0      33.9   -2.3      -6.3       1.6          -781.4            NaN
+      okres  nowi  wydatki_zl  koszt_pozysk  okno  marza180  wynik  wynik_od  wynik_do  wynik_razem_zl  powrot90_proc
+     2026Q1   266        8773          33.0   180      33.5    0.5      -3.6       4.6           132.0            3.8
+     2026Q2   972       36706          37.8    90      31.3   -6.4      -8.7      -4.2         -6269.2            3.1
+     2026Q3   971       36986          38.1     0      35.6   -2.5      -4.6      -0.4         -2411.9            0.0
+
+   tiktok, Z2: przyrost marży do 180 dni zmierzony na 228 pacjentach: od 90 dni 0.00 zł, od 30 dni 0.26 zł, od dnia 0 1.68 zł
+       okres  nowi  wydatki_zl  koszt_pozysk  okno  marza180  wynik  wynik_od  wynik_do  wynik_razem_zl  powrot90_proc
+     2026-02    49        1689          34.5   180      32.8   -1.7     -10.4       7.0           -84.5            4.1
+     2026-03   160        7084          44.3   180      33.5  -10.8     -15.6      -6.0         -1727.5            3.1
+     2026-04   218       12066          55.4    90      28.5  -26.8     -31.5     -22.1         -5844.4            1.8
+     2026-05   242       12143          50.2    90      35.9  -14.3     -18.4     -10.1         -3450.8            3.3
+     2026-06   229       12496          54.6    90      31.5  -23.1     -27.5     -18.6         -5283.0            2.2
+     2026-07   228       12746          55.9    30      36.3  -19.6     -23.4     -15.7         -4462.5            0.0
+     2026-08   235       12102          51.5    30      34.8  -16.7     -20.8     -12.6         -3923.5            NaN
+     2026-09   232       12138          52.3     0      34.6  -17.7     -22.6     -12.9         -4110.5            NaN
+      okres  nowi  wydatki_zl  koszt_pozysk  okno  marza180  wynik  wynik_od  wynik_do  wynik_razem_zl  powrot90_proc
+     2026Q1   209        8773          42.0   180      33.3   -8.7     -12.9      -4.5         -1812.0            3.3
+     2026Q2   689       36706          53.3    90      32.1  -21.2     -23.7     -18.6        -14578.2            2.5
+     2026Q3   695       36986          53.2     0      35.2  -18.0     -20.5     -15.5        -12496.5            0.0
+
+   Pierwszy miesiąc z wynikiem ujemnym (wynik < 0), z przedziałem w całości poniżej zera, i miesiąc, od którego wynik
+   jest ujemny w każdym kolejnym miesiącu:
+     razem_Z1K: {'pierwszy_ujemny': '2026-04', 'pierwszy_ujemny_z_przedzialem_ponizej_zera': None, 'ujemny_w_kazdym_miesiacu_od': None, 'miesiace_ujemne': ['2026-04', '2026-06', '2026-07'], 'miesiace_ujemne_pewne': []}
+     razem_Z2: {'pierwszy_ujemny': '2025-12', 'pierwszy_ujemny_z_przedzialem_ponizej_zera': '2025-12', 'ujemny_w_kazdym_miesiacu_od': '2025-12', 'miesiace_ujemne': ['2025-12', '2026-01', '2026-02', '2026-03', '2026-04', '2026-05', '2026-06', '2026-07', '2026-08', '2026-09'], 'miesiace_ujemne_pewne': ['2025-12', '2026-03', '2026-04', '2026-05', '2026-06', '2026-07', '2026-08', '2026-09']}
+     meta_Z1K: {'pierwszy_ujemny': None, 'pierwszy_ujemny_z_przedzialem_ponizej_zera': None, 'ujemny_w_kazdym_miesiacu_od': None, 'miesiace_ujemne': [], 'miesiace_ujemne_pewne': []}
+     meta_Z2: {'pierwszy_ujemny': '2025-12', 'pierwszy_ujemny_z_przedzialem_ponizej_zera': '2025-12', 'ujemny_w_kazdym_miesiacu_od': '2025-12', 'miesiace_ujemne': ['2025-12', '2026-01', '2026-02', '2026-03', '2026-04', '2026-05', '2026-06', '2026-07', '2026-08', '2026-09'], 'miesiace_ujemne_pewne': ['2025-12', '2026-03', '2026-04', '2026-05', '2026-06', '2026-07', '2026-08', '2026-09']}
+     tiktok_Z1K: {'pierwszy_ujemny': '2026-03', 'pierwszy_ujemny_z_przedzialem_ponizej_zera': '2026-04', 'ujemny_w_kazdym_miesiacu_od': '2026-03', 'miesiace_ujemne': ['2026-03', '2026-04', '2026-05', '2026-06', '2026-07', '2026-08', '2026-09'], 'miesiace_ujemne_pewne': ['2026-04', '2026-06', '2026-07']}
+     tiktok_Z2: {'pierwszy_ujemny': '2026-02', 'pierwszy_ujemny_z_przedzialem_ponizej_zera': '2026-03', 'ujemny_w_kazdym_miesiacu_od': '2026-02', 'miesiace_ujemne': ['2026-02', '2026-03', '2026-04', '2026-05', '2026-06', '2026-07', '2026-08', '2026-09'], 'miesiace_ujemne_pewne': ['2026-03', '2026-04', '2026-05', '2026-06', '2026-07', '2026-08', '2026-09']}
+
+==============================================================================================================
+G4. PRZYROST MARŻY PO WSZYSTKICH KOSZTACH (828 → 1 048 TYS. ZŁ): PACJENCI Z PIERWSZEGO ROKU A NOWI PACJENCI ROKU
+==============================================================================================================
+   Marża przed kampaniami = przychód z konsultacji po zwrotach + TelemediGO − koszt lekarza, w roku kalendarzowym
+   okresu (zamówienia według dnia płatności, TelemediGO według dnia zakupu), podzielona według roku pozyskania pacjenta.
+   Wynik pacjentów pozyskanych w danym roku = ich marża w tym samym roku − wydatki na kampanie − prowizja tego roku.
+   Marża po wszystkich kosztach: okres 1 828 085 zł, okres 2 1 048 069 zł, przyrost 219 984 zł (+26.6%). Kontrola z c_priorytety.txt (W3): zgodna.
+   a) pacjenci pozyskani w okresie 1, ich marża w okresie 2 (powtórne zamówienia i TelemediGO): 194 434 zł = 88.4% przyrostu; w okresie 1 takiej bazy z poprzedniego roku nie było (dane zaczynają się 1.10.2024).
+   b) pacjenci pozyskani w danym roku, po kosztach kampanii i prowizji: okres 1 828 085 zł, okres 2 853 635 zł, zmiana 25 550 zł (+3.1%) = 11.6% przyrostu.
+      na nowego pacjenta: okres 1 51.02 zł (16231 pacjentów), okres 2 34.58 zł (24687).
+      marża przed kampaniami pacjentów roku: 1 211 118 → 1 518 735 zł (+25.4%); wydatki 367 632 → 649 675 zł (+76.7%), prowizja 15 400 → 15 425 zł.
+
+   Wynik pacjentów pozyskanych w danym roku: nowe kampanie na L4 a reszta (marża w roku pozyskania − ich wydatki;
+   reszcie przypisane wydatki pozostałych kampanii i prowizja; prowizja według tej samej reguły co źródło):
+     regula  okres  nowe_pacjenci  nowe_marza_przed  nowe_wydatki  nowe_wynik  reszta_pacjenci  reszta_marza_przed  reszta_wydatki  reszta_prowizja  reszta_wynik
+        Z1K      1              0               0.0           0.0         0.0            16231           1211118.0        367632.0          15400.0      828085.0
+        Z1K      2           7268          263102.0      245787.0     17315.0            17419           1255633.0        403888.0          15425.0      836320.0
+         Z2      1              0               0.0           0.0         0.0            16231           1211118.0        367632.0          10925.0      832560.0
+         Z2      2           5187          187537.0      245787.0    -58250.0            19500           1331198.0        403888.0          10125.0      917185.0
+   Z1K: nowe kampanie 17 315 zł (2.38 zł na pacjenta); reszta 828 085 → 836 320 zł (+1.0%; na pacjenta 51.02 → 48.01 zł).
+   Z2: nowe kampanie -58 250 zł (-11.23 zł na pacjenta); reszta 832 560 → 917 185 zł (+10.2%; na pacjenta 51.29 → 47.04 zł).
+   To rozbicie księgowe (przypisanie marży i kosztów grupom), a nie zmierzony wpływ: nie mówi, ilu pacjentów nowych
+   kampanii przyszłoby bez nich ani co by się stało z resztą biznesu bez tych kampanii.
