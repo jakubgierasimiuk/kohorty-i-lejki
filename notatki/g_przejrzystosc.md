@@ -51,7 +51,7 @@ Obie dostały to samo polecenie (`notatki/recenzje/g_przejrzystosc_polecenie.md`
 
 - Liczby i wnioski: bez zmian (ramy rundy: przejrzystość, nie nowe analizy). Teksty zmieniły tylko miejsce (z treści do „Szczegółów”) albo brzmienie odnośników.
 - Treść tabeli zdarzeń (gęstość, nazwa kolumny „Skutek w złotych”): bez zmian, bo była przyjęta przez Kubę i sprawdzona przez Codeksa w rundzie F. Zmieniło się tylko jej miejsce.
-- Grupy tematyczne w „Czego nie wiemy” (propozycja Fable) i trzykolumnowy widok z rozwinięciami (propozycja Astry): to zmiana treści, czyli nowy podział 21 pytań. Zostawiamy do decyzji Kuby.
+- Grupy tematyczne w „Czego nie wiemy” (propozycja Fable): Kuba zdecydował „pogrupuj” i grupy są zrobione (założenie 95, `DECYZJE.md`). Trzykolumnowy widok z rozwinięciami (propozycja Astry) nie był robiony.
 - Łączenie kart przyczyna–skutek w „Zdarzeniach” (Fable): też zmiana treści, do decyzji Kuby.
 - Pierwsza zakładka: zgodnie z dopiskiem Kuby nie ruszaliśmy jej poza odnośnikiem do tabeli zdarzeń.
 

@@ -1,6 +1,6 @@
 # Teksty strony narzędzia — wszystkie zakładki, tak jak widzi je czytelnik
 
-Wygenerowane 2026-10-23 12:58 skryptem `analiza/b2_teksty_strony.py` ze strony w `narzedzie/` (stan repozytorium b8d991f), otwartej w przeglądarce bez okna (Microsoft Edge), szerokość 1366 px. Każda zakładka przy ustawieniach domyślnych, bez klikania. Tabele dłuższe niż 40 wierszy są skrócone do 15 pierwszych i 5 ostatnich wierszy. Rozwijane sekcje są rozwinięte. Wykresy opisane nazwami serii. W komórkach tabel `<br>` oddziela linie, które strona pokazuje jedna pod drugą (zwykle: wartość w okresie B, pod spodem okres A i zmiana). Odnośniki do innych zakładek są oznaczone strzałką albo wypisane po „Zobacz w danych”.
+Wygenerowane 2026-10-23 14:00 skryptem `analiza/b2_teksty_strony.py` ze strony w `narzedzie/` (stan repozytorium 5269619), otwartej w przeglądarce bez okna (Microsoft Edge), szerokość 1366 px. Każda zakładka przy ustawieniach domyślnych, bez klikania. Tabele dłuższe niż 40 wierszy są skrócone do 15 pierwszych i 5 ostatnich wierszy. Rozwijane sekcje są rozwinięte. Wykresy opisane nazwami serii. W komórkach tabel `<br>` oddziela linie, które strona pokazuje jedna pod drugą (zwykle: wartość w okresie B, pod spodem okres A i zmiana). Odnośniki do innych zakładek są oznaczone strzałką albo wypisane po „Zobacz w danych”.
 
 **Nagłówek strony:** B2C: czy to wzrost? — Narzędzie do zadania rekrutacyjnego na stanowisko Head of B2C
 
@@ -14,7 +14,7 @@ Wygenerowane 2026-10-23 12:58 skryptem `analiza/b2_teksty_strony.py` ze strony w
 
 Wzrost to dwie rzeczy naraz: więcej pacjentów i lepsza retencja. Sprawdzamy oba warunki osobno, na danych oczyszczonych, porównując ostatnie 12 miesięcy (X 2025 – IX 2026) z rokiem wcześniej (X 2024 – IX 2025). Na końcu sprawdzamy, ile biznes na tym zarabia.
 
-**Werdykt (znacznik „Nie”):** Nie: pacjentów przybywa, ale wracają rzadziej. Prawie cały przyrost pacjentów (86%) to pacjenci dwóch nowych kampanii na L4, a na ich pacjencie po koszcie pozyskania prawie nic nie zostaje: 7 zł w ciągu 180 dni wobec 30 zł na pacjencie pozostałych kampanii płatnych, a na pacjentach pozyskanych od wiosny szacunkowo wychodzimy na zero. Marża po wszystkich kosztach wzrosła o 27% prawie wyłącznie dzięki zakupom pacjentów pozyskanych w pierwszym roku. Pacjenci pozyskani w ostatnich 12 miesiącach zarobili w roku pozyskania, po kosztach kampanii, tylko o 3% więcej niż ci pozyskani rok wcześniej, choć było ich o 52% więcej.
+**Werdykt (znacznik „Nie”):** Prawie cały przyrost pacjentów (86%) to pacjenci dwóch nowych kampanii na L4, a na ich pacjencie po koszcie pozyskania prawie nic nie zostaje: 7 zł w ciągu 180 dni wobec 30 zł na pacjencie pozostałych kampanii płatnych, a na pacjentach pozyskanych od wiosny szacunkowo wychodzimy na zero. Marża po wszystkich kosztach wzrosła o 27%, w 88% dzięki zakupom pacjentów pozyskanych w pierwszym roku. Pacjenci pozyskani w ostatnich 12 miesiącach zarobili w roku pozyskania, po kosztach kampanii, tylko o 3% więcej niż ci pozyskani rok wcześniej, choć było ich o 52% więcej.
 
 **Zastrzeżenie.** Nie wiemy, ilu pacjentów nowych kampanii przyszłoby i bez reklamy. Odpowie na to test z pozycji 9 listy priorytetów: wyłączenie kampanii Meta na L4 na 4–6 tygodni w losowej połowie województw i porównanie wszystkich nowych pacjentów z drugą połową. Priorytety: pozycja 9, test w części kraju
 
@@ -163,7 +163,7 @@ Co to znaczy dla biznesu: Pacjent przypisany nowym kampaniom zostawia po koszcie
 
 *Zostaje na pacjencie: marża w 180 dniach minus koszt pozyskania. Pionowa linia to zero: na lewo od niej pozyskanie kosztuje więcej, niż pacjent zostawia. Gwiazdka: marża w 180 dniach przybliżona.*
 
-- Pacjent nowych kampanii zostawia w 180 dniach 37 zł marży, a jego pozyskanie kosztuje 30 zł. Pacjent pozostałych kampanii płatnych zostawia 72 zł marży przy koszcie pozyskania 43 zł.
+- Pacjent nowych kampanii zostawia w 180 dniach 37,3 zł marży, a jego pozyskanie kosztuje 30,3 zł, więc zostaje 7,0 zł. Pacjent pozostałych kampanii płatnych zostawia 72,3 zł marży przy koszcie pozyskania 42,6 zł, więc zostaje 29,7 zł.
 - Miesiąc po miesiącu koszt pozyskania pacjenta nowych kampanii rośnie z 27–30 zł (listopad 2025 – luty 2026) do 33–37 zł (kwiecień – wrzesień 2026), a marża pacjenta zostaje na poziomie 34–40 zł. Od kwietnia zostaje od −1 do +3 zł na pacjencie.
 - Osobno: TikTok na L4 traci od marca 2026 (w II kwartale 6 zł na pacjencie), a Meta na L4 zostaje na plusie (w III kwartale 2 zł na pacjencie).
 - Według sesji z płatnością obie kampanie razem tracą od grudnia 2025, a od kwietnia średnio 12–16 zł na pacjencie.
@@ -235,7 +235,7 @@ Skąd liczby: analiza/g_werdykt.py → analiza/wyniki/g_werdykt.txt (G4), analiz
 
 Z każdym kwartałem wydatki na kampanie rosną rok do roku szybciej, a marża przed ich kosztem wolniej: w III kwartale 2026 wydatki były ponad dwa razy wyższe niż rok wcześniej, a marża przed ich kosztem wyższa o 25%.
 
-Co to znaczy dla biznesu: Wzrost marży po kosztach kampanii się zatrzymał: w III kwartale 2026 spadła o 7% rok do roku, a po odjęciu jednorazowego startu sprzedaży TelemediGO w newsletterze rok wcześniej byłaby wyższa tylko o 1%.
+Co to znaczy dla biznesu: Wzrost marży po kosztach kampanii się zatrzymał: w III kwartale 2026 spadła o 7% rok do roku, a po odjęciu jednorazowego startu sprzedaży TelemediGO w newsletterze we wrześniu 2025 byłaby wyższa tylko o 1%.
 
 *[Wykres] Zmiana rok do roku w każdym kwartale: marża przed kosztem kampanii i wydatki na kampanie*
 
@@ -260,8 +260,6 @@ Co to znaczy dla biznesu: Wzrost marży po kosztach kampanii się zatrzymał: w 
 - Na pacjencie nowych kampanii na L4 zostawało po koszcie pozyskania 9 zł w IV kwartale 2025 i 7 zł w I kwartale 2026, a w II i III kwartale 2026 mniej niż 1 zł.
 - Bez zakupów pacjentów pozyskanych w poprzednich kwartałach marża po kosztach kampanii rosła rok do roku o 8,5% w IV kwartale 2025 i o 26,1% w I kwartale 2026, a w II i III kwartale 2026 spadła o 6,7% i 5,6%.
 - Marża przed kosztem kampanii wzrosła za cały rok o 41%, a wydatki na kampanie o 77%.
-
-**Zastrzeżenie.** Marża po koszcie lekarza, kampaniach i prowizji spadła w III kwartale 2026 o 7% rok do roku, ale ten spadek zależy od jednorazowego zdarzenia: rok wcześniej we wrześniu ruszyła sprzedaż TelemediGO w newsletterze. Po odjęciu jednorazowej nadwyżki tego startu marża kwartału jest o 1% wyższa niż rok wcześniej.
 
 Zobacz w danych: Wynik biznesu: marża po kwartałach; Priorytety: pozycja 1, Safari *(odnośniki)*
 
@@ -1991,6 +1989,16 @@ Dalej: Priorytety
 
 Lista od najważniejszej pozycji. Przy każdej: dlaczego, co robimy, ile jest warta w złotych marży na rok, po czym poznamy, że zadziałała, i ile zajmie wdrożenie. Pełne rachunki i założenia są w szczegółach każdej karty.
 
+### Zakres listy
+
+Lista obejmuje działania, które wynikają z problemów widocznych w danych: naprawy, pauzy i testy. Celowo nie obejmuje działań na wzrost, które wymagają wiedzy spoza tych danych, czyli nowych kanałów i kampanii, rozwoju oferty i TelemediGO (poza naprawą warunków, które dziś przynoszą stratę, pozycja 10) ani rozmów z pacjentami. Taka kolejność jest celowa: dopóki zakładanie konta w Safari nie działa i nie wiemy, ilu pacjentów kampanie naprawdę dokładają, dodatkowy budżet częściowo trafiałby w ten sam dziurawy lejek. Plan wzrostu przygotujemy po wynikach pierwszych testów (pozycje 7, 9 i 12).
+
+#### Nie robimy teraz rzeczy bez podstaw w danych albo bez testu
+
+- Kampanii o zgodę marketingową pacjentów nowych kampanii: w najlepszym razie 1,9 tys. zł rocznie.
+- Osobnej naprawy przeglądarek w aplikacjach w reklamach do nowych osób: w tej samej kampanii płacą tak samo jak zwykłe.
+- Przesuwania pieniędzy uwolnionych przez pozycje 3 i 4 do innych kampanii bez testu.
+
 **ZASADY LISTY Najpierw pewne straty i pauzy, które da się cofnąć, potem testy** *(sekcja rozwijana, tu rozwinięta)*
 
 Kolejność oznacza wagę decyzji. Każda kwota to osobny scenariusz, więc kwot nie sumujemy.
@@ -1998,7 +2006,6 @@ Kolejność oznacza wagę decyzji. Każda kwota to osobny scenariusz, więc kwot
 - Najpierw pewne straty, które rosną każdego dnia i łatwo je naprawić (pozycje 1 i 2). Potem pauzy, które da się cofnąć (3 i 4). Potem naprawy, diagnozy i testy, które mają wycenę (5–10). Test Mety (pozycja 9) ma nieznany znak, ale wycenę i największą stawkę, więc stoi w tej grupie. Na końcu dwie pozycje bez oszacowanego efektu: pozycja 11 ma tylko górną granicę możliwej korzyści, a pozycja 12 tylko koszt testu.
 - W pierwszym tygodniu zespół może zrobić równolegle pozycje 1, 3 i 4 oraz pierwsze, krótkie kroki pozycji 2, 5, 6, 8 i 11 (decyzje na pierwszy tydzień w zakładce „Czy to wzrost”).
 - Wartość to zmiana marży na rok: przychód z konsultacji po zwrotach i opłaty TelemediGO minus koszt lekarza, wydatki na kampanie i prowizja afiliacyjna. Rokiem bazowym są ostatnie 12 miesięcy.
-- Pieniędzy uwolnionych przez pozycje 3 i 4 nie przesuwamy automatycznie do innych kampanii, tylko z testem.
 
 **Szczegóły** *(sekcja rozwijana, tu rozwinięta)*
 
@@ -2011,6 +2018,12 @@ Kolejność oznacza wagę decyzji. Każda kwota to osobny scenariusz, więc kwot
 - Czas wdrożenia szacujemy sami; w danych go nie ma.
 
 Rok wcześniej = X 2024 – IX 2025, ostatnie 12 miesięcy = X 2025 – IX 2026; jeśli nie napisano inaczej, liczby dotyczą ostatnich 12 miesięcy. Według pierwszego wejścia = źródłem pacjenta jest jego pierwsze wejście na stronę (także anonimowe sesje jego przeglądarek), a kod kampanii na pierwszym zamówieniu rozstrzyga. Według sesji z płatnością = źródłem jest sesja, w której zapłacił; pokazujemy ją obok, do porównania. Nowe kampanie = meta_prosp_l4_szybko (Meta, od 3.11.2025) i tt_prosp_l4_15min (TikTok, od 9.02.2026), obie na zwolnienie lekarskie (L4).
+
+#### Nie robimy teraz: rachunki
+
+- Zgoda marketingowa pacjentów nowych kampanii: w najlepszym odczytaniu 1,9 tys. zł rocznie.
+- Przeglądarki wbudowane w aplikacje w kampaniach do nowych odbiorców: w tym rachunku 0 zł, bo w tej samej kampanii nie wykryliśmy niższej konwersji niż w zwykłych (także w kampanii Meta „lekarz online”: różnica −0,15 punktu procentowego, od −0,51 do +0,21, 29 330 sesji w przeglądarkach wbudowanych w dwóch latach). Porównanie jest obserwacyjne, więc nie rozdziela wpływu przeglądarki od cech użytkowników i nie uzasadnia osobnej wyceny naprawy. Nie uogólniamy tego na resztę ruchu. W remarketingu, kampanii na markę i wejściach bezpośrednich sesje w przeglądarkach w aplikacjach płacą w ostatnich 12 miesiącach rzadziej niż zwykłe w tej samej kampanii (remarketing Meta o 12,2 punktu, 1 772 sesje w przeglądarkach wbudowanych; Google Ads na markę o 5,1 punktu, 2 357 sesji; wejścia bezpośrednie o 4,4 punktu, 4 261 sesji). Dane nie rozstrzygają, czy winna jest przeglądarka, czy to, kto z niej korzysta (niewiadoma 18).
+- Przesuwanie uwolnionego budżetu do innych kampanii bez testu (zasada budżetu).
 
 ### Przegląd
 
@@ -2627,20 +2640,6 @@ Skąd liczby: analiza/wyniki/c_telemedigo.txt (1d, 2a, 4a, 4d), analiza/wyniki/c
 
 Wróć do przeglądu
 
-### Nie robimy teraz rzeczy bez podstaw w danych albo bez testu
-
-- Kampanii o zgodę marketingową pacjentów nowych kampanii: w najlepszym razie 1,9 tys. zł rocznie.
-- Osobnej naprawy przeglądarek w aplikacjach w reklamach do nowych osób: w tej samej kampanii płacą tak samo jak zwykłe.
-- Mocniejszej sprzedaży i odnowień TelemediGO: dopiero po teście z pozycji 12.
-- Przesuwania uwolnionego budżetu do innych kampanii bez testu.
-
-**Szczegóły** *(sekcja rozwijana, tu rozwinięta)*
-
-- Zgoda marketingowa pacjentów nowych kampanii: w najlepszym odczytaniu 1,9 tys. zł rocznie.
-- Przeglądarki wbudowane w aplikacje w kampaniach do nowych odbiorców: w tym rachunku 0 zł, bo w tej samej kampanii nie wykryliśmy niższej konwersji niż w zwykłych (także w kampanii Meta „lekarz online”: różnica −0,15 punktu procentowego, od −0,51 do +0,21, 29 330 sesji w przeglądarkach wbudowanych w dwóch latach). Porównanie jest obserwacyjne, więc nie rozdziela wpływu przeglądarki od cech użytkowników i nie uzasadnia osobnej wyceny naprawy. Nie uogólniamy tego na resztę ruchu. W remarketingu, kampanii na markę i wejściach bezpośrednich sesje w przeglądarkach w aplikacjach płacą w ostatnich 12 miesiącach rzadziej niż zwykłe w tej samej kampanii (remarketing Meta o 12,2 punktu, 1 772 sesje w przeglądarkach wbudowanych; Google Ads na markę o 5,1 punktu, 2 357 sesji; wejścia bezpośrednie o 4,4 punktu, 4 261 sesji). Dane nie rozstrzygają, czy winna jest przeglądarka, czy to, kto z niej korzysta (niewiadoma 18).
-- Mocniejsza sprzedaż i odnowienia TelemediGO: dopiero po teście z pozycji 12.
-- Przesuwanie uwolnionego budżetu do innych kampanii bez testu (zasada budżetu).
-
 **Skąd liczby w tej zakładce** *(sekcja rozwijana, tu rozwinięta)*
 
 *Notatka: notatki/c_szkic.md, sekcja 3. Liczby: analiza/c_priorytety.py → analiza/wyniki/c_priorytety.txt, analiza/c_telemedigo.py → analiza/wyniki/c_telemedigo.txt i raporty wskazane przy każdej pozycji. Kolejność i wyceny sprawdziła niezależnie runda kilku modeli AI różnych firm (notatki/konsylium/c_priorytety/synteza.md), a liczby drugi model (notatki/recenzje/c_codex.md).*
@@ -2651,34 +2650,40 @@ Dalej: Czego nie wiemy
 
 ## Czego z tych danych nie wiemy
 
-Rzeczy, których te dane nie rozstrzygają, i test albo dane, które je domkną. Numer pozycji listy priorytetów prowadzi do karty, której kwota od tego zależy.
+Rzeczy, których te dane nie rozstrzygają, pogrupowane według tematu, i test albo dane, które je domkną. Numer pytania się nie zmienia, a numer pozycji listy priorytetów prowadzi do karty, której kwota od tego zależy.
 
 *Filtry (ustawienia domyślne):*
 - Pozycja listy priorytetów: Wszystkie pytania — 21 (do wyboru: Wszystkie pytania — 21 / 1. Naprawić zakładanie konta w Safari na iPhone'ach (2) / 2. Oczyścić codzienny raport i dodać alarmy na lejku i zwrotach (2) / 5. Zmienić obietnicę w reklamach Meta na L4; zasady zwrotów rozważyć osobno (3) / 6. Zdiagnozować poranne opóźnienia internistów, potem przetestować obsadę (1) / 7. Wprowadzić komunikację po wizycie, zawsze z losową grupą bez wysyłki (1) / … (razem 12 opcji))
 
 | Nr | Czego nie wiemy | Dlaczego to ważne | Test albo brakujące dane | Pozycja listy priorytetów |
 | --- | --- | --- | --- | --- |
+| Kampanie i pozyskanie pacjentów7 pytań |  |  |  |  |
 | 1 | Ilu pacjentów nowych kampanii na L4 przyszłoby i bez nich | od tego zależy decyzja o kampanii Meta na L4: jej wyłączenie jest warte od około −31 do +180 tys. zł rocznie, a próg decyzji to około 85% pacjentów, którzy bez kampanii by nie przyszli (pozycja 9) | wyłączenie kampanii w losowej połowie województw na 4–6 tygodni; badanie przyrostu w panelach Meta i TikToka. Taki test nie odróżni wyniku od progu (błąd 20–24 punktów procentowych), więc rozpozna tylko sytuację, w której większość pacjentów przyszłaby i bez kampanii, a przy wyniku niejednoznacznym decyduje reguła ustalona z góry (pozycja 9) | 9. Sprawdzić testem w części kraju, czy kampania Meta na L4 się opłaca |
 | 2 | Ilu pacjentów kampanii bez kodu rabatowego (Google Ads ogólne, Meta „lekarz online”) przyszłoby i bez reklamy | znak wyniku tych kampanii zależy od reguły przypisania, a żadna reguła nie mówi, ilu pacjentów kampania naprawdę dokłada | ten sam test z grupą bez reklamy; mierzy przyrost pacjentów niezależnie od reguły przypisania, więc nie trzeba wybierać reguły | Bez osobnej pozycji na liście |
-| 3 | Powód zwrotów po wizycie L4 w nowych kampaniach (17,4% wobec 5,3%) | po wstrzymaniu TikToka dotyczy tylko Meta: od niego zależy, ile da nowa kreacja (11–18 tys. zł rocznie) i czy potrzebna jest zmiana zasad zwrotów (27–46 tys. zł rocznie; pozycja 5) | powód zwrotu, decyzja lekarza (czy L4 wystawiono), treść reklam | 5. Zmienić obietnicę w reklamach Meta na L4; zasady zwrotów rozważyć osobno |
-| 4 | Skąd poranne opóźnienia u internistów (blok od 5:00 do 13:59, już przy wizytach z najwcześniejszym terminem dnia, bez widocznego narastania w ciągu poranka) i czy obniżają powroty | scenariusz od 0 do 65 tys. zł rocznie. Luty 2026 nie pasuje do hipotezy, że większe opóźnienia zawsze obniżają powrót: opóźnienia były już wtedy wysokie, a powrót pacjentów kampanii działających w obu latach nie spadł | grafiki i obsada poranna przed i po 3.11.2025, obciążenie lekarzy pacjentami spoza B2C, koszt obsady; test z dodatkową poranną obsadą w losowe dni | 6. Zdiagnozować poranne opóźnienia internistów, potem przetestować obsadę |
-| 5 | Sesje zalogowane od wejścia: wizyty „sprawdzam konto” czy zepsuta ścieżka | 0 albo około 36–40 tys. zł rocznie (wysoki scenariusz 89 tys. zł) | ręczny test zakupu po zalogowaniu; logi błędów; znacznik „zalogowany na wejściu” w analityce | 8. Sprawdzić ręcznie zakup dla pacjentów zalogowanych od wejścia |
-| 6 | Przyczyna awarii zakładania konta w Safari na iOS od 17.03.2026 | potrzebna do naprawy (pozycja 1) | lista zmian w produkcie z 16–17.03.2026, logi rejestracji według przeglądarki, powtórzenie na iPhonie | 1. Naprawić zakładanie konta w Safari na iPhone'ach |
-| 7 | Czy utraceni w Safari na iOS kupili na innym urządzeniu | zmienia wartość pozycji 1 | powiązanie urządzeń po adresie e-mail albo numerze telefonu przy próbie rejestracji | 1. Naprawić zakładanie konta w Safari na iPhone'ach |
-| 8 | Ile wizyt i powrotów dokłada zniżka TelemediGO | od tego zależy, czy program promować; test pokaże wpływ samej zniżki, ale nie opłacalność oferty za 89 zł | losowy, bezpłatny dostęp do zniżek (pozycja 12) | 12. Sprawdzić losowym testem, ile wizyt i powrotów dokłada zniżka TelemediGO |
-| 9 | Czy newsletter i SMS wywołują zakup | to kanał, którego dodatkowy wpływ warto przetestować (około 14% obserwowanych pierwszych powrotów idzie po wejściu z niego); widać kliknięcia, nie wysyłki; wejść na 1 000 pacjentów całej narastającej bazy jest coraz mniej (z 56–108 do 24–52 miesięcznie) | liczba wysyłek; losowa grupa kontrolna bez wysyłki | 7. Wprowadzić komunikację po wizycie, zawsze z losową grupą bez wysyłki |
 | 10 | Wartość remarketingu porzuconego koszyka | reguła pierwszego wejścia z definicji przypisuje mu mało pacjentów | grupa kontrolna, której remarketing się nie wyświetla | Bez osobnej pozycji na liście |
 | 11 | Ile wzrostu daje pora roku, a ile wyższe wydatki na kampanie | od X 2024 do I 2025 rosną naraz pora roku i wydatki. W dwóch latach danych każdy miesiąc występuje tylko dwa razy, a wydatki rosły w obu latach, więc wpływu sezonu nie da się oddzielić od wpływu wydatków | zmiana budżetu w części kraju (grupa kontrolna według województw) | Bez osobnej pozycji na liście |
 | 12 | Strata między kliknięciem reklamy a sesją w Meta i TikToku | od 0 do 52 tys. zł rocznie | panele reklamowe, logi serwera, czas ładowania strony w przeglądarkach wbudowanych | 11. Sprawdzić, gdzie znika ruch między kliknięciem reklamy a wejściem na stronę w Meta i TikToku |
+| 20 | Jak liczba zamówień z Meta na L4 reaguje na wysokość kodu rabatowego (dziś 20 zł) | kod to 62,8 tys. zł zniżki efektywnej na pełny rok; próg rachunku: rezygnacja z niego opłaca się, jeśli ubędzie mniej niż 33,7% zamówień z kodem (przy przejściu na START10 mniej niż 20,2%) | losowy podział ruchu Meta na L4 na kod 20 zł, 10 zł i brak kodu, mierzony marżą na kliknięcie (pozycja 5) | 5. Zmienić obietnicę w reklamach Meta na L4; zasady zwrotów rozważyć osobno |
+| 21 | Dlaczego od 22.05.2026 spada konwersja Google Ads na markę | sesja do płatności u osób, które jeszcze nie kupowały: 17,8% (5 152 sesje, 22.05–30.09.2026) wobec 21,2% (21 186 sesji, 1.10.2024–21.05.2026), czyli około 28,5–39,6 zamówienia mniej na 30 dni zależnie od okna porównania; to nie Safari na iOS ani zmiana struktury ruchu; rok wcześniej w tym samym sezonie spadek był mniejszy i nieistotny (−1,3 punktu); koszt kliknięcia marki rośnie (pozycja 2) | lista zmian w kampanii i na stronie z maja 2026; hasła wyszukiwania i reklamy konkurencji na markę w panelu Google Ads | 2. Oczyścić codzienny raport i dodać alarmy na lejku i zwrotach |
+| Obsługa pacjenta: zwroty i opóźnienia3 pytania |  |  |  |  |
+| 3 | Powód zwrotów po wizycie L4 w nowych kampaniach (17,4% wobec 5,3%) | po wstrzymaniu TikToka dotyczy tylko Meta: od niego zależy, ile da nowa kreacja (11–18 tys. zł rocznie) i czy potrzebna jest zmiana zasad zwrotów (27–46 tys. zł rocznie; pozycja 5) | powód zwrotu, decyzja lekarza (czy L4 wystawiono), treść reklam | 5. Zmienić obietnicę w reklamach Meta na L4; zasady zwrotów rozważyć osobno |
+| 4 | Skąd poranne opóźnienia u internistów (blok od 5:00 do 13:59, już przy wizytach z najwcześniejszym terminem dnia, bez widocznego narastania w ciągu poranka) i czy obniżają powroty | scenariusz od 0 do 65 tys. zł rocznie. Luty 2026 nie pasuje do hipotezy, że większe opóźnienia zawsze obniżają powrót: opóźnienia były już wtedy wysokie, a powrót pacjentów kampanii działających w obu latach nie spadł | grafiki i obsada poranna przed i po 3.11.2025, obciążenie lekarzy pacjentami spoza B2C, koszt obsady; test z dodatkową poranną obsadą w losowe dni | 6. Zdiagnozować poranne opóźnienia internistów, potem przetestować obsadę |
+| 17 | Zasady zwrotów przy odmowie L4 i ryzyko prawne reklam L4 | zmiana zasad zwrotów z pozycji 5 to osobna decyzja, która wymaga zmiany regulaminu i oceny ryzyka prawnego | regulamin, opinia prawna, treść reklam | 5. Zmienić obietnicę w reklamach Meta na L4; zasady zwrotów rozważyć osobno |
+| Strona i ścieżka zakupu4 pytania |  |  |  |  |
+| 5 | Sesje zalogowane od wejścia: wizyty „sprawdzam konto” czy zepsuta ścieżka | 0 albo około 36–40 tys. zł rocznie (wysoki scenariusz 89 tys. zł) | ręczny test zakupu po zalogowaniu; logi błędów; znacznik „zalogowany na wejściu” w analityce | 8. Sprawdzić ręcznie zakup dla pacjentów zalogowanych od wejścia |
+| 6 | Przyczyna awarii zakładania konta w Safari na iOS od 17.03.2026 | potrzebna do naprawy (pozycja 1) | lista zmian w produkcie z 16–17.03.2026, logi rejestracji według przeglądarki, powtórzenie na iPhonie | 1. Naprawić zakładanie konta w Safari na iPhone'ach |
+| 7 | Czy utraceni w Safari na iOS kupili na innym urządzeniu | zmienia wartość pozycji 1 | powiązanie urządzeń po adresie e-mail albo numerze telefonu przy próbie rejestracji | 1. Naprawić zakładanie konta w Safari na iPhone'ach |
+| 18 | Czy sesje w przeglądarkach w aplikacjach płacą rzadziej w remarketingu Meta, kampanii Google Ads na markę i wejściach bezpośrednich przez samą przeglądarkę, czy przez to, kto z niej korzysta | w remarketingu Meta, Google Ads na markę i wejściach bezpośrednich płacą w ostatnich 12 miesiącach rzadziej niż zwykłe o 4,4–12,2 punktu procentowego; jeśli winna jest przeglądarka, da się to naprawić na stronie | czas ładowania i błędy strony w przeglądarkach w aplikacjach; ręczny zakup w Instagramie, Facebooku i TikToku; test linku, który otwiera zwykłą przeglądarkę | Bez osobnej pozycji na liście |
+| Ceny i TelemediGO2 pytania |  |  |  |  |
+| 8 | Ile wizyt i powrotów dokłada zniżka TelemediGO | od tego zależy, czy program promować; test pokaże wpływ samej zniżki, ale nie opłacalność oferty za 89 zł | losowy, bezpłatny dostęp do zniżek (pozycja 12) | 12. Sprawdzić losowym testem, ile wizyt i powrotów dokłada zniżka TelemediGO |
+| 16 | Reakcja pacjentów na cenę u specjalistów | od niej zależy, ile da zmiana cennika (do 73,6 tys. zł za 10 zł podwyżki) | test dwóch cen dla nowych pacjentów przez 4 tygodnie | 10. Zmienić cennik specjalistów i warunki TelemediGO u specjalistów |
+| Komunikacja z pacjentami i konta bez zakupu2 pytania |  |  |  |  |
+| 9 | Czy newsletter i SMS wywołują zakup | to kanał, którego dodatkowy wpływ warto przetestować (około 14% obserwowanych pierwszych powrotów idzie po wejściu z niego); widać kliknięcia, nie wysyłki; wejść na 1 000 pacjentów całej narastającej bazy jest coraz mniej (z 56–108 do 24–52 miesięcznie) | liczba wysyłek; losowa grupa kontrolna bez wysyłki | 7. Wprowadzić komunikację po wizycie, zawsze z losową grupą bez wysyłki |
+| 19 | Dlaczego 11 482 konta (21,9% z 52 400 kont z dwóch lat) nie mają żadnego zakupu i czy da się je odzyskać | każde z tych kont wybrało usługę i przeszło krok konta, a 37,1% z nich zaczęło płatność; 58,1% z 11 482 ma zgodę marketingową (stan na 30.09.2026), ale w danych nie ma ani jednego ich wejścia z newslettera albo SMS-a | dane o wysyłkach do tych kont; sekwencja wiadomości do kont bez zakupu z losową grupą kontrolną; bez wyceny przed testem | Bez osobnej pozycji na liście |
+| Dane, umowy i czas obserwacji3 pytania |  |  |  |  |
 | 13 | Koszt lekarza za wizyty testowe (51 775 zł według zasady z zadania, łącznie w dwóch latach; 37 950 zł w ostatnich 12 miesiącach) | wynik biznesu | informacja z rozliczeń, czy lekarze dostali wynagrodzenie za testy | 2. Oczyścić codzienny raport i dodać alarmy na lejku i zwrotach |
 | 14 | Warunki umowy z rankingiem lekarzy | prowizja 30,8 tys. zł za dwa lata według pierwszego wejścia albo 14,9 tys. zł według kodu | umowa z rankingiem | Bez osobnej pozycji na liście |
 | 15 | Pełna długoterminowa marża rocznika ostatnich 12 miesięcy | rachunek kampanii w 90 i 180 dniach jej nie obejmuje; zaniża wartość kampanii z powracającymi pacjentami | czas; najstarsze kohorty pozwalają już częściowo ją ocenić (5 137 pacjentów ostatnich 12 miesięcy ma pełne 270 dni obserwacji) | Bez osobnej pozycji na liście |
-| 16 | Reakcja pacjentów na cenę u specjalistów | od niej zależy, ile da zmiana cennika (do 73,6 tys. zł za 10 zł podwyżki) | test dwóch cen dla nowych pacjentów przez 4 tygodnie | 10. Zmienić cennik specjalistów i warunki TelemediGO u specjalistów |
-| 17 | Zasady zwrotów przy odmowie L4 i ryzyko prawne reklam L4 | zmiana zasad zwrotów z pozycji 5 to osobna decyzja, która wymaga zmiany regulaminu i oceny ryzyka prawnego | regulamin, opinia prawna, treść reklam | 5. Zmienić obietnicę w reklamach Meta na L4; zasady zwrotów rozważyć osobno |
-| 18 | Czy sesje w przeglądarkach w aplikacjach płacą rzadziej w remarketingu Meta, kampanii Google Ads na markę i wejściach bezpośrednich przez samą przeglądarkę, czy przez to, kto z niej korzysta | w remarketingu Meta, Google Ads na markę i wejściach bezpośrednich płacą w ostatnich 12 miesiącach rzadziej niż zwykłe o 4,4–12,2 punktu procentowego; jeśli winna jest przeglądarka, da się to naprawić na stronie | czas ładowania i błędy strony w przeglądarkach w aplikacjach; ręczny zakup w Instagramie, Facebooku i TikToku; test linku, który otwiera zwykłą przeglądarkę | Bez osobnej pozycji na liście |
-| 19 | Dlaczego 11 482 konta (21,9% z 52 400 kont z dwóch lat) nie mają żadnego zakupu i czy da się je odzyskać | każde z tych kont wybrało usługę i przeszło krok konta, a 37,1% z nich zaczęło płatność; 58,1% z 11 482 ma zgodę marketingową (stan na 30.09.2026), ale w danych nie ma ani jednego ich wejścia z newslettera albo SMS-a | dane o wysyłkach do tych kont; sekwencja wiadomości do kont bez zakupu z losową grupą kontrolną; bez wyceny przed testem | Bez osobnej pozycji na liście |
-| 20 | Jak liczba zamówień z Meta na L4 reaguje na wysokość kodu rabatowego (dziś 20 zł) | kod to 62,8 tys. zł zniżki efektywnej na pełny rok; próg rachunku: rezygnacja z niego opłaca się, jeśli ubędzie mniej niż 33,7% zamówień z kodem (przy przejściu na START10 mniej niż 20,2%) | losowy podział ruchu Meta na L4 na kod 20 zł, 10 zł i brak kodu, mierzony marżą na kliknięcie (pozycja 5) | 5. Zmienić obietnicę w reklamach Meta na L4; zasady zwrotów rozważyć osobno |
-| 21 | Dlaczego od 22.05.2026 spada konwersja Google Ads na markę | sesja do płatności u osób, które jeszcze nie kupowały: 17,8% (5 152 sesje, 22.05–30.09.2026) wobec 21,2% (21 186 sesji, 1.10.2024–21.05.2026), czyli około 28,5–39,6 zamówienia mniej na 30 dni zależnie od okna porównania; to nie Safari na iOS ani zmiana struktury ruchu; rok wcześniej w tym samym sezonie spadek był mniejszy i nieistotny (−1,3 punktu); koszt kliknięcia marki rośnie (pozycja 2) | lista zmian w kampanii i na stronie z maja 2026; hasła wyszukiwania i reklamy konkurencji na markę w panelu Google Ads | 2. Oczyścić codzienny raport i dodać alarmy na lejku i zwrotach |
 
 **Skąd liczby w tej zakładce** *(sekcja rozwijana, tu rozwinięta)*
 
@@ -2688,4 +2693,4 @@ Wróć do początku: Czy to wzrost
 
 ---
 
-**Stopka strony:** Dane od 1.10.2024 do 30.09.2026. Liczby przeliczone 2026-10-23 12:56 skryptami analiza/b_eksport.py i analiza/b2_eksport_c.py (stan repozytorium b8d991f). Strona nie pobiera niczego z internetu.
+**Stopka strony:** Dane od 1.10.2024 do 30.09.2026. Liczby przeliczone 2026-10-23 13:49 skryptami analiza/b_eksport.py i analiza/b2_eksport_c.py (stan repozytorium 5269619). Strona nie pobiera niczego z internetu.

@@ -1,4 +1,4 @@
-F — GOTOWOŚĆ DO PUBLIKACJI: PODŚCIEŻKA, SZEROKOŚCI POŚREDNIE, SAFARI (WEBKIT) I FIREFOX (2026-10-23 12:35, commit 390b556)
+F — GOTOWOŚĆ DO PUBLIKACJI: PODŚCIEŻKA, SZEROKOŚCI POŚREDNIE, SAFARI (WEBKIT) I FIREFOX (2026-10-23 14:01, commit 5269619)
 Problemy razem: 0
 
 1. Podścieżka jak na GitHub Pages (/b2c-narzedzie/): 18 żądań, poza podścieżką 0, ze statusem 4xx/5xx 0, błędów w konsoli 0
@@ -9,7 +9,7 @@ Problemy razem: 0
    zdarzenia   kart   2, szerokość dokumentu 1366 / okno 1366
    wynik       kart   4, szerokość dokumentu 1366 / okno 1366
    jakosc      kart   7, szerokość dokumentu 1366 / okno 1366
-   priorytety  kart  14, szerokość dokumentu 1366 / okno 1366
+   priorytety  kart  15, szerokość dokumentu 1366 / okno 1366
    niewiadome  kart   0, szerokość dokumentu 1366 / okno 1366
    odnośnik #kohorty?regula=Z1K&podz=kanal&okno=90&miara=powrot&wygl=7&f_grupa=pozostale: zakładka v-kohorty
    odnośnik #lejek?podz=urzadzenie&w=mobile: zakładka v-lejek
@@ -25,7 +25,7 @@ Problemy razem: 0
    zdarzenia   kart   2, szerokość dokumentu 768 / okno 768
    wynik       kart   4, szerokość dokumentu 768 / okno 768
    jakosc      kart   7, szerokość dokumentu 768 / okno 768
-   priorytety  kart  14, szerokość dokumentu 768 / okno 768
+   priorytety  kart  15, szerokość dokumentu 768 / okno 768
    niewiadome  kart   0, szerokość dokumentu 768 / okno 768
 
 2. Edge 155.0.4283.62, 1920 × 1080 px: problemów 0, błędów w konsoli 0
@@ -36,7 +36,7 @@ Problemy razem: 0
    zdarzenia   kart   2, szerokość dokumentu 1920 / okno 1920
    wynik       kart   4, szerokość dokumentu 1920 / okno 1920
    jakosc      kart   7, szerokość dokumentu 1920 / okno 1920
-   priorytety  kart  14, szerokość dokumentu 1920 / okno 1920
+   priorytety  kart  15, szerokość dokumentu 1920 / okno 1920
    niewiadome  kart   0, szerokość dokumentu 1920 / okno 1920
 
 3. WebKit (Safari) 26.0, 1366 × 900 px: problemów 0, błędów w konsoli 0
@@ -47,7 +47,7 @@ Problemy razem: 0
    zdarzenia   kart   2, szerokość dokumentu 1366 / okno 1366
    wynik       kart   4, szerokość dokumentu 1366 / okno 1366
    jakosc      kart   7, szerokość dokumentu 1366 / okno 1366
-   priorytety  kart  14, szerokość dokumentu 1366 / okno 1366
+   priorytety  kart  15, szerokość dokumentu 1366 / okno 1366
    niewiadome  kart   0, szerokość dokumentu 1366 / okno 1366
 
 3. WebKit (Safari) 26.0, 375 × 812 px (telefon): problemów 0, błędów w konsoli 0
@@ -58,7 +58,7 @@ Problemy razem: 0
    zdarzenia   kart   2, szerokość dokumentu 375 / okno 375
    wynik       kart   4, szerokość dokumentu 375 / okno 375
    jakosc      kart   7, szerokość dokumentu 375 / okno 375
-   priorytety  kart  14, szerokość dokumentu 375 / okno 375
+   priorytety  kart  15, szerokość dokumentu 375 / okno 375
    niewiadome  kart   0, szerokość dokumentu 375 / okno 375
    przycisk „Zakładki” po przewinięciu: widoczny, zakładek na liście 9
 
@@ -70,7 +70,7 @@ Problemy razem: 0
    zdarzenia   kart   2, szerokość dokumentu 1366 / okno 1366
    wynik       kart   4, szerokość dokumentu 1366 / okno 1366
    jakosc      kart   7, szerokość dokumentu 1366 / okno 1366
-   priorytety  kart  14, szerokość dokumentu 1366 / okno 1366
+   priorytety  kart  15, szerokość dokumentu 1366 / okno 1366
    niewiadome  kart   0, szerokość dokumentu 1366 / okno 1366
 
 3. Firefox 146.0.1, 375 × 812 px: problemów 0, błędów w konsoli 0
@@ -81,6 +81,6 @@ Problemy razem: 0
    zdarzenia   kart   2, szerokość dokumentu 375 / okno 375
    wynik       kart   4, szerokość dokumentu 375 / okno 375
    jakosc      kart   7, szerokość dokumentu 375 / okno 375
-   priorytety  kart  14, szerokość dokumentu 375 / okno 375
+   priorytety  kart  15, szerokość dokumentu 375 / okno 375
    niewiadome  kart   0, szerokość dokumentu 375 / okno 375
    przycisk „Zakładki” po przewinięciu: widoczny, zakładek na liście 9

@@ -1,0 +1,26 @@
+G — „Czego nie wiemy” (grupy) i „Priorytety” (karta zakresu listy)
+
+OK   1366 px: 6 nagłówków grup (6: Kampanie i pozyskanie pacjentów7 pytań | Obsługa pacjenta: zwroty i opóźnienia3 pytania | Strona i ścieżka zakupu4 pytania | Ceny i TelemediGO2 pytania | Komunikacja z pacjentami i konta bez zakupu2 pytania | Dane, umowy i czas obserwacji3 pytania)
+OK   1366 px: 21 pytań, każde raz (21)
+OK   1366 px: #niewiadome?n=1 podświetla wiersz na ekranie ([True, 112, 900, False])
+OK   1366 px: #niewiadome?n=4 podświetla wiersz na ekranie ([True, 112, 900, False])
+OK   1366 px: #niewiadome?n=8 podświetla wiersz na ekranie ([True, 112, 900, False])
+OK   1366 px: #niewiadome?n=19 podświetla wiersz na ekranie ([True, 226, 900, False])
+OK   1366 px: filtr pozycji 1 zostawia pytania 6 i 7 i jeden nagłówek grupy (['oddzielnik:Strona i ścieżka zak', ':nw-6', ':nw-7'])
+OK   1366 px: karta zakresu listy nad przeglądem, „Nie robimy teraz” w niej, zasady zwinięte, bez osobnej karty na dole (['ARTICLE', 'Zakres listy', 16, True, True, True])
+OK   1366 px: #priorytety?p=9 podświetla kartę pozycji 9 na ekranie ([True, 112, 900])
+OK   1366 px: bez przewijania w bok ([1366, 1366])
+OK   1366 px: błędy w konsoli: []
+OK   375 px: 6 nagłówków grup (6: Kampanie i pozyskanie pacjentów7 pytań | Obsługa pacjenta: zwroty i opóźnienia3 pytania | Strona i ścieżka zakupu4 pytania | Ceny i TelemediGO2 pytania | Komunikacja z pacjentami i konta bez zakupu2 pytania | Dane, umowy i czas obserwacji3 pytania)
+OK   375 px: 21 pytań, każde raz (21)
+OK   375 px: #niewiadome?n=1 podświetla wiersz na ekranie ([True, 12, 812, False])
+OK   375 px: #niewiadome?n=4 podświetla wiersz na ekranie ([True, 16, 812, False])
+OK   375 px: #niewiadome?n=8 podświetla wiersz na ekranie ([True, 12, 812, False])
+OK   375 px: #niewiadome?n=19 podświetla wiersz na ekranie ([True, 12, 812, False])
+OK   375 px: filtr pozycji 1 zostawia pytania 6 i 7 i jeden nagłówek grupy (['oddzielnik:Strona i ścieżka zak', ':nw-6', ':nw-7'])
+OK   375 px: karta zakresu listy nad przeglądem, „Nie robimy teraz” w niej, zasady zwinięte, bez osobnej karty na dole (['ARTICLE', 'Zakres listy', 16, True, True, True])
+OK   375 px: #priorytety?p=9 podświetla kartę pozycji 9 na ekranie ([True, 12, 812])
+OK   375 px: bez przewijania w bok ([375, 375])
+OK   375 px: błędy w konsoli: []
+
+problemów: 0
