@@ -86,6 +86,15 @@ Pliki: `analiza/e_teksty.py`, `analiza/e_teksty_zakladki.py`, `analiza/b2_ekspor
 
 **Uwaga o czasie:** komputer był uśpiony w nocy, więc dwa kroki końcowego przebiegu trwały godzinami (`e_poprawki.py` 68 minut, `b2_eksport_c.py` 5,7 godziny); wyniki to nie zmienia, bo eksport nie zależy od czasu poza godziną w nagłówkach.
 
+## Po przejrzeniu przez Codeksa (Sol, zlecenie sesji prowadzącej, 2026-10-23)
+
+Recenzja nie znalazła błędów w liczbach; trzy zdania mówiły więcej niż dane. Nowe brzmienia (commit `a1d4465`, liczby bez zmian):
+- tytuł tabeli w „Kohortach”: „Po starcie naszych kampanii na L4 rośnie udział pacjentów, którzy rzadko wracają, a awaria Safari obniża wynik”; kontrola w kodzie sprawdza wzrost udziału nowych kampanii i niższy powrót ich pacjentów (4,1% wobec 22,0%) zamiast „ponad połowy spadku”;
+- wniosek tabeli: „Od 10 kwietnia 2026 nowe kampanie na L4 dają 41% nowych pacjentów, a naprawa awarii Safari to w górnym scenariuszu 75–83 tys. zł marży rocznie”;
+- pozycja 2, „Dlaczego” i „Ile warta”: „Gdyby awarię wykryto i usunięto w ciągu tygodnia, strata wyniosłaby około 22–25 pierwszych zamówień zamiast 628–695” (w „Ile warta” z 3,5% dzisiejszej straty).
+
+Kontrola po tych zmianach (eksport 23.10.2026, godz. 10:07, stopka „stan repozytorium a1d4465”): eksport 0 różnic w 115 kontrolach, 0 liczb bez pokrycia (C 1 176, D 247, E 1 299, karty zakładek 1 693); `b2_eksport_c.py` 0 różnic w 28 kontrolach; zrzut tekstów 9 zakładek, 0 błędów w konsoli; `f_wykresy_tekst.py` w Edge 2 302 porównania, 0 niezgodnych; `e_przegladarka.py` w trybie jasnym bez problemów, 322 odnośniki, 0 błędów w konsoli.
+
 ## Uwagi dla sesji prowadzącej i sesji B
 
 - **README (sesja B):** lista „Co robimy w pierwszym tygodniu” miała kolejność 1, 3–4, 2; strona ma teraz 1, 2, 3–4, sprawdzenia. Wysłałem sesji B jedną wiadomość; sesja B zmieniła kolejność w README (commit `55c0fcb`), więc lista zgadza się ze stroną. Inne zmienione na stronie zdania (Safari 66% → 45%, „bez alarmu”, „przybyło 12%”) w README nie występują.

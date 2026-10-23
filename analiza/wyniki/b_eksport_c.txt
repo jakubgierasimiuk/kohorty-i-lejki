@@ -1,6 +1,6 @@
-B2 — EKSPORT PUNKTU C NA STRONĘ (2026-10-23 09:15)
+B2 — EKSPORT PUNKTU C NA STRONĘ (2026-10-23 10:07)
 
-1. Plik: narzedzie/dane_strony/c.js (97,661 bajtów). Odczytów z raportów: 171.
+1. Plik: narzedzie/dane_strony/c.js (97,747 bajtów). Odczytów z raportów: 171.
 
 2. Kontrole krzyżowe
    co                                                                                              eksport               oczekiwane  wynik

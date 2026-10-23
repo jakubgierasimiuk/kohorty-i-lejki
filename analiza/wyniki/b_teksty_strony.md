@@ -1,6 +1,6 @@
 # Teksty strony narzędzia — wszystkie zakładki, tak jak widzi je czytelnik
 
-Wygenerowane 2026-10-23 09:16 skryptem `analiza/b2_teksty_strony.py` ze strony w `narzedzie/` (stan repozytorium 2fcd78a), otwartej w przeglądarce bez okna (Microsoft Edge), szerokość 1366 px. Każda zakładka przy ustawieniach domyślnych, bez klikania. Tabele dłuższe niż 40 wierszy są skrócone do 15 pierwszych i 5 ostatnich wierszy. Rozwijane sekcje są rozwinięte. Wykresy opisane nazwami serii. W komórkach tabel `<br>` oddziela linie, które strona pokazuje jedna pod drugą (zwykle: wartość w okresie B, pod spodem okres A i zmiana). Odnośniki do innych zakładek są oznaczone strzałką albo wypisane po „Zobacz w danych”.
+Wygenerowane 2026-10-23 10:07 skryptem `analiza/b2_teksty_strony.py` ze strony w `narzedzie/` (stan repozytorium a1d4465), otwartej w przeglądarce bez okna (Microsoft Edge), szerokość 1366 px. Każda zakładka przy ustawieniach domyślnych, bez klikania. Tabele dłuższe niż 40 wierszy są skrócone do 15 pierwszych i 5 ostatnich wierszy. Rozwijane sekcje są rozwinięte. Wykresy opisane nazwami serii. W komórkach tabel `<br>` oddziela linie, które strona pokazuje jedna pod drugą (zwykle: wartość w okresie B, pod spodem okres A i zmiana). Odnośniki do innych zakładek są oznaczone strzałką albo wypisane po „Zobacz w danych”.
 
 **Nagłówek strony:** B2C: czy to wzrost? — Narzędzie do zadania rekrutacyjnego na stanowisko Head of B2C
 
@@ -239,9 +239,9 @@ Dalej: Kohorty
 
 ## Kohorty dzienne nowych pacjentów
 
-### Kohorty zmieniły się głównie po naszych decyzjach o kampaniach na L4, a wynik obniża dodatkowo awaria Safari
+### Po starcie naszych kampanii na L4 rośnie udział pacjentów, którzy rzadko wracają, a awaria Safari obniża wynik
 
-Od 10 kwietnia 2026 nowe kampanie na L4 dają 41% nowych pacjentów, a największą pewną stratą jest awaria Safari: 75–83 tys. zł marży rocznie.
+Od 10 kwietnia 2026 nowe kampanie na L4 dają 41% nowych pacjentów, a naprawa awarii Safari to w górnym scenariuszu 75–83 tys. zł marży rocznie.
 
 | Kiedy | Co się stało | Kogo dotyczy | Co zmieniło się po nim | Skutek w złotych | Pewność | Co robimy |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -1914,7 +1914,7 @@ Raport pokazuje wzrost zamówień o 61% zamiast 56% i nie pokazuje ani marży, a
 *Ile warte rocznie (marża): 0 albo 38 tys. zł — rocznie bezpośrednio; przede wszystkim warunek pozostałych decyzji · Pewność: Wysoka — oba błędy widoczne w danych · Wdrożenie: 1 dzień sprawdzenie, 1–2 tygodnie raport*
 
 **Dlaczego:**
-Awaria w Safari trwała 198 dni, do końca danych. Alarm na krokach lejka wykryłby ją po kilku dniach; wykrycie po tygodniu ograniczyłoby stratę do 22–25 pierwszych zamówień zamiast 628–695.
+Awaria w Safari trwała 198 dni, do końca danych. Alarm na krokach lejka wykryłby ją po kilku dniach. Gdyby awarię wykryto i usunięto w ciągu tygodnia, strata wyniosłaby około 22–25 pierwszych zamówień zamiast 628–695.
 
 **Co robimy:**
 - Usunąć z raportu duplikaty i konta testowe, a przychód liczyć po zwrotach.
@@ -1944,7 +1944,7 @@ Czego nie wiemy: punkt 13; punkt 21 *(odnośniki)*
 #### Ile warta
 
 - Bezpośrednio 37 950 zł rocznie, jeśli lekarze dostają 25 zł za każdą wizytę testową (wszystkie są u internisty), albo 0 zł, jeśli nie dostają. Pieniądze już wypłacone są stracone, a oszczędność dotyczy kolejnych miesięcy.
-- Pośrednio: bez poprawnych liczb nie da się prowadzić biznesu na kohortach. Alarm na krokach lejka wykryłby awarię Safari po kilku dniach, a trwała ona 198 dni, do końca danych. Wykrycie po tygodniu ograniczyłoby stratę do 3,5% (22–25 zamówień zamiast 628–695).
+- Pośrednio: bez poprawnych liczb nie da się prowadzić biznesu na kohortach. Alarm na krokach lejka wykryłby awarię Safari po kilku dniach, a trwała ona 198 dni, do końca danych. Gdyby awarię wykryto i usunięto w ciągu tygodnia, strata wyniosłaby około 3,5% dzisiejszej: 22–25 pierwszych zamówień zamiast 628–695.
 
 Skąd liczby: analiza/wyniki/c_priorytety.txt (P1b, P13, P15, W3), analiza/wyniki/a3_dashboard.txt, analiza/wyniki/a2_jakosc.txt, analiza/wyniki/d_kampanie.txt (4).
 
@@ -2471,4 +2471,4 @@ Wróć do początku: Czy to wzrost
 
 ---
 
-**Stopka strony:** Dane od 1.10.2024 do 30.09.2026. Liczby przeliczone 2026-10-23 03:32 skryptami analiza/b_eksport.py i analiza/b2_eksport_c.py (stan repozytorium 2fcd78a). Strona nie pobiera niczego z internetu.
+**Stopka strony:** Dane od 1.10.2024 do 30.09.2026. Liczby przeliczone 2026-10-23 10:07 skryptami analiza/b_eksport.py i analiza/b2_eksport_c.py (stan repozytorium a1d4465). Strona nie pobiera niczego z internetu.

@@ -1,4 +1,4 @@
-F — LICZBY NA WYKRESACH A TEKST I TABELE TEJ SAMEJ KARTY (2026-10-23 09:17, commit 2fcd78a, pliki strony z dysku)
+F — LICZBY NA WYKRESACH A TEKST I TABELE TEJ SAMEJ KARTY (2026-10-23 10:08, commit a1d4465, pliki strony z dysku)
 Liczby czytane z wyrenderowanej strony (Edge 155.0.4283.62, bez okna, 127.0.0.1). Szerokości: 1366 px (komputer) i 375 px (telefon).
 
 1. Podsumowanie
