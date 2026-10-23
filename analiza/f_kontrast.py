@@ -29,7 +29,7 @@ RAPORT = os.path.join(KATALOG, "analiza", "wyniki", "f_kontrast.txt")
 ZAKLADKI = ["wzrost", "kohorty", "lejek", "po-zakupie", "zdarzenia", "wynik", "jakosc", "priorytety", "niewiadome"]
 GOTOWE = {
     "wzrost": "#wz-nowy .slupki-grup .sg-wiersz", "kohorty": "#ko-macierz tbody tr", "lejek": "#lj-udzial .kl-grupa",
-    "po-zakupie": "#pz-karta-godziny .kolumny .kl-grupa", "zdarzenia": "#zd-lista article", "wynik": "#ek-wykres .wk-wiersz",
+    "po-zakupie": "#pz-karta-godziny .kolumny .kl-grupa", "zdarzenia": "#zd-lista .zdarzenie", "wynik": "#ek-wykres .wk-wiersz",
     "jakosc": "#jk-testy-kw .slupek-wiersz", "priorytety": "#pr-1 .hantle .wk-wiersz", "niewiadome": "#nw-tabela tbody tr",
 }
 WARIANTY = [("jasny", 1366, 900), ("ciemny", 1366, 900), ("jasny", 375, 812), ("ciemny", 375, 812)]

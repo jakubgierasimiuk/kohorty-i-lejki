@@ -55,43 +55,74 @@
     if (W.tytul) $("wz-tytul").textContent = W.tytul;
     if (W.wstep) $("wz-wstep").textContent = W.wstep;
 
+    // werdykt (runda G, wątek Kuby z 2026-10-23): zdanie główne, pod nim trzy linijki (więcej pacjentów, lepsza retencja,
+    // więcej zarabiamy) ze znacznikiem, zastrzeżenie przy zdaniu głównym, dwa pojęcia i kafelki
+    var V = W.werdykt;
     var art = el("article", { class: "karta werdykt", id: "wz-werdykt" }, [
-      el("div", { class: "werdykt-gora" }, [BK.znacznik(W.werdykt.znacznik, true), el("div", null, [
-        el("p", { class: "werdykt-tekst", text: W.werdykt.tekst }),
-        W.werdykt.dopisek ? el("p", { class: "werdykt-dopisek", text: W.werdykt.dopisek }) : null])])]);
+      el("div", { class: "werdykt-gora" }, [BK.znacznik(V.znacznik, true), el("div", null, [
+        el("p", { class: "werdykt-tekst", text: V.tekst }),
+        V.dopisek ? el("p", { class: "werdykt-dopisek", text: V.dopisek }) : null])])]);
+    if (V.linie && V.linie.length) {
+      art.appendChild(el("dl", { class: "werdykt-linie" }, V.linie.map(function (l) {
+        return el("div", { class: "werdykt-linia" }, [
+          el("dt", null, [el("span", { class: "werdykt-linia-etykieta", text: l.etykieta }), BK.znacznik(l.znacznik)]),
+          el("dd", { text: l.tekst })]);
+      })));
+    }
+    var zw = BK.zastrzezenie(V.zastrzezenie);
+    if (zw) {
+      if (V.zastrzezenie_link) zw.querySelector(".zastrzezenie-tekst").appendChild(el("span", null, [" ",
+        el("a", { href: V.zastrzezenie_link.href, text: V.zastrzezenie_link.tekst })]));
+      art.appendChild(zw);
+    }
     if (W.kafelki && W.kafelki.length) art.appendChild(BK.kafelki(W.kafelki));
-    if (W.decyzje && W.decyzje.punkty && W.decyzje.punkty.length) {
-      art.appendChild(el("h3", { class: "decyzje-tytul", text: W.decyzje.tytul || "" }));
-      art.appendChild(el("ol", { class: "decyzje" }, W.decyzje.punkty.map(function (d, i) {
-        var nr = String(d.nr || i + 1);
-        return el("li", null, [
-          d.href ? el("a", { class: "nr", href: d.href, text: nr, "aria-hidden": "true", tabindex: "-1" }) : el("span", { class: "nr", text: nr }),
-          el("span", { class: "decyzja-tekst" }, [d.href ? el("a", { href: d.href, text: d.tekst }) : d.tekst,
-            d.dopisek ? el("span", { class: "dopisek", text: d.dopisek }) : null])]);
+    if (V.pojecia && V.pojecia.length) {
+      art.appendChild(el("dl", { class: "werdykt-pojecia" }, V.pojecia.map(function (p) {
+        return el("div", null, [el("dt", { text: p.nazwa }), el("dd", { text: p.tekst })]);
       })));
     }
     n.appendChild(art);
 
-    var karty = W.karty || [], ws = wstawki();
-    var elKarty = karty.map(function (k) { return BK.karta(k, { prefiks: "wz-", wstawki: ws }); });
-    if (elKarty.length >= 2) n.appendChild(el("div", { class: "karty-dwie" }, elKarty.slice(0, 2)));
-    elKarty.slice(elKarty.length >= 2 ? 2 : 0).forEach(function (a) { n.appendChild(a); });
-    // wykresy w kartach: „Więcej pacjentów” (słupki), „Lepsza retencja” (hantle), TelemediGO (słupki parami)
-    if (karty[0] && karty[0].etykieta) BK.wstawWykres(elKarty[0], slupkiPacjentow());
-    if (karty[1] && karty[1].etykieta) BK.wstawWykres(elKarty[1], hantleRetencji(), true);
-    karty.forEach(function (k, i) { if (k.wykres && k.wykres.wiersze && i >= 2) BK.wstawWykres(elKarty[i], slupkiTelemedigo(k.wykres), true); });
-    // mostek „dashboard → dane oczyszczone”: schodki poziomów, tabela mostka w zwijanej sekcji
-    karty.forEach(function (k, i) { if (k.wstaw === "mostek" && B.schodkiMostka) BK.wstawWykres(elKarty[i], B.schodkiMostka(), true); });
+    // kroki: pytanie w nagłówku, odpowiedź, co to znaczy dla biznesu, wykres, szczegóły; TelemediGO jako karta na końcu
+    var karty = W.karty || [], ws = wstawki(), poId = {};
+    karty.forEach(function (k) {
+      var a = BK.karta(k, { prefiks: "wz-", wstawki: ws, klasa: k.etykieta ? "krok" : null });
+      if (k.decyzje && k.decyzje.punkty && k.decyzje.punkty.length) {
+        var d = listaDecyzji(k.decyzje), sz = a.querySelector(":scope > .linki") || a.querySelector(":scope > .szczegoly");
+        d.forEach(function (x) { if (sz) a.insertBefore(x, sz); else a.appendChild(x); });
+      }
+      n.appendChild(a);
+      if (k.id) poId[k.id] = { k: k, a: a };
+    });
+    function wstaw(id, wykres, schowaj) { if (poId[id] && wykres) BK.wstawWykres(poId[id].a, wykres, schowaj); }
+    wstaw("dashboard", B.schodkiMostka ? B.schodkiMostka() : null, true);
+    wstaw("pacjenci", slupkiPacjentow());
+    wstaw("retencja", hantleRetencji(), true);
+    if (poId["na-pacjencie"] && poId["na-pacjencie"].k.wykres) wstaw("na-pacjencie", punktyNaPacjencie(poId["na-pacjencie"].k.wykres));
+    if (poId.marza && poId.marza.k.wykres) wstaw("marza", slupkiMarzy(poId.marza.k.wykres));
+    if (poId.telemedigo && poId.telemedigo.k.wykres) wstaw("telemedigo", slupkiTelemedigo(poId.telemedigo.k.wykres), true);
     // kwartały: słupki grupowane zmian rok do roku (marża przed kosztem kampanii, wydatki), liczone z wynik.js tą samą
     // definicją co w „Wyniku biznesu”; karta rozpoznana po kolumnie tabeli „Marża przed kosztem kampanii”
-    karty.forEach(function (k, i) {
-      if (!tabelaKwartalow(k) || !BW.wykresKwartalow) return;
+    karty.forEach(function (k) {
+      if (!tabelaKwartalow(k) || !BW.wykresKwartalow || !poId[k.id]) return;
+      var a = poId[k.id].a;
       B.wczytaj("wynik", "wynik").then(function (dane) {
-        if (elKarty[i].querySelector(".slupki-grup")) return;
-        BK.wstawWykres(elKarty[i], BW.wykresKwartalow(dane), true);
+        if (a.querySelector(".slupki-grup")) return;
+        BK.wstawWykres(a, BW.wykresKwartalow(dane), true);
       }).catch(function () { /* bez wykresu zostaje tabela */ });
     });
     $("wz-zrodlo").textContent = W.zrodlo || "";
+  }
+  // decyzje na pierwszy tydzień (krok „Co robimy?”): nagłówek i numerowana lista z odnośnikami do pozycji listy priorytetów
+  function listaDecyzji(D) {
+    var el = b().el;
+    return [el("h4", { class: "decyzje-tytul", text: D.tytul || "" }), el("ol", { class: "decyzje" }, D.punkty.map(function (d, i) {
+      var nr = String(d.nr || i + 1);
+      return el("li", null, [
+        d.href ? el("a", { class: "nr", href: d.href, text: nr, "aria-hidden": "true", tabindex: "-1" }) : el("span", { class: "nr", text: nr }),
+        el("span", { class: "decyzja-tekst" }, [d.href ? el("a", { href: d.href, text: d.tekst }) : d.tekst,
+          d.dopisek ? el("span", { class: "dopisek", text: d.dopisek }) : null])]);
+    }))];
   }
   function tabelaKwartalow(k) {
     return (k.tresc || []).some(function (b_) { return b_ && b_.typ === "tabela" && (b_.kolumny || []).indexOf("Marża przed kosztem kampanii") >= 0; });
@@ -135,6 +166,31 @@
         return { etykieta: r.opis, a: r.p1, b: r.p2, tekstA: B.liczba(r.p1), tekstB: B.liczba(r.p2),
           zmiana: { tekst: B.znak(d, 0), kierunek: BK.kierunekZnaku(d), stan: "neutralnie", tytul: "Zmiana liczby zakupów rok do roku" } };
       }), przypis: "Liczba zakupów TelemediGO." });
+  }
+  // krok 4: zostaje na pacjencie nowych kampanii na L4 po koszcie pozyskania, miesiąc po miesiącu, według dwóch reguł
+  // przypisania (punkty względem zera, jak w „Wyniku biznesu”); liczby z pola wykres karty, te same co w tabeli szczegółów
+  function punktyNaPacjencie(Wk) {
+    var B = b(), zl = function (v) { return (v > 0 ? "+" : "") + B.liczba(v, 1) + " zł"; };
+    var wsz = [];
+    Wk.wiersze.forEach(function (r) { wsz.push(r.z1k, r.z2); });
+    var p = BK.podzialka(Math.min.apply(null, wsz), Math.max.apply(null, wsz), 6);
+    return BK.punktyZero({ legenda: [{ klasa: "pkt-r1", nazwa: "według pierwszego wejścia" }, { klasa: "pkt-r2", nazwa: "według sesji z płatnością" }],
+      min: p.min, max: p.max, os: p.wartosci.map(function (v) { return (v > 0 ? "+" : "") + B.liczba(v, 0) + " zł"; }),
+      wiersze: Wk.wiersze.map(function (r) {
+        return { etykieta: r.etykieta + (r.przyblizone ? " *" : ""), punkty: [{ v: r.z1k, klasa: "pkt-r1" }, { v: r.z2, klasa: "pkt-r2" }],
+          teksty: [zl(r.z1k), zl(r.z2)], ujemne: [r.z1k < 0, r.z2 < 0] };
+      }), opis: Wk.opis, przypis: Wk.przypis });
+  }
+  // krok 5: marża po wszystkich kosztach w obu latach, pacjenci pozyskani w tym samym roku i pacjenci z pierwszego roku
+  // (słupki skumulowane w tys. zł); liczby z pola wykres karty
+  function slupkiMarzy(Wk) {
+    var B = b(), tys = function (v) { return B.liczba(v, 0) + " tys. zł"; };
+    var sumy = Wk.wiersze.map(function (r) { return r.wartosci.reduce(function (s, v) { return s + v; }, 0); });
+    return BK.slupkiSkumulowane({ czesci: [{ nazwa: Wk.czesci[0], klasa: "seg-pozostale" }, { nazwa: Wk.czesci[1], klasa: "seg-baza" }],
+      max: Math.max.apply(null, sumy) * 1.02, opis: Wk.opis, przypis: Wk.przypis,
+      wiersze: Wk.wiersze.map(function (r, i) {
+        return { etykieta: r.etykieta, wartosci: r.wartosci, teksty: r.wartosci.map(tys), suma: tys(sumy[i]) };
+      }) });
   }
   BW.hantleRetencji = hantleRetencji;
 
@@ -238,7 +294,14 @@
     if (P.tytul) $("pr-tytul").textContent = P.tytul;
     $("pr-wstep").textContent = P.wstep;
     if (BK.czyKarta(P.zasady)) {
-      B.wyczysc($("pr-zasady-miejsce")).appendChild(BK.karta(P.zasady, { prefiks: "pr-" }));
+      // runda G: zasady listy zwinięte nad przeglądem; tytuł zasad (kolejność to waga decyzji, kwot nie sumujemy) jest
+      // widoczny jako nagłówek zwiniętej sekcji, reszta po rozwinięciu
+      var kz = BK.karta(P.zasady, { prefiks: "pr-" }), dz = el("details", { class: "karta zasady-zwiniete", id: "pr-zasady-karta" },
+        [el("summary", null, [el("span", { class: "zasady-etykieta", text: "Zasady listy" }), el("span", { text: P.zasady.tytul || "" })])]);
+      var h = kz.querySelector(".karta-tytul");
+      if (h) h.parentNode.removeChild(h);
+      while (kz.firstChild) dz.appendChild(kz.firstChild);
+      B.wyczysc($("pr-zasady-miejsce")).appendChild(dz);
     } else {
       lista($("pr-zasady"), P.zasady);
       $("pr-definicje").textContent = P.definicje || "";
@@ -276,9 +339,10 @@
 
     var przeg = {};
     P.przeglad.forEach(function (r) { przeg[r.nr] = r; });
-    var kont = B.wyczysc($("pr-karty"));
+    var kont = B.wyczysc($("pr-karty")), grupaK = null;
     P.karty.forEach(function (k) {
       var r = przeg[k.nr] || {};
+      if (r.grupa && r.grupa !== grupaK) { kont.appendChild(el("h3", { class: "sekcja-naglowek", text: r.grupa })); grupaK = r.grupa; }
       var p = k.pasek || { ile: r.ile, ile_dopisek: r.ile_dopisek, pewnosc: r.pewnosc, wdrozenie: r.wdrozenie };
       var art = el("article", { class: "karta priorytet", id: "pr-" + k.nr }, [
         el("div", { class: "priorytet-naglowek" }, [el("span", { class: "nr", text: String(k.nr) }), el("h3", { text: k.tytul })]),
@@ -306,7 +370,8 @@
       // powiązane punkty „Czego nie wiemy” (pole pozycja w danych niewiadomych)
       var nw = ((C.niewiadome && C.niewiadome.wiersze) || []).filter(function (w) { return w.pozycja !== null && w.pozycja !== undefined && String(w.pozycja) === String(k.nr); });
       if (nw.length) art.appendChild(el("ul", { class: "linki linki-niewiadome" }, [el("li", { class: "linki-etykieta", text: "Czego nie wiemy:" })].concat(
-        nw.map(function (w) { return el("li", null, [el("a", { href: "#niewiadome?n=" + w.nr, title: w.co, text: "punkt " + w.nr })]); }))));
+        nw.map(function (w) { return el("li", null, [el("a", { href: "#niewiadome?n=" + w.nr, title: "Punkt " + w.nr + ": " + w.co,
+          text: w.co.length > 90 ? w.co.slice(0, 88).replace(/\s+\S*$/, "") + "…" : w.co })]); }))));
       if (k.szczegoly && k.szczegoly.length) art.appendChild(BK.szczegoly(k.szczegoly, k.zrodlo));
       else if (k.zrodlo) art.appendChild(el("p", { class: "zrodlo", text: "Skąd liczby: " + k.zrodlo }));
       art.appendChild(el("p", { class: "wroc" }, [el("a", { href: "#priorytety", text: "Wróć do przeglądu" })]));
@@ -316,6 +381,16 @@
       B.wyczysc($("pr-nie-robimy-miejsce")).appendChild(BK.karta(P.nie_robimy, { prefiks: "pr-", klasa: "karta-cicha" }));
     } else lista($("pr-nie-robimy"), P.nie_robimy);
     $("pr-zrodlo").textContent = P.zrodlo;
+    zrodloZwiniete($("pr-zrodlo"));
+  }
+  // stopka ze źródłami (ścieżki do kodu i notatek) w zwiniętej sekcji „Skąd liczby w tej zakładce”
+  function zrodloZwiniete(p) {
+    if (!p || !p.textContent || p.closest("details")) return;
+    var B = b(), d = B.el("details", { class: "jak-liczymy" }, [B.el("summary", { text: "Skąd liczby w tej zakładce" })]);
+    var w = B.el("div", { class: "szczegoly-tresc" });
+    p.parentNode.insertBefore(d, p);
+    w.appendChild(p);
+    d.appendChild(w);
   }
   function tabelaKarty(T) {
     var B = b(), el = B.el;
@@ -362,9 +437,9 @@
     });
     nry.sort(function (a, c_) { return a - c_; });
     var ile = function (nr) { return N.wiersze.filter(function (w) { return String(w.pozycja) === String(nr); }).length; };
-    var s = el("select", { id: "nw-filtr-pozycja" }, [el("option", { value: "", text: "wszystkie (" + N.wiersze.length + ")" })]
+    var s = el("select", { id: "nw-filtr-pozycja" }, [el("option", { value: "", text: "Wszystkie pytania — " + N.wiersze.length })]
       .concat(nry.map(function (nr) { return el("option", { value: String(nr), text: nazwaPozycji(nr) + " (" + ile(nr) + ")" }); }))
-      .concat(bez ? [el("option", { value: "brak", text: "bez pozycji (" + bez + ")" })] : []));
+      .concat(bez ? [el("option", { value: "brak", text: "Bez osobnej pozycji na liście — " + bez })] : []));
     s.value = filtrNw;
     s.onchange = function () { filtrNw = this.value; filtrujNiewiadome(); };
     c.appendChild(el("label", null, ["Pozycja listy priorytetów", s]));
@@ -391,7 +466,8 @@
         { attrs: { "data-etykieta": etyk[1] }, dzieci: [el("strong", { text: w.co })] },
         { attrs: { "data-etykieta": etyk[2], text: w.dlaczego } },
         { attrs: { "data-etykieta": etyk[3], text: w.test } },
-        { attrs: { "data-etykieta": etyk[4] }, dzieci: [ma ? el("a", { href: "#priorytety?p=" + w.pozycja, text: nazwaPozycji(w.pozycja) }) : "—"] }]);
+        { attrs: { "data-etykieta": etyk[4] }, dzieci: [ma ? el("a", { href: "#priorytety?p=" + w.pozycja, text: nazwaPozycji(w.pozycja) }) :
+          el("span", { class: "przypis", text: "Bez osobnej pozycji na liście" })] }]);
       tr.id = "nw-" + w.nr;
       tr.setAttribute("data-pozycja", ma ? String(w.pozycja) : "");
       tb.appendChild(tr);
@@ -399,6 +475,7 @@
     t.appendChild(tb);
     filtrujNiewiadome();
     $("nw-zrodlo").textContent = N.zrodlo;
+    zrodloZwiniete($("nw-zrodlo"));
   }
   // odnośnik #niewiadome?n=<nr>: podświetla wiersz (filtr wraca do „wszystkie”, jeśli wiersz był ukryty)
   function podswietlNiewiadoma(nr) {

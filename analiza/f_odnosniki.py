@@ -31,7 +31,7 @@ RAPORT = os.path.join(KATALOG, "analiza", "wyniki", "f_odnosniki.txt")
 ZAKLADKI = ["wzrost", "kohorty", "lejek", "po-zakupie", "zdarzenia", "wynik", "jakosc", "priorytety", "niewiadome"]
 GOTOWE = {
     "wzrost": "#wz-nowy .schodki .wk-wiersz", "kohorty": "#ko-macierz tbody tr", "lejek": "#lj-kroki .lk-krok",
-    "po-zakupie": "#pz-karta-godziny .kolumny .kl-grupa", "zdarzenia": "#zd-lista article", "wynik": "#ek-wykres .wk-wiersz, #ek-wykres .lejek-pusty",
+    "po-zakupie": "#pz-karta-godziny .kolumny .kl-grupa", "zdarzenia": "#zd-lista .zdarzenie", "wynik": "#ek-wykres .wk-wiersz, #ek-wykres .lejek-pusty",
     "jakosc": "#jk-testy-kw .slupek-wiersz", "priorytety": "#pr-karty article", "niewiadome": "#nw-tabela tbody tr",
 }
 # klucz parametru w adresie → pole filtra na stronie

@@ -310,9 +310,32 @@ def odm(n, f1, f2, f5):
     return f"{liczba(n)} {forma}"
 
 
+def wczytaj_g():
+    """Liczby nowego werdyktu pierwszej zakładki (runda G, wątek Kuby z 2026-10-23): analiza/g_werdykt.py →
+    analiza/wyniki/g_werdykt.json (G1 przyrost pacjentów, G2 i G3 wynik na pacjencie po koszcie pozyskania, G4 rozbicie
+    przyrostu marży)."""
+    with open(os.path.join(WYNIKI, "g_werdykt.json"), encoding="utf-8") as f:
+        return json.load(f)
+
+
+RZYMSKIE = ("I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII")
+
+
+def miesiac_rz(okres):
+    """'2026-04' → 'IV 2026' (miesiąc kohorty w tabeli i na wykresie)."""
+    r, m = okres.split("-")
+    return f"{RZYMSKIE[int(m) - 1]} {r}"
+
+
 def wzrost(V, E, C):
-    """„Czy to wzrost” w nowym kształcie (notatki/e_teksty.md, sekcja 1). C = dawne dane zakładki (do przeniesienia zdań)."""
+    """„Czy to wzrost” od nowa (runda G, wątek Kuby z 2026-10-23; szkic: notatki/e_teksty.md, sekcja 1). Werdykt odpowiada
+    najpierw, dlaczego „Nie”, choć marża po wszystkich kosztach rośnie: przyrost pacjentów dały dwie nowe kampanie na L4,
+    na ich pacjencie po koszcie pozyskania prawie nic nie zostaje, a marża rośnie dzięki pacjentom z pierwszego roku. Pod
+    werdyktem trzy linijki (więcej pacjentów, lepsza retencja, więcej zarabiamy), dwa pojęcia i cztery kafelki, dalej osiem
+    kroków: pytanie w nagłówku, odpowiedź w jednym zdaniu, co to znaczy dla biznesu, szczegóły zwinięte. TelemediGO jako
+    osobna karta na końcu. C = dawne dane zakładki (do przeniesienia zdań)."""
     W0 = C["wzrost"]
+    G = wczytaj_g()
     n1, n2 = V["nowi"][1], V["nowi"][2]
     wz = V["w1_zm"]
     W, B1, B2_, NZ = V["pow_wszyscy"], V["pow_bez_z1k"], V["pow_bez_z2"], V["pow_nowe_z1k"]
@@ -323,57 +346,163 @@ def wzrost(V, E, C):
     zaks = q3t["safari_zaks"]
     bloki = []
 
-    werdykt = {"znacznik": znacznik("Nie", "zle"),
-               "tekst": "Pacjentów przybywa, ale wracają rzadziej. Wydatki na kampanie rosną dużo szybciej niż marża, "
-                        "którą biznes zarabia przed ich kosztem.",
-               "dopisek": f"Za cały rok marża po koszcie lekarza, kampaniach i prowizji wzrosła o {z0(E['rok_marza_zmiana_proc'])}%: z "
-                          f"{z0(E['rok_marza_1'] / 1000)} do {z0(E['rok_marza_2'] / 1000)} tys. zł."}
+    # ---------------------------------------------------------------- liczby rundy G i ich zgodność z dotychczasowymi
+    g1, g4 = G["g1"], G["g4"]
+    assert (g1["nowi_o1"], g1["nowi_o2"], g1["nowe_z1k"]) == (n1, n2, V["nowe_7268"]), "g_werdykt.json niezgodny z W1"
+    assert abs(g4["marza_o1"] - E["rok_marza_1"]) < 1 and abs(g4["marza_o2"] - E["rok_marza_2"]) < 1, "G4 niezgodny z W3"
+    assert abs(g4["przyrost_proc"] - E["rok_marza_zmiana_proc"]) < 0.05
+
+    def g2(reg, grupy, okres, okno=180):
+        return next(r for r in G["g2"]["okno"]
+                    if (r["regula"], r["grupy"], r["okres"], r["okno"]) == (reg, grupy, okres, okno))
+
+    def rocz(reg, grupy, okres):
+        return next(r for r in G["g2"]["rocznik"] if (r["regula"], r["grupy"], r["okres"]) == (reg, grupy, okres))
+
+    def g3(kamp, reg, poziom):
+        return sorted((r for r in G["g3"]["tabela"] if (r["kampanie"], r["regula"], r["poziom"]) == (kamp, reg, poziom)),
+                      key=lambda r: r["okres"])
+
+    L4, P1, P2 = g2("Z1K", "1", 2), g2("Z1K", "2", 1), g2("Z1K", "2", 2)
+    L4z2, P1z2, P2z2 = g2("Z2", "1", 2), g2("Z2", "2", 1), g2("Z2", "2", 2)
+    AF1, AF2 = g2("Z1K", "3", 1), g2("Z1K", "3", 2)
+    R_L4, R_P1, R_P2 = rocz("Z1K", "1", 2), rocz("Z1K", "2", 1), rocz("Z1K", "2", 2)
+    m1 = g3("razem", "Z1K", "miesiac")
+    m2 = {r["okres"]: r for r in g3("razem", "Z2", "miesiac")}
+    Q = {r["okres"]: r for r in g3("razem", "Z1K", "kwartal")}
+    Qz2 = {r["okres"]: r for r in g3("razem", "Z2", "kwartal")}
+    Qt = {r["okres"]: r for r in g3("tiktok", "Z1K", "kwartal")}
+    Qm = {r["okres"]: r for r in g3("meta", "Z1K", "kwartal")}
+    PU = G["g3"]["pierwszy_ujemny"]
+    zima = [r for r in m1 if "2025-11" <= r["okres"] <= "2026-02"]
+    wiosna = [r for r in m1 if r["okres"] >= "2026-04"]
+    wios_z2 = [m2[r["okres"]]["wynik"] for r in wiosna]
+    prz = G["g3"]["przyrosty"]["razem_Z1K"]["przyrost_do_180"]
+    prz_od, prz_do = min(prz[k] for k in ("90", "30", "0")), max(prz[k] for k in ("90", "30", "0"))
+    gr180 = G["g2"]["granica_180"]
+    udz = g1["udzial_nowych_w_przyroscie_z1k"]
+    udz_b = g4["baza_udzial_w_przyroscie_proc"]
+    grupy1 = {(r["regula"], r["grupa"]): r for r in g1["grupy"]}
+    pp, bz, af = (grupy1[("Z1K", g)] for g in ("2_pozostale_platne", "4_bezplatne", "3_afiliacja_ranking"))
+    pod = {(r["regula"], r["okres"]): r for r in g4["podzial"]}
+    # zdania werdyktu i kroków wymagają tych kierunków (inaczej trzeba zmienić tekst, a nie liczbę)
+    assert udz > 80 and udz_b > 80, "„prawie cały” i „prawie wyłącznie” wymagają udziału ponad 80%"
+    assert L4["wynik"] > 0 and L4["wynik"] < P2["wynik"] / 3, "„prawie nic nie zostaje” wobec pozostałych kampanii płatnych"
+    assert abs(Q["2026Q2"]["wynik"]) < 1 and abs(Q["2026Q3"]["wynik"]) < 1, "„od wiosny wychodzimy na zero” (II i III kwartał)"
+    assert all(abs(r["wynik"]) < 5 for r in wiosna), "od kwietnia każdy miesiąc blisko zera"
+    assert PU["meta_Z1K"]["pierwszy_ujemny"] is None and Qm["2026Q3"]["wynik"] > 0, "Meta na L4 na plusie w każdym miesiącu"
+    assert PU["tiktok_Z1K"]["ujemny_w_kazdym_miesiacu_od"] == "2026-03" and Qt["2026Q2"]["wynik"] < 0, "TikTok traci od marca"
+    assert PU["razem_Z2"]["ujemny_w_kazdym_miesiacu_od"] == "2025-12" and all(x < 0 for x in wios_z2), "sesja z płatnością: od grudnia"
+    assert B1["p90_o2"] < W["p90_o1"], "„rzadziej wracają też pacjenci spoza nowych kampanii”"
+    assert g4["wlasni_zmiana_proc"] > 0 and g4["wlasni_na_pacjenta_o2"] < g4["wlasni_na_pacjenta_o1"]
+    assert Q["2025Q4"]["wynik"] > 1 and Q["2026Q1"]["wynik"] > 1
+    bb = {k: Dd[f"marza_bez_bazy_zmiana_proc_{k}"] for k in ("2025_q4", "2026_q1", "2026_q2", "2026_q3")}
+    assert bb["2025_q4"] > 0 and bb["2026_q1"] > 0 and bb["2026_q2"] < 0 and bb["2026_q3"] < 0, "„rosła … spadła”"
+
+    # ---------------------------------------------------------------- werdykt
+    werdykt = {
+        "znacznik": znacznik("Nie", "zle"),
+        "tekst": f"Prawie cały przyrost pacjentów ({z0(udz)}%) to pacjenci dwóch nowych kampanii na L4, a na ich pacjencie po "
+                 f"koszcie pozyskania prawie nic nie zostaje: {z0(L4['wynik'])} zł w ciągu 180 dni wobec {z0(P2['wynik'])} zł "
+                 f"na pacjencie pozostałych kampanii płatnych, a na pacjentach pozyskanych od wiosny szacunkowo wychodzimy na "
+                 f"zero. Marża po wszystkich kosztach wzrosła o {z0(g4['przyrost_proc'])}% prawie wyłącznie dzięki zakupom "
+                 f"pacjentów pozyskanych w pierwszym roku. Pacjenci pozyskani w ostatnich 12 miesiącach zarobili w roku "
+                 f"pozyskania, po kosztach kampanii, tylko o {z0(g4['wlasni_zmiana_proc'])}% więcej niż ci pozyskani rok "
+                 f"wcześniej, choć było ich o {z0(wz[0])}% więcej.",
+        "linie": [
+            {"etykieta": "Więcej pacjentów", "znacznik": znacznik("Tak, ale", "uwaga"),
+             "tekst": f"Nowych pacjentów jest o {z0(wz[0])}% więcej niż rok wcześniej, ale bez dwóch nowych kampanii na L4 "
+                      f"tylko o {z0(wz[1])}%."},
+            {"etykieta": "Lepsza retencja", "znacznik": znacznik("Nie", "zle"),
+             "tekst": f"W ciągu 90 dni wraca {z0(W['p90_o2'])}% nowych pacjentów, a rok wcześniej wracało "
+                      f"{z0(W['p90_o1'])}%; rzadziej wracają też pacjenci spoza nowych kampanii."},
+            {"etykieta": "Więcej zarabiamy", "znacznik": znacznik("Tak, ale", "uwaga"),
+             "tekst": f"Marża po wszystkich kosztach wzrosła z {z0(g4['marza_o1'] / 1000)} do {z0(g4['marza_o2'] / 1000)} "
+                      f"tys. zł, ale {z0(udz_b)}% tego przyrostu to kolejne zakupy pacjentów pozyskanych w pierwszym roku, a "
+                      f"wynik pacjentów pozyskanych w danym roku wzrósł tylko o {z0(g4['wlasni_zmiana_proc'])}%."},
+        ],
+        "pojecia": [
+            {"nazwa": "Marża",
+             "tekst": "to, co zostaje z zapłaty pacjenta po zwrotach i po wynagrodzeniu lekarza, razem z opłatą za "
+                      "TelemediGO. Marża po wszystkich kosztach odejmuje do tego wydatki na kampanie i prowizję afiliacyjną."},
+            {"nazwa": "Koszt pozyskania",
+             "tekst": "wydatki na kampanię podzielone przez liczbę nowych pacjentów, którzy z niej przyszli. „Zostaje na "
+                      "pacjencie” to jego marża w ciągu 180 dni od pierwszego zakupu minus koszt jego pozyskania."},
+            {"nazwa": "Reguły przypisania",
+             "tekst": "pacjenta przypisujemy do kampanii według pierwszego wejścia na stronę (tak liczymy w całym "
+                      "narzędziu) albo według sesji, w której zapłacił. Odpowiedź „Nie” jest taka sama przy obu regułach."},
+        ],
+        "zastrzezenie": "Nie wiemy, ilu pacjentów nowych kampanii przyszłoby i bez reklamy. Odpowie na to test z pozycji 9 "
+                        "listy priorytetów: wyłączenie kampanii Meta na L4 na 4–6 tygodni w losowej połowie województw i "
+                        "porównanie wszystkich nowych pacjentów z drugą połową.",
+        "zastrzezenie_link": link("Priorytety: pozycja 9, test w części kraju", "#priorytety?p=9"),
+    }
     kafelki = [
-        {"liczba": f"+{z0(wz[0])}%", "podpis": "nowych pacjentów niż rok wcześniej",
-         "dopisek": f"bez dwóch nowych kampanii na L4: +{z0(wz[1])}%", "zmiana": "wzrost", "stan": "dobrze"},
+        {"liczba": f"{z0(udz)}%", "podpis": "przyrostu nowych pacjentów to pacjenci dwóch nowych kampanii na L4",
+         "dopisek": f"według sesji z płatnością {z0(g1['udzial_nowych_w_przyroscie_z2'])}%", "stan": "uwaga"},
+        {"liczba": f"{z0(L4['wynik'])} zł", "podpis": "zostaje w ciągu 180 dni na pacjencie nowych kampanii na L4 po koszcie "
+                                                       "pozyskania",
+         "dopisek": f"pozostałe kampanie płatne: {z0(P2['wynik'])} zł", "stan": "zle"},
         {"liczba": f"{z0(W['p90_o2'])}%", "podpis": "nowych pacjentów wraca w ciągu 90 dni",
          "dopisek": f"rok wcześniej {z0(W['p90_o1'])}%", "zmiana": "spadek", "stan": "zle"},
-        {"liczba": f"×{liczba(q3['wydatki_razy'], 1)}", "podpis": "wydatki na kampanie w III kwartale 2026 wobec roku wcześniej",
-         "dopisek": f"marża przed ich kosztem: +{z0(q3['przed_rr_dokl'])}%", "zmiana": "wzrost", "stan": "uwaga"},
+        {"liczba": f"{z0(udz_b)}%", "podpis": "przyrostu marży to zakupy pacjentów z pierwszego roku",
+         "dopisek": f"pacjenci pozyskani w danym roku po kosztach kampanii: {zn(g4['wlasni_zmiana_proc'], 0)}%",
+         "stan": "uwaga"},
     ]
-    decyzje = {"tytul": "Decyzje na pierwszy tydzień", "punkty": [
-        {"nr": 1, "tekst": "Naprawić zakładanie konta w Safari na iPhone'ach", "href": "#priorytety?p=1",
-         "dopisek": f"pozycja 1 · do {z0(V['p1_hi'][3] / 1000)} tys. zł marży rocznie"},
-        {"nr": 2, "tekst": "Oczyścić codzienny raport i dodać alarmy na lejku", "href": "#priorytety?p=2",
-         "dopisek": f"pozycja 2 · awaria Safari trwała {liczba(V['p1_lo'][1])} dni, do końca danych"},
-        {"nr": 3, "tekst": "Wstrzymać kampanię TikTok na L4 i kampanię Google Ads na specjalistów", "href": "#priorytety?p=3",
-         "dopisek": "pozycje 3 i 4 · obie tracą na każdym pacjencie według obu reguł przypisania źródła (pierwsze wejście "
-                    "i sesja z płatnością), a pauzę da się cofnąć w jeden dzień"},
-        {"nr": 4, "tekst": "Zrobić krótkie sprawdzenia: obietnica reklam L4, poranne grafiki internistów, zakup po "
-                           "zalogowaniu, kliknięcia w panelach reklam", "href": "#priorytety?p=5",
-         "dopisek": "pierwsze kroki pozycji 5, 6, 8 i 11 · każde zajmuje dzień albo dwa"},
-    ]}
     bloki.append(("wzrost/werdykt", werdykt, [], []))
     bloki.append(("wzrost/kafelki", kafelki, [], []))
-    bloki.append(("wzrost/decyzje", decyzje, [], []))
 
-    # --- więcej pacjentów
+    # ---------------------------------------------------------------- krok 1: dashboard
+    dz, cz = V["dash_zam"], V["czyste_zam"]
+    zast = {z["tytul"]: z["tekst"] for z in W0["zastrzezenia"]}
+    dash = karta(
+        "Ile z liczb z dashboardu jest prawdą?", etykieta="Krok 1", id="dashboard",
+        wniosek=f"Liczba nowych pacjentów i sprzedaż TelemediGO się zgadzają, ale zamówień przybyło o {z0(cz[0])}%, a nie o "
+                f"{z0(dz[0])}%, a przychodu z konsultacji po zwrotach o {z0(cz[3])}%, a nie o {z0(dz[3])}%.",
+        znaczy="Zanim na dashboardzie zaczniemy podejmować decyzje, trzeba go oczyścić z podwójnych zamówień i kont "
+               "testowych i liczyć przychód po zwrotach (pozycja 2 listy priorytetów).",
+        tresc=[punkty([
+            f"Dashboard liczy dane na surowo: z {liczba(V['dup'])} zdublowanymi zamówieniami z {V['dup_daty']}, z "
+            f"{liczba(V['testy_razem'][0])} zamówieniami {liczba(V['testy_konta'])} kont testowych i z przychodem przed "
+            f"zwrotami.",
+        ])],
+        wstaw="mostek",
+        zastrzezenie="Pierwszy rok startował od zera, bez bazy powracających pacjentów, więc sumy roczne z definicji "
+                     "faworyzują drugi rok (krok 5).",
+        szczegoly=[punkty([slownik(t + " " + zast[t]).replace(
+            "To rozbicie księgowe, a nie wynik biznesu, który startuje od zera: nie modeluje",
+            "To rozbicie księgowe, które nie modeluje")
+            for t in ("Dashboard liczy dane na surowo.", "Start od zera.", "Wynik biznesu rośnie wolniej niż sprzedaż.")])],
+        linki=[link("Jakość danych: od dashboardu do danych oczyszczonych", "#jakosc"),
+               link("Priorytety: pozycja 2, codzienny raport", "#priorytety?p=2")],
+        zrodlo="analiza/a3_dashboard.py, analiza/a2_czyste.py, analiza/wyniki/c_priorytety.txt (W3).")
+    bloki.append(("wzrost/dashboard", dash, ["c:wzrost"], W0["_dodane"]))
+
+    # ---------------------------------------------------------------- krok 2: skąd nowi pacjenci
     nowe_udz = 100 * V["nowe_7268"] / n2
     pac = karta(
-        "Pacjentów przybywa, ale głównie z dwóch nowych kampanii na L4",
-        etykieta="Więcej pacjentów", znacznik=znacznik("Tak", "dobrze"),
-        wniosek=f"Nowych pacjentów jest o {z0(wz[0])}% więcej niż rok wcześniej, a bez kampanii Meta i TikTok na L4 "
-                f"tylko o {z0(wz[1])}%.",
+        "Skąd są nowi pacjenci?", etykieta="Krok 2", id="pacjenci",
+        wniosek=f"Z {liczba(g1['przyrost'])} nowych pacjentów więcej niż rok wcześniej {liczba(g1['nowe_z1k'])}, czyli "
+                f"{z0(udz)}% przyrostu, to pacjenci dwóch nowych kampanii na L4: Meta od listopada 2025 i TikTok od lutego "
+                f"2026.",
+        znaczy=f"Przyrost pacjentów przypisujemy prawie w całości dwóm kampaniom: poza nimi nowych pacjentów przybyło tylko o "
+               f"{z0(wz[1])}%, więc o wzroście decyduje to, ile zostaje na pacjencie tych kampanii (krok 4).",
         tresc=[punkty([
-            f"{liczba(n2)} nowych pacjentów w ostatnich 12 miesiącach wobec {liczba(n1)} rok wcześniej.",
-            f"Bez pacjentów dwóch nowych kampanii na L4: {liczba(V['bez_z1k'])}. Te kampanie dały {z0(nowe_udz)}% nowych "
-            f"pacjentów, a ich pacjent zostawia w 90 dniach {z0(V['nowe_marza'][4])} zł marży przed kosztem pozyskania wobec "
-            f"{z0(V['m90_bez_z1k'])} zł pozostałych.",
-            f"Nowych pacjentów z kanałów bezpłatnych (wejścia bezpośrednie, bezpłatna wyszukiwarka, program poleceń) jest "
-            f"o {z0(wz[3])}% więcej niż rok wcześniej, licząc według pierwszego wejścia.",
+            f"Meta na L4 dała {liczba(g1['nowe_meta_z1k'])} nowych pacjentów, a TikTok na L4 {liczba(g1['nowe_tiktok_z1k'])}.",
+            f"Pozostałe kampanie płatne dały o {liczba(pp['przyrost'])} nowych pacjentów więcej niż rok wcześniej, kanały "
+            f"bezpłatne (wejścia bezpośrednie, bezpłatna wyszukiwarka, program poleceń) o {liczba(bz['przyrost'])} więcej, "
+            f"a ranking lekarzy prawie tyle samo ({liczba(af['okres_2'])} wobec {liczba(af['okres_1'])}).",
+            f"Według sesji z płatnością nowe kampanie dały {liczba(g1['nowe_z2'])} pacjentów, czyli "
+            f"{z0(g1['udzial_nowych_w_przyroscie_z2'])}% przyrostu, a bez nich pacjentów przybyło o {z0(wz[2])}%.",
         ])],
-        zastrzezenie="Nie wiemy, ilu pacjentów nowych kampanii przyszłoby i bez nich. Sprawdzi to test z wyłączeniem "
-                     "reklamy w części kraju (pozycja 9 listy priorytetów).",
         szczegoly=[punkty([
             f"Dokładnie: {zn(wz[0])}% wszystkich nowych pacjentów, {zn(wz[1])}% bez nowych kampanii, {zn(wz[3])}% z "
             f"kanałów bezpłatnych (z {liczba(V['bezpl'][1])} do {liczba(V['bezpl'][2])}). Pacjenci nowych kampanii: "
             f"{liczba(V['nowe_7268'])} z {liczba(n2)} ({z0(nowe_udz)}%), marża w 90 dniach {liczba(V['nowe_marza'][4], 1)} zł "
             f"wobec {liczba(V['m90_bez_z1k'], 1)} zł.",
+            f"Pozostałe kampanie płatne: {liczba(pp['okres_1'])} i {liczba(pp['okres_2'])} nowych pacjentów "
+            f"({zn(100 * (pp['okres_2'] / pp['okres_1'] - 1))}%); ranking lekarzy {liczba(af['okres_1'])} i "
+            f"{liczba(af['okres_2'])}.",
             f"Źródło pacjenta liczymy według pierwszego wejścia: pacjent nowej kampanii to ten, który pierwszy raz wszedł "
             f"z jej reklamy albo zapłacił z jej kodem rabatowym. Według sesji z płatnością pacjentów bez nowych kampanii jest "
             f"{liczba(V['bez_z2'])}, czyli {zn(wz[2])}%. Różnica to {liczba(E['p_X_caly'])} pacjentów, którzy według "
@@ -385,11 +514,11 @@ def wzrost(V, E, C):
             f"pacjentów i retencję opisujemy według pierwszego wejścia. W ekonomii kampanii pokazujemy obie reguły.",
         ])],
         linki=[link("Kohorty: nowi pacjenci według źródła pozyskania", "#kohorty?okno=90&podz=kanal&wygl=28")],
-        zrodlo="analiza/wyniki/c_priorytety.txt (W1), analiza/wyniki/e_merytoryka.txt (punkt 1). Notatki: "
-               "notatki/c_szkic.md (sekcja 1a), notatki/e_teksty.md.")
+        zrodlo="analiza/g_werdykt.py → analiza/wyniki/g_werdykt.txt (G1), analiza/wyniki/c_priorytety.txt (W1), "
+               "analiza/wyniki/e_merytoryka.txt (punkt 1).")
     bloki.append(("wzrost/pacjenci", pac, ["c:wzrost"], W0["_dodane"]))
 
-    # --- lepsza retencja
+    # ---------------------------------------------------------------- krok 3: czy wracają
     dok = V["powroty_dokladne"]
     p180 = V["p180"]
     okna = [(o, W[f"p{o}_o1"], int(W[f"n{o}_o1"]), W[f"p{o}_o2"], int(W[f"n{o}_o2"])) for o in (30, 60, 90)]
@@ -411,15 +540,20 @@ def wzrost(V, E, C):
         return t
     pw = V["powracajacy"]
     ret = karta(
-        "Pacjenci wracają rzadziej, także poza nowymi kampaniami",
-        etykieta="Lepsza retencja", znacznik=znacznik("Nie", "zle"),
-        wniosek=f"W ciągu 90 dni wraca {z0(W['p90_o2'])}% nowych pacjentów, a rok wcześniej wracało {z0(W['p90_o1'])}%.",
+        "Czy wracają?", etykieta="Krok 3", id="retencja",
+        wniosek=f"Rzadziej niż rok wcześniej: w ciągu 90 dni wraca {z0(W['p90_o2'])}% nowych pacjentów wobec "
+                f"{z0(W['p90_o1'])}%, a pacjenci nowych kampanii na L4 tylko w {z0(NZ['p90_o2'])}%.",
+        znaczy=f"Nowy pacjent zostawia dziś mniej w kolejnych miesiącach: jego marża w 90 dniach, przed kosztem pozyskania, "
+               f"spadła z {z0(V['m90'][1])} do {z0(V['m90'][2])} zł.",
         tresc=[tab, punkty([
+            "Liczymy tylko pacjentów, którzy mają już pełne okno od pierwszego zakupu (na przykład pełne 90 dni), na "
+            "tych samych dniach kalendarzowych w obu latach.",
             f"Bez pacjentów nowych kampanii powrót też spada: {z0(B1['p90_o2'])}% wobec {z0(W['p90_o1'])}%.",
-            f"Pacjenci nowych kampanii wracają w {z0(NZ['p90_o2'])}%. Ich większy udział odpowiada za około "
-            f"{z0(u_z1k)}% spadku, a reszta to spadek w kanałach działających w obu latach.",
-            f"Marża na pacjenta w 90 dniach, przed kosztem pozyskania, spadła z {z0(V['m90'][1])} do "
-            f"{z0(V['m90'][2])} zł. Poza nowymi kampaniami prawie stoi.",
+            f"Pacjenci nowych kampanii wracają w {z0(NZ['p90_o2'])}%. Ich większy udział wśród nowych pacjentów "
+            f"odpowiada za około {z0(u_z1k)}% spadku powrotu ({liczba(abs(rz1[5]), 1)} z {liczba(abs(rz1[4]), 1)} punktu "
+            f"procentowego), a reszta to spadek w kanałach działających w obu latach.",
+            f"Poza nowymi kampaniami marża na pacjenta w 90 dniach prawie stoi: {z0(V['m90_bez_z1k'])} zł wobec "
+            f"{z0(V['m90'][1])} zł.",
         ])],
         zastrzezenie="Te liczby opisują zmianę, ale nie wskazują jej przyczyny. Nie wiemy, dlaczego spada powrót w kanałach "
                      "działających w obu latach: czy ci sami pacjenci zachowują się dziś gorzej, czy zmieniło się to, kto do "
@@ -459,58 +593,154 @@ def wzrost(V, E, C):
             "Część spadku w kanałach działających w obu latach może wiązać się z porannymi opóźnieniami u internistów: po "
             "spóźnionej pierwszej wizycie pacjenci wracają rzadziej. Dane tego nie rozstrzygają (Czego nie wiemy, punkt 4).",
         ])],
-        linki=[link("Kohorty: co zmieniło się po każdym zdarzeniu i każdej decyzji", "#kohorty"),   # runda F, poprawka 1
+        linki=[link("Zdarzenia: co zmieniło się po każdym zdarzeniu i każdej decyzji", "#zdarzenia"),   # runda G: tabela w „Zdarzeniach”
                link("Kohorty: powrót w 90 dniach, nowe kampanie na L4 i pozostałe", "#kohorty?okno=90&podz=grupa&wygl=28"),
                link("Kohorty: powrót bez pacjentów nowych kampanii", "#kohorty?okno=90&f_grupa=pozostale&wygl=28")],
         zrodlo="analiza/wyniki/c_priorytety.txt (W2), analiza/wyniki/a5r_kohorty.txt (180 dni), analiza/wyniki/d_retencja.txt "
                "(usługi, kolejne zamówienia), analiza/wyniki/e_merytoryka.txt (punkt 1).")
     bloki.append(("wzrost/retencja", ret, ["c:wzrost"], W0["_dodane"]))
 
-    # --- TelemediGO
-    G0 = W0["telemedigo"]
-    tab_go = tabela(["Typ zakupu", "Rok wcześniej", "Ostatnie 12 miesięcy", "Zmiana", "Udział we wzroście"],
-                    [wiersz(r["opis"].replace("Osobno, z newslettera crm_go_upsell", "Osobno, z newslettera"),
-                            r["komorki"], podsuma=(r["opis"] == "Razem")) for r in G0["tabela"]["wiersze"]])
-    g2a = V["go_2a"]
-    razem = V["go_typy"].loc["razem"]
-    go = karta(
-        "TelemediGO rośnie razem z liczbą zamówień, a nie dzięki większej chęci zakupu",
-        wniosek=f"Sprzedaż wzrosła o {z0(razem['zmiana_proc'])}%, bo jest więcej zamówień i przez cały rok działała "
-                f"sprzedaż w newsletterze, a odsetek kupujących przy kasie nie rośnie.",
-        tresc=[tab_go, punkty([
-            f"Opłata 89 zł nie pokrywa zniżek: członkostwa sprzed roku dostały średnio o około "
-            f"{z0(abs(g2a['oplata_minus_znizka_efektywna_na_czlonkostwo']))} zł więcej zniżek, niż przyniosły opłat.",
-            f"Widać to w marży: powtórne zamówienie pacjenta spoza nowych kampanii zostawiło w III kwartale 2026 około "
-            f"{z0(E['pw_m26'])} zł marży wobec {z0(E['pw_m25'])} zł rok wcześniej. Prawie cały ten spadek to rosnący udział "
-            f"wizyt ze zniżką TelemediGO: z {z0(E['pw_go_udzial_25'])}% do {z0(E['pw_go_udzial_26'])}% powtórnych zamówień.",
+    # ---------------------------------------------------------------- krok 4: ile zostaje na pacjencie
+    a1, a2 = pod[("Z1K", 1)], pod[("Z1K", 2)]
+    g180 = B2.dt.date.fromisoformat(gr180)
+    kol_m = ["Miesiąc pierwszego zakupu", "Nowi pacjenci", "Koszt pozyskania", "Marża w 180 dniach", "Zostaje na pacjencie",
+             "Zostaje na pacjencie według sesji z płatnością"]
+    tab_m = tabela(kol_m, [wiersz(miesiac_rz(r["okres"]), [
+        liczba(r["nowi"]), f"{liczba(r['koszt_pozysk'], 1)} zł", f"{liczba(r['marza180'], 1)} zł",
+        zmiana(f"{zn(r['wynik'])} zł", r["wynik"]), zmiana(f"{zn(m2[r['okres']]['wynik'])} zł", m2[r["okres"]]["wynik"])])
+        for r in m1],
+        tytul=f"Nowe kampanie na L4 według miesiąca pierwszego zakupu, według pierwszego wejścia (ostatnia kolumna: według "
+              f"sesji z płatnością). Pełne 180 dni mają pierwsze zakupy do {g180.day}.{g180:%m.%Y}; dla późniejszych marża "
+              f"w 180 dniach jest przybliżona.")
+    q_nazwy = (("2025Q4", "IV kwartale 2025"), ("2026Q1", "I"), ("2026Q2", "II"), ("2026Q3", "III kwartale 2026"))
+    nap = karta(
+        "Ile zarabiamy na nowym pacjencie po koszcie pozyskania?", etykieta="Krok 4", id="na-pacjencie",
+        wniosek=f"Na pacjencie nowych kampanii na L4 zostaje w ciągu 180 dni {z0(L4['wynik'])} zł, a na pacjencie pozostałych "
+                f"kampanii płatnych {z0(P2['wynik'])} zł (rok wcześniej {z0(P1['wynik'])} zł).",
+        znaczy="Pacjent przypisany nowym kampaniom zostawia po koszcie pozyskania kilka razy mniej niż pacjent pozostałych "
+               "kampanii płatnych, a u pacjentów pozyskanych od kwietnia szacowany wynik jest bliski zeru.",
+        tresc=[punkty([
+            f"Pacjent nowych kampanii zostawia w 180 dniach {z0(L4['marza'])} zł marży, a jego pozyskanie kosztuje "
+            f"{z0(L4['koszt_pozysk'])} zł. Pacjent pozostałych kampanii płatnych zostawia {z0(P2['marza'])} zł marży przy "
+            f"koszcie pozyskania {z0(P2['koszt_pozysk'])} zł.",
+            f"Miesiąc po miesiącu koszt pozyskania pacjenta nowych kampanii rośnie z "
+            f"{zakres(min(r['koszt_pozysk'] for r in zima), max(r['koszt_pozysk'] for r in zima))} zł (listopad 2025 – luty "
+            f"2026) do {zakres(min(r['koszt_pozysk'] for r in wiosna), max(r['koszt_pozysk'] for r in wiosna))} zł (kwiecień – "
+            f"wrzesień 2026), a marża pacjenta zostaje na poziomie "
+            f"{zakres(min(r['marza180'] for r in m1), max(r['marza180'] for r in m1))} zł. Od kwietnia zostaje od "
+            f"{liczba(min(r['wynik'] for r in wiosna), 0)} do {zn(max(r['wynik'] for r in wiosna), 0)} zł na pacjencie.",
+            f"Osobno: TikTok na L4 traci od marca 2026 (w II kwartale {z0(abs(Qt['2026Q2']['wynik']))} zł na pacjencie), a "
+            f"Meta na L4 zostaje na plusie (w III kwartale {z0(Qm['2026Q3']['wynik'])} zł na pacjencie).",
+            f"Według sesji z płatnością obie kampanie razem tracą od grudnia 2025, a od kwietnia średnio "
+            f"{zakres(-max(wios_z2), -min(wios_z2))} zł na pacjencie.",
+            f"Razem w roku pozyskania pacjenci nowych kampanii zostawili {z0(a2['nowe_marza_przed'] / 1000)} tys. zł marży "
+            f"przy {z0(a2['nowe_wydatki'] / 1000)} tys. zł wydatków na te kampanie, czyli {z0(a2['nowe_wynik'] / 1000)} "
+            f"tys. zł.",
         ])],
-        zastrzezenie="Nie wiemy, ile wizyt członkostwo dokłada. Test z pozycji 12 pokaże wpływ samej zniżki, ale nie "
-                     "opłacalność oferty za 89 zł.",
-        szczegoly=[punkty([popraw(x).replace("Rozstrzygnie to test z pozycji 12: losowy, bezpłatny dostęp do zniżek.",
-                                             "Test z pozycji 12 (losowy, bezpłatny dostęp do zniżek) pokaże wpływ samej "
-                                             "zniżki.")
-                           for x in G0["punkty"]] + [
-            f"Powtórne zamówienie pacjenta spoza nowych kampanii zostawiło w III kwartale 2026 {liczba(E['pw_m26'], 2)} zł "
-            f"marży wobec {liczba(E['pw_m25'], 2)} zł rok wcześniej. "
-            f"Wizyta ze zniżką TelemediGO zostawia średnio {liczba(E['pw_go_m26'], 2)} zł marży, bez zniżki "
-            f"{liczba(E['pw_none_m26'], 2)} zł, a wizyta u specjalisty ze zniżką traci {liczba(abs(E['pw_inni_go_m26']), 2)} zł. "
-            f"Udział wizyt ze zniżką wśród powtórnych zamówień: {liczba(E['pw_go_udzial_25'], 1)}% "
-            f"({liczba(E['pw_n25'])} zamówień) i {liczba(E['pw_go_udzial_26'], 1)}% ({liczba(E['pw_n26'])}). Zmiana tego "
-            f"udziału daje {liczba(abs(E['pw_mix']), 2)} zł z {liczba(abs(E['pw_zmiana']), 2)} zł spadku marży na zamówienie "
-            f"(rozkład na strukturę i marżę w obrębie rodzaju zniżki)."])],
-        linki=G0["linki"], zrodlo=G0["zrodlo"].replace("Liczby: ", "") + " Marża powtórnych zamówień: "
-                                                                          "analiza/wyniki/e_merytoryka.txt (punkt 3).")
-    # liczby do wykresu strony (etap 5 grafiki): trzy sposoby zakupu, oba lata; te same co w tabeli karty
-    ty = V["go_typy"]
-    nazwy_go = {"1_kasa_z_pierwszym_zamowieniem": "Przy kasie z pierwszym zamówieniem",
-                "2_kasa_z_kolejnym_zamowieniem": "Przy kasie z kolejnym zamówieniem",
-                "3_osobno_newsletter_crm_go_upsell": "Osobno, z newslettera"}
-    go["wykres"] = {"wiersze": [{"opis": nazwy_go[t_], "p1": int(ty.loc[t_, "okres_1"]), "p2": int(ty.loc[t_, "okres_2"])}
-                                for t_ in nazwy_go]}
-    assert sum(w["p2"] for w in go["wykres"]["wiersze"]) == int(razem["okres_2"])
-    bloki.append(("wzrost/telemedigo", go, ["c:telemedigo"], G0["_dodane"]))
+        zastrzezenie=f"Pacjenci z pierwszym zakupem od kwietnia 2026 nie mają jeszcze pełnych 180 dni. Ich marżę przybliżamy: "
+                     f"do marży z krótszego okresu dodajemy to, co starsi pacjenci tych kampanii zostawili później: od "
+                     f"{liczba(prz_od, 2)} zł, gdy znamy już 90 dni, do {liczba(prz_do, 2)} zł, gdy znamy tylko dzień "
+                     f"zakupu. Dopłata jest mała, bo ci pacjenci prawie nie wracają.",
+        szczegoly=[tab_m, punkty([
+            f"Porównanie płatnych z płatnymi liczymy na pierwszych zakupach od 1.10 do {g180.day}.{g180:%m} w obu latach, bo "
+            f"tylko one mają pełne 180 dni: {liczba(L4['nowi'])} pacjentów nowych kampanii (przedział 95% od "
+            f"{liczba(L4['wynik_od'], 1)} do {liczba(L4['wynik_do'], 1)} zł), {liczba(P2['nowi'])} pacjentów pozostałych "
+            f"kampanii płatnych ({liczba(P2['wynik'], 1)} zł) i rok wcześniej {liczba(P1['nowi'])} ({liczba(P1['wynik'], 1)} zł).",
+            f"Według sesji z płatnością pacjent nowych kampanii daje {liczba(L4z2['wynik'], 1)} zł, a pacjent pozostałych "
+            f"kampanii płatnych {liczba(P2z2['wynik'], 1)} zł (rok wcześniej {liczba(P1z2['wynik'], 1)} zł).",
+            f"Na całym roczniku, z przybliżoną marżą w 180 dniach dla młodszych pacjentów: nowe kampanie "
+            f"{liczba(R_L4['wynik'], 1)} zł na pacjencie ({liczba(R_L4['nowi'])} pacjentów), pozostałe kampanie płatne "
+            f"{liczba(R_P2['wynik'], 1)} zł wobec {liczba(R_P1['wynik'], 1)} zł rok wcześniej.",
+            f"Ranking lekarzy (prowizja {z0(AF2['prowizja_zl'] / AF2['nowi'])} zł za pacjenta) zostawia "
+            f"{liczba(AF2['wynik'], 1)} zł wobec {liczba(AF1['wynik'], 1)} zł rok wcześniej; liczymy go osobno, bo płacimy "
+            f"za pacjenta, a nie za kliknięcie.",
+            "W kwartałach (według pierwszego wejścia): "
+            + ", ".join(f"{liczba(Q[k]['wynik'], 1)} zł" for k, _ in q_nazwy)
+            + " na pacjencie w IV kwartale 2025 i w I, II i III kwartale 2026; według sesji z płatnością "
+            + ", ".join(f"{liczba(Qz2[k]['wynik'], 1)} zł" for k, _ in q_nazwy) + ".",
+            "Kwota na pacjencie to średnia ze wszystkich pacjentów przypisanych kampanii. Nie mówi, ile dałaby kolejna "
+            "złotówka budżetu.",
+        ])],
+        linki=[link("Wynik biznesu: ekonomia kampanii, obie reguły", "#wynik"),
+               link("Priorytety: pozycja 3, TikTok na L4", "#priorytety?p=3"),
+               link("Priorytety: pozycja 9, test kampanii Meta na L4", "#priorytety?p=9")],
+        zrodlo="analiza/g_werdykt.py → analiza/wyniki/g_werdykt.txt (G2, G3), analiza/wyniki/a5e_ekonomia.txt (1b).")
+    nap["wykres"] = {
+        "opis": "Zostaje na pacjencie nowych kampanii na L4 po koszcie pozyskania, według miesiąca pierwszego zakupu i dwóch "
+                "reguł przypisania",
+        "przypis": "Zostaje na pacjencie: marża w 180 dniach minus koszt pozyskania. Pionowa linia to zero: na lewo od niej "
+                   "pozyskanie kosztuje więcej, niż pacjent zostawia. Gwiazdka: marża w 180 dniach przybliżona.",
+        "wiersze": [{"etykieta": miesiac_rz(r["okres"]), "przyblizone": r["okno"] < 180,
+                     "z1k": round(r["wynik"], 1), "z2": round(m2[r["okres"]]["wynik"], 1)} for r in m1]}
+    bloki.append(("wzrost/na-pacjencie", nap, [], []))
 
-    # --- wynik
+    # ---------------------------------------------------------------- krok 5: skąd +27% marży
+    z1, z2 = pod[("Z2", 1)], pod[("Z2", 2)]
+    mar = karta(
+        f"Skąd w takim razie {zn(g4['przyrost_proc'], 0)}% marży?", etykieta="Krok 5", id="marza",
+        wniosek=f"Z pacjentów pozyskanych w pierwszym roku: ich zakupy w ostatnich 12 miesiącach dały "
+                f"{z0(g4['baza_o1_w_o2'] / 1000)} tys. zł, czyli {z0(udz_b)}% przyrostu marży o {z0(g4['przyrost'] / 1000)} "
+                f"tys. zł.",
+        znaczy=f"Łączny wynik pacjentów pozyskanych w danym roku, po kosztach kampanii, wzrósł tylko o "
+               f"{z0(g4['wlasni_zmiana_proc'])}% przy {z0(wz[0])}% więcej pacjentów, a na jednym nowym pacjencie spadł z "
+               f"{z0(g4['wlasni_na_pacjenta_o1'])} do {z0(g4['wlasni_na_pacjenta_o2'])} zł.",
+        tresc=[punkty([
+            f"Rok wcześniej cała marża, {z0(g4['marza_o1'] / 1000)} tys. zł, pochodziła od pacjentów pozyskanych w tym "
+            f"samym roku. Wcześniejszych pacjentów w danych nie ma, bo dane zaczynają się 1.10.2024.",
+            f"W ostatnich 12 miesiącach pacjenci z pierwszego roku dali {z0(g4['baza_o1_w_o2'] / 1000)} tys. zł: "
+            f"{z0(g4['baza_konsultacje'] / 1000)} tys. zł z kolejnych wizyt i {z0(g4['baza_telemedigo'] / 1000)} tys. zł z "
+            f"opłat za TelemediGO.",
+            f"Pacjenci pozyskani w ostatnich 12 miesiącach zostawili w tym samym roku "
+            f"{z0(g4['przed_kampaniami_wlasni_o2'] / 1000)} tys. zł marży przed kosztem kampanii, o "
+            f"{z0(100 * (g4['przed_kampaniami_wlasni_o2'] / g4['przed_kampaniami_wlasni_o1'] - 1))}% więcej niż rok "
+            f"wcześniej. Wydatki na kampanie wzrosły jednak o {z0(100 * (g4['wydatki_o2'] / g4['wydatki_o1'] - 1))}%, z "
+            f"{z0(g4['wydatki_o1'] / 1000)} do {z0(g4['wydatki_o2'] / 1000)} tys. zł, więc po odjęciu wydatków i prowizji "
+            f"afiliacyjnej ({z0(g4['prowizja_o2'] / 1000)} tys. zł) zostaje {z0(g4['wlasni_o2'] / 1000)} tys. zł wobec "
+            f"{z0(g4['wlasni_o1'] / 1000)} tys. zł.",
+            "To nie jest lepsza retencja: nowi pacjenci wracają rzadziej (krok 3). Tej kwoty rok wcześniej nie było, bo w "
+            "danych nie ma pacjentów sprzed 1.10.2024.",
+        ])],
+        zastrzezenie="To rozbicie księgowe: przypisuje marżę i koszty grupom pacjentów, ale nie mierzy, co by się stało bez "
+                     "nowych kampanii.",
+        szczegoly=[punkty([
+            f"Dokładnie: marża po wszystkich kosztach {zl(g4['marza_o1'])} rok wcześniej i {zl(g4['marza_o2'])} w ostatnich "
+            f"12 miesiącach, czyli +{zl(g4['przyrost'])} ({zn(g4['przyrost_proc'])}%). Pacjenci z pierwszego roku: "
+            f"{zl(g4['baza_o1_w_o2'])} ({liczba(udz_b, 1)}% przyrostu). Pacjenci pozyskani w danym roku, po kosztach kampanii "
+            f"i prowizji: {zl(g4['wlasni_o1'])} i {zl(g4['wlasni_o2'])}, czyli +{zl(g4['wlasni_zmiana'])} "
+            f"({zn(g4['wlasni_zmiana_proc'])}%; {liczba(g4['wlasni_udzial_w_przyroscie_proc'], 1)}% przyrostu). Na nowego "
+            f"pacjenta: {liczba(g4['wlasni_na_pacjenta_o1'], 2)} zł ({liczba(n1)} pacjentów) i "
+            f"{liczba(g4['wlasni_na_pacjenta_o2'], 2)} zł ({liczba(n2)}). To porównanie zawiera też krótszą obserwację: od "
+            f"pierwszego zakupu do końca roku minęło średnio {liczba(g4['obserwacja_dni_o1'], 1)} dnia rok wcześniej i "
+            f"{liczba(g4['obserwacja_dni_o2'], 1)} dnia w ostatnich 12 miesiącach. Porównanie w stałym oknie 180 dni jest "
+            f"w kroku 4.",
+            f"Pacjenci nowych kampanii na L4 zostawili w roku pozyskania {z0(a2['nowe_marza_przed'] / 1000)} tys. zł marży "
+            f"przy {z0(a2['nowe_wydatki'] / 1000)} tys. zł wydatków, czyli {z0(a2['nowe_wynik'] / 1000)} tys. zł "
+            f"({liczba(a2['nowe_wynik'] / a2['nowe_pacjenci'], 2)} zł na pacjenta). Pozostali pacjenci pozyskani w ostatnich "
+            f"12 miesiącach dali po kosztach kampanii i prowizji {z0(a2['reszta_wynik'] / 1000)} tys. zł wobec "
+            f"{z0(a1['reszta_wynik'] / 1000)} tys. zł rok wcześniej ({zn(100 * (a2['reszta_wynik'] / a1['reszta_wynik'] - 1))}%), "
+            f"a na pacjenta {liczba(a2['reszta_wynik'] / a2['reszta_pacjenci'], 2)} zł wobec "
+            f"{liczba(a1['reszta_wynik'] / a1['reszta_pacjenci'], 2)} zł.",
+            f"Według sesji z płatnością nowe kampanie tracą w roku pozyskania {z0(abs(z2['nowe_wynik']) / 1000)} tys. zł "
+            f"({liczba(z2['nowe_wynik'] / z2['nowe_pacjenci'], 2)} zł na pacjenta), a pozostali pacjenci dają o "
+            f"{liczba(100 * (z2['reszta_wynik'] / z1['reszta_wynik'] - 1), 1)}% więcej niż rok wcześniej.",
+            f"Marża przed kosztem kampanii pacjentów pozyskanych w danym roku: {z0(g4['przed_kampaniami_wlasni_o1'] / 1000)} "
+            f"tys. zł i {z0(g4['przed_kampaniami_wlasni_o2'] / 1000)} tys. zł; wydatki na kampanie {zl(g4['wydatki_o1'])} i "
+            f"{zl(g4['wydatki_o2'])}; prowizja {zl(g4['prowizja_o1'])} i {zl(g4['prowizja_o2'])}.",
+        ])],
+        linki=[link("Wynik biznesu: marża po kwartałach", "#wynik")],
+        zrodlo="analiza/g_werdykt.py → analiza/wyniki/g_werdykt.txt (G4), analiza/wyniki/c_priorytety.txt (W3).")
+    assert z2["nowe_wynik"] < 0 < a2["nowe_wynik"]
+    mar["wykres"] = {
+        "opis": "Marża po wszystkich kosztach rok wcześniej i w ostatnich 12 miesiącach: pacjenci pozyskani w tym samym roku "
+                "po kosztach kampanii i pacjenci z pierwszego roku",
+        "czesci": ["pacjenci pozyskani w tym samym roku, po kosztach kampanii", "pacjenci z pierwszego roku"],
+        "przypis": "Marża po wszystkich kosztach w tysiącach złotych; długość słupka to kwota.",
+        "wiersze": [{"etykieta": "rok wcześniej", "wartosci": [round(g4["wlasni_o1"] / 1000, 3), 0.0]},
+                    {"etykieta": "ostatnie 12 miesięcy",
+                     "wartosci": [round(g4["wlasni_o2"] / 1000, 3), round(g4["baza_o1_w_o2"] / 1000, 3)]}]}
+    bloki.append(("wzrost/marza", mar, [], []))
+
+    # ---------------------------------------------------------------- krok 6: kwartały
     nazwy_kw = {"2025-10-01": "IV 2025", "2026-01-01": "I 2026", "2026-04-01": "II 2026", "2026-07-01": "III 2026"}
     tab_kw = tabela(["Kwartał", "Marża przed kosztem kampanii", "Wydatki na kampanie", "Marża po kosztach kampanii"],
                     [wiersz(nazwy_kw[r["kw"]], [
@@ -525,11 +755,19 @@ def wzrost(V, E, C):
         "„coraz szybciej / coraz wolniej” wymaga monotonicznych zmian w kolejnych kwartałach"
     assert E["q3_zmiana_proc"] < 0 < E["q3_w1_zmiana_proc"], "zastrzeżenie mówi „spadła” i „wyższa”"
     wy = karta(
-        "Z każdym kwartałem wydatki na kampanie rosną rok do roku szybciej, a marża przed ich kosztem wolniej",
-        wniosek=f"W III kwartale 2026 marża przed kosztem kampanii wzrosła o {z0(q3['przed_rr_dokl'])}%, a wydatki na "
-                f"kampanie były ponad dwa razy wyższe niż rok wcześniej.",
+        "W którą stronę to idzie z kwartału na kwartał?", etykieta="Krok 6", id="wynik",
+        wniosek=f"Z każdym kwartałem wydatki na kampanie rosną rok do roku szybciej, a marża przed ich kosztem wolniej: w III "
+                f"kwartale 2026 wydatki były ponad dwa razy wyższe niż rok wcześniej, a marża przed ich kosztem wyższa o "
+                f"{z0(q3['przed_rr_dokl'])}%.",
+        znaczy=f"Wzrost marży po kosztach kampanii się zatrzymał: w III kwartale 2026 spadła o "
+               f"{z0(abs(E['q3_zmiana_proc']))}% rok do roku, a po odjęciu jednorazowego startu sprzedaży TelemediGO w "
+               f"newsletterze rok wcześniej byłaby wyższa tylko o {z0(E['q3_w1_zmiana_proc'])}%.",
         tresc=[tab_kw, punkty([
-            f"Za cały rok marża po koszcie lekarza, kampaniach i prowizji wzrosła o {z0(E['rok_marza_zmiana_proc'])}%.",
+            f"Na pacjencie nowych kampanii na L4 zostawało po koszcie pozyskania {z0(Q['2025Q4']['wynik'])} zł w IV kwartale "
+            f"2025 i {z0(Q['2026Q1']['wynik'])} zł w I kwartale 2026, a w II i III kwartale 2026 mniej niż 1 zł.",
+            f"Bez zakupów pacjentów pozyskanych w poprzednich kwartałach marża po kosztach kampanii rosła rok do roku o "
+            f"{liczba(bb['2025_q4'], 1)}% w IV kwartale 2025 i o {liczba(bb['2026_q1'], 1)}% w I kwartale 2026, a w II i III "
+            f"kwartale 2026 spadła o {liczba(abs(bb['2026_q2']), 1)}% i {liczba(abs(bb['2026_q3']), 1)}%.",
             f"Marża przed kosztem kampanii wzrosła za cały rok o {z0(E['rok_przed_zmiana_proc'])}%, a wydatki na kampanie "
             f"o {z0(E['rok_wyd_zmiana_proc'])}%.",
         ])],
@@ -580,45 +818,106 @@ def wzrost(V, E, C):
         linki=[link("Wynik biznesu: marża po kwartałach", "#wynik"),
                link("Priorytety: pozycja 1, Safari", "#priorytety?p=1")],
         zrodlo="analiza/wyniki/c_priorytety.txt (W3, W4), analiza/wyniki/d_wynik.txt (punkty 1 i 2), "
-               "analiza/wyniki/e_merytoryka.txt (punkt 2).")
+               "analiza/wyniki/e_merytoryka.txt (punkt 2), analiza/wyniki/g_werdykt.txt (G3).")
     bloki.append(("wzrost/wynik", wy, ["c:wzrost", "c:pozycja:1", "d:Rozkład spadku"], W0["_dodane"]))
 
-    # --- dashboard a dane oczyszczone
-    dz, cz = V["dash_zam"], V["czyste_zam"]
-    zast = {z["tytul"]: z["tekst"] for z in W0["zastrzezenia"]}
-    dash = karta(
-        "Dashboard pokazuje więcej wzrostu, niż jest w danych",
-        wniosek=f"Po oczyszczeniu danych zamówień przybyło o {z0(cz[0])}%, a nie o {z0(dz[0])}%.",
-        tresc=[punkty([
-            f"Dashboard liczy dane na surowo: z {liczba(V['dup'])} zdublowanymi zamówieniami z {V['dup_daty']}, z "
-            f"{liczba(V['testy_razem'][0])} zamówieniami {liczba(V['testy_konta'])} kont testowych i z przychodem przed "
-            f"zwrotami.",
-            f"Po oczyszczeniu przychód z konsultacji po zwrotach rośnie o {z0(cz[3])}% zamiast {z0(dz[3])}%. Liczba nowych "
-            f"pacjentów i sprzedaż TelemediGO prawie się nie zmieniają.",
-        ])],
-        wstaw="mostek",
-        zastrzezenie="Pierwszy rok startował od zera, bez bazy powracających pacjentów, więc sumy roczne z definicji "
-                     "faworyzują drugi rok.",
-        szczegoly=[punkty([slownik(t + " " + zast[t]).replace(
-            "To rozbicie księgowe, a nie wynik biznesu, który startuje od zera: nie modeluje",
-            "To rozbicie księgowe, które nie modeluje")
-            for t in ("Dashboard liczy dane na surowo.", "Start od zera.", "Wynik biznesu rośnie wolniej niż sprzedaż.")])],
-        linki=[link("Jakość danych: od dashboardu do danych oczyszczonych", "#jakosc")],
-        zrodlo="analiza/a3_dashboard.py, analiza/a2_czyste.py, analiza/wyniki/c_priorytety.txt (W3).")
-    bloki.append(("wzrost/dashboard", dash, ["c:wzrost"], W0["_dodane"]))
+    # ---------------------------------------------------------------- krok 7: co robimy
+    decyzje = {"tytul": "Decyzje na pierwszy tydzień", "punkty": [
+        {"nr": 1, "tekst": "Naprawić zakładanie konta w Safari na iPhone'ach", "href": "#priorytety?p=1",
+         "dopisek": f"pozycja 1 · do {z0(V['p1_hi'][3] / 1000)} tys. zł marży rocznie"},
+        {"nr": 2, "tekst": "Oczyścić codzienny raport i dodać alarmy na lejku", "href": "#priorytety?p=2",
+         "dopisek": f"pozycja 2 · awaria Safari trwała {liczba(V['p1_lo'][1])} dni, do końca danych"},
+        {"nr": 3, "tekst": "Wstrzymać kampanię TikTok na L4 i kampanię Google Ads na specjalistów", "href": "#priorytety?p=3",
+         "dopisek": "pozycje 3 i 4 · obie średnio tracą na pacjencie według obu reguł przypisania źródła (pierwsze wejście "
+                    "i sesja z płatnością), a pauzę da się cofnąć w jeden dzień"},
+        {"nr": 4, "tekst": "Zrobić krótkie sprawdzenia: obietnica reklam L4, poranne grafiki internistów, zakup po "
+                           "zalogowaniu, kliknięcia w panelach reklam", "href": "#priorytety?p=5",
+         "dopisek": "pierwsze kroki pozycji 5, 6, 8 i 11 · każde zajmuje dzień albo dwa"},
+    ]}
+    rob = karta(
+        "Co robimy?", etykieta="Krok 7", id="co-robimy",
+        wniosek="Najpierw naprawiamy to, co psuje wynik niezależnie od kampanii, potem wstrzymujemy kampanie, które średnio "
+                "tracą na pacjencie, a o kampanii Meta na L4 rozstrzyga test w części kraju.",
+        znaczy="Każda pozycja listy priorytetów ma wartość w marży, sposób pomiaru i czas wdrożenia; niżej decyzje na "
+               "pierwszy tydzień.",
+        decyzje=decyzje,
+        linki=[link("Priorytety: cała lista", "#priorytety"),
+               link("Priorytety: pozycja 9, test kampanii Meta na L4", "#priorytety?p=9")])
+    bloki.append(("wzrost/co-robimy", rob, [], []))
 
-    dalej = karta("Decyzje są na liście priorytetów, a otwarte pytania w zakładce „Czego nie wiemy”",
-                  tresc=[akapit("Lista priorytetów idzie od najważniejszej pozycji i przy każdej podaje wartość w marży. "
-                                "Zakładka „Czego nie wiemy” zbiera to, czego dane nie rozstrzygają, z testem, który to "
-                                "domknie.")],
-                  linki=[link("Priorytety", "#priorytety"), link("Czego nie wiemy", "#niewiadome")])
+    # ---------------------------------------------------------------- krok 8: czego nie wiemy
+    niew = karta(
+        "Czego nie wiemy?", etykieta="Krok 8", id="niewiadome",
+        wniosek="Trzech rzeczy, od których zależą decyzje: ilu pacjentów nowych kampanii przyszłoby i bez reklamy, dlaczego "
+                "rzadziej wracają pacjenci z kanałów działających w obu latach i ile wizyt dokłada zniżka TelemediGO.",
+        znaczy="Dlatego decyzje, które od nich zależą, są na liście priorytetów testami z regułą ustaloną z góry, a nie "
+               "pewnymi kwotami.",
+        tresc=[punkty([
+            "Ilu pacjentów nowych kampanii przyszłoby i bez reklamy: test z pozycji 9, czyli wyłączenie kampanii Meta na L4 "
+            "na 4–6 tygodni w losowej połowie województw. Da wynik orientacyjny, więc decyzję podejmujemy według reguły "
+            "ustalonej z góry (Czego nie wiemy, punkt 1).",
+            "Dlaczego rzadziej wracają pacjenci z kanałów działających w obu latach: jedną z możliwych przyczyn są poranne "
+            "opóźnienia u internistów, ale dane tego nie rozstrzygają (Czego nie wiemy, punkt 4).",
+            "Ile wizyt i powrotów dokłada zniżka TelemediGO: losowy, bezpłatny dostęp do zniżek (pozycja 12; Czego nie "
+            "wiemy, punkt 8).",
+        ])],
+        linki=[link("Czego nie wiemy: punkt 1", "#niewiadome?n=1"), link("Czego nie wiemy: punkt 4", "#niewiadome?n=4"),
+               link("Czego nie wiemy: punkt 8", "#niewiadome?n=8"), link("Czego nie wiemy: cała lista", "#niewiadome")])
+    bloki.append(("wzrost/niewiadome", niew, [], []))
+
+    # ---------------------------------------------------------------- TelemediGO (osobna karta, bez numeru kroku)
+    G0 = W0["telemedigo"]
+    tab_go = tabela(["Typ zakupu", "Rok wcześniej", "Ostatnie 12 miesięcy", "Zmiana", "Udział we wzroście"],
+                    [wiersz(r["opis"].replace("Osobno, z newslettera crm_go_upsell", "Osobno, z newslettera"),
+                            r["komorki"], podsuma=(r["opis"] == "Razem")) for r in G0["tabela"]["wiersze"]])
+    g2a = V["go_2a"]
+    razem = V["go_typy"].loc["razem"]
+    go = karta(
+        "TelemediGO rośnie razem z liczbą zamówień, a nie dzięki większej chęci zakupu", id="telemedigo",
+        wniosek=f"Sprzedaż wzrosła o {z0(razem['zmiana_proc'])}%, bo jest więcej zamówień i przez cały rok działała "
+                f"sprzedaż w newsletterze, a odsetek kupujących przy kasie nie rośnie.",
+        tresc=[tab_go, punkty([
+            f"Opłata 89 zł nie pokrywa zniżek: członkostwa sprzed roku dostały średnio o około "
+            f"{z0(abs(g2a['oplata_minus_znizka_efektywna_na_czlonkostwo']))} zł więcej zniżek, niż przyniosły opłat.",
+            f"Widać to w marży: powtórne zamówienie pacjenta spoza nowych kampanii zostawiło w III kwartale 2026 około "
+            f"{z0(E['pw_m26'])} zł marży wobec {z0(E['pw_m25'])} zł rok wcześniej. Prawie cały ten spadek to rosnący udział "
+            f"wizyt ze zniżką TelemediGO: z {z0(E['pw_go_udzial_25'])}% do {z0(E['pw_go_udzial_26'])}% powtórnych zamówień.",
+        ])],
+        zastrzezenie="Nie wiemy, ile wizyt członkostwo dokłada. Test z pozycji 12 pokaże wpływ samej zniżki, ale nie "
+                     "opłacalność oferty za 89 zł.",
+        szczegoly=[punkty([popraw(x).replace("Rozstrzygnie to test z pozycji 12: losowy, bezpłatny dostęp do zniżek.",
+                                             "Test z pozycji 12 (losowy, bezpłatny dostęp do zniżek) pokaże wpływ samej "
+                                             "zniżki.")
+                           for x in G0["punkty"]] + [
+            f"Powtórne zamówienie pacjenta spoza nowych kampanii zostawiło w III kwartale 2026 {liczba(E['pw_m26'], 2)} zł "
+            f"marży wobec {liczba(E['pw_m25'], 2)} zł rok wcześniej. "
+            f"Wizyta ze zniżką TelemediGO zostawia średnio {liczba(E['pw_go_m26'], 2)} zł marży, bez zniżki "
+            f"{liczba(E['pw_none_m26'], 2)} zł, a wizyta u specjalisty ze zniżką traci {liczba(abs(E['pw_inni_go_m26']), 2)} zł. "
+            f"Udział wizyt ze zniżką wśród powtórnych zamówień: {liczba(E['pw_go_udzial_25'], 1)}% "
+            f"({liczba(E['pw_n25'])} zamówień) i {liczba(E['pw_go_udzial_26'], 1)}% ({liczba(E['pw_n26'])}). Zmiana tego "
+            f"udziału daje {liczba(abs(E['pw_mix']), 2)} zł z {liczba(abs(E['pw_zmiana']), 2)} zł spadku marży na zamówienie "
+            f"(rozkład na strukturę i marżę w obrębie rodzaju zniżki)."])],
+        linki=G0["linki"], zrodlo=G0["zrodlo"].replace("Liczby: ", "") + " Marża powtórnych zamówień: "
+                                                                          "analiza/wyniki/e_merytoryka.txt (punkt 3).")
+    # liczby do wykresu strony (etap 5 grafiki): trzy sposoby zakupu, oba lata; te same co w tabeli karty
+    ty = V["go_typy"]
+    nazwy_go = {"1_kasa_z_pierwszym_zamowieniem": "Przy kasie z pierwszym zamówieniem",
+                "2_kasa_z_kolejnym_zamowieniem": "Przy kasie z kolejnym zamówieniem",
+                "3_osobno_newsletter_crm_go_upsell": "Osobno, z newslettera"}
+    go["wykres"] = {"wiersze": [{"opis": nazwy_go[t_], "p1": int(ty.loc[t_, "okres_1"]), "p2": int(ty.loc[t_, "okres_2"])}
+                                for t_ in nazwy_go]}
+    assert sum(w["p2"] for w in go["wykres"]["wiersze"]) == int(razem["okres_2"])
+    bloki.append(("wzrost/telemedigo", go, ["c:telemedigo"], G0["_dodane"]))
+
     nowe = {"tytul": "Czy to, co widać na dashboardzie, jest wzrostem?",
             "wstep": f"Wzrost to dwie rzeczy naraz: więcej pacjentów i lepsza retencja. Sprawdzamy oba warunki osobno, na "
-                     f"danych oczyszczonych, porównując {O2_TEKST} z rokiem wcześniej (X 2024 – IX 2025).",
-            "werdykt": werdykt, "kafelki": kafelki, "decyzje": decyzje,
-            "karty": [pac, ret, go, wy, dash, dalej],
+                     f"danych oczyszczonych, porównując {O2_TEKST} z rokiem wcześniej (X 2024 – IX 2025). Na końcu "
+                     f"sprawdzamy, ile biznes na tym zarabia.",
+            "werdykt": werdykt, "kafelki": kafelki,
+            "karty": [dash, pac, ret, nap, mar, wy, rob, niew, go],
             # bez wewnętrznej nazwy rundy pracy (trzecia lista Kuby, punkt 4)
-            "zrodlo": "Skąd liczby: " + W0["zrodlo"].replace("Liczby: ", "") + " Sprawdzenia przed publikacją: "
+            "zrodlo": "Skąd liczby: " + W0["zrodlo"].replace("Liczby: ", "") + " Werdykt, ekonomia pacjenta i przyrost "
+                      "marży: analiza/g_werdykt.py → analiza/wyniki/g_werdykt.txt. Sprawdzenia przed publikacją: "
                       "analiza/wyniki/e_merytoryka.txt i analiza/wyniki/e_poprawki.txt. Teksty strony: notatki/e_teksty.md."}
     bloki.append(("wzrost/wstep", {"w": nowe["wstep"]}, [], []))
     return nowe, bloki
@@ -1232,7 +1531,9 @@ def karty_lejka(nag, V, E):
         "zakładania konta w Safari",
         wniosek=f"Od kwietnia do września 2026 płatnością kończy się około {z0(dz_k)}% sesji osób, które jeszcze nie "
                 f"kupowały, a w tych samych miesiącach rok wcześniej około {z0(rw_k)}%.",
-        tresc=[punkty([
+        # runda G (przejrzystość): wniosek krótko, rozwinięcie i zastrzeżenie w zwiniętych „Szczegółach”, żeby kroki lejka
+        # były blisko początku zakładki
+        szczegoly=[punkty([
             "Do stycznia 2026 nowe osoby płaciły prawie tak samo często jak rok wcześniej, choć ruchu z nowych kampanii na "
             "L4 przybywało już od listopada 2025. W lutym 2026, gdy ruszył TikTok na L4, sesje nowych kampanii przekroczyły "
             "30% ruchu nowych osób, a od kwietnia to prawie połowa. Te sesje płacą o połowę rzadziej niż pozostałe.",
@@ -1242,10 +1543,10 @@ def karty_lejka(nag, V, E):
             f"jest bez istotnej zmiany.",
             "Liczba płatności nowych osób rośnie, spada tylko ich odsetek.",
             "Safari trzeba naprawić (pozycja 1 listy priorytetów). Do sprawdzenia jest niższa konwersja przeglądarek "
-            "w aplikacjach w remarketingu Meta, kampanii Google Ads na markę i wejściach bezpośrednich (karta niżej)."])],
-        zastrzezenie="Niższa konwersja nie mówi, ilu pacjentów nowe kampanie dokładają, bo nie wiemy, ilu z nich przyszłoby "
-                     "i bez reklamy.",
-        szczegoly=[punkty([
+            "w aplikacjach w remarketingu Meta, kampanii Google Ads na markę i wejściach bezpośrednich (karta niżej)."]),
+            akapit("Zastrzeżenie: niższa konwersja nie mówi, ilu pacjentów nowe kampanie dokładają, bo nie wiemy, ilu z nich "
+                   "przyszłoby i bez reklamy."),
+            punkty([
             f"Ile płacą dziś: od kwietnia do września 2026 płatnością kończy się {proc(dz_k, 2)} z "
             f"{liczba(E['lj_nk_dzis_sesje'])} sesji osób, które jeszcze nie kupowały (od {proc(E['lj_nk_dzis_mies_min'], 2)} "
             f"do {proc(E['lj_nk_dzis_mies_max'], 2)} miesięcznie), a w tych samych miesiącach rok wcześniej "

@@ -31,7 +31,7 @@ SZEROKOSC, WYSOKOSC = 1366, 900
 # zakładka → element, który musi mieć treść, zanim zaczniemy czytać (dane wczytują się po wejściu na zakładkę)
 GOTOWE = {
     "wzrost": "#wz-nowy .karta, #wz-puenta p", "kohorty": "#ko-tabela tbody tr", "lejek": "#lj-tabela tbody tr",
-    "po-zakupie": "#pz-tabela tbody tr", "zdarzenia": "#zd-lista article", "wynik": "#ek-tabela tbody tr",
+    "po-zakupie": "#pz-tabela tbody tr", "zdarzenia": "#zd-lista .zdarzenie", "wynik": "#ek-tabela tbody tr",
     "jakosc": "#jk-mostek tbody tr", "priorytety": "#pr-karty article", "niewiadome": "#nw-tabela tbody tr",
 }
 # tabele, które są w zwijanych sekcjach (wykres nad nimi), są w DOM, ale niewidoczne: czekamy na ich obecność

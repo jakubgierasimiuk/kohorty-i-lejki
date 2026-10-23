@@ -280,3 +280,17 @@ Skrypt: `analiza/g_werdykt.py` → `analiza/wyniki/g_werdykt.txt` i `.json`. Cod
 - **Ile zostaje na pacjencie** (marża w 180 dniach minus koszt pozyskania, pierwsze zakupy 1.10–3.04): nowe kampanie 7,0 zł (2 352 pacjentów, przedział 95% od 5,4 do 8,6 zł), pozostałe kampanie płatne 29,7 zł wobec 31,8 zł rok wcześniej; według sesji z płatnością −5,2 zł, 27,5 i 30,0 zł. Cały rocznik z przybliżeniem: 2,8 zł wobec 26,7 i 30,8 zł.
 - **Miesiąc po miesiącu** (nowe kampanie razem, według pierwszego wejścia): koszt pozyskania rośnie z 27–30 zł (XI 2025 – II 2026) do 33–37 zł (IV–IX 2026), marża w 180 dniach 34–40 zł, wynik od kwietnia od −1,0 do +3,0 zł; II i III kwartał 2026 0,7 i 0,4 zł. **Hipoteza Kuby „od wiosny dokładamy” nie potwierdziła się według pierwszego wejścia** (wychodzimy na zero); Meta na L4 jest na plusie w każdym miesiącu, TikTok na L4 pod kreską od marca 2026 (II kwartał −6,4 zł). Według sesji z płatnością obie kampanie razem tracą od grudnia 2025, od kwietnia od 11,6 do 15,9 zł na pacjencie.
 - **Skąd +27% marży:** 828 085 → 1 048 069 zł (+219 984 zł). 194 434 zł (88,4% przyrostu) to zakupy w drugim roku pacjentów pozyskanych w pierwszym (152 960 zł marży konsultacji, 41 474 zł TelemediGO). Pacjenci pozyskani w danym roku, po kosztach kampanii i prowizji: 828 085 → 853 635 zł (+3,1%), na nowego pacjenta 51,02 → 34,58 zł. Nowe kampanie na L4 w roku pozyskania: +17,3 tys. zł według pierwszego wejścia, −58,3 tys. zł według sesji z płatnością.
+
+## 2026-10-23 — runda G (przejrzystość): kolor zmian w tabelach grup był w większości szumem
+
+Wątpliwość Kuby: przy porównaniu „60 dni przed i po godzinie bez danych” w podziale na pierwszą usługę prawie każda komórka tabeli kohort jest czerwona albo zielona, a grupy mają po 100–500 pacjentów i różnice rzędu 1–3 punktów procentowych. Policzone kodem (`analiza/g_istotnosc.py` → `analiza/wyniki/g_istotnosc.txt`). Wątpliwość się potwierdziła.
+
+- **Przypadek Kuby (kohorty, 60 dni przed i po 17.05.2025, pierwsza usługa):** 48 komórek ze zmianą (powrót w 30, 60, 90 i 180 dniach, marża na pacjenta w 90 i 180 dniach, 8 wierszy). Strona kolorowała 46 z nich. Istotna nie jest żadna. 6 komórek dotyczy małych grup, poniżej 100 pacjentów w którymś okresie.
+- **Kohorty, ustawienia domyślne (ostatnie 12 miesięcy wobec roku wcześniej, nowe kampanie na L4):** 12 komórek, kolorowe 12, istotnych 10. Przy dużych grupach i długich okresach kolor był zwykle uzasadniony.
+- **Kohorty, rok do roku, pierwsza usługa:** 48 komórek, kolorowe 48, istotnych 30.
+- **Kohorty, 60 dni przed i po starcie Meta na L4, kanał:** 54 komórki, kolorowe 53, istotnych 14 (18 w małych grupach).
+- **Lejek, ustawienia domyślne (osoby, które jeszcze nie kupowały, przeglądarka, rok do roku):** 54 komórki, kolorowe 51, istotnych 21.
+- **Lejek, 60 dni przed i po godzinie bez danych, przeglądarka:** 54 komórki, kolorowe 53, istotne 2.
+- **Lejek, 60 dni przed i po awarii Safari, system i przeglądarka:** 138 komórek, kolorowe 136, istotnych 10 (36 w małych grupach).
+
+Wniosek dla strony: kolor oznaczał tylko kierunek różnicy po zaokrągleniu, nie jej pewność. Przy porównaniach 60 dni przed i po i przy drobnych podziałach większość kolorów była szumem. Od rundy G kolor oznacza zmianę większą niż przypadek (założenia 87–88), a strona i Python dają ten sam wynik w każdej sprawdzonej komórce (`notatki/g_przejrzystosc.md`, punkt 5). Pozostałe zmiany są szare, z dopiskiem „bez wyraźnej zmiany”.

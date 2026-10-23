@@ -32,7 +32,7 @@ NARZEDZIE = os.path.join(KATALOG, "narzedzie")
 ZAKLADKI = ["wzrost", "kohorty", "lejek", "po-zakupie", "zdarzenia", "wynik", "jakosc", "priorytety", "niewiadome"]
 GOTOWE = {
     "wzrost": "#wz-nowy .karta, #wz-puenta p", "kohorty": "#ko-tabela tbody tr", "lejek": "#lj-tabela tbody tr",
-    "po-zakupie": "#pz-tabela tbody tr", "zdarzenia": "#zd-lista article", "wynik": "#ek-wykres .wk-wiersz",
+    "po-zakupie": "#pz-tabela tbody tr", "zdarzenia": "#zd-lista .zdarzenie", "wynik": "#ek-wykres .wk-wiersz",
     "jakosc": "#jk-karta-mostek .schodki .wk-wiersz", "priorytety": "#pr-karty article", "niewiadome": "#nw-tabela tbody tr",
 }
 SZEROKOSCI = [(1366, 900), (375, 812)]

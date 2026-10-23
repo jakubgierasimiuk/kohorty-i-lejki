@@ -109,6 +109,99 @@
   }
   function kierunekZnaku(d) { return d > 0 ? "wzrost" : d < 0 ? "spadek" : "bez"; }
 
+  // ------------------------------------------------------------ istotność zmian w tabelach grup (runda G, uwaga Kuby)
+  // „Wyraźna zmiana” = 95% przedział różnicy nie obejmuje zera (przybliżenie normalne, jak w notatkach, założenie 56).
+  // Reszta to „bez wyraźnej zmiany”: szara etykieta, bez koloru oceny. Mała grupa: poniżej MALA_GRUPA w którymś okresie.
+  // Ten sam rachunek w Pythonie: analiza/g_istotnosc.py (kontrola strony porównuje oba wyniki).
+  var Z95 = 1.959963984540054, MALA_GRUPA = 100;
+  function przedzial(d, se) { return { d: d, od: d - Z95 * se, do: d + Z95 * se, wyrazna: d - Z95 * se > 0 || d + Z95 * se < 0 }; }
+  // dwa odsetki (liczniki i mianowniki); wynik w punktach procentowych
+  function roznicaOdsetkow(lA, mA, lB, mB) {
+    if (!mA || !mB) return null;
+    var pA = lA / mA, pB = lB / mB;
+    return przedzial(100 * (pB - pA), 100 * Math.sqrt(pA * (1 - pA) / mA + pB * (1 - pB) / mB));
+  }
+  // dwie średnie z sum i sum kwadratów wartości na pacjenta (marża na pacjenta); wynik w jednostce wartości
+  function roznicaSrednich(sA, kA, nA, sB, kB, nB) {
+    if (nA < 2 || nB < 2) return null;
+    var mA = sA / nA, mB = sB / nB;
+    var vA = Math.max(0, (kA - nA * mA * mA) / (nA - 1)), vB = Math.max(0, (kB - nB * mB * mB) / (nB - 1));
+    return przedzial(mB - mA, Math.sqrt(vA / nA + vB / nB));
+  }
+  // liczby zdarzeń w okresach różnej długości (np. nowi pacjenci dziennie): różnica tempa na dzień
+  function roznicaTempa(nA, dA, nB, dB) {
+    if (!dA || !dB) return null;
+    return przedzial(nB / dB - nA / dA, Math.sqrt(nA / (dA * dA) + nB / (dB * dB)));
+  }
+
+  // etykieta zmiany w tabeli grup: kolor tylko przy wyraźnej zmianie (z.stan: dobrze | zle | wyrazna, ta ostatnia bez oceny
+  // kierunku, np. udział albo liczba pacjentów); bez wyraźnej zmiany szara, z dopiskiem (krotko: bez dopisku, w podpowiedzi)
+  function etykietaIstotnosci(z, krotko) {
+    var s = z.wyrazna ? (z.stan === "wyrazna" ? "neutralnie" : z.stan) : "neutralnie";
+    var e = zmiana(z.tekst, z.kierunek, s, null, { slowo: false });
+    if (z.wyrazna && z.stan === "wyrazna") e.classList.add("zm-wyrazna");
+    if (!z.wyrazna) e.classList.add("zm-szara");
+    return el("span", { class: "tg-etykieta" }, [e, !z.wyrazna && !krotko ? el("span", { class: "tg-bez", text: "bez wyraźnej zmiany" }) : null]);
+  }
+  // objaśnienie pod tabelą grup; o.ocena: czy kolory oceniają kierunek (lepiej / gorzej), o.jednostka: „pacjentów” / „sesji”
+  function legendaIstotnosci(cel, o) {
+    if (!cel) return;
+    o = o || {};
+    while (cel.firstChild) cel.removeChild(cel.firstChild);
+    cel.appendChild(el("span", { text: "Kolor tylko przy zmianie większej niż przypadek (95% przedział zmiany nie obejmuje zera):" }));
+    (o.ocena ? [["wzrost", "dobrze", "lepiej"], ["spadek", "zle", "gorzej"]] : [["wzrost", "wyrazna", "wyraźna zmiana"]]).forEach(function (x) {
+      var z = el("span", { class: "zm zm-" + (x[1] === "wyrazna" ? "neutralnie zm-wyrazna" : x[1]) }, [ikona(x[0]), el("span", { text: x[2] })]);
+      cel.appendChild(z);
+    });
+    cel.appendChild(el("span", { class: "zm zm-neutralnie zm-szara" }, [ikona("bez"), el("span", { text: "bez wyraźnej zmiany" })]));
+    if (!o.bezMalych) {
+      cel.appendChild(el("span", { class: "tg-mala", text: "mała grupa" }));
+      cel.appendChild(el("span", { text: "poniżej " + MALA_GRUPA + " " + (o.jednostka || "pacjentów") + " w którymś okresie." }));
+    }
+    cel.appendChild(el("span", { text: "Przedział zmiany widać po najechaniu na etykietę." }));
+  }
+  // Tabela grup (kohorty, lejek). Tryb „miara”: jedna miara, kolumny: grupa, liczebność (raz na wiersz), wartość w obu
+  // okresach i zmiana. Tryb „wszystkie”: w komórce tylko zmiana dla każdego okna albo kroku, wartości w podpowiedzi.
+  // cfg: {podzial, nazwaN, nazwaA, nazwaB, tryb, kolumny (tryb „wszystkie”), wiersze: [{nazwa, podsuma, mala, n, nTytul,
+  //   wybor: {zaznaczony, kolor, zmien(czy)}, wA, wB, zm: {tekst, kierunek, stan, wyrazna, tytul}, komorki: [{zm, tytul}]}]}
+  function tabelaGrup(t, cfg) {
+    while (t.firstChild) t.removeChild(t.firstChild);
+    var wsz = cfg.tryb === "wszystkie";
+    t.className = "tabela tabela-grup" + (wsz ? " tg-wszystkie" : "");
+    var hr = el("tr", null, [el("th", { scope: "col", text: cfg.podzial }), el("th", { scope: "col", class: "tg-n", text: cfg.nazwaN })]);
+    (wsz ? cfg.kolumny : [cfg.nazwaA, cfg.nazwaB, "Zmiana"]).forEach(function (k, i) {
+      hr.appendChild(el("th", { scope: "col", class: wsz || i === 2 ? "tg-zm" : "tg-w", text: k }));
+    });
+    t.appendChild(el("thead", null, [hr]));
+    var tb = el("tbody");
+    cfg.wiersze.forEach(function (w) {
+      var nazwa = el("span", { class: "tg-nazwa" }, [el("span", { text: w.nazwa }),
+        w.mala ? el("span", { class: "tg-mala", title: "Mała grupa: poniżej " + MALA_GRUPA + " " + (cfg.jednostka || "pacjentów") + " w którymś okresie", text: "mała grupa" }) : null,
+        el("span", { class: "tg-n-tel", text: cfg.nazwaN + ": " + w.n })]);
+      var pierwsza = nazwa;
+      if (w.wybor) {
+        var chk = el("input", { type: "checkbox", "aria-label": "Pokaż na wykresie: " + w.nazwa });
+        chk.checked = !!w.wybor.zaznaczony;
+        chk.onchange = function () { w.wybor.zmien(this.checked, this); };
+        pierwsza = el("label", { class: "wiersz-wybor" }, [chk,
+          el("span", { class: "kropka", style: "background:" + (w.wybor.zaznaczony && w.wybor.kolor ? w.wybor.kolor : "transparent") }), nazwa]);
+      }
+      var tr = el("tr", { class: ((w.podsuma ? "podsuma" : "") + (w.wybor && w.wybor.zaznaczony ? " zaznaczony" : "")).trim() || null },
+        [el("td", null, [pierwsza]), el("td", { class: "tg-n", text: w.n, title: w.nTytul })]);
+      if (wsz) (w.komorki || []).forEach(function (k) {
+        tr.appendChild(el("td", { class: "tg-zm", title: k && k.tytul }, [k && k.zm ? etykietaIstotnosci(k.zm, true) : "—"]));
+      });
+      else {
+        tr.appendChild(el("td", { class: "tg-w", text: w.wA }));
+        tr.appendChild(el("td", { class: "tg-w tg-b", text: w.wB }));
+        tr.appendChild(el("td", { class: "tg-zm", title: w.zm && w.zm.tytul }, [w.zm ? etykietaIstotnosci(w.zm) : "—"]));
+      }
+      tb.appendChild(tr);
+    });
+    t.appendChild(tb);
+    return t;
+  }
+
 
   // ------------------------------------------------------------ wykresy w kartach (HTML i CSS, bez biblioteki)
   // Liczby do podpisów przychodzą z wywołującego już sformatowane (tak jak w tekstach), tu tylko pozycje na osi.
@@ -318,7 +411,7 @@
   // wstawia wykres do karty pod wnioskiem; tabelę z liczbami, którą wykres zastępuje, chowa do zwijanej sekcji
   function wstawWykres(art, wykres, schowajTabele, napis) {
     if (!art || !wykres) return;
-    var w = art.querySelector(".wniosek"), tr = art.querySelector(".tresc");
+    var w = art.querySelector(".znaczy") || art.querySelector(".wniosek"), tr = art.querySelector(".tresc");
     if (w) w.parentNode.insertBefore(wykres, w.nextSibling);
     else if (tr) tr.parentNode.insertBefore(wykres, tr);
     else art.appendChild(wykres);
@@ -412,7 +505,9 @@
   }
   function szczegoly(lista, zrodlo, tytul) {
     if ((!lista || !lista.length) && !zrodlo) return null;
-    var d = el("details", { class: "szczegoly" }, [el("summary", { text: tytul || "Szczegóły" })]);
+    // same źródła bez treści: sekcja nazywa się „Skąd liczby” (runda G: „Szczegóły” bez szczegółów zniechęcają do klikania)
+    var tylkoZrodlo = (!lista || !lista.length) && zrodlo;
+    var d = el("details", { class: "szczegoly" }, [el("summary", { text: tytul || (tylkoZrodlo ? "Skąd liczby" : "Szczegóły") })]);
     var w = el("div", { class: "szczegoly-tresc" });
     bloki(lista, w);
     if (zrodlo) w.appendChild(el("p", { class: "zrodlo", text: "Skąd liczby: " + zrodlo }));
@@ -430,6 +525,8 @@
   function czesci(k, wstawki) {
     var gora = document.createDocumentFragment();
     if (k.wniosek) gora.appendChild(el("p", { class: "wniosek", text: k.wniosek }));
+    // runda G: krok pierwszej zakładki mówi pod odpowiedzią, co ona znaczy dla biznesu
+    if (k.znaczy) gora.appendChild(el("p", { class: "znaczy" }, [el("strong", { text: "Co to znaczy dla biznesu: " }), k.znaczy]));
     if (k.tresc && k.tresc.length) gora.appendChild(bloki(k.tresc, el("div", { class: "tresc" })));
     if (k.wstaw && wstawki && wstawki[k.wstaw]) { var w = wstawki[k.wstaw](); if (w) gora.appendChild(w); }
     var z = zastrzezenie(k.zastrzezenie);
@@ -476,7 +573,9 @@
   function czyKarta(k) { return !!(k && typeof k === "object" && !Array.isArray(k) && (k.tytul || k.wniosek || k.tresc)); }
 
   window.BK = { el: el, ikona: ikona, znacznik: znacznik, pewnosc: pewnosc, pewnoscZNapisu: pewnoscZNapisu,
-    zmiana: zmiana, legendaZmian: legendaZmian, kierunekZnaku: kierunekZnaku, bloki: bloki, tabela: tabela, kafelek: kafelek, kafelki: kafelki,
+    zmiana: zmiana, legendaZmian: legendaZmian, kierunekZnaku: kierunekZnaku, bloki: bloki,
+    roznicaOdsetkow: roznicaOdsetkow, roznicaSrednich: roznicaSrednich, roznicaTempa: roznicaTempa, MALA_GRUPA: MALA_GRUPA,
+    etykietaIstotnosci: etykietaIstotnosci, legendaIstotnosci: legendaIstotnosci, tabelaGrup: tabelaGrup, tabela: tabela, kafelek: kafelek, kafelki: kafelki,
     linki: linki, szczegoly: szczegoly, zastrzezenie: zastrzezenie, karta: karta, kartaW: kartaW, czyKarta: czyKarta,
     tekstKomorki: tekstKomorki, komorkaDzieci: komorkaDzieci, POZIOMY: POZIOMY,
     hantle: hantle, slupkiParami: slupkiParami, slupkiSkumulowane: slupkiSkumulowane, punktyZero: punktyZero, wstawWykres: wstawWykres,

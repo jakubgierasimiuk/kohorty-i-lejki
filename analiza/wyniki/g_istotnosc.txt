@@ -1,0 +1,474 @@
+# G — istotność zmian w tabelach grup („Kohorty” i „Lejek”)
+
+G — ile zmian w tabelach grup „Kohort” i „Lejka” jest większych niż przypadek (uwaga Kuby z 2026-10-23).
+
+Kuba ustawił w „Kohortach” porównanie „60 dni przed i po: godzina bez danych” w podziale na pierwszą usługę i zobaczył,
+że prawie każda komórka tabeli jest czerwona albo zielona, przy grupach po 100–500 pacjentów i różnicach rzędu 1–3
+punktów procentowych. Ten skrypt odtwarza tabele strony z tych samych plików danych, które czyta strona
+(`narzedzie/dane_strony/kohorty.js`, `lejek_*.js`, `zdarzenia.js`), tą samą logiką okresów i okien, i dla każdej komórki
+sprawdza, czy zmiana jest istotna:
+  - odsetki (powrót w oknie, przejścia lejka): 95% przedział różnicy dwóch odsetków w przybliżeniu normalnym nie obejmuje
+    zera (założenie 56);
+  - marża na pacjenta: 95% przedział różnicy dwóch średnich (przybliżenie normalne, wariancje osobno w każdym okresie,
+    z marży pacjent po pacjencie) nie obejmuje zera.
+Dziś strona koloruje każdą komórkę, w której zmiana po zaokrągleniu do jednego miejsca po przecinku nie jest zerem.
+
+Mała grupa: mniej niż 100 pacjentów (w lejku: 100 sesji w mianowniku przejścia) w którymkolwiek okresie porównania.
+
+
+## Kohorty: 60 dni przed i po godzinie bez danych, podział na pierwszą usługę (przypadek Kuby)
+Podział: usluga, porównanie: zd:luka_godzina, okres A 18.03.2025–16.05.2025, okres B 17.05.2025–15.07.2025.
+Komórek ze zmianą: 48. Dziś kolorowe (czerwone albo zielone): 46. Istotne (95% przedział różnicy bez zera): 0. Kolorowe dziś, choć nieistotne: 46. W małych grupach (poniżej 100 w którymś okresie): 6.
+
+| Grupa | n A | n B | Miara | A | B | Zmiana | 95% przedział | Istotna | Kolor dziś | Mała |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Wszyscy wybrani pacjenci | 2763 | 2268 | powrót w 30 dniach | 11.0 | 10.6 | -0.4 | -2.1 do +1.3 | nie | tak |  |
+| Wszyscy wybrani pacjenci | 2763 | 2268 | powrót w 60 dniach | 18.2 | 18.2 | -0.0 | -2.2 do +2.1 | nie | nie |  |
+| Wszyscy wybrani pacjenci | 2763 | 2268 | powrót w 90 dniach | 23.0 | 22.7 | -0.3 | -2.6 do +2.0 | nie | tak |  |
+| Wszyscy wybrani pacjenci | 2763 | 2268 | marża na pacjenta w 90 dniach (zł) | 66.3 | 67.4 | +1.1 | -1.7 do +3.9 | nie | tak |  |
+| Wszyscy wybrani pacjenci | 2763 | 2268 | powrót w 180 dniach | 26.6 | 26.5 | -0.1 | -2.5 do +2.4 | nie | tak |  |
+| Wszyscy wybrani pacjenci | 2763 | 2268 | marża na pacjenta w 180 dniach (zł) | 77.0 | 77.0 | -0.0 | -3.8 do +3.8 | nie | nie |  |
+| Inny specjalista | 507 | 410 | powrót w 30 dniach | 10.5 | 11.5 | +1.0 | -3.1 do +5.1 | nie | tak |  |
+| Inny specjalista | 507 | 410 | powrót w 60 dniach | 15.8 | 19.8 | +4.0 | -1.0 do +9.0 | nie | tak |  |
+| Inny specjalista | 507 | 410 | powrót w 90 dniach | 22.3 | 23.4 | +1.1 | -4.3 do +6.6 | nie | tak |  |
+| Inny specjalista | 507 | 410 | marża na pacjenta w 90 dniach (zł) | 29.5 | 30.6 | +1.1 | -4.7 do +6.9 | nie | tak |  |
+| Inny specjalista | 507 | 410 | powrót w 180 dniach | 26.4 | 26.1 | -0.3 | -6.1 do +5.4 | nie | tak |  |
+| Inny specjalista | 507 | 410 | marża na pacjenta w 180 dniach (zł) | 40.4 | 38.9 | -1.6 | -9.7 do +6.6 | nie | tak |  |
+| Internista: e-recepta | 685 | 569 | powrót w 30 dniach | 11.4 | 11.2 | -0.1 | -3.7 do +3.4 | nie | tak |  |
+| Internista: e-recepta | 685 | 569 | powrót w 60 dniach | 22.3 | 21.8 | -0.5 | -5.2 do +4.1 | nie | tak |  |
+| Internista: e-recepta | 685 | 569 | powrót w 90 dniach | 30.8 | 30.1 | -0.8 | -5.9 do +4.4 | nie | tak |  |
+| Internista: e-recepta | 685 | 569 | marża na pacjenta w 90 dniach (zł) | 85.1 | 86.8 | +1.7 | -3.5 do +7.0 | nie | tak |  |
+| Internista: e-recepta | 685 | 569 | powrót w 180 dniach | 35.6 | 35.5 | -0.1 | -5.4 do +5.2 | nie | tak |  |
+| Internista: e-recepta | 685 | 569 | marża na pacjenta w 180 dniach (zł) | 102.8 | 103.5 | +0.8 | -7.4 do +9.0 | nie | tak |  |
+| Internista: konsultacja | 466 | 382 | powrót w 30 dniach | 12.2 | 12.6 | +0.3 | -4.1 do +4.8 | nie | tak |  |
+| Internista: konsultacja | 466 | 382 | powrót w 60 dniach | 21.0 | 20.2 | -0.9 | -6.3 do +4.6 | nie | tak |  |
+| Internista: konsultacja | 466 | 382 | powrót w 90 dniach | 23.8 | 25.1 | +1.3 | -4.5 do +7.1 | nie | tak |  |
+| Internista: konsultacja | 466 | 382 | marża na pacjenta w 90 dniach (zł) | 79.4 | 80.4 | +1.0 | -4.9 do +6.8 | nie | tak |  |
+| Internista: konsultacja | 466 | 382 | powrót w 180 dniach | 27.3 | 29.6 | +2.3 | -3.8 do +8.4 | nie | tak |  |
+| Internista: konsultacja | 466 | 382 | marża na pacjenta w 180 dniach (zł) | 88.7 | 88.6 | -0.1 | -8.3 do +8.1 | nie | tak |  |
+| Internista: L4 | 605 | 499 | powrót w 30 dniach | 9.4 | 8.2 | -1.2 | -4.6 do +2.1 | nie | tak |  |
+| Internista: L4 | 605 | 499 | powrót w 60 dniach | 14.4 | 13.4 | -1.0 | -5.0 do +3.1 | nie | tak |  |
+| Internista: L4 | 605 | 499 | powrót w 90 dniach | 16.4 | 16.0 | -0.3 | -4.7 do +4.0 | nie | tak |  |
+| Internista: L4 | 605 | 499 | marża na pacjenta w 90 dniach (zł) | 69.7 | 71.0 | +1.3 | -3.6 do +6.3 | nie | tak |  |
+| Internista: L4 | 605 | 499 | powrót w 180 dniach | 18.2 | 17.6 | -0.5 | -5.1 do +4.0 | nie | tak |  |
+| Internista: L4 | 605 | 499 | marża na pacjenta w 180 dniach (zł) | 74.3 | 75.2 | +1.0 | -5.2 do +7.2 | nie | tak |  |
+| Internista: skierowanie | 248 | 213 | powrót w 30 dniach | 11.7 | 8.5 | -3.2 | -8.7 do +2.2 | nie | tak |  |
+| Internista: skierowanie | 248 | 213 | powrót w 60 dniach | 17.3 | 12.2 | -5.1 | -11.6 do +1.3 | nie | tak |  |
+| Internista: skierowanie | 248 | 213 | powrót w 90 dniach | 19.8 | 14.6 | -5.2 | -12.1 do +1.7 | nie | tak |  |
+| Internista: skierowanie | 248 | 213 | marża na pacjenta w 90 dniach (zł) | 76.8 | 75.7 | -1.1 | -9.3 do +7.1 | nie | tak |  |
+| Internista: skierowanie | 248 | 213 | powrót w 180 dniach | 23.4 | 19.2 | -4.1 | -11.6 do +3.3 | nie | tak |  |
+| Internista: skierowanie | 248 | 213 | marża na pacjenta w 180 dniach (zł) | 84.7 | 82.9 | -1.8 | -12.9 do +9.4 | nie | tak |  |
+| Pediatra | 136 | 103 | powrót w 30 dniach | 11.8 | 12.6 | +0.9 | -7.5 do +9.3 | nie | tak |  |
+| Pediatra | 136 | 103 | powrót w 60 dniach | 16.2 | 20.4 | +4.2 | -5.7 do +14.2 | nie | tak |  |
+| Pediatra | 136 | 103 | powrót w 90 dniach | 19.1 | 21.4 | +2.2 | -8.1 do +12.6 | nie | tak |  |
+| Pediatra | 136 | 103 | marża na pacjenta w 90 dniach (zł) | 14.6 | 14.4 | -0.1 | -11.7 do +11.4 | nie | tak |  |
+| Pediatra | 136 | 103 | powrót w 180 dniach | 22.8 | 26.2 | +3.4 | -7.6 do +14.5 | nie | tak |  |
+| Pediatra | 136 | 103 | marża na pacjenta w 180 dniach (zł) | 25.4 | 27.8 | +2.4 | -15.5 do +20.3 | nie | tak |  |
+| Psychiatra | 116 | 92 | powrót w 30 dniach | 11.2 | 9.8 | -1.4 | -9.8 do +6.9 | nie | tak | tak |
+| Psychiatra | 116 | 92 | powrót w 60 dniach | 18.1 | 18.5 | +0.4 | -10.2 do +11.0 | nie | tak | tak |
+| Psychiatra | 116 | 92 | powrót w 90 dniach | 22.4 | 19.6 | -2.8 | -14.0 do +8.3 | nie | tak | tak |
+| Psychiatra | 116 | 92 | marża na pacjenta w 90 dniach (zł) | 84.6 | 78.2 | -6.5 | -22.0 do +9.1 | nie | tak | tak |
+| Psychiatra | 116 | 92 | powrót w 180 dniach | 25.9 | 25.0 | -0.9 | -12.8 do +11.0 | nie | tak | tak |
+| Psychiatra | 116 | 92 | marża na pacjenta w 180 dniach (zł) | 96.5 | 85.8 | -10.7 | -30.1 do +8.6 | nie | tak | tak |
+
+## Kohorty: ustawienia domyślne (ostatnie 12 miesięcy wobec roku wcześniej, nowe kampanie na L4)
+Podział: grupa, porównanie: rok, okres A 1.10.2024–30.09.2025, okres B 1.10.2025–30.09.2026.
+Komórek ze zmianą: 12. Dziś kolorowe (czerwone albo zielone): 12. Istotne (95% przedział różnicy bez zera): 10. Kolorowe dziś, choć nieistotne: 2. W małych grupach (poniżej 100 w którymś okresie): 0.
+
+| Grupa | n A | n B | Miara | A | B | Zmiana | 95% przedział | Istotna | Kolor dziś | Mała |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Wszyscy wybrani pacjenci | 14984 | 22646 | powrót w 30 dniach | 11.0 | 7.8 | -3.2 | -3.8 do -2.6 | tak | tak |  |
+| Wszyscy wybrani pacjenci | 13941 | 20823 | powrót w 60 dniach | 19.1 | 13.7 | -5.4 | -6.2 do -4.6 | tak | tak |  |
+| Wszyscy wybrani pacjenci | 12867 | 18924 | powrót w 90 dniach | 23.9 | 17.4 | -6.5 | -7.4 do -5.6 | tak | tak |  |
+| Wszyscy wybrani pacjenci | 12867 | 18924 | marża na pacjenta w 90 dniach (zł) | 66.6 | 58.3 | -8.3 | -9.4 do -7.2 | tak | tak |  |
+| Wszyscy wybrani pacjenci | 9125 | 12591 | powrót w 180 dniach | 27.5 | 22.2 | -5.2 | -6.4 do -4.1 | tak | tak |  |
+| Wszyscy wybrani pacjenci | 9125 | 12591 | marża na pacjenta w 180 dniach (zł) | 75.5 | 67.7 | -7.8 | -9.5 do -6.0 | tak | tak |  |
+| Pozostałe kampanie i kanały | 14984 | 16228 | powrót w 30 dniach | 11.0 | 10.0 | -1.0 | -1.7 do -0.3 | tak | tak |  |
+| Pozostałe kampanie i kanały | 13941 | 15164 | powrót w 60 dniach | 19.1 | 17.5 | -1.6 | -2.5 do -0.7 | tak | tak |  |
+| Pozostałe kampanie i kanały | 12867 | 14031 | powrót w 90 dniach | 23.9 | 22.0 | -1.9 | -2.9 do -0.9 | tak | tak |  |
+| Pozostałe kampanie i kanały | 12867 | 14031 | marża na pacjenta w 90 dniach (zł) | 66.6 | 66.0 | -0.6 | -1.8 do +0.6 | nie | tak |  |
+| Pozostałe kampanie i kanały | 9125 | 10239 | powrót w 180 dniach | 27.5 | 26.2 | -1.3 | -2.5 do -0.0 | tak | tak |  |
+| Pozostałe kampanie i kanały | 9125 | 10239 | marża na pacjenta w 180 dniach (zł) | 75.5 | 74.7 | -0.8 | -2.7 do +1.1 | nie | tak |  |
+
+## Kohorty: ostatnie 12 miesięcy wobec roku wcześniej, podział na pierwszą usługę
+Podział: usluga, porównanie: rok, okres A 1.10.2024–30.09.2025, okres B 1.10.2025–30.09.2026.
+Komórek ze zmianą: 48. Dziś kolorowe (czerwone albo zielone): 48. Istotne (95% przedział różnicy bez zera): 30. Kolorowe dziś, choć nieistotne: 18. W małych grupach (poniżej 100 w którymś okresie): 0.
+
+| Grupa | n A | n B | Miara | A | B | Zmiana | 95% przedział | Istotna | Kolor dziś | Mała |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Wszyscy wybrani pacjenci | 14984 | 22646 | powrót w 30 dniach | 11.0 | 7.8 | -3.2 | -3.8 do -2.6 | tak | tak |  |
+| Wszyscy wybrani pacjenci | 13941 | 20823 | powrót w 60 dniach | 19.1 | 13.7 | -5.4 | -6.2 do -4.6 | tak | tak |  |
+| Wszyscy wybrani pacjenci | 12867 | 18924 | powrót w 90 dniach | 23.9 | 17.4 | -6.5 | -7.4 do -5.6 | tak | tak |  |
+| Wszyscy wybrani pacjenci | 12867 | 18924 | marża na pacjenta w 90 dniach (zł) | 66.6 | 58.3 | -8.3 | -9.4 do -7.2 | tak | tak |  |
+| Wszyscy wybrani pacjenci | 9125 | 12591 | powrót w 180 dniach | 27.5 | 22.2 | -5.2 | -6.4 do -4.1 | tak | tak |  |
+| Wszyscy wybrani pacjenci | 9125 | 12591 | marża na pacjenta w 180 dniach (zł) | 75.5 | 67.7 | -7.8 | -9.5 do -6.0 | tak | tak |  |
+| Inny specjalista | 2739 | 3195 | powrót w 30 dniach | 11.9 | 10.0 | -1.9 | -3.5 do -0.3 | tak | tak |  |
+| Inny specjalista | 2545 | 2951 | powrót w 60 dniach | 20.1 | 16.1 | -4.0 | -6.1 do -2.0 | tak | tak |  |
+| Inny specjalista | 2325 | 2712 | powrót w 90 dniach | 25.2 | 20.1 | -5.1 | -7.4 do -2.8 | tak | tak |  |
+| Inny specjalista | 2325 | 2712 | marża na pacjenta w 90 dniach (zł) | 30.4 | 25.8 | -4.6 | -7.0 do -2.2 | tak | tak |  |
+| Inny specjalista | 1655 | 1926 | powrót w 180 dniach | 29.4 | 25.0 | -4.4 | -7.3 do -1.5 | tak | tak |  |
+| Inny specjalista | 1655 | 1926 | marża na pacjenta w 180 dniach (zł) | 39.6 | 34.0 | -5.6 | -9.5 do -1.7 | tak | tak |  |
+| Internista: e-recepta | 3738 | 4417 | powrót w 30 dniach | 11.9 | 9.2 | -2.8 | -4.1 do -1.4 | tak | tak |  |
+| Internista: e-recepta | 3447 | 4102 | powrót w 60 dniach | 24.8 | 21.5 | -3.3 | -5.2 do -1.4 | tak | tak |  |
+| Internista: e-recepta | 3206 | 3764 | powrót w 90 dniach | 33.4 | 28.7 | -4.8 | -7.0 do -2.6 | tak | tak |  |
+| Internista: e-recepta | 3206 | 3764 | marża na pacjenta w 90 dniach (zł) | 88.2 | 83.9 | -4.3 | -6.5 do -2.0 | tak | tak |  |
+| Internista: e-recepta | 2245 | 2656 | powrót w 180 dniach | 38.5 | 34.0 | -4.5 | -7.2 do -1.8 | tak | tak |  |
+| Internista: e-recepta | 2245 | 2656 | marża na pacjenta w 180 dniach (zł) | 104.1 | 98.0 | -6.1 | -10.1 do -2.2 | tak | tak |  |
+| Internista: konsultacja | 2483 | 2939 | powrót w 30 dniach | 13.0 | 10.8 | -2.3 | -4.0 do -0.5 | tak | tak |  |
+| Internista: konsultacja | 2333 | 2736 | powrót w 60 dniach | 19.9 | 16.4 | -3.5 | -5.7 do -1.4 | tak | tak |  |
+| Internista: konsultacja | 2157 | 2522 | powrót w 90 dniach | 23.3 | 19.8 | -3.5 | -5.9 do -1.2 | tak | tak |  |
+| Internista: konsultacja | 2157 | 2522 | marża na pacjenta w 90 dniach (zł) | 78.2 | 74.7 | -3.5 | -6.0 do -1.1 | tak | tak |  |
+| Internista: konsultacja | 1531 | 1820 | powrót w 180 dniach | 26.7 | 25.1 | -1.7 | -4.6 do +1.3 | nie | tak |  |
+| Internista: konsultacja | 1531 | 1820 | marża na pacjenta w 180 dniach (zł) | 85.3 | 83.0 | -2.4 | -6.2 do +1.5 | nie | tak |  |
+| Internista: L4 | 3256 | 8736 | powrót w 30 dniach | 7.8 | 4.2 | -3.6 | -4.6 do -2.6 | tak | tak |  |
+| Internista: L4 | 3030 | 7908 | powrót w 60 dniach | 12.3 | 6.7 | -5.6 | -6.9 do -4.4 | tak | tak |  |
+| Internista: L4 | 2795 | 7045 | powrót w 90 dniach | 14.6 | 8.1 | -6.5 | -8.0 do -5.1 | tak | tak |  |
+| Internista: L4 | 2795 | 7045 | marża na pacjenta w 90 dniach (zł) | 67.9 | 51.3 | -16.6 | -18.3 do -14.8 | tak | tak |  |
+| Internista: L4 | 1983 | 4134 | powrót w 180 dniach | 15.5 | 10.9 | -4.6 | -6.4 do -2.7 | tak | tak |  |
+| Internista: L4 | 1983 | 4134 | marża na pacjenta w 180 dniach (zł) | 70.8 | 57.7 | -13.2 | -15.8 do -10.6 | tak | tak |  |
+| Internista: skierowanie | 1352 | 1524 | powrót w 30 dniach | 10.9 | 10.4 | -0.4 | -2.7 do +1.8 | nie | tak |  |
+| Internista: skierowanie | 1250 | 1429 | powrót w 60 dniach | 17.0 | 15.2 | -1.8 | -4.6 do +1.0 | nie | tak |  |
+| Internista: skierowanie | 1161 | 1335 | powrót w 90 dniach | 20.2 | 19.0 | -1.2 | -4.3 do +1.9 | nie | tak |  |
+| Internista: skierowanie | 1161 | 1335 | marża na pacjenta w 90 dniach (zł) | 77.5 | 76.4 | -1.1 | -4.6 do +2.4 | nie | tak |  |
+| Internista: skierowanie | 811 | 977 | powrót w 180 dniach | 23.8 | 21.7 | -2.1 | -6.0 do +1.8 | nie | tak |  |
+| Internista: skierowanie | 811 | 977 | marża na pacjenta w 180 dniach (zł) | 83.7 | 82.5 | -1.2 | -6.6 do +4.1 | nie | tak |  |
+| Pediatra | 776 | 923 | powrót w 30 dniach | 11.2 | 13.5 | +2.3 | -0.8 do +5.5 | nie | tak |  |
+| Pediatra | 732 | 848 | powrót w 60 dniach | 18.6 | 20.9 | +2.3 | -1.6 do +6.2 | nie | tak |  |
+| Pediatra | 673 | 776 | powrót w 90 dniach | 22.3 | 24.6 | +2.3 | -2.0 do +6.7 | nie | tak |  |
+| Pediatra | 673 | 776 | marża na pacjenta w 90 dniach (zł) | 13.9 | 16.3 | +2.4 | -2.4 do +7.2 | nie | tak |  |
+| Pediatra | 506 | 554 | powrót w 180 dniach | 26.9 | 30.0 | +3.1 | -2.3 do +8.5 | nie | tak |  |
+| Pediatra | 506 | 554 | marża na pacjenta w 180 dniach (zł) | 25.0 | 25.3 | +0.3 | -7.5 do +8.0 | nie | tak |  |
+| Psychiatra | 640 | 912 | powrót w 30 dniach | 10.3 | 8.9 | -1.4 | -4.4 do +1.6 | nie | tak |  |
+| Psychiatra | 604 | 849 | powrót w 60 dniach | 17.9 | 15.8 | -2.1 | -6.0 do +1.8 | nie | tak |  |
+| Psychiatra | 550 | 770 | powrót w 90 dniach | 22.5 | 19.9 | -2.7 | -7.2 do +1.8 | nie | tak |  |
+| Psychiatra | 550 | 770 | marża na pacjenta w 90 dniach (zł) | 83.5 | 69.1 | -14.4 | -22.5 do -6.4 | tak | tak |  |
+| Psychiatra | 394 | 524 | powrót w 180 dniach | 27.9 | 24.6 | -3.3 | -9.1 do +2.5 | nie | tak |  |
+| Psychiatra | 394 | 524 | marża na pacjenta w 180 dniach (zł) | 95.5 | 80.9 | -14.6 | -25.8 do -3.3 | tak | tak |  |
+
+## Kohorty: 60 dni przed i po starcie kampanii Meta na L4, podział na źródło (kanał)
+Podział: kanal, porównanie: zd:start_meta_l4, okres A 4.09.2025–2.11.2025, okres B 3.11.2025–1.01.2026.
+Komórek ze zmianą: 54. Dziś kolorowe (czerwone albo zielone): 53. Istotne (95% przedział różnicy bez zera): 14. Kolorowe dziś, choć nieistotne: 39. W małych grupach (poniżej 100 w którymś okresie): 18.
+
+| Grupa | n A | n B | Miara | A | B | Zmiana | 95% przedział | Istotna | Kolor dziś | Mała |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Wszyscy wybrani pacjenci | 2546 | 3568 | powrót w 30 dniach | 10.3 | 9.1 | -1.2 | -2.7 do +0.4 | nie | tak |  |
+| Wszyscy wybrani pacjenci | 2546 | 3568 | powrót w 60 dniach | 19.0 | 15.7 | -3.3 | -5.3 do -1.4 | tak | tak |  |
+| Wszyscy wybrani pacjenci | 2546 | 3568 | powrót w 90 dniach | 23.6 | 19.5 | -4.1 | -6.2 do -2.0 | tak | tak |  |
+| Wszyscy wybrani pacjenci | 2546 | 3568 | marża na pacjenta w 90 dniach (zł) | 67.5 | 61.3 | -6.2 | -8.8 do -3.6 | tak | tak |  |
+| Wszyscy wybrani pacjenci | 2546 | 3568 | powrót w 180 dniach | 27.6 | 22.8 | -4.8 | -7.0 do -2.6 | tak | tak |  |
+| Wszyscy wybrani pacjenci | 2546 | 3568 | marża na pacjenta w 180 dniach (zł) | 76.9 | 68.3 | -8.6 | -11.9 do -5.2 | tak | tak |  |
+| Afiliacja (ranking lekarzy) | 84 | 104 | powrót w 30 dniach | 3.6 | 8.7 | +5.1 | -1.6 do +11.8 | nie | tak | tak |
+| Afiliacja (ranking lekarzy) | 84 | 104 | powrót w 60 dniach | 15.5 | 13.5 | -2.0 | -12.2 do +8.1 | nie | tak | tak |
+| Afiliacja (ranking lekarzy) | 84 | 104 | powrót w 90 dniach | 16.7 | 17.3 | +0.6 | -10.1 do +11.4 | nie | tak | tak |
+| Afiliacja (ranking lekarzy) | 84 | 104 | marża na pacjenta w 90 dniach (zł) | 55.9 | 55.5 | -0.4 | -13.8 do +12.9 | nie | tak | tak |
+| Afiliacja (ranking lekarzy) | 84 | 104 | powrót w 180 dniach | 20.2 | 19.2 | -1.0 | -12.5 do +10.4 | nie | tak | tak |
+| Afiliacja (ranking lekarzy) | 84 | 104 | marża na pacjenta w 180 dniach (zł) | 66.3 | 59.1 | -7.1 | -24.2 do +10.0 | nie | tak | tak |
+| Wejścia bezpośrednie | 498 | 612 | powrót w 30 dniach | 12.7 | 11.6 | -1.0 | -4.9 do +2.8 | nie | tak |  |
+| Wejścia bezpośrednie | 498 | 612 | powrót w 60 dniach | 21.9 | 18.5 | -3.4 | -8.2 do +1.3 | nie | tak |  |
+| Wejścia bezpośrednie | 498 | 612 | powrót w 90 dniach | 28.5 | 23.2 | -5.3 | -10.5 do -0.1 | tak | tak |  |
+| Wejścia bezpośrednie | 498 | 612 | marża na pacjenta w 90 dniach (zł) | 72.7 | 70.6 | -2.0 | -8.7 do +4.6 | nie | tak |  |
+| Wejścia bezpośrednie | 498 | 612 | powrót w 180 dniach | 33.3 | 27.9 | -5.4 | -10.8 do +0.1 | nie | tak |  |
+| Wejścia bezpośrednie | 498 | 612 | marża na pacjenta w 180 dniach (zł) | 83.0 | 79.7 | -3.3 | -11.9 do +5.2 | nie | tak |  |
+| Google Ads: hasło marki | 270 | 372 | powrót w 30 dniach | 10.0 | 9.4 | -0.6 | -5.2 do +4.1 | nie | tak |  |
+| Google Ads: hasło marki | 270 | 372 | powrót w 60 dniach | 17.0 | 19.6 | +2.6 | -3.4 do +8.6 | nie | tak |  |
+| Google Ads: hasło marki | 270 | 372 | powrót w 90 dniach | 20.0 | 25.5 | +5.5 | -1.0 do +12.0 | nie | tak |  |
+| Google Ads: hasło marki | 270 | 372 | marża na pacjenta w 90 dniach (zł) | 66.8 | 65.3 | -1.5 | -9.5 do +6.4 | nie | tak |  |
+| Google Ads: hasło marki | 270 | 372 | powrót w 180 dniach | 25.2 | 29.6 | +4.4 | -2.6 do +11.3 | nie | tak |  |
+| Google Ads: hasło marki | 270 | 372 | marża na pacjenta w 180 dniach (zł) | 77.0 | 75.5 | -1.4 | -11.7 do +8.8 | nie | tak |  |
+| Google Ads: hasła ogólne | 867 | 1013 | powrót w 30 dniach | 9.8 | 9.8 | -0.0 | -2.7 do +2.7 | nie | nie |  |
+| Google Ads: hasła ogólne | 867 | 1013 | powrót w 60 dniach | 17.9 | 16.7 | -1.2 | -4.6 do +2.2 | nie | tak |  |
+| Google Ads: hasła ogólne | 867 | 1013 | powrót w 90 dniach | 22.3 | 20.7 | -1.5 | -5.3 do +2.2 | nie | tak |  |
+| Google Ads: hasła ogólne | 867 | 1013 | marża na pacjenta w 90 dniach (zł) | 64.4 | 63.7 | -0.7 | -5.4 do +4.0 | nie | tak |  |
+| Google Ads: hasła ogólne | 867 | 1013 | powrót w 180 dniach | 26.0 | 23.4 | -2.6 | -6.5 do +1.4 | nie | tak |  |
+| Google Ads: hasła ogólne | 867 | 1013 | marża na pacjenta w 180 dniach (zł) | 73.7 | 71.4 | -2.3 | -8.3 do +3.7 | nie | tak |  |
+| Meta: pozyskanie | 166 | 600 | powrót w 30 dniach | 4.8 | 3.7 | -1.2 | -4.7 do +2.4 | nie | tak |  |
+| Meta: pozyskanie | 166 | 600 | powrót w 60 dniach | 12.7 | 6.7 | -6.0 | -11.4 do -0.5 | tak | tak |  |
+| Meta: pozyskanie | 166 | 600 | powrót w 90 dniach | 18.1 | 8.0 | -10.1 | -16.3 do -3.8 | tak | tak |  |
+| Meta: pozyskanie | 166 | 600 | marża na pacjenta w 90 dniach (zł) | 61.6 | 44.2 | -17.4 | -24.8 do -10.0 | tak | tak |  |
+| Meta: pozyskanie | 166 | 600 | powrót w 180 dniach | 20.5 | 8.5 | -12.0 | -18.5 do -5.4 | tak | tak |  |
+| Meta: pozyskanie | 166 | 600 | marża na pacjenta w 180 dniach (zł) | 67.7 | 45.7 | -22.0 | -31.0 do -13.0 | tak | tak |  |
+| Meta: remarketing | 22 | 22 | powrót w 30 dniach | 9.1 | 0.0 | -9.1 | -21.1 do +2.9 | nie | tak | tak |
+| Meta: remarketing | 22 | 22 | powrót w 60 dniach | 18.2 | 4.5 | -13.6 | -32.0 do +4.7 | nie | tak | tak |
+| Meta: remarketing | 22 | 22 | powrót w 90 dniach | 27.3 | 4.5 | -22.7 | -43.3 do -2.2 | tak | tak | tak |
+| Meta: remarketing | 22 | 22 | marża na pacjenta w 90 dniach (zł) | 71.6 | 41.4 | -30.2 | -62.5 do +2.1 | nie | tak | tak |
+| Meta: remarketing | 22 | 22 | powrót w 180 dniach | 31.8 | 9.1 | -22.7 | -45.6 do +0.1 | nie | tak | tak |
+| Meta: remarketing | 22 | 22 | marża na pacjenta w 180 dniach (zł) | 72.4 | 47.2 | -25.2 | -60.2 do +9.7 | nie | tak | tak |
+| Program poleceń | 101 | 98 | powrót w 30 dniach | 13.9 | 12.2 | -1.6 | -11.0 do +7.7 | nie | tak | tak |
+| Program poleceń | 101 | 98 | powrót w 60 dniach | 20.8 | 19.4 | -1.4 | -12.5 do +9.7 | nie | tak | tak |
+| Program poleceń | 101 | 98 | powrót w 90 dniach | 26.7 | 23.5 | -3.3 | -15.3 do +8.8 | nie | tak | tak |
+| Program poleceń | 101 | 98 | marża na pacjenta w 90 dniach (zł) | 68.3 | 63.5 | -4.8 | -18.2 do +8.5 | nie | tak | tak |
+| Program poleceń | 101 | 98 | powrót w 180 dniach | 29.7 | 28.6 | -1.1 | -13.8 do +11.5 | nie | tak | tak |
+| Program poleceń | 101 | 98 | marża na pacjenta w 180 dniach (zł) | 75.0 | 70.9 | -4.1 | -20.4 do +12.2 | nie | tak | tak |
+| Wyszukiwarka bezpłatna | 538 | 747 | powrót w 30 dniach | 11.2 | 10.4 | -0.7 | -4.2 do +2.7 | nie | tak |  |
+| Wyszukiwarka bezpłatna | 538 | 747 | powrót w 60 dniach | 21.4 | 17.5 | -3.8 | -8.2 do +0.6 | nie | tak |  |
+| Wyszukiwarka bezpłatna | 538 | 747 | powrót w 90 dniach | 24.9 | 21.2 | -3.8 | -8.4 do +0.9 | nie | tak |  |
+| Wyszukiwarka bezpłatna | 538 | 747 | marża na pacjenta w 90 dniach (zł) | 71.5 | 63.4 | -8.1 | -13.8 do -2.4 | tak | tak |  |
+| Wyszukiwarka bezpłatna | 538 | 747 | powrót w 180 dniach | 28.8 | 25.8 | -3.0 | -7.9 do +2.0 | nie | tak |  |
+| Wyszukiwarka bezpłatna | 538 | 747 | marża na pacjenta w 180 dniach (zł) | 81.4 | 71.0 | -10.3 | -17.5 do -3.2 | tak | tak |  |
+
+## Lejek: ustawienia domyślne (osoby, które jeszcze nie kupowały, przeglądarka, rok do roku)
+Podział: przegladarka, porównanie: rok, okres A 1.10.2024–30.09.2025, okres B 1.10.2025–30.09.2026.
+Komórek ze zmianą: 54. Dziś kolorowe (czerwone albo zielone): 51. Istotne (95% przedział różnicy bez zera): 21. Kolorowe dziś, choć nieistotne: 30. W małych grupach (poniżej 100 w którymś okresie): 0.
+
+| Grupa | n A | n B | Miara | A | B | Zmiana | 95% przedział | Istotna | Kolor dziś | Mała |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Razem | 144813 | 265264 | Wybór usługi | 33.7 | 30.6 | -3.0 | -3.3 do -2.7 | tak | tak |  |
+| Razem | 48753 | 81294 | Wybór terminu | 67.5 | 65.8 | -1.6 | -2.1 do -1.1 | tak | tak |  |
+| Razem | 32890 | 53527 | Logowanie albo konto | 66.4 | 62.6 | -3.7 | -4.4 do -3.1 | tak | tak |  |
+| Razem | 21826 | 33525 | Wejście na płatność | 83.4 | 83.0 | -0.4 | -1.0 do +0.2 | nie | tak |  |
+| Razem | 18203 | 27824 | Płatność przyjęta | 89.2 | 88.7 | -0.5 | -1.0 do +0.1 | nie | tak |  |
+| Razem | 144813 | 265264 | Sesja do płatności | 11.2 | 9.3 | -1.9 | -2.1 do -1.7 | tak | tak |  |
+| Chrome | 69541 | 88809 | Wybór usługi | 35.4 | 34.3 | -1.2 | -1.6 do -0.7 | tak | tak |  |
+| Chrome | 24650 | 30448 | Wybór terminu | 68.6 | 68.2 | -0.4 | -1.2 do +0.4 | nie | tak |  |
+| Chrome | 16904 | 20760 | Logowanie albo konto | 66.8 | 66.3 | -0.5 | -1.5 do +0.4 | nie | tak |  |
+| Chrome | 11295 | 13758 | Wejście na płatność | 83.8 | 83.7 | -0.1 | -1.0 do +0.8 | nie | tak |  |
+| Chrome | 9462 | 11513 | Płatność przyjęta | 89.1 | 89.0 | -0.1 | -0.9 do +0.8 | nie | tak |  |
+| Chrome | 69541 | 88809 | Sesja do płatności | 12.1 | 11.5 | -0.6 | -0.9 do -0.3 | tak | tak |  |
+| Safari | 32475 | 43095 | Wybór usługi | 35.9 | 35.0 | -0.9 | -1.6 do -0.3 | tak | tak |  |
+| Safari | 11662 | 15067 | Wybór terminu | 68.1 | 67.7 | -0.3 | -1.4 do +0.8 | nie | tak |  |
+| Safari | 7936 | 10205 | Logowanie albo konto | 66.9 | 56.7 | -10.1 | -11.6 do -8.7 | tak | tak |  |
+| Safari | 5308 | 5791 | Wejście na płatność | 83.1 | 83.1 | -0.0 | -1.4 do +1.4 | nie | nie |  |
+| Safari | 4413 | 4813 | Płatność przyjęta | 89.4 | 88.5 | -0.9 | -2.2 do +0.4 | nie | tak |  |
+| Safari | 32475 | 43095 | Sesja do płatności | 12.2 | 9.9 | -2.3 | -2.7 do -1.8 | tak | tak |  |
+| Instagram (w aplikacji) | 9452 | 39417 | Wybór usługi | 18.5 | 24.9 | +6.5 | +5.6 do +7.4 | tak | tak |  |
+| Instagram (w aplikacji) | 1745 | 9823 | Wybór terminu | 55.9 | 60.6 | +4.7 | +2.2 do +7.3 | tak | tak |  |
+| Instagram (w aplikacji) | 975 | 5954 | Logowanie albo konto | 56.0 | 60.0 | +4.0 | +0.7 do +7.4 | tak | tak |  |
+| Instagram (w aplikacji) | 546 | 3573 | Wejście na płatność | 77.1 | 81.4 | +4.3 | +0.6 do +8.1 | tak | tak |  |
+| Instagram (w aplikacji) | 421 | 2909 | Płatność przyjęta | 86.0 | 88.9 | +2.9 | -0.6 do +6.5 | nie | tak |  |
+| Instagram (w aplikacji) | 9452 | 39417 | Sesja do płatności | 3.8 | 6.6 | +2.7 | +2.3 do +3.2 | tak | tak |  |
+| Facebook (w aplikacji) | 6788 | 28487 | Wybór usługi | 18.9 | 24.8 | +5.9 | +4.8 do +6.9 | tak | tak |  |
+| Facebook (w aplikacji) | 1283 | 7057 | Wybór terminu | 53.9 | 60.4 | +6.5 | +3.5 do +9.5 | tak | tak |  |
+| Facebook (w aplikacji) | 691 | 4259 | Logowanie albo konto | 56.2 | 59.5 | +3.4 | -0.6 do +7.4 | nie | tak |  |
+| Facebook (w aplikacji) | 388 | 2536 | Wejście na płatność | 80.9 | 81.9 | +1.0 | -3.2 do +5.2 | nie | tak |  |
+| Facebook (w aplikacji) | 314 | 2077 | Płatność przyjęta | 87.6 | 89.1 | +1.5 | -2.3 do +5.4 | nie | tak |  |
+| Facebook (w aplikacji) | 6788 | 28487 | Sesja do płatności | 4.1 | 6.5 | +2.4 | +1.9 do +3.0 | tak | tak |  |
+| Samsung Internet | 11627 | 15157 | Wybór usługi | 35.3 | 33.5 | -1.7 | -2.9 do -0.6 | tak | tak |  |
+| Samsung Internet | 4102 | 5085 | Wybór terminu | 67.4 | 68.8 | +1.4 | -0.6 do +3.3 | nie | tak |  |
+| Samsung Internet | 2765 | 3497 | Logowanie albo konto | 68.1 | 66.1 | -2.0 | -4.4 do +0.3 | nie | tak |  |
+| Samsung Internet | 1884 | 2312 | Wejście na płatność | 83.3 | 83.7 | +0.4 | -1.9 do +2.6 | nie | tak |  |
+| Samsung Internet | 1570 | 1935 | Płatność przyjęta | 89.1 | 88.9 | -0.2 | -2.3 do +1.9 | nie | tak |  |
+| Samsung Internet | 11627 | 15157 | Sesja do płatności | 12.0 | 11.3 | -0.7 | -1.5 do +0.1 | nie | tak |  |
+| Firefox | 6751 | 8617 | Wybór usługi | 35.3 | 35.5 | +0.2 | -1.3 do +1.7 | nie | tak |  |
+| Firefox | 2381 | 3055 | Wybór terminu | 67.6 | 68.0 | +0.4 | -2.1 do +2.9 | nie | tak |  |
+| Firefox | 1610 | 2077 | Logowanie albo konto | 67.1 | 67.2 | +0.1 | -3.0 do +3.1 | nie | tak |  |
+| Firefox | 1081 | 1396 | Wejście na płatność | 84.6 | 83.2 | -1.4 | -4.3 do +1.5 | nie | tak |  |
+| Firefox | 914 | 1161 | Płatność przyjęta | 89.5 | 89.8 | +0.3 | -2.3 do +3.0 | nie | tak |  |
+| Firefox | 6751 | 8617 | Sesja do płatności | 12.1 | 12.1 | -0.0 | -1.1 do +1.0 | nie | nie |  |
+| Edge | 6131 | 7659 | Wybór usługi | 36.0 | 34.3 | -1.7 | -3.3 do -0.1 | tak | tak |  |
+| Edge | 2207 | 2624 | Wybór terminu | 69.2 | 68.4 | -0.9 | -3.5 do +1.8 | nie | tak |  |
+| Edge | 1528 | 1794 | Logowanie albo konto | 65.2 | 66.6 | +1.4 | -1.9 do +4.6 | nie | tak |  |
+| Edge | 997 | 1195 | Wejście na płatność | 85.2 | 82.8 | -2.3 | -5.4 do +0.8 | nie | tak |  |
+| Edge | 849 | 990 | Płatność przyjęta | 89.9 | 87.5 | -2.4 | -5.3 do +0.5 | nie | tak |  |
+| Edge | 6131 | 7659 | Sesja do płatności | 12.4 | 11.3 | -1.1 | -2.2 do -0.0 | tak | tak |  |
+| Opera | 2048 | 2564 | Wybór usługi | 35.3 | 34.5 | -0.8 | -3.6 do +1.9 | nie | tak |  |
+| Opera | 723 | 884 | Wybór terminu | 66.5 | 70.4 | +3.8 | -0.7 do +8.4 | nie | tak |  |
+| Opera | 481 | 622 | Logowanie albo konto | 68.0 | 63.0 | -5.0 | -10.6 do +0.7 | nie | tak |  |
+| Opera | 327 | 392 | Wejście na płatność | 79.5 | 86.2 | +6.7 | +1.2 do +12.3 | tak | tak |  |
+| Opera | 260 | 338 | Płatność przyjęta | 90.8 | 87.6 | -3.2 | -8.2 do +1.8 | nie | tak |  |
+| Opera | 2048 | 2564 | Sesja do płatności | 11.5 | 11.5 | +0.0 | -1.8 do +1.9 | nie | nie |  |
+
+## Lejek: 60 dni przed i po godzinie bez danych, przeglądarka
+Podział: przegladarka, porównanie: zd:luka_godzina, okres A 18.03.2025–16.05.2025, okres B 17.05.2025–15.07.2025.
+Komórek ze zmianą: 54. Dziś kolorowe (czerwone albo zielone): 53. Istotne (95% przedział różnicy bez zera): 2. Kolorowe dziś, choć nieistotne: 51. W małych grupach (poniżej 100 w którymś okresie): 7.
+
+| Grupa | n A | n B | Miara | A | B | Zmiana | 95% przedział | Istotna | Kolor dziś | Mała |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Razem | 25108 | 20479 | Wybór usługi | 33.6 | 33.6 | +0.0 | -0.8 do +0.9 | nie | nie |  |
+| Razem | 8433 | 6887 | Wybór terminu | 67.2 | 68.1 | +0.9 | -0.6 do +2.4 | nie | tak |  |
+| Razem | 5665 | 4688 | Logowanie albo konto | 66.5 | 65.8 | -0.7 | -2.6 do +1.1 | nie | tak |  |
+| Razem | 3767 | 3083 | Wejście na płatność | 82.3 | 83.1 | +0.8 | -1.0 do +2.6 | nie | tak |  |
+| Razem | 3102 | 2563 | Płatność przyjęta | 89.1 | 88.5 | -0.6 | -2.2 do +1.1 | nie | tak |  |
+| Razem | 25108 | 20479 | Sesja do płatności | 11.0 | 11.1 | +0.1 | -0.5 do +0.6 | nie | tak |  |
+| Chrome | 12010 | 9744 | Wybór usługi | 35.6 | 35.3 | -0.3 | -1.6 do +1.0 | nie | tak |  |
+| Chrome | 4271 | 3436 | Wybór terminu | 68.6 | 69.6 | +1.0 | -1.1 do +3.1 | nie | tak |  |
+| Chrome | 2931 | 2392 | Logowanie albo konto | 66.8 | 66.2 | -0.6 | -3.1 do +2.0 | nie | tak |  |
+| Chrome | 1957 | 1583 | Wejście na płatność | 83.2 | 84.1 | +0.9 | -1.6 do +3.3 | nie | tak |  |
+| Chrome | 1628 | 1331 | Płatność przyjęta | 90.3 | 87.8 | -2.5 | -4.7 do -0.2 | tak | tak |  |
+| Chrome | 12010 | 9744 | Sesja do płatności | 12.2 | 12.0 | -0.2 | -1.1 do +0.6 | nie | tak |  |
+| Safari | 5757 | 4561 | Wybór usługi | 35.4 | 36.5 | +1.2 | -0.7 do +3.0 | nie | tak |  |
+| Safari | 2037 | 1667 | Wybór terminu | 67.7 | 68.6 | +0.9 | -2.1 do +3.9 | nie | tak |  |
+| Safari | 1380 | 1144 | Logowanie albo konto | 66.7 | 66.5 | -0.1 | -3.8 do +3.6 | nie | tak |  |
+| Safari | 920 | 761 | Wejście na płatność | 81.8 | 82.4 | +0.5 | -3.1 do +4.2 | nie | tak |  |
+| Safari | 753 | 627 | Płatność przyjęta | 86.6 | 89.6 | +3.0 | -0.4 do +6.5 | nie | tak |  |
+| Safari | 5757 | 4561 | Sesja do płatności | 11.3 | 12.3 | +1.0 | -0.3 do +2.3 | nie | tak |  |
+| Samsung Internet | 1970 | 1555 | Wybór usługi | 36.4 | 34.9 | -1.5 | -4.7 do +1.7 | nie | tak |  |
+| Samsung Internet | 717 | 543 | Wybór terminu | 64.3 | 67.8 | +3.5 | -1.8 do +8.7 | nie | tak |  |
+| Samsung Internet | 461 | 368 | Logowanie albo konto | 67.5 | 67.4 | -0.1 | -6.5 do +6.4 | nie | tak |  |
+| Samsung Internet | 311 | 248 | Wejście na płatność | 81.4 | 84.7 | +3.3 | -2.9 do +9.6 | nie | tak |  |
+| Samsung Internet | 253 | 210 | Płatność przyjęta | 87.7 | 86.7 | -1.1 | -7.2 do +5.0 | nie | tak |  |
+| Samsung Internet | 1970 | 1555 | Sesja do płatności | 11.3 | 11.7 | +0.4 | -1.7 do +2.6 | nie | tak |  |
+| Instagram (w aplikacji) | 1609 | 1480 | Wybór usługi | 17.4 | 18.8 | +1.4 | -1.3 do +4.1 | nie | tak |  |
+| Instagram (w aplikacji) | 280 | 278 | Wybór terminu | 57.9 | 60.1 | +2.2 | -5.9 do +10.4 | nie | tak |  |
+| Instagram (w aplikacji) | 162 | 167 | Logowanie albo konto | 58.0 | 60.5 | +2.5 | -8.2 do +13.1 | nie | tak |  |
+| Instagram (w aplikacji) | 94 | 101 | Wejście na płatność | 74.5 | 77.2 | +2.8 | -9.3 do +14.8 | nie | tak | tak |
+| Instagram (w aplikacji) | 70 | 78 | Płatność przyjęta | 82.9 | 91.0 | +8.2 | -2.7 do +19.0 | nie | tak | tak |
+| Instagram (w aplikacji) | 1609 | 1480 | Sesja do płatności | 3.6 | 4.8 | +1.2 | -0.2 do +2.6 | nie | tak |  |
+| Facebook (w aplikacji) | 1121 | 1125 | Wybór usługi | 16.6 | 18.7 | +2.1 | -1.1 do +5.2 | nie | tak |  |
+| Facebook (w aplikacji) | 186 | 210 | Wybór terminu | 55.9 | 53.8 | -2.1 | -11.9 do +7.7 | nie | tak |  |
+| Facebook (w aplikacji) | 104 | 113 | Logowanie albo konto | 62.5 | 61.9 | -0.6 | -13.5 do +12.4 | nie | tak |  |
+| Facebook (w aplikacji) | 65 | 70 | Wejście na płatność | 76.9 | 78.6 | +1.6 | -12.4 do +15.7 | nie | tak | tak |
+| Facebook (w aplikacji) | 50 | 55 | Płatność przyjęta | 88.0 | 89.1 | +1.1 | -11.1 do +13.3 | nie | tak | tak |
+| Facebook (w aplikacji) | 1121 | 1125 | Sesja do płatności | 3.9 | 4.4 | +0.4 | -1.2 do +2.1 | nie | tak |  |
+| Firefox | 1179 | 926 | Wybór usługi | 34.9 | 35.7 | +0.8 | -3.3 do +4.9 | nie | tak |  |
+| Firefox | 412 | 331 | Wybór terminu | 67.2 | 66.5 | -0.8 | -7.6 do +6.0 | nie | tak |  |
+| Firefox | 277 | 220 | Logowanie albo konto | 66.4 | 60.0 | -6.4 | -15.0 do +2.1 | nie | tak |  |
+| Firefox | 184 | 132 | Wejście na płatność | 85.3 | 85.6 | +0.3 | -7.6 do +8.2 | nie | tak |  |
+| Firefox | 157 | 113 | Płatność przyjęta | 91.7 | 85.8 | -5.9 | -13.6 do +1.9 | nie | tak |  |
+| Firefox | 1179 | 926 | Sesja do płatności | 12.2 | 10.5 | -1.7 | -4.5 do +1.0 | nie | tak |  |
+| Edge | 1087 | 813 | Wybór usługi | 36.3 | 39.4 | +3.0 | -1.4 do +7.4 | nie | tak |  |
+| Edge | 395 | 320 | Wybór terminu | 66.3 | 71.2 | +4.9 | -1.9 do +11.7 | nie | tak |  |
+| Edge | 262 | 228 | Logowanie albo konto | 66.8 | 65.4 | -1.4 | -9.8 do +7.0 | nie | tak |  |
+| Edge | 175 | 149 | Wejście na płatność | 82.3 | 78.5 | -3.8 | -12.4 do +4.9 | nie | tak |  |
+| Edge | 144 | 117 | Płatność przyjęta | 91.7 | 90.6 | -1.1 | -8.0 do +5.9 | nie | tak |  |
+| Edge | 1087 | 813 | Sesja do płatności | 12.1 | 13.0 | +0.9 | -2.1 do +3.9 | nie | tak |  |
+| Opera | 375 | 275 | Wybór usługi | 36.0 | 37.1 | +1.1 | -6.4 do +8.6 | nie | tak |  |
+| Opera | 135 | 102 | Wybór terminu | 65.2 | 54.9 | -10.3 | -22.8 do +2.3 | nie | tak |  |
+| Opera | 88 | 56 | Logowanie albo konto | 69.3 | 69.6 | +0.3 | -15.1 do +15.7 | nie | tak | tak |
+| Opera | 61 | 39 | Wejście na płatność | 77.0 | 82.1 | +5.0 | -11.0 do +21.0 | nie | tak | tak |
+| Opera | 47 | 32 | Płatność przyjęta | 87.2 | 100.0 | +12.8 | +3.2 do +22.3 | tak | tak | tak |
+| Opera | 375 | 275 | Sesja do płatności | 10.9 | 11.6 | +0.7 | -4.2 do +5.6 | nie | tak |  |
+
+## Lejek: 60 dni przed i po awarii Safari, system i przeglądarka
+Podział: system_przegladarka, porównanie: zd:safari_ios, okres A 16.01.2026–16.03.2026, okres B 17.03.2026–15.05.2026.
+Komórek ze zmianą: 138. Dziś kolorowe (czerwone albo zielone): 136. Istotne (95% przedział różnicy bez zera): 10. Kolorowe dziś, choć nieistotne: 126. W małych grupach (poniżej 100 w którymś okresie): 36.
+
+| Grupa | n A | n B | Miara | A | B | Zmiana | 95% przedział | Istotna | Kolor dziś | Mała |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Razem | 48995 | 52216 | Wybór usługi | 32.0 | 29.9 | -2.0 | -2.6 do -1.5 | tak | tak |  |
+| Razem | 15666 | 15630 | Wybór terminu | 66.3 | 65.5 | -0.8 | -1.8 do +0.3 | nie | tak |  |
+| Razem | 10392 | 10245 | Logowanie albo konto | 65.1 | 60.6 | -4.4 | -5.8 do -3.1 | tak | tak |  |
+| Razem | 6761 | 6210 | Wejście na płatność | 83.2 | 83.2 | +0.0 | -1.3 do +1.3 | nie | nie |  |
+| Razem | 5622 | 5164 | Płatność przyjęta | 89.2 | 88.5 | -0.7 | -1.9 do +0.5 | nie | tak |  |
+| Razem | 48995 | 52216 | Sesja do płatności | 10.2 | 8.8 | -1.5 | -1.8 do -1.1 | tak | tak |  |
+| Chrome na Androidzie | 11173 | 10183 | Wybór usługi | 34.8 | 33.3 | -1.5 | -2.7 do -0.2 | tak | tak |  |
+| Chrome na Androidzie | 3890 | 3396 | Wybór terminu | 68.4 | 68.6 | +0.1 | -2.0 do +2.3 | nie | tak |  |
+| Chrome na Androidzie | 2662 | 2329 | Logowanie albo konto | 66.1 | 64.6 | -1.5 | -4.1 do +1.2 | nie | tak |  |
+| Chrome na Androidzie | 1760 | 1505 | Wejście na płatność | 84.4 | 84.8 | +0.4 | -2.1 do +2.9 | nie | tak |  |
+| Chrome na Androidzie | 1485 | 1276 | Płatność przyjęta | 88.9 | 89.7 | +0.8 | -1.5 do +3.1 | nie | tak |  |
+| Chrome na Androidzie | 11173 | 10183 | Sesja do płatności | 11.8 | 11.2 | -0.6 | -1.4 do +0.3 | nie | tak |  |
+| Safari na iOS | 7540 | 6788 | Wybór usługi | 35.1 | 33.7 | -1.3 | -2.9 do +0.2 | nie | tak |  |
+| Safari na iOS | 2643 | 2288 | Wybór terminu | 66.7 | 67.9 | +1.2 | -1.5 do +3.8 | nie | tak |  |
+| Safari na iOS | 1763 | 1553 | Logowanie albo konto | 66.2 | 45.1 | -21.1 | -24.4 do -17.7 | tak | tak |  |
+| Safari na iOS | 1167 | 701 | Wejście na płatność | 83.6 | 84.0 | +0.4 | -3.1 do +3.8 | nie | tak |  |
+| Safari na iOS | 976 | 589 | Płatność przyjęta | 90.2 | 88.5 | -1.7 | -4.9 do +1.5 | nie | tak |  |
+| Safari na iOS | 7540 | 6788 | Sesja do płatności | 11.7 | 7.7 | -4.0 | -5.0 do -3.0 | tak | tak |  |
+| TikTok (w aplikacji) na Androidzie | 1345 | 5421 | Wybór usługi | 21.9 | 23.0 | +1.1 | -1.4 do +3.6 | nie | tak |  |
+| TikTok (w aplikacji) na Androidzie | 295 | 1249 | Wybór terminu | 61.7 | 61.3 | -0.4 | -6.5 do +5.8 | nie | tak |  |
+| TikTok (w aplikacji) na Androidzie | 182 | 766 | Logowanie albo konto | 62.1 | 59.5 | -2.6 | -10.4 do +5.3 | nie | tak |  |
+| TikTok (w aplikacji) na Androidzie | 113 | 456 | Wejście na płatność | 80.5 | 79.6 | -0.9 | -9.1 do +7.3 | nie | tak |  |
+| TikTok (w aplikacji) na Androidzie | 91 | 363 | Płatność przyjęta | 85.7 | 85.7 | -0.0 | -8.1 do +8.0 | nie | nie | tak |
+| TikTok (w aplikacji) na Androidzie | 1345 | 5421 | Sesja do płatności | 5.8 | 5.7 | -0.1 | -1.5 do +1.3 | nie | tak |  |
+| Instagram (w aplikacji) na Androidzie | 5151 | 5059 | Wybór usługi | 24.7 | 25.3 | +0.6 | -1.1 do +2.3 | nie | tak |  |
+| Instagram (w aplikacji) na Androidzie | 1273 | 1280 | Wybór terminu | 60.3 | 60.2 | -0.1 | -3.9 do +3.7 | nie | tak |  |
+| Instagram (w aplikacji) na Androidzie | 767 | 770 | Logowanie albo konto | 60.0 | 58.2 | -1.8 | -6.7 do +3.1 | nie | tak |  |
+| Instagram (w aplikacji) na Androidzie | 460 | 448 | Wejście na płatność | 81.3 | 78.3 | -3.0 | -8.2 do +2.3 | nie | tak |  |
+| Instagram (w aplikacji) na Androidzie | 374 | 351 | Płatność przyjęta | 87.4 | 90.6 | +3.2 | -1.4 do +7.7 | nie | tak |  |
+| Instagram (w aplikacji) na Androidzie | 5151 | 5059 | Sesja do płatności | 6.3 | 6.3 | -0.1 | -1.0 do +0.9 | nie | tak |  |
+| Chrome na Windowsie | 4741 | 4259 | Wybór usługi | 35.6 | 34.7 | -0.9 | -2.9 do +1.0 | nie | tak |  |
+| Chrome na Windowsie | 1689 | 1477 | Wybór terminu | 68.1 | 69.3 | +1.2 | -2.0 do +4.5 | nie | tak |  |
+| Chrome na Windowsie | 1150 | 1024 | Logowanie albo konto | 67.6 | 67.1 | -0.5 | -4.4 do +3.5 | nie | tak |  |
+| Chrome na Windowsie | 777 | 687 | Wejście na płatność | 84.0 | 84.0 | -0.1 | -3.8 do +3.7 | nie | tak |  |
+| Chrome na Windowsie | 653 | 577 | Płatność przyjęta | 91.7 | 86.8 | -4.9 | -8.4 do -1.4 | tak | tak |  |
+| Chrome na Windowsie | 4741 | 4259 | Sesja do płatności | 12.6 | 11.8 | -0.9 | -2.2 do +0.5 | nie | tak |  |
+| Facebook (w aplikacji) na Androidzie | 3677 | 3703 | Wybór usługi | 25.4 | 25.6 | +0.2 | -1.8 do +2.2 | nie | tak |  |
+| Facebook (w aplikacji) na Androidzie | 934 | 949 | Wybór terminu | 60.6 | 61.4 | +0.8 | -3.6 do +5.2 | nie | tak |  |
+| Facebook (w aplikacji) na Androidzie | 566 | 583 | Logowanie albo konto | 58.7 | 60.9 | +2.2 | -3.4 do +7.9 | nie | tak |  |
+| Facebook (w aplikacji) na Androidzie | 332 | 355 | Wejście na płatność | 81.3 | 82.3 | +0.9 | -4.8 do +6.7 | nie | tak |  |
+| Facebook (w aplikacji) na Androidzie | 270 | 292 | Płatność przyjęta | 88.9 | 88.7 | -0.2 | -5.4 do +5.0 | nie | tak |  |
+| Facebook (w aplikacji) na Androidzie | 3677 | 3703 | Sesja do płatności | 6.5 | 7.0 | +0.5 | -0.7 do +1.6 | nie | tak |  |
+| TikTok (w aplikacji) na iOS | 747 | 3014 | Wybór usługi | 24.6 | 23.7 | -0.9 | -4.4 do +2.5 | nie | tak |  |
+| TikTok (w aplikacji) na iOS | 184 | 714 | Wybór terminu | 63.6 | 59.9 | -3.6 | -11.5 do +4.2 | nie | tak |  |
+| TikTok (w aplikacji) na iOS | 117 | 428 | Logowanie albo konto | 58.1 | 58.9 | +0.8 | -9.3 do +10.8 | nie | tak |  |
+| TikTok (w aplikacji) na iOS | 68 | 252 | Wejście na płatność | 83.8 | 80.2 | -3.7 | -13.7 do +6.4 | nie | tak | tak |
+| TikTok (w aplikacji) na iOS | 57 | 202 | Płatność przyjęta | 94.7 | 83.7 | -11.1 | -18.8 do -3.4 | tak | tak | tak |
+| TikTok (w aplikacji) na iOS | 747 | 3014 | Sesja do płatności | 7.2 | 5.6 | -1.6 | -3.7 do +0.4 | nie | tak |  |
+| Instagram (w aplikacji) na iOS | 2952 | 2911 | Wybór usługi | 26.5 | 25.6 | -1.0 | -3.2 do +1.3 | nie | tak |  |
+| Instagram (w aplikacji) na iOS | 783 | 744 | Wybór terminu | 62.7 | 61.3 | -1.4 | -6.3 do +3.5 | nie | tak |  |
+| Instagram (w aplikacji) na iOS | 491 | 456 | Logowanie albo konto | 59.1 | 63.4 | +4.3 | -1.9 do +10.5 | nie | tak |  |
+| Instagram (w aplikacji) na iOS | 290 | 289 | Wejście na płatność | 81.0 | 83.4 | +2.4 | -3.9 do +8.6 | nie | tak |  |
+| Instagram (w aplikacji) na iOS | 235 | 241 | Płatność przyjęta | 88.5 | 89.2 | +0.7 | -5.0 do +6.4 | nie | tak |  |
+| Instagram (w aplikacji) na iOS | 2952 | 2911 | Sesja do płatności | 7.0 | 7.4 | +0.3 | -1.0 do +1.7 | nie | tak |  |
+| Samsung Internet na Androidzie | 2976 | 2764 | Wybór usługi | 35.2 | 33.4 | -1.8 | -4.2 do +0.7 | nie | tak |  |
+| Samsung Internet na Androidzie | 1048 | 924 | Wybór terminu | 69.0 | 67.0 | -2.0 | -6.1 do +2.1 | nie | tak |  |
+| Samsung Internet na Androidzie | 723 | 619 | Logowanie albo konto | 64.3 | 65.3 | +1.0 | -4.2 do +6.1 | nie | tak |  |
+| Samsung Internet na Androidzie | 465 | 404 | Wejście na płatność | 80.4 | 83.4 | +3.0 | -2.1 do +8.1 | nie | tak |  |
+| Samsung Internet na Androidzie | 374 | 337 | Płatność przyjęta | 89.8 | 91.4 | +1.6 | -2.7 do +5.8 | nie | tak |  |
+| Samsung Internet na Androidzie | 2976 | 2764 | Sesja do płatności | 11.3 | 11.1 | -0.1 | -1.8 do +1.5 | nie | tak |  |
+| Facebook (w aplikacji) na iOS | 2126 | 2126 | Wybór usługi | 25.9 | 25.3 | -0.7 | -3.3 do +2.0 | nie | tak |  |
+| Facebook (w aplikacji) na iOS | 551 | 537 | Wybór terminu | 61.0 | 56.1 | -4.9 | -10.8 do +0.9 | nie | tak |  |
+| Facebook (w aplikacji) na iOS | 336 | 301 | Logowanie albo konto | 64.9 | 60.8 | -4.1 | -11.6 do +3.4 | nie | tak |  |
+| Facebook (w aplikacji) na iOS | 218 | 183 | Wejście na płatność | 81.2 | 84.2 | +3.0 | -4.4 do +10.4 | nie | tak |  |
+| Facebook (w aplikacji) na iOS | 177 | 154 | Płatność przyjęta | 92.1 | 89.0 | -3.1 | -9.5 do +3.2 | nie | tak |  |
+| Facebook (w aplikacji) na iOS | 2126 | 2126 | Sesja do płatności | 7.7 | 6.4 | -1.2 | -2.8 do +0.3 | nie | tak |  |
+| Edge na Windowsie | 1493 | 1362 | Wybór usługi | 35.6 | 34.7 | -0.9 | -4.4 do +2.6 | nie | tak |  |
+| Edge na Windowsie | 531 | 472 | Wybór terminu | 69.1 | 64.0 | -5.1 | -11.0 do +0.7 | nie | tak |  |
+| Edge na Windowsie | 367 | 302 | Logowanie albo konto | 65.1 | 71.2 | +6.1 | -1.0 do +13.1 | nie | tak |  |
+| Edge na Windowsie | 239 | 215 | Wejście na płatność | 82.0 | 83.7 | +1.7 | -5.2 do +8.6 | nie | tak |  |
+| Edge na Windowsie | 196 | 180 | Płatność przyjęta | 86.7 | 88.3 | +1.6 | -5.1 do +8.3 | nie | tak |  |
+| Edge na Windowsie | 1493 | 1362 | Sesja do płatności | 11.4 | 11.7 | +0.3 | -2.1 do +2.6 | nie | tak |  |
+| Chrome na iOS | 1159 | 1039 | Wybór usługi | 35.3 | 33.8 | -1.5 | -5.5 do +2.5 | nie | tak |  |
+| Chrome na iOS | 409 | 351 | Wybór terminu | 72.4 | 68.7 | -3.7 | -10.2 do +2.8 | nie | tak |  |
+| Chrome na iOS | 296 | 241 | Logowanie albo konto | 72.3 | 59.3 | -13.0 | -21.0 do -4.9 | tak | tak |  |
+| Chrome na iOS | 214 | 143 | Wejście na płatność | 81.8 | 80.4 | -1.4 | -9.7 do +7.0 | nie | tak |  |
+| Chrome na iOS | 175 | 115 | Płatność przyjęta | 84.0 | 87.0 | +3.0 | -5.3 do +11.2 | nie | tak |  |
+| Chrome na iOS | 1159 | 1039 | Sesja do płatności | 12.7 | 9.6 | -3.1 | -5.7 do -0.4 | tak | tak |  |
+| Safari na macOS | 925 | 906 | Wybór usługi | 40.3 | 37.5 | -2.8 | -7.3 do +1.7 | nie | tak |  |
+| Safari na macOS | 373 | 340 | Wybór terminu | 68.6 | 70.3 | +1.7 | -5.1 do +8.4 | nie | tak |  |
+| Safari na macOS | 256 | 239 | Logowanie albo konto | 66.4 | 64.0 | -2.4 | -10.8 do +6.0 | nie | tak |  |
+| Safari na macOS | 170 | 153 | Wejście na płatność | 83.5 | 85.0 | +1.4 | -6.5 do +9.4 | nie | tak |  |
+| Safari na macOS | 142 | 130 | Płatność przyjęta | 89.4 | 87.7 | -1.7 | -9.3 do +5.8 | nie | tak |  |
+| Safari na macOS | 925 | 906 | Sesja do płatności | 13.7 | 12.6 | -1.1 | -4.2 do +1.9 | nie | tak |  |
+| Chrome na macOS | 688 | 642 | Wybór usługi | 34.3 | 36.6 | +2.3 | -2.8 do +7.4 | nie | tak |  |
+| Chrome na macOS | 236 | 235 | Wybór terminu | 65.7 | 71.5 | +5.8 | -2.6 do +14.2 | nie | tak |  |
+| Chrome na macOS | 155 | 168 | Logowanie albo konto | 65.8 | 65.5 | -0.3 | -10.7 do +10.0 | nie | tak |  |
+| Chrome na macOS | 102 | 110 | Wejście na płatność | 84.3 | 87.3 | +3.0 | -6.5 do +12.4 | nie | tak |  |
+| Chrome na macOS | 86 | 96 | Płatność przyjęta | 86.0 | 87.5 | +1.5 | -8.4 do +11.3 | nie | tak | tak |
+| Chrome na macOS | 688 | 642 | Sesja do płatności | 10.8 | 13.1 | +2.3 | -1.2 do +5.8 | nie | tak |  |
+| Firefox na Windowsie | 655 | 545 | Wybór usługi | 38.6 | 33.6 | -5.0 | -10.5 do +0.4 | nie | tak |  |
+| Firefox na Windowsie | 253 | 183 | Wybór terminu | 65.6 | 71.6 | +6.0 | -2.8 do +14.7 | nie | tak |  |
+| Firefox na Windowsie | 166 | 131 | Logowanie albo konto | 69.9 | 68.7 | -1.2 | -11.7 do +9.4 | nie | tak |  |
+| Firefox na Windowsie | 116 | 90 | Wejście na płatność | 83.6 | 82.2 | -1.4 | -11.8 do +9.0 | nie | tak | tak |
+| Firefox na Windowsie | 97 | 74 | Płatność przyjęta | 89.7 | 83.8 | -5.9 | -16.3 do +4.4 | nie | tak | tak |
+| Firefox na Windowsie | 655 | 545 | Sesja do płatności | 13.3 | 11.4 | -1.9 | -5.6 do +1.8 | nie | tak |  |
+| Firefox na Androidzie | 636 | 540 | Wybór usługi | 34.6 | 31.9 | -2.7 | -8.1 do +2.7 | nie | tak |  |
+| Firefox na Androidzie | 220 | 172 | Wybór terminu | 62.7 | 69.8 | +7.0 | -2.3 do +16.4 | nie | tak |  |
+| Firefox na Androidzie | 138 | 120 | Logowanie albo konto | 64.5 | 68.3 | +3.8 | -7.7 do +15.4 | nie | tak |  |
+| Firefox na Androidzie | 89 | 82 | Wejście na płatność | 80.9 | 82.9 | +2.0 | -9.5 do +13.6 | nie | tak | tak |
+| Firefox na Androidzie | 72 | 68 | Płatność przyjęta | 87.5 | 92.6 | +5.1 | -4.7 do +15.0 | nie | tak | tak |
+| Firefox na Androidzie | 636 | 540 | Sesja do płatności | 9.9 | 11.7 | +1.8 | -1.8 do +5.3 | nie | tak |  |
+| Firefox na iOS | 255 | 254 | Wybór usługi | 34.9 | 32.7 | -2.2 | -10.4 do +6.0 | nie | tak |  |
+| Firefox na iOS | 89 | 83 | Wybór terminu | 75.3 | 63.9 | -11.4 | -25.1 do +2.3 | nie | tak | tak |
+| Firefox na iOS | 67 | 53 | Logowanie albo konto | 77.6 | 71.7 | -5.9 | -21.6 do +9.8 | nie | tak | tak |
+| Firefox na iOS | 52 | 38 | Wejście na płatność | 82.7 | 84.2 | +1.5 | -14.0 do +17.0 | nie | tak | tak |
+| Firefox na iOS | 43 | 32 | Płatność przyjęta | 81.4 | 90.6 | +9.2 | -6.2 do +24.6 | nie | tak | tak |
+| Firefox na iOS | 255 | 254 | Sesja do płatności | 13.7 | 11.4 | -2.3 | -8.1 do +3.4 | nie | tak |  |
+| Opera na Androidzie | 294 | 246 | Wybór usługi | 32.7 | 26.8 | -5.8 | -13.5 do +1.9 | nie | tak |  |
+| Opera na Androidzie | 96 | 66 | Wybór terminu | 71.9 | 69.7 | -2.2 | -16.5 do +12.1 | nie | tak | tak |
+| Opera na Androidzie | 69 | 46 | Logowanie albo konto | 69.6 | 60.9 | -8.7 | -26.5 do +9.1 | nie | tak | tak |
+| Opera na Androidzie | 48 | 28 | Wejście na płatność | 89.6 | 96.4 | +6.8 | -4.2 do +17.9 | nie | tak | tak |
+| Opera na Androidzie | 43 | 27 | Płatność przyjęta | 90.7 | 85.2 | -5.5 | -21.5 do +10.5 | nie | tak | tak |
+| Opera na Androidzie | 294 | 246 | Sesja do płatności | 13.3 | 9.3 | -3.9 | -9.2 do +1.4 | nie | tak |  |
+| Opera na Windowsie | 207 | 204 | Wybór usługi | 37.2 | 42.2 | +5.0 | -4.5 do +14.4 | nie | tak |  |
+| Opera na Windowsie | 77 | 86 | Wybór terminu | 79.2 | 74.4 | -4.8 | -17.7 do +8.1 | nie | tak | tak |
+| Opera na Windowsie | 61 | 64 | Logowanie albo konto | 68.9 | 62.5 | -6.4 | -23.0 do +10.3 | nie | tak | tak |
+| Opera na Windowsie | 42 | 40 | Wejście na płatność | 92.9 | 85.0 | -7.9 | -21.4 do +5.7 | nie | tak | tak |
+| Opera na Windowsie | 39 | 34 | Płatność przyjęta | 89.7 | 88.2 | -1.5 | -15.9 do +12.9 | nie | tak | tak |
+| Opera na Windowsie | 207 | 204 | Sesja do płatności | 16.9 | 14.7 | -2.2 | -9.3 do +4.8 | nie | tak |  |
+| Firefox na Linuksie | 114 | 107 | Wybór usługi | 39.5 | 35.5 | -4.0 | -16.7 do +8.8 | nie | tak |  |
+| Firefox na Linuksie | 45 | 38 | Wybór terminu | 64.4 | 50.0 | -14.4 | -35.6 do +6.7 | nie | tak | tak |
+| Firefox na Linuksie | 29 | 19 | Logowanie albo konto | 62.1 | 68.4 | +6.4 | -21.0 do +33.7 | nie | tak | tak |
+| Firefox na Linuksie | 18 | 13 | Wejście na płatność | 94.4 | 84.6 | -9.8 | -32.1 do +12.5 | nie | tak | tak |
+| Firefox na Linuksie | 17 | 11 | Płatność przyjęta | 94.1 | 90.9 | -3.2 | -23.5 do +17.1 | nie | tak | tak |
+| Firefox na Linuksie | 114 | 107 | Sesja do płatności | 14.0 | 9.3 | -4.7 | -13.1 do +3.7 | nie | tak |  |
+| Firefox na macOS | 81 | 83 | Wybór usługi | 37.0 | 31.3 | -5.7 | -20.2 do +8.8 | nie | tak | tak |
+| Firefox na macOS | 30 | 26 | Wybór terminu | 66.7 | 65.4 | -1.3 | -26.2 do +23.6 | nie | tak | tak |
+| Firefox na macOS | 20 | 17 | Logowanie albo konto | 60.0 | 58.8 | -1.2 | -32.9 do +30.6 | nie | tak | tak |
+| Firefox na macOS | 12 | 10 | Wejście na płatność | 91.7 | 90.0 | -1.7 | -26.0 do +22.6 | nie | tak | tak |
+| Firefox na macOS | 11 | 9 | Płatność przyjęta | 81.8 | 88.9 | +7.1 | -23.6 do +37.7 | nie | tak | tak |
+| Firefox na macOS | 81 | 83 | Sesja do płatności | 11.1 | 9.6 | -1.5 | -10.8 do +7.9 | nie | tak | tak |
+| Chrome na Linuksie | 60 | 60 | Wybór usługi | 28.3 | 33.3 | +5.0 | -11.5 do +21.5 | nie | tak | tak |
+| Chrome na Linuksie | 17 | 20 | Wybór terminu | 64.7 | 80.0 | +15.3 | -13.4 do +44.0 | nie | tak | tak |
+| Chrome na Linuksie | 11 | 16 | Logowanie albo konto | 81.8 | 50.0 | -31.8 | -65.3 do +1.6 | nie | tak | tak |
+| Chrome na Linuksie | 9 | 8 | Wejście na płatność | 100.0 | 75.0 | -25.0 | -55.0 do +5.0 | nie | tak | tak |
+| Chrome na Linuksie | 9 | 6 | Płatność przyjęta | 66.7 | 83.3 | +16.7 | -26.2 do +59.5 | nie | tak | tak |
+| Chrome na Linuksie | 60 | 60 | Sesja do płatności | 10.0 | 8.3 | -1.7 | -12.0 do +8.7 | nie | tak | tak |

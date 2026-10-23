@@ -123,17 +123,15 @@ def karta_kohorty(koh, wz, V, E, Z):
         "Nowi pacjenci wracają rzadziej niż rok wcześniej, w każdym oknie od 30 do 180 dni",
         wniosek=f"W ciągu 90 dni od pierwszego zakupu wraca {proc(o90['p2'], 0)} nowych pacjentów, a rok wcześniej "
                 f"wracało {proc(o90['p1'], 0)}.",
-        tresc=[
+        szczegoly=[
             akapit(f"Marża na pacjenta w 90 dniach, przed kosztem pozyskania, spadła z {liczba(m90[1], 0)} do "
                    f"{liczba(m90[2], 0)} zł."),
             akapit(f"Około {proc(u1k, 0)} spadku powrotu przypada na zmianę składu pacjentów. Pacjenci dwóch nowych kampanii "
                    f"na L4 (Meta i TikTok) wracają w 90 dniach tylko w {proc(nz['p90_o2'], 0)}, a jest ich coraz więcej."),
             akapit(f"Bez nich powrót też spada, z {proc(bez1['p90_o1'], 0)} do {proc(bez1['p90_o2'], 0)}. Wiek, płeć, "
                    f"wielkość miejscowości i województwo tego spadku nie tłumaczą."),
-        ],
-        zastrzezenie="Podział spadku opisuje skład pacjentów i nie wskazuje przyczyny: nie mówi, jak wracaliby pacjenci "
-                     "nowych kampanii, gdyby przyszli innym kanałem.",
-        szczegoly=[
+            akapit("Zastrzeżenie: podział spadku opisuje skład pacjentów i nie wskazuje przyczyny: nie mówi, jak wracaliby "
+                   "pacjenci nowych kampanii, gdyby przyszli innym kanałem."),
             tabela(["Powrót w ciągu", "Ostatnie 12 miesięcy", "Rok wcześniej", "Zmiana"], wiersze,
                    tytul="Powrót nowych pacjentów: odsetek pacjentów, którzy złożyli kolejne zamówienie (nieanulowane)"),
             akapit(f"Powrót w 90 dniach w ostatnich 12 miesiącach: pacjenci nowych kampanii {proc(nz['p90_o2'])} z "
@@ -906,8 +904,8 @@ def zdarzenia_teksty(zdz, nag, jak, V, E):
         zastrzezenie="Zdarzenia z tych samych miesięcy nakładają się, więc bez testu nie rozdzielamy ich skutków.",
         szczegoly=[akapit("Tory na osi: lejek (pozyskanie), retencja (kohorty), obsługa pacjenta (przebieg wizyt) i jakość "
                           "danych. " + metoda_opis)],
-        # runda F, poprawka 1: jedna linijka z odnośnikiem do tabeli na górze „Kohort”
-        linki=[ET.link("Kohorty: co zmieniło się po każdym zdarzeniu i ile to jest warte", "#kohorty")])
+        # runda G: tabela „co zmieniło kohorty i wynik” jest pierwszą kartą tej zakładki, więc odnośnik do „Kohort” odpada
+        )
     return ET.popraw(wstep)
 
 
@@ -926,7 +924,8 @@ def tabela_zdarzen(koh, zdz, C, wy, V, E, nag, pz):
     Tylko liczby już policzone, z tych samych pól eksportu co: karty zdarzeń na osi (zdz, w tym odcinki serii z
     b_eksport.py), przegląd listy priorytetów (C["priorytety"]["przeglad"]: kwota, dopisek, pewność), ekonomia kampanii
     (wy["ekonomia"]), karta Safari w lejku (nag["safari"]), karta zwrotów (pz) i „Czy to wzrost” (V, E).
-    Zapisuje koh["zdarzenia"] i zwraca wynik kontroli liczb wobec szkicu (notatki/e_teksty_zakladki.md,
+    Zapisuje zdz["tabela"] (od rundy G pierwsza karta zakładki „Zdarzenia”, decyzja Kuby z 2026-10-23) i zwraca wynik
+    kontroli liczb wobec szkicu (notatki/e_teksty_zakladki.md,
     sekcja „kohorty/zdarzenia”, pisana ręcznie z liczb widocznych na stronie)."""
     L = {z["id"]: z for z in zdz["lista"]}
     PR = {r["nr"]: r for r in C["priorytety"]["przeglad"]}
@@ -1081,7 +1080,7 @@ def tabela_zdarzen(koh, zdz, C, wy, V, E, nag, pz):
                      "a nie dowodzi przyczyny.",
         szczegoly=[
             akapit("Kiedy: dzień startu kampanii albo dzień zmiany, który wskazała metoda wykrywania zmian w serii dziennej "
-                   "(opis w zakładce „Zdarzenia”). Liczby w wierszach to te same liczby co w kartach zdarzeń, w pozycjach "
+                   "(opis pod osią zdarzeń). Liczby w wierszach to te same liczby co w kartach zdarzeń, w pozycjach "
                    "listy priorytetów i w ekonomii kampanii, więc wiersze mają różne miary."),
             akapit("„Pokaż na kohortach dziennych” ustawia dla każdego wiersza to samo porównanie kohort: 60 dni przed "
                    "zdarzeniem i 60 dni po nim, powrót w 90 dniach, z podziałem na nowe kampanie na L4 i pozostałe."),
@@ -1089,14 +1088,13 @@ def tabela_zdarzen(koh, zdz, C, wy, V, E, nag, pz):
                    "kampanii na L4. Remarketing Meta i dwa zdarzenia jakości danych (godzina bez danych i duplikaty "
                    "zamówień) są tylko na osi zdarzeń."),
         ],
-        linki=[ET.link("Wszystkie zdarzenia na osi", "#zdarzenia")],
         zrodlo="karty zdarzeń na osi (analiza/b_eksport.py, analiza/e_teksty_zakladki.py), przegląd listy priorytetów "
                "(analiza/e_teksty.py), ekonomia kampanii (analiza/a5e_ekonomia.py → analiza/wyniki/a5e_kampanie.csv), "
                "powroty z „Czy to wzrost” (analiza/wyniki/c_priorytety.txt).")
-    koh["zdarzenia"] = {"karta": k, "wiersze": wiersze,
-                        "kolumny": ["Kiedy", "Co się stało", "Kogo dotyczy", "Co zmieniło się po nim", "Skutek w złotych",
-                                    "Pewność", "Co robimy"]}
-    return ET.kontrola([("kohorty/zdarzenia", koh["zdarzenia"], [], [])], notatka=ET.E_TEKSTY_ZAKLADKI, prefiks="z")
+    zdz["tabela"] = {"karta": k, "wiersze": wiersze,
+                     "kolumny": ["Kiedy", "Co się stało", "Kogo dotyczy", "Co zmieniło się po nim", "Skutek w złotych",
+                                 "Pewność", "Co robimy"]}
+    return ET.kontrola([("kohorty/zdarzenia", zdz["tabela"], [], [])], notatka=ET.E_TEKSTY_ZAKLADKI, prefiks="z")
 
 
 # ---------------------------------------------------------------- główna funkcja

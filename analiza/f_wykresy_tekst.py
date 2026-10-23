@@ -46,10 +46,10 @@ NAZWY = {"wzrost": "Czy to wzrost", "kohorty": "Kohorty", "lejek": "Lejek", "po-
 GOTOWE = {
     "wzrost": ["#wz-nowy .slupki-skum .wk-wiersz", "#wz-nowy .hantle .wk-wiersz", "#wz-nowy .slupki-parami .wk-wiersz",
                "#wz-nowy .slupki-grup .sg-wiersz", "#wz-nowy .schodki .wk-wiersz"],
-    "kohorty": ["#ko-zd-tabela tbody tr", "#ko-naglowek .hantle .wk-wiersz", "#ko-tabela tbody tr", "#ko-macierz tbody tr"],
+    "kohorty": ["#ko-naglowek .hantle .wk-wiersz", "#ko-tabela tbody tr", "#ko-macierz tbody tr"],
     "lejek": ["#lj-naprawy .hantle .wk-wiersz", "#lj-kroki .lk-krok", "#lj-udzial .kl-grupa", "#lj-tabela tbody tr"],
     "po-zakupie": ["#pz-karta-godziny .kolumny .kl-grupa", "#pz-ruch-hantle .wk-wiersz", "#pz-godziny tbody tr"],
-    "zdarzenia": ["#zd-lista article", "#zd-os svg .os-nr, #zd-os .os-pionowa li"],
+    "zdarzenia": ["#zd-tabela tbody tr", "#zd-lista .zdarzenie", "#zd-os svg .os-nr, #zd-os .os-pionowa li"],
     "wynik": ["#ek-wykres .wk-wiersz", "#wy-kwartaly-wykres .sg-wiersz", "#wy-kwartaly tbody tr", "#wy-tabela tbody tr"],
     "jakosc": ["#jk-karta-mostek .schodki .wk-wiersz", "#jk-testy-kw .slupek-wiersz"],
     "priorytety": ["#pr-karty article", "#pr-1 .hantle .wk-wiersz", "#pr-przeglad tbody tr"],
@@ -73,7 +73,7 @@ ZBIERZ = r"""
         strong: T(c.querySelector('strong')), zm: zm(c), przypis: T(c.querySelector('.przypis')), pod: T(c.querySelector('.pod')),
         kwota: T(c.querySelector('.kwota')), kdop: T(c.querySelector('.kwota-dopisek')), znacznik: T(c.querySelector('.znacznik')),
         pdop: T(c.querySelector('.pewnosc-dopisek')), link: T(c.querySelector('a')), href: atr(c.querySelector('a'), 'href'),
-        linki: [...c.querySelectorAll('a')].map(x => ({ t: T(x), href: atr(x, 'href') })) })) })) });
+        linki: [...c.querySelectorAll('a')].map(x => ({ t: T(x), href: atr(x, 'href') })), tytul: atr(c, 'title') })) })) });
   const wykres = f => ({ klasa: f.className, opis: atr(f, 'aria-label'), przypis: T(f.querySelector('figcaption')),
     tytul: T(f.querySelector('.kl-tytul')), legenda: [...f.querySelectorAll('.wk-legenda .wk-lg')].map(T),
     os: [...f.querySelectorAll('.wk-os-skala span, .kl-os-y span')].map(T),
@@ -85,7 +85,7 @@ ZBIERZ = r"""
       suma: T(w.querySelector('.wk-wart > strong')), sg: [...w.querySelectorAll('.sg-tekst')].map(T),
       v: [...w.querySelectorAll('.wk-v')].map(T), uwaga: T(w.querySelector('.znacznik')), bez: !!w.querySelector('.wk-bez'),
       podpisy: [...w.querySelectorAll('.kl-wart')].map(T), tytul: atr(w, 'title'), aria: atr(w, 'aria-label') })) });
-  const karty = [...v.querySelectorAll('article')].filter(a => !a.closest('[hidden]')).map(a => {
+  const karty = [...v.querySelectorAll('article, details.zdarzenie')].filter(a => !a.closest('[hidden]')).map(a => {
     const k = a.cloneNode(true);
     k.querySelectorAll('article, figure.wk, .wk-dwa, table, .lejek-kroki, .os-zdarzen, .slupki-poziome, .kafelki, .pasek-priorytetu')
       .forEach(x => x.remove());
@@ -254,11 +254,14 @@ def wiersz_tab(t, etykieta, przez=lambda s: s):
 
 # ------------------------------------------------------------------ zakładka „Czy to wzrost”
 def kontrola_wzrost(W, karty):
+    """Pierwsza zakładka od rundy G (2026-10-23): werdykt z trzema linijkami i kafelkami, osiem kroków z identyfikatorami
+    wz-<krok> i karta TelemediGO. Wykresy porównywane z tabelą i tekstem tej samej karty, kafelki i werdykt z wykresami."""
     Z = NAZWY["wzrost"]
-    kw, kp, kr = karta(karty, id="wz-werdykt"), karta(karty, wykres="slupki-skum"), karta(karty, wykres="hantle")
-    kg, kk, km = karta(karty, wykres="slupki-parami"), karta(karty, wykres="slupki-grup"), karta(karty, wykres="schodki")
-    # 1. słupki nowych pacjentów (Więcej pacjentów)
-    f, K = wyk(kp, "slupki-skum"), "Więcej pacjentów"
+    kw = karta(karty, id="wz-werdykt")
+    kp, kr, kg = karta(karty, id="wz-pacjenci"), karta(karty, id="wz-retencja"), karta(karty, id="wz-telemedigo")
+    kk, km, kn, kmz = karta(karty, id="wz-wynik"), karta(karty, id="wz-dashboard"), karta(karty, id="wz-na-pacjencie"), karta(karty, id="wz-marza")
+    # 1. słupki nowych pacjentów (krok 2)
+    f, K = wyk(kp, "slupki-skum"), "Skąd są nowi pacjenci"
     sumy = {}
     for w in f["wiersze"]:
         m = re.match(r"(.*?): pozostałe kampanie i kanały ([\d ]+), nowe kampanie na L4 ([\d ]+), razem ([\d ]+)$", norm(w["tytul"]))
@@ -269,17 +272,17 @@ def kontrola_wzrost(W, karty):
         for s, v in zip(w["segmenty"], [x for x in (poz, now) if x > 0]):
             if s["t"]:
                 W.rowne(Z, K, "słupki pacjentów", f"{okres}: podpis części słupka", s["t"], pl(v), "podpowiedź wykresu")
-        for v in (poz, now, raz):
-            if v > 0:
-                W.w_tekscie(Z, K, "słupki pacjentów", f"{okres}: liczba w tekście karty", pl(v), kp["tekst"])
-    # 2. hantle powrotu wobec tabeli karty
-    f, t, K = wyk(kr, "hantle"), tab(kr, "Powrót w ciągu"), "Lepsza retencja"
+    raz1, raz2 = sumy["rok wcześniej"][2], sumy["ostatnie 12 miesięcy"][2]
+    poz2, now2 = sumy["ostatnie 12 miesięcy"][0], sumy["ostatnie 12 miesięcy"][1]
+    udz = 100 * now2 / (raz2 - raz1)
+    for tok in (pl(raz2 - raz1), pl(now2), f"{pl(udz)}% przyrostu", f"tylko o {pl(100 * (poz2 / raz1 - 1))}%"):
+        W.w_tekscie(Z, K, "słupki pacjentów", "przyrost, pacjenci nowych kampanii i ich udział w przyroście w tekście karty", tok, kp["tekst"])
+    # 2. hantle powrotu (krok 3) wobec tabeli karty
+    f, t, K = wyk(kr, "hantle"), tab(kr, "Powrót w ciągu"), "Czy wracają"
     hantle_powrotu(W, Z, K, f, t)
-    for v in ("17%", "24%"):
-        W.w_tekscie(Z, K, "hantle powrotu", "zaokrąglony powrót w 90 dniach w tekście", v, kr["tekst"])
     h90 = [w for w in f["wiersze"] if "90 dni" in w["etykieta"]][0]
-    W.por(Z, K, "hantle powrotu", "17% i 24% w tekście = zaokrąglone wartości hantla 90 dni", f"{h90['b']} i {h90['a']}", "17% i 24%",
-          zaokr(l1(h90["b"])) == 17 and zaokr(l1(h90["a"])) == 24, "rachunek")
+    for v in (f"{pl(zaokr(l1(h90['b'])))}%", f"{pl(zaokr(l1(h90['a'])))}%"):
+        W.w_tekscie(Z, K, "hantle powrotu", "zaokrąglony powrót w 90 dniach (hantel 90 dni) w tekście", v, kr["tekst"])
     # 3. TelemediGO: słupki parami wobec tabeli karty
     f, t, K = wyk(kg, "slupki-parami"), tab(kg, "Typ zakupu"), "TelemediGO"
     ia, ib, iz = kolumna(t, "Rok wcześniej"), kolumna(t, "Ostatnie 12 miesięcy"), kolumna(t, "Zmiana")
@@ -293,8 +296,8 @@ def kontrola_wzrost(W, karty):
         W.rowne(Z, K, "słupki TelemediGO", f"{w['etykieta']}: rok wcześniej", w["slupki"][0], r["komorki"][ia]["t"])
         W.rowne(Z, K, "słupki TelemediGO", f"{w['etykieta']}: ostatnie 12 miesięcy", w["slupki"][1], r["komorki"][ib]["t"])
         W.rowne(Z, K, "słupki TelemediGO", f"{w['etykieta']}: zmiana", w["zm"], r["komorki"][iz]["t"])
-    # 4. kwartały: słupki grupowane wobec tabeli karty (zmiana rok do roku i poziom w tys. zł)
-    f, t, K = wyk(kk, "slupki-grup"), tab(kk, "Marża przed kosztem kampanii"), "kwartały"
+    # 4. kwartały (krok 6): słupki grupowane wobec tabeli karty (zmiana rok do roku i poziom w tys. zł)
+    f, t, K = wyk(kk, "slupki-grup"), tab(kk, "Marża przed kosztem kampanii"), "W którą stronę to idzie"
     im, ik = kolumna(t, "Marża przed kosztem kampanii"), kolumna(t, "Wydatki na kampanie")
     kw3 = None
     for w in f["wiersze"]:
@@ -309,37 +312,77 @@ def kontrola_wzrost(W, karty):
     W.w_tekscie(Z, K, "kwartały", "III kw. 2026: zmiana marży przed kosztem kampanii w tekście (zaokrąglona)", f"{pl(kw3[0])}%", kk["tekst"])
     W.por(Z, K, "kwartały", "III kw. 2026: „wydatki ponad dwa razy wyższe” = zmiana wydatków ponad +100%", f"+{pl(kw3[1], 1)}%", "ponad dwa razy",
           kw3[1] > 100 and "ponad dwa razy wyższe" in kk["tekst"], "tekst karty")
-    # 5. schodki mostka wobec tabeli mostka
-    schodki_mostka(W, Z, "Dashboard a dane oczyszczone", wyk(km, "schodki"), tab(km, "Krok"), km["tekst"])
-    # 6. kafelki werdyktu: liczby z kart tej zakładki
+    # 5. schodki mostka (krok 1) wobec tabeli mostka
+    schodki_mostka(W, Z, "Ile z liczb z dashboardu jest prawdą", wyk(km, "schodki"), tab(km, "Krok"), km["tekst"])
+    # 6. zostaje na pacjencie miesiąc po miesiącu (krok 4): punkty wobec tabeli w szczegółach i zdań karty
+    f, t, K = wyk(kn, "punkty-zero"), tab(kn, "Miesiąc pierwszego zakupu"), "Ile zarabiamy na nowym pacjencie"
+    i1, i2 = kolumna(t, "Zostaje na pacjencie"), kolumna(t, "Zostaje na pacjencie według sesji z płatnością")
+    od_kwietnia = []
+    for w in f["wiersze"]:
+        et = norm(w["etykieta"]).replace(" *", "")
+        r = wiersz_tab(t, et)
+        if r is None:
+            W.por(Z, K, "punkty wyniku", f"{et}: wiersz tabeli", et, "BRAK", False)
+            continue
+        W.rowne(Z, K, "punkty wyniku", f"{et}: zostaje na pacjencie według pierwszego wejścia", w["v"][0], r["komorki"][i1]["zm"] or r["komorki"][i1]["t"])
+        W.rowne(Z, K, "punkty wyniku", f"{et}: zostaje na pacjencie według sesji z płatnością", w["v"][1], r["komorki"][i2]["zm"] or r["komorki"][i2]["t"])
+        rok, mies = miesiac(et)
+        W.por(Z, K, "punkty wyniku", f"{et}: gwiazdka (przybliżenie) tylko od kwietnia 2026", "*" if "*" in w["etykieta"] else "—",
+              "*" if (rok, mies) >= (2026, 4) else "—", ("*" in w["etykieta"]) == ((rok, mies) >= (2026, 4)), "tytuł tabeli")
+        if (rok, mies) >= (2026, 4):
+            od_kwietnia.append((l1(w["v"][0]), l1(w["v"][1])))
+    W.w_tekscie(Z, K, "punkty wyniku", "od kwietnia: najniższa wartość według pierwszego wejścia (zaokrąglona) w tekście",
+                f"od {pl(min(a for a, _ in od_kwietnia))}", kn["tekst"])
+    W.w_tekscie(Z, K, "punkty wyniku", "od kwietnia: najwyższa wartość według pierwszego wejścia (zaokrąglona) w tekście",
+                f"do +{pl(max(a for a, _ in od_kwietnia))} zł", kn["tekst"])
+    W.w_tekscie(Z, K, "punkty wyniku", "od kwietnia według sesji z płatnością: zakres strat (zaokrąglony) w tekście",
+                f"{pl(-max(b for _, b in od_kwietnia))}–{pl(-min(b for _, b in od_kwietnia))} zł", kn["tekst"])
+    W.por(Z, K, "punkty wyniku", "od kwietnia według sesji z płatnością każdy miesiąc pod kreską („tracą”)",
+          ", ".join(pl(b, 1) for _, b in od_kwietnia), "wszystkie < 0", all(b < 0 for _, b in od_kwietnia), "rachunek")
+    # 7. marża po wszystkich kosztach w obu latach (krok 5): segmenty, suma i tekst
+    f, K = wyk(kmz, "slupki-skum"), "Skąd w takim razie +27% marży"
+    sm = {}
+    for w in f["wiersze"]:
+        seg = [l1(s["t"]) for s in w["segmenty"] if s["t"]]
+        sm[w["etykieta"]] = (seg, l1(w["suma"]))
+        W.por(Z, K, "słupki marży", f"{w['etykieta']}: części sumują się do sumy (±1 tys. zł z zaokrągleń)", " + ".join(pl(x) for x in seg),
+              w["suma"], abs(sum(seg) - l1(w["suma"])) <= 1, "rachunek")
+        for x in seg + [l1(w["suma"])]:
+            W.w_tekscie(Z, K, "słupki marży", f"{w['etykieta']}: kwota z wykresu w tekście karty albo werdyktu", f"{pl(x)} tys. zł",
+                        kmz["tekst"] + " " + kw["tekst"])
+    m1, m2 = sm["rok wcześniej"][1], sm["ostatnie 12 miesięcy"][1]
+    baza = sm["ostatnie 12 miesięcy"][0][1]
+    W.w_tekscie(Z, K, "słupki marży", "przyrost marży (suma ostatnich 12 miesięcy − rok wcześniej) w tekście", f"{pl(m2 - m1)} tys. zł", kmz["tekst"])
+    W.w_tekscie(Z, K, "słupki marży", "udział pacjentów z pierwszego roku w przyroście (z wykresu, zaokrąglony) w tekście",
+                f"{pl(100 * baza / (m2 - m1))}% przyrostu", kmz["tekst"])
+    W.w_tekscie(Z, "werdykt", "linijka „Więcej zarabiamy”", "marża z wykresu kroku 5 w werdykcie", f"z {pl(m1)} do {pl(m2)} tys. zł", kw["tekst"])
+    # 8. kafelki i zdanie werdyktu wobec wykresów i kart kroków
     K = "werdykt (kafelki)"
-    raz1, raz2 = sumy["rok wcześniej"][2], sumy["ostatnie 12 miesięcy"][2]
-    poz2 = sumy["ostatnie 12 miesięcy"][0]
     for kf in kw["kafelki"]:
         p = norm(kf["podpis"])
-        if "nowych pacjentów niż rok wcześniej" in p:
-            W.por(Z, K, "kafelek pacjentów", "wzrost nowych pacjentów = słupki pacjentów", kf["liczba"], f"+{pl(100 * (raz2 / raz1 - 1))}%",
-                  norm(kf["liczba"]) == f"+{pl(100 * (raz2 / raz1 - 1))}%", "wykres „Więcej pacjentów”")
-            W.por(Z, K, "kafelek pacjentów", "bez nowych kampanii = słupki pacjentów", kf["dopisek"], f"+{pl(100 * (poz2 / raz1 - 1))}%",
-                  norm(kf["dopisek"]).endswith(f"+{pl(100 * (poz2 / raz1 - 1))}%"), "wykres „Więcej pacjentów”")
-            W.w_tekscie(Z, K, "kafelek pacjentów", "wzrost w tekście karty „Więcej pacjentów”", pl(100 * (raz2 / raz1 - 1)) + "%", kp["tekst"])
-            W.w_tekscie(Z, K, "kafelek pacjentów", "wzrost bez nowych kampanii w tekście karty", pl(100 * (poz2 / raz1 - 1)) + "%", kp["tekst"])
+        if "przyrostu nowych pacjentów" in p:
+            W.por(Z, K, "kafelek pacjentów", "udział nowych kampanii w przyroście = słupki pacjentów", kf["liczba"], f"{pl(udz)}%",
+                  norm(kf["liczba"]) == f"{pl(udz)}%", "wykres kroku 2")
+            W.w_tekscie(Z, K, "kafelek pacjentów", "udział według sesji z płatnością w tekście kroku 2", l1(kf["dopisek"]) and f"{pl(l1(kf['dopisek']))}% przyrostu",
+                        kp["tekst"])
+        elif "zostaje w ciągu 180 dni" in p:
+            W.w_tekscie(Z, K, "kafelek na pacjencie", "kwota na pacjencie nowych kampanii w odpowiedzi kroku 4", f"180 dni {norm(kf['liczba'])}", kn["tekst"])
+            W.w_tekscie(Z, K, "kafelek na pacjencie", "kwota pozostałych kampanii płatnych w odpowiedzi kroku 4", f"płatnych {pl(l1(kf['dopisek']))} zł", kn["tekst"])
         elif "wraca w ciągu 90 dni" in p:
-            W.por(Z, K, "kafelek powrotu", "powrót 90 dni (ostatnie 12 miesięcy) = hantel 90 dni", kf["liczba"], h90["b"], zaokr(l1(h90["b"])) == l1(kf["liczba"]), "hantle „Lepsza retencja”")
-            W.por(Z, K, "kafelek powrotu", "powrót 90 dni (rok wcześniej) = hantel 90 dni", kf["dopisek"], h90["a"], zaokr(l1(h90["a"])) == l1(kf["dopisek"]), "hantle „Lepsza retencja”")
-        elif "wydatki na kampanie w III kwartale 2026" in p:
-            W.por(Z, K, "kafelek wydatków", "wydatki III kw. 2026 jako krotność = 1 + zmiana z wykresu kwartałów", kf["liczba"], f"×{pl(1 + kw3[1] / 100, 1)}",
-                  norm(kf["liczba"]) == f"×{pl(1 + kw3[1] / 100, 1)}", "wykres kwartałów")
-            W.por(Z, K, "kafelek wydatków", "marża przed kosztem kampanii III kw. 2026 = wykres kwartałów", kf["dopisek"], f"+{pl(kw3[0])}%",
-                  norm(kf["dopisek"]).endswith(f"+{pl(kw3[0])}%"), "wykres kwartałów")
+            W.por(Z, K, "kafelek powrotu", "powrót 90 dni (ostatnie 12 miesięcy) = hantel 90 dni", kf["liczba"], h90["b"], zaokr(l1(h90["b"])) == l1(kf["liczba"]), "hantle kroku 3")
+            W.por(Z, K, "kafelek powrotu", "powrót 90 dni (rok wcześniej) = hantel 90 dni", kf["dopisek"], h90["a"], zaokr(l1(h90["a"])) == l1(kf["dopisek"]), "hantle kroku 3")
+        elif "przyrostu marży to zakupy" in p:
+            W.por(Z, K, "kafelek marży", "udział pacjentów z pierwszego roku = słupki marży (zaokrąglony)", kf["liczba"], f"{pl(100 * baza / (m2 - m1))}%",
+                  norm(kf["liczba"]) == f"{pl(100 * baza / (m2 - m1))}%", "wykres kroku 5")
+            W.w_tekscie(Z, K, "kafelek marży", "zmiana wyniku pacjentów pozyskanych w danym roku w werdykcie", f"tylko o {pl(abs(l1(kf['dopisek'])))}%", kw["tekst"])
         else:
             W.niedasie(Z, "kafelki werdyktu", f"nierozpoznany kafelek „{kf['liczba']} {kf['podpis']}”")
-    m = re.search(r"wzrosła o (\d+)%: z ([\d ]+) do ([\d ]+) tys\. zł", norm(kw["werdyktDopisek"]))
-    if m:
-        for tok in (m.group(1) + "%", m.group(2) + " do " + m.group(3) + " tys. zł"):
-            W.w_tekscie(Z, K, "dopisek werdyktu", "marża za cały rok w karcie kwartałów", tok, kk["tekst"], "tekst karty kwartałów")
-    else:
-        W.por(Z, K, "dopisek werdyktu", "zdanie o marży za cały rok", kw["werdyktDopisek"], "wzorzec „wzrosła o N%: z A do B tys. zł”", False)
+    K = "werdykt (zdanie główne)"
+    W.w_tekscie(Z, K, "zdanie główne", "udział nowych kampanii w przyroście pacjentów = słupki kroku 2", f"({pl(udz)}%)", kw["tekst"])
+    W.w_tekscie(Z, K, "zdanie główne", "wzrost nowych pacjentów = słupki kroku 2", f"o {pl(100 * (raz2 / raz1 - 1))}% więcej", kw["tekst"])
+    W.w_tekscie(Z, K, "zdanie główne", "wzrost bez nowych kampanii = słupki kroku 2", f"tylko o {pl(100 * (poz2 / raz1 - 1))}%", kw["tekst"])
+    W.w_tekscie(Z, K, "zdanie główne", "przyrost marży w procentach = wykres kroku 5 (zaokrąglony)", f"o {pl(100 * (m2 / m1 - 1))}%", kw["tekst"])
+    W.w_tekscie(Z, K, "zdanie główne", "przyrost marży w tytule kroku 5", f"+{pl(100 * (m2 / m1 - 1))}%", kmz["tytul"], "tytuł kroku 5")
 
 
 def hantle_powrotu(W, Z, K, f, t):
@@ -392,26 +435,33 @@ def schodki_mostka(W, Z, K, f, t, tekst):
 
 
 # ------------------------------------------------------------------ zakładka „Kohorty”
-def kontrola_kohorty(W, karty, stany_mapy, zdarzenia):
+def kontrola_kohorty(W, karty, stany_mapy, zdarzenia, tabela_okien=None):
     Z = NAZWY["kohorty"]
     kn = karta(karty, id="ko-naglowek")
     f = wyk(kn, "hantle")
     hantle_powrotu(W, Z, "nagłówek kohort", f, tab(kn, "Powrót w ciągu"))
     for v in ("17%", "24%", "22%"):
         W.w_tekscie(Z, "nagłówek kohort", "hantle powrotu", "zaokrąglony powrót w 90 dniach w tekście karty", v, kn["tekst"])
-    # hantle wobec wiersza „Wszyscy w filtrze” tabeli kohort (liczonej w przeglądarce z danych pacjent po pacjencie)
-    kt = karta(karty, tabela="ko-tabela")
-    t = tab(kt, id="ko-tabela")
-    r = t["wiersze"][0]
-    for w in f["wiersze"]:
-        dni = re.search(r"(\d+) dni", w["etykieta"]).group(1)
-        kom = r["komorki"][kolumna(t, f"Powrót w {dni} dniach")]
-        b_, a_ = liczby(kom["b"] + " " + kom["n"]), liczby(kom["a"])
-        n = re.search(r"rok wcześniej ([\d,]+%) z ([\d ]+) pacjentów, ostatnie 12 miesięcy ([\d,]+%) z ([\d ]+) pacjentów", norm(w["tytul"]))
-        zr = "tabela „Kohorty w podziale” (wiersz „Wszyscy w filtrze”, liczona w przeglądarce)"
-        W.rowne(Z, "nagłówek kohort", "hantle powrotu", f"{dni} dni: rok wcześniej (procent i pacjenci)", f"{w['a']} z {n.group(2)}", f"{pl(a_[0], 1)}% z {pl(a_[1])}", zr)
-        W.rowne(Z, "nagłówek kohort", "hantle powrotu", f"{dni} dni: ostatnie 12 miesięcy (procent i pacjenci)", f"{w['b']} z {n.group(4)}", f"{pl(b_[0], 1)}% z {pl(b_[1])}", zr)
-        W.rowne(Z, "nagłówek kohort", "hantle powrotu", f"{dni} dni: zmiana w punktach procentowych", norm(w["zm"]).replace(" pkt proc.", ""), kom["zm"], zr)
+    # hantle wobec wiersza „Wszyscy wybrani pacjenci” tabeli grup (liczonej w przeglądarce z danych pacjent po pacjencie):
+    # tabela w trybie „wszystkie okna”, wartości i liczebności w podpowiedzi komórki, zmiana w etykiecie (runda G)
+    t = tabela_okien
+    if not t or not t["wiersze"]:
+        W.por(Z, "nagłówek kohort", "hantle powrotu", "tabela grup w trybie „wszystkie okna”", "BRAK", "tabela", False)
+    else:
+        r = t["wiersze"][0]
+        for w in f["wiersze"]:
+            dni = re.search(r"(\d+) dni", w["etykieta"]).group(1)
+            kom = r["komorki"][kolumna(t, f"{dni} dni")]
+            m = re.search(r"Rok wcześniej: ([\d,]+%) z ([\d ]+) pacjentów\. Ostatnie 12 miesięcy: ([\d,]+%) z ([\d ]+) pacjentów", norm(kom["tytul"]))
+            n = re.search(r"rok wcześniej ([\d,]+%) z ([\d ]+) pacjentów, ostatnie 12 miesięcy ([\d,]+%) z ([\d ]+) pacjentów", norm(w["tytul"]))
+            zr = "tabela grup w karcie „Dzień po dniu”, tryb „wszystkie okna” (wiersz „Wszyscy wybrani pacjenci”, liczona w przeglądarce)"
+            if not m:
+                W.por(Z, "nagłówek kohort", "hantle powrotu", f"{dni} dni: podpowiedź komórki tabeli", norm(kom["tytul"])[:60] or "BRAK", "wartości", False, zr)
+                continue
+            W.rowne(Z, "nagłówek kohort", "hantle powrotu", f"{dni} dni: rok wcześniej (procent i pacjenci)", f"{w['a']} z {n.group(2)}", f"{m.group(1)} z {m.group(2)}", zr)
+            W.rowne(Z, "nagłówek kohort", "hantle powrotu", f"{dni} dni: ostatnie 12 miesięcy (procent i pacjenci)", f"{w['b']} z {n.group(4)}", f"{m.group(3)} z {m.group(4)}", zr)
+            W.rowne(Z, "nagłówek kohort", "hantle powrotu", f"{dni} dni: zmiana w punktach procentowych", norm(w["zm"]).replace(" pkt proc.", ""),
+                    norm(kom["zm"]).replace(" pkt proc.", ""), zr)
     # zdanie nad mapą wobec mapy miesięcznej
     km = karta(karty, tabela="ko-macierz")
     t = tab(km, id="ko-macierz")
@@ -618,43 +668,51 @@ def kontrola_lejek(W, karty, kroki_stany):
 
 
 def kroki_lejka(W, Z, opis, kroki, t):
-    """Wykres kroków lejka wobec wiersza tej samej wartości w tabeli „Kroki lejka w podziale”. Kroki dopasowane po kolejności
-    (k1…k5 to kolumny między „Udział w sesjach B (A)” a „Sesja do płatności”), bo nazwy kroków na wykresie i w tabeli mogą się różnić."""
+    """Wykres kroków lejka wobec wiersza tej samej wartości w tabeli grup w trybie „wszystkie kroki” (runda G): w komórce
+    zmiana, w podpowiedzi odsetek i mianownik w obu okresach. Kroki dopasowane po kolejności (kolumny od drugiej po
+    liczebności do „Sesja do płatności”), bo nazwy kroków na wykresie i w tabeli mogą się różnić."""
     K = "kroki lejka"
-    wartosc = "Razem" if opis.startswith("Razem") else opis
+    wartosc = "Wszystkie wybrane sesje" if opis.startswith("Razem") else opis
     r = wiersz_tab(t, wartosc)
     zr = f"tabela „Kroki lejka w podziale”, wiersz „{wartosc}”"
     if r is None:
         W.por(Z, K, "wykres kroków", f"{opis}: wiersz tabeli", wartosc, "BRAK", False, zr)
         return
     nag = [norm(h) for h in t["naglowki"][-1]]
-    i0, isp = nag.index("Udział w sesjach B (A)") + 1, nag.index("Sesja do płatności")
-    kol = list(range(i0, isp))
+    isp = nag.index("Sesja do płatności")
+    kol = list(range(2, isp))
     etapy = [x for x in kroki if "lk-krok" in x["klasa"]]
     przejscia = [x for x in kroki if "lk-przejscie" in x["klasa"]]
     nazwa = lambda x: norm(x["nazwa"]).replace(norm(x["n"]), "").strip()
+
+    def wart(kom):   # (odsetek B, mianownik B, odsetek A) z podpowiedzi komórki
+        m = re.search(r"Rok wcześniej: ([\d,]+%|—) z ([\d ]+) sesji\. Ostatnie 12 miesięcy: ([\d,]+%) z ([\d ]+) sesji", norm(kom["tytul"]))
+        return (m.group(3), l1(m.group(4)), m.group(1)) if m else (None, None, None)
     W.por(Z, K, "wykres kroków", f"{opis}: liczba kroków = wejście + kolumny kroków w tabeli", len(etapy), len(kol) + 1, len(etapy) == len(kol) + 1, zr)
-    W.rowne(Z, K, "wykres kroków", f"{opis}: sesje w okresie B (pierwszy krok)", pl(l1(etapy[0]["n"])), r["komorki"][nag.index("Sesje B (A)")]["b"], zr)
+    W.rowne(Z, K, "wykres kroków", f"{opis}: sesje w późniejszym okresie (pierwszy krok)", pl(l1(etapy[0]["n"])),
+            pl(l1(norm(r["komorki"][1]["t"]).split("→")[-1])), zr)
     for i, (x, ic) in enumerate(zip(przejscia, kol)):
         nw, nt = nazwa(etapy[i + 1]), nag[ic]
         if nw != nt:
             W.niedasie(Z, "wykres kroków", f"ten sam krok ma dwie nazwy: na wykresie kroków „{nw}”, w tabeli i w polu „Miara” „{nt}” (dopasowane po kolejności)")
         kom = r["komorki"][ic]
-        W.rowne(Z, K, "wykres kroków", f"{opis}: {nt}: przechodzi dalej (okres B)", x["dalej"], kom["b"], zr)
-        W.rowne(Z, K, "wykres kroków", f"{opis}: {nt}: przechodzi dalej (okres A)", proc_z(x["dalejA"]), proc_z(kom["a"]), zr)
-        W.rowne(Z, K, "wykres kroków", f"{opis}: {nt}: zmiana w punktach procentowych", x["zm"], kom["zm"], zr)
+        pB, mB, pA = wart(kom)
+        W.rowne(Z, K, "wykres kroków", f"{opis}: {nt}: przechodzi dalej (ostatnie 12 miesięcy)", x["dalej"], pB, zr)
+        W.rowne(Z, K, "wykres kroków", f"{opis}: {nt}: przechodzi dalej (rok wcześniej)", proc_z(x["dalejA"]), proc_z(pA), zr)
+        W.rowne(Z, K, "wykres kroków", f"{opis}: {nt}: zmiana w punktach procentowych", norm(x["zm"]).replace(" pkt proc.", ""),
+                norm(kom["zm"]).replace(" pkt proc.", ""), zr)
         n = l1(etapy[i + 1]["n"])
         if i + 1 < len(kol):
-            kn = r["komorki"][kol[i + 1]]
-            W.por(Z, K, "wykres kroków", f"{opis}: {nt}: sesje w kroku (okres B) = mianownik kolumny „{nag[kol[i + 1]]}”", pl(n), norm(kn["n"]),
-                  n == l1(kn["n"]), zr)
+            _, mn, _ = wart(r["komorki"][kol[i + 1]])
+            W.por(Z, K, "wykres kroków", f"{opis}: {nt}: sesje w kroku (ostatnie 12 miesięcy) = mianownik kolumny „{nag[kol[i + 1]]}”", pl(n), pl(mn),
+                  n == mn, zr)
         else:
-            p, mian = l1(kom["b"]), l1(kom["n"])
+            p, mian = l1(pB), mB
             tol = mian * 0.0005 + 0.5
-            W.por(Z, K, "wykres kroków", f"{opis}: {nt}: sesje w kroku (okres B) = odsetek × mianownik z tabeli (tabela nie podaje licznika)",
+            W.por(Z, K, "wykres kroków", f"{opis}: {nt}: sesje w kroku (ostatnie 12 miesięcy) = odsetek × mianownik z tabeli (tabela nie podaje licznika)",
                   pl(n), f"{pl(p * mian / 100)} ± {pl(tol)}", abs(n - p * mian / 100) <= tol, zr + ", w granicach zaokrąglenia odsetka")
-    kom = r["komorki"][isp]
-    W.rowne(Z, K, "wykres kroków", f"{opis}: ostatni krok jako odsetek sesji (okres B) = „Sesja do płatności”", etapy[-1]["b"], kom["b"], zr)
+    pB, _, _ = wart(r["komorki"][isp])
+    W.rowne(Z, K, "wykres kroków", f"{opis}: ostatni krok jako odsetek sesji (ostatnie 12 miesięcy) = „Sesja do płatności”", etapy[-1]["b"], pB, zr)
     W.rowne(Z, K, "wykres kroków", f"{opis}: ostatni krok jako odsetek sesji (okres A) = „Sesja do płatności”", proc_z(etapy[-1]["a"]), proc_z(kom["a"]), zr)
 
 
@@ -801,14 +859,15 @@ def kontrola_listy_zdarzen(W, zakl, karty, zd):
 def kontrola_wynik(W, karty, ek_stany):
     Z = NAZWY["wynik"]
     kw = karta(karty, id="wy-karta")
-    f = wyk(kw, "slupki-grup")
-    t = tab(kw, id="wy-kwartaly")
+    kq, kc = karta(karty, id="wy-kw-karta"), karta(karty, id="wy-czas-karta")
+    f = wyk(kq, "slupki-grup")
+    t = tab(kq, id="wy-kwartaly")
     td = tab(kw, "Marża przed kosztem kampanii")
     K = "kwartały"
     kol = {norm(h): i for i, h in enumerate(t["naglowki"][-1])}
     ip, ik, im = kolumna(td, "Marża przed kosztem kampanii"), kolumna(td, "Wydatki na kampanie"), kolumna(td, "Marża po kosztach kampanii")
     for w in f["wiersze"]:
-        r = next(x for x in t["wiersze"] if norm(x["komorki"][0]["t"]).startswith(norm(w["etykieta"]) + " wobec"))
+        r = next(x for x in t["wiersze"] if norm(x["komorki"][0]["t"]) == norm(w["etykieta"]))
         c = lambda nazwa: r["komorki"][kol[nazwa]]
         przB = l1(c("Przychód: konsultacje po zwrotach i TelemediGO")["b"]) - l1(c("Koszt lekarza")["b"])
         przA = l1(c("Przychód: konsultacje po zwrotach i TelemediGO")["a"]) - l1(c("Koszt lekarza")["a"])
@@ -825,10 +884,10 @@ def kontrola_wynik(W, karty, ek_stany):
         rd = wiersz_tab(td, w["etykieta"])
         W.rowne(Z, K, "kwartały", f"{w['etykieta']}: zmiana marży przed kosztem kampanii = tabela z liczbami w karcie", w["sg"][0], rd["komorki"][ip]["zm"])
         W.rowne(Z, K, "kwartały", f"{w['etykieta']}: zmiana wydatków = tabela z liczbami w karcie", w["sg"][1], rd["komorki"][ik]["zm"])
-        W.rowne(Z, K, "kwartały", f"{w['etykieta']}: zmiana marży po kosztach kampanii (tabela z liczbami) = tabela kwartałów", rd["komorki"][im]["zm"], c("Marża")["zm"],
+        W.rowne(Z, K, "kwartały", f"{w['etykieta']}: zmiana marży po kosztach kampanii (tabela z liczbami) = tabela kwartałów", rd["komorki"][im]["zm"], c("Marża po wszystkich kosztach")["zm"],
                 "tabela „Kwartały rok do roku”")
     # zdania karty wobec tabeli „Miesiące i sumy obu lat”
-    ty = tab(kw, id="wy-tabela")
+    ty = tab(kc, id="wy-tabela")
     kol = {norm(h): i for i, h in enumerate(ty["naglowki"][-1])}
     r1, r2 = ty["wiersze"][0]["komorki"], ty["wiersze"][1]["komorki"]
     v = lambda r, n: l1(r[kol[n]]["t"])
@@ -850,14 +909,14 @@ def kontrola_wynik(W, karty, ek_stany):
             W.por(Z, K, "punkty wyniku", "brak wykresu: informacja zamiast pustej osi", "informacja" if "dane nie mają wyniku w oknie" in norm(k["tekst"]) else "BRAK",
                   "informacja", "dane nie mają wyniku w oknie" in norm(k["tekst"]), "zasada strony")
             continue
-        grupa = 1 if okno == 90 else 3     # kolumna wyniku w grupie czterech kolumn reguły
+        grupa = 1     # runda G: tabela tylko dla wybranego okna, w grupie reguły kolumny „koszt”, „wynik”
         for w in f["wiersze"]:
             r = wiersz_tab(t, w["etykieta"])
             if r is None:
                 W.por(Z, K, "punkty wyniku", f"{w['etykieta']}: wiersz tabeli", w["etykieta"], "BRAK", False)
                 continue
             for j, regula in enumerate(("według pierwszego wejścia", "według sesji z płatnością")):
-                kom = r["komorki"][1 + 4 * j + grupa]
+                kom = r["komorki"][1 + 2 * j + grupa]
                 W.rowne(Z, K, "punkty wyniku", f"{w['etykieta']}: wynik na pacjenta {regula}, {okno} dni", w["v"][j], kom["b"] or kom["t"])
                 pkt[(poziom, okres, okno, w["etykieta"], j)] = l1(w["v"][j])
             znaki = [l1(x) for x in w["v"]]
@@ -982,17 +1041,17 @@ ZRODLA_TABELI = {
 
 
 def kontrola_tabeli_zdarzen(W, D, zd, przeg, nw):
-    Z, K = NAZWY["kohorty"], "co zmieniło kohorty i wynik"
-    kz = karta(D["kohorty"]["karty"], id="ko-zdarzenia")
-    t = tab(kz, id="ko-zd-tabela") if kz else None
+    Z, K = NAZWY["zdarzenia"], "co zmieniło kohorty i wynik"
+    kz = karta(D["zdarzenia"]["karty"], id="zd-tabela-karta")
+    t = tab(kz, id="zd-tabela") if kz else None
     if not t:
-        W.por(Z, K, "tabela zdarzeń", "tabela na górze zakładki", "BRAK", "8 wierszy", False, "dane kohorty.js")
+        W.por(Z, K, "tabela zdarzeń", "tabela na górze zakładki", "BRAK", "8 wierszy", False, "dane zdarzenia.js")
         return
     po_id = {z["id"]: z for z in zd.values()}
-    karty_zd = {k["id"][3:]: k for k in D["zdarzenia"]["karty"] if k["id"].startswith("zd-")}
+    karty_zd = {k["id"][3:]: k for k in D["zdarzenia"]["karty"] if k["id"].startswith("zd-") and k["meta"]}
     W.rowne(Z, K, "tabela zdarzeń", "liczba wierszy (8 zdarzeń i decyzji z osi)", str(len(t["wiersze"])), "8", "decyzja Kuby, poprawka 1")
     for r in t["wiersze"]:
-        id_ = r["id"][len("ko-zd-"):]
+        id_ = r["id"][len("zt-"):]
         c = r["komorki"]
         z = po_id.get(id_)
         zr_id, inne, pozycje, nr_skutek, nr_pewnosc = ZRODLA_TABELI.get(id_, ([id_], [], [], None, None))
@@ -1110,13 +1169,25 @@ def zbierz_szerokosc(strona, adres):
     strona.wait_for_timeout(1500)
     stany.append(("po usunięciu zawężenia", stan(), True))
     S["mapa"] = stany
-    # lejek: kroki dla „Razem” i dla „Safari”
-    dl = pokaz(strona, "lejek")
+    # kohorty: tabela grup w trybie „wszystkie okna” (wartości w podpowiedziach) do porównania z hantlami wniosku
+    strona.click("#ko-tabela-tryb button:has-text('wszystkie okna')")
+    strona.wait_for_timeout(800)
+    dk = strona.evaluate(ZBIERZ, "kohorty")
+    S["kohorty_okna"] = tab(karta(dk["karty"], tabela="ko-tabela"), id="ko-tabela")
+    strona.click("#ko-reset")
+    strona.wait_for_timeout(800)
+    # lejek: kroki dla „Wszystkie wybrane sesje” i dla „Safari”, tabela grup w trybie „wszystkie kroki”
+    pokaz(strona, "lejek")
+    strona.click("#lj-tabela-tryb button:has-text('wszystkie kroki')")
+    strona.wait_for_timeout(1000)
+    dl = strona.evaluate(ZBIERZ, "lejek")
     kroki = [("Razem (domyślnie)", karta(dl["karty"], id="lj-kroki-karta")["kroki"], tab(karta(dl["karty"], tabela="lj-tabela"), id="lj-tabela"))]
     strona.select_option("#f-lw", label="Safari")
     strona.wait_for_timeout(1000)
     dl2 = strona.evaluate(ZBIERZ, "lejek")
     kroki.append(("Safari", karta(dl2["karty"], id="lj-kroki-karta")["kroki"], tab(karta(dl2["karty"], tabela="lj-tabela"), id="lj-tabela")))
+    strona.click("#lj-reset")
+    strona.wait_for_timeout(800)
     S["kroki"] = kroki
     # po zakupie: poranny ruch w obu stanach przełącznika „Pacjenci”
     dp = pokaz(strona, "po-zakupie")
@@ -1177,7 +1248,7 @@ def main():
             W.szer = szer
             zd = zdarzenia_z_kart(D["zdarzenia"]["karty"])
             kontrola_wzrost(W, D["wzrost"]["karty"])
-            kontrola_kohorty(W, D["kohorty"]["karty"], S["mapa"], zd)
+            kontrola_kohorty(W, D["kohorty"]["karty"], S["mapa"], zd, S.get("kohorty_okna"))
             kontrola_lejek(W, D["lejek"]["karty"], S["kroki"])
             kontrola_po_zakupie(W, D["po-zakupie"]["karty"], S["ruch"])
             kontrola_zdarzenia(W, D["zdarzenia"]["karty"], zd, start, ndni)
@@ -1187,7 +1258,7 @@ def main():
             kontrola_jakosc(W, D["jakosc"]["karty"])
             przeg = kontrola_priorytety(W, D["priorytety"]["karty"], wyk(karta(D["lejek"]["karty"], wykres="hantle"), "hantle"))
             kontrola_niewiadome(W, D["niewiadome"]["niewiadome"], przeg)
-            # runda F, poprawka 1: tabela „co zmieniło kohorty i wynik” wobec kart zdarzeń, priorytetów i ekonomii kampanii
+            # tabela „co zmieniło kohorty i wynik” (od rundy G w „Zdarzeniach”) wobec kart zdarzeń, priorytetów i ekonomii kampanii
             nw = {norm(r["komorki"][0]["t"]): norm(r["komorki"][1]["t"]) for r in D["niewiadome"]["niewiadome"]["wiersze"]}
             kontrola_tabeli_zdarzen(W, D, zd, przeg, nw)
             # wykresy bez liczb w DOM

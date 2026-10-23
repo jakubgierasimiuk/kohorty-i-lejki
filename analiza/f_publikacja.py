@@ -31,7 +31,7 @@ PREFIKS = "/b2c-narzedzie/"
 ZAKLADKI = ["wzrost", "kohorty", "lejek", "po-zakupie", "zdarzenia", "wynik", "jakosc", "priorytety", "niewiadome"]
 GOTOWE = {
     "wzrost": "#wz-nowy .slupki-grup .sg-wiersz", "kohorty": "#ko-macierz tbody tr", "lejek": "#lj-udzial .kl-grupa",
-    "po-zakupie": "#pz-karta-godziny .kolumny .kl-grupa", "zdarzenia": "#zd-lista article", "wynik": "#ek-wykres .wk-wiersz",
+    "po-zakupie": "#pz-karta-godziny .kolumny .kl-grupa", "zdarzenia": "#zd-lista .zdarzenie", "wynik": "#ek-wykres .wk-wiersz",
     "jakosc": "#jk-testy-kw .slupek-wiersz", "priorytety": "#pr-1 .hantle .wk-wiersz", "niewiadome": "#nw-tabela tbody tr",
 }
 POMIAR = """() => ({ sw: document.documentElement.scrollWidth, iw: window.innerWidth,

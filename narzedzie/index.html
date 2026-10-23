@@ -120,67 +120,71 @@
   <!-- KOHORTY -->
   <section id="v-kohorty" class="widok" hidden>
     <h2>Kohorty dzienne nowych pacjentów</h2>
-    <!-- co zmieniło kohorty i wynik: tabela zdarzeń i decyzji z danych (D.kohorty.zdarzenia) -->
-    <article class="karta karta-naglowek" id="ko-zdarzenia"><div id="ko-zdarzenia-tresc"></div></article>
-    <form class="filtry" id="ko-filtry" onsubmit="return false"></form>
-    <article class="karta" id="ko-wykres-karta">
+    <!-- wniosek: jedyna rzecz niezależna od ustawień, więc stoi nad nimi (tytuł, zdanie, hantle; reszta w „Szczegółach”) -->
+    <article class="karta karta-naglowek" id="ko-naglowek"><div id="ko-zdania"></div></article>
+    <!-- pasek „Pacjenci w analizie”: działa na wszystkie karty pod nim, przyklejony przy przewijaniu -->
+    <div class="obszar-paska">
+    <div class="pasek-analizy" id="ko-pasek" role="region" aria-label="Pacjenci w analizie"></div>
+    <article class="karta" id="ko-macierz-karta">
       <div class="naglowek-karty">
-        <h3 id="ko-wykres-tytul">Dzień po dniu</h3>
-        <div class="filtry-wykresu" id="ko-filtry-wykresu"></div>
-      </div>
-      <p class="przypis">Oś pozioma to dzień pierwszego zakupu. Szare pola to okresy porównania, pionowe linie to zdarzenia z obszaru „Retencja” (numery jak na osi zdarzeń). Serie dodasz i usuniesz w legendzie pod wykresem albo w tabeli niżej.</p>
-      <div id="ko-wykres" class="wykres"></div>
-      <details class="jak-liczymy"><summary>Jak czytać</summary><div class="szczegoly-tresc">
-        <p>Powrót i marża kończą się na ostatniej kohorcie z pełnym oknem. Przeciągnij po wykresie, żeby przybliżyć, kliknij dwukrotnie, żeby wrócić.</p>
-      </div></details>
-    </article>
-    <article class="karta" id="ko-naglowek"><div id="ko-zdania"></div></article>
-    <article class="karta">
-      <div class="naglowek-karty">
-        <h3>Kohorty w podziale</h3>
-      </div>
-      <p class="przypis" id="ko-okresy-opis"></p>
-      <p class="przypis">W komórce: wartość w okresie B i liczba pacjentów, pod spodem okres A i zmiana. Zaznaczone wiersze są na wykresie wyżej.</p>
-      <div class="tabela-ramka"><table class="tabela tabela-lejek" id="ko-tabela"></table></div>
-      <p class="legenda-zmian" id="ko-legenda-zmian"></p>
-      <details class="jak-liczymy"><summary>Jak liczymy</summary><div class="szczegoly-tresc">
-        <p>Kohorta to nowi pacjenci z tego samego dnia pierwszego zakupu. Powrót to kolejne zamówienie, które nie zostało anulowane, w ciągu N dni. Marża na pacjenta to przychód z konsultacji po zwrotach i z TelemediGO minus koszt lekarza, przed kosztem pozyskania.</p>
-        <p>Liczymy tylko kohorty z pełnym oknem. Okres A obcinamy do tej samej długości co dojrzała część okresu B, więc przy porównaniu rok do roku to te same dni kalendarzowe.</p>
-      </div></details>
-    </article>
-    <article class="karta">
-      <div class="naglowek-karty">
-        <h3>Macierz kohort: powrót według dni od pierwszego zakupu</h3>
+        <h3>Mapa kohort: powrót według dni od pierwszego zakupu</h3>
         <div class="filtry-wykresu" id="ko-macierz-filtry"></div>
       </div>
+      <p class="zalezy" id="ko-macierz-zalezy"></p>
       <p class="wniosek" id="ko-macierz-wniosek" hidden></p>
-      <p class="przypis">Wiersz to kohorta, kolumna to okno: odsetek pacjentów kohorty, którzy wrócili w ciągu tylu dni. Ten sam kolor znaczy w każdej kolumnie to samo.</p>
+      <p class="przypis">Wiersz to kohorta, kolumna to okno: odsetek pacjentów kohorty, którzy wrócili w ciągu tylu dni. Ten sam kolor znaczy w każdej kolumnie to samo. Ostatnia kolumna: zdarzenia, które wypadają w tej kohorcie.</p>
       <div class="skala-macierzy" id="ko-macierz-skala"></div>
       <div class="tabela-ramka macierz-ramka"><table class="tabela macierz" id="ko-macierz"></table></div>
       <details class="jak-liczymy"><summary>Jak czytać</summary><div class="szczegoly-tresc">
-        <p>Kohorta to nowi pacjenci z tego samego miesiąca, tygodnia albo dnia pierwszego zakupu; domyślnie miesiąc. Kohorty dzienne mają po kilkadziesiąt pacjentów, więc ich wartości skaczą z dnia na dzień; rozdzielczość dzienną pokazuje wykres dzień po dniu wyżej.</p>
-        <p>Skala koloru jest jedna dla całej macierzy: progi są te same w każdej kolumnie i przy każdym filtrze, więc ten sam kolor zawsze oznacza ten sam przedział odsetka. Kolumna „Zdarzenia” podaje numery zdarzeń z osi, które wypadają w tej kohorcie. Filtry są te same co wyżej, bez podziału na serie.</p>
+        <p>Kohorta to nowi pacjenci z tego samego miesiąca, tygodnia albo dnia pierwszego zakupu; domyślnie miesiąc. Kohorty dzienne mają po kilkadziesiąt pacjentów, więc ich wartości skaczą z dnia na dzień; rozdzielczość dzienną pokazuje wykres dzień po dniu niżej.</p>
+        <p>Skala koloru jest jedna dla całej mapy: progi są te same w każdej kolumnie i przy każdym zawężeniu, więc ten sam kolor zawsze oznacza ten sam przedział odsetka. Zdarzenia jakości danych (godzina bez danych, duplikaty w eksporcie) nie zmieniły kohort, więc ich tu nie ma.</p>
       </div></details>
     </article>
-    <article class="karta">
-      <h3>Krzywa powrotu według dnia od pierwszego zakupu: okres A i okres B</h3>
-      <p class="przypis">Dla każdego dnia od pierwszego zakupu: odsetek pacjentów, którzy do tego dnia wrócili. Legenda pod kursorem pokazuje liczbę pacjentów i poziom B jako odsetek poziomu A.</p>
+    <article class="karta" id="ko-wykres-karta">
+      <div class="naglowek-karty">
+        <h3 id="ko-wykres-tytul">Dzień po dniu</h3>
+      </div>
+      <div class="filtry-wykresu sterowanie-karty" id="ko-sterowanie"></div>
+      <p class="zalezy" id="ko-wykres-zalezy"></p>
+      <p class="przypis">Oś pozioma to dzień pierwszego zakupu. Szare pola to porównywane okresy, pionowe linie to zdarzenia (numery jak na przyciskach pod wykresem). Serie dodasz i usuniesz w legendzie pod wykresem albo w tabeli niżej.</p>
+      <div id="ko-wykres" class="wykres"></div>
+      <div class="zd-panel" id="ko-zd"></div>
+      <div class="naglowek-karty naglowek-tabeli">
+        <h4 class="podtytul-karty" id="ko-tabela-tytul">Grupy</h4>
+        <div class="filtry-wykresu" id="ko-tabela-tryb"></div>
+      </div>
+      <p class="przypis" id="ko-okresy-opis"></p>
+      <div class="tabela-ramka"><table class="tabela tabela-grup" id="ko-tabela"></table></div>
+      <p class="legenda-zmian" id="ko-legenda-zmian"></p>
+      <details class="jak-liczymy"><summary>Jak czytać i jak liczymy</summary><div class="szczegoly-tresc">
+        <p>Kohorta to nowi pacjenci z tego samego dnia pierwszego zakupu. Powrót to kolejne zamówienie, które nie zostało anulowane, w ciągu N dni. Marża na pacjenta to przychód z konsultacji po zwrotach i z TelemediGO minus koszt lekarza, przed kosztem pozyskania.</p>
+        <p>Powrót i marża kończą się na ostatniej kohorcie z pełnym oknem. Wcześniejszy okres obcinamy do tej samej długości co dojrzała część późniejszego, więc przy porównaniu rok do roku to te same dni kalendarzowe.</p>
+        <p>Kolor zmiany w tabeli tylko wtedy, gdy 95% przedział zmiany nie obejmuje zera (przybliżenie normalne: dla odsetków różnica dwóch odsetków, dla marży różnica dwóch średnich z marży pacjent po pacjencie, dla liczby pacjentów różnica tempa dziennego). Każdą komórkę oceniamy osobno, więc przy wielu grupach część wyraźnych zmian może być przypadkiem.</p>
+        <p>Przeciągnij po wykresie, żeby przybliżyć, kliknij dwukrotnie, żeby wrócić.</p>
+      </div></details>
+    </article>
+    <article class="karta" id="ko-krzywa-karta">
+      <h3>Krzywa powrotu według dnia od pierwszego zakupu</h3>
+      <p class="zalezy" id="ko-krzywa-zalezy"></p>
+      <p class="przypis">Dla każdego dnia od pierwszego zakupu: odsetek pacjentów, którzy do tego dnia wrócili. Legenda pod kursorem pokazuje liczbę pacjentów i poziom późniejszego okresu jako odsetek poziomu wcześniejszego.</p>
       <div id="ko-krzywa" class="wykres"></div>
       <p class="przypis" id="ko-krzywa-opis"></p>
       <details class="jak-liczymy"><summary>Jak liczymy</summary><div class="szczegoly-tresc">
-        <p>Na każdy dzień bierzemy tylko kohorty, które ten dzień już osiągnęły, a okres A obcinamy tak samo jak w tabeli.</p>
+        <p>Na każdy dzień bierzemy tylko kohorty, które ten dzień już osiągnęły, a wcześniejszy okres obcinamy tak samo jak w tabeli grup.</p>
       </div></details>
     </article>
+    </div>
     <details class="jak-liczymy"><summary>Jak liczymy w tej zakładce</summary><div class="szczegoly-tresc">
       <p>Nowy pacjent to konto z pierwszym opłaconym zamówieniem, bez względu na status. Źródło pozyskania przypisujemy według pierwszego wejścia (pierwsze wejście pacjenta, także z anonimowych sesji jego przeglądarek; kod kampanii na pierwszym zamówieniu rozstrzyga) albo według sesji z płatnością.</p>
       <p>Urządzenie i przeglądarka z sesji z płatnością. Pierwsza usługa: internista według celu wizyty, pediatra, psychiatra, inny specjalista. Opóźnienie i pora z pierwszej wizyty.</p>
-      <p>Źródło danych: <code>analiza/definicje.py</code>, <code>analiza/a5r_kohorty.py</code>, eksport <code>analiza/b_eksport.py</code>.</p>
+      <p>Źródło danych: <code>analiza/definicje.py</code>, <code>analiza/a5r_kohorty.py</code>, eksport <code>analiza/b_eksport.py</code>; istotność zmian w tabeli grup sprawdza też <code>analiza/g_istotnosc.py</code>.</p>
     </div></details>
   </section>
 
   <!-- LEJEK -->
   <section id="v-lejek" class="widok" hidden>
     <h2>Lejek: od wejścia na stronę do płatności</h2>
+    <!-- wniosek krótko (niezależny od ustawień), szczegóły zwinięte -->
     <article class="karta karta-naglowek" id="lj-naglowek">
       <div id="lj-zdania"></div>
       <details class="osobne">
@@ -188,63 +192,66 @@
         <div class="szczegoly-tresc" id="lj-osobne"></div>
       </details>
     </article>
-    <div class="naprawy" id="lj-naprawy"></div>
 
-    <form class="filtry" id="lj-filtry" onsubmit="return false">
-      <p class="filtry-tytul">Filtry: kroki lejka, tabela i wykres dzień po dniu</p>
-      <label>Kto
-        <select id="f-pac">
-          <option value="nie_kupowal">Jeszcze nie kupowali</option>
-          <option value="kupowal_wczesniej">Kupowali wcześniej</option>
-          <option value="wszyscy">Wszyscy</option>
-        </select>
-      </label>
-      <label>Typ sesji
-        <select id="f-typ">
-          <option value="zwykla">Sesje zwykłe (lejek)</option>
-          <option value="zalogowana_od_wejscia">Zalogowane od wejścia</option>
-          <option value="samo_telemedigo">Zakup samego TelemediGO</option>
-        </select>
-      </label>
-      <label>Podział
-        <select id="f-podz"></select>
-      </label>
-      <label>Porównanie
-        <select id="f-preset"></select>
-      </label>
-      <fieldset class="okresy">
-        <legend>Okres A</legend>
-        <input type="date" id="f-a-od" aria-label="Okres A od"> <span>–</span> <input type="date" id="f-a-do" aria-label="Okres A do">
-      </fieldset>
-      <fieldset class="okresy">
-        <legend>Okres B</legend>
-        <input type="date" id="f-b-od" aria-label="Okres B od"> <span>–</span> <input type="date" id="f-b-do" aria-label="Okres B do">
-      </fieldset>
-    </form>
+    <!-- pasek „Sesje w analizie” działa na kroki lejka, wykres dzień po dniu i tabelę grup; przyklejony tylko nad nimi -->
+    <div class="obszar-paska">
+      <form class="pasek-analizy" id="lj-filtry" onsubmit="return false" aria-label="Sesje w analizie">
+        <div class="pa-wnetrze">
+          <div class="pa-tytul"><strong>Sesje w analizie</strong><span class="pa-liczba" id="lj-pasek-liczba"></span></div>
+          <label>Kto
+            <select id="f-pac">
+              <option value="nie_kupowal">Jeszcze nie kupowali</option>
+              <option value="kupowal_wczesniej">Kupowali wcześniej</option>
+              <option value="wszyscy">Wszyscy</option>
+            </select>
+          </label>
+          <label>Typ sesji
+            <select id="f-typ">
+              <option value="zwykla">Sesje zwykłe (lejek)</option>
+              <option value="zalogowana_od_wejscia">Zalogowane od wejścia</option>
+              <option value="samo_telemedigo">Zakup samego TelemediGO</option>
+            </select>
+          </label>
+          <label>Podział na grupy
+            <select id="f-podz"></select>
+          </label>
+          <label>Porównanie
+            <select id="f-preset"></select>
+          </label>
+          <div class="filtry-daty" id="lj-daty" hidden>
+            <fieldset class="okresy">
+              <legend>Wcześniejszy okres</legend>
+              <input type="date" id="f-a-od" aria-label="Wcześniejszy okres od"> <span>–</span> <input type="date" id="f-a-do" aria-label="Wcześniejszy okres do">
+            </fieldset>
+            <fieldset class="okresy">
+              <legend>Późniejszy okres</legend>
+              <input type="date" id="f-b-od" aria-label="Późniejszy okres od"> <span>–</span> <input type="date" id="f-b-do" aria-label="Późniejszy okres do">
+            </fieldset>
+          </div>
+          <button type="button" class="przycisk-maly pa-reset" id="lj-reset">Przywróć domyślne</button>
+        </div>
+      </form>
 
-    <article class="karta" id="lj-kroki-karta">
-      <div class="naglowek-karty">
-        <h3 id="lj-kroki-tytul">Kroki lejka</h3>
-        <div class="filtry-wykresu"><label>Pokaż dla <select id="f-lw"></select></label></div>
-      </div>
-      <p class="przypis" id="lj-kroki-opis"></p>
-      <div id="lj-kroki" class="lejek-kroki" role="list"></div>
-      <div class="lejek-legenda" id="lj-kroki-legenda"></div>
-      <details class="jak-liczymy"><summary>Jak czytać</summary><div class="szczegoly-tresc">
-        <p>Pasek to odsetek sesji, które doszły do kroku. Pionowa kreska to ten sam odsetek w okresie porównania. Między krokami: jaka część sesji z poprzedniego kroku przechodzi dalej.</p>
-        <p>Etykieta „Najbardziej obniża płatności” wskazuje przejście, które najbardziej obniża odsetek sesji zakończonych płatnością. Mierzymy to spadkiem względnym wobec okresu porównania, bo odsetek płatności to iloczyn przejść. Ten sam spadek w punktach procentowych waży więcej tam, gdzie dalej przechodzi mniejsza część sesji. Liczby sesji przy krokach są z okresu B.</p>
-      </div></details>
-    </article>
+      <article class="karta" id="lj-kroki-karta">
+        <div class="naglowek-karty">
+          <h3 id="lj-kroki-tytul">Kroki lejka</h3>
+          <div class="filtry-wykresu"><label>Grupa pokazana w lejku <select id="f-lw"></select></label></div>
+        </div>
+        <p class="zalezy">Zależy od paska „Sesje w analizie”; grupę wybierasz obok tytułu.</p>
+        <p class="przypis" id="lj-kroki-opis"></p>
+        <div id="lj-kroki" class="lejek-kroki" role="list"></div>
+        <div class="lejek-legenda" id="lj-kroki-legenda"></div>
+        <details class="jak-liczymy"><summary>Jak czytać</summary><div class="szczegoly-tresc">
+          <p>Pasek to odsetek sesji, które doszły do kroku. Pionowa kreska to ten sam odsetek we wcześniejszym okresie. Między krokami: jaka część sesji z poprzedniego kroku przechodzi dalej.</p>
+          <p>Etykieta „Najbardziej obniża płatności” wskazuje przejście, które najbardziej obniża odsetek sesji zakończonych płatnością. Mierzymy to spadkiem względnym wobec okresu porównania, bo odsetek płatności to iloczyn przejść. Ten sam spadek w punktach procentowych waży więcej tam, gdzie dalej przechodzi mniejsza część sesji. Liczby sesji przy krokach są z późniejszego okresu.</p>
+        </div></details>
+      </article>
 
-    <article class="karta" id="lj-udzial-karta">
-      <h3>Udział sesji nowych kampanii na L4 w ruchu osób, które jeszcze nie kupowały, miesiąc po miesiącu</h3>
-      <div id="lj-udzial"><p class="przypis">Wczytywanie danych kampanii…</p></div>
-    </article>
-
-    <article class="karta">
-      <div class="naglowek-karty">
-        <h3 id="lj-wykres-tytul">Dzień po dniu</h3>
-        <div class="filtry-wykresu">
+      <article class="karta" id="lj-wykres-karta">
+        <div class="naglowek-karty">
+          <h3 id="lj-wykres-tytul">Dzień po dniu</h3>
+        </div>
+        <div class="filtry-wykresu sterowanie-karty">
           <label>Miara
             <select id="f-krok"></select>
           </label>
@@ -256,25 +263,36 @@
             </select>
           </label>
         </div>
-      </div>
-      <p class="przypis">Szare pola to okresy porównania, pionowe linie to zdarzenia z obszaru „Lejek” (numery jak na osi zdarzeń). Serie dodasz i usuniesz w legendzie pod wykresem albo w tabeli niżej.</p>
-      <div id="lj-wykres" class="wykres"></div>
-    </article>
-    <article class="karta">
-      <div class="naglowek-karty">
-        <h3>Kroki lejka w podziale</h3>
-      </div>
-      <p class="przypis" id="lj-okresy-opis"></p>
-      <p class="przypis">W komórce: odsetek w okresie B i liczba sesji, od której go liczymy. Pod spodem ten sam odsetek w okresie A i zmiana w punktach procentowych. Zaznaczone wiersze są na wykresie wyżej.</p>
-      <div class="tabela-ramka"><table class="tabela tabela-lejek" id="lj-tabela"></table></div>
-      <p class="legenda-zmian" id="lj-legenda-zmian"></p>
+        <p class="zalezy">Zależy od paska „Sesje w analizie” i od ustawień tej karty; tabela grup niżej używa tych samych.</p>
+        <p class="przypis">Szare pola to porównywane okresy, pionowe linie to zdarzenia (numery jak na przyciskach pod wykresem). Serie dodasz i usuniesz w legendzie pod wykresem albo w tabeli niżej.</p>
+        <div id="lj-wykres" class="wykres"></div>
+        <div class="zd-panel" id="lj-zd"></div>
+        <div class="naglowek-karty naglowek-tabeli">
+          <h4 class="podtytul-karty" id="lj-tabela-tytul">Grupy</h4>
+          <div class="filtry-wykresu" id="lj-tabela-tryb"></div>
+        </div>
+        <p class="przypis" id="lj-okresy-opis"></p>
+        <div class="tabela-ramka"><table class="tabela tabela-grup" id="lj-tabela"></table></div>
+        <p class="legenda-zmian" id="lj-legenda-zmian"></p>
+        <details class="jak-liczymy"><summary>Jak liczymy kolor zmiany</summary><div class="szczegoly-tresc">
+          <p>Kolor tylko wtedy, gdy 95% przedział zmiany nie obejmuje zera (przybliżenie normalne: dla odsetków różnica dwóch odsetków, dla sesji dziennie różnica tempa dziennego). Każdą komórkę oceniamy osobno, więc przy wielu grupach część wyraźnych zmian może być przypadkiem. Sesje tej samej osoby nie są od siebie niezależne, więc przedział jest raczej za wąski niż za szeroki.</p>
+        </div></details>
+      </article>
+    </div>
+
+    <h3 class="sekcja-naglowek">Co już rozpoznaliśmy w lejku</h3>
+    <p class="zalezy">Karty niżej to stałe porównania: nie zależą od paska „Sesje w analizie”.</p>
+    <div class="naprawy" id="lj-naprawy"></div>
+    <article class="karta" id="lj-udzial-karta">
+      <h3>Udział sesji nowych kampanii na L4 w ruchu osób, które jeszcze nie kupowały, miesiąc po miesiącu</h3>
+      <div id="lj-udzial"><p class="przypis">Wczytywanie danych kampanii…</p></div>
     </article>
 
     <details class="jak-liczymy"><summary>Jak liczymy w tej zakładce</summary><div class="szczegoly-tresc">
       <p>Lejek główny obejmuje sesje zwykłe, czyli bez konta na wejściu albo z kontem, które pojawia się dopiero na kroku logowania. Sesje zalogowane od wejścia i zakupy samego TelemediGO są osobnymi typami sesji.</p>
       <p>„Jeszcze nie kupowali” to osoby bez zakupu przed początkiem sesji, także na koncie, na które logowały się w tej samej przeglądarce. Dzień sesji liczymy w czasie polskim.</p>
       <p><span id="lj-granica"></span></p>
-      <p>Źródło danych: <code>analiza/a5p_lejek.py</code>, eksport <code>analiza/b_eksport.py</code>.</p>
+      <p>Źródło danych: <code>analiza/a5p_lejek.py</code>, eksport <code>analiza/b_eksport.py</code>; istotność zmian w tabeli grup sprawdza też <code>analiza/g_istotnosc.py</code>.</p>
     </div></details>
   </section>
 
@@ -318,6 +336,12 @@
       <form class="filtry" id="pz-powrot-filtry" onsubmit="return false"></form>
       <div class="tabela-ramka"><table class="tabela tabela-lejek" id="pz-powrot"></table></div>
     </article>
+    <article class="karta" id="pz-karta-oceny">
+      <h3>Oceny według opóźnienia wizyty</h3>
+      <div id="oc-zdania"></div>
+      <form class="filtry" id="oc-filtry" onsubmit="return false"></form>
+      <div class="tabela-ramka"><table class="tabela tabela-lejek" id="oc-tabela"></table></div>
+    </article>
     <article class="karta" id="pz-karta-zwroty">
       <h3>Zwroty, anulacje i wizyty nieodebrane</h3>
       <div id="zw-zdania"></div>
@@ -325,12 +349,6 @@
       <p class="przypis">Wykres: odsetek odbytych wizyt, za które pacjent dostał zwrot po wizycie, według celu wizyty i dnia płatności. Tabela: ostatnie 12 miesięcy wobec roku wcześniej.</p>
       <div id="zw-wykres" class="wykres"></div>
       <div class="tabela-ramka"><table class="tabela tabela-lejek" id="zw-tabela"></table></div>
-    </article>
-    <article class="karta" id="pz-karta-oceny">
-      <h3>Oceny według opóźnienia wizyty</h3>
-      <div id="oc-zdania"></div>
-      <form class="filtry" id="oc-filtry" onsubmit="return false"></form>
-      <div class="tabela-ramka"><table class="tabela tabela-lejek" id="oc-tabela"></table></div>
     </article>
     <details class="jak-liczymy" id="pz-jak-liczymy"><summary>Jak liczymy w tej zakładce</summary><div class="szczegoly-tresc">
       <p>Nowe kampanie na L4 to pacjenci z kampanii <code>meta_prosp_l4_szybko</code> i <code>tt_prosp_l4_15min</code> według pierwszego wejścia.</p>
@@ -340,16 +358,21 @@
 
   <!-- ZDARZENIA -->
   <section id="v-zdarzenia" class="widok" hidden>
-    <h2>Oś zdarzeń: co się stało i kiedy</h2>
-    <p class="wstep">Zdarzenia znalezione w danych, bo listy zmian w produkcie i kalendarza kampanii nie mamy. Przy każdym: data, co się zmieniło, o ile i skąd to wiemy.</p>
+    <h2>Zdarzenia: co się stało, kiedy i co to zmieniło</h2>
+    <!-- co zmieniło kohorty i wynik: tabela zdarzeń i decyzji z danych (D.zdarzenia.tabela); do 23.10.2026 pierwsza karta „Kohort” -->
+    <article class="karta karta-naglowek" id="zd-tabela-karta"><div id="zd-tabela-tresc"></div></article>
     <article class="karta" id="zd-os-karta">
       <div class="naglowek-karty">
         <h3>Zdarzenia na osi czasu</h3>
-        <div class="filtry-wykresu chipy-obszarow" id="zd-filtry" role="group" aria-label="Obszary zdarzeń"></div>
       </div>
+      <div id="zd-os-wstep"></div>
+      <div class="filtry-wykresu chipy-obszarow" id="zd-filtry" role="group" aria-label="Obszary zdarzeń"></div>
+      <p class="zalezy">Obszary zawężają oś i opisy zdarzeń pod nią; tabeli wyżej nie zmieniają.</p>
       <div class="wk-legenda os-legenda" id="zd-os-legenda"></div>
       <div id="zd-os" class="os-zdarzen"></div>
     </article>
+    <h3 class="sekcja-naglowek">Opisy zdarzeń</h3>
+    <p class="przypis">Kliknij zdarzenie, żeby rozwinąć: co się zmieniło, o ile i skąd to wiemy. Znacznik na osi otwiera ten sam opis.</p>
     <div id="zd-lista" class="lista-zdarzen"></div>
     <details class="karta wykryte">
       <summary>Wszystkie zmiany wykryte automatycznie w lejku (surowy wynik metody)</summary>
@@ -363,28 +386,39 @@
   <!-- WYNIK BIZNESU -->
   <section id="v-wynik" class="widok" hidden>
     <h2>Wynik biznesu: przychód, marża i ekonomia kampanii</h2>
-    <article class="karta" id="wy-karta">
+    <!-- wniosek (z danych: tytuł, zdanie, zastrzeżenie, szczegóły o III kwartale) -->
+    <article class="karta karta-naglowek" id="wy-karta">
       <h3>Przychód i marża w czasie</h3>
       <div id="wy-zdania"></div>
-      <form class="filtry" id="wy-filtry" onsubmit="return false"></form>
+    </article>
+    <article class="karta" id="wy-kw-karta">
+      <h3>Kwartały rok do roku</h3>
+      <p class="zalezy">Stałe porównanie: każdy kwartał ostatnich 12 miesięcy wobec tego samego kwartału rok wcześniej; nie zależy od żadnych ustawień.</p>
+      <div id="wy-kwartaly-wykres"></div>
+      <div class="tabela-ramka"><table class="tabela tabela-lejek" id="wy-kwartaly"></table></div>
+    </article>
+    <article class="karta" id="wy-czas-karta">
+      <div class="naglowek-karty">
+        <h3>Marża i wydatki na kampanie w czasie</h3>
+        <div class="filtry-wykresu" id="wy-filtry"></div>
+      </div>
+      <p class="zalezy">Grupowanie zmienia tylko dwa wykresy w tej karcie. Pionowe linie: starty kampanii, awaria Safari i spadek konwersji kampanii na markę, czyli zdarzenia, które mogły zmienić wynik.</p>
       <h4 class="podtytul-karty">Marża przed kosztem kampanii i wydatki na kampanie</h4>
       <p class="przypis">Obie linie w złotych, na jednej osi. Marża przed kosztem kampanii to przychód z konsultacji po zwrotach i z TelemediGO minus koszt lekarza.</p>
       <div id="wy-wykres" class="wykres"></div>
       <h4 class="podtytul-karty">Marża po koszcie lekarza, kampaniach i prowizji</h4>
       <div id="wy-wykres2" class="wykres"></div>
-      <h4 class="podtytul-karty">Kwartały rok do roku</h4>
-      <div id="wy-kwartaly-wykres"></div>
-      <div class="tabela-ramka"><table class="tabela tabela-lejek" id="wy-kwartaly"></table></div>
-      <h4 class="podtytul-karty">Miesiące i sumy obu lat</h4>
-      <div class="tabela-ramka"><table class="tabela" id="wy-tabela"></table></div>
+      <details class="szczegoly tabela-zwinieta"><summary>Tabela: miesiące i sumy obu lat</summary>
+        <div class="tabela-ramka"><table class="tabela" id="wy-tabela"></table></div>
+      </details>
     </article>
     <article class="karta" id="ek-karta">
       <h3>Ekonomia kampanii: koszt pozyskania i wynik na pacjenta</h3>
       <div id="ek-zdania"></div>
       <form class="filtry" id="ek-filtry" onsubmit="return false"></form>
       <div id="ek-wykres"></div>
-      <details class="szczegoly tabela-zwinieta"><summary>Tabela: koszt pozyskania i wynik na pacjenta (90 i 180 dni)</summary>
-        <p class="przypis">Wynik na pacjenta to marża na pacjenta w 90 albo 180 dniach minus koszt pozyskania. Pod kosztem: liczba pacjentów; pod wynikiem: marża minus koszt. Przedział warunkowy pokazuje się po najechaniu na wynik.</p>
+      <details class="szczegoly tabela-zwinieta"><summary id="ek-tabela-tytul">Tabela: koszt pozyskania i wynik na pacjenta</summary>
+        <p class="przypis">Wynik na pacjenta to marża na pacjenta w wybranym oknie minus koszt pozyskania; okno zmienia przełącznik „Okno wyniku” wyżej. Pod kosztem: liczba pacjentów; pod wynikiem: marża minus koszt. Przedział warunkowy pokazuje się po najechaniu na wynik.</p>
         <div class="tabela-ramka"><table class="tabela tabela-lejek" id="ek-tabela"></table></div>
       </details>
       <details class="jak-liczymy"><summary>Jak liczymy</summary><div class="szczegoly-tresc">
@@ -439,11 +473,6 @@
   <section id="v-priorytety" class="widok" hidden>
     <h2 id="pr-tytul">Priorytety: co robimy po kolei</h2>
     <p class="wstep" id="pr-wstep"></p>
-    <article class="karta" id="pr-przeglad-karta">
-      <h3>Przegląd</h3>
-      <nav class="pigulki" id="pr-pigulki" aria-label="Przejdź do pozycji listy priorytetów"></nav>
-      <div class="tabela-ramka"><table class="tabela tabela-tekst" id="pr-przeglad"></table></div>
-    </article>
     <div id="pr-zasady-miejsce">
       <article class="karta">
         <h3>Zasady listy</h3>
@@ -451,6 +480,11 @@
         <p class="przypis" id="pr-definicje"></p>
       </article>
     </div>
+    <article class="karta" id="pr-przeglad-karta">
+      <h3>Przegląd</h3>
+      <nav class="pigulki" id="pr-pigulki" aria-label="Przejdź do pozycji listy priorytetów"></nav>
+      <div class="tabela-ramka"><table class="tabela tabela-tekst" id="pr-przeglad"></table></div>
+    </article>
     <div class="lista-priorytetow" id="pr-karty"></div>
     <div id="pr-nie-robimy-miejsce">
       <article class="karta karta-cicha">
