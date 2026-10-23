@@ -945,6 +945,7 @@
       if (!tylkoWykres || tabelaTez) { rysujTabeleLejka(dane); rysujKrokiLejka(dane); }
       rysujWykresLejka(dane);
       panelZdarzenLejka(dane);
+      przyklejPaski();
       cel.style.opacity = "1";
       zapiszAdres();
     }).catch(function (e) {
@@ -1297,6 +1298,7 @@
     }
     if (widok === "jakosc") { if (!narysowane.jakosc) { rysujJakosc(); narysowane.jakosc = true; } else rysujWykresDup(); }
     if (window.BW && window.BW[widok]) window.BW[widok].pokaz(q);
+    przyklejPaski();
     if (q.get("karta")) setTimeout(function () {
       var k = $(q.get("karta"));
       if (!k) return;
@@ -1306,7 +1308,16 @@
     }, 120);
   }
 
+  // przyklejony pasek ustawień („Kohorty”, „Lejek”) stoi pod przyklejonym nagłówkiem strony: wysokości nagłówka i paska
+  // widocznej zakładki jako zmienne CSS (na telefonie nagłówek nie jest przyklejony, więc 0)
+  function przyklejPaski() {
+    var h = document.querySelector(".naglowek"), r = document.documentElement.style;
+    r.setProperty("--naglowek-h", (h && getComputedStyle(h).position === "sticky" ? h.offsetHeight : 0) + "px");
+    var p = document.querySelector("section.widok:not([hidden]) .pasek-analizy");
+    if (p && p.offsetHeight) r.setProperty("--pasek-h", p.offsetHeight + "px");
+  }
   function przerysujWykresy() {
+    przyklejPaski();
     if (biezacy === "lejek" && narysowane.lejek) odswiezLejek(true, true);
     if (biezacy === "jakosc" && narysowane.jakosc) rysujWykresDup();
     if (biezacy === "zdarzenia" && narysowane.zdarzenia) rysujOs();
@@ -1374,7 +1385,8 @@
     zdarzeniaNumerowane: zdarzeniaNumerowane, rysujZdarzeniaNaWykresie: rysujZdarzeniaNaWykresie, wczytaj: wczytaj,
     mostek: mostek, BK: BK, zdaniaAlboKarta: zdaniaAlboKarta, zmianaPkt: zmianaPkt, wstepKarta: wstepKarta,
     nazwyPresetu: nazwyPresetu, polaOkresow: polaOkresow, hantleSafari: hantleSafari,
-    legendaUplot: legendaUplot, zdarzeniaWykresu: zdarzeniaWykresu, tabelaTelefon: tabelaTelefon, schodkiMostka: schodkiMostka };
+    legendaUplot: legendaUplot, zdarzeniaWykresu: zdarzeniaWykresu, tabelaTelefon: tabelaTelefon, schodkiMostka: schodkiMostka,
+    przyklejPaski: przyklejPaski };
   ikonyStatyczne();
   przygotujSzybkie();
   odnosnikiDalej();

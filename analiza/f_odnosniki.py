@@ -82,6 +82,14 @@ def czekaj(pg, z):
     pg.wait_for_timeout(1200)     # przewinięcie do karty (scrollIntoView z animacją) i dorysowanie wykresów
 
 
+# runda G: adres zapisuje tylko ustawienia inne niż startowe (założenie 90), więc parametr równy wartości startowej może
+# zniknąć z adresu; pole filtra dalej musi mieć wartość z odnośnika
+DOMYSLNE = {"kohorty": {"regula": "Z1K", "podz": "grupa", "okno": "90", "miara": "powrot", "wygl": "7",
+                        "a": "2024-10-01_2025-09-30", "b": "2025-10-01_2026-09-30"},
+            "lejek": {"typ": "zwykla", "pac": "nie_kupowal", "podz": "przegladarka", "krok": "k5s", "wygl": "7",
+                      "a": "2024-10-01_2025-09-30", "b": "2025-10-01_2026-09-30", "w": "calosc"}}
+
+
 def oczekiwania(href, s):
     """Lista (opis, ok) — czy stan po wczytaniu zgadza się z parametrami odnośnika."""
     z = nazwa_z(href)
@@ -91,7 +99,10 @@ def oczekiwania(href, s):
     if z in POLA:
         for k, v in q.items():
             if k in ("a", "b", "w") or k.startswith("f_") or k in POLA[z]:
-                wyn.append((f"parametr {k}={v} zostaje w adresie", adres.get(k) == v))
+                if DOMYSLNE.get(z, {}).get(k) == v and k not in adres:
+                    wyn.append((f"parametr {k}={v} (wartość startowa) może zniknąć z adresu", True))
+                else:
+                    wyn.append((f"parametr {k}={v} zostaje w adresie", adres.get(k) == v))
             if k in POLA[z]:
                 wyn.append((f"pole {POLA[z][k]} = {v}", str(s["kontrolki"].get(POLA[z][k])) == v))
             if k.startswith("f_"):

@@ -295,11 +295,7 @@
     sterowanieK(); filtryMacierzy(); rysujK();
   }
   // przyklejony pasek: pod przyklejonym nagłówkiem strony (komputer), na górze ekranu (telefon, nagłówek nie jest przyklejony)
-  function przyklej() {
-    var h = document.querySelector(".naglowek"), p = b().$("ko-pasek"), r = document.documentElement.style;
-    r.setProperty("--naglowek-h", (h && getComputedStyle(h).position === "sticky" ? h.offsetHeight : 0) + "px");
-    if (p && p.offsetHeight) r.setProperty("--pasek-h", p.offsetHeight + "px");
-  }
+  function przyklej() { if (b().przyklejPaski) b().przyklejPaski(); }
 
   // ---------- pasek „Pacjenci w analizie”
   function pasekK() {
