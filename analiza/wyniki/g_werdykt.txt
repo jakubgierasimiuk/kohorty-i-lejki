@@ -1,4 +1,4 @@
-G — LICZBY DO WERDYKTU „CZY TO WZROST” (2026-10-23 12:11), schemat `czyste`
+G — LICZBY DO WERDYKTU „CZY TO WZROST” (2026-10-23 12:16), schemat `czyste`
 Okres 1 = X 2024 – IX 2025, okres 2 = X 2025 – IX 2026. Z1K = przyjęta reguła źródła (pierwsze wejście, kod kampanii
 rozstrzyga), Z2 = sesja płatności. Nowe kampanie na L4 = meta_prosp_l4_szybko (od 3.11.2025) i tt_prosp_l4_15min
 (od 9.02.2026). Pozostałe kampanie płatne = Google Ads, Meta lekarz online, remarketing Meta (płatne za klik, z
@@ -98,7 +98,7 @@ G2. ILE ZOSTAJE Z JEDNEGO NOWEGO PACJENTA: MARŻA W 180 DNIACH MINUS KOSZT POZYS
          Z2     3      2   405           0        10125          25.0      60.6   35.6      30.7      40.5         14420.6       229       90       55      31
          Z2   1+2      1  7917      367632            0          46.4      74.3   27.9      26.4      29.3        220801.0      7917        0        0       0
          Z2   1+2      2 14249      649675            0          45.6      59.1   13.5      12.6      14.4        192324.9      6722     3929     2351    1247
-         Z2 1+2+3      1  8354      367632        10925          45.3      73.6   28.3      26.9      29.7        236316.3      8354        0        0       0
+         Z2 1+2+3      1  8354      367632        10925          45.3      73.6   28.3      26.9      29.7        236316.4      8354        0        0       0
          Z2 1+2+3      2 14654      649675        10125          45.0      59.1   14.1      13.2      15.0        206633.5      6951     4019     2406    1278
 
 ==============================================================================================================

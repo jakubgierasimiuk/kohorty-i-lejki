@@ -1,20 +1,25 @@
-F — CZYTELNOŚĆ W TRYBIE JASNYM I CIEMNYM, UKŁAD NA TELEFONIE (2026-10-22 23:31, commit a4d52c9, pliki strony z dysku)
+F — CZYTELNOŚĆ W TRYBIE JASNYM I CIEMNYM, UKŁAD NA TELEFONIE (2026-10-23 12:35, commit 390b556, pliki strony z dysku)
 Edge bez okna, 127.0.0.1, wszystkie zwijane sekcje rozwinięte. Progi: tekst 4,5:1 (duży 3:1), elementy wykresów 3:1 (WCAG 2.1).
 
 1. Podsumowanie (tryb, szerokość: teksty sprawdzone / poniżej progu; elementy wykresów sprawdzone / poniżej progu; ucięte; tabele bez przewijania; przewijanie w bok)
-   jasny   1366 px: teksty   6805 /   15; wykresy   322 /   74 (znaki danych 0, pomocnicze 42, tło znaczników stanu 32); ucięte 0; tabele bez przewijania 0; w bok 0
-   ciemny  1366 px: teksty   6805 /    3; wykresy   322 /   74 (znaki danych 0, pomocnicze 42, tło znaczników stanu 32); ucięte 0; tabele bez przewijania 0; w bok 0
-   jasny    375 px: teksty   6461 /   15; wykresy   304 /   70 (znaki danych 0, pomocnicze 38, tło znaczników stanu 32); ucięte 0; tabele bez przewijania 0; w bok 0
-   ciemny   375 px: teksty   6461 /    3; wykresy   304 /   70 (znaki danych 0, pomocnicze 38, tło znaczników stanu 32); ucięte 0; tabele bez przewijania 0; w bok 0
+   jasny   1366 px: teksty   6744 /   20; wykresy   364 /   81 (znaki danych 1, pomocnicze 42, tło znaczników stanu 38); ucięte 0; tabele bez przewijania 0; w bok 0
+   ciemny  1366 px: teksty   6744 /    8; wykresy   364 /   80 (znaki danych 0, pomocnicze 42, tło znaczników stanu 38); ucięte 0; tabele bez przewijania 0; w bok 0
+   jasny    375 px: teksty   6728 /   20; wykresy   346 /   77 (znaki danych 1, pomocnicze 38, tło znaczników stanu 38); ucięte 0; tabele bez przewijania 0; w bok 0
+   ciemny   375 px: teksty   6728 /    8; wykresy   346 /   76 (znaki danych 0, pomocnicze 38, tło znaczników stanu 38); ucięte 0; tabele bez przewijania 0; w bok 0
 
 2. Szczegóły według zakładek (najsłabsze przykłady, najwyżej 12 na zakładkę i rodzaj)
-   == jasny, 1366 px, wzrost: teksty poniżej progu 3 z 367, elementy wykresów 15 z 54
+   == jasny, 1366 px, wzrost: teksty poniżej progu 6 z 606, elementy wykresów 17 z 91
+      tekst  2.82:1 (próg 4.5, 12 px) „194 tys. zł” kolor rgb(255, 255, 255) na rgb(27,175,122) | div.wk-wiersz > div.wk-skum > span.wk-segment.seg-baza > span
       tekst  3.20:1 (próg 4.5, 12 px) „7 268” kolor rgb(255, 255, 255) na rgb(235,104,52) | div.wk-wiersz > div.wk-skum > span.wk-segment.seg-nowe > span
       tekst  4.42:1 (próg 4.5, 12 px) „16 231” kolor rgb(255, 255, 255) na rgb(42,120,214) | div.wk-wiersz > div.wk-skum > span.wk-segment.seg-pozostale > span
       tekst  4.42:1 (próg 4.5, 12 px) „17 419” kolor rgb(255, 255, 255) na rgb(42,120,214) | div.wk-wiersz > div.wk-skum > span.wk-segment.seg-pozostale > span
+      tekst  4.42:1 (próg 4.5, 12 px) „828 tys. zł” kolor rgb(255, 255, 255) na rgb(42,120,214) | div.wk-wiersz > div.wk-skum > span.wk-segment.seg-pozostale > span
+      tekst  4.42:1 (próg 4.5, 12 px) „854 tys. zł” kolor rgb(255, 255, 255) na rgb(42,120,214) | div.wk-wiersz > div.wk-skum > span.wk-segment.seg-pozostale > span
+      wykres (znak danych)  2.82:1 wk-segment seg-baza kolor rgb(27,175,122) na rgb(255,255,255) | figure.wk.slupki-skum > div.wk-wiersz > div.wk-skum > span.wk-segment.seg-baza
+      wykres (tło znacznika stanu)  1.12:1 znacznik st-uwaga kolor rgb(255,241,212) na rgb(255,255,255) | dl.werdykt-linie > div.werdykt-linia > dt > span.znacznik.st-uwaga
+      wykres (tło znacznika stanu)  1.12:1 znacznik st-uwaga kolor rgb(255,241,212) na rgb(255,255,255) | dl.werdykt-linie > div.werdykt-linia > dt > span.znacznik.st-uwaga
       wykres (tło znacznika stanu)  1.15:1 znacznik st-zle znacznik-duzy kolor rgb(252,235,232) na rgb(255,255,255) | div#wz-nowy > article#wz-werdykt.karta.werdykt > div.werdykt-gora > span.znacznik.st-zle
-      wykres (tło znacznika stanu)  1.15:1 znacznik st-dobrze kolor rgb(227,243,232) na rgb(255,255,255) | article.karta > div.karta-tytul.karta-tytul-etykieta > div.karta-etykieta > span.znacznik.st-dobrze
-      wykres (tło znacznika stanu)  1.15:1 znacznik st-zle kolor rgb(252,235,232) na rgb(255,255,255) | article.karta > div.karta-tytul.karta-tytul-etykieta > div.karta-etykieta > span.znacznik.st-zle
+      wykres (tło znacznika stanu)  1.15:1 znacznik st-zle kolor rgb(252,235,232) na rgb(255,255,255) | dl.werdykt-linie > div.werdykt-linia > dt > span.znacznik.st-zle
       wykres (pomocniczy)  1.59:1 hantle-odcinek kolor rgb(180,208,241) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.59:1 hantle-odcinek kolor rgb(180,208,241) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.59:1 hantle-odcinek kolor rgb(180,208,241) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
@@ -22,9 +27,8 @@ Edge bez okna, 127.0.0.1, wszystkie zwijane sekcje rozwinięte. Progi: tekst 4,5
       wykres (pomocniczy)  1.65:1 sg-zero kolor rgb(195,202,214) na rgb(255,255,255) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
       wykres (pomocniczy)  1.65:1 sg-zero kolor rgb(195,202,214) na rgb(255,255,255) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
       wykres (pomocniczy)  1.65:1 sg-zero kolor rgb(195,202,214) na rgb(255,255,255) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
-      wykres (pomocniczy)  1.65:1 sg-zero kolor rgb(195,202,214) na rgb(255,255,255) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
-      wykres (pomocniczy)  1.65:1 sg-zero kolor rgb(195,202,214) na rgb(255,255,255) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
-   == jasny, 1366 px, kohorty: teksty poniżej progu 12 z 478, elementy wykresów 4 z 12
+   == jasny, 1366 px, kohorty: teksty poniżej progu 13 z 431, elementy wykresów 4 z 12
+      tekst  2.04:1 (próg 4.5, 13 px) „Przywróć domyślne” kolor rgb(31, 95, 204) na rgb(255,255,255) | div.obszar-paska > div#ko-pasek.pasek-analizy > div.pa-wnetrze > button#ko-reset.przycisk-maly.pa-reset
       tekst  4.20:1 (próg 4.5, 13 px) „25,5” kolor rgb(255, 255, 255) na rgb(63,124,207) | table#ko-macierz.tabela.macierz > tbody > tr > td.macierz-kom.hm5
       tekst  4.20:1 (próg 4.5, 13 px) „27,5” kolor rgb(255, 255, 255) na rgb(63,124,207) | table#ko-macierz.tabela.macierz > tbody > tr > td.macierz-kom.hm5
       tekst  4.20:1 (próg 4.5, 13 px) „25,6” kolor rgb(255, 255, 255) na rgb(63,124,207) | table#ko-macierz.tabela.macierz > tbody > tr > td.macierz-kom.hm5
@@ -36,12 +40,12 @@ Edge bez okna, 127.0.0.1, wszystkie zwijane sekcje rozwinięte. Progi: tekst 4,5
       tekst  4.20:1 (próg 4.5, 13 px) „28,7” kolor rgb(255, 255, 255) na rgb(63,124,207) | table#ko-macierz.tabela.macierz > tbody > tr > td.macierz-kom.hm5
       tekst  4.20:1 (próg 4.5, 13 px) „26,6” kolor rgb(255, 255, 255) na rgb(63,124,207) | table#ko-macierz.tabela.macierz > tbody > tr > td.macierz-kom.hm5
       tekst  4.20:1 (próg 4.5, 13 px) „27,5” kolor rgb(255, 255, 255) na rgb(63,124,207) | table#ko-macierz.tabela.macierz > tbody > tr > td.macierz-kom.hm5
-      tekst  4.20:1 (próg 4.5, 13 px) „27,8” kolor rgb(255, 255, 255) na rgb(63,124,207) | table#ko-macierz.tabela.macierz > tbody > tr > td.macierz-kom.hm5
       wykres (pomocniczy)  1.59:1 hantle-odcinek kolor rgb(180,208,241) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.59:1 hantle-odcinek kolor rgb(180,208,241) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.59:1 hantle-odcinek kolor rgb(180,208,241) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.59:1 hantle-odcinek kolor rgb(180,208,241) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
-   == jasny, 1366 px, lejek: teksty poniżej progu 0 z 821, elementy wykresów 10 z 47
+   == jasny, 1366 px, lejek: teksty poniżej progu 1 z 564, elementy wykresów 10 z 47
+      tekst  2.04:1 (próg 4.5, 13 px) „Przywróć domyślne” kolor rgb(31, 95, 204) na rgb(255,255,255) | div.obszar-paska > form#lj-filtry.pasek-analizy > div.pa-wnetrze > button#lj-reset.przycisk-maly.pa-reset
       wykres (tło znacznika stanu)  1.00:1 znacznik st-zle kolor rgb(252,235,232) na rgb(252,235,232) | div#lj-kroki.lejek-kroki > div.lk-przejscie.lk-najgorsze > div.lk-dalej > span.znacznik.st-zle
       wykres (tło znacznika stanu)  1.12:1 znacznik st-uwaga kolor rgb(255,241,212) na rgb(255,255,255) | div#lj-naprawy.naprawy > article.karta > div.karta-tytul > span.znacznik.st-uwaga
       wykres (tło znacznika stanu)  1.15:1 znacznik st-zle kolor rgb(252,235,232) na rgb(255,255,255) | div#lj-naprawy.naprawy > article.karta > div.karta-tytul > span.znacznik.st-zle
@@ -52,20 +56,25 @@ Edge bez okna, 127.0.0.1, wszystkie zwijane sekcje rozwinięte. Progi: tekst 4,5
       wykres (pomocniczy)  1.64:1 hantle-odcinek kolor rgb(199,203,209) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.64:1 hantle-odcinek kolor rgb(199,203,209) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.64:1 hantle-odcinek kolor rgb(199,203,209) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
-   == jasny, 1366 px, po-zakupie: teksty poniżej progu 0 z 713, elementy wykresów 5 z 109
+   == jasny, 1366 px, po-zakupie: teksty poniżej progu 0 z 643, elementy wykresów 5 z 109
       wykres (pomocniczy)  1.59:1 hantle-odcinek kolor rgb(180,208,241) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.59:1 hantle-odcinek kolor rgb(180,208,241) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.59:1 hantle-odcinek kolor rgb(180,208,241) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.59:1 hantle-odcinek kolor rgb(180,208,241) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.59:1 hantle-odcinek kolor rgb(180,208,241) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
-   == jasny, 1366 px, zdarzenia: teksty poniżej progu 0 z 2730, elementy wykresów 4 z 18
+   == jasny, 1366 px, zdarzenia: teksty poniżej progu 0 z 2853, elementy wykresów 9 z 23
       wykres (pomocniczy)  1.08:1 tor-tlo kolor rgb(244,246,249) na rgb(255,255,255) | article#zd-os-karta.karta > div#zd-os.os-zdarzen > svg > rect
       wykres (pomocniczy)  1.08:1 tor-tlo kolor rgb(244,246,249) na rgb(255,255,255) | article#zd-os-karta.karta > div#zd-os.os-zdarzen > svg > rect
       wykres (pomocniczy)  1.08:1 tor-tlo kolor rgb(244,246,249) na rgb(255,255,255) | article#zd-os-karta.karta > div#zd-os.os-zdarzen > svg > rect
       wykres (pomocniczy)  1.08:1 tor-tlo kolor rgb(244,246,249) na rgb(255,255,255) | article#zd-os-karta.karta > div#zd-os.os-zdarzen > svg > rect
-   == jasny, 1366 px, wynik: teksty poniżej progu 0 z 625, elementy wykresów 10 z 30
-      wykres (tło znacznika stanu)  1.01:1 znacznik st-uwaga kolor rgb(255,241,212) na rgb(238,241,245) | tbody > tr > td > span.znacznik.st-uwaga
+      wykres (tło znacznika stanu)  1.12:1 znacznik pw-srednia kolor rgb(255,241,212) na rgb(255,255,255) | tbody > tr#zt-zwroty_pierwsze > td > span.znacznik.pw-srednia
+      wykres (tło znacznika stanu)  1.15:1 znacznik pw-niska kolor rgb(252,235,232) na rgb(255,255,255) | tbody > tr#zt-opoznienia_rano > td > span.znacznik.pw-niska
+      wykres (tło znacznika stanu)  1.15:1 znacznik pw-wysoka kolor rgb(227,243,232) na rgb(255,255,255) | tbody > tr#zt-start_tiktok > td > span.znacznik.pw-wysoka
+      wykres (tło znacznika stanu)  1.15:1 znacznik pw-wysoka kolor rgb(227,243,232) na rgb(255,255,255) | tbody > tr#zt-safari_ios > td > span.znacznik.pw-wysoka
+      wykres (tło znacznika stanu)  1.17:1 znacznik pw-test kolor rgb(238,235,252) na rgb(255,255,255) | tbody > tr#zt-start_meta_l4 > td > span.znacznik.pw-test
+   == jasny, 1366 px, wynik: teksty poniżej progu 0 z 569, elementy wykresów 10 z 30
       wykres (tło znacznika stanu)  1.12:1 znacznik st-uwaga kolor rgb(255,241,212) na rgb(255,255,255) | figure.wk.punkty-zero > div.wk-wiersz > span.wk-wart > span.znacznik.st-uwaga
+      wykres (tło znacznika stanu)  1.12:1 znacznik st-uwaga kolor rgb(255,241,212) na rgb(255,255,255) | tbody > tr > td > span.znacznik.st-uwaga
       wykres (pomocniczy)  1.65:1 sg-zero kolor rgb(195,202,214) na rgb(255,255,255) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
       wykres (pomocniczy)  1.65:1 sg-zero kolor rgb(195,202,214) na rgb(255,255,255) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
       wykres (pomocniczy)  1.65:1 sg-zero kolor rgb(195,202,214) na rgb(255,255,255) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
@@ -74,7 +83,7 @@ Edge bez okna, 127.0.0.1, wszystkie zwijane sekcje rozwinięte. Progi: tekst 4,5
       wykres (pomocniczy)  1.65:1 sg-zero kolor rgb(195,202,214) na rgb(255,255,255) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
       wykres (pomocniczy)  1.65:1 sg-zero kolor rgb(195,202,214) na rgb(255,255,255) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
       wykres (pomocniczy)  1.65:1 sg-zero kolor rgb(195,202,214) na rgb(255,255,255) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
-   == jasny, 1366 px, priorytety: teksty poniżej progu 0 z 804, elementy wykresów 26 z 30
+   == jasny, 1366 px, priorytety: teksty poniżej progu 0 z 810, elementy wykresów 26 z 30
       wykres (tło znacznika stanu)  1.03:1 znacznik pw-srednia kolor rgb(255,241,212) na rgb(244,246,249) | article#pr-5.karta.priorytet > div.pasek-priorytetu > div > span.znacznik.pw-srednia
       wykres (tło znacznika stanu)  1.03:1 znacznik pw-srednia kolor rgb(255,241,212) na rgb(244,246,249) | article#pr-10.karta.priorytet > div.pasek-priorytetu > div > span.znacznik.pw-srednia
       wykres (tło znacznika stanu)  1.06:1 znacznik pw-wysoka kolor rgb(227,243,232) na rgb(244,246,249) | article#pr-1.karta.priorytet > div.pasek-priorytetu > div > span.znacznik.pw-wysoka
@@ -87,13 +96,17 @@ Edge bez okna, 127.0.0.1, wszystkie zwijane sekcje rozwinięte. Progi: tekst 4,5
       wykres (tło znacznika stanu)  1.07:1 znacznik pw-niska kolor rgb(252,235,232) na rgb(244,246,249) | article#pr-11.karta.priorytet > div.pasek-priorytetu > div > span.znacznik.pw-niska
       wykres (tło znacznika stanu)  1.08:1 znacznik pw-test kolor rgb(238,235,252) na rgb(244,246,249) | article#pr-9.karta.priorytet > div.pasek-priorytetu > div > span.znacznik.pw-test
       wykres (tło znacznika stanu)  1.08:1 znacznik pw-test kolor rgb(238,235,252) na rgb(244,246,249) | article#pr-12.karta.priorytet > div.pasek-priorytetu > div > span.znacznik.pw-test
-   == ciemny, 1366 px, wzrost: teksty poniżej progu 3 z 367, elementy wykresów 15 z 54
+   == ciemny, 1366 px, wzrost: teksty poniżej progu 6 z 606, elementy wykresów 16 z 91
+      tekst  3.41:1 (próg 4.5, 12 px) „194 tys. zł” kolor rgb(255, 255, 255) na rgb(25,158,112) | div.wk-wiersz > div.wk-skum > span.wk-segment.seg-baza > span
       tekst  3.64:1 (próg 4.5, 12 px) „16 231” kolor rgb(255, 255, 255) na rgb(57,135,229) | div.wk-wiersz > div.wk-skum > span.wk-segment.seg-pozostale > span
       tekst  3.64:1 (próg 4.5, 12 px) „17 419” kolor rgb(255, 255, 255) na rgb(57,135,229) | div.wk-wiersz > div.wk-skum > span.wk-segment.seg-pozostale > span
+      tekst  3.64:1 (próg 4.5, 12 px) „828 tys. zł” kolor rgb(255, 255, 255) na rgb(57,135,229) | div.wk-wiersz > div.wk-skum > span.wk-segment.seg-pozostale > span
+      tekst  3.64:1 (próg 4.5, 12 px) „854 tys. zł” kolor rgb(255, 255, 255) na rgb(57,135,229) | div.wk-wiersz > div.wk-skum > span.wk-segment.seg-pozostale > span
       tekst  3.88:1 (próg 4.5, 12 px) „7 268” kolor rgb(255, 255, 255) na rgb(217,89,38) | div.wk-wiersz > div.wk-skum > span.wk-segment.seg-nowe > span
       wykres (tło znacznika stanu)  1.05:1 znacznik st-zle znacznik-duzy kolor rgb(58,28,26) na rgb(24,33,48) | div#wz-nowy > article#wz-werdykt.karta.werdykt > div.werdykt-gora > span.znacznik.st-zle
-      wykres (tło znacznika stanu)  1.05:1 znacznik st-zle kolor rgb(58,28,26) na rgb(24,33,48) | article.karta > div.karta-tytul.karta-tytul-etykieta > div.karta-etykieta > span.znacznik.st-zle
-      wykres (tło znacznika stanu)  1.17:1 znacznik st-dobrze kolor rgb(22,50,34) na rgb(24,33,48) | article.karta > div.karta-tytul.karta-tytul-etykieta > div.karta-etykieta > span.znacznik.st-dobrze
+      wykres (tło znacznika stanu)  1.05:1 znacznik st-zle kolor rgb(58,28,26) na rgb(24,33,48) | dl.werdykt-linie > div.werdykt-linia > dt > span.znacznik.st-zle
+      wykres (tło znacznika stanu)  1.19:1 znacznik st-uwaga kolor rgb(58,44,16) na rgb(24,33,48) | dl.werdykt-linie > div.werdykt-linia > dt > span.znacznik.st-uwaga
+      wykres (tło znacznika stanu)  1.19:1 znacznik st-uwaga kolor rgb(58,44,16) na rgb(24,33,48) | dl.werdykt-linie > div.werdykt-linia > dt > span.znacznik.st-uwaga
       wykres (pomocniczy)  1.65:1 hantle-odcinek kolor rgb(36,69,111) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.65:1 hantle-odcinek kolor rgb(36,69,111) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.65:1 hantle-odcinek kolor rgb(36,69,111) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
@@ -102,13 +115,14 @@ Edge bez okna, 127.0.0.1, wszystkie zwijane sekcje rozwinięte. Progi: tekst 4,5
       wykres (pomocniczy)  1.70:1 sg-zero kolor rgb(59,70,89) na rgb(24,33,48) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
       wykres (pomocniczy)  1.70:1 sg-zero kolor rgb(59,70,89) na rgb(24,33,48) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
       wykres (pomocniczy)  1.70:1 sg-zero kolor rgb(59,70,89) na rgb(24,33,48) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
-      wykres (pomocniczy)  1.70:1 sg-zero kolor rgb(59,70,89) na rgb(24,33,48) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
-   == ciemny, 1366 px, kohorty: teksty poniżej progu 0 z 478, elementy wykresów 4 z 12
+   == ciemny, 1366 px, kohorty: teksty poniżej progu 1 z 431, elementy wykresów 4 z 12
+      tekst  2.38:1 (próg 4.5, 13 px) „Przywróć domyślne” kolor rgb(110, 164, 245) na rgb(24,33,48) | div.obszar-paska > div#ko-pasek.pasek-analizy > div.pa-wnetrze > button#ko-reset.przycisk-maly.pa-reset
       wykres (pomocniczy)  1.65:1 hantle-odcinek kolor rgb(36,69,111) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.65:1 hantle-odcinek kolor rgb(36,69,111) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.65:1 hantle-odcinek kolor rgb(36,69,111) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.65:1 hantle-odcinek kolor rgb(36,69,111) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
-   == ciemny, 1366 px, lejek: teksty poniżej progu 0 z 821, elementy wykresów 10 z 47
+   == ciemny, 1366 px, lejek: teksty poniżej progu 1 z 564, elementy wykresów 10 z 47
+      tekst  2.38:1 (próg 4.5, 13 px) „Przywróć domyślne” kolor rgb(110, 164, 245) na rgb(24,33,48) | div.obszar-paska > form#lj-filtry.pasek-analizy > div.pa-wnetrze > button#lj-reset.przycisk-maly.pa-reset
       wykres (tło znacznika stanu)  1.00:1 znacznik st-zle kolor rgb(58,28,26) na rgb(58,28,26) | div#lj-kroki.lejek-kroki > div.lk-przejscie.lk-najgorsze > div.lk-dalej > span.znacznik.st-zle
       wykres (tło znacznika stanu)  1.05:1 znacznik st-zle kolor rgb(58,28,26) na rgb(24,33,48) | div#lj-naprawy.naprawy > article.karta > div.karta-tytul > span.znacznik.st-zle
       wykres (tło znacznika stanu)  1.19:1 znacznik st-uwaga kolor rgb(58,44,16) na rgb(24,33,48) | div#lj-naprawy.naprawy > article.karta > div.karta-tytul > span.znacznik.st-uwaga
@@ -119,20 +133,25 @@ Edge bez okna, 127.0.0.1, wszystkie zwijane sekcje rozwinięte. Progi: tekst 4,5
       wykres (pomocniczy)  2.12:1 hantle-odcinek kolor rgb(75,84,98) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  2.12:1 hantle-odcinek kolor rgb(75,84,98) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  2.12:1 hantle-odcinek kolor rgb(75,84,98) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
-   == ciemny, 1366 px, po-zakupie: teksty poniżej progu 0 z 713, elementy wykresów 5 z 109
+   == ciemny, 1366 px, po-zakupie: teksty poniżej progu 0 z 643, elementy wykresów 5 z 109
       wykres (pomocniczy)  1.65:1 hantle-odcinek kolor rgb(36,69,111) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.65:1 hantle-odcinek kolor rgb(36,69,111) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.65:1 hantle-odcinek kolor rgb(36,69,111) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.65:1 hantle-odcinek kolor rgb(36,69,111) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.65:1 hantle-odcinek kolor rgb(36,69,111) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
-   == ciemny, 1366 px, zdarzenia: teksty poniżej progu 0 z 2730, elementy wykresów 4 z 18
+   == ciemny, 1366 px, zdarzenia: teksty poniżej progu 0 z 2853, elementy wykresów 9 z 23
+      wykres (tło znacznika stanu)  1.05:1 znacznik pw-niska kolor rgb(58,28,26) na rgb(24,33,48) | tbody > tr#zt-opoznienia_rano > td > span.znacznik.pw-niska
       wykres (pomocniczy)  1.09:1 tor-tlo kolor rgb(30,40,56) na rgb(24,33,48) | article#zd-os-karta.karta > div#zd-os.os-zdarzen > svg > rect
       wykres (pomocniczy)  1.09:1 tor-tlo kolor rgb(30,40,56) na rgb(24,33,48) | article#zd-os-karta.karta > div#zd-os.os-zdarzen > svg > rect
       wykres (pomocniczy)  1.09:1 tor-tlo kolor rgb(30,40,56) na rgb(24,33,48) | article#zd-os-karta.karta > div#zd-os.os-zdarzen > svg > rect
       wykres (pomocniczy)  1.09:1 tor-tlo kolor rgb(30,40,56) na rgb(24,33,48) | article#zd-os-karta.karta > div#zd-os.os-zdarzen > svg > rect
-   == ciemny, 1366 px, wynik: teksty poniżej progu 0 z 625, elementy wykresów 10 z 30
+      wykres (tło znacznika stanu)  1.14:1 znacznik pw-test kolor rgb(42,37,80) na rgb(24,33,48) | tbody > tr#zt-start_meta_l4 > td > span.znacznik.pw-test
+      wykres (tło znacznika stanu)  1.17:1 znacznik pw-wysoka kolor rgb(22,50,34) na rgb(24,33,48) | tbody > tr#zt-start_tiktok > td > span.znacznik.pw-wysoka
+      wykres (tło znacznika stanu)  1.17:1 znacznik pw-wysoka kolor rgb(22,50,34) na rgb(24,33,48) | tbody > tr#zt-safari_ios > td > span.znacznik.pw-wysoka
+      wykres (tło znacznika stanu)  1.19:1 znacznik pw-srednia kolor rgb(58,44,16) na rgb(24,33,48) | tbody > tr#zt-zwroty_pierwsze > td > span.znacznik.pw-srednia
+   == ciemny, 1366 px, wynik: teksty poniżej progu 0 z 569, elementy wykresów 10 z 30
       wykres (tło znacznika stanu)  1.19:1 znacznik st-uwaga kolor rgb(58,44,16) na rgb(24,33,48) | figure.wk.punkty-zero > div.wk-wiersz > span.wk-wart > span.znacznik.st-uwaga
-      wykres (tło znacznika stanu)  1.35:1 znacznik st-uwaga kolor rgb(58,44,16) na rgb(15,21,32) | tbody > tr > td > span.znacznik.st-uwaga
+      wykres (tło znacznika stanu)  1.19:1 znacznik st-uwaga kolor rgb(58,44,16) na rgb(24,33,48) | tbody > tr > td > span.znacznik.st-uwaga
       wykres (pomocniczy)  1.70:1 sg-zero kolor rgb(59,70,89) na rgb(24,33,48) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
       wykres (pomocniczy)  1.70:1 sg-zero kolor rgb(59,70,89) na rgb(24,33,48) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
       wykres (pomocniczy)  1.70:1 sg-zero kolor rgb(59,70,89) na rgb(24,33,48) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
@@ -141,7 +160,7 @@ Edge bez okna, 127.0.0.1, wszystkie zwijane sekcje rozwinięte. Progi: tekst 4,5
       wykres (pomocniczy)  1.70:1 sg-zero kolor rgb(59,70,89) na rgb(24,33,48) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
       wykres (pomocniczy)  1.70:1 sg-zero kolor rgb(59,70,89) na rgb(24,33,48) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
       wykres (pomocniczy)  1.70:1 sg-zero kolor rgb(59,70,89) na rgb(24,33,48) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
-   == ciemny, 1366 px, priorytety: teksty poniżej progu 0 z 804, elementy wykresów 26 z 30
+   == ciemny, 1366 px, priorytety: teksty poniżej progu 0 z 810, elementy wykresów 26 z 30
       wykres (tło znacznika stanu)  1.04:1 znacznik pw-niska kolor rgb(58,28,26) na rgb(30,40,56) | article#pr-6.karta.priorytet > div.pasek-priorytetu > div > span.znacznik.pw-niska
       wykres (tło znacznika stanu)  1.04:1 znacznik pw-niska kolor rgb(58,28,26) na rgb(30,40,56) | article#pr-7.karta.priorytet > div.pasek-priorytetu > div > span.znacznik.pw-niska
       wykres (tło znacznika stanu)  1.04:1 znacznik pw-niska kolor rgb(58,28,26) na rgb(30,40,56) | article#pr-8.karta.priorytet > div.pasek-priorytetu > div > span.znacznik.pw-niska
@@ -154,13 +173,18 @@ Edge bez okna, 127.0.0.1, wszystkie zwijane sekcje rozwinięte. Progi: tekst 4,5
       wykres (tło znacznika stanu)  1.05:1 znacznik pw-niska kolor rgb(58,28,26) na rgb(24,33,48) | tbody > tr > td > span.znacznik.pw-niska
       wykres (tło znacznika stanu)  1.07:1 znacznik pw-wysoka kolor rgb(22,50,34) na rgb(30,40,56) | article#pr-1.karta.priorytet > div.pasek-priorytetu > div > span.znacznik.pw-wysoka
       wykres (tło znacznika stanu)  1.07:1 znacznik pw-wysoka kolor rgb(22,50,34) na rgb(30,40,56) | article#pr-2.karta.priorytet > div.pasek-priorytetu > div > span.znacznik.pw-wysoka
-   == jasny, 375 px, wzrost: teksty poniżej progu 3 z 367, elementy wykresów 15 z 54
+   == jasny, 375 px, wzrost: teksty poniżej progu 6 z 606, elementy wykresów 17 z 91
+      tekst  2.82:1 (próg 4.5, 12 px) „194 tys. zł” kolor rgb(255, 255, 255) na rgb(27,175,122) | div.wk-wiersz > div.wk-skum > span.wk-segment.seg-baza > span
       tekst  3.20:1 (próg 4.5, 12 px) „7 268” kolor rgb(255, 255, 255) na rgb(235,104,52) | div.wk-wiersz > div.wk-skum > span.wk-segment.seg-nowe > span
       tekst  4.42:1 (próg 4.5, 12 px) „16 231” kolor rgb(255, 255, 255) na rgb(42,120,214) | div.wk-wiersz > div.wk-skum > span.wk-segment.seg-pozostale > span
       tekst  4.42:1 (próg 4.5, 12 px) „17 419” kolor rgb(255, 255, 255) na rgb(42,120,214) | div.wk-wiersz > div.wk-skum > span.wk-segment.seg-pozostale > span
+      tekst  4.42:1 (próg 4.5, 12 px) „828 tys. zł” kolor rgb(255, 255, 255) na rgb(42,120,214) | div.wk-wiersz > div.wk-skum > span.wk-segment.seg-pozostale > span
+      tekst  4.42:1 (próg 4.5, 12 px) „854 tys. zł” kolor rgb(255, 255, 255) na rgb(42,120,214) | div.wk-wiersz > div.wk-skum > span.wk-segment.seg-pozostale > span
+      wykres (znak danych)  2.82:1 wk-segment seg-baza kolor rgb(27,175,122) na rgb(255,255,255) | figure.wk.slupki-skum > div.wk-wiersz > div.wk-skum > span.wk-segment.seg-baza
+      wykres (tło znacznika stanu)  1.12:1 znacznik st-uwaga kolor rgb(255,241,212) na rgb(255,255,255) | dl.werdykt-linie > div.werdykt-linia > dt > span.znacznik.st-uwaga
+      wykres (tło znacznika stanu)  1.12:1 znacznik st-uwaga kolor rgb(255,241,212) na rgb(255,255,255) | dl.werdykt-linie > div.werdykt-linia > dt > span.znacznik.st-uwaga
       wykres (tło znacznika stanu)  1.15:1 znacznik st-zle znacznik-duzy kolor rgb(252,235,232) na rgb(255,255,255) | div#wz-nowy > article#wz-werdykt.karta.werdykt > div.werdykt-gora > span.znacznik.st-zle
-      wykres (tło znacznika stanu)  1.15:1 znacznik st-dobrze kolor rgb(227,243,232) na rgb(255,255,255) | article.karta > div.karta-tytul.karta-tytul-etykieta > div.karta-etykieta > span.znacznik.st-dobrze
-      wykres (tło znacznika stanu)  1.15:1 znacznik st-zle kolor rgb(252,235,232) na rgb(255,255,255) | article.karta > div.karta-tytul.karta-tytul-etykieta > div.karta-etykieta > span.znacznik.st-zle
+      wykres (tło znacznika stanu)  1.15:1 znacznik st-zle kolor rgb(252,235,232) na rgb(255,255,255) | dl.werdykt-linie > div.werdykt-linia > dt > span.znacznik.st-zle
       wykres (pomocniczy)  1.59:1 hantle-odcinek kolor rgb(180,208,241) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.59:1 hantle-odcinek kolor rgb(180,208,241) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.59:1 hantle-odcinek kolor rgb(180,208,241) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
@@ -168,9 +192,8 @@ Edge bez okna, 127.0.0.1, wszystkie zwijane sekcje rozwinięte. Progi: tekst 4,5
       wykres (pomocniczy)  1.65:1 sg-zero kolor rgb(195,202,214) na rgb(255,255,255) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
       wykres (pomocniczy)  1.65:1 sg-zero kolor rgb(195,202,214) na rgb(255,255,255) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
       wykres (pomocniczy)  1.65:1 sg-zero kolor rgb(195,202,214) na rgb(255,255,255) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
-      wykres (pomocniczy)  1.65:1 sg-zero kolor rgb(195,202,214) na rgb(255,255,255) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
-      wykres (pomocniczy)  1.65:1 sg-zero kolor rgb(195,202,214) na rgb(255,255,255) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
-   == jasny, 375 px, kohorty: teksty poniżej progu 12 z 403, elementy wykresów 4 z 12
+   == jasny, 375 px, kohorty: teksty poniżej progu 13 z 429, elementy wykresów 4 z 12
+      tekst  2.04:1 (próg 4.5, 13 px) „Przywróć domyślne” kolor rgb(31, 95, 204) na rgb(255,255,255) | div.obszar-paska > div#ko-pasek.pasek-analizy > div.pa-wnetrze > button#ko-reset.przycisk-maly.pa-reset
       tekst  4.20:1 (próg 4.5, 13 px) „25,5” kolor rgb(255, 255, 255) na rgb(63,124,207) | table#ko-macierz.tabela.macierz > tbody > tr > td.macierz-kom.hm5
       tekst  4.20:1 (próg 4.5, 13 px) „27,5” kolor rgb(255, 255, 255) na rgb(63,124,207) | table#ko-macierz.tabela.macierz > tbody > tr > td.macierz-kom.hm5
       tekst  4.20:1 (próg 4.5, 13 px) „25,6” kolor rgb(255, 255, 255) na rgb(63,124,207) | table#ko-macierz.tabela.macierz > tbody > tr > td.macierz-kom.hm5
@@ -182,12 +205,12 @@ Edge bez okna, 127.0.0.1, wszystkie zwijane sekcje rozwinięte. Progi: tekst 4,5
       tekst  4.20:1 (próg 4.5, 13 px) „28,7” kolor rgb(255, 255, 255) na rgb(63,124,207) | table#ko-macierz.tabela.macierz > tbody > tr > td.macierz-kom.hm5
       tekst  4.20:1 (próg 4.5, 13 px) „26,6” kolor rgb(255, 255, 255) na rgb(63,124,207) | table#ko-macierz.tabela.macierz > tbody > tr > td.macierz-kom.hm5
       tekst  4.20:1 (próg 4.5, 13 px) „27,5” kolor rgb(255, 255, 255) na rgb(63,124,207) | table#ko-macierz.tabela.macierz > tbody > tr > td.macierz-kom.hm5
-      tekst  4.20:1 (próg 4.5, 13 px) „27,8” kolor rgb(255, 255, 255) na rgb(63,124,207) | table#ko-macierz.tabela.macierz > tbody > tr > td.macierz-kom.hm5
       wykres (pomocniczy)  1.59:1 hantle-odcinek kolor rgb(180,208,241) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.59:1 hantle-odcinek kolor rgb(180,208,241) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.59:1 hantle-odcinek kolor rgb(180,208,241) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.59:1 hantle-odcinek kolor rgb(180,208,241) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
-   == jasny, 375 px, lejek: teksty poniżej progu 0 z 547, elementy wykresów 10 z 47
+   == jasny, 375 px, lejek: teksty poniżej progu 1 z 552, elementy wykresów 10 z 47
+      tekst  2.04:1 (próg 4.5, 13 px) „Przywróć domyślne” kolor rgb(31, 95, 204) na rgb(255,255,255) | div.obszar-paska > form#lj-filtry.pasek-analizy > div.pa-wnetrze > button#lj-reset.przycisk-maly.pa-reset
       wykres (tło znacznika stanu)  1.00:1 znacznik st-zle kolor rgb(252,235,232) na rgb(252,235,232) | div#lj-kroki.lejek-kroki > div.lk-przejscie.lk-najgorsze > div.lk-dalej > span.znacznik.st-zle
       wykres (tło znacznika stanu)  1.12:1 znacznik st-uwaga kolor rgb(255,241,212) na rgb(255,255,255) | div#lj-naprawy.naprawy > article.karta > div.karta-tytul > span.znacznik.st-uwaga
       wykres (tło znacznika stanu)  1.15:1 znacznik st-zle kolor rgb(252,235,232) na rgb(255,255,255) | div#lj-naprawy.naprawy > article.karta > div.karta-tytul > span.znacznik.st-zle
@@ -198,13 +221,19 @@ Edge bez okna, 127.0.0.1, wszystkie zwijane sekcje rozwinięte. Progi: tekst 4,5
       wykres (pomocniczy)  1.64:1 hantle-odcinek kolor rgb(199,203,209) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.64:1 hantle-odcinek kolor rgb(199,203,209) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.64:1 hantle-odcinek kolor rgb(199,203,209) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
-   == jasny, 375 px, po-zakupie: teksty poniżej progu 0 z 713, elementy wykresów 5 z 109
+   == jasny, 375 px, po-zakupie: teksty poniżej progu 0 z 643, elementy wykresów 5 z 109
       wykres (pomocniczy)  1.59:1 hantle-odcinek kolor rgb(180,208,241) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.59:1 hantle-odcinek kolor rgb(180,208,241) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.59:1 hantle-odcinek kolor rgb(180,208,241) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.59:1 hantle-odcinek kolor rgb(180,208,241) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.59:1 hantle-odcinek kolor rgb(180,208,241) na rgb(255,255,255) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
-   == jasny, 375 px, wynik: teksty poniżej progu 0 z 624, elementy wykresów 10 z 30
+   == jasny, 375 px, zdarzenia: teksty poniżej progu 0 z 2862, elementy wykresów 5 z 5
+      wykres (tło znacznika stanu)  1.12:1 znacznik pw-srednia kolor rgb(255,241,212) na rgb(255,255,255) | tbody > tr#zt-zwroty_pierwsze > td > span.znacznik.pw-srednia
+      wykres (tło znacznika stanu)  1.15:1 znacznik pw-niska kolor rgb(252,235,232) na rgb(255,255,255) | tbody > tr#zt-opoznienia_rano > td > span.znacznik.pw-niska
+      wykres (tło znacznika stanu)  1.15:1 znacznik pw-wysoka kolor rgb(227,243,232) na rgb(255,255,255) | tbody > tr#zt-start_tiktok > td > span.znacznik.pw-wysoka
+      wykres (tło znacznika stanu)  1.15:1 znacznik pw-wysoka kolor rgb(227,243,232) na rgb(255,255,255) | tbody > tr#zt-safari_ios > td > span.znacznik.pw-wysoka
+      wykres (tło znacznika stanu)  1.17:1 znacznik pw-test kolor rgb(238,235,252) na rgb(255,255,255) | tbody > tr#zt-start_meta_l4 > td > span.znacznik.pw-test
+   == jasny, 375 px, wynik: teksty poniżej progu 0 z 568, elementy wykresów 10 z 30
       wykres (tło znacznika stanu)  1.01:1 znacznik st-uwaga kolor rgb(255,241,212) na rgb(238,241,245) | tbody > tr > td > span.znacznik.st-uwaga
       wykres (tło znacznika stanu)  1.12:1 znacznik st-uwaga kolor rgb(255,241,212) na rgb(255,255,255) | figure.wk.punkty-zero > div.wk-wiersz > span.wk-wart > span.znacznik.st-uwaga
       wykres (pomocniczy)  1.65:1 sg-zero kolor rgb(195,202,214) na rgb(255,255,255) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
@@ -215,7 +244,7 @@ Edge bez okna, 127.0.0.1, wszystkie zwijane sekcje rozwinięte. Progi: tekst 4,5
       wykres (pomocniczy)  1.65:1 sg-zero kolor rgb(195,202,214) na rgb(255,255,255) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
       wykres (pomocniczy)  1.65:1 sg-zero kolor rgb(195,202,214) na rgb(255,255,255) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
       wykres (pomocniczy)  1.65:1 sg-zero kolor rgb(195,202,214) na rgb(255,255,255) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
-   == jasny, 375 px, priorytety: teksty poniżej progu 0 z 799, elementy wykresów 26 z 30
+   == jasny, 375 px, priorytety: teksty poniżej progu 0 z 805, elementy wykresów 26 z 30
       wykres (tło znacznika stanu)  1.03:1 znacznik pw-srednia kolor rgb(255,241,212) na rgb(244,246,249) | article#pr-5.karta.priorytet > div.pasek-priorytetu > div > span.znacznik.pw-srednia
       wykres (tło znacznika stanu)  1.03:1 znacznik pw-srednia kolor rgb(255,241,212) na rgb(244,246,249) | article#pr-10.karta.priorytet > div.pasek-priorytetu > div > span.znacznik.pw-srednia
       wykres (tło znacznika stanu)  1.06:1 znacznik pw-wysoka kolor rgb(227,243,232) na rgb(244,246,249) | article#pr-1.karta.priorytet > div.pasek-priorytetu > div > span.znacznik.pw-wysoka
@@ -228,13 +257,17 @@ Edge bez okna, 127.0.0.1, wszystkie zwijane sekcje rozwinięte. Progi: tekst 4,5
       wykres (tło znacznika stanu)  1.07:1 znacznik pw-niska kolor rgb(252,235,232) na rgb(244,246,249) | article#pr-11.karta.priorytet > div.pasek-priorytetu > div > span.znacznik.pw-niska
       wykres (tło znacznika stanu)  1.08:1 znacznik pw-test kolor rgb(238,235,252) na rgb(244,246,249) | article#pr-9.karta.priorytet > div.pasek-priorytetu > div > span.znacznik.pw-test
       wykres (tło znacznika stanu)  1.08:1 znacznik pw-test kolor rgb(238,235,252) na rgb(244,246,249) | article#pr-12.karta.priorytet > div.pasek-priorytetu > div > span.znacznik.pw-test
-   == ciemny, 375 px, wzrost: teksty poniżej progu 3 z 367, elementy wykresów 15 z 54
+   == ciemny, 375 px, wzrost: teksty poniżej progu 6 z 606, elementy wykresów 16 z 91
+      tekst  3.41:1 (próg 4.5, 12 px) „194 tys. zł” kolor rgb(255, 255, 255) na rgb(25,158,112) | div.wk-wiersz > div.wk-skum > span.wk-segment.seg-baza > span
       tekst  3.64:1 (próg 4.5, 12 px) „16 231” kolor rgb(255, 255, 255) na rgb(57,135,229) | div.wk-wiersz > div.wk-skum > span.wk-segment.seg-pozostale > span
       tekst  3.64:1 (próg 4.5, 12 px) „17 419” kolor rgb(255, 255, 255) na rgb(57,135,229) | div.wk-wiersz > div.wk-skum > span.wk-segment.seg-pozostale > span
+      tekst  3.64:1 (próg 4.5, 12 px) „828 tys. zł” kolor rgb(255, 255, 255) na rgb(57,135,229) | div.wk-wiersz > div.wk-skum > span.wk-segment.seg-pozostale > span
+      tekst  3.64:1 (próg 4.5, 12 px) „854 tys. zł” kolor rgb(255, 255, 255) na rgb(57,135,229) | div.wk-wiersz > div.wk-skum > span.wk-segment.seg-pozostale > span
       tekst  3.88:1 (próg 4.5, 12 px) „7 268” kolor rgb(255, 255, 255) na rgb(217,89,38) | div.wk-wiersz > div.wk-skum > span.wk-segment.seg-nowe > span
       wykres (tło znacznika stanu)  1.05:1 znacznik st-zle znacznik-duzy kolor rgb(58,28,26) na rgb(24,33,48) | div#wz-nowy > article#wz-werdykt.karta.werdykt > div.werdykt-gora > span.znacznik.st-zle
-      wykres (tło znacznika stanu)  1.05:1 znacznik st-zle kolor rgb(58,28,26) na rgb(24,33,48) | article.karta > div.karta-tytul.karta-tytul-etykieta > div.karta-etykieta > span.znacznik.st-zle
-      wykres (tło znacznika stanu)  1.17:1 znacznik st-dobrze kolor rgb(22,50,34) na rgb(24,33,48) | article.karta > div.karta-tytul.karta-tytul-etykieta > div.karta-etykieta > span.znacznik.st-dobrze
+      wykres (tło znacznika stanu)  1.05:1 znacznik st-zle kolor rgb(58,28,26) na rgb(24,33,48) | dl.werdykt-linie > div.werdykt-linia > dt > span.znacznik.st-zle
+      wykres (tło znacznika stanu)  1.19:1 znacznik st-uwaga kolor rgb(58,44,16) na rgb(24,33,48) | dl.werdykt-linie > div.werdykt-linia > dt > span.znacznik.st-uwaga
+      wykres (tło znacznika stanu)  1.19:1 znacznik st-uwaga kolor rgb(58,44,16) na rgb(24,33,48) | dl.werdykt-linie > div.werdykt-linia > dt > span.znacznik.st-uwaga
       wykres (pomocniczy)  1.65:1 hantle-odcinek kolor rgb(36,69,111) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.65:1 hantle-odcinek kolor rgb(36,69,111) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.65:1 hantle-odcinek kolor rgb(36,69,111) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
@@ -243,13 +276,14 @@ Edge bez okna, 127.0.0.1, wszystkie zwijane sekcje rozwinięte. Progi: tekst 4,5
       wykres (pomocniczy)  1.70:1 sg-zero kolor rgb(59,70,89) na rgb(24,33,48) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
       wykres (pomocniczy)  1.70:1 sg-zero kolor rgb(59,70,89) na rgb(24,33,48) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
       wykres (pomocniczy)  1.70:1 sg-zero kolor rgb(59,70,89) na rgb(24,33,48) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
-      wykres (pomocniczy)  1.70:1 sg-zero kolor rgb(59,70,89) na rgb(24,33,48) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
-   == ciemny, 375 px, kohorty: teksty poniżej progu 0 z 403, elementy wykresów 4 z 12
+   == ciemny, 375 px, kohorty: teksty poniżej progu 1 z 429, elementy wykresów 4 z 12
+      tekst  2.38:1 (próg 4.5, 13 px) „Przywróć domyślne” kolor rgb(110, 164, 245) na rgb(24,33,48) | div.obszar-paska > div#ko-pasek.pasek-analizy > div.pa-wnetrze > button#ko-reset.przycisk-maly.pa-reset
       wykres (pomocniczy)  1.65:1 hantle-odcinek kolor rgb(36,69,111) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.65:1 hantle-odcinek kolor rgb(36,69,111) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.65:1 hantle-odcinek kolor rgb(36,69,111) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.65:1 hantle-odcinek kolor rgb(36,69,111) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
-   == ciemny, 375 px, lejek: teksty poniżej progu 0 z 547, elementy wykresów 10 z 47
+   == ciemny, 375 px, lejek: teksty poniżej progu 1 z 552, elementy wykresów 10 z 47
+      tekst  2.38:1 (próg 4.5, 13 px) „Przywróć domyślne” kolor rgb(110, 164, 245) na rgb(24,33,48) | div.obszar-paska > form#lj-filtry.pasek-analizy > div.pa-wnetrze > button#lj-reset.przycisk-maly.pa-reset
       wykres (tło znacznika stanu)  1.00:1 znacznik st-zle kolor rgb(58,28,26) na rgb(58,28,26) | div#lj-kroki.lejek-kroki > div.lk-przejscie.lk-najgorsze > div.lk-dalej > span.znacznik.st-zle
       wykres (tło znacznika stanu)  1.05:1 znacznik st-zle kolor rgb(58,28,26) na rgb(24,33,48) | div#lj-naprawy.naprawy > article.karta > div.karta-tytul > span.znacznik.st-zle
       wykres (tło znacznika stanu)  1.19:1 znacznik st-uwaga kolor rgb(58,44,16) na rgb(24,33,48) | div#lj-naprawy.naprawy > article.karta > div.karta-tytul > span.znacznik.st-uwaga
@@ -260,13 +294,19 @@ Edge bez okna, 127.0.0.1, wszystkie zwijane sekcje rozwinięte. Progi: tekst 4,5
       wykres (pomocniczy)  2.12:1 hantle-odcinek kolor rgb(75,84,98) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  2.12:1 hantle-odcinek kolor rgb(75,84,98) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  2.12:1 hantle-odcinek kolor rgb(75,84,98) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
-   == ciemny, 375 px, po-zakupie: teksty poniżej progu 0 z 713, elementy wykresów 5 z 109
+   == ciemny, 375 px, po-zakupie: teksty poniżej progu 0 z 643, elementy wykresów 5 z 109
       wykres (pomocniczy)  1.65:1 hantle-odcinek kolor rgb(36,69,111) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.65:1 hantle-odcinek kolor rgb(36,69,111) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.65:1 hantle-odcinek kolor rgb(36,69,111) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.65:1 hantle-odcinek kolor rgb(36,69,111) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
       wykres (pomocniczy)  1.65:1 hantle-odcinek kolor rgb(36,69,111) na rgb(24,33,48) | figure.wk.hantle > div.wk-wiersz > div.wk-tor > span.hantle-odcinek
-   == ciemny, 375 px, wynik: teksty poniżej progu 0 z 624, elementy wykresów 10 z 30
+   == ciemny, 375 px, zdarzenia: teksty poniżej progu 0 z 2862, elementy wykresów 5 z 5
+      wykres (tło znacznika stanu)  1.05:1 znacznik pw-niska kolor rgb(58,28,26) na rgb(24,33,48) | tbody > tr#zt-opoznienia_rano > td > span.znacznik.pw-niska
+      wykres (tło znacznika stanu)  1.14:1 znacznik pw-test kolor rgb(42,37,80) na rgb(24,33,48) | tbody > tr#zt-start_meta_l4 > td > span.znacznik.pw-test
+      wykres (tło znacznika stanu)  1.17:1 znacznik pw-wysoka kolor rgb(22,50,34) na rgb(24,33,48) | tbody > tr#zt-start_tiktok > td > span.znacznik.pw-wysoka
+      wykres (tło znacznika stanu)  1.17:1 znacznik pw-wysoka kolor rgb(22,50,34) na rgb(24,33,48) | tbody > tr#zt-safari_ios > td > span.znacznik.pw-wysoka
+      wykres (tło znacznika stanu)  1.19:1 znacznik pw-srednia kolor rgb(58,44,16) na rgb(24,33,48) | tbody > tr#zt-zwroty_pierwsze > td > span.znacznik.pw-srednia
+   == ciemny, 375 px, wynik: teksty poniżej progu 0 z 568, elementy wykresów 10 z 30
       wykres (tło znacznika stanu)  1.19:1 znacznik st-uwaga kolor rgb(58,44,16) na rgb(24,33,48) | figure.wk.punkty-zero > div.wk-wiersz > span.wk-wart > span.znacznik.st-uwaga
       wykres (tło znacznika stanu)  1.35:1 znacznik st-uwaga kolor rgb(58,44,16) na rgb(15,21,32) | tbody > tr > td > span.znacznik.st-uwaga
       wykres (pomocniczy)  1.70:1 sg-zero kolor rgb(59,70,89) na rgb(24,33,48) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
@@ -277,7 +317,7 @@ Edge bez okna, 127.0.0.1, wszystkie zwijane sekcje rozwinięte. Progi: tekst 4,5
       wykres (pomocniczy)  1.70:1 sg-zero kolor rgb(59,70,89) na rgb(24,33,48) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
       wykres (pomocniczy)  1.70:1 sg-zero kolor rgb(59,70,89) na rgb(24,33,48) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
       wykres (pomocniczy)  1.70:1 sg-zero kolor rgb(59,70,89) na rgb(24,33,48) | div.sg-linie > div.sg-linia > div.sg-tor > span.sg-zero
-   == ciemny, 375 px, priorytety: teksty poniżej progu 0 z 799, elementy wykresów 26 z 30
+   == ciemny, 375 px, priorytety: teksty poniżej progu 0 z 805, elementy wykresów 26 z 30
       wykres (tło znacznika stanu)  1.04:1 znacznik pw-niska kolor rgb(58,28,26) na rgb(30,40,56) | article#pr-6.karta.priorytet > div.pasek-priorytetu > div > span.znacznik.pw-niska
       wykres (tło znacznika stanu)  1.04:1 znacznik pw-niska kolor rgb(58,28,26) na rgb(30,40,56) | article#pr-7.karta.priorytet > div.pasek-priorytetu > div > span.znacznik.pw-niska
       wykres (tło znacznika stanu)  1.04:1 znacznik pw-niska kolor rgb(58,28,26) na rgb(30,40,56) | article#pr-8.karta.priorytet > div.pasek-priorytetu > div > span.znacznik.pw-niska

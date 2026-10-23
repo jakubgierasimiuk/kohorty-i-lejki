@@ -1,0 +1,33 @@
+G — zachowanie „Kohort” i „Lejka” i kolory tabel grup wobec g_istotnosc.json
+
+OK  Kohorty: adres startowy czysty (#kohorty)
+OK  Kohorty: „Przywróć domyślne” nieaktywny na starcie
+OK  Kohorty domyślne, powrót 90 dni: 2 komórek zgodnych z g_istotnosc.json, 0 niezgodnych
+OK  Kohorty: po zmianie miary adres ma miara=marza, przycisk aktywny
+OK  Kohorty domyślne, marża 90 dni: 2 komórek zgodnych z g_istotnosc.json, 0 niezgodnych
+OK  Kohorty: „Przywróć domyślne” wraca do startu i czyści adres
+OK  Kohorty, przypadek Kuby, powrót we wszystkich oknach: 32 komórek zgodnych z g_istotnosc.json, 0 niezgodnych
+OK  Kohorty, przypadek Kuby: kolorowych komórek 0 (Python: 0 istotnych)
+OK  Kohorty, przypadek Kuby, marża 90 i 180 dni: 16 komórek zgodnych z g_istotnosc.json, 0 niezgodnych
+OK  Kohorty: lista porównań bez jakości danych (16 pozycji)
+OK  Kohorty: przycisk Meta ustawia 60 dni przed i po (#kohorty?a=2025-09-04_2025-11-02&b=2025-11-03_2026-01-01)
+OK  Kohorty: zdanie o zdarzeniu: „Start kampanii Meta na L4” (3.11.2025): powrót w 90 dniach wszystkich wybranych pacjentów to 23,6% w 60 dniach przed i 19,5% w 60 dniach po (2 546 i 3 568 pacj
+OK  Kohorty: okresy słowami w tabeli ['Nowe kampanie na L4', 'Pacjenci: 60 dni przed → 60 dni po', '60 dni przed', '60 dni po', 'Zmiana']
+OK  Kohorty: 8 przycisków przyczyn domyślnie
+OK  Kohorty: nazwy zdarzeń w mapie (12)
+OK  Kohorty: pasek przyklejony pod nagłówkiem (top 101, nagłówek 101)
+OK  Kohorty: tabela grup mieści się bez przewijania w bok przy 1366 ([1230, 1230])
+OK  Lejek: adres startowy czysty (#lejek)
+OK  Lejek: „Przywróć domyślne” nieaktywny na starcie
+OK  Lejek domyślny, wszystkie kroki: 54 komórek zgodnych z g_istotnosc.json, 0 niezgodnych
+OK  Lejek: tabela wszystkich kroków mieści się przy 1366 ([1230, 1230])
+OK  Lejek: zmiana trybu tabeli w adresie, przycisk aktywny
+OK  Lejek: „Przywróć domyślne” czyści adres
+OK  Lejek, 60 dni przed i po godzinie bez danych: 54 komórek zgodnych z g_istotnosc.json, 0 niezgodnych
+OK  Lejek: zdanie o zdarzeniu: „Awaria zakładania konta w Safari na iOS” (17.03.2026): sesja do płatności (płatność / sesje) dla wszystkich wybranych sesji to 10,2% w 60 dniach przed i 8,8% w 60 dniach po (48 995 i 52 216 sesji), c
+OK  Lejek: pola dat ukryte przy porównaniu z listy
+OK  Lejek: pola dat widoczne przy „Własne daty”
+OK  Lejek otwarty wprost: pasek przyklejony pod nagłówkiem (top 101, nagłówek 101)
+OK  błędy w konsoli: []
+
+problemów: 0

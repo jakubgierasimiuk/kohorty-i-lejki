@@ -1,4 +1,4 @@
-B — EKSPORT DANYCH NARZĘDZIA (2026-10-23 10:07, commit a1d4465)
+B — EKSPORT DANYCH NARZĘDZIA (2026-10-23 12:56, commit b8d991f)
 
 1. Pliki w narzedzie/dane_strony/ (bajty)
    calosc                             38,075
@@ -9,14 +9,14 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-23 10:07, commit a1d4465)
    kanal                             177,555
    kampania                          249,718
    strona_wejscia                    265,403
-   podsumowanie                       33,554
-   zdarzenia                          41,096
-   jakosc                             15,775
-   kohorty                         1,458,088
+   podsumowanie                       33,569
+   zdarzenia                          51,089
+   jakosc                             15,780
+   kohorty                         1,447,921
    po_zakupie                        312,871
    wynik                              96,930
-   c                                  97,747
-   razem                           4,275,399
+   c                                 113,297
+   razem                           4,290,795
 
 2. Kontrola: liczby z eksportu wobec notatek i wcześniejszych raportów
    co                                                                    eksport  oczekiwane  wynik
@@ -133,7 +133,7 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-23 10:07, commit a1d4465)
    C: marża po kwartałach = eksport z bazy (zł, 8 kwartałów)          151340 226877 227044 222824 259375 324423 256558 207713 151340 226877 227044 222824 259375 324423 256558 207713  zgodne
    C: liczby w tekstach bez pokrycia w c_szkic.md (50 fragmentów, 1176 liczb)          0           0  zgodne
    D: liczby w tekstach innych zakładek bez pokrycia w d_teksty_strony.md (8 sekcji, 247 liczb)          0           0  zgodne
-   E: liczby w nowych tekstach „Czy to wzrost”, „Priorytety”, „Czego nie wiemy” bez pokrycia w notatkach (45 kart, 1299 liczb)          0           0  zgodne
+   E: liczby w nowych tekstach „Czy to wzrost”, „Priorytety”, „Czego nie wiemy” bez pokrycia w notatkach (48 kart, 1599 liczb)          0           0  zgodne
    E: liczby w nowych kartach zakładek bez pokrycia w notatkach (37 kart, 1693 liczb)          0           0  zgodne
 
    Różnic: 0 z 115 kontroli.
@@ -216,14 +216,17 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-23 10:07, commit a1d4465)
    d:Rozkład spadku     49  —              —
    d:Google Ads na      30  —              —
    d:Kampania `crm_     10  —              —
-   e:wzrost/werdykt      3  —              —
-   e:wzrost/kafelki      9  —              —
-   e:wzrost/decyzje     12  —              —
-   e:wzrost/pacjenci     30  —              —
-   e:wzrost/retencja    109  —              3,2, 5,4, 6,5
+   e:wzrost/werdykt     24  —              —
+   e:wzrost/kafelki     12  —              —
+   e:wzrost/dashboard     40  —              24716, 38491
+   e:wzrost/pacjenci     41  —              —
+   e:wzrost/retencja    118  —              3,2, 5,4
+   e:wzrost/na-pacjencie    159  —              —
+   e:wzrost/marza       66  —              —
+   e:wzrost/wynik      129  —              —
+   e:wzrost/co-robimy     14  —              —
+   e:wzrost/niewiadome      9  —              —
    e:wzrost/telemedigo     73  —              16231, 17419, 24687, 6784, 7268, 9307
-   e:wzrost/wynik      112  —              —
-   e:wzrost/dashboard     37  —              24716, 38491
    e:wzrost/wstep        4  —              —
    e:priorytety/1       81  —              2278, 2990, 4678
    e:priorytety/2       57  —              24716, 25269, 40613

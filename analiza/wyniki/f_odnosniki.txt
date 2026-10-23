@@ -1,24 +1,24 @@
-F — ODNOŚNIKI Z PARAMETRAMI, ODŚWIEŻENIE, WSTECZ I DALEJ (2026-10-23 09:55, commit 55c0fcb, pliki strony z dysku)
+F — ODNOŚNIKI Z PARAMETRAMI, ODŚWIEŻENIE, WSTECZ I DALEJ (2026-10-23 12:56, commit b8d991f, pliki strony z dysku)
 Edge bez okna, 127.0.0.1, 1366 × 900 px. Każdy odnośnik otwarty w nowej karcie wprost z adresu, potem odświeżony.
 
-Problemy: 6; błędy strony w czasie kontroli: 0
-   #lejek?typ=zwykla&pac=nie_kupowal&podz=calosc&krok=k1&wygl=7&a=2026-02-26_2026-03-31&b=2026-04-01_20: po otwarciu: parametr w=calosc zostaje w adresie
-   #lejek?typ=zwykla&pac=nie_kupowal&podz=calosc&krok=k1&wygl=7&a=2026-02-26_2026-03-31&b=2026-04-01_20: po odświeżeniu: parametr w=calosc zostaje w adresie
-   #lejek?typ=zwykla&pac=nie_kupowal&podz=calosc&krok=k3&wygl=7&a=2024-10-01_2026-03-16&b=2026-03-17_20: po otwarciu: parametr w=calosc zostaje w adresie
-   #lejek?typ=zwykla&pac=nie_kupowal&podz=calosc&krok=k3&wygl=7&a=2024-10-01_2026-03-16&b=2026-03-17_20: po odświeżeniu: parametr w=calosc zostaje w adresie
-   #lejek?typ=zwykla&pac=nie_kupowal&podz=calosc&krok=k5s&wygl=7&a=2025-12-08_2026-03-18&b=2026-03-19_2: po otwarciu: parametr w=calosc zostaje w adresie
-   #lejek?typ=zwykla&pac=nie_kupowal&podz=calosc&krok=k5s&wygl=7&a=2025-12-08_2026-03-18&b=2026-03-19_2: po odświeżeniu: parametr w=calosc zostaje w adresie
+Problemy: 4; błędy strony w czasie kontroli: 0
+   #lejek?pac=wszyscy&podz=kampania&krok=sesje&typ=samo_telemedigo&w=crm_go_upsell: po otwarciu: parametr w=crm_go_upsell zostaje w adresie
+   #lejek?pac=wszyscy&podz=kampania&krok=sesje&typ=samo_telemedigo&w=crm_go_upsell: po odświeżeniu: parametr w=crm_go_upsell zostaje w adresie
+   #lejek?typ=samo_telemedigo&pac=wszyscy&podz=kampania&krok=sesje&w=crm_go_upsell: po otwarciu: parametr w=crm_go_upsell zostaje w adresie
+   #lejek?typ=samo_telemedigo&pac=wszyscy&podz=kampania&krok=sesje&w=crm_go_upsell: po odświeżeniu: parametr w=crm_go_upsell zostaje w adresie
 
-1. Odnośniki z parametrami: 313 różnych adresów (z 421 miejsc na stronie).
+1. Odnośniki z parametrami: 312 różnych adresów (z 406 miejsc na stronie).
     245 × lejek?a&b&krok&pac&podz&typ&w&wygl
-     14 × zdarzenia?z
      14 × niewiadome?n
      12 × priorytety?p
+      9 × zdarzenia?z
       8 × kohorty?a&b
       5 × kohorty?okno&podz&wygl
       4 × lejek?krok&pac&podz&w
       3 × lejek?krok&pac&podz&typ&w
       2 × lejek?a&b&krok&pac&podz&w
+      2 × jakosc?karta
+      2 × po-zakupie?karta
       1 × kohorty?f_grupa&okno&wygl
       1 × lejek?krok&pac&podz&typ&wygl
       1 × kohorty?miara&okno&wygl
@@ -26,43 +26,43 @@ Problemy: 6; błędy strony w czasie kontroli: 0
       1 × kohorty?f_kampania&okno&podz&wygl
       1 × lejek?krok&pac&podz&typ
 
-2. Otwarcie wprost i odświeżenie: 313 odnośników, 8357 sprawdzeń, niezgodnych 6.
+2. Otwarcie wprost i odświeżenie: 312 odnośników, 8334 sprawdzeń, niezgodnych 4.
    (sprawdzenia: zakładka, każdy parametr w adresie i w polu filtra, podświetlona karta i jej położenie na ekranie — po otwarciu i po odświeżeniu; oraz brak zmiany stanu po odświeżeniu)
-   OK  #kohorty?a=2025-07-10_2025-09-07&b=2025-09-08_2025-11-06  [z: kohorty / Kohorty zmieniły się głównie po naszych ]
-   OK  #kohorty?a=2025-09-04_2025-11-02&b=2025-11-03_2026-01-01  [z: kohorty / Kohorty zmieniły się głównie po naszych ]
-   OK  #kohorty?a=2025-09-14_2025-11-12&b=2025-11-13_2026-01-11  [z: kohorty / Kohorty zmieniły się głównie po naszych ]
-   OK  #kohorty?a=2025-09-25_2025-11-23&b=2025-11-24_2026-01-22  [z: kohorty / Kohorty zmieniły się głównie po naszych ]
-   OK  #kohorty?a=2025-12-11_2026-02-08&b=2026-02-09_2026-04-09  [z: kohorty / Kohorty zmieniły się głównie po naszych ]
-   OK  #kohorty?a=2026-01-01_2026-03-01&b=2026-03-02_2026-04-30  [z: kohorty / Kohorty zmieniły się głównie po naszych ]
-   OK  #kohorty?a=2026-01-16_2026-03-16&b=2026-03-17_2026-05-15  [z: kohorty / Kohorty zmieniły się głównie po naszych ]
-   OK  #kohorty?a=2026-03-23_2026-05-21&b=2026-05-22_2026-07-20  [z: kohorty / Kohorty zmieniły się głównie po naszych ]
-   OK  #kohorty?miara=marza&okno=30&wygl=28  [z: zdarzenia / Marża nowego pacjenta w pierwszych 30 dn]
-   OK  #kohorty?miara=udzial&podz=grupa&wygl=28  [z: zdarzenia / Coraz więcej nowych pacjentów przychodzi]
-   OK  #kohorty?okno=30&podz=grupa&wygl=28  [z: zdarzenia / Powrót nowych pacjentów w 30 dniach spad]
-   OK  #kohorty?okno=90&f_grupa=pozostale&wygl=28  [z: wzrost / Pacjenci wracają rzadziej, także poza no i 2 innych]
+   OK  #jakosc?karta=jk-karta-dup  [z: zdarzenia / ]
+   OK  #jakosc?karta=jk-karta-godzina  [z: zdarzenia / ]
+   OK  #kohorty?a=2025-07-10_2025-09-07&b=2025-09-08_2025-11-06  [z: zdarzenia / Po starcie naszych kampanii na L4 rośnie]
+   OK  #kohorty?a=2025-09-04_2025-11-02&b=2025-11-03_2026-01-01  [z: zdarzenia / Po starcie naszych kampanii na L4 rośnie]
+   OK  #kohorty?a=2025-09-14_2025-11-12&b=2025-11-13_2026-01-11  [z: zdarzenia / Po starcie naszych kampanii na L4 rośnie]
+   OK  #kohorty?a=2025-09-25_2025-11-23&b=2025-11-24_2026-01-22  [z: zdarzenia / Po starcie naszych kampanii na L4 rośnie]
+   OK  #kohorty?a=2025-12-11_2026-02-08&b=2026-02-09_2026-04-09  [z: zdarzenia / Po starcie naszych kampanii na L4 rośnie]
+   OK  #kohorty?a=2026-01-01_2026-03-01&b=2026-03-02_2026-04-30  [z: zdarzenia / Po starcie naszych kampanii na L4 rośnie]
+   OK  #kohorty?a=2026-01-16_2026-03-16&b=2026-03-17_2026-05-15  [z: zdarzenia / Po starcie naszych kampanii na L4 rośnie]
+   OK  #kohorty?a=2026-03-23_2026-05-21&b=2026-05-22_2026-07-20  [z: zdarzenia / Po starcie naszych kampanii na L4 rośnie]
+   OK  #kohorty?miara=marza&okno=30&wygl=28  [z: zdarzenia / ]
+   OK  #kohorty?miara=udzial&podz=grupa&wygl=28  [z: zdarzenia / ]
+   OK  #kohorty?okno=30&podz=grupa&wygl=28  [z: zdarzenia / ]
+   OK  #kohorty?okno=90&f_grupa=pozostale&wygl=28  [z: wzrost / Czy wracają? i 2 innych]
    OK  #kohorty?okno=90&podz=go0&wygl=28  [z: wzrost / TelemediGO rośnie razem z liczbą zamówie i 2 innych]
-   OK  #kohorty?okno=90&podz=grupa&wygl=28  [z: wzrost / Pacjenci wracają rzadziej, także poza no i 2 innych]
-   OK  #kohorty?okno=90&podz=kanal&wygl=28  [z: wzrost / Pacjentów przybywa, ale głównie z dwóch  i 1 innych]
+   OK  #kohorty?okno=90&podz=grupa&wygl=28  [z: wzrost / Czy wracają? i 2 innych]
+   OK  #kohorty?okno=90&podz=kanal&wygl=28  [z: wzrost / Skąd są nowi pacjenci? i 1 innych]
    OK  #kohorty?okno=90&podz=usluga&f_kampania=gs_generic_specjalisci&wygl=28  [z: priorytety / Wstrzymać kampanię Google Ads na specjal]
    OK  #kohorty?okno=90&podz=usluga&wygl=28  [z: priorytety / Zmienić cennik specjalistów i warunki Te]
-   OK  #lejek?pac=nie_kupowal&podz=kampania&krok=k5&a=2024-10-01_2026-05-21&b=2026-05-22_2026-09-30&w=gs_brand  [z: zdarzenia / W kampanii Google Ads na markę mniej ses]
-   OK  #lejek?pac=nie_kupowal&podz=kampania&krok=k5&w=meta_prosp_l4_szybko,meta_prosp_lekarz_online  [z: zdarzenia / Rusza kampania Meta na L4; jej sesje pła]
-   OK  #lejek?pac=nie_kupowal&podz=kampania&krok=k5&w=meta_rmkt_koszyk  [z: zdarzenia / Remarketing Meta coraz rzadziej kończy s]
-   OK  #lejek?pac=nie_kupowal&podz=kampania&krok=k5&w=tt_prosp_l4_15min,meta_prosp_l4_szybko  [z: zdarzenia / Rusza kampania TikTok na L4; jej sesje p]
+   OK  #lejek?pac=nie_kupowal&podz=kampania&krok=k5&a=2024-10-01_2026-05-21&b=2026-05-22_2026-09-30&w=gs_brand  [z: zdarzenia / ]
+   OK  #lejek?pac=nie_kupowal&podz=kampania&krok=k5&w=meta_prosp_l4_szybko,meta_prosp_lekarz_online  [z: zdarzenia / ]
+   OK  #lejek?pac=nie_kupowal&podz=kampania&krok=k5&w=meta_rmkt_koszyk  [z: zdarzenia / ]
+   OK  #lejek?pac=nie_kupowal&podz=kampania&krok=k5&w=tt_prosp_l4_15min,meta_prosp_l4_szybko  [z: zdarzenia / ]
    OK  #lejek?pac=nie_kupowal&podz=przegladarka&krok=k5&w=Chrome,Safari,Instagram,Facebook,TikTok  [z: lejek / Przeglądarki w aplikacjach płacą rzadzie]
    OK  #lejek?pac=nie_kupowal&podz=system_przegladarka&krok=k3&a=2026-01-16_2026-03-16&b=2026-03-17_2026-05-15&w=iOS%20Safari  [z: lejek / Od 17 marca 2026 nowi pacjenci w Safari  i 2 innych]
-   OK  #lejek?pac=wszyscy&podz=kampania&krok=sesje&typ=samo_telemedigo&w=crm_go_upsell  [z: zdarzenia / Newsletter zaczyna sprzedawać samo Telem]
-   OK  #lejek?typ=samo_telemedigo&pac=wszyscy&podz=kampania&krok=sesje&w=crm_go_upsell  [z: wzrost / TelemediGO rośnie razem z liczbą zamówie]
+   ŹLE #lejek?pac=wszyscy&podz=kampania&krok=sesje&typ=samo_telemedigo&w=crm_go_upsell  [z: zdarzenia / ]
+        po otwarciu: parametr w=crm_go_upsell zostaje w adresie
+        po odświeżeniu: parametr w=crm_go_upsell zostaje w adresie
+   ŹLE #lejek?typ=samo_telemedigo&pac=wszyscy&podz=kampania&krok=sesje&w=crm_go_upsell  [z: wzrost / TelemediGO rośnie razem z liczbą zamówie]
+        po otwarciu: parametr w=crm_go_upsell zostaje w adresie
+        po odświeżeniu: parametr w=crm_go_upsell zostaje w adresie
    OK  #lejek?typ=zalogowana_od_wejscia&podz=calosc&krok=k1&pac=wszyscy  [z: priorytety / Sprawdzić ręcznie zakup dla pacjentów za]
-   ŹLE #lejek?typ=zwykla&pac=nie_kupowal&podz=calosc&krok=k1&wygl=7&a=2026-02-26_2026-03-31&b=2026-04-01_2026-09-30&w=calosc  [z: zdarzenia / ]
-        po otwarciu: parametr w=calosc zostaje w adresie
-        po odświeżeniu: parametr w=calosc zostaje w adresie
-   ŹLE #lejek?typ=zwykla&pac=nie_kupowal&podz=calosc&krok=k3&wygl=7&a=2024-10-01_2026-03-16&b=2026-03-17_2026-09-30&w=calosc  [z: zdarzenia / ]
-        po otwarciu: parametr w=calosc zostaje w adresie
-        po odświeżeniu: parametr w=calosc zostaje w adresie
-   ŹLE #lejek?typ=zwykla&pac=nie_kupowal&podz=calosc&krok=k5s&wygl=7&a=2025-12-08_2026-03-18&b=2026-03-19_2026-09-30&w=calosc  [z: zdarzenia / ]
-        po otwarciu: parametr w=calosc zostaje w adresie
-        po odświeżeniu: parametr w=calosc zostaje w adresie
+   OK  #lejek?typ=zwykla&pac=nie_kupowal&podz=calosc&krok=k1&wygl=7&a=2026-02-26_2026-03-31&b=2026-04-01_2026-09-30&w=calosc  [z: zdarzenia / ]
+   OK  #lejek?typ=zwykla&pac=nie_kupowal&podz=calosc&krok=k3&wygl=7&a=2024-10-01_2026-03-16&b=2026-03-17_2026-09-30&w=calosc  [z: zdarzenia / ]
+   OK  #lejek?typ=zwykla&pac=nie_kupowal&podz=calosc&krok=k5s&wygl=7&a=2025-12-08_2026-03-18&b=2026-03-19_2026-09-30&w=calosc  [z: zdarzenia / ]
    OK  #lejek?typ=zwykla&pac=nie_kupowal&podz=kampania&krok=k1&wygl=7&a=2024-10-01_2026-04-03&b=2026-04-04_2026-09-30&w=meta_rmkt_koszyk  [z: zdarzenia / ]
    OK  #lejek?typ=zwykla&pac=nie_kupowal&podz=kampania&krok=k1&wygl=7&a=2024-10-01_2026-04-09&b=2026-04-10_2026-09-30&w=bezposrednie  [z: zdarzenia / ]
    OK  #lejek?typ=zwykla&pac=nie_kupowal&podz=kampania&krok=k3&wygl=7&a=2024-10-01_2026-02-09&b=2026-02-10_2026-09-30&w=google_organic  [z: zdarzenia / ]
@@ -307,52 +307,49 @@ Problemy: 6; błędy strony w czasie kontroli: 0
    OK  #lejek?typ=zwykla&pac=nie_kupowal&podz=urzadzenie_przegladarka&krok=sesje&wygl=7&a=2026-03-01_2026-03-22&b=2026-03-23_2026-04-05&w=mobile+TikTok  [z: zdarzenia / ]
    OK  #lejek?typ=zwykla&pac=nie_kupowal&podz=urzadzenie_przegladarka&krok=sesje&wygl=7&a=2026-03-23_2026-04-05&b=2026-04-06_2026-09-30&w=mobile+TikTok  [z: zdarzenia / ]
    OK  #lejek?typ=zwykla&pac=wszyscy&podz=kampania&krok=sesje&w=meta_prosp_l4_szybko,tt_prosp_l4_15min,meta_prosp_lekarz_online  [z: priorytety / Sprawdzić, gdzie znika ruch między klikn]
-   OK  #niewiadome?n=1  [z: priorytety / Sprawdzić testem w części kraju, czy kam]
+   OK  #niewiadome?n=1  [z: wzrost / Czego nie wiemy? i 1 innych]
    OK  #niewiadome?n=12  [z: priorytety / Sprawdzić, gdzie znika ruch między klikn]
    OK  #niewiadome?n=13  [z: priorytety / Oczyścić codzienny raport i dodać alarmy]
    OK  #niewiadome?n=16  [z: priorytety / Zmienić cennik specjalistów i warunki Te]
    OK  #niewiadome?n=17  [z: priorytety / Zmienić obietnicę w reklamach Meta na L4]
    OK  #niewiadome?n=20  [z: priorytety / Zmienić obietnicę w reklamach Meta na L4]
-   OK  #niewiadome?n=21  [z: kohorty / Kohorty zmieniły się głównie po naszych  i 1 innych]
+   OK  #niewiadome?n=21  [z: zdarzenia / Po starcie naszych kampanii na L4 rośnie i 1 innych]
    OK  #niewiadome?n=3  [z: priorytety / Zmienić obietnicę w reklamach Meta na L4]
-   OK  #niewiadome?n=4  [z: kohorty / Kohorty zmieniły się głównie po naszych  i 1 innych]
+   OK  #niewiadome?n=4  [z: wzrost / Czego nie wiemy? i 2 innych]
    OK  #niewiadome?n=5  [z: priorytety / Sprawdzić ręcznie zakup dla pacjentów za]
    OK  #niewiadome?n=6  [z: priorytety / Naprawić zakładanie konta w Safari na iP]
    OK  #niewiadome?n=7  [z: priorytety / Naprawić zakładanie konta w Safari na iP]
-   OK  #niewiadome?n=8  [z: priorytety / Sprawdzić losowym testem, ile wizyt i po]
+   OK  #niewiadome?n=8  [z: wzrost / Czego nie wiemy? i 1 innych]
    OK  #niewiadome?n=9  [z: priorytety / Wprowadzić komunikację po wizycie, zawsz]
-   OK  #priorytety?p=1  [z: wzrost / Decyzje na pierwszy tydzień i 8 innych]
+   OK  #po-zakupie?karta=pz-karta-punktualnosc  [z: zdarzenia / ]
+   OK  #po-zakupie?karta=pz-karta-zwroty  [z: zdarzenia / ]
+   OK  #priorytety?p=1  [z: wzrost / W którą stronę to idzie z kwartału na kw i 8 innych]
    OK  #priorytety?p=10  [z: wzrost / TelemediGO rośnie razem z liczbą zamówie i 4 innych]
    OK  #priorytety?p=11  [z: priorytety / Przegląd i 3 innych]
    OK  #priorytety?p=12  [z: wzrost / TelemediGO rośnie razem z liczbą zamówie i 4 innych]
-   OK  #priorytety?p=2  [z: wzrost / Decyzje na pierwszy tydzień i 6 innych]
-   OK  #priorytety?p=3  [z: wzrost / Decyzje na pierwszy tydzień i 5 innych]
+   OK  #priorytety?p=2  [z: wzrost / Ile z liczb z dashboardu jest prawdą? i 7 innych]
+   OK  #priorytety?p=3  [z: wzrost / Ile zarabiamy na nowym pacjencie po kosz i 6 innych]
    OK  #priorytety?p=4  [z: priorytety / Przegląd i 2 innych]
-   OK  #priorytety?p=5  [z: wzrost / Decyzje na pierwszy tydzień i 9 innych]
-   OK  #priorytety?p=6  [z: kohorty / Kohorty zmieniły się głównie po naszych  i 4 innych]
+   OK  #priorytety?p=5  [z: wzrost / Co robimy? i 9 innych]
+   OK  #priorytety?p=6  [z: zdarzenia / Po starcie naszych kampanii na L4 rośnie i 4 innych]
    OK  #priorytety?p=7  [z: priorytety / Przegląd i 3 innych]
    OK  #priorytety?p=8  [z: priorytety / Przegląd i 3 innych]
-   OK  #priorytety?p=9  [z: kohorty / Kohorty zmieniły się głównie po naszych  i 4 innych]
-   OK  #zdarzenia?z=duplikaty  [z: wynik / Za cały rok marża rośnie, ale wydatki na i 2 innych]
-   OK  #zdarzenia?z=luka_godzina  [z: wynik / Za cały rok marża rośnie, ale wydatki na i 1 innych]
-   OK  #zdarzenia?z=marka_konwersja  [z: kohorty / Kohorty zmieniły się głównie po naszych  i 3 innych]
-   OK  #zdarzenia?z=marza30_spada  [z: kohorty / Powrót w oknie (90 dni) według dnia pier i 2 innych]
-   OK  #zdarzenia?z=opoznienia_rano  [z: kohorty / Kohorty zmieniły się głównie po naszych  i 5 innych]
-   OK  #zdarzenia?z=powrot30_spada  [z: kohorty / Powrót w oknie (90 dni) według dnia pier i 2 innych]
-   OK  #zdarzenia?z=powrot90_stare  [z: kohorty / Kohorty zmieniły się głównie po naszych  i 3 innych]
-   OK  #zdarzenia?z=remarketing_meta  [z: lejek / Sesja do płatności (płatność / sesje), s i 2 innych]
-   OK  #zdarzenia?z=safari_ios  [z: kohorty / Kohorty zmieniły się głównie po naszych  i 4 innych]
-   OK  #zdarzenia?z=start_go_upsell  [z: kohorty / Kohorty zmieniły się głównie po naszych  i 3 innych]
-   OK  #zdarzenia?z=start_meta_l4  [z: kohorty / Kohorty zmieniły się głównie po naszych  i 4 innych]
-   OK  #zdarzenia?z=start_tiktok  [z: kohorty / Kohorty zmieniły się głównie po naszych  i 4 innych]
-   OK  #zdarzenia?z=udzial_nowych  [z: kohorty / Powrót w oknie (90 dni) według dnia pier i 2 innych]
-   OK  #zdarzenia?z=zwroty_pierwsze  [z: kohorty / Kohorty zmieniły się głównie po naszych  i 5 innych]
+   OK  #priorytety?p=9  [z: wzrost /  i 7 innych]
+   OK  #zdarzenia?z=duplikaty  [z: priorytety / Oczyścić codzienny raport i dodać alarmy]
+   OK  #zdarzenia?z=marka_konwersja  [z: zdarzenia / Po starcie naszych kampanii na L4 rośnie i 1 innych]
+   OK  #zdarzenia?z=opoznienia_rano  [z: po-zakupie / Od lutego 2026 około połowy porannych wi i 3 innych]
+   OK  #zdarzenia?z=powrot90_stare  [z: zdarzenia / Po starcie naszych kampanii na L4 rośnie]
+   OK  #zdarzenia?z=safari_ios  [z: zdarzenia / Po starcie naszych kampanii na L4 rośnie i 2 innych]
+   OK  #zdarzenia?z=start_go_upsell  [z: po-zakupie / Od lutego 2026 około połowy porannych wi i 3 innych]
+   OK  #zdarzenia?z=start_meta_l4  [z: po-zakupie / Od lutego 2026 około połowy porannych wi i 4 innych]
+   OK  #zdarzenia?z=start_tiktok  [z: po-zakupie / Od lutego 2026 około połowy porannych wi i 4 innych]
+   OK  #zdarzenia?z=zwroty_pierwsze  [z: po-zakupie / Od lutego 2026 około połowy porannych wi i 3 innych]
 
 3. Zmiana filtra w interfejsie i odświeżenie (czy adres zapisuje stan i czy stan wraca)
    kohorty: Podział na serie = kanał: adres po zmianie ZMIENIA SIĘ; po odświeżeniu filtr ZOSTAJE (pole ko-podz: kanal)
    kohorty: Okno = 30 dni: adres po zmianie ZMIENIA SIĘ; po odświeżeniu filtr ZOSTAJE (pole ko-okno: 30)
    kohorty: Zawężenie: urządzenie = desktop: adres po zmianie ZMIENIA SIĘ; po odświeżeniu filtr ZOSTAJE (pole ko-f-urzadzenie: desktop)
-   kohorty: Mapa kohort: tygodniowe: adres po zmianie bez zmian; po odświeżeniu filtr wraca do domyślnego
+   kohorty: Mapa kohort: tygodniowe: adres po zmianie ZMIENIA SIĘ; po odświeżeniu filtr ZOSTAJE
    lejek: Podział = urządzenie, Pokaż dla = telefon: adres po zmianie ZMIENIA SIĘ; po odświeżeniu filtr ZOSTAJE (pole f-lw: mobile)
    lejek: Kto = wszyscy: adres po zmianie ZMIENIA SIĘ; po odświeżeniu filtr ZOSTAJE (pole f-pac: wszyscy)
    po-zakupie: Specjalizacja (wykres) = pediatra: adres po zmianie bez zmian; po odświeżeniu filtr wraca do domyślnego (pole pz-spec: internista)
@@ -363,11 +360,11 @@ Problemy: 6; błędy strony w czasie kontroli: 0
    niewiadome: Filtr pozycji = 1: adres po zmianie bez zmian; po odświeżeniu filtr wraca do domyślnego (pole nw-filtr-pozycja: )
 
 4. Przyciski wstecz i dalej
-   klik zakładki „Kohorty”: zakładka kohorty, adres #kohorty?regula=Z1K&podz=grupa&okno=90&miara=powrot&wygl=7&a=2024-10-01_2025-09-30&b=2025-10-01_2026-09-30&w=_
-   klik zakładki „Lejek”: zakładka lejek, adres #lejek?typ=zwykla&pac=nie_kupowal&podz=przegladarka&krok=k5s&wygl=7&a=2024-10-01_2025-09-30&b=2025-10-01_2026-
-   zmiana filtra „Kto = wszyscy”: zakładka lejek, adres #lejek?typ=zwykla&pac=wszyscy&podz=przegladarka&krok=k5s&wygl=7&a=2024-10-01_2025-09-30&b=2025-10-01_2026-09-3
-   wstecz: zakładka kohorty, adres #kohorty?regula=Z1K&podz=grupa&okno=90&miara=powrot&wygl=7&a=2024-10-01_2025-09-30&b=2025-10-01_2026-09-30&w=_
-   dalej: zakładka lejek, adres #lejek?typ=zwykla&pac=wszyscy&podz=przegladarka&krok=k5s&wygl=7&a=2024-10-01_2025-09-30&b=2025-10-01_2026-09-3
-   klik odnośnika #kohorty?okno=90&podz=kanal&wygl=28… z karty (przewinięcie strony 917 px): zakładka kohorty, adres #kohorty?regula=Z1K&podz=kanal&okno=90&miara=powrot&wygl=28&a=2024-10-01_2025-09-30&b=2025-10-01_2026-09-30&w=
-   wstecz (przewinięcie strony 0 px; przed kliknięciem 917 px): zakładka wzrost, adres #wzrost
-   dalej: zakładka kohorty, adres #kohorty?regula=Z1K&podz=kanal&okno=90&miara=powrot&wygl=28&a=2024-10-01_2025-09-30&b=2025-10-01_2026-09-30&w=
+   klik zakładki „Kohorty”: zakładka kohorty, adres #kohorty
+   klik zakładki „Lejek”: zakładka lejek, adres #lejek
+   zmiana filtra „Kto = wszyscy”: zakładka lejek, adres #lejek?pac=wszyscy
+   wstecz: zakładka kohorty, adres #kohorty
+   dalej: zakładka lejek, adres #lejek?pac=wszyscy
+   klik odnośnika #kohorty?okno=90&podz=kanal&wygl=28… z karty (przewinięcie strony 2219 px): zakładka kohorty, adres #kohorty?podz=kanal&wygl=28
+   wstecz (przewinięcie strony 0 px; przed kliknięciem 2219 px): zakładka wzrost, adres #wzrost
+   dalej: zakładka kohorty, adres #kohorty?podz=kanal&wygl=28
