@@ -1,6 +1,6 @@
 # Merytoryka narzędzia przed publikacją
 
-Rozmowa z Claude Code w projekcie zadania Telemedi, od 21.10.2026, 23:12 do 22.10.2026, 22:46 (czas polski). Wiadomości Kuby: 2. Odpowiedzi Claude: 80. Polecenia i wiadomości do innych sesji i agentów: 14.
+Rozmowa z Claude Code w projekcie zadania Telemedi, od 21.10.2026, 23:12 do 23.10.2026, 11:28 (czas polski). Wiadomości Kuby: 3. Odpowiedzi Claude: 82. Polecenia i wiadomości do innych sesji i agentów: 14.
 
 Sesję otworzył Kuba.
 
@@ -721,3 +721,15 @@ Sesja od grafiki zamknęła ostatnią otwartą sprawę (commit `87b55b2`). Wykre
 Sesja od grafiki jest zamknięta, tak jak chciałeś. Cała jej praca jest zapisana w repozytorium (ostatni commit `87b55b2`), opis jest w `notatki/e_grafika.md`, a przekazanie jest zaktualizowane (commit `a4d52c9`). Nic nie zostało opublikowane.
 
 Jeśli chcesz, mogę zarchiwizować obie sesje od wyglądu, żeby nie zajmowały miejsca na liście.
+
+### <a id="w97"></a>97. Kuba · 23.10.2026, 11:27
+
+zamykamy te sesje - zaktualizuj pamięć i zamknij
+
+### <a id="w98"></a>98. Claude · 23.10.2026, 11:28
+
+Pamięć zaktualizowana: do notatki o kontroli liczb dopisałem drugą lukę z tej rundy, czyli liczby wpisane w kodzie tekstów ręcznie. Archiwizuję obie sesje od wyglądu.
+
+### <a id="w99"></a>99. Claude · 23.10.2026, 11:28
+
+Wszystko zamknięte: obie sesje od wyglądu i ta sesja są zarchiwizowane, a pamięć zaktualizowana.

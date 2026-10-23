@@ -1,6 +1,6 @@
 # Ostatnia kontrola przed publikacją
 
-Rozmowa z Claude Code w projekcie zadania Telemedi, od 22.10.2026, 22:47 do 23.10.2026, 10:51 (czas polski). Wiadomości Kuby: 5. Odpowiedzi Claude: 46. Polecenia i wiadomości do innych sesji i agentów: 11.
+Rozmowa z Claude Code w projekcie zadania Telemedi, od 22.10.2026, 22:47 do 23.10.2026, 11:27 (czas polski). Wiadomości Kuby: 6. Odpowiedzi Claude: 55. Polecenia i wiadomości do innych sesji i agentów: 11.
 
 Sesję otworzył Kuba.
 
@@ -869,3 +869,64 @@ Publikujemy według Twojej listy. Najpierw sprawdzam, czy daty „ruch rośnie s
 ### <a id="w62"></a>62. Claude · 23.10.2026, 10:51
 
 README ma prawdziwy adres strony i repozytorium, a decyzja jest w `DECYZJE.md`. Ostatni raz przed wypchnięciem uruchamiam zapis rozmów i sprawdzam skan.
+
+### <a id="w63"></a>63. Claude · 23.10.2026, 10:52
+
+GitHub Pages jest włączone ze źródłem „GitHub Actions”. Wypycham kod (gałąź master).
+
+### <a id="w64"></a>64. Claude · 23.10.2026, 10:52
+
+Pierwsze uruchomienie odrzuciła reguła środowiska, zanim dopuściłem gałąź `master`. Uruchamiam publikację ponownie i czekam w tle na wynik.
+
+### <a id="w65"></a>65. Claude · 23.10.2026, 10:53
+
+Publikacja przeszła, a strona odpowiada pod prawdziwym adresem. Uruchamiam kontrolę na żywej stronie.
+
+### <a id="w66"></a>66. Claude · 23.10.2026, 10:55
+
+Wszystkie 5 podziałów lejka wczytuje się na żądanie (kod 200) i rysuje tabele, bez błędów. Rzucam jeszcze okiem na zrzut pierwszej zakładki spod prawdziwego adresu.
+
+### <a id="w67"></a>67. Claude · 23.10.2026, 10:56
+
+**Strona i repozytorium są opublikowane:**
+- **Strona:** [adres strony usunięty]
+- **Repozytorium:** [adres strony usunięty]
+
+**Kontrola pod prawdziwym adresem przeszła bez problemów:**
+- **9 zakładek rysuje się** na komputerze (1366 px) i na telefonie (375 px), bez błędów w konsoli i bez przesuwania w bok.
+- **Wszystkie dane się wczytują.** 15 plików danych i 9 plików kodu odpowiada kodem 200 i jest identycznych co do bajtu z repozytorium. 5 podziałów lejka wczytuje się dopiero po wyborze podziału i rysuje tabele.
+- **Odnośniki z filtrami działają po odświeżeniu.** Sprawdziłem lejek oraz „Pokaż na kohortach dziennych” z nowej tabeli. Stan jest ten sam: zakładka, filtry i przewinięcie, na obu szerokościach.
+- **Strona się nie indeksuje.** W kodzie strony jest znacznik „noindex”, a strona nie pobiera niczego z innych adresów. Samo repozytorium jest publiczne, więc wyszukiwarki mogą je indeksować.
+
+**Wiersze Meta i TikTok w tabeli zdarzeń zostawiłem bez zmian, zgodnie z Twoją instrukcją na taki przypadek.** Daty z opisów zdarzeń to skoki liczby sesji, a nie budżetu. Dzienne wydatki rosną wokół tych dat, ale nie skokowo w te dni. Na przykład wydatki TikToka 22.02.2026 wyniosły 136 zł, a 23.02.2026 135 zł. Nazwanie tych dat decyzjami o budżecie wymagałoby nowego liczenia.
+
+**Co dodatkowo zrobiłem:**
+- **Lista plików przed wypchnięciem jest czysta.** Ani w plikach, ani w historii nie ma `.claude/`, danych, bazy, paczki ani kluczy.
+- **Pierwsze uruchomienie publikacji odrzuciła reguła GitHuba.** Dopuszczała tylko gałąź `main`, a nasza to `master`. Dopisałem `master` w ustawieniach tego repozytorium i drugie uruchomienie przeszło. Nieudany przebieg zostaje widoczny w historii Actions.
+- **Decyzja jest zapisana w `DECYZJE.md`:** konto osobiste i publikacja bez przepisywania historii i bez usuwania fragmentów zadania. Twoje „Publikujemy” odczytałem jako zgodę na te dwie rekomendacje.
+- **Nie wysłałem żadnej wiadomości** i nie ruszałem innych Twoich repozytoriów.
+
+**Do Twojej decyzji:**
+- **Notatki z przebiegu publikacji czekają w lokalnym commicie `c90c0d4`.** Wypchnąć je? Przy tej okazji mogę też odświeżyć zapis rozmów o dzisiejszą końcówkę.
+- **Przed mailem otwórz link na iPhonie, iPadzie i telefonie z Androidem.** Tego nie da się sprawdzić z komputera.
+- **Cztery sesje pomocnicze są bezczynne.** Jeśli chcesz, zarchiwizuję je.
+
+### <a id="w68"></a>68. Kuba · 23.10.2026, 11:24
+
+zamykamy sesje, podchodząc ze świeżą głową po nocnej sesji mam jeszcze sporo porawek do części merytorycznej. stąd zaktualizuj pamięć, zamknij a ja otwieram nowe wątki zwiazane z aktualizacją dashboardu
+
+### <a id="w69"></a>69. Claude · 23.10.2026, 11:24
+
+Zamykam. Najpierw zabezpieczam to, czego potrzebują kolejne sesje. Skrypt zapisu rozmów potrzebuje tekstu zadania i listy nazw spoza projektu. Oba pliki leżą dziś w tymczasowych folderach tej sesji, które mogą zniknąć po jej zamknięciu. Sprawdzam, gdzie skrypt pozwala je trzymać.
+
+### <a id="w70"></a>70. Claude · 23.10.2026, 11:25
+
+Pliki są w stałym folderze `poza_repo` w danych Claude Code tego projektu. Skrypt rozmów tego folderu nie czyta, więc nic z niego nie trafi do repozytorium. Teraz pamięć projektu.
+
+### <a id="w71"></a>71. Claude · 23.10.2026, 11:26
+
+Przekazanie jest gotowe w lokalnym commicie `ae5e0a7`. Dwa commity z notatkami czekają na najbliższy push za Twoją zgodą. Archiwizuję sesje pomocnicze.
+
+### <a id="w72"></a>72. Claude · 23.10.2026, 11:27
+
+This session is archived and the conversation ends here. The handover note (`notatki/PRZEKAZANIE.md`), project memory and the script for checking the live site are ready for your new threads with the content corrections.

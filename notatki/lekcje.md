@@ -1,6 +1,6 @@
 # Lekcje z pracy z AI (pamięć projektu)
 
-Claude Code zapisuje w trakcie pracy krótkie notatki dla kolejnych sesji: co poszło źle, dlaczego i jak tego unikać. Ten plik zbiera wszystkie takie notatki z tego projektu (28), pogrupowane według tematu. Każda to ślepa uliczka, pułapka albo poprawka Kuby, z uzasadnieniem i sposobem stosowania.
+Claude Code zapisuje w trakcie pracy krótkie notatki dla kolejnych sesji: co poszło źle, dlaczego i jak tego unikać. Ten plik zbiera wszystkie takie notatki z tego projektu (35), pogrupowane według tematu. Każda to ślepa uliczka, pułapka albo poprawka Kuby, z uzasadnieniem i sposobem stosowania.
 
 Treść wpisów jest taka jak w pamięci, z pięcioma wyjątkami: pominięte pola techniczne (nazwa pliku, opis do wyszukiwania, typ, identyfikator sesji, data zmiany); etykiety „Why” i „How to apply” zamienione na „Dlaczego” i „Jak stosować”; odnośniki między wpisami zamienione na linki w tym pliku; ścieżki spoza folderu projektu zastąpione oznaczeniem; wpis o wyłączaniu łączników przycięty do ogólnej lekcji, bez nazw usług i rozszerzeń spoza projektu. Pod każdym wpisem jest rozmowa, w której powstał (`rozmowy/`). Plik tworzy skrypt `analiza/f_rozmowy.py`.
 
@@ -151,9 +151,11 @@ Na stronie narzędzia (punkt B, `narzedzie/`) żadna liczba nie jest wpisana rę
 
 Kontrola „każda liczba na stronie stoi w szkicu” (zasada Kuby) ma sens tylko wtedy, gdy szkic i kod to dwa niezależne zapisy. W rundzie E (2026-10-21/22) agent piszący karty pięciu zakładek zrobił notatkę `notatki/e_teksty_zakladki.md` generowaną z plików strony — kontrola przechodziła z definicji. Sesja prowadząca przeczytała teksty, zamroziła notatkę (generator tylko z flagą `--nadpisz`) i od tej pory zmiany wprowadza ręcznie w obu miejscach; kontrola od razu znów łapała każdą zmienioną liczbę.
 
+Druga dziura tej samej kontroli (druga lista Kuby, 2026-10-22): liczba wpisana ręcznie jako literał w kodzie tekstów przechodzi kontrolę, jeśli stoi też w szkicu. Agent sesji wyglądu znalazł kilka takich liczb; teraz liczy je kod.
+
 **Dlaczego:** Kuba wymaga, żeby kontrola zgodności liczb „została taka sama”; pusty wzorzec to fałszywe „0 różnic”.
 
-**Jak stosować:** w zleceniu dla agenta albo sesji, która pisze teksty strony, wpisz wprost: szkic z liczbami pisany ręcznie przed kodem albo obok niego, bez skryptu odtwarzającego go ze strony. Przy przeglądzie cudzej pracy sprawdź, czy notatka-wzorzec nie ma generatora. Powiązane: [Liczby na stronie narzędzia tylko z danych](#narzedzie-liczby-z-danych), [Recenzja Codeksa przed zamknięciem punktu](#recenzja-codeksa-przed-zamknieciem).
+**Jak stosować:** w zleceniu dla agenta albo sesji, która pisze teksty strony, wpisz wprost: szkic z liczbami pisany ręcznie przed kodem albo obok niego, bez skryptu odtwarzającego go ze strony. Przy przeglądzie cudzej pracy sprawdź, czy notatka-wzorzec nie ma generatora, i przeszukaj f-stringi tekstów pod kątem literałów liczbowych (poza latami, nazwami okien i numerami pozycji). Powiązane: [Liczby na stronie narzędzia tylko z danych](#narzedzie-liczby-z-danych), [Recenzja Codeksa przed zamknięciem punktu](#recenzja-codeksa-przed-zamknieciem).
 
 *Zapisane w rozmowie [„Merytoryka narzędzia przed publikacją”](../rozmowy/2026-10-21_merytoryka-narzedzia-przed-publikacja.md).*
 
@@ -334,6 +336,80 @@ Panel przeglądarki w aplikacji Claude miał w tej pracy około 373 × 270 pikse
 *Zapisane w rozmowie [„Pierwsza sesja projektu — bezpieczeństwo”](../rozmowy/2026-10-19_pierwsza-sesja-projektu-bezpieczenstwo.md). Wpis przycięty do ogólnej lekcji.*
 
 ## Inne
+
+### <a id="codex-obrazy-limit-wiersza"></a>Codex: limit wiersza przy obrazach
+
+W recenzji zgodności z zadaniem (2026-10-22) etap 2 Astry z 66 zrzutami podanymi jako `-i <pełna ścieżka>` nie wystartował: „The command line is too long”. `codex` na Windows uruchamia się przez `codex.cmd`, a `cmd.exe` ma limit 8191 znaków; nieudane wywołanie nie zużyło limitu modelu.
+
+**Dlaczego:** długie ścieżki folderu roboczego (około 140 znaków) wyczerpują limit już przy około 55 obrazach.
+
+**Jak stosować:** skopiuj zrzuty do podkatalogu katalogu roboczego Codeksa (`-C <katalog>`, ten sam jako bieżący katalog procesu) i podawaj krótkie ścieżki względne (`-i z\k1_wzrost_1z4.jpg`); `-` (polecenie ze stdin) stawiaj przed flagami `-i`. Sprawdzony wzór: skrypt `codex_astra.py` z tej rundy. Przed drogim wywołaniem (Astra) zrób jeden krótki test załączania obrazu na modelu Sol. Powiązane: [Recenzja Codeksa przed zamknięciem punktu](#recenzja-codeksa-przed-zamknieciem).
+
+*Zapisane w rozmowie [„Ostatnia kontrola przed publikacją”](../rozmowy/2026-10-22_ostatnia-kontrola-przed-publikacja.md).*
+
+### <a id="decyzje-sprawdz-przed-pytaniem"></a>Sprawdź DECYZJE przed pytaniem
+
+2026-10-23 przedstawiłam Kubie jako nową decyzję adres e-mail osoby rekrutującej w historii commitów. Kuba rozstrzygnął to już 2026-10-21 (lista poprawek, punkt 12: adres usunięty z `CLAUDE.md`, historii nie przepisujemy), a zapis był w `DECYZJE.md`. Musiałam wysłać sprostowanie.
+
+**Dlaczego:** pytanie o rzecz już rozstrzygniętą to ponowne otwieranie decyzji Kuby i strata jego czasu przed terminem.
+
+**Jak stosować:** przed każdym „do Twojej decyzji” przeszukaj `notatki/DECYZJE.md` (i `ZALOZENIA.md`) po słowach kluczowych sprawy. Jeśli decyzja jest, napisz jednym zdaniem, że stosujesz decyzję z danego dnia, i zapytaj tylko o to, czego ona nie obejmuje. Raporty sesji potomnych też sprawdzaj w notatkach i w gicie, zanim przekażesz je Kubie (tu sesja wskazała zły commit). Powiązane: [Streszczenie nie wzmacnia wniosków](#streszczenie-nie-wzmacnia-wnioskow).
+
+*Zapisane w rozmowie [„Ostatnia kontrola przed publikacją”](../rozmowy/2026-10-22_ostatnia-kontrola-przed-publikacja.md).*
+
+### <a id="github-pages-galaz-master"></a>Pages: dopuść gałąź master
+
+Przy publikacji 2026-10-23 (`jakubgierasimiuk/kohorty-i-lejki`) Pages włączone przed pierwszym pushem (`gh api -X POST repos/<repo>/pages -f build_type=workflow`) utworzyło środowisko `github-pages` z regułą gałęzi tylko dla `main`. Projekt pracuje na `master`, więc pierwsze uruchomienie workflow skończyło się błędem „Branch "master" is not allowed to deploy to github-pages due to environment protection rules”.
+
+**Dlaczego:** nieudane uruchomienie zostaje publicznie w historii Actions, a bez poprawki strona się nie publikuje.
+
+**Jak stosować:** po włączeniu Pages, a przed pushem, dopisz gałąź: `gh api -X POST repos/<repo>/environments/github-pages/deployment-branch-policies -f name=master -f type=branch`, potem sprawdź listę (`.../deployment-branch-policies --jq '[.branch_policies[].name]'`). Jeśli push już poszedł: dopisz gałąź i `gh run rerun <id>`. Powiązane: [Sesje w głównym folderze, bez worktree](#sesje-w-glownym-folderze).
+
+*Zapisane w rozmowie [„Ostatnia kontrola przed publikacją”](../rozmowy/2026-10-22_ostatnia-kontrola-przed-publikacja.md).*
+
+### <a id="kopia-robocza-i-latka"></a>Kopia robocza i łatka przy równoległej sesji
+
+W rundzie G (2026-10-23) dwie sesje zmieniały naraz `narzedzie/` (ja zakładki 2–9, druga sesja pierwszą zakładkę). Działało tak:
+- zmiany robione na kopii `narzedzie/` w scratchpadzie, z własnym serwerem podglądu (osobny wpis w `.claude/launch.json`, inny port), więc recenzenci i druga sesja widzieli niezmienioną stronę;
+- pliki, których druga sesja nie ruszała, kopiowane wprost; pozostałe (`karty.js`, `styl.css`) scalane przez `diff -u` (wersja z HEAD wobec kopii) i `patch` na plikach projektu;
+- `patch` odrzuca wszystkie fragmenty przy CRLF („different line endings”), więc trzeba znormalizować bazę, kopię i plik projektu do LF, nałożyć łatkę i zapisać wynik z powrotem w CRLF;
+- `widoki_c.js` (w nim funkcje obu sesji) zmieniany skryptem celowanych podmian, po uzgodnieniu, które funkcje są czyje.
+
+**Dlaczego:** nadpisanie całego pliku kopią skasowałoby niezacommitowane zmiany drugiej sesji, a ich utrata wyszłaby dopiero przy przeglądzie Kuby.
+
+**Jak stosować:** na starcie równoległej pracy uzgodnij wiadomością podział funkcji i plików, numerów założeń i jednego wspólnego eksportu, a potem patrz [Numery wpisów przy równoległych sesjach](#numery-wpisow-przy-rownoleglych-sesjach), [Sesje w głównym folderze, bez worktree](#sesje-w-glownym-folderze). Przy dopisywaniu do wspólnych notatek sprawdź, czy druga sesja nie dopisała już wyższych numerów, bo inaczej Twoje wpisy wylądują za jej wpisami. Skrypty łatek pisz narzędziem Write, nie heredokiem ([Heredoc z polskim tekstem się sypie](#heredoc-polskie-cudzyslowy)).
+
+*Zapisane w rozmowie [„Kohorty — zmiana układu zakładki”](../rozmowy/2026-10-23_kohorty-zmiana-ukladu-zakladki.md).*
+
+### <a id="pliki-poza-repo"></a>Pliki poza repozytorium
+
+Od 2026-10-23 w `[ścieżka spoza projektu usunięta]` leżą: `zadanie.md` (pełny tekst zadania wyciągnięty z linku Telemedi, tylko do porównań), `f_rozmowy_lista_nazw.txt` (nazwy innych projektów i usług do wycięcia z zapisu rozmów) i `f_slad_pracy_skrot.md` (polecenie i lista kontrolna ponownego uruchomienia). Wcześniej były w folderach roboczych sesji, które mogą zniknąć.
+
+**Dlaczego:** Kuba zdecydował, że tekst zadania nie trafia do repozytorium (repozytorium jest publiczne). `analiza/f_rozmowy.py` odmawia pracy, gdy plik z argumentu leży w folderze repozytorium, także w `pobrane/` wykluczonym przez `.gitignore`. Folderu `poza_repo/` skrypt nie czyta jako rozmów ani pamięci (czyta tylko `*.jsonl` z głównego folderu i `memory/`), więc tekst zadania nie wycieknie do lekcji.
+
+**Jak stosować:** przed każdym pushem (repozytorium jest publiczne, zob. [Repozytorium publiczne: push publikuje](#repo-publiczne-push-publikuje)) uruchom z głównego folderu repozytorium: `python -I analiza/f_rozmowy.py --zadanie <poza_repo>/zadanie.md --nazwy <poza_repo>/f_rozmowy_lista_nazw.txt --raport <folder roboczy sesji>/raport_rozmowy.md`. Sprawdź: 0 linii „UWAGA”, w „Skan gotowych plików” brak kategorii adres e-mail, ścieżka spoza projektu, nazwa innego projektu, wzorzec klucza; „adres strony” tylko 2 (odnośniki w README); tekst zadania 1 (tytuł README). Nie kopiuj `zadanie.md` do folderu projektu ani do `memory/`.
+
+*Rozmowa, w której powstał wpis, nie jest w zapisie.*
+
+### <a id="port-podgladu-zajety"></a>Zajęty port podglądu
+
+2026-10-23 (runda G): podgląd pierwszej zakładki z kopii w folderze roboczym na porcie 8792 pokazał starą wersję strony (0 linijek werdyktu, 3 kafelki zamiast 4), bez żadnego błędu. Port zajmował serwer równoległej sesji w tym samym projekcie; `http.server` na Windows ustawia `allow_reuse_address`, więc drugi serwer startuje bez wyjątku, a żądania trafiają do pierwszego.
+
+**Dlaczego:** przy dwóch sesjach naraz w jednym folderze każda stawia własny podgląd; fałszywy obraz strony wygląda jak błąd w kodzie i kosztuje czas albo prowadzi do złego wniosku.
+
+**Jak stosować:** w skryptach podglądu i kontroli wiąż serwer z portem 0 (jak `analiza/f_kontrast.py`) i czytaj numer z `server_address`; przy stałym porcie sprawdź najpierw `netstat -ano | grep :PORT`. Gdy liczba elementów na stronie nagle nie zgadza się z kodem, najpierw sprawdź port. Powiązane: [Testy strony Playwrightem z Edge](#zrzuty-strony-playwright-edge), [Sesje w głównym folderze, bez worktree](#sesje-w-glownym-folderze).
+
+*Zapisane w rozmowie [„Analiza marży i przyrostu pacjentów Telemedi”](../rozmowy/2026-10-23_analiza-marzy-i-przyrostu-pacjentow-telemedi.md).*
+
+### <a id="repo-publiczne-push-publikuje"></a>Repozytorium publiczne: push publikuje
+
+2026-10-23 Kuba opublikował rozwiązanie: publiczne repozytorium `jakubgierasimiuk/kohorty-i-lejki` (konto osobiste), strona [adres strony usunięty] z workflow `.github/workflows/pages.yml`, który wdraża przy każdym pushu na `master`. Po publikacji Kuba zapowiedział kolejne poprawki merytoryczne w nowych wątkach. W chwili zamknięcia sesji publikacji lokalne commity z notatkami (od `c90c0d4`) nie były wypchnięte.
+
+**Dlaczego:** commit lokalny jest bezpieczny, ale push to natychmiastowa zmiana publicznej strony, którą może oglądać Telemedi. CLAUDE.md wymaga zgody Kuby na każdą akcję publikacji.
+
+**Jak stosować:** commituj lokalnie jak zwykle; przed pushem zapytaj Kubę wprost (jedno zdanie: co wchodzi na stronę). Przed pushem: komplet kontroli (`analiza/f_*.py`, `e_przegladarka.py` w obu trybach), ponowny zapis rozmów ([Pliki poza repozytorium](#pliki-poza-repo)), po pushu kontrola pod prawdziwym adresem (9 zakładek na komputerze i telefonie, pliki danych 200, odnośnik z filtrem po odświeżeniu, `noindex`). Środowisko `github-pages` dopuszcza już `master` ([Pages: dopuść gałąź master](#github-pages-galaz-master)). Po rekrutacji repozytorium wraca do prywatnych (decyzja Kuby).
+
+*Zapisane w rozmowie [„Ostatnia kontrola przed publikacją”](../rozmowy/2026-10-22_ostatnia-kontrola-przed-publikacja.md).*
 
 ### <a id="stopka-commit-przed-eksportem"></a>Stopka: commit przed eksportem
 

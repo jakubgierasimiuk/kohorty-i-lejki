@@ -1,6 +1,6 @@
 # Zapis rozmów z Claude Code
 
-Tu jest oczyszczony zapis wszystkich rozmów z Claude Code, w których powstało to rozwiązanie (18 rozmów, od 19.10.2026, 11:50 do 23.10.2026, 10:51). Claude Code to główne narzędzie tej pracy: liczył kodem, pisał notatki i zbudował narzędzie. Polecenia dla drugiego modelu (Codex) i briefy konsylium są osobno, w `notatki/recenzje/` i `notatki/konsylium/`, a lekcje zapisane po drodze przez Claude w `notatki/lekcje.md`.
+Tu jest oczyszczony zapis wszystkich rozmów z Claude Code, w których powstało to rozwiązanie (20 rozmów, od 19.10.2026, 11:50 do 23.10.2026, 13:07). Claude Code to główne narzędzie tej pracy: liczył kodem, pisał notatki i zbudował narzędzie. Polecenia dla drugiego modelu (Codex) i briefy konsylium są osobno, w `notatki/recenzje/` i `notatki/konsylium/`, a lekcje zapisane po drodze przez Claude w `notatki/lekcje.md`.
 
 ## Co jest w środku
 
@@ -25,12 +25,12 @@ W miejscu usuniętego fragmentu stoi oznaczenie w nawiasie kwadratowym.
 
 | Oznaczenie | Co zastępuje | Ile razy |
 |---|---|---:|
-| `[adres strony usunięty]` | adresy stron, w tym link do strony z zadaniem i do paczki danych | 6 |
+| `[adres strony usunięty]` | adresy stron, w tym link do strony z zadaniem i do paczki danych | 9 |
 | `[adres e-mail usunięty]` | adresy e-mail | 6 |
-| `[ścieżka spoza projektu usunięta]` | ścieżki do plików i folderów poza folderem projektu | 41 |
+| `[ścieżka spoza projektu usunięta]` | ścieżki do plików i folderów poza folderem projektu | 45 |
 | `[nazwa innego projektu usunięta]` | nazwy innych projektów Kuby | 1 |
 | `[nazwa rozszerzenia spoza projektu usunięta]` | nazwy rozszerzeń aplikacji używanych poza tym projektem | 6 |
-| `[fragment tekstu zadania usunięty]` | 8 i więcej słów z rzędu wspólnych z tekstem zadania | 11 |
+| `[fragment tekstu zadania usunięty]` | 8 i więcej słów z rzędu wspólnych z tekstem zadania | 13 |
 | `[ciąg wyglądający na klucz usunięty]` | ciągi wyglądające na klucz albo hasło | 0 |
 
 Zostały bez zmian lokalne adresy podglądu strony (127.0.0.1), bo nie prowadzą do żadnej strony w internecie, oraz nazwy usług „claude.ai” i „Booking.com” jako nazwy łączników, bez adresu strony, tak jak w `CLAUDE.md`. Odnośniki do plików projektu i do innych sesji są poprawione tak, żeby działały z tego folderu.
@@ -53,16 +53,18 @@ Dwie rozmowy były wznawiane i zapisały się w kilku plikach z tą samą począ
 | 19.10.2026, 20:56 | 21.10.2026, 22:39 | [B: szkielet narzędzia (układ, lejek, zdarzenia)](2026-10-19_b-szkielet-narzedzia-uklad-lejek-zdarzenia.md) | sesja „Telemedi: prowadzenie planu analizy punkt po punkcie” | 5 | 43 | 2 |
 | 19.10.2026, 21:42 | 21.10.2026, 22:39 | [A5: ekonomia kampanii](2026-10-19_a5-ekonomia-kampanii.md) | sesja „Telemedi: prowadzenie planu analizy punkt po punkcie” | 3 | 19 | 1 |
 | 20.10.2026, 12:33 | 21.10.2026, 22:40 | [Sesja prowadząca: punkt C (TelemediGO, priorytety)](2026-10-20_sesja-prowadzaca-punkt-c-telemedigo-priorytety.md) | sesja „Telemedi: prowadzenie planu analizy punkt po punkcie” | 5 | 51 | 15 |
-| 20.10.2026, 14:08 | 21.10.2026, 22:39 | [Narzędzie: „czy to wzrost', priorytety i niewiadome](2026-10-20_narzedzie-czy-to-wzrost-priorytety-i-niewiadome.md) | sesja „Sesja prowadząca: punkt C (TelemediGO, priorytety)” | 2 | 83 | 8 |
+| 20.10.2026, 14:08 | 23.10.2026, 11:28 | [Narzędzie: „czy to wzrost', priorytety i niewiadome](2026-10-20_narzedzie-czy-to-wzrost-priorytety-i-niewiadome.md) | sesja „Sesja prowadząca: punkt C (TelemediGO, priorytety)” | 3 | 84 | 8 |
 | 21.10.2026, 19:35 | 21.10.2026, 22:42 | [D: poprawki po konsylium (sesja prowadząca)](2026-10-21_d-poprawki-po-konsylium-sesja-prowadzaca.md) | sesja „Sesja prowadząca: punkt C (TelemediGO, priorytety)” | 5 | 54 | 18 |
-| 21.10.2026, 23:12 | 22.10.2026, 22:46 | [Merytoryka narzędzia przed publikacją](2026-10-21_merytoryka-narzedzia-przed-publikacja.md) | Kuba | 2 | 80 | 14 |
+| 21.10.2026, 23:12 | 23.10.2026, 11:28 | [Merytoryka narzędzia przed publikacją](2026-10-21_merytoryka-narzedzia-przed-publikacja.md) | Kuba | 3 | 82 | 14 |
 | 21.10.2026, 23:18 | 22.10.2026, 19:13 | [E: nowy wygląd narzędzia (część 3)](2026-10-21_e-nowy-wyglad-narzedzia-czesc-3.md) | sesja „Merytoryka narzędzia przed publikacją” | 4 | 61 | 13 |
 | 22.10.2026, 18:31 | 22.10.2026, 22:46 | [E: dopracowanie wyglądu narzędzia z Kubą](2026-10-22_e-dopracowanie-wygladu-narzedzia-z-kuba.md) | sesja „Merytoryka narzędzia przed publikacją” | 6 | 59 | 15 |
-| 22.10.2026, 22:47 | 23.10.2026, 10:51 | [Ostatnia kontrola przed publikacją](2026-10-22_ostatnia-kontrola-przed-publikacja.md) | Kuba | 5 | 46 | 11 |
+| 22.10.2026, 22:47 | 23.10.2026, 11:27 | [Ostatnia kontrola przed publikacją](2026-10-22_ostatnia-kontrola-przed-publikacja.md) | Kuba | 6 | 55 | 11 |
 | 22.10.2026, 23:01 | 23.10.2026, 00:34 | [F2: kontrola techniczna przed publikacją](2026-10-22_f2-kontrola-techniczna-przed-publikacja.md) | sesja „Ostatnia kontrola przed publikacją” | 1 | 63 | 0 |
 | 22.10.2026, 23:01 | 23.10.2026, 00:32 | [F3: język tekstów zmienionych od rana](2026-10-22_f3-jezyk-tekstow-zmienionych-od-rana.md) | sesja „Ostatnia kontrola przed publikacją” | 1 | 4 | 1 |
 | 23.10.2026, 00:35 | 23.10.2026, 10:13 | [F: poprawki strony (zdarzenia, teksty, Safari, telefon)](2026-10-23_f-poprawki-strony-zdarzenia-teksty-safari-telefon.md) | sesja „Ostatnia kontrola przed publikacją” | 0 | 86 | 1 |
 | 23.10.2026, 00:35 | 23.10.2026, 09:59 | [F: ślad pracy i zapis rozmów](2026-10-23_f-slad-pracy-i-zapis-rozmow.md) | sesja „Ostatnia kontrola przed publikacją” | 1 | 24 | 2 |
+| 23.10.2026, 11:31 | 23.10.2026, 13:03 | [Kohorty — zmiana układu zakładki](2026-10-23_kohorty-zmiana-ukladu-zakladki.md) | Kuba | 2 | 12 | 7 |
+| 23.10.2026, 11:35 | 23.10.2026, 13:07 | [Analiza marży i przyrostu pacjentów Telemedi](2026-10-23_analiza-marzy-i-przyrostu-pacjentow-telemedi.md) | Kuba | 3 | 35 | 11 |
 
 ## Gdzie w rozmowach dzieją się historie z README
 
