@@ -10,61 +10,180 @@ Trzecia lista Kuby (2026-10-22, po przeglądzie 4c594b5): nagłówek lejka wedł
 
 ## 1. Czy to wzrost
 
+Przebudowa po publikacji (wątek Kuby z 2026-10-23, runda G): zakładka odpowiada najpierw, dlaczego „Nie”, mimo że marża po wszystkich kosztach wzrosła o 27%. Liczby nowych zdań: analiza/g_werdykt.py → analiza/wyniki/g_werdykt.txt (G1–G4). Kuba wybrał „od wiosny wychodzimy na zero” (według pierwszego wejścia; obie kampanie razem w II i III kwartale 2026 poniżej 1 zł na pacjencie), a TikTok i reguła sesji z płatnością idą do kroku 4. Układ: werdykt z trzema linijkami i dwoma pojęciami, cztery kafelki, osiem kroków (pytanie, odpowiedź w jednym zdaniu, co to znaczy dla biznesu, szczegóły zwinięte), TelemediGO jako osobna karta na końcu.
+
+### wzrost/wstep
+
+Wzrost to dwie rzeczy naraz: więcej pacjentów i lepsza retencja. Sprawdzamy oba warunki osobno, na danych oczyszczonych, porównując ostatnie 12 miesięcy (X 2025 – IX 2026) z rokiem wcześniej (X 2024 – IX 2025). Na końcu sprawdzamy, ile biznes na tym zarabia.
+
 ### wzrost/werdykt
 
 Znacznik: Nie.
-Pacjentów przybywa, ale wracają rzadziej. Wydatki na kampanie rosną dużo szybciej niż marża, którą biznes zarabia przed ich kosztem.
-Dopisek: Za cały rok marża po koszcie lekarza, kampaniach i prowizji wzrosła o 27%: z 828 do 1 048 tys. zł.
+Prawie cały przyrost pacjentów (86%) to pacjenci dwóch nowych kampanii na L4, a na ich pacjencie po koszcie pozyskania prawie nic nie zostaje: 7 zł w ciągu 180 dni wobec 30 zł na pacjencie pozostałych kampanii płatnych, a na pacjentach pozyskanych od wiosny szacunkowo wychodzimy na zero. Marża po wszystkich kosztach wzrosła o 27% prawie wyłącznie dzięki zakupom pacjentów pozyskanych w pierwszym roku. Pacjenci pozyskani w ostatnich 12 miesiącach zarobili w roku pozyskania, po kosztach kampanii, tylko o 3% więcej niż ci pozyskani rok wcześniej, choć było ich o 52% więcej.
+(Po recenzji Codeksa i agenta-czytelnika: „to pacjenci” zamiast „dały”, kto wychodzi na zero, „w roku pozyskania”.)
+Trzy linijki:
+- Więcej pacjentów — Tak, ale: Nowych pacjentów jest o 52% więcej niż rok wcześniej, ale bez dwóch nowych kampanii na L4 tylko o 7%.
+- Lepsza retencja — Nie: W ciągu 90 dni wraca 17% nowych pacjentów, a rok wcześniej wracało 24%; rzadziej wracają też pacjenci spoza nowych kampanii.
+- Więcej zarabiamy — Tak, ale: Marża po wszystkich kosztach wzrosła z 828 do 1 048 tys. zł, ale 88% tego przyrostu to kolejne zakupy pacjentów pozyskanych w pierwszym roku, a wynik pacjentów pozyskanych w danym roku wzrósł tylko o 3%.
+Dwa pojęcia, raz, prostymi słowami:
+- Marża: to, co zostaje z zapłaty pacjenta po zwrotach i po wynagrodzeniu lekarza, razem z opłatą za TelemediGO. Marża po wszystkich kosztach odejmuje do tego wydatki na kampanie i prowizję afiliacyjną.
+- Koszt pozyskania: wydatki na kampanię podzielone przez liczbę nowych pacjentów, którzy z niej przyszli. „Zostaje na pacjencie” to jego marża w ciągu 180 dni od pierwszego zakupu minus koszt jego pozyskania.
+- Reguły przypisania (dodane po teście agenta-czytelnika): pacjenta przypisujemy do kampanii według pierwszego wejścia na stronę (tak liczymy w całym narzędziu) albo według sesji, w której zapłacił. Odpowiedź „Nie” jest taka sama przy obu regułach.
+Zastrzeżenie: Nie wiemy, ilu pacjentów nowych kampanii przyszłoby i bez reklamy. Odpowie na to test z pozycji 9 listy priorytetów: wyłączenie kampanii Meta na L4 na 4–6 tygodni w losowej połowie województw i porównanie wszystkich nowych pacjentów z drugą połową.
 
 ### wzrost/kafelki
 
-- +52% — nowych pacjentów niż rok wcześniej; bez dwóch nowych kampanii na L4: +7%.
+- 86% — przyrostu nowych pacjentów to pacjenci dwóch nowych kampanii na L4; według sesji z płatnością 61%.
+- 7 zł — zostaje w ciągu 180 dni na pacjencie nowych kampanii na L4 po koszcie pozyskania; pozostałe kampanie płatne: 30 zł.
 - 17% — nowych pacjentów wraca w ciągu 90 dni; rok wcześniej 24%.
-- ×2,1 — wydatki na kampanie w III kwartale 2026 wobec roku wcześniej; marża przed ich kosztem: +25%.
+- 88% — przyrostu marży to zakupy pacjentów z pierwszego roku; pacjenci pozyskani w danym roku po kosztach kampanii: +3%.
 
-### wzrost/decyzje
+### wzrost/dashboard
 
-1. Naprawić zakładanie konta w Safari na iPhone'ach — pozycja 1, do 83 tys. zł marży rocznie.
-2. Oczyścić codzienny raport i dodać alarmy na lejku — pozycja 2; awaria Safari trwała 198 dni, do końca danych.
-3. Wstrzymać kampanię TikTok na L4 i kampanię Google Ads na specjalistów — pozycje 3 i 4; obie tracą na każdym pacjencie według obu reguł przypisania źródła (pierwsze wejście i sesja z płatnością), a pauzę da się cofnąć w jeden dzień.
-4. Zrobić krótkie sprawdzenia: obietnica reklam L4, poranne grafiki internistów, zakup po zalogowaniu, kliknięcia w panelach reklam — pierwsze kroki pozycji 5, 6, 8 i 11; każde zajmuje dzień albo dwa.
-Ta sama lista stoi w zasadach listy priorytetów (pozycje 1, 3 i 4 oraz pierwsze kroki pozycji 2, 5, 6, 8 i 11) i w README.
-Runda F (2026-10-23, poprawka 3): kolejność jak na liście priorytetów (1, 2, 3–4, potem sprawdzenia; wcześniej 1, 3–4, 2), nazwy reguł przypisania przy pierwszym użyciu, „do końca danych” zamiast „bez alarmu” (dane nie mówią nic o alarmach).
+Etykieta: Krok 1.
+Tytuł: Ile z liczb z dashboardu jest prawdą?
+Odpowiedź: Liczba nowych pacjentów i sprzedaż TelemediGO się zgadzają, ale zamówień przybyło o 56%, a nie o 61%, a przychodu z konsultacji po zwrotach o 45%, a nie o 50%.
+Co to znaczy dla biznesu: Zanim na dashboardzie zaczniemy podejmować decyzje, trzeba go oczyścić z podwójnych zamówień i kont testowych i liczyć przychód po zwrotach (pozycja 2 listy priorytetów).
+- Dashboard liczy dane na surowo: z 604 zdublowanymi zamówieniami z 10–24.06.2026, z 2 071 zamówieniami 22 kont testowych i z przychodem przed zwrotami.
+- Nowi pacjenci: +52,1% po oczyszczeniu wobec +51,9% na dashboardzie; sprzedaż TelemediGO bez zmian, +40,3%.
+Wykres: schodki od dashboardu do danych oczyszczonych (tabela mostka w zwiniętej sekcji).
+Zastrzeżenie: Pierwszy rok startował od zera, bez bazy powracających pacjentów, więc sumy roczne z definicji faworyzują drugi rok (krok 5).
+Szczegóły (słownikiem: rok wcześniej, ostatnie 12 miesięcy): zastrzeżenia 1–3 z c_szkic.md, sekcja 1c (5 289 zamówień powtórnych pacjentów sprzed roku, 153 tys. zł marży konsultacji; rozbicie +26,6%, +8,1%, +3,1%; wydatki +77%); dokładnie 44,8% przychodu.
 
 ### wzrost/pacjenci
 
-Etykieta: Więcej pacjentów. Znacznik: Tak.
-Tytuł: Pacjentów przybywa, ale głównie z dwóch nowych kampanii na L4
-Wniosek: Nowych pacjentów jest o 52% więcej niż rok wcześniej, a bez kampanii Meta i TikTok na L4 tylko o 7%.
-- 24 687 nowych pacjentów w ostatnich 12 miesiącach wobec 16 231 rok wcześniej.
-- Bez pacjentów dwóch nowych kampanii na L4: 17 419. Te kampanie dały 29% nowych pacjentów, a ich pacjent zostawia w 90 dniach 36 zł marży przed kosztem pozyskania wobec 66 zł pozostałych.
-- Nowych pacjentów z kanałów bezpłatnych (wejścia bezpośrednie, bezpłatna wyszukiwarka, program poleceń) jest o 12% więcej niż rok wcześniej, licząc według pierwszego wejścia. (Runda F, P1: to przyrost z 7 069 do 7 924, a nie udział.)
-Zastrzeżenie: Nie wiemy, ilu pacjentów nowych kampanii przyszłoby i bez nich. Sprawdzi to test z wyłączeniem reklamy w części kraju (pozycja 9 listy priorytetów).
+Etykieta: Krok 2.
+Tytuł: Skąd są nowi pacjenci?
+Odpowiedź: Z 8 456 nowych pacjentów więcej niż rok wcześniej 7 268, czyli 86% przyrostu, to pacjenci dwóch nowych kampanii na L4: Meta od listopada 2025 i TikTok od lutego 2026.
+Co to znaczy dla biznesu: Przyrost pacjentów przypisujemy prawie w całości dwóm kampaniom: poza nimi nowych pacjentów przybyło tylko o 7%, więc o wzroście decyduje to, ile zostaje na pacjencie tych kampanii (krok 4).
+Wykres: słupki nowych pacjentów w obu latach, nowe kampanie na L4 i pozostałe (24 687 i 16 231; 17 419 bez nowych kampanii).
+- Meta na L4 dała 5 059 nowych pacjentów, a TikTok na L4 2 209.
+- Pozostałe kampanie płatne dały o 332 nowych pacjentów więcej niż rok wcześniej, kanały bezpłatne (wejścia bezpośrednie, bezpłatna wyszukiwarka, program poleceń) o 855 więcej, a ranking lekarzy tyle samo.
+- Według sesji z płatnością nowe kampanie dały 5 187 pacjentów, czyli 61% przyrostu, a bez nich pacjentów przybyło o 20%.
 Szczegóły:
 - Dokładnie: +52,1% wszystkich nowych pacjentów, +7,3% bez nowych kampanii, +12,1% z kanałów bezpłatnych (z 7 069 do 7 924). Pacjenci nowych kampanii: 7 268 z 24 687 (29%), marża w 90 dniach 36,3 zł wobec 66,0 zł.
 - Źródło pacjenta liczymy według pierwszego wejścia: pacjent nowej kampanii to ten, który pierwszy raz wszedł z jej reklamy albo zapłacił z jej kodem rabatowym. Według sesji z płatnością pacjentów bez nowych kampanii jest 19 500, czyli +20,1%. Różnica to 2 081 pacjentów, którzy według pierwszego wejścia należą do nowych kampanii, a według sesji z płatnością do innych kanałów: 1 918 weszło pierwszy raz z reklamy nowej kampanii, a zapłaciło w innej sesji (najczęściej po wejściu bezpośrednim albo z wyszukiwarki), a 163 weszło z innego kanału, ale zapłaciło z kodem nowej kampanii. Wracają tak rzadko jak pozostali pacjenci nowych kampanii. Bez nich obie reguły przypisania dają ten sam przyrost pacjentów, ten sam powrót i tę samą marżę, więc pacjentów i retencję opisujemy według pierwszego wejścia. W ekonomii kampanii pokazujemy obie reguły.
+- Pozostałe kampanie płatne: 8 546 i 8 878 nowych pacjentów (+3,9%); ranking lekarzy 616 i 617.
 
 ### wzrost/retencja
 
-Etykieta: Lepsza retencja. Znacznik: Nie.
-Tytuł: Pacjenci wracają rzadziej, także poza nowymi kampaniami
-Wniosek: W ciągu 90 dni wraca 17% nowych pacjentów, a rok wcześniej wracało 24%.
+Etykieta: Krok 3.
+Tytuł: Czy wracają?
+Odpowiedź: Rzadziej niż rok wcześniej: w ciągu 90 dni wraca 17% nowych pacjentów wobec 24%, a pacjenci nowych kampanii na L4 tylko w 4%.
+Co to znaczy dla biznesu: Nowy pacjent zostawia dziś mniej w kolejnych miesiącach: jego marża w 90 dniach, przed kosztem pozyskania, spadła z 67 do 58 zł.
 Tabela: powrót w ciągu 30, 60, 90 i 180 dni, rok wcześniej i w ostatnich 12 miesiącach, ze zmianą (liczby jak w c_szkic.md, sekcja 1b, i a5r_kohorty.txt).
+- Liczymy tylko pacjentów, którzy mają już pełne okno od pierwszego zakupu (na przykład pełne 90 dni), na tych samych dniach kalendarzowych w obu latach.
 - Bez pacjentów nowych kampanii powrót też spada: 22% wobec 24%.
-- Pacjenci nowych kampanii wracają w 4%. Ich większy udział odpowiada za około 71% spadku, a reszta to spadek w kanałach działających w obu latach.
-- Marża na pacjenta w 90 dniach, przed kosztem pozyskania, spadła z 67 do 58 zł. Poza nowymi kampaniami prawie stoi.
-Zastrzeżenie: Te liczby opisują zmianę, ale nie wskazują jej przyczyny. Nie wiemy, dlaczego spada powrót w kanałach działających w obu latach: czy ci sami pacjenci zachowują się dziś gorzej, czy zmieniło się to, kto do nas trafia. (Runda F: zastrzeżenie dotyczy reszty spadku, więc nie przeczy zdaniu o 71% spadku przypadającym na większy udział nowych kampanii.)
-Szczegóły:
+- Pacjenci nowych kampanii wracają w 4%. Ich większy udział wśród nowych pacjentów odpowiada za około 71% spadku powrotu (4,6 z 6,5 punktu procentowego), a reszta to spadek w kanałach działających w obu latach.
+- Poza nowymi kampaniami marża na pacjenta w 90 dniach prawie stoi: 66 zł wobec 67 zł.
+Zastrzeżenie: Te liczby opisują zmianę, ale nie wskazują jej przyczyny. Nie wiemy, dlaczego spada powrót w kanałach działających w obu latach: czy ci sami pacjenci zachowują się dziś gorzej, czy zmieniło się to, kto do nas trafia.
+Szczegóły (jak dotąd):
 - Liczba pacjentów: 12 867 rok wcześniej i 18 924 w ostatnich 12 miesiącach; bez nowych kampanii 14 031 (powrót 22,0% wobec 23,9%), pacjenci nowych kampanii 4 893 (powrót 4,1%). Marża na pacjenta w 90 dniach: 58,3 zł wobec 66,6 zł, bez nowych kampanii 66,0 zł.
 - Kolejne zamówienia na pacjenta w 90 dniach: 0,234 wobec 0,334, czyli o 29,8% mniej; bez pacjentów nowych kampanii 0,300.
 - Według sesji z płatnością bez nowych kampanii powrót wynosi 20,4%, a marża 63,3 zł. Cała różnica to 1 383 pacjentów nowych kampanii (z pełnym oknem 90 dni), których ta reguła przypisuje innym kanałom: 1 279 weszło z reklamy nowej kampanii, a zapłaciło w innej sesji, a 104 zapłaciło z kodem nowej kampanii po wejściu z innego kanału. Wracają w 4,3%. Bez nich obie reguły dają 22,0% i 66,0 zł, a udział nowych kampanii w spadku powrotu wynosi w obu 71% (według sesji z płatnością bez tej poprawki 46%).
-- „Około 71% spadku” to podział opisowy, czyli bez mierzenia wpływu: udział pacjentów nowych kampanii (25,9% kohort) razy różnica powrotu między nimi a resztą. Nie mówi, co by się stało bez tych kampanii.
+- „Około 71% spadku” to podział opisowy, czyli bez mierzenia wpływu: udział pacjentów nowych kampanii (25,9% kohort) razy różnica powrotu między nimi a resztą (4,6 z 6,5 punktu procentowego). Nie mówi, co by się stało bez tych kampanii.
 - Według pierwszej usługi (zdanie z c_szkic.md, sekcja 1b, z drugą regułą wyjaśnioną tak samo): pierwsze L4 u internisty według sesji z płatnością spada do 11,0%, ale to ta sama grupa: do 2 969 pacjentów według pierwszego wejścia dochodzi 1 145 pacjentów nowych kampanii z pierwszym L4.
 - Liczba osób, które wróciły w 90 dniach, rośnie: 3 289 wobec 3 076 (+6,9%). Spada tylko ich odsetek.
+- W 180 dniach liczymy tylko kohorty z pełnym oknem (9 125 i 12 591 pacjentów).
 - Część spadku w kanałach działających w obu latach może wiązać się z porannymi opóźnieniami u internistów: po spóźnionej pierwszej wizycie pacjenci wracają rzadziej. Dane tego nie rozstrzygają (Czego nie wiemy, punkt 4).
+
+### wzrost/na-pacjencie
+
+Etykieta: Krok 4.
+Tytuł: Ile zarabiamy na nowym pacjencie po koszcie pozyskania?
+Odpowiedź: Na pacjencie nowych kampanii na L4 zostaje w ciągu 180 dni 7 zł, a na pacjencie pozostałych kampanii płatnych 30 zł (rok wcześniej 32 zł).
+Co to znaczy dla biznesu: Pacjent przypisany nowym kampaniom zostawia po koszcie pozyskania kilka razy mniej niż pacjent pozostałych kampanii płatnych, a u pacjentów pozyskanych od kwietnia szacowany wynik jest bliski zeru.
+Wykres: zostaje na pacjencie nowych kampanii na L4, miesiąc po miesiącu (miesiąc pierwszego zakupu, listopad 2025 – wrzesień 2026), według obu reguł przypisania; pionowa linia to zero (liczby z tabeli w szczegółach).
+- Pacjent nowych kampanii zostawia w 180 dniach 37 zł marży, a jego pozyskanie kosztuje 30 zł. Pacjent pozostałych kampanii płatnych zostawia 72 zł marży przy koszcie pozyskania 43 zł.
+- Miesiąc po miesiącu koszt pozyskania pacjenta nowych kampanii rośnie z 27–30 zł (listopad 2025 – luty 2026) do 33–37 zł (kwiecień – wrzesień 2026), a marża pacjenta zostaje na poziomie 34–40 zł. Od kwietnia zostaje od −1 do +3 zł na pacjencie.
+- Osobno: TikTok na L4 traci od marca 2026 (w II kwartale 6 zł na pacjencie), a Meta na L4 zostaje na plusie (w III kwartale 2 zł na pacjencie).
+- Według sesji z płatnością obie kampanie razem tracą od grudnia 2025, a od kwietnia średnio 12–16 zł na pacjencie.
+- Razem w roku pozyskania pacjenci nowych kampanii zostawili 263 tys. zł marży przy 246 tys. zł wydatków na te kampanie, czyli 17 tys. zł.
+Zastrzeżenie: Pacjenci z pierwszym zakupem od kwietnia 2026 nie mają jeszcze pełnych 180 dni. Ich marżę przybliżamy: do marży z krótszego okresu dodajemy to, co starsi pacjenci tych kampanii zostawili później, od 0,35 zł, gdy znamy już 90 dni, do 2,87 zł, gdy znamy tylko dzień zakupu. Dopłata jest mała, bo ci pacjenci prawie nie wracają.
+Szczegóły:
+Tabela (według pierwszego wejścia: nowi pacjenci, koszt pozyskania, marża w 180 dniach, zostaje; według sesji z płatnością: zostaje), miesiąc pierwszego zakupu, okno 180 dni zmierzone do marca 2026, potem przybliżenie (90 dni do czerwca, 30 dni do sierpnia, dzień zakupu we wrześniu):
+- XI 2025: 121, 27,3 zł, 34,3 zł, +7,0 zł; +0,4 zł
+- XII 2025: 279, 27,7 zł, 37,4 zł, +9,6 zł; −8,7 zł
+- I 2026: 445, 30,1 zł, 40,4 zł, +10,3 zł; −0,3 zł
+- II 2026: 610, 29,6 zł, 39,7 zł, +10,1 zł; −1,4 zł
+- III 2026: 826, 31,7 zł, 35,5 zł, +3,8 zł; −7,9 zł
+- IV 2026: 825, 36,0 zł, 35,0 zł, −1,0 zł; −15,9 zł
+- V 2026: 910, 33,1 zł, 36,1 zł, +3,0 zł; −11,6 zł
+- VI 2026: 818, 35,9 zł, 35,6 zł, −0,3 zł; −12,9 zł
+- VII 2026: 799, 37,3 zł, 37,0 zł, −0,3 zł; −14,5 zł
+- VIII 2026: 785, 36,4 zł, 36,5 zł, +0,1 zł; −14,0 zł
+- IX 2026: 850, 34,8 zł, 36,1 zł, +1,3 zł; −15,5 zł
+- Porównanie płatnych z płatnymi liczymy na pierwszych zakupach od 1.10 do 3.04 w obu latach, bo tylko one mają pełne 180 dni: 2 352 pacjentów nowych kampanii (przedział 95% od 5,4 do 8,6 zł), 5 130 pacjentów pozostałych kampanii płatnych (29,7 zł) i rok wcześniej 4 717 (31,8 zł).
+- Według sesji z płatnością pacjent nowych kampanii daje −5,2 zł, a pacjent pozostałych kampanii płatnych 27,5 zł (rok wcześniej 30,0 zł).
+- Na całym roczniku, z przybliżoną marżą w 180 dniach dla młodszych pacjentów: nowe kampanie 2,8 zł na pacjencie (7 268 pacjentów), pozostałe kampanie płatne 26,7 zł wobec 30,8 zł rok wcześniej.
+- Ranking lekarzy (prowizja 25 zł za pacjenta) zostawia 37,0 zł wobec 34,8 zł rok wcześniej; liczymy go osobno, bo płacimy za pacjenta, a nie za kliknięcie.
+- W kwartałach (według pierwszego wejścia): 8,9 zł, 7,4 zł, 0,7 zł i 0,4 zł na pacjencie w IV kwartale 2025 i w I, II i III kwartale 2026; według sesji z płatnością −5,5 zł, −4,0 zł, −13,4 zł i −14,7 zł.
+- Kwota na pacjencie to średnia ze wszystkich pacjentów przypisanych kampanii. Nie mówi, ile dałaby kolejna złotówka budżetu.
+
+### wzrost/marza
+
+Etykieta: Krok 5.
+Tytuł: Skąd w takim razie +27% marży?
+Odpowiedź: Z pacjentów pozyskanych w pierwszym roku: ich zakupy w ostatnich 12 miesiącach dały 194 tys. zł, czyli 88% przyrostu marży o 220 tys. zł.
+Co to znaczy dla biznesu: Łączny wynik pacjentów pozyskanych w danym roku, po kosztach kampanii, wzrósł tylko o 3% przy 52% więcej pacjentów, a na jednym nowym pacjencie spadł z 51 do 35 zł.
+Wykres: słupki skumulowane marży po wszystkich kosztach w obu latach: pacjenci pozyskani w tym samym roku (828 i 854 tys. zł) i pacjenci z pierwszego roku (194 tys. zł); razem 828 i 1 048 tys. zł.
+- Rok wcześniej cała marża, 828 tys. zł, pochodziła od pacjentów pozyskanych w tym samym roku. Wcześniejszych pacjentów w danych nie ma, bo dane zaczynają się 1.10.2024.
+- W ostatnich 12 miesiącach pacjenci z pierwszego roku dali 194 tys. zł: 153 tys. zł z kolejnych wizyt i 41 tys. zł z opłat za TelemediGO.
+- Pacjenci pozyskani w ostatnich 12 miesiącach zostawili w tym samym roku 1 519 tys. zł marży przed kosztem kampanii, o 25% więcej niż rok wcześniej. Wydatki na kampanie wzrosły jednak o 77%, z 368 do 650 tys. zł, więc po odjęciu wydatków i prowizji afiliacyjnej (15 tys. zł) zostaje 854 tys. zł wobec 828 tys. zł.
+- To nie jest lepsza retencja: nowi pacjenci wracają rzadziej (krok 3). Tej kwoty rok wcześniej nie było, bo w danych nie ma pacjentów sprzed 1.10.2024.
+Zastrzeżenie: To rozbicie księgowe: przypisuje marżę i koszty grupom pacjentów, ale nie mierzy, co by się stało bez nowych kampanii.
+Szczegóły:
+- Dokładnie: marża po wszystkich kosztach 828 085 zł rok wcześniej i 1 048 069 zł w ostatnich 12 miesiącach, czyli +219 984 zł (+26,6%). Pacjenci z pierwszego roku: 194 434 zł (88,4% przyrostu). Pacjenci pozyskani w danym roku, po kosztach kampanii i prowizji: 828 085 zł i 853 635 zł, czyli +25 550 zł (+3,1%; 11,6% przyrostu). Na nowego pacjenta: 51,02 zł (16 231 pacjentów) i 34,58 zł (24 687). To porównanie zawiera też krótszą obserwację: od pierwszego zakupu do końca roku minęło średnio 191,0 dnia rok wcześniej i 177,8 dnia w ostatnich 12 miesiącach (uwaga Codeksa, policzone w g_werdykt.py). Porównanie w stałym oknie 180 dni jest w kroku 4.
+- Pacjenci nowych kampanii na L4 zostawili w roku pozyskania 263 tys. zł marży przy 246 tys. zł wydatków, czyli 17 tys. zł (2,38 zł na pacjenta). Pozostali pacjenci pozyskani w ostatnich 12 miesiącach dali po kosztach kampanii i prowizji 836 tys. zł wobec 828 tys. zł rok wcześniej (+1,0%), a na pacjenta 48,01 zł wobec 51,02 zł.
+- Według sesji z płatnością nowe kampanie tracą w roku pozyskania 58 tys. zł (−11,23 zł na pacjenta), a pozostali pacjenci dają o 10,2% więcej niż rok wcześniej.
+- Marża przed kosztem kampanii pacjentów pozyskanych w danym roku: 1 211 tys. zł i 1 519 tys. zł; wydatki na kampanie 367 632 zł i 649 675 zł; prowizja 15 400 zł i 15 425 zł.
+
+### wzrost/wynik
+
+Etykieta: Krok 6.
+Tytuł: W którą stronę to idzie z kwartału na kwartał?
+Odpowiedź: Z każdym kwartałem wydatki na kampanie rosną rok do roku szybciej, a marża przed ich kosztem wolniej: w III kwartale 2026 wydatki były ponad dwa razy wyższe niż rok wcześniej, a marża przed ich kosztem wyższa o 25%.
+Co to znaczy dla biznesu: Wzrost marży po kosztach kampanii się zatrzymał: w III kwartale 2026 spadła o 7% rok do roku, a po odjęciu jednorazowego startu sprzedaży TelemediGO w newsletterze rok wcześniej byłaby wyższa tylko o 1%.
+Tabela kwartałów (zmiana rok do roku): marża przed kosztem kampanii +55,2%, +49,7%, +38,4%, +25,2% (376,0, 500,2, 444,5, 392,5 tys. zł); wydatki na kampanie +29,6%, +66,4%, +104,0%, +107,7% (113,1, 170,6, 184,4, 181,6 tys. zł); marża po kosztach kampanii +71,4%, +43,0%, +13,0%, −6,8% (259,4, 324,4, 256,6, 207,7 tys. zł).
+- Na pacjencie nowych kampanii na L4 zostawało po koszcie pozyskania 9 zł w IV kwartale 2025 i 7 zł w I kwartale 2026, a w II i III kwartale 2026 mniej niż 1 zł.
+- Bez zakupów pacjentów pozyskanych w poprzednich kwartałach marża po kosztach kampanii rosła rok do roku o 8,5% w IV kwartale 2025 i o 26,1% w I kwartale 2026, a w II i III kwartale 2026 spadła o 6,7% i 5,6%.
+- Marża przed kosztem kampanii wzrosła za cały rok o 41%, a wydatki na kampanie o 77%.
+Zastrzeżenie: Marża po koszcie lekarza, kampaniach i prowizji spadła w III kwartale 2026 o 7% rok do roku, ale ten spadek zależy od jednorazowego zdarzenia: rok wcześniej we wrześniu ruszyła sprzedaż TelemediGO w newsletterze. Po odjęciu jednorazowej nadwyżki tego startu marża kwartału jest o 1% wyższa niż rok wcześniej.
+Szczegóły (jak dotąd):
+- Za cały rok marża po koszcie lekarza, kampaniach i prowizji wzrosła z 828 do 1 048 tys. zł, czyli o 26,6%. Marża przed kosztem kampanii wzrosła o 41,5%, a wydatki na kampanie o 76,7%.
+- W III kwartale 2026 marża była o 6,8% niższa niż rok wcześniej. W pierwszych 23 dniach sprzedaży TelemediGO w newsletterze pacjenci kupili 225 członkostw; po odjęciu szacowanej nadwyżki tego startu marża kwartału jest o 1,1% wyższa niż rok wcześniej.
+- Warianty III kwartału: bez nadwyżki startu sprzedaży w newsletterze (196 z 225 zakupów ponad zwykłe tempo 29 na 23 dni, 17,4 tys. zł) +1,1%; bez całej sprzedaży w newsletterze w obu latach −2,3%; bez wszystkich opłat za TelemediGO −4,9%. Marża przed kosztem kampanii bez nadwyżki startu rośnie o 32,6%.
+- Awaria zakładania konta w Safari na iPhone'ach kosztowała w samym III kwartale 2026 szacunkowo 14,6–18,3 tys. zł marży. Wyniku kwartału bez awarii nie mierzymy; to scenariusz z pozycji 1 listy priorytetów.
+- Baza powracających pacjentów (marża z pacjentów pozyskanych w poprzednich kwartałach): w III kwartale 2026 106,2 tys. zł wobec 115,2 tys. zł rok wcześniej. Rok wcześniej zawierała jednorazowy start sprzedaży w newsletterze; po odjęciu części nadwyżki przypadającej na bazę (210 z 225 zakupów) to 99,0 tys. zł, więc w 2026 baza dała o 7,3% więcej (bez całej sprzedaży w newsletterze w obu latach o 1,0% więcej). Wszystkich pacjentów pozyskanych w poprzednich kwartałach jest prawie trzy razy więcej (35 032 wobec 12 794), ale tych, którzy w kwartale coś kupili, tylko o 15% więcej (1 735 wobec 1 503). Baza jest starsza, a nowsze roczniki wracają rzadziej; tych dwóch rzeczy dane nie rozdzielają.
+- Rozkład spadku III kwartału na pacjentów nowych kampanii i resztę biznesu (rozkład księgowy, czyli przypisanie składników marży grupom pacjentów bez mierzenia wpływu): zdania z c_szkic.md, sekcja 1c, i d_teksty_strony.md.
+
+### wzrost/co-robimy
+
+Etykieta: Krok 7.
+Tytuł: Co robimy?
+Odpowiedź: Najpierw naprawiamy to, co psuje wynik niezależnie od kampanii, potem wstrzymujemy kampanie, które średnio tracą na pacjencie, a o kampanii Meta na L4 rozstrzyga test w części kraju.
+Co to znaczy dla biznesu: Każda pozycja listy priorytetów ma wartość w marży, sposób pomiaru i czas wdrożenia; niżej decyzje na pierwszy tydzień.
+Decyzje na pierwszy tydzień (bez zmian, kolejność jak na liście priorytetów):
+1. Naprawić zakładanie konta w Safari na iPhone'ach — pozycja 1, do 83 tys. zł marży rocznie.
+2. Oczyścić codzienny raport i dodać alarmy na lejku — pozycja 2; awaria Safari trwała 198 dni, do końca danych.
+3. Wstrzymać kampanię TikTok na L4 i kampanię Google Ads na specjalistów — pozycje 3 i 4; obie średnio tracą na pacjencie według obu reguł przypisania źródła (pierwsze wejście i sesja z płatnością), a pauzę da się cofnąć w jeden dzień.
+4. Zrobić krótkie sprawdzenia: obietnica reklam L4, poranne grafiki internistów, zakup po zalogowaniu, kliknięcia w panelach reklam — pierwsze kroki pozycji 5, 6, 8 i 11; każde zajmuje dzień albo dwa.
+Odnośniki: lista priorytetów, pozycja 9 (test Meta na L4).
+
+### wzrost/niewiadome
+
+Etykieta: Krok 8.
+Tytuł: Czego nie wiemy?
+Odpowiedź: Trzech rzeczy, od których zależą decyzje: ilu pacjentów nowych kampanii przyszłoby i bez reklamy, dlaczego rzadziej wracają pacjenci z kanałów działających w obu latach i ile wizyt dokłada zniżka TelemediGO.
+Co to znaczy dla biznesu: Dlatego decyzje, które od nich zależą, są na liście priorytetów testami z regułą ustaloną z góry, a nie pewnymi kwotami.
+- Ilu pacjentów nowych kampanii przyszłoby i bez reklamy: test z pozycji 9, czyli wyłączenie kampanii Meta na L4 na 4–6 tygodni w losowej połowie województw. Da wynik orientacyjny, więc decyzję podejmujemy według reguły ustalonej z góry (Czego nie wiemy, punkt 1).
+- Dlaczego rzadziej wracają pacjenci z kanałów działających w obu latach: jedną z możliwych przyczyn są poranne opóźnienia u internistów, ale dane tego nie rozstrzygają (Czego nie wiemy, punkt 4).
+- Ile wizyt i powrotów dokłada zniżka TelemediGO: losowy, bezpłatny dostęp do zniżek (pozycja 12; Czego nie wiemy, punkt 8).
+Odnośniki: Czego nie wiemy, punkty 1, 4 i 8 oraz cała lista.
 
 ### wzrost/telemedigo
 
+Osobna karta pod krokami (bez numeru kroku), treść bez zmian.
 Tytuł: TelemediGO rośnie razem z liczbą zamówień, a nie dzięki większej chęci zakupu
 Wniosek: Sprzedaż wzrosła o 40%, bo jest więcej zamówień i przez cały rok działała sprzedaż w newsletterze, a odsetek kupujących przy kasie nie rośnie.
 Tabela: typ zakupu, rok wcześniej, ostatnie 12 miesięcy, zmiana, udział we wzroście (c_szkic.md, sekcja 2).
@@ -73,36 +192,6 @@ Tabela: typ zakupu, rok wcześniej, ostatnie 12 miesięcy, zmiana, udział we wz
 Zastrzeżenie: Nie wiemy, ile wizyt członkostwo dokłada. Test z pozycji 12 pokaże wpływ samej zniżki, ale nie opłacalność oferty za 89 zł.
 Szczegóły (nowe zdania; reszta jak w c_szkic.md, sekcja 2):
 - Powtórne zamówienie pacjenta spoza nowych kampanii zostawiło w III kwartale 2026 32,81 zł marży wobec 35,86 zł rok wcześniej. Wizyta ze zniżką TelemediGO zostawia średnio 11,01 zł marży, bez zniżki 48,78 zł, a wizyta u specjalisty ze zniżką traci 5,59 zł. Udział wizyt ze zniżką wśród powtórnych zamówień: 34,3% (2 879 zamówień) i 41,6% (3 140). Zmiana tego udziału daje 2,71 zł z 3,05 zł spadku marży na zamówienie (rozkład na strukturę i marżę w obrębie rodzaju zniżki).
-
-### wzrost/wynik
-
-Tytuł: Z każdym kwartałem wydatki na kampanie rosną rok do roku szybciej, a marża przed ich kosztem wolniej
-(Inny tytuł niż główna karta „Wyniku biznesu”, która mówi o całym roku.)
-Wniosek: W III kwartale 2026 marża przed kosztem kampanii wzrosła o 25%, a wydatki na kampanie były ponad dwa razy wyższe niż rok wcześniej.
-Tabela kwartałów (zmiana rok do roku): marża przed kosztem kampanii +55,2%, +49,7%, +38,4%, +25,2% (376,0, 500,2, 444,5, 392,5 tys. zł); wydatki na kampanie +29,6%, +66,4%, +104,0%, +107,7% (113,1, 170,6, 184,4, 181,6 tys. zł; trzecia lista Kuby, punkt 2: procenty zamiast „×1,30”, tak jak w tabeli kwartałów w „Wyniku biznesu”; znacznik „uwaga”, jak na kafelku o wydatkach); marża po kosztach kampanii +71,4%, +43,0%, +13,0%, −6,8% (259,4, 324,4, 256,6, 207,7 tys. zł). „Ponad dwa razy wyższe” w zdaniu i „×2,1” na kafelku zostają.
-- Za cały rok marża po koszcie lekarza, kampaniach i prowizji wzrosła o 27%.
-- Marża przed kosztem kampanii wzrosła za cały rok o 41%, a wydatki na kampanie o 77%.
-Zastrzeżenie (jedno; zastrzeżenie o Safari przeniesione do szczegółów): Marża po koszcie lekarza, kampaniach i prowizji spadła w III kwartale 2026 o 7% rok do roku, ale ten spadek zależy od jednorazowego zdarzenia: rok wcześniej we wrześniu ruszyła sprzedaż TelemediGO w newsletterze. Po odjęciu jednorazowej nadwyżki tego startu marża kwartału jest o 1% wyższa niż rok wcześniej. (Runda F, P3: zastrzeżenie nazywa marżę, bo wykres nad nim pokazuje marżę przed kosztem kampanii na plusie.)
-Szczegóły:
-- Za cały rok marża po koszcie lekarza, kampaniach i prowizji wzrosła z 828 do 1 048 tys. zł, czyli o 26,6%. Marża przed kosztem kampanii wzrosła o 41,5%, a wydatki na kampanie o 76,7%.
-- W III kwartale 2026 marża była o 6,8% niższa niż rok wcześniej. W pierwszych 23 dniach sprzedaży TelemediGO w newsletterze pacjenci kupili 225 członkostw; po odjęciu szacowanej nadwyżki tego startu marża kwartału jest o 1,1% wyższa niż rok wcześniej. (Runda F, P8.)
-- Warianty III kwartału: bez nadwyżki startu sprzedaży w newsletterze (196 z 225 zakupów ponad zwykłe tempo 29 na 23 dni, 17,4 tys. zł) +1,1%; bez całej sprzedaży w newsletterze w obu latach −2,3%; bez wszystkich opłat za TelemediGO −4,9%. Marża przed kosztem kampanii bez nadwyżki startu rośnie o 32,6%.
-- Awaria zakładania konta w Safari na iPhone'ach kosztowała w samym III kwartale 2026 szacunkowo 14,6–18,3 tys. zł marży. Wyniku kwartału bez awarii nie mierzymy; to scenariusz z pozycji 1 listy priorytetów.
-- Baza powracających pacjentów (marża z pacjentów pozyskanych w poprzednich kwartałach): w III kwartale 2026 106,2 tys. zł wobec 115,2 tys. zł rok wcześniej. Rok wcześniej zawierała jednorazowy start sprzedaży w newsletterze; po odjęciu części nadwyżki przypadającej na bazę (210 z 225 zakupów) to 99,0 tys. zł, więc w 2026 baza dała o 7,3% więcej (bez całej sprzedaży w newsletterze w obu latach o 1,0% więcej). Wszystkich pacjentów pozyskanych w poprzednich kwartałach jest prawie trzy razy więcej (35 032 wobec 12 794), ale tych, którzy w kwartale coś kupili, tylko o 15% więcej (1 735 wobec 1 503). Baza jest starsza, a nowsze roczniki wracają rzadziej; tych dwóch rzeczy dane nie rozdzielają.
-- Rozkład spadku III kwartału na pacjentów nowych kampanii i resztę biznesu (rozkład księgowy, czyli przypisanie składników marży grupom pacjentów bez mierzenia wpływu): zdania z c_szkic.md, sekcja 1c, i d_teksty_strony.md.
-
-### wzrost/dashboard
-
-Tytuł: Dashboard pokazuje więcej wzrostu, niż jest w danych
-Wniosek: Po oczyszczeniu danych zamówień przybyło o 56%, a nie o 61%.
-- Dashboard liczy dane na surowo: z 604 zdublowanymi zamówieniami z 10–24.06.2026, z 2 071 zamówieniami 22 kont testowych i z przychodem przed zwrotami.
-- Po oczyszczeniu przychód z konsultacji po zwrotach rośnie o 45% zamiast 50%. Liczba nowych pacjentów i sprzedaż TelemediGO prawie się nie zmieniają.
-Zastrzeżenie: Pierwszy rok startował od zera, bez bazy powracających pacjentów, więc sumy roczne z definicji faworyzują drugi rok.
-Szczegóły (słownikiem: rok wcześniej, ostatnie 12 miesięcy): zastrzeżenia 1–3 z c_szkic.md, sekcja 1c (5 289 zamówień powtórnych pacjentów sprzed roku, 153 tys. zł marży konsultacji; rozbicie +26,6%, +8,1%, +3,1%; wydatki +77%); dokładnie 44,8% przychodu.
-
-### wzrost/wstep
-
-Wzrost to dwie rzeczy naraz: więcej pacjentów i lepsza retencja. Sprawdzamy oba warunki osobno, na danych oczyszczonych, porównując ostatnie 12 miesięcy (X 2025 – IX 2026) z rokiem wcześniej (X 2024 – IX 2025).
 
 ## 2. Priorytety
 

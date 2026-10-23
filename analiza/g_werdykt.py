@@ -234,7 +234,8 @@ def main():
                              **{f"okno_{w}": v for w, v in okna.items()}})
     rocz = pd.DataFrame(rocz)
     pokaz(rocz.round(1))
-    J["g2"] = {"okno": g2.to_dict(orient="records"), "rocznik": rocz.to_dict(orient="records")}
+    J["g2"] = {"okno": g2.to_dict(orient="records"), "rocznik": rocz.to_dict(orient="records"),
+               "granica_180": str(D.granice_por(180)[1]), "granica_180_rok_wczesniej": str(D.granice_por(180)[0])}
 
     # ======================= G3 =======================
     naglowek("G3. NOWE KAMPANIE NA L4 MIESIĄC PO MIESIĄCU: KOSZT POZYSKANIA A WSZYSTKO, CO PACJENT ZOSTAWIA (180 DNI)")
@@ -317,6 +318,11 @@ def main():
     przed = {o: float(ek[ek.okres == o].marza.sum()) for o in (1, 2)}
     marza = {o: przed[o] - wyd_o[o] - prow_o[o] for o in (1, 2)}
     baza2 = float(mk.get((2, 1), 0.0))
+    eb = ek[(ek.okres == 2) & (ek.okres_kohorty == 1)]
+    baza2_kons, baza2_go = float(eb[eb.zamowienie].marza.sum()), float(eb[~eb.zamowienie].marza.sum())
+    z_raportu("c_priorytety.txt", "     marza_powt_kohorty_o1  324159.0  152961.0", None)
+    z_raportu("c_priorytety.txt", "     telemedigo_kohorty_o1  156551.0   41474.0", None)
+    assert abs(baza2_kons - 152961) < 1 and abs(baza2_go - 41474) < 1, (baza2_kons, baza2_go)
     wlasni = {1: float(mk[(1, 1)]) - wyd_o[1] - prow_o[1], 2: float(mk[(2, 2)]) - wyd_o[2] - prow_o[2]}
     z_raportu("c_priorytety.txt", "                     marza  828085.0 1048069.0  219984.0         27.0", None)
     assert (round(marza[1]), round(marza[2])) == (828085, 1048069), marza
@@ -327,10 +333,16 @@ def main():
       f"(+{100 * zm / marza[1]:.1f}%). Kontrola z c_priorytety.txt (W3): zgodna.")
     r(f"   a) pacjenci pozyskani w okresie 1, ich marża w okresie 2 (powtórne zamówienia i TelemediGO): {zl(baza2)} zł "
       f"= {100 * baza2 / zm:.1f}% przyrostu; w okresie 1 takiej bazy z poprzedniego roku nie było (dane zaczynają się 1.10.2024).")
+    r(f"      w tym marża konsultacji {zl(baza2_kons)} zł i opłaty za TelemediGO {zl(baza2_go)} zł (zgodne z c_priorytety.txt, W3).")
     r(f"   b) pacjenci pozyskani w danym roku, po kosztach kampanii i prowizji: okres 1 {zl(wlasni[1])} zł, okres 2 "
       f"{zl(wlasni[2])} zł, zmiana {zl(wlasni[2] - wlasni[1])} zł ({100 * (wlasni[2] / wlasni[1] - 1):+.1f}%) "
       f"= {100 * (wlasni[2] - wlasni[1]) / zm:.1f}% przyrostu.")
     r(f"      na nowego pacjenta: okres 1 {wlasni[1] / n1:.2f} zł ({n1} pacjentów), okres 2 {wlasni[2] / n2:.2f} zł ({n2}).")
+    # czas obserwacji w roku pozyskania: od dnia pierwszego zakupu do końca okresu (uwaga Codeksa w recenzji rundy G)
+    koniec = {1: pd.Timestamp("2025-09-30"), 2: pd.Timestamp(D.KONIEC)}
+    obs = {o: float((koniec[o] - pe[pe.okres == o].d0).dt.days.mean()) for o in (1, 2)}
+    r(f"      średni czas obserwacji w roku pozyskania (dni od dnia pierwszego zakupu do ostatniego dnia okresu): okres 1 "
+      f"{obs[1]:.1f}, okres 2 {obs[2]:.1f}; porównanie 51 → 35 zł zawiera więc też krótszą obserwację, stałe okno 180 dni: G2.")
     r(f"      marża przed kampaniami pacjentów roku: {zl(mk[(1, 1)])} → {zl(mk[(2, 2)])} zł "
       f"({100 * (mk[(2, 2)] / mk[(1, 1)] - 1):+.1f}%); wydatki {zl(wyd_o[1])} → {zl(wyd_o[2])} zł ({100 * (wyd_o[2] / wyd_o[1] - 1):+.1f}%), "
       f"prowizja {zl(prow_o[1])} → {zl(prow_o[2])} zł.")
@@ -362,10 +374,12 @@ def main():
     r("   kampanii przyszłoby bez nich ani co by się stało z resztą biznesu bez tych kampanii.")
     J["g4"] = {"marza_o1": marza[1], "marza_o2": marza[2], "przyrost": zm, "przyrost_proc": 100 * zm / marza[1],
                "baza_o1_w_o2": baza2, "baza_udzial_w_przyroscie_proc": 100 * baza2 / zm,
+               "baza_konsultacje": baza2_kons, "baza_telemedigo": baza2_go,
                "wlasni_o1": wlasni[1], "wlasni_o2": wlasni[2], "wlasni_zmiana": wlasni[2] - wlasni[1],
                "wlasni_zmiana_proc": 100 * (wlasni[2] / wlasni[1] - 1),
                "wlasni_udzial_w_przyroscie_proc": 100 * (wlasni[2] - wlasni[1]) / zm,
                "wlasni_na_pacjenta_o1": wlasni[1] / n1, "wlasni_na_pacjenta_o2": wlasni[2] / n2,
+               "obserwacja_dni_o1": obs[1], "obserwacja_dni_o2": obs[2],
                "przed_kampaniami_wlasni_o1": float(mk[(1, 1)]), "przed_kampaniami_wlasni_o2": float(mk[(2, 2)]),
                "wydatki_o1": wyd_o[1], "wydatki_o2": wyd_o[2], "wydatki_nowe": wyd_nowe, "prowizja_o1": prow_o[1],
                "prowizja_o2": prow_o[2], "podzial": g4.to_dict(orient="records")}

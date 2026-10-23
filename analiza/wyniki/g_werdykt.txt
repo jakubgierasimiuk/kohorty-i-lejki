@@ -1,4 +1,4 @@
-G — LICZBY DO WERDYKTU „CZY TO WZROST” (2026-10-23 11:41), schemat `czyste`
+G — LICZBY DO WERDYKTU „CZY TO WZROST” (2026-10-23 12:11), schemat `czyste`
 Okres 1 = X 2024 – IX 2025, okres 2 = X 2025 – IX 2026. Z1K = przyjęta reguła źródła (pierwsze wejście, kod kampanii
 rozstrzyga), Z2 = sesja płatności. Nowe kampanie na L4 = meta_prosp_l4_szybko (od 3.11.2025) i tt_prosp_l4_15min
 (od 9.02.2026). Pozostałe kampanie płatne = Google Ads, Meta lekarz online, remarketing Meta (płatne za klik, z
@@ -98,7 +98,7 @@ G2. ILE ZOSTAJE Z JEDNEGO NOWEGO PACJENTA: MARŻA W 180 DNIACH MINUS KOSZT POZYS
          Z2     3      2   405           0        10125          25.0      60.6   35.6      30.7      40.5         14420.6       229       90       55      31
          Z2   1+2      1  7917      367632            0          46.4      74.3   27.9      26.4      29.3        220801.0      7917        0        0       0
          Z2   1+2      2 14249      649675            0          45.6      59.1   13.5      12.6      14.4        192324.9      6722     3929     2351    1247
-         Z2 1+2+3      1  8354      367632        10925          45.3      73.6   28.3      26.9      29.7        236316.4      8354        0        0       0
+         Z2 1+2+3      1  8354      367632        10925          45.3      73.6   28.3      26.9      29.7        236316.3      8354        0        0       0
          Z2 1+2+3      2 14654      649675        10125          45.0      59.1   14.1      13.2      15.0        206633.5      6951     4019     2406    1278
 
 ==============================================================================================================
@@ -232,8 +232,10 @@ G4. PRZYROST MARŻY PO WSZYSTKICH KOSZTACH (828 → 1 048 TYS. ZŁ): PACJENCI Z 
    Wynik pacjentów pozyskanych w danym roku = ich marża w tym samym roku − wydatki na kampanie − prowizja tego roku.
    Marża po wszystkich kosztach: okres 1 828 085 zł, okres 2 1 048 069 zł, przyrost 219 984 zł (+26.6%). Kontrola z c_priorytety.txt (W3): zgodna.
    a) pacjenci pozyskani w okresie 1, ich marża w okresie 2 (powtórne zamówienia i TelemediGO): 194 434 zł = 88.4% przyrostu; w okresie 1 takiej bazy z poprzedniego roku nie było (dane zaczynają się 1.10.2024).
+      w tym marża konsultacji 152 960 zł i opłaty za TelemediGO 41 474 zł (zgodne z c_priorytety.txt, W3).
    b) pacjenci pozyskani w danym roku, po kosztach kampanii i prowizji: okres 1 828 085 zł, okres 2 853 635 zł, zmiana 25 550 zł (+3.1%) = 11.6% przyrostu.
       na nowego pacjenta: okres 1 51.02 zł (16231 pacjentów), okres 2 34.58 zł (24687).
+      średni czas obserwacji w roku pozyskania (dni od dnia pierwszego zakupu do ostatniego dnia okresu): okres 1 191.0, okres 2 177.8; porównanie 51 → 35 zł zawiera więc też krótszą obserwację, stałe okno 180 dni: G2.
       marża przed kampaniami pacjentów roku: 1 211 118 → 1 518 735 zł (+25.4%); wydatki 367 632 → 649 675 zł (+76.7%), prowizja 15 400 → 15 425 zł.
 
    Wynik pacjentów pozyskanych w danym roku: nowe kampanie na L4 a reszta (marża w roku pozyskania − ich wydatki;
