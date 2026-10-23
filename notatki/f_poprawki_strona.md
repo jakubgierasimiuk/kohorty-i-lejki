@@ -64,12 +64,33 @@ Pliki: `analiza/e_teksty.py`, `analiza/e_teksty_zakladki.py`, `analiza/b2_ekspor
 
 ## Kontrola
 
-(uzupełniane po końcowym eksporcie)
+**Wszystkie kontrole przeszły bez nowych problemów.** Kod jest w commicie `2fcd78a`, a końcowy eksport i kontrole szły po nim, więc stopka strony wskazuje ten stan repozytorium. Dane strony i wyniki kontroli są w następnym commicie.
+
+| Kontrola | Wynik |
+|---|---|
+| Eksport w kolejności z `analiza/README.md` (`e_poprawki.py`, `e_wykresy.py`, `b_eksport.py`; 23.10.2026, godz. 3:32, stan `2fcd78a`) | 0 różnic w 115 kontrolach; `e_wykresy.json`: 96 wierszy, 0 różnic wobec `d_retencja`. Pokrycie liczb w szkicach: C 1 176 liczb w 50 fragmentach, D 247 liczb w 8 sekcjach, E 1 299 liczb w 45 kartach („Czy to wzrost”, „Priorytety”, „Czego nie wiemy”), karty zakładek 1 693 liczby w 37 kartach, w tym nowa tabela 190 liczb; bez pokrycia 0 |
+| `python -I analiza/b2_eksport_c.py` osobno | 0 różnic w 28 kontrolach; C 1 176, D 237 (7 sekcji), E 1 299; bez pokrycia 0; odświeżony `wyniki/b_eksport_c.txt` |
+| `python -I analiza/b2_teksty_strony.py` | 9 zakładek, 213 028 znaków, 2 474 linie, 0 błędów w konsoli; odświeżony `wyniki/b_teksty_strony.md` |
+| `f_wykresy_tekst.py` w Edge, WebKit i Firefoksie | w każdym silniku 2 302 porównania (1 165 przy 1 366 px i 1 137 przy 375 px), 0 niezgodnych, 0 błędów w konsoli; w tym 342 porównania nowej tabeli (171 na szerokość) |
+| `f_odnosniki.py` (Edge, 1 366 px) | 313 adresów z 421 miejsc, 8 357 sprawdzeń, 0 błędów strony; 6 trafień to znane porządkowanie adresu `w=calosc` przy 3 odnośnikach do lejka (bez zmiany widoku, opisane w `f_techniczna.md`) |
+| `e_przegladarka.py`, tryb jasny i `--ciemny` | w obu trybach 9 zakładek przy 1 366 i 375 px bez problemów, 0 błędów w konsoli, strona bez przewijania w bok, 322 odnośniki między zakładkami działają (wcześniej 314; doszło 8 odnośników z tabeli), przycisk „Zakładki” z 9 pozycjami |
+| `f_publikacja.py` | 0 problemów: podścieżka (18 żądań, 0 poza podścieżką, 0 błędów), Edge 768 i 1 920 px, WebKit 1 366 i 375 px, Firefox 1 366 i 375 px. W pierwszym przebiegu Edge przy 1 920 px dostał „połączenie odrzucone” od lokalnego serwera, który chwilę wcześniej (768 px) i później (WebKit) działał; osobne powtórzenie: 0 problemów |
+
+**Co porównuje nowa część `f_wykresy_tekst.py`** (dla każdego z 8 wierszy tabeli): data w kolumnie „Kiedy” wobec karty zdarzenia; każda liczba w kolumnach „Kiedy”, „Kogo dotyczy”, „Co zmieniło się po nim”, „Skutek w złotych” i „Pewność” wobec karty źródłowej (karty zdarzeń, karta „Lepsza retencja” i karta kwartałów w „Czy to wzrost”, karta zwrotów w „Po zakupie”, karta Safari w „Lejku”, karta ekonomii kampanii w „Wyniku biznesu”, przegląd listy priorytetów); kwota, dopisek i pewność dokładnie jak w przeglądzie priorytetów; nazwa i adres odnośnika do pozycji, numer punktu „Czego nie wiemy”, okna „60 dni przed i po” wobec daty zdarzenia, odnośnik do opisu zdarzenia i obecność dwóch odnośników wiersza. Hantle Safari: oba wiersze na tych samych oknach jak w tekście karty, a poziom do końca danych w przypisie jak w szczegółach karty.
+
+**Co sprawdza nowa część `f_odnosniki.py`:** każdy odnośnik do „Kohort” z parametrami musi pokazać wykres dzień po dniu na ekranie, wprost i po odświeżeniu; odnośnik z oknami „60 dni przed i po” musi ustawić na liście porównań pozycję zdarzenia z właściwą datą.
+
+**Obejrzane zrzuty** (Edge bez okna i WebKit, tylko 127.0.0.1; wysokie strony odcinkami): nowa karta na komputerze (cała) i na telefonie (odcinki po 1 200 px), karta Safari w „Lejku” na komputerze, decyzje na pierwszy tydzień, wykres godzin w „Po zakupie” z blokiem porannym do 13:59, tabela „Kohorty w podziale” na telefonie w WebKit, góra „Lejka” na telefonie w WebKit, pasek zakładek przy 768 px (żadna zakładka się nie chowa). Tabele „Kohorty w podziale” i „Kroki lejka w podziale” na telefonie: 313 px przy ramce 313 px w Edge i w WebKit (wcześniej 329 i 333 px).
+
+**Stopka strony:** „Liczby przeliczone 2026-10-23 03:32 … (stan repozytorium 2fcd78a)”. To commit z kodem, który policzył te dane; sesja B zacommitowała potem `55c0fcb` (README, rozmowy, notatki), co nie zmienia plików strony.
+
+**Uwaga o czasie:** komputer był uśpiony w nocy, więc dwa kroki końcowego przebiegu trwały godzinami (`e_poprawki.py` 68 minut, `b2_eksport_c.py` 5,7 godziny); wyniki to nie zmienia, bo eksport nie zależy od czasu poza godziną w nagłówkach.
 
 ## Uwagi dla sesji prowadzącej i sesji B
 
-- **README (sesja B):** lista „Co robimy w pierwszym tygodniu” miała kolejność 1, 3–4, 2; strona ma teraz 1, 2, 3–4, sprawdzenia. Wysłałem sesji B jedną wiadomość; w README w folderze kolejność jest już taka jak na stronie (zmiana sesji B, jeszcze niezacommitowana w chwili pisania). Inne zmienione na stronie zdania (Safari 66% → 45%, „bez alarmu”, „przybyło 12%”) w README nie występują.
-- Pliki niezacommitowane, które nie są moje: `README.md`, `analiza/f_rozmowy.py`, `notatki/f_slad_pracy.md`, `notatki/lekcje.md`, `rozmowy/` (sesja B).
+- **README (sesja B):** lista „Co robimy w pierwszym tygodniu” miała kolejność 1, 3–4, 2; strona ma teraz 1, 2, 3–4, sprawdzenia. Wysłałem sesji B jedną wiadomość; sesja B zmieniła kolejność w README (commit `55c0fcb`), więc lista zgadza się ze stroną. Inne zmienione na stronie zdania (Safari 66% → 45%, „bez alarmu”, „przybyło 12%”) w README nie występują.
+- **Do przejrzenia przez Codeksa (sesja prowadząca):** tytuł, wniosek i zastrzeżenie nowej tabeli, zdania pewności w trzech wierszach bez pozycji listy, zdanie o „reszcie spadku” w karcie „Lepsza retencja”, nowy pierwszy punkt nagłówka „Lejka” (P4) i zdania o Safari na równych oknach.
+- **Na rozmowę, poza tą rundą:** odnośniki do „Kohort” zapisują w adresie tylko daty porównania; nazwa porównania („60 dni przed i po: …”) wraca po odświeżeniu, bo strona rozpoznaje te okna, ale własne daty z tymi samymi dniami też pokażą nazwę zdarzenia.
 
 ## Propozycje wpisów do wspólnych notatek (bez numerów)
 

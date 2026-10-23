@@ -1,4 +1,4 @@
-B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 22:16, commit 329d075)
+B — EKSPORT DANYCH NARZĘDZIA (2026-10-23 03:32, commit 2fcd78a)
 
 1. Pliki w narzedzie/dane_strony/ (bajty)
    calosc                             38,075
@@ -9,14 +9,14 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 22:16, commit 329d075)
    kanal                             177,555
    kampania                          249,718
    strona_wejscia                    265,403
-   podsumowanie                       33,413
-   zdarzenia                          40,988
+   podsumowanie                       33,554
+   zdarzenia                          41,096
    jakosc                             15,777
-   kohorty                         1,447,898
-   po_zakupie                        312,883
-   wynik                              96,824
-   c                                  97,199
-   razem                           4,264,320
+   kohorty                         1,458,086
+   po_zakupie                        312,871
+   wynik                              96,930
+   c                                  97,661
+   razem                           4,275,313
 
 2. Kontrola: liczby z eksportu wobec notatek i wcześniejszych raportów
    co                                                                    eksport  oczekiwane  wynik
@@ -133,8 +133,8 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 22:16, commit 329d075)
    C: marża po kwartałach = eksport z bazy (zł, 8 kwartałów)          151340 226877 227044 222824 259375 324423 256558 207713 151340 226877 227044 222824 259375 324423 256558 207713  zgodne
    C: liczby w tekstach bez pokrycia w c_szkic.md (50 fragmentów, 1176 liczb)          0           0  zgodne
    D: liczby w tekstach innych zakładek bez pokrycia w d_teksty_strony.md (8 sekcji, 247 liczb)          0           0  zgodne
-   E: liczby w nowych tekstach „Czy to wzrost”, „Priorytety”, „Czego nie wiemy” bez pokrycia w notatkach (45 kart, 1297 liczb)          0           0  zgodne
-   E: liczby w nowych kartach zakładek bez pokrycia w notatkach (36 kart, 1498 liczb)          0           0  zgodne
+   E: liczby w nowych tekstach „Czy to wzrost”, „Priorytety”, „Czego nie wiemy” bez pokrycia w notatkach (45 kart, 1299 liczb)          0           0  zgodne
+   E: liczby w nowych kartach zakładek bez pokrycia w notatkach (37 kart, 1693 liczb)          0           0  zgodne
 
    Różnic: 0 z 115 kontroli.
 
@@ -225,7 +225,7 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 22:16, commit 329d075)
    e:wzrost/wynik      112  —              —
    e:wzrost/dashboard     37  —              24716, 38491
    e:wzrost/wstep        4  —              —
-   e:priorytety/1       79  —              2278, 2990, 4678
+   e:priorytety/1       81  —              2278, 2990, 4678
    e:priorytety/2       57  —              24716, 25269, 40613
    e:priorytety/3       78  —              1,56, 9
    e:priorytety/4       58  —              —
@@ -261,8 +261,8 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 22:16, commit 329d075)
    e:niewiadome/20       9  —              —
    e:niewiadome/21      10  —              —
    e:niewiadome/22      24  —              —
-   e:lejek/naglowek    342  —              0,01, 0,08, 0,19, 0,20, 0,24, 0,25, 0,26, 0,34, 0,35, 0,36, 0,38, 0,40, 0,48, 0,66, 0,68, 0,76, 0,83, 1,22, 1,51, 1,57, 1,62, 10,1, 10,39, 10,47, 10,50, 10,58, 10,59, 10,65, 10,72, 10,86, 10,88, 10,93, 10,94, 10020, 10844, 11,00, 11,03, 11,05, 11,08, 11,09, 11,10, 11,13, 11,14, 11,21, 11,23, 11,27, 11,30, 11,34, 11,35, 11,38, 11,42, 11,50, 11,54, 11,56, 11,62, 11,63, 11,77, 11,82, 11,94, 11,97, 11324, 11417, 11861, 12,08, 12,35, 12,36, 12,45, 12,50, 12,65, 12,98, 12943, 13,16, 13021, 18,4, 2,34, 2,64, 2,72, 2,74, 2116, 2154, 2352, 2364, 24,2, 2425, 2487, 2723, 2912, 2915, 3,09, 3,14, 3,43, 3,54, 3,68, 3017, 3201, 3335, 36,7, 4,29, 4,40, 42,1, 43,0, 44,9, 45,2, 45,4, 45,9, 46,6, 46,9, 47,0, 47,1, 47,2, 47,5, 58,5, 63,9, 64,5, 64,7, 64,8, 64,9, 65,1, 65,2, 65,3, 65,6, 65,7, 65,8, 65,9, 66,0, 66,1, 66,2, 66,3, 66,5, 66,6, 66,9, 67,1, 67,2, 67,5, 68,1, 68,8, 69,4, 7,37, 7,45, 8,28, 8,29, 8,37, 8,39, 8,44, 8,82, 8,93, 8803, 8884, 9,72, 9,99, 9079, 9359, 9669
-   e:lejek/safari       48  —              —
+   e:lejek/naglowek    344  —              0,01, 0,08, 0,19, 0,20, 0,24, 0,25, 0,26, 0,34, 0,35, 0,36, 0,38, 0,40, 0,48, 0,66, 0,68, 0,76, 0,83, 1,22, 1,51, 1,57, 1,62, 10,1, 10,39, 10,47, 10,50, 10,58, 10,59, 10,65, 10,72, 10,86, 10,88, 10,93, 10,94, 10020, 10844, 11,00, 11,03, 11,05, 11,08, 11,09, 11,10, 11,13, 11,14, 11,21, 11,23, 11,27, 11,30, 11,34, 11,35, 11,38, 11,42, 11,50, 11,54, 11,56, 11,62, 11,63, 11,77, 11,82, 11,94, 11,97, 11324, 11417, 11861, 12,08, 12,35, 12,36, 12,45, 12,50, 12,65, 12,98, 12943, 13,16, 13021, 18,4, 2,34, 2,64, 2,72, 2,74, 2116, 2154, 2352, 2364, 24,2, 2425, 2487, 2723, 2912, 2915, 3,09, 3,14, 3,43, 3,54, 3,68, 3017, 3201, 3335, 36,7, 4,29, 4,40, 42,1, 43,0, 44,9, 45,2, 45,4, 45,9, 46,6, 46,9, 47,0, 47,1, 47,2, 47,5, 58,5, 63,9, 64,5, 64,7, 64,8, 64,9, 65,1, 65,2, 65,3, 65,6, 65,7, 65,8, 65,9, 66,0, 66,1, 66,2, 66,3, 66,5, 66,6, 66,9, 67,1, 67,2, 67,5, 68,1, 68,8, 69,4, 7,37, 7,45, 8,28, 8,29, 8,37, 8,39, 8,44, 8,82, 8,93, 8803, 8884, 9,72, 9,99, 9079, 9359, 9669
+   e:lejek/safari       50  —              —
    e:lejek/przegladarki     43  —              —
    e:lejek/osobne       28  —              19
    e:kohorty/macierz      6  —              —
@@ -273,7 +273,7 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 22:16, commit 329d075)
    z:po_zakupie/powrot     42  —              —
    z:po_zakupie/zwroty     25  —              —
    z:po_zakupie/oceny     22  —              —
-   z:wynik             138  —              —
+   z:wynik             139  —              —
    z:wynik/ekonomia     42  —              —
    z:jakosc              2  —              —
    z:jakosc/mostek      14  —              —
@@ -297,3 +297,4 @@ B — EKSPORT DANYCH NARZĘDZIA (2026-10-22 22:16, commit 329d075)
    z:zdarzenie/safari_ios     37  —              —
    z:zdarzenie/marka_konwer     29  —              —
    z:zdarzenie/duplikaty     16  —              —
+   z:kohorty/zdarzenia    190  —              —

@@ -1,10 +1,9 @@
-F — GOTOWOŚĆ DO PUBLIKACJI: PODŚCIEŻKA, SZEROKOŚCI POŚREDNIE, SAFARI (WEBKIT) I FIREFOX (2026-10-23 00:32, commit 3b5eeaa)
-Problemy razem: 1
-   WebKit (Safari) 375 px: lejek: wychodzi poza ekran []
+F — GOTOWOŚĆ DO PUBLIKACJI: PODŚCIEŻKA, SZEROKOŚCI POŚREDNIE, SAFARI (WEBKIT) I FIREFOX (2026-10-23 09:57, commit 55c0fcb)
+Problemy razem: 0
 
 1. Podścieżka jak na GitHub Pages (/b2c-narzedzie/): 18 żądań, poza podścieżką 0, ze statusem 4xx/5xx 0, błędów w konsoli 0
    wzrost      kart  16, szerokość dokumentu 1366 / okno 1366
-   kohorty     kart   5, szerokość dokumentu 1366 / okno 1366
+   kohorty     kart   6, szerokość dokumentu 1366 / okno 1366
    lejek       kart   7, szerokość dokumentu 1366 / okno 1366
    po-zakupie  kart   6, szerokość dokumentu 1366 / okno 1366
    zdarzenia   kart  16, szerokość dokumentu 1366 / okno 1366
@@ -20,7 +19,7 @@ Problemy razem: 1
 
 2. Edge 155.0.4283.62, 768 × 1024 px: problemów 0, błędów w konsoli 0
    wzrost      kart  16, szerokość dokumentu 768 / okno 768
-   kohorty     kart   5, szerokość dokumentu 768 / okno 768
+   kohorty     kart   6, szerokość dokumentu 768 / okno 768
    lejek       kart   7, szerokość dokumentu 768 / okno 768
    po-zakupie  kart   6, szerokość dokumentu 768 / okno 768
    zdarzenia   kart  16, szerokość dokumentu 768 / okno 768
@@ -31,7 +30,7 @@ Problemy razem: 1
 
 2. Edge 155.0.4283.62, 1920 × 1080 px: problemów 0, błędów w konsoli 0
    wzrost      kart  16, szerokość dokumentu 1920 / okno 1920
-   kohorty     kart   5, szerokość dokumentu 1920 / okno 1920
+   kohorty     kart   6, szerokość dokumentu 1920 / okno 1920
    lejek       kart   7, szerokość dokumentu 1920 / okno 1920
    po-zakupie  kart   6, szerokość dokumentu 1920 / okno 1920
    zdarzenia   kart  16, szerokość dokumentu 1920 / okno 1920
@@ -42,7 +41,7 @@ Problemy razem: 1
 
 3. WebKit (Safari) 26.0, 1366 × 900 px: problemów 0, błędów w konsoli 0
    wzrost      kart  16, szerokość dokumentu 1366 / okno 1366
-   kohorty     kart   5, szerokość dokumentu 1366 / okno 1366
+   kohorty     kart   6, szerokość dokumentu 1366 / okno 1366
    lejek       kart   7, szerokość dokumentu 1366 / okno 1366
    po-zakupie  kart   6, szerokość dokumentu 1366 / okno 1366
    zdarzenia   kart  16, szerokość dokumentu 1366 / okno 1366
@@ -51,10 +50,10 @@ Problemy razem: 1
    priorytety  kart  15, szerokość dokumentu 1366 / okno 1366
    niewiadome  kart   0, szerokość dokumentu 1366 / okno 1366
 
-3. WebKit (Safari) 26.0, 375 × 812 px (telefon): problemów 1, błędów w konsoli 0
+3. WebKit (Safari) 26.0, 375 × 812 px (telefon): problemów 0, błędów w konsoli 0
    wzrost      kart  16, szerokość dokumentu 375 / okno 375
-   kohorty     kart   5, szerokość dokumentu 375 / okno 375
-   lejek       kart   7, szerokość dokumentu 478 / okno 375 — PRZEWIJA SIĘ W BOK
+   kohorty     kart   6, szerokość dokumentu 375 / okno 375
+   lejek       kart   7, szerokość dokumentu 375 / okno 375
    po-zakupie  kart   6, szerokość dokumentu 375 / okno 375
    zdarzenia   kart  16, szerokość dokumentu 375 / okno 375
    wynik       kart   2, szerokość dokumentu 375 / okno 375
@@ -62,11 +61,10 @@ Problemy razem: 1
    priorytety  kart  15, szerokość dokumentu 375 / okno 375
    niewiadome  kart   0, szerokość dokumentu 375 / okno 375
    przycisk „Zakładki” po przewinięciu: widoczny, zakładek na liście 9
-   PROBLEM: lejek: wychodzi poza ekran []
 
 3. Firefox 146.0.1, 1366 × 900 px: problemów 0, błędów w konsoli 0
    wzrost      kart  16, szerokość dokumentu 1366 / okno 1366
-   kohorty     kart   5, szerokość dokumentu 1366 / okno 1366
+   kohorty     kart   6, szerokość dokumentu 1366 / okno 1366
    lejek       kart   7, szerokość dokumentu 1366 / okno 1366
    po-zakupie  kart   6, szerokość dokumentu 1366 / okno 1366
    zdarzenia   kart  16, szerokość dokumentu 1366 / okno 1366
@@ -77,7 +75,7 @@ Problemy razem: 1
 
 3. Firefox 146.0.1, 375 × 812 px: problemów 0, błędów w konsoli 0
    wzrost      kart  16, szerokość dokumentu 375 / okno 375
-   kohorty     kart   5, szerokość dokumentu 375 / okno 375
+   kohorty     kart   6, szerokość dokumentu 375 / okno 375
    lejek       kart   7, szerokość dokumentu 375 / okno 375
    po-zakupie  kart   6, szerokość dokumentu 375 / okno 375
    zdarzenia   kart  16, szerokość dokumentu 375 / okno 375

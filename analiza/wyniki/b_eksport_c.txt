@@ -1,6 +1,6 @@
-B2 — EKSPORT PUNKTU C NA STRONĘ (2026-10-22 11:27)
+B2 — EKSPORT PUNKTU C NA STRONĘ (2026-10-23 09:15)
 
-1. Plik: narzedzie/dane_strony/c.js (96,429 bajtów). Odczytów z raportów: 171.
+1. Plik: narzedzie/dane_strony/c.js (97,661 bajtów). Odczytów z raportów: 171.
 
 2. Kontrole krzyżowe
    co                                                                                              eksport               oczekiwane  wynik
@@ -31,7 +31,7 @@ B2 — EKSPORT PUNKTU C NA STRONĘ (2026-10-22 11:27)
    C: wizyty testowe u internisty i trwające 1 minutę = wszystkie                                2071 2071                2071 2071  zgodne
    C: liczby w tekstach bez pokrycia w c_szkic.md (50 fragmentów, 1176 liczb)                            0                        0  zgodne
    D: liczby w tekstach innych zakładek bez pokrycia w d_teksty_strony.md (7 sekcji, 237 liczb)                        0                        0  zgodne
-   E: liczby w nowych tekstach „Czy to wzrost”, „Priorytety”, „Czego nie wiemy” bez pokrycia w notatkach (45 kart, 1292 liczb)                        0                        0  zgodne
+   E: liczby w nowych tekstach „Czy to wzrost”, „Priorytety”, „Czego nie wiemy” bez pokrycia w notatkach (45 kart, 1299 liczb)                        0                        0  zgodne
 
    Różnic: 0 z 28 kontroli.
 
@@ -104,7 +104,7 @@ B2 — EKSPORT PUNKTU C NA STRONĘ (2026-10-22 11:27)
    e:wzrost/wynik      112  —              —
    e:wzrost/dashboard     37  —              24716, 38491
    e:wzrost/wstep        4  —              —
-   e:priorytety/1       74  —              2278, 2990, 4678
+   e:priorytety/1       81  —              2278, 2990, 4678
    e:priorytety/2       57  —              24716, 25269, 40613
    e:priorytety/3       78  —              1,56, 9
    e:priorytety/4       58  —              —
