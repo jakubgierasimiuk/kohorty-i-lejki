@@ -209,7 +209,6 @@ Wniosek: Kolejność oznacza wagę decyzji. Każda kwota to osobny scenariusz, w
 - Najpierw pewne straty, które rosną każdego dnia i łatwo je naprawić (pozycje 1 i 2). Potem pauzy, które da się cofnąć (3 i 4). Potem naprawy, diagnozy i testy, które mają wycenę (5–10). Test Mety (pozycja 9) ma nieznany znak, ale wycenę i największą stawkę, więc stoi w tej grupie. Na końcu dwie pozycje bez oszacowanego efektu: pozycja 11 ma tylko górną granicę możliwej korzyści, a pozycja 12 tylko koszt testu.
 - W pierwszym tygodniu zespół może zrobić równolegle pozycje 1, 3 i 4 oraz pierwsze, krótkie kroki pozycji 2, 5, 6, 8 i 11 (decyzje na pierwszy tydzień w zakładce „Czy to wzrost”).
 - Wartość to zmiana marży na rok: przychód z konsultacji po zwrotach i opłaty TelemediGO minus koszt lekarza, wydatki na kampanie i prowizja afiliacyjna. Rokiem bazowym są ostatnie 12 miesięcy.
-- Pieniędzy uwolnionych przez pozycje 3 i 4 nie przesuwamy automatycznie do innych kampanii, tylko z testem.
 Szczegóły: dawne zasady listy i definicje (c_szkic.md, sekcja 3, „Zasady listy”), słownikiem i z tym samym kryterium kolejności; definicje okresów: rok wcześniej = X 2024 – IX 2025, ostatnie 12 miesięcy = X 2025 – IX 2026; reguły: według pierwszego wejścia i według sesji z płatnością; nowe kampanie: meta_prosp_l4_szybko (Meta, od 3.11.2025) i tt_prosp_l4_15min (TikTok, od 9.02.2026).
 
 ### priorytety/1
@@ -321,7 +320,11 @@ Pasek: koszt 3–12 tys. zł (zniżki przy niezmienionej liczbie wizyt) · Test 
 Co pokaże: Test pokaże wpływ samej zniżki na wizyty, powroty i marżę. Nie pokaże, czy opłaca się oferta za 89 zł, bo uczestnicy dostają zniżki bez opłaty. Od wyniku zależy, czy program promować, czy przebudować razem z pozycją 10.
 Szczegóły (nowe; koszt testu podany raz): Koszt testu (3,3–12,2 tys. zł zniżek dla 487–1 823 pacjentów w grupie z dostępem) liczymy przy niezmienionej liczbie wizyt; jeśli zniżka doda wizyt, koszt będzie wyższy.
 
+Zakres listy (runda G, Kuba 2026-10-23; widoczny w tej samej karcie co zasady, nad nimi): Lista obejmuje działania, które wynikają z problemów widocznych w danych: naprawy, pauzy i testy. Celowo nie obejmuje działań na wzrost, które wymagają wiedzy spoza tych danych, czyli nowych kanałów i kampanii, rozwoju oferty i TelemediGO (poza naprawą warunków, które dziś przynoszą stratę, pozycja 10) ani rozmów z pacjentami. Taka kolejność jest celowa: dopóki zakładanie konta w Safari nie działa i nie wiemy, ilu pacjentów kampanie naprawdę dokładają, dodatkowy budżet częściowo trafiałby w ten sam dziurawy lejek. Plan wzrostu przygotujemy po wynikach pierwszych testów (pozycje 7, 9 i 12).
+Nie robimy teraz rzeczy bez podstaw w danych albo bez testu (dawna osobna karta, teraz w tej karcie): kampanii o zgodę marketingową pacjentów nowych kampanii (w najlepszym razie 1,9 tys. zł rocznie); osobnej naprawy przeglądarek w aplikacjach w reklamach do nowych osób; przesuwania pieniędzy uwolnionych przez pozycje 3 i 4 do innych kampanii bez testu. Punkt o TelemediGO wypada (mówi to zakres), zasada o budżecie stoi raz. W szczegółach: rachunki dawnej karty (c_szkic.md, „Czego proponujemy teraz nie robić”) bez punktu o TelemediGO.
+
 ### priorytety/nie_robimy
+Od rundy G (2026-10-23) bez osobnej karty: treść w karcie zasad, wyżej.
 
 Tytuł: Nie robimy teraz rzeczy bez podstaw w danych albo bez testu
 - Kampanii o zgodę marketingową pacjentów nowych kampanii: w najlepszym razie 1,9 tys. zł rocznie.

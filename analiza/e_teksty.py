@@ -1300,21 +1300,30 @@ def priorytety(V, E, C):
             "W pierwszym tygodniu zespół może zrobić równolegle pozycje 1, 3 i 4 oraz pierwsze, krótkie kroki pozycji 2, 5, "
             "6, 8 i 11 (decyzje na pierwszy tydzień w zakładce „Czy to wzrost”).",
             "Wartość to zmiana marży na rok: przychód z konsultacji po zwrotach i opłaty TelemediGO minus koszt lekarza, "
-            "wydatki na kampanie i prowizja afiliacyjna. Rokiem bazowym są ostatnie 12 miesięcy.",
-            "Pieniędzy uwolnionych przez pozycje 3 i 4 nie przesuwamy automatycznie do innych kampanii, tylko z testem."])],
-        szczegoly=[punkty([popraw(x) for x in P0["zasady"]]), akapit(popraw(P0["definicje"]))])
-    bloki.append(("priorytety/zasady", zas, ["c:zasady"], []))
-    nie = karta(
-        "Nie robimy teraz rzeczy bez podstaw w danych albo bez testu",
-        tresc=[punkty([
+            "wydatki na kampanie i prowizja afiliacyjna. Rokiem bazowym są ostatnie 12 miesięcy."])],
+        szczegoly=[punkty([popraw(x) for x in P0["zasady"]]), akapit(popraw(P0["definicje"])),
+                   podtytul("Nie robimy teraz: rachunki"),
+                   punkty([popraw(x) for x in P0["nie_robimy"] if not x.startswith("Mocniejsza sprzedaż i odnowienia TelemediGO")])])
+    # runda G (Kuba, 2026-10-23): zakres listy nazwany wprost i dawna karta „Nie robimy teraz” w tej samej karcie co zasady;
+    # punkt o TelemediGO wypada (mówi to zakres), zasada o uwolnionym budżecie stoi raz, w „Nie robimy teraz”
+    zas["zakres"] = {
+        "tytul": "Zakres listy",
+        "tekst": "Lista obejmuje działania, które wynikają z problemów widocznych w danych: naprawy, pauzy i testy. Celowo nie "
+                 "obejmuje działań na wzrost, które wymagają wiedzy spoza tych danych, czyli nowych kanałów i kampanii, rozwoju "
+                 "oferty i TelemediGO (poza naprawą warunków, które dziś przynoszą stratę, pozycja 10) ani rozmów z pacjentami. "
+                 "Taka kolejność jest celowa: dopóki zakładanie konta w Safari nie działa i nie wiemy, ilu pacjentów kampanie "
+                 "naprawdę dokładają, dodatkowy budżet częściowo trafiałby w ten sam dziurawy lejek. Plan wzrostu przygotujemy "
+                 "po wynikach pierwszych testów (pozycje 7, 9 i 12)."}
+    zas["nie_robimy"] = {
+        "tytul": "Nie robimy teraz rzeczy bez podstaw w danych albo bez testu",
+        "punkty": [
             f"Kampanii o zgodę marketingową pacjentów nowych kampanii: w najlepszym razie {liczba(V['zgoda_1900'] / 1000, 1)} "
             f"tys. zł rocznie.",
             "Osobnej naprawy przeglądarek w aplikacjach w reklamach do nowych osób: w tej samej kampanii płacą tak samo jak "
             "zwykłe.",
-            "Mocniejszej sprzedaży i odnowień TelemediGO: dopiero po teście z pozycji 12.",
-            "Przesuwania uwolnionego budżetu do innych kampanii bez testu."])],
-        szczegoly=[punkty([popraw(x) for x in P0["nie_robimy"]])])
-    bloki.append(("priorytety/nie_robimy", nie, ["c:nie_robimy"], []))
+            "Przesuwania pieniędzy uwolnionych przez pozycje 3 i 4 do innych kampanii bez testu."]}
+    bloki.append(("priorytety/zasady", zas, ["c:zasady", "c:nie_robimy"], []))
+    nie = None
     # podpis grupy w przeglądzie (etap 5 grafiki), według kryterium kolejności listy (założenie 74)
     GRUPY = [((1, 2), "Pewne straty"), ((3, 4), "Pauzy, które da się cofnąć"), (tuple(range(5, 11)), "Działania z wyceną"),
              ((11, 12), "Bez oszacowanego efektu")]

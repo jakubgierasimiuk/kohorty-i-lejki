@@ -31,6 +31,8 @@ Ta sama lista stoi w narzędziu: w zakładce „Czy to wzrost” i w zasadach li
 3. Wstrzymujemy kampanię TikTok na L4 i kampanię Google Ads na specjalistów. Obie średnio tracą na pacjencie według obu reguł przypisania, a pauzę da się cofnąć w jeden dzień (pozycje 3 i 4).
 4. Robimy krótkie sprawdzenia, każde na dzień albo dwa: co obiecują reklamy L4 (pozycja 5), poranne grafiki internistów (pozycja 6), ręczny zakup po zalogowaniu (pozycja 8) i kliknięcia w panelach Meta i TikToka wobec sesji (pozycja 11).
 
+Lista priorytetów obejmuje działania wynikające z problemów widocznych w danych (naprawy, pauzy i testy), a celowo nie obejmuje działań na wzrost, które wymagają wiedzy spoza tych danych (nowe kanały i kampanie, rozwój oferty i TelemediGO poza naprawą warunków z pozycji 10, rozmowy z pacjentami); plan wzrostu przygotujemy po wynikach pierwszych testów (pozycje 7, 9 i 12).
+
 ## Jak używać narzędzia na co dzień
 
 - **Lejek:** domyślnie osoby, które jeszcze nie kupowały. Każdy krok dzień po dniu według przeglądarki i kampanii. Spadek jednego kroku w jednej przeglądarce to sygnał awarii, tak jak w Safari 17.03.2026.
