@@ -107,3 +107,7 @@ Decyzja Kuby: „tak, wszystko według rekomendacji, ruszaj z dwiema sesjami” 
 - **Ślad pracy:** sekcja README z 10 historiami, `rozmowy/`, `notatki/lekcje.md`; Kuba przejrzał raport skanu i pliki i dał zgodę na commit.
 - **Kontrole:** jak w `DECYZJE.md`; przejrzenie przez Codeksa bez błędów w liczbach, trzy brzmienia poprawione.
 - **Zostaje przed publikacją:** dwie decyzje Kuby (ścieżka innego projektu w historii, fragmenty tekstu zadania), ponowny zapis rozmów, nazwa organizacji i adres w README, kroki publikacji za zgodą Kuby, sprawdzenie na prawdziwych telefonach, mail.
+
+## 9. Publikacja (2026-10-23)
+
+Polecenie i wykonanie: `DECYZJE.md`, wpisy „publikacja: publiczne repozytorium na koncie osobistym Kuby” i „Wykonanie publikacji”. Strona: https://jakubgierasimiuk.github.io/kohorty-i-lejki/. Repozytorium: https://github.com/jakubgierasimiuk/kohorty-i-lejki. Kontrola pod prawdziwym adresem: 9 zakładek przy 1366 i 375 px bez błędów, wszystkie 24 pliki strony identyczne z repozytorium, odnośniki z filtrami po odświeżeniu bez zmian stanu, `noindex` w HTML, 0 żądań do innych adresów.
