@@ -770,9 +770,12 @@
     if (wsz) opis = "W komórce zmiana; wartości i liczba pacjentów po najechaniu. Każde okno bierze tylko kohorty z pełnym oknem, więc dłuższe okna mają mniej kohort.";
     else if (oknaDotycza()) {
       var z = zakresyOkna(KS.okno);
-      opis = z ? "Kohorty z pełnym oknem " + KS.okno + " dni: " + nz.a + " " + B.dataPL(z.a[0]) + "–" + B.dataPL(z.a[1]) + ", " + nz.b + " " +
+      // przy własnych datach nazwy okresów to same daty, więc w opisie słowa „wcześniejszy” i „późniejszy”
+      var na = KS.preset === "wlasne" ? "wcześniejszy okres" : nz.a, nb = KS.preset === "wlasne" ? "późniejszy okres" : nz.b;
+      opis = z ? "Kohorty z pełnym oknem " + KS.okno + " dni: " + na + " " + B.dataPL(z.a[0]) + "–" + B.dataPL(z.a[1]) + ", " + nb + " " +
         B.dataPL(z.b[0]) + "–" + B.dataPL(z.b[1]) + "." : "W wybranym okresie żadna kohorta nie ma jeszcze pełnego okna " + KS.okno + " dni.";
-    } else opis = wielka(nz.a) + ": " + B.dataPL(KS.a[0]) + "–" + B.dataPL(KS.a[1]) + " (" + (KS.a[1] - KS.a[0] + 1) + " dni), " + nz.b + ": " +
+    } else opis = (KS.preset === "wlasne" ? "Wcześniejszy okres" : wielka(nz.a)) + ": " + B.dataPL(KS.a[0]) + "–" + B.dataPL(KS.a[1]) + " (" +
+      (KS.a[1] - KS.a[0] + 1) + " dni), " + (KS.preset === "wlasne" ? "późniejszy okres" : nz.b) + ": " +
       B.dataPL(KS.b[0]) + "–" + B.dataPL(KS.b[1]) + " (" + (KS.b[1] - KS.b[0] + 1) + " dni)." +
       (KS.miara === "nowi" ? " Zmiana w procentach liczby nowych pacjentów dziennie." : "");
     B.$("ko-okresy-opis").textContent = opis + " Zaznaczone wiersze są na wykresie wyżej.";

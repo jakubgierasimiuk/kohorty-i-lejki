@@ -409,7 +409,8 @@
   }
 
   function opisOkresow() {
-    var nz = nazwyOkresow();
+    // przy własnych datach nazwy okresów to same daty, więc tu słowa „wcześniejszy” i „późniejszy”
+    var nz = S.preset === "wlasne" ? { a: "wcześniejszy okres", b: "późniejszy okres" } : nazwyOkresow();
     return wielka(nz.a) + ": " + dataPL(S.a[0]) + "–" + dataPL(S.a[1]) + " (" + (S.a[1] - S.a[0] + 1) + " dni). " +
       wielka(nz.b) + ": " + dataPL(S.b[0]) + "–" + dataPL(S.b[1]) + " (" + (S.b[1] - S.b[0] + 1) + " dni).";
   }
