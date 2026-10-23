@@ -296,7 +296,8 @@ ol.decyzje .dopisek { display: block; color: var(--muted); font-size: 13px; marg
 .werdykt-pojecia dd { display: inline; margin: 0; }
 .karta.krok .karta-etykieta > span:first-child { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
 .znaczy { margin: -4px 0 14px; padding: 8px 12px; max-width: 72ch; font-size: 15px; line-height: 1.5; background: var(--accent-tlo); border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0; }
-.seg-baza, .pkt.seg-baza { background: var(--series-3); }
+/* fiolet zamiast zieleni: zielony seria 3 miał 2,82:1 na białym tle (próg znaku danych 3:1, f_kontrast.py) */
+.seg-baza, .pkt.seg-baza { background: var(--series-7); }
 .skrot-siatka { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 4px 24px; }
 .skrot-siatka > div { min-width: 0; }
 .skrot-kwota { margin-top: 10px; font-weight: 600; max-width: 900px; }
