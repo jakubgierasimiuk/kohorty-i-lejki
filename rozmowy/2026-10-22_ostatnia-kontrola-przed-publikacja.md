@@ -1,6 +1,6 @@
 # Ostatnia kontrola przed publikacją
 
-Rozmowa z Claude Code w projekcie zadania Telemedi, od 22.10.2026, 22:47 do 23.10.2026, 00:36 (czas polski). Wiadomości Kuby: 4. Odpowiedzi Claude: 32. Polecenia i wiadomości do innych sesji i agentów: 9.
+Rozmowa z Claude Code w projekcie zadania Telemedi, od 22.10.2026, 22:47 do 23.10.2026, 10:14 (czas polski). Wiadomości Kuby: 4. Odpowiedzi Claude: 43. Polecenia i wiadomości do innych sesji i agentów: 11.
 
 Sesję otworzył Kuba.
 
@@ -705,3 +705,112 @@ Odezwę się, gdy któraś skończy.
 ### <a id="w45"></a>45. Claude · 23.10.2026, 00:36
 
 Kontrola języka jest zamknięta, a jej notatka była już w commicie `3b5eeaa`. Poprawka 6a (pasek zakładek na tablecie), którą zleciłeś sesji kontroli technicznej, jest teraz w commicie `7bae553`. Sesja [poprawek strony](2026-10-23_f-poprawki-strony-zdarzenia-teksty-safari-telefon.md) dostała wiadomość, żeby jej nie powtarzała. W jej zakresie zostają poprawki 6b i 6c. Dalej czekam na obie sesje rundy poprawek.
+
+*Wiadomość od sesji „F: ślad pracy i zapis rozmów”: [2026-10-23_f-slad-pracy-i-zapis-rozmow.md, wiadomość 23](2026-10-23_f-slad-pracy-i-zapis-rozmow.md#w23).*
+
+### <a id="w46"></a>46. Claude · 23.10.2026, 09:56
+
+Sesja B skończyła i, za Twoją zgodą wydaną w jej oknie, zrobiła commit `55c0fcb`. Zgłosiła dwie rzeczy, które dotyczą publikacji całego repozytorium:
+- **tekst zadania jest już w repozytorium**, we fragmentach w 32 plikach;
+- **w historii commitów jest adres e-mail osoby rekrutującej.**
+
+Zanim Ci to przedstawię, sprawdzam oba zgłoszenia sam.
+
+### <a id="w47"></a>47. Claude → sesja [„F: ślad pracy i zapis rozmów”](2026-10-23_f-slad-pracy-i-zapis-rozmow.md) · 23.10.2026, 09:59
+
+> Pytanie od sesji prowadzącej o ponowne uruchomienie analiza/f_rozmowy.py przed publikacją: nie znajduję pliku f_slad_pracy_skrot.md (nie ma go w notatki/, w pamięci projektu ani w twoim folderze roboczym; jest tam raport_rozmowy.md i zadanie_w_repo.*). Podaj proszę w odpowiedzi pełne polecenie z bezwzględnymi ścieżkami: plik z tekstem zadania (--zadanie), plik z listą nazw spoza projektu (--nazwy) i gdzie zapisać raport (--raport), oraz gdzie leży lista nazw. Jeśli listy nie ma poza twoim folderem roboczym, zapisz ją w swoim folderze roboczym (nie w repozytorium) i podaj ścieżkę. Przy okazji: skan historii pokazał, że adres e-mail osoby trzeciej był w CLAUDE.md w commitach c889a64, 78e69a9 i ebf37d5 (usunięty 21.10), a nie w 911d2ff; ścieżka do innego projektu jest w 911d2ff (notatki/e_grafika.md). Jeśli masz inne ustalenia, napisz. Niczego nie zmieniaj w repozytorium.
+
+### <a id="w48"></a>48. Claude · 23.10.2026, 09:59
+
+Sesja B skończyła i zrobiła commit `55c0fcb` po Twojej zgodzie. W commicie są:
+- **README** z sekcją „Jak pracowaliśmy z AI” i 10 sprawdzonymi historiami;
+- **folder `rozmowy/`** z 18 oczyszczonymi rozmowami;
+- **`notatki/lekcje.md`** z 27 lekcjami;
+- **skrypt** `analiza/f_rozmowy.py`.
+
+Sesja poprawek strony zrobiła już commit `2fcd78a` i dalej pracuje.
+
+**Zanim repozytorium stanie się publiczne, potrzebuję Twojej decyzji w dwóch sprawach.** Obie sprawdziłem sam.
+
+**1. Fragmenty tekstu zadania są w repozytorium od początku.** Skan sesji B znalazł 104 fragmenty po 8 i więcej słów w 32 plikach. Długie fragmenty (do 74 słów) są w dwóch miejscach:
+- w `CLAUDE.md`, gdzie jest 19 fragmentów, w tym zasady Telemedi przepisane dosłownie;
+- w briefie konsylium końcowej weryfikacji (`notatki/konsylium/d_weryfikacja/brief.md` i `_pytanie.md`), gdzie jest po 23 fragmenty.
+
+Reszta to krótkie cytaty (8–33 słowa) w komentarzach kodu i notatkach, głównie pytanie z zadania i definicje. Historia commitów zachowa te fragmenty niezależnie od tego, co teraz zmienimy w plikach.
+
+**2. W historii commitów są dwie rzeczy spoza projektu.** W obecnych plikach nie ma ani jednej, ani drugiej.
+- **Adres e-mail osoby trzeciej**, najpewniej osoby rekrutującej. Był w `CLAUDE.md` w trzech commitach z 19–21.10 i został usunięty 21.10. Sesja B wskazała tu zły commit, sprawdziłem właściwe.
+- **Ścieżka do folderu innego Twojego projektu**, w commicie `911d2ff` w `notatki/e_grafika.md`.
+
+**Warianty:**
+- **A (rekomenduję): publikujemy tak, jak jest.** Obecne pliki są czyste. Cytowanie zadania przy definicjach to część metody. Telemedi zna swoje zadanie, a repozytorium po rekrutacji wraca do prywatnych.
+- **B: przepisujemy historię przed publikacją**, czyli usuwamy adres i ścieżkę ze starych commitów. Zmienią się wtedy skróty wszystkich commitów. README, notatki i rozmowy podają ich kilkadziesiąt, więc te odnośniki przestaną działać. To też łamie zasadę „nie przepisujemy historii”. Zajmie 2–3 godziny i nie usuwa cytatów z zadania.
+- **C: repozytorium z pracą zostaje prywatne, a publiczne jest tylko narzędzie**, z osobnego repozytorium. To zmienia Twoją decyzję o hostingu z 19.10. Telemedi musiałoby dostać dostęp do śladu pracy inaczej, na przykład zaproszeniem, które wymaga konta na GitHubie.
+
+**Pytanie pomocnicze:** czy zakaz „tekstu zadania w repozytorium” dotyczył tylko pełnego tekstu wyciągniętego z linku? Wtedy wariant A wystarcza. Jeśli dotyczył każdego fragmentu zadania w publicznym repozytorium, w pełni rozwiązuje to tylko wariant C.
+
+**Co dalej:** czekam na koniec sesji poprawek strony. Potem robię komplet kontroli i krótkie przejrzenie przez Codeksa (model Sol). Na końcu ponownie uruchamiam zapis rozmów, żeby objął ostatnią rundę, i zatrzymuję się u Ciebie przed publikacją. Sesję B poprosiłem o dokładne polecenie do tego ponownego uruchomienia.
+
+*Wiadomość od sesji „F: ślad pracy i zapis rozmów”: [2026-10-23_f-slad-pracy-i-zapis-rozmow.md, wiadomość 26](2026-10-23_f-slad-pracy-i-zapis-rozmow.md#w26).*
+
+### <a id="w49"></a>49. Claude · 23.10.2026, 10:00
+
+Poprawka do mojej poprzedniej wiadomości. W sprawie adresu e-mail osoby rekrutującej decyzja już zapadła. 21.10 na Twojej liście poprawek (punkt 12) usunęliśmy adres z `CLAUDE.md` i zapisaliśmy w `DECYZJE.md`, że historii nie przepisujemy, więc adres zostaje we wcześniejszych commitach. Nie wracam do tego.
+
+**Do decyzji zostają dwie rzeczy:**
+1. **Ścieżka do folderu innego Twojego projektu w commicie `911d2ff`.** Rekomenduję to samo co przy adresie: zostawić w historii bez przepisywania. W obecnych plikach jej nie ma.
+2. **Fragmenty tekstu zadania w repozytorium**, głównie w `CLAUDE.md` i w briefie konsylium końcowej weryfikacji. Rekomenduję wariant A, czyli publikację tak, jak jest. Jeśli jednak zakaz miał obejmować każdy fragment zadania w publicznym repozytorium, w pełni rozwiązuje to tylko wariant C: prywatne repozytorium z pracą i osobne, publiczne narzędzie.
+
+Sesja B podała dokładne polecenie do ponownego uruchomienia zapisu rozmów przed publikacją i listę rzeczy do sprawdzenia po nim. Zrobię to na końcu. Sesja poprawek strony dalej pracuje.
+
+### <a id="w50"></a>50. Claude · 23.10.2026, 10:00
+
+Wszystkie sesje skończyły. Sesja poprawek strony zrobiła commity `2fcd78a` i `27d85fb`. Teraz moje kroki z zatwierdzonego planu:
+1. Sprawdzam jej wynik.
+2. Robię niezależną kontrolę ostatecznej wersji.
+3. Zlecam krótkie przejrzenie przez Codeksa (model Sol).
+4. Dopisuję wzmiankę o tabeli zdarzeń w README.
+5. Ponownie uruchamiam zapis rozmów.
+6. Uzupełniam notatki i robię commit.
+
+Zaczynam od raportu sesji.
+
+### <a id="w51"></a>51. Claude · 23.10.2026, 10:01
+
+Codex (model Sol) czyta zmienione zdania. W README w tabeli zakładek dopisuję przy „Kohortach”, że na górze jest teraz tabela zdarzeń i decyzji.
+
+### <a id="w52"></a>52. Claude · 23.10.2026, 10:02
+
+Codex jeszcze czyta teksty strony. Gdy skończy, rozpiszę jego uwagi na przyjęte i odrzucone z uzasadnieniem. Potem ponownie uruchomię zapis rozmów, zrobię commit i zatrzymam się u Ciebie przed publikacją.
+
+### <a id="w53"></a>53. Claude · 23.10.2026, 10:05
+
+Ten sam problem jest w README, w linii 24: „To największa pewna strata: do 83 tys. zł”. README poprawię sam. Trzy zdania na stronie przekazuję sesji A, bo zna kod tekstów i kontrole.
+
+### <a id="w54"></a>54. Claude → sesja [„F: poprawki strony (zdarzenia, teksty, Safari, telefon)”](2026-10-23_f-poprawki-strony-zdarzenia-teksty-safari-telefon.md) · 23.10.2026, 10:05
+
+> Trzy poprawki brzmienia po przejrzeniu przez Codeksa (model Sol). Recenzja nie znalazła błędów w liczbach: wszystkie 8 wierszy tabeli zgadza się z kartami źródłowymi, a pozostałe zmienione zdania są w porządku. Wskazała trzy zdania mocniejsze niż dane. Sesja prowadząca je przyjmuje, w ramach zatwierdzonego przez Kubę kroku „czy nie mówią więcej niż dane”. Liczby się nie zmieniają.
+>
+> 1. Tytuł nowej karty „Kohort” (`analiza/e_teksty_zakladki.py:1077`, szkic `notatki/e_teksty_zakladki.md:40`). Dziś: „Kohorty zmieniły się głównie po naszych decyzjach o kampaniach na L4, a wynik obniża dodatkowo awaria Safari”. Słowo „głównie” razem z „naszymi decyzjami” sugeruje ustaloną przyczynę, a 71% to opisowy rozkład spadku. Nowy tytuł: „Po starcie naszych kampanii na L4 rośnie udział pacjentów, którzy rzadko wracają, a awaria Safari obniża wynik”. Możesz go minimalnie skrócić, ale bez wzmacniania związku przyczynowego. Kontrolę w kodzie, która sprawdza „głównie” (ponad połowa), usuń albo dostosuj.
+>
+> 2. Wniosek tej karty (`e_teksty_zakladki.py:1079`, szkic linia 41). Dziś: „…a największą pewną stratą jest awaria Safari: 75–83 tys. zł marży rocznie”. Kwota z pozycji 1 to górny scenariusz, a nie pewna strata. Nowe brzmienie: „Od 10 kwietnia 2026 nowe kampanie na L4 dają 41% nowych pacjentów, a naprawa awarii Safari to w górnym scenariuszu 75–83 tys. zł marży rocznie.” Liczby bierzesz z tych samych pól co dziś.
+>
+> 3. Pozycja 2 priorytetów, oba miejsca: `analiza/b2_eksport_c.py:1273` i `analiza/e_teksty.py:743`, szkice `notatki/e_teksty.md:139` i ewentualnie `c_szkic.md`. Zdanie „wykrycie po tygodniu ograniczyłoby stratę do 22–25 …” zakłada, że samo wykrycie zatrzymuje stratę. Nowe brzmienie: „Gdyby awarię wykryto i usunięto w ciągu tygodnia, strata wyniosłaby około 22–25 pierwszych zamówień zamiast 628–695.” W miejscu z „3,5%” zostaw tę liczbę w tym samym sensie. Zdanie „Alarm na krokach lejka wykryłby ją po kilku dniach” zostaje.
+>
+> Potem kontrola: eksport w zwykłej kolejności (0 różnic w kontroli, pełne pokrycie w szkicach), `b2_eksport_c.py`, `b2_teksty_strony.py`, `f_wykresy_tekst.py` (wystarczy Edge) i `e_przegladarka.py` w trybie jasnym. Commit z jawnych ścieżek. README nie ruszasz: w README jest niezacommitowana zmiana sesji prowadzącej, którą poprawię sam. Zakończ turę krótkim podsumowaniem: nowe brzmienia, wyniki kontroli w liczbach, commit.
+
+### <a id="w55"></a>55. Claude · 23.10.2026, 10:05
+
+Wyniki przejrzenia przez Codeksa zapisałem w `notatki/recenzje/f_codex.md` (co przyjmuję i dlaczego). README poprawiłem: dopisałem tabelę zdarzeń w opisie „Kohort” i zamieniłem „największa pewna strata” na „górny scenariusz”. Sesja [poprawek strony](2026-10-23_f-poprawki-strony-zdarzenia-teksty-safari-telefon.md) wprowadza teraz trzy poprawki brzmienia z kontrolą. Gdy skończy, ponownie uruchomię zapis rozmów, zrobię commit i zatrzymam się u Ciebie przed publikacją.
+
+### <a id="w56"></a>56. Claude · 23.10.2026, 10:13
+
+Sesja A wprowadziła trzy poprawki brzmienia (commity `a1d4465` i `559ed00`). Sprawdzam nowe brzmienia w tekstach strony i stan repozytorium. Potem uruchamiam ponownie zapis rozmów.
+
+### <a id="w57"></a>57. Claude · 23.10.2026, 10:13
+
+Nowe brzmienia są na stronie, a starych nie ma nigdzie. Biorę z notatki sesji A wyniki kontroli po tych poprawkach, żeby wpisać je do notatki rundy.
+
+### <a id="w58"></a>58. Claude · 23.10.2026, 10:14
+
+Notatki są scalone: założenia 83–86, 7 nowych wierszy w liście skryptów, dziennik decyzji, plan i przekazanie. Teraz ponownie uruchamiam zapis rozmów poleceniem od sesji B.

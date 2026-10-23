@@ -1,6 +1,6 @@
 # Lekcje z pracy z AI (pamięć projektu)
 
-Claude Code zapisuje w trakcie pracy krótkie notatki dla kolejnych sesji: co poszło źle, dlaczego i jak tego unikać. Ten plik zbiera wszystkie takie notatki z tego projektu (27), pogrupowane według tematu. Każda to ślepa uliczka, pułapka albo poprawka Kuby, z uzasadnieniem i sposobem stosowania.
+Claude Code zapisuje w trakcie pracy krótkie notatki dla kolejnych sesji: co poszło źle, dlaczego i jak tego unikać. Ten plik zbiera wszystkie takie notatki z tego projektu (28), pogrupowane według tematu. Każda to ślepa uliczka, pułapka albo poprawka Kuby, z uzasadnieniem i sposobem stosowania.
 
 Treść wpisów jest taka jak w pamięci, z pięcioma wyjątkami: pominięte pola techniczne (nazwa pliku, opis do wyszukiwania, typ, identyfikator sesji, data zmiany); etykiety „Why” i „How to apply” zamienione na „Dlaczego” i „Jak stosować”; odnośniki między wpisami zamienione na linki w tym pliku; ścieżki spoza folderu projektu zastąpione oznaczeniem; wpis o wyłączaniu łączników przycięty do ogólnej lekcji, bez nazw usług i rozszerzeń spoza projektu. Pod każdym wpisem jest rozmowa, w której powstał (`rozmowy/`). Plik tworzy skrypt `analiza/f_rozmowy.py`.
 
@@ -332,3 +332,15 @@ Panel przeglądarki w aplikacji Claude miał w tej pracy około 373 × 270 pikse
 **Jak stosować:** po wyłączeniu sprawdź status jeszcze raz. Jeśli coś dalej jest „connected”, napisz Kubie jednym zdaniem, żeby wyłączył to ręcznie, i nie używaj tych narzędzi. Przy pierwszym wyłączeniu uprzedź Kubę o skutku dla nowych sesji.
 
 *Zapisane w rozmowie [„Pierwsza sesja projektu — bezpieczeństwo”](../rozmowy/2026-10-19_pierwsza-sesja-projektu-bezpieczenstwo.md). Wpis przycięty do ogólnej lekcji.*
+
+## Inne
+
+### <a id="stopka-commit-przed-eksportem"></a>Stopka: commit przed eksportem
+
+Stopka narzędzia („Liczby przeliczone … (stan repozytorium X)”) bierze `git rev-parse --short HEAD` w chwili uruchomienia `analiza/b_eksport.py`. Eksport zrobiony przed commitem zmian w kodzie zapisuje w stopce commit sprzed tych zmian, więc stopka wskazuje kod, który tych danych nie policzył.
+
+**Dlaczego:** w rundzie F (2026-10-23) zlecenie wymagało sprawdzenia, czy stopka podaje stan repozytorium po ostatnim eksporcie; wcześniej stopka w commicie wskazywała starszy stan (329d075), co kontrola techniczna zgłosiła jako ślad do poprawy.
+
+**Jak stosować:** przy końcowym przebiegu: (1) commit kodu, tekstów i szkiców, (2) eksport w kolejności z `analiza/README.md` i komplet kontroli, (3) osobny commit danych strony i wyników. Komputer Kuby bywa usypiany w nocy, więc długie kontrole w tle mogą stanąć na godziny; czas kroku w logu nie znaczy wtedy błędu. Powiązane: [Recenzja Codeksa przed zamknięciem punktu](#recenzja-codeksa-przed-zamknieciem).
+
+*Zapisane w rozmowie [„F: poprawki strony (zdarzenia, teksty, Safari, telefon)”](../rozmowy/2026-10-23_f-poprawki-strony-zdarzenia-teksty-safari-telefon.md).*

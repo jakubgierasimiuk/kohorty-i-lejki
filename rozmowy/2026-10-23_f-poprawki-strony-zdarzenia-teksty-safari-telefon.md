@@ -1,6 +1,6 @@
 # F: poprawki strony (zdarzenia, teksty, Safari, telefon)
 
-Rozmowa z Claude Code w projekcie zadania Telemedi, od 23.10.2026, 00:35 do 23.10.2026, 09:48 (czas polski). Wiadomości Kuby: 0. Odpowiedzi Claude: 74. Polecenia i wiadomości do innych sesji i agentów: 1.
+Rozmowa z Claude Code w projekcie zadania Telemedi, od 23.10.2026, 00:35 do 23.10.2026, 10:13 (czas polski). Wiadomości Kuby: 0. Odpowiedzi Claude: 86. Polecenia i wiadomości do innych sesji i agentów: 1.
 
 Sesję uruchomiła sesja [„Ostatnia kontrola przed publikacją”](2026-10-22_ostatnia-kontrola-przed-publikacja.md), poleceniem z [wiadomości 40](2026-10-22_ostatnia-kontrola-przed-publikacja.md#w40).
 
@@ -305,3 +305,116 @@ Eksport i porównania wykresów w trzech silnikach są gotowe. Odczytuję ich wy
 ### <a id="w75"></a>75. Claude · 23.10.2026, 09:48
 
 Czekam na koniec kontroli odnośników (ostatni krok, około 20 minut przy ponad 300 adresach).
+
+### <a id="w76"></a>76. Claude · 23.10.2026, 09:56
+
+Sesja B zacommitowała swoją część (`55c0fcb`), w tym kolejność listy w README. Powtarzam osobno kontrolę publikacji.
+
+### <a id="w77"></a>77. Claude · 23.10.2026, 09:58
+
+„Lejek” w WebKit przy 375 px mieści się w szerokości ekranu, a nowy punkt P4 czyta się poprawnie. Sprawdzam, które pliki zmienił końcowy eksport i kontrole, przed drugim commitem.
+
+### <a id="w78"></a>78. Claude · 23.10.2026, 09:58
+
+Wszystkie zmienione pliki to dane strony i wyniki kontroli z końcowego przebiegu. Uzupełniam notatkę o wyniki w liczbach.
+
+### <a id="w79"></a>79. Claude · 23.10.2026, 09:59
+
+Notatka gotowa. Drugi commit: dane strony z końcowego eksportu, wyniki kontroli i notatka.
+
+### <a id="w80"></a>80. Claude · 23.10.2026, 10:00
+
+Zrobione są wszystkie poprawki części strony: 3, 4, 1, 5 oraz 6a, 6b i 6c. Są w dwóch commitach: `2fcd78a` (kod, teksty, szkice, strona, skrypty kontroli) i `27d85fb` (dane strony z końcowego eksportu, wyniki kontroli i notatka `notatki/f_poprawki_strona.md`). Kontrole na ostatecznej wersji nie wykazały żadnego nowego problemu. Liczby w odpowiedzi się nie zmieniły.
+
+**Co jest na stronie**
+- **Poprawka 1.** Nowa pierwsza karta „Kohort” to tabela 8 zdarzeń i decyzji. Remarketing Meta został tylko na osi zdarzeń. Każda liczba pochodzi z tych samych pól eksportu co karty zdarzeń, przegląd priorytetów i ekonomia kampanii; szkic kontroli napisałem ręcznie.
+  - Odnośnik „Pokaż na kohortach dziennych” ustawia porównanie 60 dni przed i po zdarzeniu i przewija do wykresu dziennego, także po odświeżeniu.
+  - Na telefonie każdy wiersz jest osobną kartą. Dawna pierwsza karta stoi teraz pod wykresem dziennym.
+  - Dwie rzeczy poza dosłownym zleceniem. Każdy odnośnik do „Kohort” z filtrami przewija teraz do wykresu, bo tabela na górze odsunęła wykres w dół. Trzy wiersze bez pozycji listy priorytetów nie mają znacznika pewności, tylko zdanie z karty zdarzenia, żeby nie wymyślać poziomu.
+- **Poprawka 3.** Sześć zdań na pierwszej zakładce. Kolejność decyzji jest teraz 1, 2, 3–4, potem sprawdzenia. Sesja B zgrała z tym README.
+- **Poprawka 4.** Wszystkie dziesięć poprawek językowych. Ten sam błąd co w P8 („sprzedaż sprzedała”) stał też w trzecim miejscu, w karcie TelemediGO; poprawiłem go tak samo.
+- **Poprawka 5.** Wykres Safari ma oba wiersze na tych samych 60 dniach przed awarią i po niej: Safari 66% → 45%, pozostałe przeglądarki 65% → 63%. Zdania, które cytują te wartości, są zgrane z wykresem.
+- **Poprawki 6.** 6a była już w commicie `7bae553`. Po 6b „Lejek” w WebKit przy 375 px ma 375 px szerokości zamiast 478. Po 6c obie tabele na telefonie mają 313 px przy ramce 313 px, zamiast 329 i 333 px.
+
+**Kontrole na wersji końcowej**
+
+| Kontrola | Wynik |
+|---|---|
+| Eksport w zwykłej kolejności | 0 różnic w 115 kontrolach; 0 liczb bez pokrycia w szkicach (nowa tabela ma 190 liczb) |
+| `b2_eksport_c.py` osobno | 0 różnic w 28 kontrolach |
+| `b2_teksty_strony.py` | 9 zakładek, 0 błędów w konsoli |
+| `f_wykresy_tekst.py` w Edge, WebKit i Firefoksie | po 2 302 porównania, 0 niezgodnych, w tym 342 porównania komórek tabeli z kartami źródłowymi |
+| `f_odnosniki.py` | 313 adresów, 8 357 sprawdzeń, 0 błędów strony; 6 trafień to znane, wcześniej opisane porządkowanie adresu przy trzech odnośnikach do lejka |
+| `e_przegladarka.py`, tryb jasny i ciemny | 9 zakładek przy 1366 i 375 px, 0 błędów w konsoli, strona bez przewijania w bok, 322 odnośniki działają |
+| `f_publikacja.py` | 0 problemów |
+
+W pierwszym przebiegu `f_publikacja.py` Edge przy 1920 px nie dostał odpowiedzi od lokalnego serwera. Ten sam serwer działał chwilę wcześniej i chwilę później, a osobne powtórzenie dało 0 problemów.
+
+Zrzuty nowej karty i zmienionych miejsc obejrzałem na komputerze i na telefonie, wysokie strony odcinkami. Stopka strony wskazuje `2fcd78a`, czyli commit z kodem, który policzył te dane. Dlatego kod i dane są w dwóch osobnych commitach.
+
+**Co zostało dla Ciebie**
+- Przejrzenie przez Codeksa tytułu, wniosku, zastrzeżenia i zdań pewności w nowej tabeli oraz zmienionych zdań. Listę dokładnych miejsc jest w notatce.
+- Propozycje wpisów do wspólnych notatek, bez numerów, są na końcu `notatki/f_poprawki_strona.md`.
+
+Komputer był w nocy uśpiony, więc końcowy przebieg trwał kilka godzin; na wyniki to nie wpłynęło. Nic nie zostało opublikowane ani wypchnięte.
+
+*Wiadomość od sesji „Ostatnia kontrola przed publikacją”: [2026-10-22_ostatnia-kontrola-przed-publikacja.md, wiadomość 44](2026-10-22_ostatnia-kontrola-przed-publikacja.md#w44).*
+
+### <a id="w81"></a>81. Claude · 23.10.2026, 10:00
+
+Wiadomość sesji prowadzącej zgadza się z tym, jak już pracowałem. Poprawki 6a nie robiłem drugi raz: reguła z commitu `7bae553` jest nietknięta, a w końcowej kontroli tylko ją sprawdziłem. Przy 768 px żadna zakładka się nie chowa, a `e_przegladarka.py` i `f_publikacja.py` nie zgłaszają problemów. Sześć plików z kontroli technicznej nadpisał końcowy eksport i są w commicie `27d85fb`.
+
+Stan bez zmian: wszystko jest w dwóch commitach, `2fcd78a` (kod, teksty, szkice, strona) i `27d85fb` (dane, wyniki kontroli, notatka `notatki/f_poprawki_strona.md`). Drzewo robocze jest czyste.
+
+Wyniki kontroli w skrócie:
+- eksport: 0 różnic w 115 kontrolach, 0 liczb bez pokrycia w szkicach;
+- porównania wykresów z tekstem: po 2 302 w Edge, WebKit i Firefoksie, 0 niezgodnych;
+- odnośniki: 313 adresów sprawdzonych wprost i po odświeżeniu, 0 błędów strony;
+- kontrola strony w trybie jasnym i ciemnym oraz kontrola publikacji: 0 problemów.
+
+Do zrobienia po Twojej stronie zostaje przejrzenie przez Codeksa nowej tabeli i zmienionych zdań. Wypisałem je w notatce i w skrócie `f_poprawki_strona_skrot.md` we wspólnym folderze sesji.
+
+*Wiadomość od sesji „Ostatnia kontrola przed publikacją”: [2026-10-22_ostatnia-kontrola-przed-publikacja.md, wiadomość 54](2026-10-22_ostatnia-kontrola-przed-publikacja.md#w54).*
+
+### <a id="w82"></a>82. Claude · 23.10.2026, 10:05
+
+Przyjmuję trzy poprawki brzmienia od sesji prowadzącej; liczby się nie zmieniają. Najpierw odczytuję obecne miejsca w kodzie i w szkicach.
+
+### <a id="w83"></a>83. Claude · 23.10.2026, 10:06
+
+Kod zmieniony. Teraz te same trzy brzmienia w szkicach (`e_teksty_zakladki.md`, `e_teksty.md`, `c_szkic.md`).
+
+### <a id="w84"></a>84. Claude · 23.10.2026, 10:06
+
+Szkice zgodne, CRLF w `c_szkic.md` zachowane. Szybki próbny eksport przed commitem z tekstami.
+
+### <a id="w85"></a>85. Claude · 23.10.2026, 10:06
+
+Próbny eksport: 0 różnic w 115 kontrolach, pełne pokrycie. Commit z tekstami i szkicami, potem końcowy eksport i kontrole (żeby stopka wskazywała ten commit).
+
+### <a id="w86"></a>86. Claude · 23.10.2026, 10:06
+
+Commit `a1d4465`. Uruchamiam końcowy eksport i zlecone kontrole (eksport w zwykłej kolejności, `b2_eksport_c.py`, zrzut tekstów, porównania wykresów w Edge, przeglądarka w trybie jasnym).
+
+### <a id="w87"></a>87. Claude · 23.10.2026, 10:13
+
+Wprowadziłem trzy poprawki brzmienia po recenzji Codeksa. Są w dwóch commitach: `a1d4465` (teksty i szkice) i `559ed00` (dane strony, wyniki kontroli, notatka). Liczby się nie zmieniły, a zlecone kontrole nie wykazały żadnego problemu.
+
+**Nowe brzmienia**
+1. **Tytuł tabeli w „Kohortach”:** „Po starcie naszych kampanii na L4 rośnie udział pacjentów, którzy rzadko wracają, a awaria Safari obniża wynik”. Kontrolę „głównie”, czyli ponad połowy spadku, zastąpiłem inną: kod sprawdza teraz, że udział nowych kampanii rośnie, a ich pacjenci wracają rzadziej (4,1% wobec 22,0%).
+2. **Wniosek tej karty:** „Od 10 kwietnia 2026 nowe kampanie na L4 dają 41% nowych pacjentów, a naprawa awarii Safari to w górnym scenariuszu 75–83 tys. zł marży rocznie.” Kod sprawdza, że w pozycji 1 kwota jest opisana jako górny scenariusz.
+3. **Pozycja 2, w „Dlaczego” i w „Ile warta”:** „Gdyby awarię wykryto i usunięto w ciągu tygodnia, strata wyniosłaby około 22–25 pierwszych zamówień zamiast 628–695.” W „Ile warta” liczba 3,5% zostaje w tym samym sensie: „około 3,5% dzisiejszej”.
+
+Te same zmiany są w szkicach `e_teksty_zakladki.md`, `e_teksty.md` i `c_szkic.md` (w tym ostatnim z zachowanymi końcami wierszy CRLF).
+
+**Kontrola po zmianach**
+
+| Kontrola | Wynik |
+|---|---|
+| Eksport w zwykłej kolejności | 0 różnic w 115 kontrolach; 0 liczb bez pokrycia w szkicach |
+| `b2_eksport_c.py` osobno | 0 różnic w 28 kontrolach |
+| `b2_teksty_strony.py` | 9 zakładek, 0 błędów w konsoli; nowe brzmienia są w zrzucie, starych nie ma |
+| `f_wykresy_tekst.py` w Edge | 2 302 porównania, 0 niezgodnych |
+| `e_przegladarka.py` w trybie jasnym | 9 zakładek przy 1366 i 375 px bez problemów, 322 odnośniki działają, 0 błędów w konsoli |
+
+Stopka strony podaje „stan repozytorium a1d4465”, czyli commit z tekstami, z których powstały te dane. README i pliki `notatki/recenzje/f_codex*` są Twoje; nie ruszałem ich.

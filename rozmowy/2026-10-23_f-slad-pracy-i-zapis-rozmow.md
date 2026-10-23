@@ -1,6 +1,6 @@
 # F: ślad pracy i zapis rozmów
 
-Rozmowa z Claude Code w projekcie zadania Telemedi, od 23.10.2026, 00:35 do 23.10.2026, 09:53 (czas polski). Wiadomości Kuby: 1. Odpowiedzi Claude: 19. Polecenia i wiadomości do innych sesji i agentów: 0.
+Rozmowa z Claude Code w projekcie zadania Telemedi, od 23.10.2026, 00:35 do 23.10.2026, 09:59 (czas polski). Wiadomości Kuby: 1. Odpowiedzi Claude: 24. Polecenia i wiadomości do innych sesji i agentów: 2.
 
 Sesję uruchomiła sesja [„Ostatnia kontrola przed publikacją”](2026-10-22_ostatnia-kontrola-przed-publikacja.md), poleceniem z [wiadomości 41](2026-10-22_ostatnia-kontrola-przed-publikacja.md#w41).
 
@@ -142,3 +142,98 @@ Przejrzałem raport ze skanu i kilka plików z rozmowami. Tak, zapisz rozmowy, l
 ### <a id="w20"></a>20. Claude · 23.10.2026, 09:53
 
 Kuba się zgodził, więc zapisuję zmiany w repozytorium. Najpierw ostatni raz uruchamiam skrypt, żeby zapis rozmów był aktualny, i sprawdzam, że skan jest czysty.
+
+### <a id="w21"></a>21. Claude · 23.10.2026, 09:55
+
+Piszę wiadomość commita do pliku i commituję tylko swoje pliki, z jawnych ścieżek.
+
+### <a id="w22"></a>22. Claude · 23.10.2026, 09:55
+
+Commit `55c0fcb` jest zrobiony: 23 pliki, tylko moje. Aktualizuję skrót dla sesji prowadzącej we wspólnym folderze notatek i zgłaszam się do niej.
+
+### <a id="w23"></a>23. Claude → sesja [„Ostatnia kontrola przed publikacją”](2026-10-22_ostatnia-kontrola-przed-publikacja.md) · 23.10.2026, 09:55
+
+> Sesja B (ślad pracy, poprawka 2): po zgodzie Kuby zrobiłem commit 55c0fcb.
+>
+> Słowa Kuby, wpisane w tej sesji: „Przejrzałem raport ze skanu i kilka plików z rozmowami. Tak, zapisz rozmowy, lekcje i zmiany w README w repozytorium i zgłoś się do sesji prowadzącej.”
+>
+> W commicie są tylko moje pliki, 23 sztuki:
+> - README.md: sekcja „Jak pracowaliśmy z AI: prompty, ślepe uliczki, poprawki” z 10 historiami, każda sprawdzona w DECYZJE, notatkach i git log; poprawka P9 w dwóch miejscach; na prośbę sesji A zamienione punkty 2 i 3 w „Co robimy w pierwszym tygodniu”, żeby kolejność była jak na stronie. Tej zamiany już nie powtarzaj.
+> - analiza/f_rozmowy.py: skrypt.
+> - rozmowy/: 18 rozmów z 21 sesji, bo dwie rozmowy były wznawiane, plus README.
+> - notatki/lekcje.md: 27 lekcji.
+> - notatki/f_slad_pracy.md: notatka sesji.
+>
+> Skan przed commitem: w wyniku nie ma adresów stron, e-maili, ścieżek spoza projektu, nazw innych projektów ani kluczy. Tekst zadania wyszedł raz, w tytule głównego README; to miejsce jest poza moim zleceniem.
+>
+> Przed publikacją:
+> 1. Uruchom skrypt jeszcze raz, żeby zapis objął ostatnią rundę. Polecenie i ścieżki do plików spoza repozytorium są we wspólnym folderze notatek, w f_slad_pracy_skrot.md.
+> 2. Zacommituj odświeżony folder rozmowy/ z jawnych ścieżek.
+>
+> Do decyzji Kuby (szczegóły w notatki/f_slad_pracy.md, punkt 5):
+> - Tekst zadania już jest w repozytorium: 104 fragmenty po 8 i więcej słów w 32 śledzonych plikach. Najwięcej w CLAUDE.md (19 fragmentów) i w briefie konsylium notatki/konsylium/d_weryfikacja/ (po 23). Historia commitów zachowa je bez względu na zmiany w plikach.
+> - W historii commitów zostały adres e-mail osoby rekrutującej i ścieżka do innego projektu Kuby (commit 911d2ff).
+> - Celowo zostawiłem lokalny adres 127.0.0.1 oraz nazwy usług claude.ai i Booking.com.
+>
+> Propozycje wpisów do wspólnych notatek, bez numerów: notatki/f_slad_pracy.md, punkt 6.
+
+### <a id="w24"></a>24. Claude · 23.10.2026, 09:55
+
+Zrobiłem commit `55c0fcb` i zgłosiłem się do sesji prowadzącej. Wiadomość do niej doszła i zaczęła na nią odpowiadać.
+
+**Co weszło do repozytorium (tylko moje pliki, z jawnych ścieżek):**
+- [README.md](../README.md): sekcja „Jak pracowaliśmy z AI: prompty, ślepe uliczki, poprawki” z 10 historiami, poprawka P9 i zamienione punkty 2 i 3 w „Co robimy w pierwszym tygodniu”, żeby kolejność była jak na stronie;
+- [rozmowy/README.md](rozmowy/README.md) i 18 plików rozmów;
+- [notatki/lekcje.md](../notatki/lekcje.md): 27 lekcji;
+- `analiza/f_rozmowy.py` i [notatki/f_slad_pracy.md](../notatki/f_slad_pracy.md), z Twoimi słowami zgody.
+
+Skrypt uruchomiłem jeszcze raz tuż przed commitem, więc zapis obejmuje też dzisiejszą wiadomość, w której się zgodziłeś. Skan był dalej czysty.
+
+**Co zostaje przed publikacją:**
+- Sesja prowadząca uruchomi skrypt jeszcze raz, żeby zapis objął ostatnią rundę, i zacommituje odświeżony folder `rozmowy/`.
+- Do Twojej decyzji: tekst zadania już jest w repozytorium, w 104 fragmentach. Najwięcej jest ich w `CLAUDE.md` i w briefie konsylium.
+- Do Twojej decyzji: w historii commitów zostały adres e-mail osoby rekrutującej i ścieżka do innego Twojego projektu.
+
+Sesja prowadząca ma to wszystko w mojej wiadomości i w notatce.
+
+*Wiadomość od sesji „Ostatnia kontrola przed publikacją”: [2026-10-22_ostatnia-kontrola-przed-publikacja.md, wiadomość 47](2026-10-22_ostatnia-kontrola-przed-publikacja.md#w47).*
+
+### <a id="w25"></a>25. Claude · 23.10.2026, 09:59
+
+Sprawdzam, czy oba pliki są we wspólnym folderze notatek sesji. Na wszelki wypadek kopiuję listę nazw także do swojego folderu roboczego.
+
+### <a id="w26"></a>26. Claude → sesja [„Ostatnia kontrola przed publikacją”](2026-10-22_ostatnia-kontrola-przed-publikacja.md) · 23.10.2026, 09:59
+
+> Polecenie do ponownego uruchomienia analiza/f_rozmowy.py i ścieżki do plików: oba pliki są we wspólnym folderze notatek sesji, poza repozytorium.
+>
+> Gdzie leżą:
+> - skrót: [ścieżka spoza projektu usunięta]
+> - lista nazw: [ścieżka spoza projektu usunięta]
+> - kopia listy (identyczna, sprawdzona cmp) w moim folderze roboczym: [ścieżka spoza projektu usunięta]
+>
+> Polecenie w Git Bash, z głównego folderu repozytorium. Tak uruchamiałem je przed commitem 55c0fcb; raport proponuję zapisać w twoim folderze roboczym:
+> python -I analiza/f_rozmowy.py --zadanie "[ścieżka spoza projektu usunięta]" --nazwy "[ścieżka spoza projektu usunięta]" --raport "[ścieżka spoza projektu usunięta]"
+>
+> To samo w PowerShellu albo cmd:
+> python -I analiza\f_rozmowy.py --zadanie "[ścieżka spoza projektu usunięta]" --nazwy "[ścieżka spoza projektu usunięta]" --raport "[ścieżka spoza projektu usunięta]"
+>
+> Skrypt odmówi pracy, gdy któryś z trzech plików leży w repozytorium. Działa około 3 sekund. Nadpisuje rozmowy/ i notatki/lekcje.md, a README tylko skanuje.
+>
+> Co sprawdzić po uruchomieniu:
+> 1. Na ekranie nie może być żadnej linii zaczynającej się od „UWAGA” (ciąg wyglądający na klucz albo historia z README bez znalezionego miejsca w rozmowach).
+> 2. W raporcie, w sekcji „Skan gotowych plików”, nie może być kategorii: adres e-mail, adres strony, adres strony (sama domena), ścieżka spoza projektu, nazwa innego projektu, nazwa rozszerzenia spoza projektu, wzorzec klucza.
+> 3. „tekst zadania (8+ słów)” ma dać 1 trafienie, czyli tytuł głównego README. Więcej trafień znaczy, że coś nowego weszło do README.
+> 4. Potem zacommituj z jawnych ścieżek: git add rozmowy notatki/lekcje.md (lekcje tylko wtedy, gdy się zmieniły).
+>
+> Historia commitów: twoje ustalenia zgadzają się z moimi. W mojej wiadomości „(commit 911d2ff)” dotyczyło tylko ścieżki do innego projektu (notatki/e_grafika.md). O adresie e-mail wiedziałem tylko z DECYZJE.md (2026-10-21: usunięty z CLAUDE.md, historia bez zmian). Konkretnych commitów nie sprawdzałem; twoje c889a64, 78e69a9 i ebf37d5 to uzupełnienie, a nie sprzeczność. W notatce notatki/f_slad_pracy.md, punkt 5.2, stoi to samo: e-mail we wcześniejszych wersjach CLAUDE.md, ścieżka w 911d2ff.
+>
+> W repozytorium niczego nie zmieniałem. Kopia listy nazw jest tylko w moim folderze roboczym.
+
+### <a id="w27"></a>27. Claude · 23.10.2026, 09:59
+
+Wysłałem sesji prowadzącej pełne polecenie do ponownego uruchomienia `analiza/f_rozmowy.py`, z bezwzględnymi ścieżkami. W repozytorium niczego nie zmieniałem.
+
+- **Brakujące pliki.** Skrót i lista nazw leżą we wspólnym folderze notatek sesji, a nie w repozytorium ani w moim folderze roboczym. Dlatego sesja prowadząca ich nie znalazła. Podałem jej obie ścieżki. Kopię listy zrobiłem też w swoim folderze roboczym; jest identyczna z oryginałem.
+- **Polecenie.** Dostała je w dwóch wersjach: dla Git Bash i dla PowerShella. Raport ma się zapisać w jej folderze roboczym, poza repozytorium.
+- **Co sprawdzić po uruchomieniu.** Na ekranie nie może być żadnej linii „UWAGA”. Skan gotowych plików ma nie znaleźć żadnego adresu, e-maila, ścieżki spoza projektu, nazwy spoza projektu ani klucza. Tekst zadania ma wyjść tylko raz, w tytule README. Potem commit samego folderu `rozmowy/` (i lekcji, jeśli się zmieniły).
+- **Historia commitów.** Ustalenia sesji prowadzącej zgadzają się z moimi. W mojej wiadomości numer commitu `911d2ff` dotyczył tylko ścieżki do innego projektu. Adres e-mail osoby rekrutującej był w `CLAUDE.md` w trzech commitach, które ona wskazała: `c889a64`, `78e69a9` i `ebf37d5`. Ja wiedziałem o nim tylko z `DECYZJE.md` i tych commitów sam nie sprawdzałem.

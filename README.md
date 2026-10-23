@@ -21,7 +21,7 @@ Rozwiązanie zadania rekrutacyjnego na stanowisko Head of B2C. Dane to dwa lata 
 
 Ta sama lista stoi w narzędziu: w zakładce „Czy to wzrost” i w zasadach listy priorytetów (pozycje 1, 3 i 4 oraz pierwsze kroki pozycji 2, 5, 6, 8 i 11).
 
-1. Naprawiamy zakładanie konta w Safari na iPhone'ach (od 17.03.2026 konta powstają tam rzadziej). To największa pewna strata: do 83 tys. zł marży rocznie (pozycja 1).
+1. Naprawiamy zakładanie konta w Safari na iPhone'ach (od 17.03.2026 konta powstają tam rzadziej). Awaria jest widoczna w danych, a naprawa jest warta do 83 tys. zł marży rocznie (górny scenariusz, pozycja 1).
 2. Czyścimy codzienny raport (bez duplikatów, bez kont testowych, przychód po zwrotach), dodajemy alarmy na lejku i sprawdzamy, czy lekarze dostają wynagrodzenie za wizyty testowe (pozycja 2).
 3. Wstrzymujemy kampanię TikTok na L4 i kampanię Google Ads na specjalistów. Obie tracą na każdym pacjencie według obu reguł przypisania, a pauzę da się cofnąć w jeden dzień (pozycje 3 i 4).
 4. Robimy krótkie sprawdzenia, każde na dzień albo dwa: co obiecują reklamy L4 (pozycja 5), poranne grafiki internistów (pozycja 6), ręczny zakup po zalogowaniu (pozycja 8) i kliknięcia w panelach Meta i TikToka wobec sesji (pozycja 11).
@@ -41,7 +41,7 @@ Pełna odpowiedź, lista 12 priorytetów (wartość w marży, sposób pomiaru, c
 | Zakładka | Co pokazuje |
 |---|---|
 | Czy to wzrost | odpowiedź na pytanie zadania, osobno dla pacjentów i dla retencji, z decyzjami na pierwszy tydzień |
-| Kohorty | kohorty dzienne, powroty w 30, 60, 90 i 180 dniach, marża na pacjenta, macierz kohort i krzywa powrotu; filtry: źródło (według pierwszego wejścia albo według sesji z płatnością), kampania, urządzenie, przeglądarka, pierwsza usługa, zniżka, TelemediGO, status i punktualność pierwszej wizyty |
+| Kohorty | na górze tabela zdarzeń i naszych decyzji, które zmieniły kohorty i wynik (przy każdym odnośnik do porównania 60 dni przed i po na kohortach dziennych); kohorty dzienne, powroty w 30, 60, 90 i 180 dniach, marża na pacjenta, macierz kohort i krzywa powrotu; filtry: źródło (według pierwszego wejścia albo według sesji z płatnością), kampania, urządzenie, przeglądarka, pierwsza usługa, zniżka, TelemediGO, status i punktualność pierwszej wizyty |
 | Lejek | wykres kroków od wejścia na stronę do płatności i tabela kroków, dzień po dniu, w podziałach na urządzenie, przeglądarkę, kanał, kampanię i stronę wejścia |
 | Po zakupie | punktualność wizyt według pory i specjalizacji, zwroty, anulacje, oceny |
 | Zdarzenia | oś czasu zdarzeń znalezionych w danych (pozyskanie, lejek, retencja, obsługa pacjenta) |
