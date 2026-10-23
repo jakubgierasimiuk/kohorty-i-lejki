@@ -298,12 +298,20 @@
     if (BK.czyKarta(P.zasady)) {
       // runda G: zasady listy zwinięte nad przeglądem; tytuł zasad (kolejność to waga decyzji, kwot nie sumujemy) jest
       // widoczny jako nagłówek zwiniętej sekcji, reszta po rozwinięciu
-      var kz = BK.karta(P.zasady, { prefiks: "pr-" }), dz = el("details", { class: "karta zasady-zwiniete", id: "pr-zasady-karta" },
+      // Gdy dane mają zakres listy (prośba Kuby, 2026-10-23): jedna karta nad przeglądem — widoczny zakres listy
+      // i „Nie robimy teraz”, a pod nimi w tej samej karcie zwinięte zasady (dawna osobna karta „Nie robimy teraz” znika)
+      var Zk = P.zasady.zakres, NR = P.zasady.nie_robimy;
+      var kz = BK.karta(P.zasady, { prefiks: "pr-" }), dz = el("details", { class: "zasady-zwiniete" + (Zk ? "" : " karta"), id: Zk ? "pr-zasady-szczegoly" : "pr-zasady-karta" },
         [el("summary", null, [el("span", { class: "zasady-etykieta", text: "Zasady listy" }), el("span", { text: P.zasady.tytul || "" })])]);
       var h = kz.querySelector(".karta-tytul");
       if (h) h.parentNode.removeChild(h);
       while (kz.firstChild) dz.appendChild(kz.firstChild);
-      B.wyczysc($("pr-zasady-miejsce")).appendChild(dz);
+      var miejsce = B.wyczysc($("pr-zasady-miejsce"));
+      if (Zk) miejsce.appendChild(el("article", { class: "karta zasady-zakres", id: "pr-zasady-karta" }, [
+        el("h3", { text: Zk.tytul }), el("p", { class: "wniosek", text: Zk.tekst }),
+        NR ? el("h4", { class: "podtytul-karty", text: NR.tytul }) : null,
+        NR ? el("ul", { class: "punkty" }, (NR.punkty || []).map(function (x) { return el("li", { text: x }); })) : null, dz]));
+      else miejsce.appendChild(dz);
     } else {
       lista($("pr-zasady"), P.zasady);
       $("pr-definicje").textContent = P.definicje || "";
@@ -381,7 +389,8 @@
     });
     if (BK.czyKarta(P.nie_robimy)) {
       B.wyczysc($("pr-nie-robimy-miejsce")).appendChild(BK.karta(P.nie_robimy, { prefiks: "pr-", klasa: "karta-cicha" }));
-    } else lista($("pr-nie-robimy"), P.nie_robimy);
+    } else if (P.nie_robimy) lista($("pr-nie-robimy"), P.nie_robimy);
+    else $("pr-nie-robimy-miejsce").hidden = true;   // „Nie robimy teraz” stoi w karcie zakresu listy na górze
     $("pr-zrodlo").textContent = P.zrodlo;
     zrodloZwiniete($("pr-zrodlo"));
   }

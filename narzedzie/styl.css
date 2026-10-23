@@ -937,3 +937,5 @@ details.zasady-zwiniete[open] > summary { margin-bottom: 10px; }
 /* Czego nie wiemy: nagłówki grup tematycznych z liczbą pytań */
 #nw-tabela tr.oddzielnik td { font-size: 14px; color: var(--ink); }
 .oddzielnik-liczba { margin-left: 10px; font-size: 12px; font-weight: 500; color: var(--muted); }
+/* Priorytety: zakres listy i „Nie robimy teraz” w jednej karcie, zasady zwinięte pod nimi */
+.zasady-zakres details.zasady-zwiniete { margin-top: 14px; border-top: 1px solid var(--grid); padding-top: 12px; }
