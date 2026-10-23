@@ -388,6 +388,8 @@ def wzrost(V, E, C):
     # zdania werdyktu i kroków wymagają tych kierunków (inaczej trzeba zmienić tekst, a nie liczbę)
     assert udz > 80 and udz_b > 80, "„prawie cały” i „prawie wyłącznie” wymagają udziału ponad 80%"
     assert L4["wynik"] > 0 and L4["wynik"] < P2["wynik"] / 3, "„prawie nic nie zostaje” wobec pozostałych kampanii płatnych"
+    for g_ in (L4, P2):   # krok 4: marża minus koszt z jednym miejscem po przecinku = podany wynik (uwaga Kuby)
+        assert abs(round(g_["marza"], 1) - round(g_["koszt_pozysk"], 1) - round(g_["wynik"], 1)) < 1e-9, g_
     assert abs(Q["2026Q2"]["wynik"]) < 1 and abs(Q["2026Q3"]["wynik"]) < 1, "„od wiosny wychodzimy na zero” (II i III kwartał)"
     assert all(abs(r["wynik"]) < 5 for r in wiosna), "od kwietnia każdy miesiąc blisko zera"
     assert PU["meta_Z1K"]["pierwszy_ujemny"] is None and Qm["2026Q3"]["wynik"] > 0, "Meta na L4 na plusie w każdym miesiącu"
@@ -407,7 +409,7 @@ def wzrost(V, E, C):
         "tekst": f"Prawie cały przyrost pacjentów ({z0(udz)}%) to pacjenci dwóch nowych kampanii na L4, a na ich pacjencie po "
                  f"koszcie pozyskania prawie nic nie zostaje: {z0(L4['wynik'])} zł w ciągu 180 dni wobec {z0(P2['wynik'])} zł "
                  f"na pacjencie pozostałych kampanii płatnych, a na pacjentach pozyskanych od wiosny szacunkowo wychodzimy na "
-                 f"zero. Marża po wszystkich kosztach wzrosła o {z0(g4['przyrost_proc'])}% prawie wyłącznie dzięki zakupom "
+                 f"zero. Marża po wszystkich kosztach wzrosła o {z0(g4['przyrost_proc'])}%, w {z0(udz_b)}% dzięki zakupom "
                  f"pacjentów pozyskanych w pierwszym roku. Pacjenci pozyskani w ostatnich 12 miesiącach zarobili w roku "
                  f"pozyskania, po kosztach kampanii, tylko o {z0(g4['wlasni_zmiana_proc'])}% więcej niż ci pozyskani rok "
                  f"wcześniej, choć było ich o {z0(wz[0])}% więcej.",
@@ -622,9 +624,11 @@ def wzrost(V, E, C):
         znaczy="Pacjent przypisany nowym kampaniom zostawia po koszcie pozyskania kilka razy mniej niż pacjent pozostałych "
                "kampanii płatnych, a u pacjentów pozyskanych od kwietnia szacowany wynik jest bliski zeru.",
         tresc=[punkty([
-            f"Pacjent nowych kampanii zostawia w 180 dniach {z0(L4['marza'])} zł marży, a jego pozyskanie kosztuje "
-            f"{z0(L4['koszt_pozysk'])} zł. Pacjent pozostałych kampanii płatnych zostawia {z0(P2['marza'])} zł marży przy "
-            f"koszcie pozyskania {z0(P2['koszt_pozysk'])} zł.",
+            # jedno miejsce po przecinku, żeby marża minus koszt dawała w głowie podaną kwotę (uwaga Kuby, 2026-10-23)
+            f"Pacjent nowych kampanii zostawia w 180 dniach {liczba(L4['marza'], 1)} zł marży, a jego pozyskanie kosztuje "
+            f"{liczba(L4['koszt_pozysk'], 1)} zł, więc zostaje {liczba(L4['wynik'], 1)} zł. Pacjent pozostałych kampanii "
+            f"płatnych zostawia {liczba(P2['marza'], 1)} zł marży przy koszcie pozyskania {liczba(P2['koszt_pozysk'], 1)} zł, "
+            f"więc zostaje {liczba(P2['wynik'], 1)} zł.",
             f"Miesiąc po miesiącu koszt pozyskania pacjenta nowych kampanii rośnie z "
             f"{zakres(min(r['koszt_pozysk'] for r in zima), max(r['koszt_pozysk'] for r in zima))} zł (listopad 2025 – luty "
             f"2026) do {zakres(min(r['koszt_pozysk'] for r in wiosna), max(r['koszt_pozysk'] for r in wiosna))} zł (kwiecień – "
@@ -763,7 +767,7 @@ def wzrost(V, E, C):
                 f"{z0(q3['przed_rr_dokl'])}%.",
         znaczy=f"Wzrost marży po kosztach kampanii się zatrzymał: w III kwartale 2026 spadła o "
                f"{z0(abs(E['q3_zmiana_proc']))}% rok do roku, a po odjęciu jednorazowego startu sprzedaży TelemediGO w "
-               f"newsletterze rok wcześniej byłaby wyższa tylko o {z0(E['q3_w1_zmiana_proc'])}%.",
+               f"newsletterze we wrześniu 2025 byłaby wyższa tylko o {z0(E['q3_w1_zmiana_proc'])}%.",
         tresc=[tab_kw, punkty([
             f"Na pacjencie nowych kampanii na L4 zostawało po koszcie pozyskania {z0(Q['2025Q4']['wynik'])} zł w IV kwartale "
             f"2025 i {z0(Q['2026Q1']['wynik'])} zł w I kwartale 2026, a w II i III kwartale 2026 mniej niż 1 zł.",
@@ -773,10 +777,7 @@ def wzrost(V, E, C):
             f"Marża przed kosztem kampanii wzrosła za cały rok o {z0(E['rok_przed_zmiana_proc'])}%, a wydatki na kampanie "
             f"o {z0(E['rok_wyd_zmiana_proc'])}%.",
         ])],
-        zastrzezenie=f"Marża po koszcie lekarza, kampaniach i prowizji spadła w III kwartale 2026 o "
-                     f"{z0(abs(E['q3_zmiana_proc']))}% rok do roku, ale ten spadek zależy od jednorazowego zdarzenia: rok "
-                     f"wcześniej we wrześniu ruszyła sprzedaż TelemediGO w newsletterze. Po odjęciu jednorazowej nadwyżki tego "
-                     f"startu marża kwartału jest o {z0(E['q3_w1_zmiana_proc'])}% wyższa niż rok wcześniej.",
+        # bez zastrzeżenia: spadek o 7% i wariant +1% stoją w zdaniu „Co to znaczy dla biznesu” (uwaga Kuby, 2026-10-23)
         szczegoly=[punkty([
             f"Za cały rok marża po koszcie lekarza, kampaniach i prowizji wzrosła z {z0(E['rok_marza_1'] / 1000)} do "
             f"{z0(E['rok_marza_2'] / 1000)} tys. zł, czyli o {liczba(E['rok_marza_zmiana_proc'], 1)}%. Marża przed kosztem "
