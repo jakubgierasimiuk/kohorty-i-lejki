@@ -445,10 +445,21 @@
     c.appendChild(el("label", null, ["Pozycja listy priorytetów", s]));
   }
   function filtrujNiewiadome() {
-    Array.prototype.forEach.call(document.querySelectorAll("#nw-tabela tbody tr"), function (tr) {
+    var wiersze = document.querySelectorAll("#nw-tabela tbody tr:not(.oddzielnik)");
+    Array.prototype.forEach.call(wiersze, function (tr) {
       var p = tr.getAttribute("data-pozycja") || "";
       tr.hidden = filtrNw === "" ? false : filtrNw === "brak" ? p !== "" : p !== filtrNw;
     });
+    // nagłówek grupy znika, gdy filtr ukrywa wszystkie jej pytania
+    Array.prototype.forEach.call(document.querySelectorAll("#nw-tabela tbody tr.oddzielnik"), function (o) {
+      var g = o.getAttribute("data-grupa");
+      o.hidden = !Array.prototype.some.call(wiersze, function (tr) { return tr.getAttribute("data-grupa") === g && !tr.hidden; });
+    });
+  }
+  // „1 pytanie”, „2–4 pytania” (bez 12–14), „5 pytań”
+  function pytan(n) {
+    var d = n % 10, s = n % 100;
+    return n + " " + (n === 1 ? "pytanie" : d >= 2 && d <= 4 && (s < 12 || s > 14) ? "pytania" : "pytań");
   }
   function rysujNiewiadome() {
     var B = b(), el = B.el, $ = B.$, N = C.niewiadome;
@@ -459,23 +470,36 @@
     var etyk = ["Nr", "Czego nie wiemy", "Dlaczego to ważne", "Test albo brakujące dane", "Pozycja listy priorytetów"];
     t.appendChild(el("thead", null, [wiersz(etyk, true)]));
     var tb = el("tbody");
-    N.wiersze.forEach(function (w) {
-      var ma = w.pozycja !== null && w.pozycja !== undefined && w.pozycja !== "";
-      var tr = wiersz([
-        { attrs: { class: "nr-kom", "data-etykieta": etyk[0] }, dzieci: [el("span", { class: "nr", text: String(w.nr) })] },
-        { attrs: { "data-etykieta": etyk[1] }, dzieci: [el("strong", { text: w.co })] },
-        { attrs: { "data-etykieta": etyk[2], text: w.dlaczego } },
-        { attrs: { "data-etykieta": etyk[3], text: w.test } },
-        { attrs: { "data-etykieta": etyk[4] }, dzieci: [ma ? el("a", { href: "#priorytety?p=" + w.pozycja, text: nazwaPozycji(w.pozycja) }) :
-          el("span", { class: "przypis", text: "Bez osobnej pozycji na liście" })] }]);
-      tr.id = "nw-" + w.nr;
-      tr.setAttribute("data-pozycja", ma ? String(w.pozycja) : "");
-      tb.appendChild(tr);
+    // grupy tematyczne z danych (prośba Kuby, 2026-10-23): nagłówek grupy z liczbą pytań, w grupie numery rosnąco;
+    // bez pola „grupy” w danych — dotychczasowa lista w kolejności numerów
+    var grupy = N.grupy && N.grupy.length ? N.grupy.map(function (g) {
+      return { nazwa: g, wiersze: N.wiersze.filter(function (w) { return w.grupa === g; }) };
+    }) : [{ nazwa: null, wiersze: N.wiersze }];
+    grupy.forEach(function (g) {
+      if (g.nazwa) tb.appendChild(el("tr", { class: "oddzielnik", "data-grupa": g.nazwa }, [el("td", { colspan: String(etyk.length) },
+        [el("span", { text: g.nazwa }), el("span", { class: "oddzielnik-liczba", text: pytan(g.wiersze.length) })])]));
+      g.wiersze.forEach(function (w) { tb.appendChild(wierszNiewiadomej(w, g.nazwa)); });
     });
     t.appendChild(tb);
     filtrujNiewiadome();
     $("nw-zrodlo").textContent = N.zrodlo;
     zrodloZwiniete($("nw-zrodlo"));
+  }
+  function wierszNiewiadomej(w, grupa) {
+    var B = b(), el = B.el;
+    var etyk = ["Nr", "Czego nie wiemy", "Dlaczego to ważne", "Test albo brakujące dane", "Pozycja listy priorytetów"];
+    var ma = w.pozycja !== null && w.pozycja !== undefined && w.pozycja !== "";
+    var tr = wiersz([
+      { attrs: { class: "nr-kom", "data-etykieta": etyk[0] }, dzieci: [el("span", { class: "nr", text: String(w.nr) })] },
+      { attrs: { "data-etykieta": etyk[1] }, dzieci: [el("strong", { text: w.co })] },
+      { attrs: { "data-etykieta": etyk[2], text: w.dlaczego } },
+      { attrs: { "data-etykieta": etyk[3], text: w.test } },
+      { attrs: { "data-etykieta": etyk[4] }, dzieci: [ma ? el("a", { href: "#priorytety?p=" + w.pozycja, text: nazwaPozycji(w.pozycja) }) :
+        el("span", { class: "przypis", text: "Bez osobnej pozycji na liście" })] }]);
+    tr.id = "nw-" + w.nr;
+    tr.setAttribute("data-pozycja", ma ? String(w.pozycja) : "");
+    if (grupa) tr.setAttribute("data-grupa", grupa);
+    return tr;
   }
   // odnośnik #niewiadome?n=<nr>: podświetla wiersz (filtr wraca do „wszystkie”, jeśli wiersz był ukryty)
   function podswietlNiewiadoma(nr) {

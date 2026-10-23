@@ -931,3 +931,6 @@ details.zasady-zwiniete > summary::before { content: ""; width: 7px; height: 7px
 details.zasady-zwiniete[open] > summary::before { transform: rotate(45deg); }
 .zasady-etykieta { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
 details.zasady-zwiniete[open] > summary { margin-bottom: 10px; }
+/* Czego nie wiemy: nagłówki grup tematycznych z liczbą pytań */
+#nw-tabela tr.oddzielnik td { font-size: 14px; color: var(--ink); }
+.oddzielnik-liczba { margin-left: 10px; font-size: 12px; font-weight: 500; color: var(--muted); }

@@ -1383,10 +1383,30 @@ def niewiadome(V, E, C):
         n["co"] = re.sub(r" \(dodane 2026-10-21\)$", "", n["co"])
         wiersze.append(n)
         bloki.append((f"niewiadome/{w['nr']}", n, [f"c:niewiadoma:{w['nr']}"], w.get("_dodane", [])))
+    # runda G (prośba Kuby, 2026-10-23): pytania pogrupowane tematycznie; numery bez zmian (prowadzą do nich odnośniki
+    # z innych zakładek), w grupie rosnąco. Każdy numer w dokładnie jednej grupie; słowo kluczowe pilnuje, żeby numer
+    # nadal oznaczał to samo pytanie (założenie 95).
+    klucz = {1: "kampanii na L4", 2: "bez kodu rabatowego", 3: "zwrotów po wizycie", 4: "opóźnienia", 5: "zalogowane",
+             6: "Safari", 7: "Safari", 8: "TelemediGO", 9: "newsletter", 10: "remarketingu", 11: "pora roku",
+             12: "kliknięciem", 13: "testowe", 14: "rankingiem", 15: "rocznika", 16: "specjalistów", 17: "zwrotów",
+             18: "aplikacjach", 19: "konta", 20: "kodu rabatowego", 21: "Google Ads na markę"}
+    grupy = [("Kampanie i pozyskanie pacjentów", [1, 2, 10, 11, 12, 20, 21]),
+             ("Obsługa pacjenta: zwroty i opóźnienia", [3, 4, 17]),
+             ("Strona i ścieżka zakupu", [5, 6, 7, 18]),
+             ("Ceny i TelemediGO", [8, 16]),
+             ("Komunikacja z pacjentami i konta bez zakupu", [9, 19]),
+             ("Dane, umowy i czas obserwacji", [13, 14, 15])]
+    po_nr = {w["nr"]: w for w in wiersze}
+    assert sorted(x for _, nry in grupy for x in nry) == sorted(po_nr), "każde pytanie w dokładnie jednej grupie"
+    for nazwa, nry in grupy:
+        for x in nry:
+            assert klucz[x] in po_nr[x]["co"], f"pytanie {x} zmieniło treść: brak „{klucz[x]}”"
+            po_nr[x]["grupa"] = nazwa
     nowe = {"tytul": "Czego z tych danych nie wiemy",
-            "wstep": "Rzeczy, których te dane nie rozstrzygają, i test albo dane, które je domkną. Numer pozycji listy "
-                     "priorytetów prowadzi do karty, której kwota od tego zależy.",
-            "wiersze": wiersze, "zrodlo": N0["zrodlo"]}
+            "wstep": "Rzeczy, których te dane nie rozstrzygają, pogrupowane według tematu, i test albo dane, które je "
+                     "domkną. Numer pytania się nie zmienia, a numer pozycji listy priorytetów prowadzi do karty, której "
+                     "kwota od tego zależy.",
+            "grupy": [g for g, _ in grupy], "wiersze": wiersze, "zrodlo": N0["zrodlo"]}
     return nowe, bloki
 
 

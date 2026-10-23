@@ -1005,7 +1005,13 @@ def kontrola_priorytety(W, karty, safari_lejek):
 def kontrola_niewiadome(W, t, przeg):
     Z = NAZWY["niewiadome"]
     ip = kolumna(t, "Pozycja listy priorytetów")
+    # runda G: nagłówki grup tematycznych to wiersze „oddzielnik” z jedną komórką; każdy numer pytania raz
+    nry = [norm(r["komorki"][0]["t"]) for r in t["wiersze"] if "oddzielnik" not in r["klasa"]]
+    W.por(Z, "tabela", "grupy tematyczne", "każde pytanie raz, numery 1…N", ", ".join(sorted(nry, key=int)),
+          ", ".join(str(i) for i in range(1, len(nry) + 1)), sorted(int(x) for x in nry) == list(range(1, len(nry) + 1)), "dane c.js")
     for r in t["wiersze"]:
+        if "oddzielnik" in r["klasa"]:
+            continue
         kom = r["komorki"][ip]
         if not kom["href"]:
             continue
@@ -1265,7 +1271,8 @@ def main():
             przeg = kontrola_priorytety(W, D["priorytety"]["karty"], wyk(karta(D["lejek"]["karty"], wykres="hantle"), "hantle"))
             kontrola_niewiadome(W, D["niewiadome"]["niewiadome"], przeg)
             # tabela „co zmieniło kohorty i wynik” (od rundy G w „Zdarzeniach”) wobec kart zdarzeń, priorytetów i ekonomii kampanii
-            nw = {norm(r["komorki"][0]["t"]): norm(r["komorki"][1]["t"]) for r in D["niewiadome"]["niewiadome"]["wiersze"]}
+            nw = {norm(r["komorki"][0]["t"]): norm(r["komorki"][1]["t"]) for r in D["niewiadome"]["niewiadome"]["wiersze"]
+                  if "oddzielnik" not in r["klasa"]}
             kontrola_tabeli_zdarzen(W, D, zd, przeg, nw)
             # wykresy bez liczb w DOM
             W.niedasie(NAZWY["kohorty"], "wykres dzień po dniu i krzywa powrotu (uPlot)", "rysowane na płótnie; liczby tylko pod kursorem; numery zdarzeń sprawdzone przez listę pod wykresem")
