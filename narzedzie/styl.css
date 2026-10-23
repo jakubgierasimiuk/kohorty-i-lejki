@@ -277,7 +277,9 @@ section > details.jak-liczymy { background: var(--surface); border: 1px solid va
 /* ------------------------------------------------------------ czy to wzrost */
 .werdykt { padding: 22px 24px; }
 .werdykt-gora { display: flex; align-items: flex-start; gap: 16px; }
-.werdykt-tekst { font: 600 22px/1.35 var(--font); letter-spacing: -0.005em; max-width: 900px; margin: 0; }
+/* runda G: krótki nagłówek werdyktu pogrubiony, zdanie główne zwykłą czcionką, węższy wiersz (uwaga Kuby o czytelności) */
+.werdykt-naglowek { font: 650 24px/1.3 var(--font-liczby); letter-spacing: -0.01em; color: var(--ink); max-width: 72ch; margin: 2px 0 10px; }
+.werdykt-tekst { font: 400 17px/1.6 var(--font); color: var(--ink); max-width: 72ch; margin: 0; }
 .decyzje-tytul { font-size: 15px; margin: 18px 0 8px; }
 ol.decyzje { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
 ol.decyzje li { display: flex; align-items: flex-start; gap: 10px; font-size: 15px; }
@@ -749,7 +751,8 @@ details.zawez > summary::before { content: ""; width: 7px; height: 7px; border-r
   .werdykt { padding: 16px 14px; }
   .werdykt-gora { flex-direction: column; gap: 10px; }
   .werdykt-linia { grid-template-columns: minmax(0, 1fr); }
-  .werdykt-tekst { font-size: 19px; }
+  .werdykt-naglowek { font-size: 20px; }
+  .werdykt-tekst { font-size: 16px; }
   .kafelki { grid-template-columns: minmax(0, 1fr); gap: 8px; }
   .kafelek { padding: 12px 14px; gap: 4px; }
   .kafelek-liczba { font-size: 26px; }

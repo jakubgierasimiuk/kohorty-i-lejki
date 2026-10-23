@@ -60,6 +60,8 @@
     var V = W.werdykt;
     var art = el("article", { class: "karta werdykt", id: "wz-werdykt" }, [
       el("div", { class: "werdykt-gora" }, [BK.znacznik(V.znacznik, true), el("div", null, [
+        // nagłówek (krótkie zdanie, pogrubione) i zdanie główne zwykłą czcionką (uwaga Kuby o czytelności, 2026-10-23)
+        V.naglowek ? el("p", { class: "werdykt-naglowek", text: V.naglowek }) : null,
         el("p", { class: "werdykt-tekst", text: V.tekst }),
         V.dopisek ? el("p", { class: "werdykt-dopisek", text: V.dopisek }) : null])])]);
     if (V.linie && V.linie.length) {
