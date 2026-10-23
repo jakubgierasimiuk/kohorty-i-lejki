@@ -1,6 +1,6 @@
 # Kohorty — zmiana układu zakładki
 
-Rozmowa z Claude Code w projekcie zadania Telemedi, od 23.10.2026, 11:31 do 23.10.2026, 13:03 (czas polski). Wiadomości Kuby: 2. Odpowiedzi Claude: 12. Polecenia i wiadomości do innych sesji i agentów: 7.
+Rozmowa z Claude Code w projekcie zadania Telemedi, od 23.10.2026, 11:31 do 23.10.2026, 14:03 (czas polski). Wiadomości Kuby: 3. Odpowiedzi Claude: 16. Polecenia i wiadomości do innych sesji i agentów: 12.
 
 Sesję otworzył Kuba.
 
@@ -204,3 +204,93 @@ Równolegle pracowała sesja pierwszej zakładki. Podzieliliśmy się plikami i 
 Druga sesja (pierwsza zakładka) poprawia teraz jeden kolor na swoim wykresie. Ta poprawka podnosi kontrast segmentu, który kontrola kontrastu oznaczyła jako za słaby, i nie dotyka niczego w zakładkach 2–9. Potwierdziłem jej, że `styl.css` i wyniki kontroli są wolne.
 
 Moja część jest zacommitowana (797a1c4) i czeka na Twoją ocenę. Stronę zobaczysz pod http://127.0.0.1:8771/.
+
+### <a id="w22"></a>22. Claude → sesja inna sesja · 23.10.2026, 13:07
+
+> Przyjęłam. Do Twojego sygnału nie commituję i nie zmieniam żadnych plików projektu. Po kontroli pod prawdziwym adresem daj znać, proszę, jaki był wynik dla zakładek 2–9 (Kohorty, Lejek i Zdarzenia na komputerze i na telefonie).
+
+### <a id="w23"></a>23. Claude · 23.10.2026, 13:07
+
+Moje zmiany w zakładkach 2–9 trafią na publiczną stronę razem z nową pierwszą zakładką. Według sesji pierwszej zakładki zatwierdziłeś u niej wypchnięcie obu zmian naraz. Tę zgodę znam tylko z jej wiadomości, w tej rozmowie jej nie widziałem.
+
+Wypchnięcie robi tamta sesja. Do jej sygnału nie zmieniam ani nie commituję plików projektu. Poprosiłem ją, żeby po wypchnięciu przekazała mi wynik kontroli pod prawdziwym adresem dla „Kohort”, „Lejka” i „Zdarzeń”, na komputerze i na telefonie.
+
+### <a id="w24"></a>24. Claude · 23.10.2026, 13:10
+
+Strona publiczna ma już nowe zakładki 2–9: [adres strony usunięty]. Wypchnęła je sesja pierwszej zakładki, razem z nową pierwszą zakładką.
+
+Sprawdziłem w repozytorium to, co dało się sprawdzić stąd:
+- moje commity, łącznie z ostatnim, z danymi strony (797a1c4), są w gałęzi głównej na GitHubie;
+- ostatni wypchnięty commit to 6c35bf9;
+- ostatnie wdrożenie strony przez GitHub Pages zakończyło się sukcesem.
+
+Kontrolę samej strony pod prawdziwym adresem zrobiła tamta sesja; znam ją z jej raportu, sam jej nie powtarzałem. Według raportu nie ma problemów:
+- wszystkie 9 zakładek rysuje się na komputerze (1366 pikseli) i na telefonie, w tym „Kohorty”, „Lejek” i „Zdarzenia”;
+- 0 błędów w konsoli;
+- odnośniki z filtrami dają ten sam stan po odświeżeniu;
+- strona dalej ma znacznik blokujący wyszukiwarki.
+
+Kolejne wypchnięcie tylko za Twoją zgodą. Czekam na Twoją ocenę na żywo. Otwarte zostają dwie sprawy do Twojej decyzji: grupy tematyczne w „Czego nie wiemy” i łączenie kart przyczyna–skutek w „Zdarzeniach”.
+
+### <a id="w25"></a>25. Kuba · 23.10.2026, 13:11
+
+Pogrupuj pytania tematycznie w „Czego nie wiemy”
+
+### <a id="w26"></a>26. Claude → sesja inna sesja · 23.10.2026, 13:12
+
+> Kuba poprosił mnie o pogrupowanie tematyczne pytań w „Czego nie wiemy”. Ruszam: analiza/e_teksty.py (tylko funkcja niewiadome()), narzedzie/widoki_c.js (tylko rysujNiewiadome, filtrujNiewiadome, filtrNiewiadomych), dopisek na końcu narzedzie/styl.css, analiza/f_wykresy_tekst.py (tylko kontrola_niewiadome i wiersz nw w main()), notatki/e_teksty.md (sekcja niewiadomych, jeśli trzeba) i wspólne notatki (założenie 95, jeśli jesteś przy 94). Potem eksport, komplet kontroli i commit. Bez pushu. Jeśli w tej chwili edytujesz któryś z tych plików, daj znać.
+
+### <a id="w27"></a>27. Claude → sesja inna sesja · 23.10.2026, 13:38
+
+> Eksport po d384f5b jest gotowy: 0 różnic w 115 kontrolach, stopka d384f5b, w c.js jest pole „naglowek” i grupy niewiadomych. f_wykresy_tekst w Edge, WebKit i Firefoksie: 2 346 porównań, 0 niezgodnych, w tym „Czy to wzrost” 288/0. Tryb ciemny i kontrola tabel: 0 problemów. Powtarzam jeszcze kontrolę odnośników (pierwsza przerwała się na starcie) i jasny tryb e_przegladarka (raz nie doczekał się narysowania „Lejka”, prawdopodobnie przez równoległe obciążenie). Commit danych zrobię po nich, za około 15 minut, i dam znać.
+
+### <a id="w28"></a>28. Claude → sesja inna sesja · 23.10.2026, 13:48
+
+> Commit danych wstrzymany. Kontrakt jest dobry, JS w rysujPriorytety() robię ja, od razu. Strona będzie działać ze starym i z nowym kształtem danych.
+>
+> Jak jest dziś: rysujPriorytety() bierze C.priorytety.zasady (karta: tytul, wniosek, tresc, szczegoly). Buduje z niej kartę, zdejmuje tytuł i całą treść przenosi do details.karta.zasady-zwiniete (id pr-zasady-karta). W nagłówku zwiniętej sekcji jest „ZASADY LISTY” i tytuł zasad. Stoi to w #pr-zasady-miejsce nad kartą „Przegląd”. „Nie robimy teraz” to osobna karta (BK.karta(P.nie_robimy), karta-cicha) w #pr-nie-robimy-miejsce, na dole zakładki, pod kartami pozycji 1–12.
+>
+> Po mojej zmianie: gdy jest P.zasady.zakres, w #pr-zasady-miejsce stoi jedna karta article.karta#pr-zasady-karta. Ma h3 zakres.tytul, akapit zakres.tekst, h4 nie_robimy.tytul i listę punktów, a pod nimi w tej samej karcie zwiniętą sekcję „Zasady listy: &lt;tytuł zasad>” z resztą. Bez zakres zostaje jak dziś. #pr-nie-robimy-miejsce ukrywam, gdy P.nie_robimy jest null.
+>
+> Ty robisz priorytety(), szkic i README. Daj znać numerem commitu, wtedy eksport i komplet kontroli. Kontrola odnośników z poprzedniego eksportu jeszcze się kończy.
+
+### <a id="w29"></a>29. Claude · 23.10.2026, 14:02
+
+Wszystko przeszło. Wcześniejsze dwa „błędy” to był za krótki czas oczekiwania w moim teście: płynne przewinięcie do karty 9 trwa dłużej na długiej stronie. Commituję dane i notatki.
+
+### <a id="w30"></a>30. Claude → sesja inna sesja · 23.10.2026, 14:03
+
+> Dane są w commicie 7c2dfed (eksport po 5269619, czyli po Twoim 3ade0af i moim JS do karty zakresu). Wyniki:
+> - b_eksport: 0 różnic w 115 kontrolach, 0 liczb bez pokrycia.
+> - f_wykresy_tekst w Edge, WebKit i Firefoksie: 2 346 porównań, 0 niezgodnych, w tym „Czy to wzrost” 288/0.
+> - e_przegladarka w trybie jasnym i ciemnym: 0 problemów, 321 odnośników działa.
+> - f_publikacja: 0 problemów. g_kontrola_tabel: 0 problemów.
+> - Nowa g_kontrola_niewiadomych (grupy, odnośniki #niewiadome?n=1/4/8/19, filtr, karta zakresu nad przeglądem bez osobnej „Nie robimy teraz”, #priorytety?p=9, przy 1366 i 375 px): 0 problemów.
+> Pełnej f_odnosniki po tym eksporcie nie puszczałam (około 15 minut). Ostatni pełny przebieg, po 68ec2b9, dał 4 zamierzone różnice; zmiany od tamtej pory sprawdza g_kontrola_niewiadomych. Jeśli przed pushem chcesz pełną f_odnosniki, puść ją u siebie. Wspólne notatki (DECYZJE, PRZEKAZANIE, ZALOZENIA 95) są zacommitowane, możesz dopisywać. Nie pushuję.
+
+### <a id="w31"></a>31. Claude · 23.10.2026, 14:03
+
+Pytania w „Czego nie wiemy” są pogrupowane w sześć tematów. Strona jest gotowa do wypchnięcia. Wypycha druga sesja, po Twojej zgodzie.
+
+| Grupa | Pytania |
+|---|---|
+| Kampanie i pozyskanie pacjentów | 1, 2, 10, 11, 12, 20, 21 |
+| Obsługa pacjenta: zwroty i opóźnienia | 3, 4, 17 |
+| Strona i ścieżka zakupu | 5, 6, 7, 18 |
+| Ceny i TelemediGO | 8, 16 |
+| Komunikacja z pacjentami i konta bez zakupu | 9, 19 |
+| Dane, umowy i czas obserwacji | 13, 14, 15 |
+
+- **Numery bez zmian.** Pytania zachowały numery, bo prowadzą do nich odnośniki z innych zakładek. W grupie stoją rosnąco, a grupy ułożyłem według najniższego numeru.
+- **Nagłówki i filtr.** Każda grupa ma nagłówek z liczbą pytań. Filtr pozycji listy priorytetów działa jak wcześniej i chowa grupy, w których nic nie zostaje.
+- **Jedna różnica wobec propozycji Fable.** Pytanie 19 (konta bez zakupu) dałem do komunikacji z pacjentami, a nie do strony i ścieżki zakupu, bo jego test to sekwencja wiadomości do tych kont.
+
+**Kontrole na ostatecznym eksporcie** (obejmuje też Twoje zmiany z drugiej sesji: werdykt i kartę zakresu w „Priorytetach”):
+- eksport: 0 różnic w 115 kontrolach;
+- liczby na wykresach wobec tekstu: 0 niezgodnych w trzech przeglądarkach;
+- tryb jasny i ciemny, publikacja pod podścieżką, tabele grup: bez problemów;
+- grupy, odnośniki do pytań i do pozycji priorytetów: bez problemów na komputerze i na telefonie.
+
+Pełnej, 15-minutowej kontroli wszystkich odnośników po tym eksporcie nie puszczałem. Ostatni pełny przebieg był czysty, poza 4 zamierzonymi różnicami w adresach. To, co od tamtej pory się zmieniło, sprawdziła osobna szybka kontrola.
+
+Wszystko jest zacommitowane (dane: 7c2dfed). Założenie 95 opisuje podział, a [g_przejrzystosc.md](../notatki/g_przejrzystosc.md) odnotowuje, że ta sprawa jest zamknięta. Do Twojej decyzji zostaje jeszcze łączenie kart przyczyna–skutek w „Zdarzeniach”.

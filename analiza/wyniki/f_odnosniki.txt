@@ -1,4 +1,4 @@
-F — ODNOŚNIKI Z PARAMETRAMI, ODŚWIEŻENIE, WSTECZ I DALEJ (2026-10-23 12:56, commit b8d991f, pliki strony z dysku)
+F — ODNOŚNIKI Z PARAMETRAMI, ODŚWIEŻENIE, WSTECZ I DALEJ (2026-10-23 14:22, commit 686a688, pliki strony z dysku)
 Edge bez okna, 127.0.0.1, 1366 × 900 px. Każdy odnośnik otwarty w nowej karcie wprost z adresu, potem odświeżony.
 
 Problemy: 4; błędy strony w czasie kontroli: 0
@@ -365,6 +365,6 @@ Problemy: 4; błędy strony w czasie kontroli: 0
    zmiana filtra „Kto = wszyscy”: zakładka lejek, adres #lejek?pac=wszyscy
    wstecz: zakładka kohorty, adres #kohorty
    dalej: zakładka lejek, adres #lejek?pac=wszyscy
-   klik odnośnika #kohorty?okno=90&podz=kanal&wygl=28… z karty (przewinięcie strony 2219 px): zakładka kohorty, adres #kohorty?podz=kanal&wygl=28
-   wstecz (przewinięcie strony 0 px; przed kliknięciem 2219 px): zakładka wzrost, adres #wzrost
+   klik odnośnika #kohorty?okno=90&podz=kanal&wygl=28… z karty (przewinięcie strony 2215 px): zakładka kohorty, adres #kohorty?podz=kanal&wygl=28
+   wstecz (przewinięcie strony 0 px; przed kliknięciem 2215 px): zakładka wzrost, adres #wzrost
    dalej: zakładka kohorty, adres #kohorty?podz=kanal&wygl=28

@@ -1,6 +1,6 @@
 # Zapis rozmów z Claude Code
 
-Tu jest oczyszczony zapis wszystkich rozmów z Claude Code, w których powstało to rozwiązanie (20 rozmów, od 19.10.2026, 11:50 do 23.10.2026, 13:07). Claude Code to główne narzędzie tej pracy: liczył kodem, pisał notatki i zbudował narzędzie. Polecenia dla drugiego modelu (Codex) i briefy konsylium są osobno, w `notatki/recenzje/` i `notatki/konsylium/`, a lekcje zapisane po drodze przez Claude w `notatki/lekcje.md`.
+Tu jest oczyszczony zapis wszystkich rozmów z Claude Code, w których powstało to rozwiązanie (20 rozmów, od 19.10.2026, 11:50 do 23.10.2026, 14:23). Claude Code to główne narzędzie tej pracy: liczył kodem, pisał notatki i zbudował narzędzie. Polecenia dla drugiego modelu (Codex) i briefy konsylium są osobno, w `notatki/recenzje/` i `notatki/konsylium/`, a lekcje zapisane po drodze przez Claude w `notatki/lekcje.md`.
 
 ## Co jest w środku
 
@@ -25,7 +25,7 @@ W miejscu usuniętego fragmentu stoi oznaczenie w nawiasie kwadratowym.
 
 | Oznaczenie | Co zastępuje | Ile razy |
 |---|---|---:|
-| `[adres strony usunięty]` | adresy stron, w tym link do strony z zadaniem i do paczki danych | 9 |
+| `[adres strony usunięty]` | adresy stron, w tym link do strony z zadaniem i do paczki danych | 11 |
 | `[adres e-mail usunięty]` | adresy e-mail | 6 |
 | `[ścieżka spoza projektu usunięta]` | ścieżki do plików i folderów poza folderem projektu | 45 |
 | `[nazwa innego projektu usunięta]` | nazwy innych projektów Kuby | 1 |
@@ -63,8 +63,8 @@ Dwie rozmowy były wznawiane i zapisały się w kilku plikach z tą samą począ
 | 22.10.2026, 23:01 | 23.10.2026, 00:32 | [F3: język tekstów zmienionych od rana](2026-10-22_f3-jezyk-tekstow-zmienionych-od-rana.md) | sesja „Ostatnia kontrola przed publikacją” | 1 | 4 | 1 |
 | 23.10.2026, 00:35 | 23.10.2026, 10:13 | [F: poprawki strony (zdarzenia, teksty, Safari, telefon)](2026-10-23_f-poprawki-strony-zdarzenia-teksty-safari-telefon.md) | sesja „Ostatnia kontrola przed publikacją” | 0 | 86 | 1 |
 | 23.10.2026, 00:35 | 23.10.2026, 09:59 | [F: ślad pracy i zapis rozmów](2026-10-23_f-slad-pracy-i-zapis-rozmow.md) | sesja „Ostatnia kontrola przed publikacją” | 1 | 24 | 2 |
-| 23.10.2026, 11:31 | 23.10.2026, 13:03 | [Kohorty — zmiana układu zakładki](2026-10-23_kohorty-zmiana-ukladu-zakladki.md) | Kuba | 2 | 12 | 7 |
-| 23.10.2026, 11:35 | 23.10.2026, 13:07 | [Analiza marży i przyrostu pacjentów Telemedi](2026-10-23_analiza-marzy-i-przyrostu-pacjentow-telemedi.md) | Kuba | 3 | 35 | 11 |
+| 23.10.2026, 11:31 | 23.10.2026, 14:03 | [Kohorty — zmiana układu zakładki](2026-10-23_kohorty-zmiana-ukladu-zakladki.md) | Kuba | 3 | 16 | 12 |
+| 23.10.2026, 11:35 | 23.10.2026, 14:23 | [Analiza marży i przyrostu pacjentów Telemedi](2026-10-23_analiza-marzy-i-przyrostu-pacjentow-telemedi.md) | Kuba | 14 | 65 | 22 |
 
 ## Gdzie w rozmowach dzieją się historie z README
 

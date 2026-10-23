@@ -1,6 +1,6 @@
 # Analiza marży i przyrostu pacjentów Telemedi
 
-Rozmowa z Claude Code w projekcie zadania Telemedi, od 23.10.2026, 11:35 do 23.10.2026, 13:07 (czas polski). Wiadomości Kuby: 3. Odpowiedzi Claude: 35. Polecenia i wiadomości do innych sesji i agentów: 11.
+Rozmowa z Claude Code w projekcie zadania Telemedi, od 23.10.2026, 11:35 do 23.10.2026, 14:23 (czas polski). Wiadomości Kuby: 14. Odpowiedzi Claude: 65. Polecenia i wiadomości do innych sesji i agentów: 22.
 
 Sesję otworzył Kuba.
 
@@ -460,3 +460,322 @@ Wypychamy. Najpierw, jak przy publikacji, odświeżam zapis rozmów i sprawdzam 
 ### <a id="w49"></a>49. Claude → sesja inna sesja · 23.10.2026, 13:07
 
 > Kuba zatwierdził: „tak, wypychamy obie zmiany razem”. Push robię ja: najpierw ponowny zapis rozmów (f_rozmowy.py) i commit, kontrola listy plików, push, potem kontrola strony pod prawdziwym adresem (f_strona_publiczna.py). Do czasu, aż dam znać, nie commituj ani nie zmieniaj plików projektu.
+
+### <a id="w50"></a>50. Claude · 23.10.2026, 13:10
+
+Kontrola pod prawdziwym adresem przeszła bez problemów. Sprawdzam jeszcze, czy pliki pod adresem publicznym są identyczne z repozytorium (pamięć podręczna serwera trzyma pliki do 10 minut).
+
+### <a id="w51"></a>51. Claude → sesja inna sesja · 23.10.2026, 13:10
+
+> Push zrobiony: 13 commitów (8750ca4..6c35bf9), workflow GitHub Pages sukces. Kontrola pod prawdziwym adresem (f_strona_publiczna.py): PROBLEMY: brak. 9 z 9 zakładek narysowanych przy 1366 i 375 px (w tym Kohorty, Lejek i Zdarzenia), 10 plików danych z kodem 200, 0 błędów konsoli i strony, 0 żądań do obcych adresów; odnośnik z filtrami Lejka i odnośnik do porównania na Kohortach dają ten sam stan po odświeżeniu na obu szerokościach; noindex jest. 22 pliki strony identyczne co do bajtu z repozytorium (.gitkeep i .nojekyll Pages nie udostępnia). Po pushu zrobiłam jeszcze lokalny commit z samymi notatkami (DECYZJE.md, PRZEKAZANIE.md: przebieg wypchnięcia). Możesz już normalnie pracować na plikach; kolejny push tylko za zgodą Kuby.
+
+### <a id="w52"></a>52. Claude · 23.10.2026, 13:10
+
+Obie zmiany są wypchnięte i działają na stronie [adres strony usunięty]. Pierwsza zakładka zaczyna się od „Nie: pacjentów przybywa, ale wracają rzadziej.”, a zakładki 2–9 mają nowy układ z równoległej sesji.
+
+**Przed wypchnięciem:**
+- Odświeżyłam zapis rozmów w folderze `rozmowy/`, tak żeby objął dzisiejsze dwa wątki. Skan nie znalazł adresów e-mail, ścieżek spoza projektu, nazw innych projektów ani kluczy. Tekst zadania jest tylko w tytule README.
+- W repozytorium nie ma folderu `.claude/`, danych, bazy, paczki ani pliku `.env`.
+
+**Wypchnięcie:** 13 commitów (`8750ca4..6c35bf9`). Publikacja strony na GitHub Pages zakończyła się sukcesem w 21 sekund.
+
+**Kontrola pod prawdziwym adresem:** bez problemów.
+- Wszystkie 9 zakładek rysuje się na komputerze i na telefonie.
+- 10 plików danych wczytuje się poprawnie.
+- 0 błędów i 0 zapytań do obcych adresów.
+- Odnośnik z filtrami w „Lejku” i odnośnik do porównania w „Kohortach” dają ten sam stan po odświeżeniu.
+- Strona ma znacznik blokujący wyszukiwarki (`noindex`).
+- 22 pliki strony są identyczne co do bajtu z repozytorium. Dwa puste pliki techniczne (`.gitkeep`, `.nojekyll`) GitHub Pages celowo pomija.
+
+Po wypchnięciu zapisałam jego przebieg w `notatki/DECYZJE.md` i `notatki/PRZEKAZANIE.md`. To tylko notatki, w lokalnym commicie `7f84cf4`. Wejdą z następnym pushem, który zrobię tylko za Twoją zgodą.
+
+Druga sesja dostała wynik kontroli dla swoich zakładek. Może już normalnie pracować na plikach, a kolejny push też tylko za Twoją zgodą. Żadnych wiadomości na zewnątrz nie wysyłałam.
+
+### <a id="w53"></a>53. Claude → sesja inna sesja · 23.10.2026, 13:12
+
+> Nie edytuję żadnego z tych plików i nie mam planów zmian, więc śmiało. Moje założenia kończą się na 94, możesz brać 95. Uwaga do e_teksty.md (notatki): sekcja 1 („Czy to wzrost”) jest moja, krok 8 „Czego nie wiemy?” w pierwszej zakładce odwołuje się do punktów 1, 4 i 8 listy niewiadomych (odnośniki #niewiadome?n=1, n=4, n=8 w wzrost()). Jeśli grupowanie zmieni numery albo adresy punktów, daj znać, to poprawię krok 8. Ostatni commit z mojej strony: 7f84cf4 (same notatki, niewypchnięty).
+
+### <a id="w54"></a>54. Claude · 23.10.2026, 13:12
+
+Druga sesja, na Twoją prośbę, grupuje tematycznie pytania w zakładce „Czego nie wiemy”. Napisałam jej, że nie ruszam żadnego z plików, których to dotyczy. Poprosiłam też, żeby dała mi znać, jeśli zmienią się numery punktów 1, 4 albo 8, bo odsyła do nich krok 8 na pierwszej zakładce. Wtedy poprawię odnośniki. Ona nie wypycha zmian. Sama nic nie zmieniam, dopóki nie dasz nowego polecenia.
+
+### <a id="w55"></a>55. Kuba · 23.10.2026, 13:16
+
+proszę popraw czcionkę - wygląda to fatalnie.
+
+[obraz pominięty]
+
+### <a id="w56"></a>56. Claude · 23.10.2026, 13:17
+
+Tekst werdyktu jest teraz jednym długim akapitem pogrubionej czcionki 22 px. Poprawię to tak:
+- krótkie zdanie „Nie: pacjentów przybywa, ale wracają rzadziej.” stanie się wyraźnym, pogrubionym nagłówkiem;
+- reszta będzie zwykłą czcionką, mniejszą, z węższą linią i większym odstępem między wierszami.
+
+Najpierw sprawdzam, jakiej czcionki używa strona, i uprzedzam drugą sesję, bo pracuje równolegle w tych samych plikach.
+
+### <a id="w57"></a>57. Claude → sesja inna sesja · 23.10.2026, 13:17
+
+> Kuba poprosił mnie o poprawę czcionki werdyktu na pierwszej zakładce. Zmieniam tylko swoje miejsca: w analiza/e_teksty.py funkcję wzrost() (werdykt dostaje pole „naglowek” z pierwszym zdaniem), w narzedzie/widoki_c.js funkcję rysujWzrostNowy(), w narzedzie/styl.css reguły .werdykt-tekst (sekcja „czy to wzrost”, około linii 280), mój blok „runda G (2026-10-23): werdykt…” i jedną linię .werdykt-tekst w bloku @media. Edytuję narzędziem, które przerywa zapis, jeśli plik zmienił się od odczytu, więc Twoich zmian nie nadpiszę. Gdy skończę, dam znać; mój tekst nie zmienia liczb, więc wejdzie do Twojego najbliższego eksportu.
+
+### <a id="w58"></a>58. Claude · 23.10.2026, 13:18
+
+Tylko moje zmiany. Dopisuję jedną linię w DECYZJE.md i commituję.
+
+### <a id="w59"></a>59. Claude → sesja inna sesja · 23.10.2026, 13:18
+
+> Czcionka werdyktu gotowa i zacommitowana (commit tuż po 7f84cf4: e_teksty.py — tylko wzrost(), werdykt ma nowe pole „naglowek”; widoki_c.js — tylko rysujWzrostNowy(); styl.css — reguły .werdykt-naglowek i .werdykt-tekst w sekcji „czy to wzrost” i w @media; DECYZJE.md — dopisek na końcu). Liczby bez zmian, kontrola liczb 0 bez pokrycia, kontrola_wzrost 288/0 na kopii. Potrzebny eksport c.js — proszę, żeby wszedł do Twojego najbliższego eksportu (po moim commicie). Bez eksportu strona też działa: rysuje werdykt bez osobnego nagłówka. Dalej nie ruszam plików projektu.
+
+### <a id="w60"></a>60. Claude · 23.10.2026, 13:19
+
+Poprawiłam czcionkę werdyktu (zrzut z podglądu powyżej). Treść i liczby się nie zmieniły.
+
+- „Nie: pacjentów przybywa, ale wracają rzadziej.” jest teraz osobnym, pogrubionym nagłówkiem: 24 px, na telefonie 20 px.
+- Reszta werdyktu jest zwykłą czcionką 17 px (na telefonie 16 px), z większym odstępem między wierszami i węższym wierszem, do 72 znaków. Dawniej cały akapit szedł pogrubioną czcionką 22 px.
+
+Na podglądzie w trybie jasnym i ciemnym, na komputerze i telefonie, nie ma błędów ani przewijania w bok. Kontrola wykresów pierwszej zakładki dalej daje 288 porównań bez niezgodności.
+
+Zmiana jest w lokalnym commicie `e2320f7`, opisana w DECYZJE.md. Żeby nagłówek pojawił się na stronie, trzeba jeszcze przeliczyć dane strony. Zrobi to druga sesja w najbliższym eksporcie, razem ze swoim pogrupowaniem pytań w „Czego nie wiemy”. Numery pytań się nie zmieniły, więc odnośniki z kroku 8 dalej działają.
+
+Na publicznej stronie niczego jeszcze nie zmieniłam. Gdy obie zmiany przejdą eksport i kontrole, zatrzymam się u Ciebie przed wypchnięciem.
+
+### <a id="w61"></a>61. Kuba · 23.10.2026, 13:19
+
+tak, po eksporcie wypchnij obie zmiany
+
+### <a id="w62"></a>62. Claude · 23.10.2026, 13:19
+
+Wypchnę obie zmiany po eksporcie. Sprawdzam, na jakim etapie jest eksport drugiej sesji.
+
+### <a id="w63"></a>63. Claude → sesja inna sesja · 23.10.2026, 13:19
+
+> Kuba napisał: „tak, po eksporcie wypchnij obie zmiany” (grupowanie „Czego nie wiemy” i czcionka werdyktu). Dane na dysku (c.js, podsumowanie.js, jakosc.js i wyniki kontroli, niezacommitowane) są z eksportu sprzed mojego e2320f7 — c.js nie ma pola „naglowek”. Proszę: eksport jeszcze raz po e2320f7 (HEAD), komplet kontroli, commit danych i daj mi znać z numerem commitu i wynikami. Push robię ja (z zapisem rozmów przed nim i kontrolą strony publicznej po nim), więc Ty nie pushuj. Jeśli eksport już trwa po e2320f7, napisz tylko, kiedy skończysz.
+
+### <a id="w64"></a>64. Claude · 23.10.2026, 13:19
+
+Poprosiłam drugą sesję o eksport po mojej poprawce czcionki, komplet kontroli i zapis danych strony w repozytorium. Dostanę powiadomienie, gdy skończy. Wtedy odświeżę zapis rozmów, sprawdzę listę plików, wypchnę obie zmiany i skontroluję stronę pod prawdziwym adresem.
+
+### <a id="w65"></a>65. Kuba · 23.10.2026, 13:20
+
+*Wklejony tekst:*
+
+> Przy okazji czcionki jeszcze cztery rzeczy na pierwszej zakładce:
+>
+> 1. W werdykcie dużą czcionką tylko pierwsze zdanie, „Nie: pacjentów przybywa, ale wracają rzadziej.”. Reszta zwykłym tekstem. Dziś cały akapit krzyczy, a na telefonie zajmuje więcej niż ekran.
+> 2. Krok 4: „72 zł marży przy koszcie pozyskania 43 zł”. W głowie wychodzi 29 zł, a obok stoi 30 zł. Zaokrąglij tak, żeby się odejmowało, albo podaj liczby z jednym miejscem po przecinku.
+> 3. Krok 6: „Co to znaczy dla biznesu” i zastrzeżenie mówią to samo (minus 7% i plus 1%). Zostaw to w jednym miejscu.
+> 4. „Prawie wyłącznie dzięki” przy 88% brzmi mocniej niż liczba. Może po prostu „w 88% dzięki”.
+> Przed wypchnięciem zatrzymaj się u mnie.
+
+### <a id="w66"></a>66. Claude · 23.10.2026, 13:20
+
+Kuba prosi o cztery zmiany i o zatrzymanie przed wypchnięciem. To zastępuje wcześniejsze „po eksporcie wypchnij”. Najpierw proszę drugą sesję, żeby wstrzymała eksport do mojego następnego commitu.
+
+### <a id="w67"></a>67. Claude → sesja inna sesja · 23.10.2026, 13:20
+
+> Wstrzymaj proszę eksport: Kuba dorzucił trzy poprawki tekstu pierwszej zakładki (krok 4: kwoty z jednym miejscem po przecinku, krok 6: bez powtórzenia w zastrzeżeniu, werdykt: „w 88% dzięki” zamiast „prawie wyłącznie dzięki”). Zmieniam tylko wzrost() w analiza/e_teksty.py, sekcję 1 notatki/e_teksty.md i streszczenie w README. Dam znać numerem commitu, wtedy eksport po nim. Kuba też zmienił zdanie co do pushu: przed wypchnięciem mam się zatrzymać u niego, więc po Twoim eksporcie i kontrolach nie pushujemy.
+
+### <a id="w68"></a>68. Claude → sesja inna sesja · 23.10.2026, 13:22
+
+> Moje poprawki są zacommitowane (najnowszy commit na master, po e2320f7). Możesz robić eksport po HEAD, komplet kontroli i commit danych. Na kopii: 0 liczb bez pokrycia w 12 kartach pierwszej zakładki, kontrola_wzrost 288/0. Bez pushu: Kuba chce się zatrzymać przed wypchnięciem. Daj znać z numerem commitu danych i wynikami. Do tego czasu nie ruszam plików projektu.
+
+### <a id="w69"></a>69. Claude · 23.10.2026, 13:22
+
+Wszystkie cztery poprawki są zrobione i zacommitowane lokalnie (`d384f5b`). Na stronie publicznej jeszcze ich nie ma.
+
+1. **Werdykt:** dużą, pogrubioną czcionką jest tylko „Nie: pacjentów przybywa, ale wracają rzadziej.”. Reszta jest zwykłym tekstem 17 px, na telefonie 16 px. To było już w poprzedniej poprawce czcionki, której jeszcze nie wypchnęłam. Dlatego na publicznej stronie widzisz starą wersję.
+2. **Krok 4:** kwoty mają teraz jedno miejsce po przecinku i się odejmują:
+   - pacjent nowych kampanii zostawia 37,3 zł marży, jego pozyskanie kosztuje 30,3 zł, więc zostaje 7,0 zł;
+   - pacjent pozostałych kampanii płatnych zostawia 72,3 zł marży przy koszcie pozyskania 42,6 zł, więc zostaje 29,7 zł.
+
+   Kod przerwie eksport, jeśli po zaokrągleniu przestanie się to zgadzać.
+3. **Krok 6:** usunęłam zastrzeżenie. Minus 7% i plus 1% stoją teraz tylko w zdaniu „Co to znaczy dla biznesu”. Dopisałam w nim, że jednorazowy start sprzedaży TelemediGO w newsletterze był we wrześniu 2025.
+4. **Werdykt i README:** „wzrosła o 27%, w 88% dzięki zakupom pacjentów pozyskanych w pierwszym roku” zamiast „prawie wyłącznie dzięki”.
+
+Kontrole na kopii strony:
+- każda liczba w 12 kartach pierwszej zakładki ma pokrycie w szkicu;
+- wykresy zgadzają się z tekstem i tabelami w 288 porównaniach;
+- strona nie ma błędów na komputerze ani na telefonie.
+
+Teraz druga sesja robi eksport (twoje poprawki, nowa czcionka werdyktu i jej pogrupowanie „Czego nie wiemy”), komplet kontroli i zapis danych strony. Gdy skończy, odświeżę zapis rozmów i zatrzymam się u Ciebie z wynikami przed wypchnięciem.
+
+### <a id="w70"></a>70. Kuba · 23.10.2026, 13:22
+
+tak, po eksporcie wypchnij obie zmiany
+
+### <a id="w71"></a>71. Claude · 23.10.2026, 13:22
+
+Zgoda przyjęta: wypchnę obie zmiany po eksporcie. Sprawdzam, czy druga sesja już go skończyła.
+
+### <a id="w72"></a>72. Claude · 23.10.2026, 13:22
+
+Eksportu po moich poprawkach jeszcze nie ma. Przekazuję drugiej sesji Twoją zgodę i czekam na jej sygnał.
+
+### <a id="w73"></a>73. Claude → sesja inna sesja · 23.10.2026, 13:22
+
+> Kuba potwierdził: „tak, po eksporcie wypchnij obie zmiany”. Czekam na Twój eksport po d384f5b (HEAD), komplet kontroli i commit danych. Daj znać z numerem commitu i wynikami; push robię ja (z zapisem rozmów przed nim i kontrolą strony publicznej po nim), więc Ty nie pushuj.
+
+### <a id="w74"></a>74. Claude · 23.10.2026, 13:22
+
+Eksport po Twoich poprawkach jeszcze nie ruszył. Przekazałam drugiej sesji Twoją zgodę i dostanę powiadomienie, gdy skończy eksport, kontrole i zapis danych. Wtedy odświeżę zapis rozmów, sprawdzę listę plików i wypchnę obie zmiany. Na koniec sprawdzę stronę pod prawdziwym adresem i podam Ci wynik.
+
+### <a id="w75"></a>75. Kuba · 23.10.2026, 13:23
+
+jak wyjdzie eksport, daj znać z linkiem
+
+### <a id="w76"></a>76. Claude · 23.10.2026, 13:23
+
+Dobrze. Gdy eksport wyjdzie i strona będzie wypchnięta, napiszę Ci z linkiem i wynikiem kontroli pod prawdziwym adresem.
+
+### <a id="w77"></a>77. Claude · 23.10.2026, 13:38
+
+Eksport po Twoich poprawkach jest gotowy:
+- dane strony przeszły 115 kontroli bez różnic, a stopka wskazuje commit z Twoimi poprawkami;
+- liczby na wykresach zgadzają się z tekstem w 2 346 porównaniach w Edge, Safari i Firefoksie, w tym 288 na pierwszej zakładce;
+- tryb ciemny i kontrola tabel przeszły bez problemów.
+
+Druga sesja powtarza jeszcze dwie kontrole, które za pierwszym razem się przerwały: odnośników i trybu jasnego. Danych strony jeszcze nie zapisała w repozytorium, zrobi to za około 15 minut. Wtedy odświeżę zapis rozmów, wypchnę obie zmiany i napiszę Ci z linkiem i wynikiem kontroli pod prawdziwym adresem.
+
+### <a id="w78"></a>78. Kuba · 23.10.2026, 13:44
+
+*Wklejony tekst:*
+
+> Zanim wypchniesz: dołącz jeszcze jedną małą zmianę, żeby poszło jednym wypchnięciem. Nie rozszerzamy już zakresu analizy, ale chcę, żeby zakres listy był nazwany wprost. W karcie z zasadami na górze „Priorytetów” i jednym zdaniem w README dopisz mniej więcej tak:
+> „Lista obejmuje działania, które wynikają z problemów widocznych w danych: naprawy, pauzy i testy. Celowo nie obejmuje działań na wzrost, które wymagają wiedzy spoza tych danych, czyli nowych kanałów i kampanii, rozwoju oferty i TelemediGO ani rozmów z pacjentami. Taka kolejność jest celowa: dopóki zakładanie konta w Safari nie działa i nie wiemy, ilu pacjentów kampanie naprawdę dokładają, dodatkowy budżet częściowo trafiałby w ten sam dziurawy lejek. Plan wzrostu przygotujemy po wynikach pierwszych testów (pozycje 7, 9 i 12).”
+> Sprawdź, czy numery pozycji się zgadzają i czy to nie powtarza karty „Nie robimy teraz”. Jeśli powtarza, połącz te dwie karty w jedną. Jeśli druga sesja jeszcze pracuje na danych strony, ustal z nią, kto zmienia te pliki, żebyście sobie nie nadpisali pracy. Niczego więcej nie zmieniaj i pokaż mi przed wypchnięciem.
+
+### <a id="w79"></a>79. Claude · 23.10.2026, 13:44
+
+Kuba prosi o dopisanie zakresu listy priorytetów w karcie zasad i w README, a przed wypchnięciem o pokazanie wyniku. Najpierw wstrzymuję zapis danych w drugiej sesji, bo ta zmiana wymaga ponownego eksportu. Potem sprawdzam obecny tekst zasad, kartę „Nie robimy teraz” i numery pozycji.
+
+### <a id="w80"></a>80. Claude → sesja inna sesja · 23.10.2026, 13:44
+
+> Wstrzymaj proszę commit danych. Kuba chce jeszcze jedną zmianę w tym samym wypchnięciu: akapit o zakresie listy w karcie z zasadami na górze „Priorytetów” (i jedno zdanie w README), a jeśli powtarza kartę „Nie robimy teraz”, połączenie obu kart w jedną. Pytanie o podział: tekst zasad i „Nie robimy teraz” jest w analiza/e_teksty.py, funkcja priorytety() (szkic: notatki/e_teksty.md, sekcje priorytety/zasady i priorytety/nie_robimy), a rysowanie w narzedzie/widoki_c.js, rysujPriorytety() — Twoja funkcja, w której zwijałaś zasady do jednego zdania. Proponuję: ja zmieniam priorytety() w e_teksty.py, szkic i README; jeśli połączenie kart wymaga zmiany w rysujPriorytety(), robisz ją Ty według mojego opisu, albo ja po Twojej zgodzie. Potem jeden eksport po moim commicie i komplet kontroli. Czy rysujPriorytety() rysuje zasady z pól C.priorytety.zasady i C.priorytety.nie_robimy? Napisz, jak to teraz wygląda (który element jest zwinięty i gdzie stoi karta „Nie robimy teraz”).
+
+### <a id="w81"></a>81. Claude · 23.10.2026, 13:45
+
+Czekam na odpowiedź drugiej sesji w sprawie rysowania karty zasad. Treść połączonej karty mam już przygotowaną.
+
+### <a id="w82"></a>82. Claude · 23.10.2026, 13:45
+
+Czekam na odpowiedź drugiej sesji. Muszę z nią ustalić, kto zmienia rysowanie karty zasad w „Priorytetach”, bo dziś ta karta jest zwinięta do jednego wiersza. Bez tej zmiany akapit o zakresie listy byłby schowany.
+
+Treść mam przygotowaną: jedna połączona karta na górze „Priorytetów”.
+- **Widoczny akapit o zakresie:** Twój tekst prawie bez zmian. Dodaję jedno wtrącenie, które wyjaśniam niżej.
+- **Pod nim „Nie robimy teraz”,** z trzech dotychczasowych punktów:
+  - kampania o zgodę marketingową pacjentów nowych kampanii (najwyżej 1,9 tys. zł rocznie);
+  - osobna naprawa przeglądarek wbudowanych w aplikacje;
+  - przesuwanie pieniędzy uwolnionych przez pozycje 3 i 4 do innych kampanii bez testu.
+
+  Punkt o mocniejszej sprzedaży TelemediGO znika, bo mówi to samo co Twój akapit.
+- **Zasady kolejności** zostają zwinięte, jak są.
+
+Wtrącenie dotyczy Twojego zdania „celowo nie obejmuje rozwoju oferty i TelemediGO”. Kłóci się ono z pozycją 10, czyli zmianą cennika specjalistów i warunków TelemediGO u specjalistów. Dlatego proponuję dopisać: „poza naprawą warunków, które dziś przynoszą stratę (pozycja 10)”.
+
+W README dopiszę jedno zdanie o zakresie pod listą „Co robimy w pierwszym tygodniu”.
+
+Gdy ustalę podział z drugą sesją, zrobię zmianę. Potem ona zrobi eksport i kontrole, a ja pokażę Ci wynik przed wypchnięciem.
+
+### <a id="w83"></a>83. Kuba · 23.10.2026, 13:46
+
+tak, dopisz wtrącenie o pozycji 10
+
+### <a id="w84"></a>84. Claude · 23.10.2026, 13:46
+
+Wtrącenie przyjęte. Wysyłam drugiej sesji konkretną propozycję podziału: ja zmieniam dane i teksty, ona rysowanie (to jej funkcja). Równolegle przygotowuję swoją część.
+
+### <a id="w85"></a>85. Claude → sesja inna sesja · 23.10.2026, 13:47
+
+> Konkretna propozycja do „Priorytetów” (Kuba zatwierdził treść). Ja zmieniam dane i teksty: analiza/e_teksty.py priorytety() (tylko karty zas i nie), notatki/e_teksty.md (sekcje priorytety/zasady i priorytety/nie_robimy), README. Ty rysowanie w rysujPriorytety() — albo daj mi zgodę, to zrobię celowaną podmianę tylko tych dwóch miejsc.
+>
+> Kontrakt danych po mojej zmianie:
+> - C.priorytety.zasady jak dziś (tytul, wniosek, tresc, szczegoly) plus dwa nowe pola:
+>   zakres = {tytul: "Zakres listy", tekst: "&lt;akapit Kuby>"}
+>   nie_robimy = {tytul: "Nie robimy teraz rzeczy bez podstaw w danych albo bez testu", punkty: [3 napisy]}
+> - C.priorytety.nie_robimy = null (osobnej karty już nie ma; jej szczegóły przechodzą do szczegółów zasad).
+>
+> Rysowanie, o które proszę: w #pr-zasady-miejsce JEDNA karta (article.karta, id np. pr-zasady-karta) z widocznym nagłówkiem zakres.tytul (h3), akapitem zakres.tekst, podtytułem nie_robimy.tytul (h4) i listą nie_robimy.punkty; pod tym w tej samej karcie Twoja dzisiejsza zwinięta sekcja „Zasady listy: &lt;tytuł zasad>” z resztą zasad. Gdy P.zasady.zakres brak — jak dziś. W miejscu #pr-nie-robimy-miejsce nic, gdy P.nie_robimy jest null (dziś else lista(...) wywali się na null, więc warunek `else if (P.nie_robimy)`).
+>
+> Czy tak może być i kto robi JS? Do odpowiedzi zmieniam tylko e_teksty.py priorytety(), szkic i README.
+
+### <a id="w86"></a>86. Claude → sesja inna sesja · 23.10.2026, 13:48
+
+> Dziękuję. Moja część jest zacommitowana jako najnowszy commit na master (analiza/e_teksty.py — tylko karta zasad w priorytety(): pola zasady.zakres i zasady.nie_robimy, nie_robimy = None; notatki/e_teksty.md — sekcje priorytety/zasady i priorytety/nie_robimy; README — jedno zdanie pod listą „Co robimy w pierwszym tygodniu”). Na kopii: 28 kontroli punktu C bez różnic, 0 liczb bez pokrycia. Ostatni punkt zasad (o uwolnionym budżecie) usunęłam z zasady.tresc, bo stoi w nie_robimy. Po Twoim JS: eksport po HEAD, komplet kontroli, commit danych i daj znać; ja wtedy dopiszę jedną linię do DECYZJE.md (po Twoim commicie, bo masz tam niezacommitowane wpisy), odświeżę zapis rozmów i pokażę Kubie przed pushem.
+
+### <a id="w87"></a>87. Claude · 23.10.2026, 13:48
+
+Zmiana w „Priorytetach” jest zrobiona po mojej stronie (commit `3ade0af`). Na publicznej stronie jeszcze jej nie ma.
+
+- **Jedna karta na górze „Priorytetów”.** Najpierw widoczny „Zakres listy”: Twój akapit z wtrąceniem o pozycji 10. Pod nim „Nie robimy teraz” z trzema punktami: zgoda marketingowa, przeglądarki w aplikacjach, uwolniony budżet bez testu. Na dole, zwinięte jak dotąd, zasady kolejności.
+- **Dawna osobna karta „Nie robimy teraz”** na dole zakładki znika. Jej punkt o TelemediGO wypada, bo mówi to Twój akapit, a zasada o uwolnionym budżecie stoi teraz raz.
+- **README** ma jedno zdanie o zakresie listy, pod listą „Co robimy w pierwszym tygodniu”.
+- **Numery się zgadzają:** pozycje 7, 9 i 12 to trzy testy (komunikacja po wizycie, wyłączenie Mety na L4 w części kraju, zniżka TelemediGO), a pozycja 10 to cennik i warunki TelemediGO u specjalistów.
+
+W kopii roboczej (nie na stronie) przeliczyłam dane z nowym tekstem: 28 kontroli bez różnic, a każda liczba w tekstach ma pokrycie w szkicu.
+
+Rysowanie nowej karty robi druga sesja, bo to jej funkcja. Uzgodniłyśmy, jak karta ma wyglądać. Potem ona zrobi eksport i komplet kontroli. Gdy skończy, dopiszę decyzję w DECYZJE.md, odświeżę zapis rozmów i pokażę Ci wynik przed wypchnięciem.
+
+### <a id="w88"></a>88. Claude · 23.10.2026, 14:03
+
+Eksport jest gotowy: dane w commicie `7c2dfed`, wszystkie kontrole drugiej sesji bez problemów. Puszczam w tle jeszcze pełną kontrolę odnośników (około 15 minut), bo od jej ostatniego przebiegu zmieniły się karty w „Priorytetach”. W tym czasie sama oglądam nową kartę zakresu i pierwszą zakładkę.
+
+### <a id="w89"></a>89. Claude · 23.10.2026, 14:03
+
+Karta zakresu wygląda dobrze, na telefonie też bez błędów i bez przewijania w bok. Sprawdzam jeszcze pierwszą zakładkę na tych samych danych i dopisuję decyzję w DECYZJE.md.
+
+### <a id="w90"></a>90. Claude · 23.10.2026, 14:04
+
+Wszystko z eksportu jest sprawdzone poza pełną kontrolą odnośników, która jeszcze trwa w tle (około 15 minut). Gdy się skończy, pokażę Ci całość przed wypchnięciem:
+- kartę zakresu w „Priorytetach”;
+- werdykt z nową czcionką;
+- wyniki wszystkich kontroli.
+
+### <a id="w91"></a>91. Claude · 23.10.2026, 14:04
+
+Druga sesja skończyła pracę i czeka na Twoją decyzję. Ja czekam na koniec pełnej kontroli odnośników, która jeszcze trwa w tle. Gdy się skończy, pokażę Ci całość przed wypchnięciem.
+
+### <a id="w92"></a>92. Kuba · 23.10.2026, 14:05
+
+tak, po kontroli odnośników wypchnij wszystko
+
+### <a id="w93"></a>93. Claude · 23.10.2026, 14:05
+
+Wypchnę wszystko po kontroli odnośników. Sprawdzam, czy już się skończyła.
+
+### <a id="w94"></a>94. Claude · 23.10.2026, 14:05
+
+Kontrola odnośników jeszcze trwa. Wystartowała kilka minut temu, a pełny przebieg zajmuje około 15 minut. Gdy przyjdzie powiadomienie o jej końcu, zrobię kolejno:
+1. przejrzę wynik kontroli;
+2. odświeżę zapis rozmów;
+3. sprawdzę listę plików;
+4. wypchnę wszystko;
+5. skontroluję stronę pod prawdziwym adresem.
+
+Potem napiszę Ci z linkiem.
+
+### <a id="w95"></a>95. Kuba · 23.10.2026, 14:05
+
+daj znać z linkiem, jak będzie po wszystkim
+
+### <a id="w96"></a>96. Claude · 23.10.2026, 14:05
+
+Dobrze. Gdy kontrola odnośników się skończy i strona będzie wypchnięta oraz sprawdzona pod prawdziwym adresem, napiszę Ci z linkiem.
+
+### <a id="w97"></a>97. Kuba · 23.10.2026, 14:09
+
+ok, czekam na link
+
+### <a id="w98"></a>98. Claude · 23.10.2026, 14:09
+
+Kontrola odnośników jeszcze trwa (od około 11 minut, pełny przebieg zajmuje około 15). Gdy przyjdzie powiadomienie o jej końcu, od razu zrobię resztę i wrócę z linkiem.
+
+### <a id="w99"></a>99. Kuba · 23.10.2026, 14:16
+
+ok, czekam
+
+### <a id="w100"></a>100. Claude · 23.10.2026, 14:16
+
+Czekam na powiadomienie o końcu kontroli odnośników. Potem przejrzę jej wynik, odświeżę zapis rozmów, wypchnę wszystko i sprawdzę stronę pod prawdziwym adresem. Napiszę Ci z linkiem.
+
+### <a id="w101"></a>101. Claude · 23.10.2026, 14:23
+
+Kontrola odnośników się skończyła. Sprawdzam wynik.
