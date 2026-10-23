@@ -402,7 +402,8 @@ def wzrost(V, E, C):
     # ---------------------------------------------------------------- werdykt
     werdykt = {
         "znacznik": znacznik("Nie", "zle"),
-        "tekst": f"Prawie cały przyrost pacjentów ({z0(udz)}%) to pacjenci dwóch nowych kampanii na L4, a na ich pacjencie po "
+        "tekst": f"Nie: pacjentów przybywa, ale wracają rzadziej. "   # zdanie dodane na prośbę Kuby (2026-10-23) po recenzjach
+                 f"Prawie cały przyrost pacjentów ({z0(udz)}%) to pacjenci dwóch nowych kampanii na L4, a na ich pacjencie po "
                  f"koszcie pozyskania prawie nic nie zostaje: {z0(L4['wynik'])} zł w ciągu 180 dni wobec {z0(P2['wynik'])} zł "
                  f"na pacjencie pozostałych kampanii płatnych, a na pacjentach pozyskanych od wiosny szacunkowo wychodzimy na "
                  f"zero. Marża po wszystkich kosztach wzrosła o {z0(g4['przyrost_proc'])}% prawie wyłącznie dzięki zakupom "

@@ -398,3 +398,5 @@ Scalone przez sesję prowadzącą z `notatki/b_narzedzie.md` (sekcje 12 i 13). P
 - Bez nowych analiz i bez zmiany liczb. Nowy jest tylko rachunek istotności zmian w tabelach (założenia 87–88), bo Kuba zlecił go wprost.
 - Do decyzji Kuby, nie robione: grupy tematyczne w „Czego nie wiemy”, łączenie kart przyczyna–skutek w „Zdarzeniach”, zmiana etykiety „Najbardziej obniża płatności” (recenzje się różniły).
 - Praca równoległa z sesją pierwszej zakładki: podział plików i jeden wspólny eksport z kompletem kontroli (`notatki/g_przejrzystosc.md`, punkt 6).
+
+**Dopisek do wpisu „nowy werdykt pierwszej zakładki (runda G)” — decyzja Kuby (2026-10-23, dosłownie):** „tak, dodaj „Nie: pacjentów przybywa, ale wracają rzadziej.””. Zdanie stoi na początku werdyktu pierwszej zakładki i streszczenia w README, przed zdaniem głównym Kuby; to bezpośredni powód „Nie” według definicji wzrostu, który Codex i agent-czytelnik wskazali niezależnie.

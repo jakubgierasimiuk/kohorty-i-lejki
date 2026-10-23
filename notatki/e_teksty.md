@@ -19,6 +19,7 @@ Wzrost to dwie rzeczy naraz: więcej pacjentów i lepsza retencja. Sprawdzamy ob
 ### wzrost/werdykt
 
 Znacznik: Nie.
+Nie: pacjentów przybywa, ale wracają rzadziej. (Zdanie dodane na prośbę Kuby po recenzji Codeksa i teście agenta-czytelnika: bezpośredni powód „Nie” według definicji wzrostu.)
 Prawie cały przyrost pacjentów (86%) to pacjenci dwóch nowych kampanii na L4, a na ich pacjencie po koszcie pozyskania prawie nic nie zostaje: 7 zł w ciągu 180 dni wobec 30 zł na pacjencie pozostałych kampanii płatnych, a na pacjentach pozyskanych od wiosny szacunkowo wychodzimy na zero. Marża po wszystkich kosztach wzrosła o 27% prawie wyłącznie dzięki zakupom pacjentów pozyskanych w pierwszym roku. Pacjenci pozyskani w ostatnich 12 miesiącach zarobili w roku pozyskania, po kosztach kampanii, tylko o 3% więcej niż ci pozyskani rok wcześniej, choć było ich o 52% więcej.
 (Po recenzji Codeksa i agenta-czytelnika: „to pacjenci” zamiast „dały”, kto wychodzi na zero, „w roku pozyskania”.)
 Trzy linijki:
