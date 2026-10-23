@@ -2,7 +2,9 @@
 
 Rozwiązanie zadania rekrutacyjnego na stanowisko Head of B2C. Dane to dwa lata biznesu B2C (1.10.2024 – 30.09.2026), wygenerowane na potrzeby zadania.
 
-**Narzędzie:** `https://<organizacja>.github.io/<repozytorium>/` — adres uzupełnimy w dniu publikacji. Strona otwiera się w przeglądarce, bez instalacji i bez konta.
+**Narzędzie:** https://jakubgierasimiuk.github.io/kohorty-i-lejki/ — strona otwiera się w przeglądarce, bez instalacji i bez konta.
+
+**Repozytorium (ślad pracy):** https://github.com/jakubgierasimiuk/kohorty-i-lejki
 
 ## Odpowiedź w skrócie
 

@@ -1,6 +1,6 @@
 # Ostatnia kontrola przed publikacją
 
-Rozmowa z Claude Code w projekcie zadania Telemedi, od 22.10.2026, 22:47 do 23.10.2026, 10:14 (czas polski). Wiadomości Kuby: 4. Odpowiedzi Claude: 43. Polecenia i wiadomości do innych sesji i agentów: 11.
+Rozmowa z Claude Code w projekcie zadania Telemedi, od 22.10.2026, 22:47 do 23.10.2026, 10:51 (czas polski). Wiadomości Kuby: 5. Odpowiedzi Claude: 46. Polecenia i wiadomości do innych sesji i agentów: 11.
 
 Sesję otworzył Kuba.
 
@@ -814,3 +814,58 @@ Nowe brzmienia są na stronie, a starych nie ma nigdzie. Biorę z notatki sesji 
 ### <a id="w58"></a>58. Claude · 23.10.2026, 10:14
 
 Notatki są scalone: założenia 83–86, 7 nowych wierszy w liście skryptów, dziennik decyzji, plan i przekazanie. Teraz ponownie uruchamiam zapis rozmów poleceniem od sesji B.
+
+### <a id="w59"></a>59. Claude · 23.10.2026, 10:16
+
+**Runda poprawek jest zamknięta (commit `dcc3ad0`).** Wersja jest gotowa do publikacji. Czekam na dwie Twoje decyzje i na nazwę organizacji na GitHubie.
+
+**Co jest zrobione:**
+- **Kohorty.** Na górze zakładki stoi tabela ośmiu zdarzeń i naszych decyzji: kiedy, co się stało, co zmieniło się po nim, ile to jest warte i co robimy. Przy każdym wierszu jest odnośnik do porównania „60 dni przed i po” na kohortach dziennych. Tytuł brzmi: „Po starcie naszych kampanii na L4 rośnie udział pacjentów, którzy rzadko wracają, a awaria Safari obniża wynik”.
+- **Reszta strony.** Na pierwszej zakładce zmieniło się sześć zdań. Weszło dziesięć poprawek języka, wykres Safari ma równe okna, a pasek zakładek na tablecie i tabele na telefonie są naprawione. Liczby się nie zmieniły.
+- **Ślad pracy** wszedł za Twoją zgodą: README z 10 historiami, rozmowy i lekcje.
+- **Codex (model Sol)** nie znalazł błędów w liczbach. Trzy zdania mówiły więcej niż dane i są poprawione. To samo nadużycie poprawiłem w README: „największa pewna strata” brzmi teraz „górny scenariusz”.
+- **Kontrole na ostatecznej wersji:**
+  - eksport przeszedł 115 kontroli bez różnic;
+  - porównałem liczby na wykresach z tekstem kart: po 2 302 porównania w każdej z trzech przeglądarek (Edge, Safari, Firefox), bez niezgodności;
+  - 313 adresów z filtrami działa po wejściu wprost i po odświeżeniu;
+  - 9 zakładek na komputerze i telefonie, w trybie jasnym i ciemnym, bez błędów w konsoli.
+- **Zapis rozmów** jest odświeżony, a skan nie znalazł nic spoza projektu.
+
+**Twoje decyzje przed publikacją:**
+1. **Ścieżka do folderu innego projektu w historii commitów** (`911d2ff`). Rekomenduję zostawić, tak jak adres e-mail osoby rekrutującej 21.10.
+2. **Fragmenty tekstu zadania w repozytorium.** Rekomenduję wariant A: publikujemy tak, jak jest.
+
+**Kroki publikacji.** Każdy robię dopiero po Twoim „tak”:
+1. Podajesz nazwę organizacji i repozytorium, a ja wpisuję adres narzędzia w README.
+2. Tuż przed wysłaniem jeszcze raz uruchamiam zapis rozmów i robię commit.
+3. Zakładam zdalne repozytorium, dodaję je do gita i robię push.
+4. Ustawiam repozytorium jako publiczne i włączam GitHub Pages.
+5. Ty otwierasz oba linki na iPhonie, iPadzie i telefonie z Androidem.
+6. Wysyłasz mail do Telemedi tą samą drogą, którą przyszło zadanie. Mogę przygotować treść.
+
+Sesje poprawek strony, śladu pracy i kontroli technicznej są bezczynne. Jeśli chcesz, zarchiwizuję je.
+
+### <a id="w60"></a>60. Kuba · 23.10.2026, 10:47
+
+*Wklejony tekst:*
+
+> Publikujemy. Zanim wypchniesz, jedna drobna rzecz:
+>
+> W tabeli zdarzeń w „Kohortach”, w wierszach Meta i TikTok, zamiast „ruch rośnie skokami” nazwij wprost nasze decyzje o budżecie, czyli kiedy podnosiliśmy budżet (daty są już w opisach zdarzeń). Bez nowych obliczeń; jeśli wymagałoby to nowej liczby, zostaw jak jest. Potem eksport i kontrola liczb jak zwykle.
+>
+> Publikacja:
+> - repozytorium publiczne na moim koncie osobistym (jakubgierasimiuk), nazwa: kohorty-i-lejki; decyzję zapisz w DECYZJE.md;
+> - przed wypchnięciem kontrola listy plików: bez .claude/, danych, bazy i paczki;
+> - strona przez GitHub Pages z istniejącego workflow;
+> - adres [adres strony usunięty] wpisz w README zamiast szablonu;
+> - po publikacji sprawdź stronę pod prawdziwym adresem: 9 zakładek na komputerze i telefonie, wczytanie wszystkich danych, odnośnik z filtrem po odświeżeniu, brak indeksowania.
+>
+> Nie wysyłaj żadnych wiadomości i nie ruszaj innych moich repozytoriów. Zatrzymaj się u mnie z linkiem do strony i do repozytorium.
+
+### <a id="w61"></a>61. Claude · 23.10.2026, 10:47
+
+Publikujemy według Twojej listy. Najpierw sprawdzam, czy daty „ruch rośnie skokami” w opisach zdarzeń Meta i TikTok to rzeczywiście daty podniesienia budżetu. Od tego zależy, czy można je nazwać wprost bez nowej liczby.
+
+### <a id="w62"></a>62. Claude · 23.10.2026, 10:51
+
+README ma prawdziwy adres strony i repozytorium, a decyzja jest w `DECYZJE.md`. Ostatni raz przed wypchnięciem uruchamiam zapis rozmów i sprawdzam skan.

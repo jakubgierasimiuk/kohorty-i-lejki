@@ -1,6 +1,6 @@
 # Zapis rozmów z Claude Code
 
-Tu jest oczyszczony zapis wszystkich rozmów z Claude Code, w których powstało to rozwiązanie (18 rozmów, od 19.10.2026, 11:50 do 23.10.2026, 10:14). Claude Code to główne narzędzie tej pracy: liczył kodem, pisał notatki i zbudował narzędzie. Polecenia dla drugiego modelu (Codex) i briefy konsylium są osobno, w `notatki/recenzje/` i `notatki/konsylium/`, a lekcje zapisane po drodze przez Claude w `notatki/lekcje.md`.
+Tu jest oczyszczony zapis wszystkich rozmów z Claude Code, w których powstało to rozwiązanie (18 rozmów, od 19.10.2026, 11:50 do 23.10.2026, 10:51). Claude Code to główne narzędzie tej pracy: liczył kodem, pisał notatki i zbudował narzędzie. Polecenia dla drugiego modelu (Codex) i briefy konsylium są osobno, w `notatki/recenzje/` i `notatki/konsylium/`, a lekcje zapisane po drodze przez Claude w `notatki/lekcje.md`.
 
 ## Co jest w środku
 
@@ -25,7 +25,7 @@ W miejscu usuniętego fragmentu stoi oznaczenie w nawiasie kwadratowym.
 
 | Oznaczenie | Co zastępuje | Ile razy |
 |---|---|---:|
-| `[adres strony usunięty]` | adresy stron, w tym link do strony z zadaniem i do paczki danych | 5 |
+| `[adres strony usunięty]` | adresy stron, w tym link do strony z zadaniem i do paczki danych | 6 |
 | `[adres e-mail usunięty]` | adresy e-mail | 6 |
 | `[ścieżka spoza projektu usunięta]` | ścieżki do plików i folderów poza folderem projektu | 41 |
 | `[nazwa innego projektu usunięta]` | nazwy innych projektów Kuby | 1 |
@@ -58,7 +58,7 @@ Dwie rozmowy były wznawiane i zapisały się w kilku plikach z tą samą począ
 | 21.10.2026, 23:12 | 22.10.2026, 22:46 | [Merytoryka narzędzia przed publikacją](2026-10-21_merytoryka-narzedzia-przed-publikacja.md) | Kuba | 2 | 80 | 14 |
 | 21.10.2026, 23:18 | 22.10.2026, 19:13 | [E: nowy wygląd narzędzia (część 3)](2026-10-21_e-nowy-wyglad-narzedzia-czesc-3.md) | sesja „Merytoryka narzędzia przed publikacją” | 4 | 61 | 13 |
 | 22.10.2026, 18:31 | 22.10.2026, 22:46 | [E: dopracowanie wyglądu narzędzia z Kubą](2026-10-22_e-dopracowanie-wygladu-narzedzia-z-kuba.md) | sesja „Merytoryka narzędzia przed publikacją” | 6 | 59 | 15 |
-| 22.10.2026, 22:47 | 23.10.2026, 10:14 | [Ostatnia kontrola przed publikacją](2026-10-22_ostatnia-kontrola-przed-publikacja.md) | Kuba | 4 | 43 | 11 |
+| 22.10.2026, 22:47 | 23.10.2026, 10:51 | [Ostatnia kontrola przed publikacją](2026-10-22_ostatnia-kontrola-przed-publikacja.md) | Kuba | 5 | 46 | 11 |
 | 22.10.2026, 23:01 | 23.10.2026, 00:34 | [F2: kontrola techniczna przed publikacją](2026-10-22_f2-kontrola-techniczna-przed-publikacja.md) | sesja „Ostatnia kontrola przed publikacją” | 1 | 63 | 0 |
 | 22.10.2026, 23:01 | 23.10.2026, 00:32 | [F3: język tekstów zmienionych od rana](2026-10-22_f3-jezyk-tekstow-zmienionych-od-rana.md) | sesja „Ostatnia kontrola przed publikacją” | 1 | 4 | 1 |
 | 23.10.2026, 00:35 | 23.10.2026, 10:13 | [F: poprawki strony (zdarzenia, teksty, Safari, telefon)](2026-10-23_f-poprawki-strony-zdarzenia-teksty-safari-telefon.md) | sesja „Ostatnia kontrola przed publikacją” | 0 | 86 | 1 |
